@@ -4,14 +4,13 @@
   Licensed under the MIT license.
 */
 
-import React from "react";
 import { useEffect, useState } from "react";
-import { getEnvironmentVariable } from "../utils";
+import { getEnvironmentVariable, isTimeWindowClientFilter } from "../utils";
 import {
   AppConfigurationClient,
   featureFlagPrefix,
   isFeatureFlag,
-  isFeatureFlagClientFilter
+  parseFeatureFlag
 } from "@azure/app-configuration";
 import { InteractiveBrowserCredential } from "@azure/identity";
 
@@ -57,18 +56,22 @@ export default function Page(): JSX.Element {
       )
     );
     if (isFeatureFlag(setting1)) {
-      // console.log(`${setting1.key} is enabled : ${setting1.enabled}`, setting1);
-      setFeature1({ enabled: setting1.enabled });
+      const parsedFeatureFlag1 = parseFeatureFlag(setting1);
+      // console.log(`${parsedFeatureFlag1.key} is enabled : ${parsedFeatureFlag1.enabled}`, parsedFeatureFlag1);
+      setFeature1({ enabled: parsedFeatureFlag1.value.enabled });
     }
     if (isFeatureFlag(setting2)) {
-      // console.log(`${setting2.key} is enabled : ${setting2.enabled}`, setting2);
-      const clientFilter = setting2.conditions.clientFilters?.[0];
-      if (isFeatureFlagClientFilter("timeWindow", clientFilter)) {
+      const parsedFeatureFlag2 = parseFeatureFlag(setting2);
+      // console.log(`${parsedFeatureFlag2.key} is enabled : ${parsedFeatureFlag2.value.enabled}`, parsedFeatureFlag2);
+      const clientFilter = parsedFeatureFlag2.value.conditions.clientFilters?.[0];
+      if (isTimeWindowClientFilter(clientFilter)) {
         const now = Date.now();
         const withinRange =
-          now - Date.parse(clientFilter.parameters.start) > 0 &&
-          Date.parse(clientFilter.parameters.end) - now > 0;
+          now - Date.parse(clientFilter.parameters.Start) > 0 &&
+          Date.parse(clientFilter.parameters.End) - now > 0;
         setFeature2({ enabled: withinRange });
+      } else {
+        setFeature2({ enabled: false });
       }
     }
   };

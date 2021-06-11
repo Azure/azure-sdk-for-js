@@ -2,40 +2,26 @@
 // Licensed under the MIT Licence.
 
 /**
- *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Use AAD token credentials when sending a SMS message.
+ * @summary Use AAD token credentials when sending a SMS message.
  */
 
-/*
-  ONLY AVAILABLE IN NODE.JS RUNTIME
-  If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
-
-  Setup :
-    Please ensure that your Communication Services resource is in US East, US East 2, or West Europe
-    region. AAD Role Based Access Control is not supported in other regions yet.
-
-    Register a new application in AAD
-      - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
-        to register a new application in the Azure Active Directory.
-      - Note down the CLIENT_ID and TENANT_ID from the above step.
-      - In the "Certificates & Secrets" tab, create a secret and note that down.
-      - In the Azure portal, go to your Communication Services resource and click on the Access control (IAM)
-        tab. Here, assign the "Owner" role to the registered application.
-      
-    - Environment setup for the sample
-      - From the overview page of your AAD Application, note down the `CLIENT ID` and `TENANT ID`. In the "Certificates & Secrets" tab, create a secret and note that down.
-      - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample (Can leverage process.env).
-*/
-
-import { SmsClient } from "@azure/communication-sms";
-import { DefaultAzureCredential } from "@azure/identity";
+import { parseConnectionString } from "@azure/communication-common";
+import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
+import { isNode } from "@azure/core-http";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
+  console.log("== Send SMS Message With AAD Authentication ==");
+
+  // You will need to set this environment variable or edit the following values
   const endpoint =
-    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
+    parseConnectionString(process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING!).endpoint ||
+    "https://<resource-name>.communication.azure.com";
+
   // Azure AD Credential information is required to run this sample:
   if (
     !process.env.AZURE_TENANT_ID ||
@@ -48,13 +34,30 @@ export async function main() {
     return;
   }
 
-  const client = new SmsClient(endpoint, new DefaultAzureCredential());
-  const sendResults = await client.send({
-    // Phone numbers must be in E.164 format
-    from: "<from-phone-number>",
-    to: ["<to-phone-number-1>"],
+  // get credentials
+  const credential: TokenCredential = isNode
+    ? new DefaultAzureCredential()
+    : new ClientSecretCredential(
+        process.env.AZURE_TENANT_ID,
+        process.env.AZURE_CLIENT_ID,
+        process.env.AZURE_CLIENT_SECRET
+      );
+
+  // create new client with endpoint and credentials
+  const client = new SmsClient(endpoint, credential);
+
+  // construct send request
+  const sendRequest: SmsSendRequest = {
+    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
+    to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER!] || [
+        "<to-phone-number-1>",
+        "<to-phone-number-2>"
+      ],
     message: "Hello World via SMS!"
-  });
+  };
+
+  // send sms with request
+  const sendResults = await client.send(sendRequest);
 
   for (const sendResult of sendResults) {
     if (sendResult.successful) {

@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.1.0-beta.1",
+  "version": "1.1.0-beta.4",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -144,5 +144,13 @@
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true,
+    "disableDocsMs": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }

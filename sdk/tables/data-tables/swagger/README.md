@@ -6,6 +6,7 @@
 
 ```yaml
 v3: true
+package-version: 12.0.1
 package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
@@ -17,7 +18,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a8cd09
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "latest"
 hide-clients: true
 ```
 
@@ -27,6 +28,22 @@ directive:
     where: $.definitions.GeoReplication
     transform: >
       $["description"] = "Geo-Replication information for the Secondary Storage Service";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TableResponseProperties.properties.TableName
+    transform: >
+      $["x-ms-client-name"] = "name";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TableProperties.properties.TableName
+    transform: >
+      $["x-ms-client-name"] = "name";
 ```
 
 ```yaml
@@ -43,4 +60,31 @@ directive:
     where: $.paths..responses..headers["ETag"]
     transform: >
       $["x-ms-client-name"] = "etag";
+```
+
+### Make Access Policy not required
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.SignedIdentifier
+  transform: >
+    $.required = ["Id"]
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AccessPolicy
+  transform: >
+    delete $.required
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AccessPolicy
+  transform: >
+    delete $.properties["Start"]["format"];
+    delete $.properties["Expiry"]["format"];
 ```

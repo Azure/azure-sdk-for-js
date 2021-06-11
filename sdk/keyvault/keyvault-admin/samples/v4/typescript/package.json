@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Administration client library samples for TypeScript",
-  "engine": {
+  "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
@@ -37,7 +37,7 @@
   "dependencies": {
     "@azure/keyvault-admin": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.3",
     "uuid": "^8.3.0",
     "@azure/keyvault-keys": "^4.2.0-beta.5"
   },

@@ -13,4 +13,10 @@ stages:
             - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-      Clouds: Public
+        Int:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-int-test-resources-common)
+            - $(sub-config-communication-int-test-resources-js)
+          MatrixFilters:
+            - TestType=^(?!browser).*
+      Clouds: Public,Int

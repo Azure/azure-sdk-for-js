@@ -21,7 +21,7 @@ import {
 } from "@azure/core-http";
 import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 
 if (isNode) {
   dotenv.config();
@@ -39,7 +39,8 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
   AZURE_TENANT_ID: "SomeTenantId",
-  AZURE_PHONE_NUMBER: "+14155550100"
+  AZURE_PHONE_NUMBER: "+14155550100",
+  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -65,14 +66,13 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   };
 }
 
-export const canCreateRecordedClientWithToken = (): boolean => {
-  try {
-    new DefaultAzureCredential();
-    return true;
-  } catch {
-    return false;
-  }
-};
+export function createMockToken(): TokenCredential {
+  return {
+    getToken: async (_scopes) => {
+      return { token: "testToken", expiresOnTimestamp: 11111 };
+    }
+  };
+}
 
 export function createRecordedClientWithToken(
   context: Context
@@ -82,11 +82,7 @@ export function createRecordedClientWithToken(
   const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
     .endpoint;
   if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
+    credential = createMockToken();
 
     // casting is a workaround to enable min-max testing
     return {
@@ -97,10 +93,14 @@ export function createRecordedClientWithToken(
     };
   }
 
-  try {
+  if (isNode) {
     credential = new DefaultAzureCredential();
-  } catch {
-    return undefined;
+  } else {
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
   // casting is a workaround to enable min-max testing

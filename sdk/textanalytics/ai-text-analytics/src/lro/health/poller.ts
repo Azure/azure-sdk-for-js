@@ -3,21 +3,20 @@
 
 import { PollerLike } from "@azure/core-lro";
 import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
-import { StringIndexType, delay } from "../../util";
+import { delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
   BeginAnalyzeHealthcarePollerOperation,
-  AnalyzeHealthcareOperationState
+  AnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcareEntitiesOptions
 } from "./operation";
 
 /**
  * @internal
  */
 export interface HealthcarePollerOptions extends AnalysisPollerOptions {
-  readonly modelVersion?: string;
-  readonly includeStatistics?: boolean;
-  stringIndexType?: StringIndexType;
+  readonly options?: BeginAnalyzeHealthcareEntitiesOptions;
 }
 
 /**
@@ -37,34 +36,20 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
   PagedAnalyzeHealthcareEntitiesResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(pollerOptions: HealthcarePollerOptions) {
-    const {
-      client,
-      documents,
-      analysisOptions,
-      includeStatistics,
-      modelVersion,
-      updateIntervalInMs = 5000,
-      resumeFrom,
-      stringIndexType
-    } = pollerOptions;
+  constructor(inputs: HealthcarePollerOptions) {
+    const { client, documents, options, updateIntervalInMs = 5000, resumeFrom } = inputs;
 
     let state: AnalyzeHealthcareOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const { abortSignal, requestOptions, tracingOptions } = analysisOptions || {};
-    const operation = new BeginAnalyzeHealthcarePollerOperation(state || {}, client, documents, {
-      requestOptions,
-      modelVersion,
-      updateIntervalInMs,
-      resumeFrom,
-      tracingOptions,
-      includeStatistics,
-      abortSignal,
-      stringIndexType
-    });
+    const operation = new BeginAnalyzeHealthcarePollerOperation(
+      (state || {}) as any,
+      client,
+      documents,
+      options
+    );
 
     super(operation);
 

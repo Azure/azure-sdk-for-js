@@ -24,22 +24,39 @@ export async function main(): Promise<void> {
   }
   const client = new KeyVaultBackupClient(url, credential);
 
-  const blobStorageUri = process.env["BLOB_STORAGE_URI"];
-  if (!blobStorageUri) {
-    throw new Error("Missing environment variable BLOB_STORAGE_URI.");
-  }
   const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
   if (!sasToken) {
     throw new Error("Missing environment variable BLOB_STORAGE_SAS_TOKEN.");
   }
-  const backupPoller = await client.beginBackup(blobStorageUri!, sasToken);
+
+  // Create a Uri with the storage container path.
+  const blobContainerUri = buildBlobContainerUri();
+
+  // Start the backup and wait for its completion.
+  const backupPoller = await client.beginBackup(blobContainerUri, sasToken);
   const backupResult = await backupPoller.pollUntilDone();
 
-  // The folder name should be at the end of the backupFolderUri, as in: https://<blob-storage-endpoint>/<folder-name>
-  const folderName = backupResult.backupFolderUri!.split("/").pop();
-
-  const restorePoller = await client.beginRestore(blobStorageUri, sasToken, folderName!);
+  // Finally, start and wait for the restore operation using the folderUri returned from a previous backup operation.
+  const restorePoller = await client.beginRestore(backupResult.folderUri!, sasToken);
   await restorePoller.pollUntilDone();
+}
+
+/**
+ * Helper function to construct a valid blob container URI from its parts.
+ */
+function buildBlobContainerUri() {
+  const blobStorageUri = process.env["BLOB_STORAGE_URI"];
+  if (!blobStorageUri) {
+    throw new Error("Missing environment variable BLOB_STORAGE_URI.");
+  }
+
+  const blobContainerName = process.env["BLOB_CONTAINER_NAME"];
+  if (!blobContainerName) {
+    throw new Error("Missing environment variable BLOB_CONTAINER_NAME.");
+  }
+
+  // If there are trailing slashes, remove them before building the URI.
+  return `${blobStorageUri.replace(/\/$/, "")}/${blobContainerName}`;
 }
 
 main().catch((err) => {

@@ -36,7 +36,9 @@ import {
   PathAppendDataResponse,
   PathExpiryOptions,
   PathSetExpiryOptionalParams,
-  PathSetExpiryResponse
+  PathSetExpiryResponse,
+  PathUndeleteOptionalParams,
+  PathUndeleteResponse
 } from "../models";
 
 /** Class representing a Path. */
@@ -280,6 +282,22 @@ export class Path {
       setExpiryOperationSpec
     ) as Promise<PathSetExpiryResponse>;
   }
+
+  /**
+   * Undelete a path that was previously soft deleted
+   * @param options The options parameters.
+   */
+  undelete(
+    options?: PathUndeleteOptionalParams
+  ): Promise<PathUndeleteResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      undeleteOperationSpec
+    ) as Promise<PathUndeleteResponse>;
+  }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
@@ -374,7 +392,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.contentType1,
-    Parameters.accept1,
+    Parameters.accept2,
     Parameters.contentLength,
     Parameters.contentMD5,
     Parameters.owner,
@@ -637,7 +655,7 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.version,
     Parameters.leaseId,
-    Parameters.accept1,
+    Parameters.accept2,
     Parameters.contentLength,
     Parameters.contentType2,
     Parameters.transactionalContentHash,
@@ -658,7 +676,7 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PathSetExpiryExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeout, Parameters.comp],
+  queryParameters: [Parameters.timeout, Parameters.comp1],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.accept,
@@ -666,6 +684,28 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.expiryOptions,
     Parameters.expiresOn
+  ],
+  serializer
+};
+const undeleteOperationSpec: coreHttp.OperationSpec = {
+  path: "/{filesystem}/{path}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      headersMapper: Mappers.PathUndeleteHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PathUndeleteExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeout, Parameters.comp2],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.requestId,
+    Parameters.version,
+    Parameters.undeleteSource
   ],
   serializer
 };

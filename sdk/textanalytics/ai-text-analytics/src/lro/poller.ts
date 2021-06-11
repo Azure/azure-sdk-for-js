@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
 import { State, TextDocumentInput } from "../generated/models";
@@ -14,7 +13,6 @@ import { delay } from "../util";
 export interface AnalysisPollerOptions {
   readonly client: GeneratedClient;
   readonly documents: TextDocumentInput[];
-  readonly analysisOptions?: OperationOptions;
   updateIntervalInMs?: number;
   resumeFrom?: string;
 }
@@ -26,7 +24,7 @@ export interface OperationMetadata {
   /**
    * The date and time the operation was created.
    */
-  createdOn?: Date;
+  createdOn: Date;
   /**
    * The date and time when the operation results will expire on the server.
    */
@@ -34,15 +32,15 @@ export interface OperationMetadata {
   /**
    * The operation id.
    */
-  operationId?: string;
+  operationId: string;
   /**
    * The time the operation status was last updated.
    */
-  lastModifiedOn?: Date;
+  lastModifiedOn: Date;
   /**
    * The current status of the operation.
    */
-  status?: State;
+  status: State;
 }
 
 /**

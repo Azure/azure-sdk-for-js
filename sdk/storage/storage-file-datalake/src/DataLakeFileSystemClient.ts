@@ -33,7 +33,13 @@ import {
   FileSystemListPathsResponse,
   FileSystemCreateIfNotExistsResponse,
   FileSystemDeleteIfExistsResponse,
-  FileSystemGenerateSasUrlOptions
+  FileSystemGenerateSasUrlOptions,
+  FileSystemListDeletedPathsResponse,
+  ListDeletedPathsOptions,
+  DeletedPath,
+  FileSystemUndeletePathResponse,
+  FileSystemUndeletePathOption,
+  ListDeletedPathsSegmentOptions
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -42,6 +48,8 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing"
 import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
+import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
+import { PathClientInternal } from "./utils/PathClientInternal";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
@@ -52,6 +60,11 @@ export class DataLakeFileSystemClient extends StorageClient {
    * fileSystemContext provided by protocol layer.
    */
   private fileSystemContext: FileSystem;
+
+  /**
+   * fileSystemContext provided by protocol layer.
+   */
+  private fileSystemContextToBlobEndpoint: FileSystem;
 
   /**
    * blobContainerClient provided by `@azure/storage-blob` package.
@@ -108,6 +121,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     }
 
     this.fileSystemContext = new FileSystem(this.storageClientContext);
+    this.fileSystemContextToBlobEndpoint = new FileSystem(this.storageClientContextToBlobEndpoint);
     this.blobContainerClient = new ContainerClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -590,6 +604,212 @@ export class DataLakeFileSystemClient extends StorageClient {
       delete rawResponse.paths;
 
       return response;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the paths (directories and files)
+   * under the specified file system.
+   *
+   * .byPage() returns an async iterable iterator to list the paths in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * // Get the fileSystemClient before you run these snippets,
+   * // Can be obtained from `serviceClient.getFileSystemClient("<your-filesystem-name>");`
+   * let i = 1;
+   * for await (const deletePath of fileSystemClient.listDeletedPaths()) {
+   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = fileSystemClient.listDeletedPaths();
+   * let deletedPathItem = await iter.next();
+   * while (!deletedPathItem.done) {
+   *   console.log(`Path ${i++}: ${deletedPathItem.value.name}`);
+   *   pathItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 20 })) {
+   *   for (const deletePath of response.pathItems) {
+   *     console.log(`Path ${i++}: ${deletePath.name}`);
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 path names
+   * for (const path of response.pathItems) {
+   *   console.log(`Path ${i++}: ${path.name}}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   *
+   * iterator = fileSystemClient.listDeletedPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 path names
+   * for (const deletePath of response.deletedPathItems) {
+   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * }
+   * ```
+   *
+   * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
+   *
+   * @param options - Optional. Options when listing deleted paths.
+   */
+  public listDeletedPaths(
+    options: ListDeletedPathsOptions = {}
+  ): PagedAsyncIterableIterator<DeletedPath, FileSystemListDeletedPathsResponse> {
+    const iter = this.listDeletedItems(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => {
+        return this.listDeletedSegments(settings.continuationToken, {
+          maxResults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+  private async *listDeletedItems(
+    options: ListDeletedPathsOptions = {}
+  ): AsyncIterableIterator<DeletedPath> {
+    for await (const response of this.listDeletedSegments(undefined, options)) {
+      yield* response.pathItems || [];
+    }
+  }
+
+  private async *listDeletedSegments(
+    continuation?: string,
+    options: ListDeletedPathsSegmentOptions = {}
+  ): AsyncIterableIterator<FileSystemListDeletedPathsResponse> {
+    let response;
+    if (!!continuation || continuation === undefined) {
+      do {
+        response = await this.listDeletedPathsSegment(continuation, options);
+        continuation = response.continuation;
+        yield response;
+      } while (continuation);
+    }
+  }
+
+  private async listDeletedPathsSegment(
+    continuation?: string,
+    options: ListDeletedPathsSegmentOptions = {}
+  ): Promise<FileSystemListDeletedPathsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "DataLakeFileSystemClient-listDeletedPathsSegment",
+      options
+    );
+    try {
+      const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
+        marker: continuation,
+        ...options,
+        prefix: options.prefix === "" ? undefined : options.prefix,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+
+      const response = rawResponse as FileSystemListDeletedPathsResponse;
+      response.pathItems = [];
+      for (const path of rawResponse.segment.blobItems || []) {
+        response.pathItems.push({
+          name: path.name,
+          deletionId: path.deletionId,
+          deletedOn: path.properties.deletedTime,
+          remainingRetentionDays: path.properties.remainingRetentionDays
+        });
+      }
+
+      if (!(response.nextMarker == undefined || response.nextMarker === "")) {
+        response.continuation = response.nextMarker;
+      }
+
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restores a soft deleted path.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
+   *
+   * @param deletedPath - Required.  The path of the deleted path.
+   *
+   * @param deletionId - Required.  The deletion ID associated with the soft deleted path.
+   *
+   */
+
+  public async undeletePath(
+    deletedPath: string,
+    deletionId: string,
+    options: FileSystemUndeletePathOption = {}
+  ): Promise<FileSystemUndeletePathResponse> {
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-undeletePath", options);
+    try {
+      const pathClient = new PathClientInternal(
+        appendToURLPath(this.blobEndpointUrl, encodeURIComponent(deletedPath)),
+        this.pipeline
+      );
+
+      const rawResponse = await pathClient.blobPathContext.undelete({
+        undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions
+      });
+
+      if (rawResponse.resourceType === PathResultTypeConstants.DirectoryResourceType) {
+        return {
+          pathClient: this.getDirectoryClient(deletedPath),
+          ...rawResponse
+        };
+      } else {
+        return {
+          pathClient: this.getFileClient(deletedPath),
+          ...rawResponse
+        };
+      }
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

@@ -27,16 +27,36 @@ Authenticating your application, users, and principals is an integral part of wo
 
 ## Authenticating client side browser applications
 
-For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you will want to configure an AAD application for interactive browser authentication. Please refer to the [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for additional information on how to configure your app registration for the browser.
+For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you need to register your application in the Microsoft identity platform and set the right permissions.
 
-You may also refer to [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser) for an example of how you can use the `InteractiveBrowserCredential` once the app registration is configured.
+- [Register a single page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the Microsoft identity platform
+- Configure the app registration with a redirect URI to specify where the Microsoft identity platform should redirect the client along with any security tokens.
+  - If using v1 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 1.0 with implicit flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-10-with-implicit-flow) to set the redirect URI.
+  - If using v2 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 2.0 with auth code flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow)
+- Ensure that your application has the right permission for the APIs it intends to use.
+  - In your app registration in the Azure portal, go to `API Permissions`
+  - Click on `Add a permission`
+  - Select the API you want to use. For example, if you are using any of our management/control plane packages i.e. the ones whose name starts with `@azure/arm-`, then you should select ``Azure Service Management`.
+
+Copy the client ID and tenant ID from the `Overview` section of your app registration in Azure portal and use it in the below code snippet where we authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
+
+```ts
+function withInteractiveBrowserCredential() {
+  const credential = new InteractiveBrowserCredential({
+    tenantId: "<YOUR_TENANT_ID>",
+    clientId: "<YOUR_CLIENT_ID>"
+  });
+
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+```
 
 ## Authenticating server side applications
 
 For server side applications we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials that can support your specific scenario.
 
 - To get started, you can always rely on interactive authentication of your user account which requires minimum setup.
-- As you develop your application, you may want to first sign in using the developer tools like Azure CLI or Visual Studio Code to avoid signing in interactively every time you run your application.
+- As you develop your application, you may want to first sign in using the developer tools like Azure CLI or Azure PowerShell to avoid signing in interactively every time you run your application.
 - As you deploy your application to Azure App Service or run it in a virtual machine, you may want to make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
 You can [chain multiple credentials](#chaining-credentials) together so that they are tried sequentially until one of them succeeds.
@@ -57,11 +77,11 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 
 ### Authenticating User Accounts with developer tools
 
-| Credential with example                                                              | Usage                                                                                                                                                                                                                                                                                                                   | Setup                                                                                                                                                                     |
-| ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [AzureCliCredential](#authenticating-a-user-account-with-azure-cli)                  | Authenticate in a development environment with the Azure CLI.                                                                                                                                                                                                                                                           | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) and [login using az cli command](https://docs.microsoft.com/cli/azure/authenticate-azure-cli) |
-| [VisualStudioCodeCredential](#authenticating-a-user-account-with-visual-studio-code) | Authenticate in a development environment with Visual Studio Code.                                                                                                                                                                                                                                                      | Install [VS Code](https://code.visualstudio.com/), [VS Code Azure extension](https://code.visualstudio.com/docs/azure/extensions) and login using the extension.          |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                | Tries `AzureCliCredential`, `VisualStudioCodeCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
+| Credential with example                                                           | Usage                                                                                                                                                                                                                                                                                                                  | Setup                                                                                                                                                                                                    |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [AzureCliCredential](#authenticating-a-user-account-with-azure-cli)               | Authenticate in a development environment with the Azure CLI.                                                                                                                                                                                                                                                          | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) and [login using az cli command](https://docs.microsoft.com/cli/azure/authenticate-azure-cli)                                |
+| [AzurePowerShellCredential](#authenticating-a-user-account-with-azure-powershell) | Authenticate in a development environment with Azure PowerShell.                                                                                                                                                                                                                                                       | [Install Azure PowerShell](https://docs.microsoft.com/powershell/azure/install-az-ps) and [login using the `Connect-AzAccount` cmdlet](https://docs.microsoft.com/powershell/azure/authenticate-azureps) |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)             | Tries `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Authenticating Service Principals
 
@@ -74,21 +94,21 @@ To learn more, read [Application and service principal objects in Azure Active D
 - [Application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                                |
-| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                           |
-| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                         |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `VisualStudioCodeCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
+| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                              |
+| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                         |
+| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                       |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential` and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Authenticating Azure Hosted Applications
 
 If your application is hosted in Azure, you can make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) for hassle free authentication in your production environments.
 
-| Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                         |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned, or user assigned managed identity enabled.                                                                                                                                                                                                      |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `VisualStudioCodeCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
+| Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned managed identity, user assigned managed identity, or app registration (when working with AKS pod-identity). |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Examples
 
@@ -350,17 +370,57 @@ function withAzureCliCredential () {
 }
 ```
 
-#### Authenticating a user account with Visual Studio Code
+#### Authenticating a User Account with Azure PowerShell
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `VisualStudioCodeCredential` on a workstation with Visual Studio Code installed, and the user has signed in with an Azure account.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AzurePowerShellCredential` on a workstation with Azure PowerShell installed and authenticated.
 
-See more about how to configure your Visual Studio Code in the [Azure Account Extension page](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account)
+#### Configure Azure PowerShell
+
+Sign in using [Azure PowerShell][azure_powershell]:
+
+```powershell
+PS> Connect-AzAccount
+```
+
+If the account / service principal has access to multiple tenants (subscriptions), ensure that the `Get-AzContext` cmdlet returns the correct subscription:
+
+```powershell
+PS> Get-AzContext
+
+... <subscription information here> ...
+
+```
+
+If the wrong subscription ID is shown, use the `Set-AzContext` cmdlet to change the active Azure context:
+
+```powershell
+PS> Set-AzContext -Subscription "<subscription id>"
+```
+
+To verify that the account has been successfully configured, try running the `Get-AzAccessToken` cmdlet:
+
+```powershell
+PS> Get-AzAccessToken
+
+Token     : eyJ... <full access token will be shown in terminal> ...
+ExpiresOn : 11/12/2013 5:43:21 AM +00:00
+Type      : Bearer
+TenantId  : <tenant id>
+UserId    : <user id>
+
+```
+
+##### Use the Azure PowerShell Credential
 
 ```ts
-function withVisualStudioCodeCredential () {
-  // As you can see in this example, the AzureCliCredential does not take any parameters,
-  // instead relying on the Azure CLI authenticated user to authenticate.
-  const credential = new AzureCliCredential();
+/**
+ * Authenticate with Azure PowerShell
+ */
+function withAzurePowerShellCredential() {
+  // Like the Azure CLI Credential, the Azure PowerShell Credential does not accept any
+  // options or parameters, and uses the current user session within the Az.Account PowerShell
+  // module.
+  const credential = new AzurePowerShellCredential();
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -426,9 +486,9 @@ Name Resource-Manager-Url ActiveDirectory-Authority
 
 The ActiveDirectory Authority in the output will be your Azure Authority Host
 
-### Determine the Tenant Id for Azure Stack
+### Determine the Tenant ID for Azure Stack
 
-If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD) then contact your Azure Stack Administrator to find out your tenant Id.
+If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD) then contact your Azure Stack Administrator to find out your tenant ID.
 else, if the Identity provider of your Azure Stack is Active Directory Federation Services (AD FS) then your tenant id is `adfs`.
 
 ### Authentication example

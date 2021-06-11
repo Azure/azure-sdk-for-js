@@ -3,6 +3,8 @@
 ## 4.2.0-beta.4 (Unreleased)
 
 - Marked `ErrorModel` as deprecated. It was erronously exported publicly in 4.1 and should not be used. Please change the type to use `CertificateOperationError` instead.
+- Fixed a bug with `beginDeleteCertificate` and `beginRecoverDeletedCertificate` in which unknown service errors wouldn't bubble up properly to the end users.
+- Renamed the `KeyVaultCertificateId` to `KeyVaultCertificateIdentifier`, and exported a method to parse Key Vault Certificate Ids: `parseKeyVaultCertificateIdentifier`.
 
 ## 4.2.0-beta.3 (2021-04-06)
 

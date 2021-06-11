@@ -1,5 +1,20 @@
 # Release History
 
+## 1.1.0-beta.4 (Unreleased)
+
+
+## 1.1.0-beta.3 (2021-06-03)
+
+- Merged `bearerTokenChallengeAuthenticationPolicy` into `bearerTokenAuthenticationPolicy`. This will keep the functionality of `bearerTokenAuthenticationPolicy`, but also adds the `challengeCallbacks` feature.
+
+## 1.1.0-beta.2 (2021-05-20)
+
+- Fixed an issue to set the `Content-Length` header correctly when using multibyte characters. [PR 15314](https://github.com/Azure/azure-sdk-for-js/pull/15314)
+
+### Fixed
+
+- Fixed an issue where tracing spans were not setting a status correctly (on success or error) which results in the span status being `UNSET`. In addition, we will now capture the HTTP status code when a request fails in the tracing span. [PR 15061](https://github.com/Azure/azure-sdk-for-js/pull/15061)
+
 ## 1.1.0-beta.1 (2021-05-06)
 
 ### Features Added

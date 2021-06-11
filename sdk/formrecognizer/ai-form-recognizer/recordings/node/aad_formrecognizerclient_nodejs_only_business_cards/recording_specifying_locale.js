@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "021cd1ad14cefedb3f9721742269a869";
+module.exports.hash = "badcb7de21732e8e29459085adc6c79d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a9b72f40-0aff-43bd-8302-5884e3862a01',
+  '93895848-99aa-4180-aaeb-be0accb26601',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11722.21 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgRLK_yyL-BMiLhMpVRBz8rGLH8mDAAAAFyuG9gOAAAA; expires=Fri, 28-May-2021 19:34:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApkDqNpQ57tNkXRRzlIgAuCU1ubLDgAAAEU0P9gOAAAA; expires=Thu, 24-Jun-2021 18:11:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrgO1ROIBwueAQyT3Mlz-GrlcNeFTvUfYZ_XdTKiiTOBrpYKtDtXeJyKeBkP1y9TvpbJVxgWpS2WZoIbT1bam1clx5zW5PRbPAXmOcmCOs7jlGOn1PZx5Qqn38XC-52FSKp7keLwGXeTi_PI-w3ECYPmBBPaHzCTX8cdhWocFl9xwgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr2GivXDuBT1eTsECh2BFg3p4T03_SUOAcX0MEbM9n_HdB-CjLjxSB-CVECsJ0bkuNxUQ5jZcAsAQteuo6nZ-VpjwyTVfE5DB__uN1QtS7BR7WZuOJf_Ff6k9Qyo7fHQNM4VYF3E6rRGrWeHJ4LcpmiZSllJc2-xUHXIyUr8MNbU4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 19:34:23 GMT',
+  'Tue, 25 May 2021 18:11:40 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,28 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'bd623507-ae28-489c-88a4-12617cbfd801',
+  'fa6cea98-2cbc-471b-8fda-ba3e8f662300',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11774.11 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AgRLK_yyL-BMiLhMpVRBz8rGLH8mDAAAAFyuG9gOAAAA; expires=Fri, 28-May-2021 19:34:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApkDqNpQ57tNkXRRzlIgAuCU1ubLDgAAAEU0P9gOAAAA; expires=Thu, 24-Jun-2021 18:11:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrrxEeI4So5yaSxrMGab-czwI0rxREMzL-2LamBkp7kydGtkDTPSFKokv5kWZPbF3asTOsndVL1j1yzXy7oN-fzCw5eJJjVJMbvmhZShLdhfVYvkPk-xw9XPviN-I1qL7nIPcptreDwk20eJ4ra9OvrabH3R8SLh8zNZKmHLxTvIsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevryOe-O3X5Gynn1-qJhla48brrw-Iu5nOBuj-XOu4ceaqxnkuK5LP0F16mVF6bXPGfiAyJsKXfHdyx1n-ezhBoJmRgOp2j-4MjWpNfSR8xAqT0qvSGGFp3O24X-O8OPMKYa_kBuJWRdzk0rxgQv958YctDrsb-e7h7XzorqMMtgywgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 19:34:23 GMT',
+  'Tue, 25 May 2021 18:11:40 GMT',
   'Content-Length',
   '1651'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .filteringRequestBody(function (body) {
-            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
-        })
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=f20c9c19-425c-48d8-90dc-2816d0694c50&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -96,46 +93,65 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '422bd614-376f-4bda-ad74-35cbca6e3e01',
+  '1a1715eb-17cf-443c-96ea-3222b3931c00',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.11774.11 - SCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AgRLK_yyL-BMiLhMpVRBz8rGLH8mDAAAAFyuG9gOAAAA; expires=Fri, 28-May-2021 19:34:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApkDqNpQ57tNkXRRzlIgAuCU1ubLDwAAAEU0P9gOAAAA; expires=Thu, 24-Jun-2021 18:11:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 19:34:23 GMT',
+  'Tue, 25 May 2021 18:11:40 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.3/prebuilt/receipt/analyze', {"source":"https://storageaccount/testingdata/businessCard.jpg?sastoken"})
+  .post('/formrecognizer/v2.1/prebuilt/receipt/analyze', {"source":"https://storageaccount/testingdata/businessCard.jpg?sastoken"})
   .query(true)
   .reply(202, "", [
   'Content-Length',
   '0',
   'Operation-Location',
-  'https://endpoint/formrecognizer/v2.1-preview.3/prebuilt/receipt/analyzeResults/5ae8997b-7555-4c80-9967-29fe1a39b2c2',
+  'https://endpoint/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/4df80b40-f009-46ce-8f5e-f344f5c37096',
   'x-envoy-upstream-service-time',
-  '767',
+  '673',
   'apim-request-id',
-  '5ae8997b-7555-4c80-9967-29fe1a39b2c2',
+  '4df80b40-f009-46ce-8f5e-f344f5c37096',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:34:25 GMT'
+  'Tue, 25 May 2021 18:11:42 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/prebuilt/receipt/analyzeResults/5ae8997b-7555-4c80-9967-29fe1a39b2c2')
-  .reply(200, {"status":"notStarted","createdDateTime":"2021-04-28T19:34:25Z","lastUpdatedDateTime":"2021-04-28T19:34:25Z"}, [
+  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/4df80b40-f009-46ce-8f5e-f344f5c37096')
+  .reply(200, {"status":"notStarted","createdDateTime":"2021-05-25T18:11:42Z","lastUpdatedDateTime":"2021-05-25T18:11:42Z"}, [
+  'Content-Length',
+  '109',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '13',
+  'apim-request-id',
+  '38e3f3ca-4c88-483d-b9a2-5fc37121a5a8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 25 May 2021 18:11:42 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/4df80b40-f009-46ce-8f5e-f344f5c37096')
+  .reply(200, {"status":"notStarted","createdDateTime":"2021-05-25T18:11:42Z","lastUpdatedDateTime":"2021-05-25T18:11:42Z"}, [
   'Content-Length',
   '109',
   'Content-Type',
@@ -143,37 +159,18 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '12',
   'apim-request-id',
-  '918c263f-b223-45ee-8606-b9811607fbcf',
+  'df4bd94e-df31-4c99-8e7a-f6155cae8c76',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:34:25 GMT'
+  'Tue, 25 May 2021 18:11:42 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/prebuilt/receipt/analyzeResults/5ae8997b-7555-4c80-9967-29fe1a39b2c2')
-  .reply(200, {"status":"running","createdDateTime":"2021-04-28T19:34:25Z","lastUpdatedDateTime":"2021-04-28T19:34:25Z"}, [
-  'Content-Length',
-  '106',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '13',
-  'apim-request-id',
-  'b7d40639-e63b-4297-92a8-ef887244b010',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:34:25 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/prebuilt/receipt/analyzeResults/5ae8997b-7555-4c80-9967-29fe1a39b2c2')
-  .reply(200, {"status":"succeeded","createdDateTime":"2021-04-28T19:34:25Z","lastUpdatedDateTime":"2021-04-28T19:34:27Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":-16.6836,"width":4032,"height":3024,"unit":"pixel"}],"documentResults":[{"docType":"prebuilt:receipt","pageRange":[1,1],"fields":{"MerchantAddress":{"type":"string","valueString":"2 Kingdom Street Paddington, London, W2 6BD","text":"2 Kingdom Street Paddington, London, W2 6BD","boundingBox":[1227.3,2138.3,2520.2,1690.5,2597,1912.3,1304.1,2360.1],"page":1,"confidence":0.972},"MerchantName":{"type":"string","valueString":"Contoso","text":"Contoso","boundingBox":[1146,1926,2224,1587,2285,1756,1202,2099],"page":1,"confidence":0.787},"MerchantPhoneNumber":{"type":"phoneNumber","text":"+44 (0) 7911 123456","boundingBox":[2426.8,1040.1,3065.5,846,3087.2,917.6,2448.5,1111.7],"page":1,"confidence":0.608},"ReceiptType":{"type":"string","valueString":"Itemized","confidence":0.777}}}]}}, [
+  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/4df80b40-f009-46ce-8f5e-f344f5c37096')
+  .reply(200, {"status":"succeeded","createdDateTime":"2021-05-25T18:11:42Z","lastUpdatedDateTime":"2021-05-25T18:11:46Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":-16.6836,"width":4032,"height":3024,"unit":"pixel"}],"documentResults":[{"docType":"prebuilt:receipt","pageRange":[1,1],"fields":{"MerchantAddress":{"type":"string","valueString":"2 Kingdom Street Paddington, London, W2 6BD","text":"2 Kingdom Street Paddington, London, W2 6BD","boundingBox":[1227.3,2138.3,2520.2,1690.5,2597,1912.3,1304.1,2360.1],"page":1,"confidence":0.972},"MerchantName":{"type":"string","valueString":"Contoso","text":"Contoso","boundingBox":[1146,1926,2224,1587,2285,1756,1202,2099],"page":1,"confidence":0.787},"MerchantPhoneNumber":{"type":"phoneNumber","text":"+44 (0) 7911 123456","boundingBox":[2426.8,1040.1,3065.5,846,3087.2,917.6,2448.5,1111.7],"page":1,"confidence":0.608},"ReceiptType":{"type":"string","valueString":"Itemized","confidence":0.777}}}]}}, [
   'Content-Length',
   '961',
   'Content-Type',
@@ -181,11 +178,11 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '18',
   'apim-request-id',
-  '6e590240-f69d-4aad-875a-428d5e9710eb',
+  '9ce53028-4572-4f90-b41a-c7d95ddba240',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:34:30 GMT'
+  'Tue, 25 May 2021 18:11:47 GMT'
 ]);

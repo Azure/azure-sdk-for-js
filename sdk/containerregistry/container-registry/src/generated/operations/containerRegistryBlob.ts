@@ -333,7 +333,7 @@ const uploadChunkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value1,
+  requestBody: Parameters.value3,
   urlParameters: [Parameters.url, Parameters.location],
   headerParameters: [Parameters.contentType2, Parameters.accept3],
   mediaType: "binary",
@@ -350,7 +350,7 @@ const completeUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value2,
+  requestBody: Parameters.value4,
   queryParameters: [Parameters.digest2],
   urlParameters: [Parameters.url, Parameters.location],
   headerParameters: [Parameters.contentType2, Parameters.accept3],

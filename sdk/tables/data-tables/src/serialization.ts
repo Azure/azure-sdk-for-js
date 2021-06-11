@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
-import { EdmTypes } from "./models";
+import { EdmTypes, SignedIdentifier } from "./models";
+import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
+import { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -21,7 +23,7 @@ const Edm = {
   String: "Edm.String"
 } as const;
 
-type supportedTypes = boolean | string | number | Date | Uint8Array;
+type supportedTypes = boolean | string | number | Date | Uint8Array | bigint;
 
 type serializedType = {
   value: supportedTypes;
@@ -38,6 +40,9 @@ function serializePrimitive(value: any): serializedType {
     typeof value === "number"
   ) {
     serializedValue.value = value;
+  } else if (typeof value === "bigint") {
+    serializedValue.value = value.toString();
+    serializedValue.type = Edm.Int64;
   } else if (value instanceof Date) {
     serializedValue.value = value;
     serializedValue.type = Edm.DateTime;
@@ -105,27 +110,33 @@ export function serialize(obj: object): object {
   return serialized;
 }
 
-function getTypedObject(value: any, type: string): any {
+function getTypedObject(value: any, type: string, disableTypeConversion: boolean): any {
   switch (type) {
     case Edm.Boolean:
+      return disableTypeConversion ? { value, type: "Boolean" } : value;
     case Edm.Double:
+      return disableTypeConversion ? { value, type: "Double" } : value;
     case Edm.Int32:
+      return disableTypeConversion ? { value, type: "Int32" } : value;
     case Edm.String:
-      return value;
+      return disableTypeConversion ? { value, type: "String" } : value;
     case Edm.DateTime:
-      return { value, type: "DateTime" };
+      return disableTypeConversion ? { value, type: "DateTime" } : new Date(value);
     case Edm.Int64:
-      return { value, type: "Int64" };
+      return disableTypeConversion ? { value, type: "Int64" } : BigInt(value);
     case Edm.Guid:
       return { value, type: "Guid" };
     case Edm.Binary:
-      return base64Decode(value);
+      return disableTypeConversion ? { value, type: "Binary" } : base64Decode(value);
     default:
       throw new Error(`Unknown EDM type ${type}`);
   }
 }
 
-export function deserialize<T extends object>(obj: object): T {
+export function deserialize<T extends object = Record<string, any>>(
+  obj: object,
+  disableTypeConversion: boolean = false
+): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
@@ -133,7 +144,7 @@ export function deserialize<T extends object>(obj: object): T {
       let typedValue = value;
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
-        typedValue = getTypedObject(value, type);
+        typedValue = getTypedObject(value, type, disableTypeConversion);
       }
       deserialized[transformedKey] = typedValue;
     }
@@ -141,6 +152,59 @@ export function deserialize<T extends object>(obj: object): T {
   return deserialized;
 }
 
-export function deserializeObjectsArray<T extends object>(objArray: object[]): T[] {
-  return objArray.map((obj) => deserialize<T>(obj));
+export function deserializeObjectsArray<T extends object>(
+  objArray: object[],
+  disableTypeConversion: boolean
+): T[] {
+  return objArray.map((obj) => deserialize<T>(obj, disableTypeConversion));
+}
+
+/**
+ * For ACL endpoints the Tables Service takes an ISO Date without decimals however
+ * serializing a JavaScript date gives us a date with decimals 2021-07-08T09:10:09.000Z
+ * which makes the XML request body invalid, these 2 functions serialize and deserialize the
+ * dates so that they are in the expected format
+ */
+export function serializeSignedIdentifiers(
+  signedIdentifiers: SignedIdentifier[]
+): GeneratedSignedIdentifier[] {
+  return signedIdentifiers.map((acl) => {
+    const { id, accessPolicy } = acl;
+    const { start, expiry, ...rest } = accessPolicy ?? {};
+    const serializedStart = start
+      ? truncatedISO8061Date(start, false /** withMilliseconds */)
+      : undefined;
+    const serializedExpiry = expiry
+      ? truncatedISO8061Date(expiry, false /** withMilliseconds */)
+      : undefined;
+
+    return {
+      id,
+      accessPolicy: {
+        ...(serializedExpiry && { expiry: serializedExpiry }),
+        ...(serializedStart && { start: serializedStart }),
+        ...rest
+      }
+    };
+  });
+}
+
+export function deserializeSignedIdentifier(
+  signedIdentifiers: GeneratedSignedIdentifier[]
+): SignedIdentifier[] {
+  return signedIdentifiers.map((si) => {
+    const { id, accessPolicy } = si;
+    const { start, expiry, ...restAcl } = accessPolicy ?? {};
+    const deserializedStart = start ? new Date(start) : undefined;
+    const deserializedExpiry = expiry ? new Date(expiry) : undefined;
+
+    return {
+      id,
+      accessPolicy: {
+        ...(deserializedExpiry && { expiry: deserializedExpiry }),
+        ...(deserializedStart && { start: deserializedStart }),
+        ...restAcl
+      }
+    };
+  });
 }

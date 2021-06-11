@@ -1,0 +1,162 @@
+{
+  "name": "@azure/monitor-query",
+  "version": "1.0.0-beta.2",
+  "description": "An isomorphic client library to query Azure Monitor logs and metrics.",
+  "sdk-type": "client",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "browser": {},
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/logquery/src/azureLogAnalyticsContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metrics/src/monitorManagementClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metricsdefinitions/src/metricsDefinitionsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metricsnamespaces/src/metricsNamespacesClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "types": "types/latest/monitor-query.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "types/3.1/monitor-query.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:samples": "dev-tool samples publish --force",
+    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && npm run lint && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log coverage coverage-browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
+    "execute:samples": "echo Obsolete",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "npm run generate:client:logquery && npm run generate:client:metrics && npm run generate:client:metrics-namespaces && npm run generate:client:metrics-definitions",
+    "generate:client:logquery": "cd swagger && autorest --typescript --tag=logquery README.md",
+    "generate:client:metrics": "cd swagger && autorest --typescript --tag=metrics README.md",
+    "generate:client:metrics-namespaces": "cd swagger && autorest --typescript --tag=metrics-namespaces README.md",
+    "generate:client:metrics-definitions": "cd swagger && autorest --typescript --tag=metrics-definitions README.md",
+    "integration-test:browser": "echo 'karma start --single-run' temporarily disabled",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --slow 5000 --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --format unix --ext .ts --max-warnings 0",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run integration-test:node",
+    "test": "npm run build:test && npm run integration-test",
+    "unit-test:browser": "echo 'karma start --single-run' temporarily disabled",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/internal/unit/**/*.spec.ts\"",
+    "unit-test": "npm run build:test && npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest/monitor-query.d.ts",
+    "types/3.1/monitor-query.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/README.md",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.4",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@opentelemetry/api": "1.0.0-rc.0",
+    "@opentelemetry/node": "~0.19.0",
+    "@opentelemetry/tracing": "^0.18.2",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^8.0.0",
+    "chai-as-promised": "^7.1.1",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
+    "eslint": "^7.15.0",
+    "esm": "^3.2.18",
+    "inherits": "^2.0.3",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-mocha": "^2.0.1",
+    "karma": "^6.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "mocha": "^7.1.1",
+    "nyc": "^14.0.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "source-map-support": "^0.5.9",
+    "typedoc": "0.15.2",
+    "typescript": "~4.2.0",
+    "util": "^0.12.1"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": false,
+    "disableDocsMs": true,
+    "productName": "Monitor Query",
+    "productSlugs": [],
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "requiredResources": {
+      "Azure Monitor": "https://docs.microsoft.com/azure/azure-monitor/"
+    }
+  }
+}

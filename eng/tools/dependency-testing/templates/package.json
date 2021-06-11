@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "Azure client library tests for TypeScript",
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {

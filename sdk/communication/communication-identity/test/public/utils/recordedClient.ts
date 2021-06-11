@@ -33,12 +33,18 @@ export interface RecordedClient<T> {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
-  AZURE_CLIENT_SECRET: "SomeClientSecret",
-  AZURE_TENANT_ID: "SomeTenantId"
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "SomeTenantId",
+  COMMUNICATION_MSAL_USERNAME: "MSALUsername",
+  COMMUNICATION_MSAL_PASSWORD: "MSALPassword",
+  COMMUNICATION_M365_APP_ID: "M365AppId",
+  COMMUNICATION_M365_AAD_TENANT: "M365AADTenant",
+  COMMUNICATION_M365_SCOPE: "M365Scope",
+  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "true"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -72,7 +78,7 @@ export function createRecordedCommunicationIdentityClient(
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING, {
+    client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
     } as CommunicationIdentityClientOptions),
     recorder
@@ -84,7 +90,8 @@ export function createRecordedCommunicationIdentityClientWithToken(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {

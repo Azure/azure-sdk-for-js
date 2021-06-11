@@ -1,8 +1,19 @@
 # Release History
 
-## 1.2.5 (Unreleased)
+## 1.2.6 (Unreleased)
 
-- Delay loading of NO_PROXY environment variable until  when request pipeline is being created. This fixes [issue 14873](https://github.com/Azure/azure-sdk-for-js/issues/14873)
+### Key Bugs Fixed
+
+- Fixed an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+
+## 1.2.5 (2021-06-03)
+
+### Fixed
+
+- Delay loading of NO_PROXY environment variable until when request pipeline is being created. This fixes [issue 14873](https://github.com/Azure/azure-sdk-for-js/issues/14873)
+- Fixed an issue where tracing spans were not setting a status correctly (on success or error) which results in the span status being `UNSET`. In addition, we will now capture the HTTP status code when a request fails in the tracing span. [PR 15061](https://github.com/Azure/azure-sdk-for-js/pull/15061)
+- Fix packaging issue [PR 15286](https://github.com/Azure/azure-sdk-for-js/pull/15286)
+- Improve the sanitizer to handle recursive objects [PR 15426](https://github.com/Azure/azure-sdk-for-js/pull/15426)
 
 ## 1.2.4 (2021-03-30)
 

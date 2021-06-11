@@ -1,13 +1,73 @@
 {
   "name": "@azure/attestation",
+  "version": "1.0.0-beta.4",
+  "description": "Javascript/Typescript client implementation for the Microsoft Azure Attestation service.",
   "sdk-type": "client",
-  "author": "Microsoft Corporation",
-  "description": "Describes the interface for the per-tenant enclave service.",
-  "version": "1.0.0-beta.3",
-  "dependencies": {
-    "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
-    "tslib": "^2.0.0"
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/utils/base64.js": "./dist-esm/src/utils/base64.browser.js",
+    "./dist-esm/src/utils/textEncoding.js": "./dist-esm/src/utils/textEncoding.browser.js",
+    "./dist-esm/test/utils/base64url.js": "./dist-esm/test/utils/base64url.browser.js",
+    "./dist-esm/test/utils/Buffer.js": "./dist-esm/test/utils/Buffer.browser.js",
+    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "types": "types/latest/attestation.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "types/3.1/attestation.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:samples": "echo Obsolete.",
+    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript --v3 swagger",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}/*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/attestation.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "engines": {
+    "node": ">=8.0.0"
   },
   "keywords": [
     "node",
@@ -17,30 +77,42 @@
     "isomorphic",
     "cloud"
   ],
+  "author": "Microsoft Corporation",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/attestation.d.ts",
-  "engines": {
-    "node": ">=8.0.0"
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/attestation/attestation/README.md",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-client": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.0.3",
+    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.0.0",
+    "jsrsasign": "^10.3.0"
   },
   "devDependencies": {
-    "@azure/identity": "^1.1.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/jsrsasign": "^8.0.9",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "buffer": "^5.2.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
-    "jsrsasign": "^10.2.0",
+    "esm": "^3.2.18",
+    "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -53,9 +125,10 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
     "karma-source-map-support": "~1.4.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
+    "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
@@ -63,49 +136,18 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "safe-buffer": "^5.2.1",
+    "source-map-support": "^0.5.9",
     "ts-node": "^9.0.0",
+    "typedoc": "0.15.2",
     "typescript": "~4.2.0",
-    "typedoc": "0.15.2"
+    "util": "^0.12.1"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/attestation/attestation/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/attestation.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "build:samples": "echo skipped",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "check-format": "echo skip format check as this package has only auto generated code",
-    "clean": "rimraf dist dist-esm dist-test temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "api-extractor run --local",
-    "format": "echo skip format as this package has only auto generated code",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json test --ext .ts",
-    "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
-  },
-  "sideEffects": false,
-  "browser": {
-    "./dist-esm/test/utils/base64url.js": "./dist-esm/test/utils/base64url.browser.js",
-    "./dist-esm/test/utils/Buffer.js": "./dist-esm/test/utils/Buffer.browser.js",
-    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+  "//sampleConfiguration": {
+    "skipFolder": false,
+    "productName": "Azure Attestation",
+    "productSlugs": [
+      "azure-attestation"
+    ],
+    "requiredResources": {}
   }
 }

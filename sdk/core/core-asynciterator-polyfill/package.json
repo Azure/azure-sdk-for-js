@@ -17,6 +17,7 @@
   "main": "./dist-esm/index.js",
   "files": [
     "dist-esm/index.js",
+    "dist-esm/index.js.map",
     "README.md",
     "LICENSE"
   ],

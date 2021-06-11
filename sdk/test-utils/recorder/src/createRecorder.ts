@@ -7,9 +7,11 @@ import { nodeRequireRecordingIfExists } from "./utils/recordings";
 
 import { config as readEnvFile } from "dotenv";
 import fs from "fs-extra";
-import { applyRequestBodyTransformations } from "./utils/requestBodyTransform";
+import { applyRequestBodyTransformationsOnFixture } from "./utils/requestBodyTransform";
+import { mockMsalAuth, NockType } from "./utils/msalAuth.node";
+import { isNode } from "@azure/core-http";
 
-let nock: typeof import("nock");
+let nock: NockType;
 
 export class NockRecorder extends BaseRecorder {
   constructor(hash: string, testSuiteTitle: string, testTitle: string) {
@@ -38,6 +40,11 @@ export class NockRecorder extends BaseRecorder {
       this.relativeTestRecordingFilePath,
       testFilePath
     ).testInfo;
+
+    if (isNode) {
+      // The following call provides the fake access_token in playback for the msal /oauth2/v2.0/token requests by not matching the request body
+      mockMsalAuth(nock, recorderEnvironmentSetup.onLoadCallbackForPlayback);
+    }
   }
 
   public async stop(): Promise<void> {
@@ -85,7 +92,7 @@ export class NockRecorder extends BaseRecorder {
       for (const fixture of fixtures) {
         let updatedFixture = fixture;
         // Applying any requestBody transformations that are provided
-        updatedFixture = applyRequestBodyTransformations(
+        updatedFixture = applyRequestBodyTransformationsOnFixture(
           "node",
           fixture,
           this.environmentSetup.requestBodyTransformations

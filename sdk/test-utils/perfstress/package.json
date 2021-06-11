@@ -56,9 +56,6 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engine": {
-    "node": ">=8.0.0"
-  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/perfstress/README.md",
   "sideEffects": false,
   "private": true,

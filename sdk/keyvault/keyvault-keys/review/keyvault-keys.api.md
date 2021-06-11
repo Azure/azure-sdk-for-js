@@ -33,7 +33,7 @@ export interface AesCbcEncryptParameters {
 export interface AesGcmDecryptParameters {
     additionalAuthenticatedData?: Uint8Array;
     algorithm: AesGcmEncryptionAlgorithm;
-    authenticationTag?: Uint8Array;
+    authenticationTag: Uint8Array;
     ciphertext: Uint8Array;
     iv: Uint8Array;
 }
@@ -278,7 +278,7 @@ export interface KeyVaultKey {
 }
 
 // @public
-export interface KeyVaultKeyId {
+export interface KeyVaultKeyIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -380,6 +380,9 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export function parseKeyVaultKeyIdentifier(id: string): KeyVaultKeyIdentifier;
 
 export { PipelineOptions }
 

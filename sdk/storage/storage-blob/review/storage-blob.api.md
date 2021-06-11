@@ -1104,6 +1104,7 @@ export interface BlobSetHTTPHeadersHeaders {
     blobSequenceNumber?: number;
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     etag?: string;
     lastModified?: Date;
     requestId?: string;
@@ -2123,7 +2124,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = string;
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 export { HttpHeaders }
 
@@ -2689,7 +2690,7 @@ export enum PremiumPageBlobTier {
 }
 
 // @public
-export type PublicAccessType = string;
+export type PublicAccessType = "container" | "blob";
 
 // @public
 export interface Range {
@@ -2983,6 +2984,7 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
 // @public
 export interface ServiceUndeleteContainerOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // @deprecated
     destinationContainerName?: string;
 }
 

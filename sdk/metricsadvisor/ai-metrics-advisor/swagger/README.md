@@ -14,7 +14,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 # openapi v2 in PR
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/aab1fb9011c5829fc7a4825fa0831899f6da970d/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7efe0ae6a89c93a915c85af1e2f871501adac0c9/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:

@@ -12,15 +12,19 @@ urlFragment: data-tables-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Data Tables in some common scenarios.
 
-| **File Name**                                         | **Description**                                      |
-| ----------------------------------------------------- | ---------------------------------------------------- |
-| [authenticationMethods.ts][authenticationmethods]     | authenticates using different authentication methods |
-| [batchOperations.ts][batchoperations]                 | sends transactional batch requests                   |
-| [createAndDeleteEntities.ts][createanddeleteentities] | creates and deletes a entities in a table            |
-| [createAndDeleteTable.ts][createanddeletetable]       | creates and deletes a table                          |
-| [queryEntities.ts][queryentities]                     | queries entities in a table                          |
-| [queryTables.ts][querytables]                         | queries tables                                       |
-| [updateAndUpsertEntities.ts][updateandupsertentities] | updates and upserts entities in a table              |
+| **File Name**                                         | **Description**                                            |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| [workingWithInt64.ts][workingwithint64]               | creates and works with an entity containing an Int64 value |
+| [workingWithBigInt.ts][workingwithbigint]             | creates and works with an entity containing a bigint       |
+| [transactionWithHelper.ts][transactionwithhelper]     | sends transactional request using TableTransaction helper  |
+| [transactionOperations.ts][transactionoperations]     | sends transactional batch requests                         |
+| [queryEntities.ts][queryentities]                     | queries entities in a table                                |
+| [createAndDeleteEntities.ts][createanddeleteentities] | creates and deletes a entities in a table                  |
+| [authenticationMethods.ts][authenticationmethods]     | authenticates using different authentication methods       |
+| [createAndDeleteTable.ts][createanddeletetable]       | creates and deletes a table                                |
+| [updateAndUpsertEntities.ts][updateandupsertentities] | updates and upserts entities in a table                    |
+| [generateTableSAS.ts][generatetablesas]               | generate a Table Account SAS token                         |
+| [queryTables.ts][querytables]                         | queries tables                                             |
 
 ## Prerequisites
 
@@ -61,26 +65,30 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/authenticationMethods.ts
+node dist/workingWithInt64.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env TABLES_URL="<tables url>" ACCOUNT_CONNECTION_STRING="<account connection string>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" SAS_CONNECTION_STRING="<sas connection string>" SAS_TOKEN="<sas token>" node dist/authenticationMethods.js
+npx cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/workingWithInt64.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/authenticationMethods.ts
-[batchoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/batchOperations.ts
-[createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/createAndDeleteEntities.ts
-[createanddeletetable]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/createAndDeleteTable.ts
+[workingwithint64]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/workingWithInt64.ts
+[workingwithbigint]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/workingWithBigInt.ts
+[transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/transactionWithHelper.ts
+[transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/transactionOperations.ts
 [queryentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/queryEntities.ts
-[querytables]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/queryTables.ts
+[createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/createAndDeleteEntities.ts
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/authenticationMethods.ts
+[createanddeletetable]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/createAndDeleteTable.ts
 [updateandupsertentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/updateAndUpsertEntities.ts
+[generatetablesas]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/generateTableSAS.ts
+[querytables]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/queryTables.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/data-tables
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurestorageinstance]: https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal

@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd8ec575f-3842-4551-9e83-483639a94500',
+  '12d58ac1-6dbb-44d8-be80-a3e5ac48c400',
   'x-ms-ests-server',
-  '2.1.11397.13 - SEASLR2 ProdSlices',
+  '2.1.11722.26 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEAAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:40:30 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvJP_5zXpMNFtNCcPwwYUd3GLH8mDwAAAMwkSdgOAAAA; expires=Fri, 02-Jul-2021 07:06:34 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:40:30 GMT',
+  'Wed, 02 Jun 2021 07:06:34 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query', {"dimensionName":"city"})
-  .reply(200, {"value":["Abidjan","Ahmadabad","Alexandria","Ankara","Atlanta","Baghdad","Bangkok","Barcelona","Beijing","Belo Horizonte","Bengaluru","Bogota","Boston","Brasilia","Buenos Aires","Cairo","Chengdu","Chennai","Chicago","Chittagong"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=20&$skip=20"}, [
+  .reply(200, {"value":["Abidjan","Ahmadabad","Alexandria","Ankara","Atlanta","Baghdad","Bangkok","Barcelona","Beijing","Belo Horizonte","Bengaluru","Bogota","Boston","Brasilia","Buenos Aires","Cairo","Chengdu","Chennai","Chicago","Chittagong"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=20&$skip=20"}, [
   'Content-Length',
-  '402',
+  '410',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '299e3bb0-5fca-4028-937e-671cef81594b',
+  '723ec901-457b-42a5-b405-2f3f8f229758',
   'x-envoy-upstream-service-time',
-  '41',
+  '117',
   'apim-request-id',
-  '299e3bb0-5fca-4028-937e-671cef81594b',
+  '723ec901-457b-42a5-b405-2f3f8f229758',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:30 GMT'
+  'Wed, 02 Jun 2021 07:06:34 GMT'
 ]);

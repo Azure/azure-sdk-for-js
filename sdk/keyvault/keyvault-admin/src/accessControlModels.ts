@@ -3,6 +3,14 @@
 
 import * as coreHttp from "@azure/core-http";
 import { SUPPORTED_API_VERSIONS } from "./constants";
+import {
+  DataAction as KeyVaultDataAction,
+  KnownDataAction as KnownKeyVaultDataAction,
+  KnownRoleScope as KnownKeyVaultRoleScope,
+  RoleScope as KeyVaultRoleScope
+} from "./generated/index";
+
+export { KeyVaultDataAction, KnownKeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultRoleScope };
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
@@ -33,7 +41,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * Role assignment properties.
    */
-  properties: KeyVaultRoleAssignmentPropertiesWithScope;
+  properties: KeyVaultRoleAssignmentProperties;
 }
 
 /**
@@ -57,42 +65,6 @@ export interface KeyVaultPermission {
    */
   notDataActions?: KeyVaultDataAction[];
 }
-
-/**
- * A union type representing all possible values for
- * both {@link KeyVaultPermission.dataActions} and {@link KeyVaultPermission.notDataActions}.
- */
-export type KeyVaultDataAction =
-  | "Microsoft.KeyVault/managedHsm/keys/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/write/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action"
-  | "Microsoft.KeyVault/managedHsm/keys/backup/action"
-  | "Microsoft.KeyVault/managedHsm/keys/restore/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
-  | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/encrypt/action"
-  | "Microsoft.KeyVault/managedHsm/keys/decrypt/action"
-  | "Microsoft.KeyVault/managedHsm/keys/wrap/action"
-  | "Microsoft.KeyVault/managedHsm/keys/unwrap/action"
-  | "Microsoft.KeyVault/managedHsm/keys/sign/action"
-  | "Microsoft.KeyVault/managedHsm/keys/verify/action"
-  | "Microsoft.KeyVault/managedHsm/keys/create"
-  | "Microsoft.KeyVault/managedHsm/keys/delete"
-  | "Microsoft.KeyVault/managedHsm/keys/export/action"
-  | "Microsoft.KeyVault/managedHsm/keys/import/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/download/action"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read"
-  | "Microsoft.KeyVault/managedHsm/backup/start/action"
-  | "Microsoft.KeyVault/managedHsm/restore/start/action"
-  | "Microsoft.KeyVault/managedHsm/backup/status/action"
-  | "Microsoft.KeyVault/managedHsm/restore/status/action"
-  | string;
 
 /**
  * A Key Vault role definition.
@@ -144,30 +116,10 @@ export interface KeyVaultRoleAssignmentProperties {
    * The principal ID.
    */
   principalId: string;
-}
-
-/**
- * A scope of the role assignment or definition.
- * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
- */
-export type KeyVaultRoleScope = "/" | "/keys" | string;
-
-/**
- * Role assignment properties with the scope property.
- */
-export interface KeyVaultRoleAssignmentPropertiesWithScope {
   /**
    * The role assignment scope.
    */
   scope?: KeyVaultRoleScope;
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId: string;
-  /**
-   * The principal ID.
-   */
-  principalId: string;
 }
 
 /**
@@ -204,9 +156,30 @@ export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
 export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing optional parameters passed to {@link upsertRoleDefinition}.
+ * An interface representing optional parameters passed to {@link setRoleDefinition}.
  */
-export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {}
+export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
+  /**
+   * UUID used as the name of the role definition to create. If it's not provided, a new UUID will be generated.
+   */
+  roleDefinitionName?: string;
+  /**
+   * Friendly display name for the role definition.
+   */
+  roleName?: string;
+  /**
+   * Long-form description of the role definition.
+   */
+  description?: string;
+  /**
+   * List of Key Vault permissions
+   */
+  permissions?: KeyVaultPermission[];
+  /**
+   * List of assignable Key Vault role scopes
+   */
+  assignableScopes?: KeyVaultRoleScope[];
+}
 
 /**
  * An interface representing optional parameters passed to {@link deleteRoleDefinition}.

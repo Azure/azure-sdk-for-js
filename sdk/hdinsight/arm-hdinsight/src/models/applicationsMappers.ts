@@ -12,6 +12,7 @@ export {
   ApplicationGetHttpsEndpoint,
   ApplicationListResult,
   ApplicationProperties,
+  AsyncOperationResult,
   Autoscale,
   AutoscaleCapacity,
   AutoscaleRecurrence,

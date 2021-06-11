@@ -3,21 +3,16 @@
 
 export { AppConfigurationClient, AppConfigurationClientOptions } from "./appConfigurationClient";
 export {
-  FeatureFlag,
   featureFlagContentType,
-  FeatureFlagParam,
-  FeatureFlagPercentageClientFilter,
   featureFlagPrefix,
-  FeatureFlagTargetingClientFilter,
-  FeatureFlagTimeWindowClientFilter,
-  FeatureFlagType,
+  FeatureFlagValue,
   isFeatureFlag,
-  isFeatureFlagClientFilter
+  parseFeatureFlag
 } from "./featureFlag";
+export * from "./models";
 export {
   isSecretReference,
-  SecretReference,
+  parseSecretReference,
   secretReferenceContentType,
-  SecretReferenceParam
-} from "./keyvaultReference";
-export * from "./models";
+  SecretReferenceValue
+} from "./secretReference";

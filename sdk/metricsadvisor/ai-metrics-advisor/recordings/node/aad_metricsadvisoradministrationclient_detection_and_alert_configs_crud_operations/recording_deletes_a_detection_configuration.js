@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "676ef4430cdcbaf412a9dca197b73b94";
+module.exports.hash = "14054da5863782c4fc6a8a675748b72d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,55 +22,57 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '337d402d-5af4-4f39-a8e7-d4c0f17b4800',
+  '4fe746f9-6a96-4ce1-89d5-2b4fe82fc600',
   'x-ms-ests-server',
-  '2.1.11397.13 - SEASLR2 ProdSlices',
+  '2.1.11722.26 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mCgAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:39:12 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhDmgzXYAD1Lu7GFYxxGYOLGLH8mDAAAAHi3SdgOAAAA; expires=Fri, 02-Jul-2021 17:31:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:39:11 GMT'
+  'Wed, 02 Jun 2021 17:31:47 GMT',
+  'Content-Length',
+  '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/4b92d8b9-f381-405b-8116-1ccce0a119ed')
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/3eb1771b-7943-4ce4-8a99-54f102d244de')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '07a3e55e-8a8b-4e8f-9560-034e67c543ab',
+  '3d763de7-f06d-48cc-90ca-e9b0bcb8f653',
   'x-envoy-upstream-service-time',
-  '47',
+  '43',
   'apim-request-id',
-  '07a3e55e-8a8b-4e8f-9560-034e67c543ab',
+  '3d763de7-f06d-48cc-90ca-e9b0bcb8f653',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:39:12 GMT'
+  'Wed, 02 Jun 2021 17:31:47 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/4b92d8b9-f381-405b-8116-1ccce0a119ed')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: c16df536-936b-4346-bd0d-6ac728150e37"}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/3eb1771b-7943-4ce4-8a99-54f102d244de')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 91e6b453-44d2-4259-8a14-d24f45e085e6"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '35fc01de-2a99-4f28-abe7-ba3ab24b0103',
+  '93873d71-1cc8-4eb5-ba16-9abd346580d3',
   'x-envoy-upstream-service-time',
-  '26',
+  '19',
   'apim-request-id',
-  '35fc01de-2a99-4f28-abe7-ba3ab24b0103',
+  '93873d71-1cc8-4eb5-ba16-9abd346580d3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:39:12 GMT'
+  'Wed, 02 Jun 2021 17:31:47 GMT'
 ]);
