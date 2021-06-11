@@ -63,9 +63,9 @@ export {
 
 export {
   BlobHierarchyListSegment,
-  BlobItemInternal,
+  BlobItemModel,
   BlobPrefix,
-  BlobPropertiesInternal,
+  BlobPropertiesModel,
   FileSystemListPathsHeaders,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsResponse as ListPathsSegmentResponse,

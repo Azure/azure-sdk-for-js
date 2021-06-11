@@ -1,7 +1,20 @@
 # Release History
 
-## 3.11.4 (Unreleased)
+## 3.11.5 (2021-06-10)
 
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+- BUGFIX: Adds another failover condition.
+
+## 3.11.4 (2021-06-10)
+
+- BUGFIX: Correctly failover to new regions when regional DNS has gone offline.
 
 ## 3.11.3 (2021-05-21)
 

@@ -1,5 +1,11 @@
 # Release History
 
+## 1.2.6 (Unreleased)
+
+### Key Bugs Fixed
+
+- Fixed an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+
 ## 1.2.5 (2021-06-03)
 
 ### Fixed

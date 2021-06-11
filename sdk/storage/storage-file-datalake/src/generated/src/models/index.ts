@@ -61,7 +61,7 @@ export interface ListBlobsHierarchySegmentResponse {
 
 export interface BlobHierarchyListSegment {
   blobPrefixes?: BlobPrefix[];
-  blobItems: BlobItemInternal[];
+  blobItems: BlobItemModel[];
 }
 
 export interface BlobPrefix {
@@ -69,19 +69,19 @@ export interface BlobPrefix {
 }
 
 /** An Azure Storage blob */
-export interface BlobItemInternal {
+export interface BlobItemModel {
   name: string;
   deleted: boolean;
   snapshot: string;
   versionId?: string;
   isCurrentVersion?: boolean;
   /** Properties of a blob */
-  properties: BlobPropertiesInternal;
+  properties: BlobPropertiesModel;
   deletionId?: string;
 }
 
 /** Properties of a blob */
-export interface BlobPropertiesInternal {
+export interface BlobPropertiesModel {
   creationTime?: Date;
   lastModified: Date;
   etag: string;
@@ -111,9 +111,8 @@ export interface BlobPropertiesInternal {
   accessTierChangeTime?: Date;
   tagCount?: number;
   expiresOn?: Date;
-  isSealed?: boolean;
+  sealed?: boolean;
   lastAccessedOn?: Date;
-  deleteTime?: Date;
 }
 
 export interface SetAccessControlRecursiveResponse {

@@ -4,7 +4,7 @@
 import {
   Constants,
   TokenType,
-  defaultLock,
+  defaultCancellableLock,
   RequestResponseLink,
   StandardAbortMessage,
   isSasTokenProvider
@@ -217,12 +217,19 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
     );
-    return defaultLock.acquire(this._openLock, () => {
-      this._logger.verbose(
-        `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`
-      );
-      return this._initLinkImpl(options, abortSignal);
-    });
+    return defaultCancellableLock.acquire(
+      this._openLock,
+      () => {
+        this._logger.verbose(
+          `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`
+        );
+        return this._initLinkImpl(options, abortSignal);
+      },
+      {
+        abortSignal: abortSignal,
+        timeoutInMs: Constants.defaultOperationTimeoutInMs
+      }
+    );
   }
 
   private async _initLinkImpl(
@@ -258,7 +265,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     );
 
     try {
-      await this._negotiateClaim();
+      await this._negotiateClaim({
+        abortSignal,
+        setTokenRenewal: false,
+        timeoutInMs: Constants.defaultOperationTimeoutInMs
+      });
 
       checkAborted();
       this.checkIfConnectionReady();
@@ -324,10 +335,14 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
     );
-    return defaultLock.acquire(this._openLock, () => {
-      this._logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
-      return this.closeLinkImpl();
-    });
+    return defaultCancellableLock.acquire(
+      this._openLock,
+      () => {
+        this._logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
+        return this.closeLinkImpl();
+      },
+      { abortSignal: undefined, timeoutInMs: undefined }
+    );
   }
 
   private async closeLinkImpl(): Promise<void> {
@@ -375,7 +390,15 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Negotiates the cbs claim for the ClientEntity.
    * @param setTokenRenewal - Set the token renewal timer. Default false.
    */
-  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+  private async _negotiateClaim({
+    abortSignal,
+    setTokenRenewal,
+    timeoutInMs
+  }: {
+    setTokenRenewal: boolean;
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
@@ -394,10 +417,22 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.cbsSession.cbsLock, async () => {
-      this.checkIfConnectionReady();
-      return this._context.cbsSession.init();
-    });
+
+    const startTime = Date.now();
+    if (!this._context.cbsSession.isOpen()) {
+      await defaultCancellableLock.acquire(
+        this._context.cbsSession.cbsLock,
+        () => {
+          this.checkIfConnectionReady();
+          return this._context.cbsSession.init({ abortSignal, timeoutInMs });
+        },
+        {
+          abortSignal,
+          timeoutInMs: timeoutInMs - (Date.now() - startTime)
+        }
+      );
+    }
+
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (isSasTokenProvider(this._context.tokenCredential)) {
@@ -433,10 +468,25 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     if (!tokenObject) {
       throw new Error("Token cannot be null");
     }
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      this.checkIfConnectionReady();
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
-    });
+    await defaultCancellableLock.acquire(
+      this._context.negotiateClaimLock,
+      () => {
+        this.checkIfConnectionReady();
+        return this._context.cbsSession.negotiateClaim(
+          this.audience,
+          tokenObject.token,
+          tokenType,
+          {
+            abortSignal,
+            timeoutInMs: timeoutInMs - (Date.now() - startTime)
+          }
+        );
+      },
+      {
+        abortSignal,
+        timeoutInMs: timeoutInMs - (Date.now() - startTime)
+      }
+    );
     this._logger.verbose(
       "%s Negotiated claim for %s '%s' with with address: %s",
       this.logPrefix,
@@ -485,7 +535,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this._negotiateClaim(true);
+        await this._negotiateClaim({
+          setTokenRenewal: true,
+          abortSignal: undefined,
+          timeoutInMs: Constants.defaultOperationTimeoutInMs
+        });
       } catch (err) {
         this._logger.logError(
           err,

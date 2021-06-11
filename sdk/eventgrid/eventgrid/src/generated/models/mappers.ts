@@ -796,6 +796,64 @@ export const StorageAsyncOperationInitiatedEventData: CompositeMapper = {
   }
 };
 
+export const StorageBlobInventoryPolicyCompletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlobInventoryPolicyCompletedEventData",
+    modelProperties: {
+      scheduleDateTime: {
+        serializedName: "scheduleDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        serializedName: "accountName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      ruleName: {
+        serializedName: "ruleName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatus: {
+        serializedName: "policyRunStatus",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatusMessage: {
+        serializedName: "policyRunStatusMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunId: {
+        serializedName: "policyRunId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      manifestBlobUrl: {
+        serializedName: "manifestBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubCaptureFileCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -2646,6 +2704,7 @@ export const MediaJobOutput: CompositeMapper = {
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
+        required: true,
         type: {
           name: "String"
         }
@@ -5689,6 +5748,20 @@ export const AcsRecordingChunkInfo: CompositeMapper = {
       },
       endReason: {
         serializedName: "endReason",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      metadataLocation: {
+        serializedName: "metadataLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLocation: {
+        serializedName: "contentLocation",
         required: true,
         type: {
           name: "String"

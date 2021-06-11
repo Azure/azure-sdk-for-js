@@ -5,20 +5,55 @@
 ```ts
 
 import { AzureNamedKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { SASCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicy {
-    expiry: Date;
-    permission: string;
-    start: Date;
+    expiry?: Date;
+    permission?: string;
+    start?: Date;
+}
+
+// @public
+export interface AccountSasOptions {
+    expiresOn?: Date;
+    ipRange?: SasIPRange;
+    permissions?: AccountSasPermissions;
+    protocol?: SasProtocol;
+    resourceTypes?: string;
+    services?: AccountSasServices;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
+export interface AccountSasPermissions {
+    add?: boolean;
+    delete?: boolean;
+    list?: boolean;
+    query?: boolean;
+    update?: boolean;
+    write?: boolean;
+}
+
+// @public
+export interface AccountSasServices {
+    blob?: boolean;
+    file?: boolean;
+    queue?: boolean;
+    table?: boolean;
 }
 
 export { AzureNamedKeyCredential }
+
+export { AzureSASCredential }
 
 // @public
 export interface CorsRule {
@@ -51,6 +86,12 @@ export interface Edm<T extends EdmTypes> {
 
 // @public
 export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
+
+// @public
+export function generateAccountSas(credential: NamedKeyCredential, options?: AccountSasOptions): string;
+
+// @public
+export function generateTableSas(tableName: string, credential: NamedKeyCredential, options?: TableSasSignatureValues): string;
 
 // @public
 export interface GeoReplication {
@@ -127,6 +168,15 @@ export interface RetentionPolicy {
 }
 
 // @public
+export interface SasIPRange {
+    end?: string;
+    start: string;
+}
+
+// @public
+export type SasProtocol = "https" | "https,http";
+
+// @public
 export interface ServiceGetPropertiesHeaders {
     clientRequestId?: string;
     requestId?: string;
@@ -160,7 +210,7 @@ export interface ServiceSetPropertiesHeaders {
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 // @public
-export interface SetPropertiesOptions extends OperationOptions {
+export interface SetPropertiesOptions extends coreClient.OperationOptions {
     requestId?: string;
     timeout?: number;
 }
@@ -170,13 +220,13 @@ export type SetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 // @public
 export interface SignedIdentifier {
-    accessPolicy: AccessPolicy;
+    accessPolicy?: AccessPolicy;
     id: string;
 }
 
 // @public
 export class TableClient {
-    constructor(url: string, tableName: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: NamedKeyCredential | SASCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
     createTable(options?: OperationOptions): Promise<void>;
@@ -284,8 +334,31 @@ export interface TableQueryResponse {
 }
 
 // @public
+export interface TableSasPermissions {
+    add?: boolean;
+    delete?: boolean;
+    query?: boolean;
+    update?: boolean;
+}
+
+// @public
+export interface TableSasSignatureValues {
+    endPartitionKey?: string;
+    endRowKey?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: TableSasPermissions;
+    protocol?: SasProtocol;
+    startPartitionKey?: string;
+    startRowKey?: string;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export class TableServiceClient {
-    constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: NamedKeyCredential | SASCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createTable(name: string, options?: OperationOptions): Promise<void>;
     deleteTable(name: string, options?: OperationOptions): Promise<void>;

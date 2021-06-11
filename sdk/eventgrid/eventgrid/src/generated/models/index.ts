@@ -258,6 +258,24 @@ export interface StorageAsyncOperationInitiatedEventData {
   storageDiagnostics: any;
 }
 
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.BlobInventoryPolicyCompleted event. */
+export interface StorageBlobInventoryPolicyCompletedEventData {
+  /** The time at which inventory policy was scheduled. */
+  scheduleDateTime: string;
+  /** The account name for which inventory policy is registered. */
+  accountName: string;
+  /** The rule name for inventory policy. */
+  ruleName: string;
+  /** The status of inventory run, it can be Succeeded/PartiallySucceeded/Failed. */
+  policyRunStatus: string;
+  /** The status message for inventory run. */
+  policyRunStatusMessage: string;
+  /** The policy run id for inventory run. */
+  policyRunId: string;
+  /** The blob URL for manifest file for inventory run. */
+  manifestBlobUrl: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
@@ -747,7 +765,7 @@ export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
   subscriptionName: string;
 }
 
-/** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListenersEvent event. */
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners event. */
 export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
   namespaceName: string;
@@ -1972,6 +1990,10 @@ export interface AcsRecordingChunkInfo {
   index: number;
   /** The reason for ending the recording chunk */
   endReason: string;
+  /** The location of the metadata for this chunk */
+  metadataLocation: string;
+  /** The location of the content for this chunk */
+  contentLocation: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */

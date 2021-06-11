@@ -13,7 +13,6 @@ import * as Parameters from "../models/parameters";
 import { KeyVaultClientContext } from "../keyVaultClientContext";
 import {
   RoleAssignmentsDeleteOptionalParams,
-  RoleAssignmentsDeleteResponse,
   RoleAssignmentCreateParameters,
   RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsCreateResponse,
@@ -49,7 +48,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     scope: string,
     roleAssignmentName: string,
     options?: RoleAssignmentsDeleteOptionalParams
-  ): Promise<RoleAssignmentsDeleteResponse> {
+  ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       scope,
@@ -59,7 +58,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     return this.client.sendOperationRequest(
       operationArguments,
       deleteOperationSpec
-    ) as Promise<RoleAssignmentsDeleteResponse>;
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -170,9 +169,8 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
+    200: {},
+    404: {},
     default: {
       bodyMapper: Mappers.KeyVaultError
     }

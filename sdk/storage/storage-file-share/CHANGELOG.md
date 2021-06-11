@@ -1,8 +1,9 @@
 # Release History
 
-## 12.6.0 (Unreleased)
+## 12.6.0 (2021-06-09)
 
 - Updated Azure Storage Service API version to 2020-08-04.
+- Fixed bug where ShareFileClient.download, ShareFileClient.downloadToBuffer or ShareFileClient.downloadToFile could corrupt data if source is modified when retrying.
 
 ## 12.5.0 (2021-03-10)
 
