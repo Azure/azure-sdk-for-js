@@ -34,39 +34,21 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupPoliciesListResponse>
    */
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.BackupPoliciesListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.BackupPoliciesList>
-  ): void;
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BackupPoliciesList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BackupPoliciesList>
-  ): void;
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPoliciesList>,
-    callback?: msRest.ServiceCallback<Models.BackupPoliciesList>
-  ): Promise<Models.BackupPoliciesListResponse> {
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPoliciesList>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPoliciesList>, callback?: msRest.ServiceCallback<Models.BackupPoliciesList>): Promise<Models.BackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,8 +56,7 @@ export class BackupPolicies {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.BackupPoliciesListResponse>;
+      callback) as Promise<Models.BackupPoliciesListResponse>;
   }
 
   /**
@@ -87,24 +68,14 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupPoliciesGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.BackupPoliciesGetResponse>;
+  get(resourceGroupName: string, accountName: string, backupPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    callback: msRest.ServiceCallback<Models.BackupPolicy>
-  ): void;
+  get(resourceGroupName: string, accountName: string, backupPolicyName: string, callback: msRest.ServiceCallback<Models.BackupPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -112,20 +83,8 @@ export class BackupPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BackupPolicy>
-  ): void;
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicy>,
-    callback?: msRest.ServiceCallback<Models.BackupPolicy>
-  ): Promise<Models.BackupPoliciesGetResponse> {
+  get(resourceGroupName: string, accountName: string, backupPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPolicy>): void;
+  get(resourceGroupName: string, accountName: string, backupPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicy>, callback?: msRest.ServiceCallback<Models.BackupPolicy>): Promise<Models.BackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,8 +93,7 @@ export class BackupPolicies {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.BackupPoliciesGetResponse>;
+      callback) as Promise<Models.BackupPoliciesGetResponse>;
   }
 
   /**
@@ -148,22 +106,9 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupPoliciesCreateResponse>
    */
-  create(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    body: Models.BackupPolicy,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.BackupPoliciesCreateResponse> {
-    return this.beginCreate(
-      resourceGroupName,
-      accountName,
-      backupPolicyName,
-      body,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.BackupPoliciesCreateResponse
-    >;
+  create(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicy, options?: msRest.RequestOptionsBase): Promise<Models.BackupPoliciesCreateResponse> {
+    return this.beginCreate(resourceGroupName,accountName,backupPolicyName,body,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupPoliciesCreateResponse>;
   }
 
   /**
@@ -176,22 +121,9 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupPoliciesUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    body: Models.BackupPolicyPatch,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.BackupPoliciesUpdateResponse> {
-    return this.beginUpdate(
-      resourceGroupName,
-      accountName,
-      backupPolicyName,
-      body,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.BackupPoliciesUpdateResponse
-    >;
+  update(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options?: msRest.RequestOptionsBase): Promise<Models.BackupPoliciesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,accountName,backupPolicyName,body,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupPoliciesUpdateResponse>;
   }
 
   /**
@@ -203,18 +135,9 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      resourceGroupName,
-      accountName,
-      backupPolicyName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, accountName: string, backupPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,accountName,backupPolicyName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -227,13 +150,7 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    body: Models.BackupPolicy,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -243,8 +160,7 @@ export class BackupPolicies {
         options
       },
       beginCreateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -257,13 +173,7 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    body: Models.BackupPolicyPatch,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -273,8 +183,7 @@ export class BackupPolicies {
         options
       },
       beginUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -286,12 +195,7 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    backupPolicyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, backupPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -300,8 +204,7 @@ export class BackupPolicies {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -309,11 +212,18 @@ export class BackupPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupPoliciesList
@@ -327,16 +237,19 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupPolicyName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupPolicy
@@ -350,16 +263,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupPolicyName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -384,16 +300,19 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupPolicyName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -417,16 +336,19 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupPolicyName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
