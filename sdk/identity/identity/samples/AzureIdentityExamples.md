@@ -107,7 +107,7 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 | Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned managed identity, user assigned managed identity, or app registration (when working with AKS pod-identity). |
+| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned managed identity, user assigned managed identity, or app registration (when working with AKS pod-identity).                                                                                                                                     |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Examples
@@ -121,7 +121,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
  * The default credential first checks environment variables for configuration.
  * If environment configuration is incomplete, it will try managed identity.
  */
-function withDefaultAzureCredential () {
+function withDefaultAzureCredential() {
   const credential = new DefaultAzureCredential();
   const client = new SecretClient(`https://key-vault-name.vault.azure.net`, credential);
 }
@@ -137,7 +137,7 @@ For more information about how to configure a user assigned managed identity for
 /**
  * The default credential will use the user assigned managed identity with the specified client ID.
  */
-function withDefaultAzureCredential () {
+function withDefaultAzureCredential() {
   // Alternatively, you may set the environment variable AZURE_CLIENT_ID="<MANAGED_IDENTITY_CLIENT_ID>" and omit the `managedIdentityClientId`
   // option when using `DefaultAzureCredential` - the two approaches are equivalent.
   const credential = new DefaultAzureCredential({
@@ -153,10 +153,10 @@ For clients that have a default browser available and for client-side applicatio
 
 For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
 
-For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications and set the right permissions. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
+For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. Please see [Authenticating client side browser applications](#authenticating-client-side-browser-applications).
 
 ```ts
-function withInteractiveBrowserCredential () {
+function withInteractiveBrowserCredential() {
   const credential = new InteractiveBrowserCredential({
     tenantId: "<YOUR_TENANT_ID>",
     clientId: "<YOUR_CLIENT_ID>"
@@ -183,7 +183,7 @@ Set up:
 /**
  *  Authenticate with client secret.
  */
-function withClientSecretCredential () {
+function withClientSecretCredential() {
   const credential = new ClientSecretCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
@@ -210,7 +210,7 @@ Set up:
 /**
  *  Authenticate with a client certificate.
  */
-function withEnvironmentCredential () {
+function withEnvironmentCredential() {
   let credential = new EnvironmentCredential();
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -233,7 +233,7 @@ Set up:
 /**
  *  Authenticate with a client certificate.
  */
-function withClientCertificateCredential () {
+function withClientCertificateCredential() {
   let credential = new ClientCertificateCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
@@ -253,7 +253,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 /**
  *  Authenticate with a device code.
  */
-function withDeviceCodeCredential () {
+function withDeviceCodeCredential() {
   let credential = new DeviceCodeCredential(
     process.env.AZURE_TENANT_ID,
     process.env.AZURE_CLIENT_ID,
@@ -286,7 +286,7 @@ Apart from user name and password, this credential requires you to know the tena
 /**
  *  Authenticate with a client certificate.
  */
-function withClientCertificateCredential () {
+function withClientCertificateCredential() {
   let credential = new UsernamePasswordCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
@@ -313,7 +313,7 @@ For a complete example using the authorization code flow in Electron please refe
 /**
  * Authenticate with authorization code.
  */
-function withAuthCodeCredential () {
+function withAuthCodeCredential() {
   const credential = new AuthorizationCodeCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
@@ -361,7 +361,7 @@ to verify the account has been successfully configured.
 /**
  * Authenticate with Azure CLI.
  */
-function withAzureCliCredential () {
+function withAzureCliCredential() {
   // As you can see in this example, the AzureCliCredential does not take any parameters,
   // instead relying on the Azure CLI authenticated user to authenticate.
   const credential = new AzureCliCredential();
@@ -436,7 +436,7 @@ For more information about how to configure your Azure resource for managed iden
 /**
  * Authenticate with a system assigned managed identity.
  */
-function withSystemAssignedManagedIdentityCredential () {
+function withSystemAssignedManagedIdentityCredential() {
   const credential = new ManagedIdentityCredential();
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
@@ -445,7 +445,7 @@ function withSystemAssignedManagedIdentityCredential () {
 /**
  * Authenticate with a user assigned managed identity.
  */
-function withUserManagedIdentityCredential () {
+function withUserManagedIdentityCredential() {
   const credential = new ManagedIdentityCredential("<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>");
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
@@ -457,7 +457,7 @@ function withUserManagedIdentityCredential () {
 The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential which will attempt to authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using managed identity, and fall back to certificate authentication if a managed identity is unavailable in the current environment.
 
 ```ts
-function withChainedTokenCredential () {
+function withChainedTokenCredential() {
   const credential = new ChainedTokenCredential(
     new ManagedIdentityCredential("<YOUR_CLIENT_ID>"),
     new ClientSecretCredential("<YOUR_TENANT_ID>", "<YOUR_CLIENT_ID>", "<YOUR_CLIENT_SECRET>")
@@ -498,7 +498,7 @@ else, if the Identity provider of your Azure Stack is Active Directory Federatio
 The following example demonstrates authenticating a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] against an Azure Key Vault hosted in Azure Stack.
 
 ```ts
-function main () {
+function main() {
   const credential = new ClientSecretCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
@@ -534,8 +534,8 @@ In this example, `StaticTokenCredential` implements the `TokenCredential` abstra
 import { TokenCredential, AccessToken } from "@azure/core-auth";
 
 class StaticTokenCredential implements TokenCredential {
-  constructor (private accessToken: AccessToken) {}
-  async getToken (): Promise<AccessToken> {
+  constructor(private accessToken: AccessToken) {}
+  async getToken(): Promise<AccessToken> {
     return this.accessToken;
   }
 }
@@ -546,7 +546,7 @@ Once the application has defined this credential, it can be used to authenticate
 ```ts
 import { SecretClient } from "@azure/keyvault-secrets";
 
-async function main () {
+async function main() {
   const token = getTokenForScope("https://vault.azure.net/.default");
 
   const credential = new StaticTokenCredential(token);
@@ -575,8 +575,8 @@ import { TokenCredential, AccessToken } from "@azure/core-auth";
 import * as msalNode from "@azure/msal-node";
 
 class ConfidentialClientCredential implements TokenCredential {
-  constructor (private confidentialApp: msalNode.ConfidentialClientApplication) {}
-  async getToken (scopes: string | string[]): Promise<AccessToken> {
+  constructor(private confidentialApp: msalNode.ConfidentialClientApplication) {}
+  async getToken(scopes: string | string[]): Promise<AccessToken> {
     const result = await this.confidentialApp.acquireTokenByClientCredential({
       scopes: Array.isArray(scopes) ? scopes : [scopes]
     });
@@ -594,7 +594,7 @@ Users could then use the `ConfidentialClientApplicationCredential` to authentica
 import { SecretClient } from "@azure/keyvault-secrets";
 import * as msalNode from "@azure/msal-node";
 
-async function main () {
+async function main() {
   const confidentialClient = new msalNode.ConfidentialClientApplication({
     // MSAL Configuration
   });
@@ -637,7 +637,7 @@ class OnBehalfOfCredential implements TokenCredential {
       }
     });
   }
-  async getToken (scopes: string | string[]): Promise<AccessToken> {
+  async getToken(scopes: string | string[]): Promise<AccessToken> {
     const result = await this.confidentialApp.acquireTokenOnBehalfOf({
       scopes: Array.isArray(scopes) ? scopes : [scopes],
       oboAssertion: this.userAccessToken
@@ -655,7 +655,7 @@ The following example shows an how the `OnBehalfOfCredential` could be used to a
 ```ts
 import { SecretClient } from "@azure/keyvault-secrets";
 
-async function main () {
+async function main() {
   const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
 
   const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
@@ -680,7 +680,7 @@ class BrowserCredential implements TokenCredential {
   private publicApp: msalBrowser.PublicClientApplication;
   private hasAuthenticated: boolean = false;
 
-  constructor (clientId, redirectUri) {
+  constructor(clientId, redirectUri) {
     this.publicApp = new msalBrowser.PublicClientApplication({
       auth: {
         clientId,
@@ -690,7 +690,7 @@ class BrowserCredential implements TokenCredential {
   }
 
   // Either confirm the account already exists in memory, or tries to parse the redirect URI values.
-  async prepare (): Promise<void> {
+  async prepare(): Promise<void> {
     try {
       if (await this.publicApp.getActiveAccount()) {
         this.hasAuthenticated = true;
@@ -698,18 +698,18 @@ class BrowserCredential implements TokenCredential {
       }
       await this.publicApp.handleRedirectPromise();
       this.hasAuthenticated = true;
-    } catch (e) {
+    } catch(e) {
       console.error("BrowserCredential prepare() failed", e);
     }
   }
 
   // Should be true if prepare() was successful.
-  isAuthenticated (): boolean {
+  isAuthenticated(): boolean {
     return this.hasAuthenticated;
   }
 
   // If called, triggers authentication via redirection.
-  async loginRedirect (scopes: string | string[]): Promise<void> {
+  async loginRedirect(scopes: string | string[]): Promise<void> {
     const loginRequest = {
       scopes: Array.isArray(scopes) ? scopes : [scopes]
     };
@@ -717,7 +717,7 @@ class BrowserCredential implements TokenCredential {
   }
 
   // Tries to retrieve the token without triggering a redirection.
-  async getToken (scopes: string | string[]): Promise<AccessToken> {
+  async getToken(scopes: string | string[]): Promise<AccessToken> {
     if (!this.hasAuthenticated) {
       throw new Error("Authentication required");
     }
@@ -741,7 +741,7 @@ The following example shows an how the `BrowserCredential` could be used to auth
 ```ts
 import { ServiceBusClient } from "@azure/service-bus";
 
-async function main () {
+async function main() {
   const browserCredential = new BrowserCredential(clientId, location.origin);
 
   await browserCredential.prepare();
@@ -797,17 +797,17 @@ class RotatableCertificateCredential implements TokenCredential {
   private readonly clientId: string;
   private credential: ClientCertificateCredential;
 
-  constructor (tenantId: string, clientId: string, PEMCertificatePath: string) {
+  constructor(tenantId: string, clientId: string, PEMCertificatePath: string) {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.credential = new ClientCertificateCredential(tenantId, clientId, PEMCertificatePath);
   }
 
-  async getToken (scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     return this.credential.getToken(scopes, options);
   }
 
-  rotateCertificate (PEMCertificatePath: string) {
+  rotateCertificate(PEMCertificatePath: string) {
     this.credential = new ClientCertificateCredential(
       this.tenantId,
       this.clientId,
@@ -836,7 +836,7 @@ class RotatingCertificateCredential implements TokenCredential {
   private credential: ClientCertificateCredential;
   private lastModified: number = 0;
 
-  constructor (tenantId: string, clientId: string, certificatePath: string) {
+  constructor(tenantId: string, clientId: string, certificatePath: string) {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.certificatePath = certificatePath;
@@ -844,13 +844,13 @@ class RotatingCertificateCredential implements TokenCredential {
     this.refreshCertificate();
   }
 
-  async getToken (scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     await this.refreshCertificate();
 
     return this.credential.getToken(scopes, options);
   }
 
-  refreshCertificate (): Promise<void> {
+  refreshCertificate(): Promise<void> {
     if (this.promise) {
       return this.promise;
     }
