@@ -17,15 +17,27 @@ output-folder: ../
 save-inputs: true
 source-code-folder-path: ./src/generated
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "1.0.0-beta.2"
 hide-clients: true
 ```
 
 ## Customizations
 
-### Mark a descriminator property as "required"
+### Don't force a scheme
 
-Newer versions of AutoRest complain during validation about the descriminator property being required
+The endpoint URL will already have a scheme, don't add yet another one.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-parameterized-host"]
+    transform: >
+      $.useSchemePrefix = false;
+```
+
+### Mark a discriminator property as "required"
+
+Newer versions of AutoRest complain during validation about the discriminator property being required
 
 ```yaml
 directive:
@@ -101,11 +113,14 @@ directive:
         if ($[definition].properties && $[definition].required === undefined) {
           const properties = Object.keys($[definition].properties);
           if (properties.length > 0) {
-            $[definition].required = properties;
+            switch (definition) {
+              case "CommunicationIdentifierModel":
+                $[definition].required = ["rawId"];
+                break;
+              default:
+                $[definition].required = properties;
+            }
           }
         }
       }
-
-      // Fix up CommunicationIdentifierModel where this huristic is wrong.
-      $["CommunicationIdentifierModel"].required = ["rawId"];
 ```
