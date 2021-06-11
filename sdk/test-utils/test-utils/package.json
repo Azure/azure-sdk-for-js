@@ -58,7 +58,7 @@
   "dependencies": {
     "mocha": "^7.1.1",
     "@azure/test-utils-recorder": "^1.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

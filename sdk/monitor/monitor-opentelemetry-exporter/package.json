@@ -99,7 +99,7 @@
     "@opentelemetry/resources": "^0.18.2",
     "@opentelemetry/semantic-conventions": "^0.18.2",
     "@opentelemetry/tracing": "^0.18.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "sideEffects": false,
   "keywords": [

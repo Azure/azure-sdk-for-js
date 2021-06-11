@@ -122,7 +122,7 @@
     "jssha": "^3.1.0",
     "long": "^4.0.0",
     "process": "^0.11.10",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "rhea-promise": "^2.0.0"
   },
   "devDependencies": {
