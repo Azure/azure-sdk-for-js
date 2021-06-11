@@ -2,10 +2,11 @@
   "name": "@azure/arm-datafactory",
   "author": "Microsoft Corporation",
   "description": "DataFactoryManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "7.7.0",
+  "version": "7.8.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^2.0.1",
-    "@azure/ms-rest-js": "^2.0.4",
+    "@azure/ms-rest-azure-js": "^2.1.0",
+    "@azure/ms-rest-js": "^2.2.0",
+    "@azure/core-auth": "^1.1.4",
     "tslib": "^1.10.0"
   },
   "keywords": [
@@ -20,7 +21,7 @@
   "module": "./esm/dataFactoryManagementClient.js",
   "types": "./esm/dataFactoryManagementClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.5.3",
+    "typescript": "^3.6.0",
     "rollup": "^1.18.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",

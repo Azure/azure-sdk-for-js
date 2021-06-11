@@ -9341,7 +9341,7 @@ export const CommonDataServiceForAppsLinkedService: msRest.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.deploymentType",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       hostName: {
@@ -9372,7 +9372,7 @@ export const CommonDataServiceForAppsLinkedService: msRest.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.authenticationType",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       username: {
@@ -9431,7 +9431,7 @@ export const DynamicsCrmLinkedService: msRest.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.deploymentType",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       hostName: {
@@ -9462,7 +9462,7 @@ export const DynamicsCrmLinkedService: msRest.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.authenticationType",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       username: {
@@ -13320,8 +13320,13 @@ export const ExcelDataset: msRest.CompositeMapper = {
         }
       },
       sheetName: {
-        required: true,
         serializedName: "typeProperties.sheetName",
+        type: {
+          name: "Object"
+        }
+      },
+      sheetIndex: {
+        serializedName: "typeProperties.sheetIndex",
         type: {
           name: "Object"
         }
@@ -15074,6 +15079,12 @@ export const StoreReadSettings: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      disableMetricsCollection: {
+        serializedName: "disableMetricsCollection",
+        type: {
+          name: "Object"
+        }
+      },
       type: {
         required: true,
         serializedName: "type",
@@ -16221,6 +16232,12 @@ export const CopySource: msRest.CompositeMapper = {
       },
       maxConcurrentConnections: {
         serializedName: "maxConcurrentConnections",
+        type: {
+          name: "Object"
+        }
+      },
+      disableMetricsCollection: {
+        serializedName: "disableMetricsCollection",
         type: {
           name: "Object"
         }
@@ -20772,6 +20789,12 @@ export const CopySink: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      disableMetricsCollection: {
+        serializedName: "disableMetricsCollection",
+        type: {
+          name: "Object"
+        }
+      },
       type: {
         required: true,
         serializedName: "type",
@@ -21129,6 +21152,28 @@ export const AzureSearchIndexSink: msRest.CompositeMapper = {
   }
 };
 
+export const MetadataItem: msRest.CompositeMapper = {
+  serializedName: "MetadataItem",
+  type: {
+    name: "Composite",
+    className: "MetadataItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Object"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureBlobFSSink: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSSink",
   type: {
@@ -21142,6 +21187,18 @@ export const AzureBlobFSSink: msRest.CompositeMapper = {
         serializedName: "copyBehavior",
         type: {
           name: "Object"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataItem"
+            }
+          }
         }
       }
     },
@@ -21785,6 +21842,18 @@ export const BlobSink: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataItem"
+            }
+          }
+        }
       }
     },
     additionalProperties: CopySink.type.additionalProperties
@@ -21804,6 +21873,12 @@ export const StoreWriteSettings: msRest.CompositeMapper = {
     modelProperties: {
       maxConcurrentConnections: {
         serializedName: "maxConcurrentConnections",
+        type: {
+          name: "Object"
+        }
+      },
+      disableMetricsCollection: {
+        serializedName: "disableMetricsCollection",
         type: {
           name: "Object"
         }
@@ -22009,7 +22084,7 @@ export const JsonWriteSettings: msRest.CompositeMapper = {
       filePattern: {
         serializedName: "filePattern",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -24189,6 +24264,13 @@ export const IntegrationRuntimeSsisProperties: msRest.CompositeMapper = {
               className: "PackageStore"
             }
           }
+        }
+      },
+      managedCredential: {
+        serializedName: "managedCredential",
+        type: {
+          name: "Composite",
+          className: "EntityReference"
         }
       }
     },
