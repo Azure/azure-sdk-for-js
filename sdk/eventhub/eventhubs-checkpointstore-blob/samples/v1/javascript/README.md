@@ -8,9 +8,9 @@ products:
 urlFragment: eventhubs-checkpointstore-blob-javascript
 ---
 
-# Azure Event Hubs client library samples for JavaScript
+# Azure Event Hubs - Checkpoint Store client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Event Hubs in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Event Hubs - Checkpoint Store in some common scenarios.
 
 | **File Name**                                                                 | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
