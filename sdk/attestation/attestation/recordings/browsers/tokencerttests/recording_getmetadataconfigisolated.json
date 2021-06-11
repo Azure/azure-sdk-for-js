@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 04 Jun 2021 20:00:55 GMT",
+    "date": "Fri, 11 Jun 2021 23:15:41 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - SCUS ProdSlices",
-    "x-ms-request-id": "1cbd4b99-911c-4624-86d2-80b069565c00"
+    "x-ms-ests-server": "2.1.11829.4 - NCUS ProdSlices",
+    "x-ms-request-id": "8c6a7c81-3263-473b-969c-124785032c00"
    }
   },
   {
@@ -34,10 +34,10 @@
    "responseHeaders": {
     "content-length": "612",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 04 Jun 2021 20:00:55 GMT",
+    "date": "Fri, 11 Jun 2021 23:15:41 GMT",
     "server": "Kestrel",
     "x-ms-maa-service-version": "1.10.01605.0002",
-    "x-ms-request-id": "00-8dd73af1a1a7776622375fa838308891-0000000000000000-00"
+    "x-ms-request-id": "00-136010ea92316c756204ec93e6dd839b-0000000000000000-00"
    }
   }
  ],
@@ -45,5 +45,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "76be4aa38d6d117acf76d639aa3f8177"
+ "hash": "7ab16762336e141d188bc21e15df4c1b"
 }
