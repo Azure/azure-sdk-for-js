@@ -23,7 +23,7 @@
 
 ## Introduction
 
-Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to authenticate, each with a flexible configuration that covers most scenarios. In this document we will go over some of these scenarios and provide small examples that can be used as a starting point for your needs.
+Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. While we have example code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/typescript) that cover the basic authentication scenarios, in this document, we will go over several use cases of Identity that are better explained with more context.
 
 ## Authenticating client side browser applications
 
@@ -37,6 +37,10 @@ For client side applications running in the browser, the `InteractiveBrowserCred
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
   - Select the API you want to use. For example, if you are using any of our management/control plane packages i.e. the ones whose name starts with `@azure/arm-`, then you should select ``Azure Service Management`.
+- Ensure that your AAD application has enabled public authentication flows:
+  - Go to Azure Active Directory in Azure portal and find your app registration.
+  - Navigate to the **Authentication** section.
+  - Under **Advanced settings**, select `yes` on the option `Allow public client flows`.
 
 Copy the client ID and tenant ID from the `Overview` section of your app registration in Azure portal and use it in the below code snippet where we authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
@@ -51,22 +55,23 @@ function withInteractiveBrowserCredential() {
 }
 ```
 
+If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azure-msal-browser-public-client).
+
 ## Authenticating server side applications
 
-For server side applications we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials that can support your specific scenario.
+For server side applications, we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials.
 
 - To get started, you can always rely on interactive authentication of your user account which requires minimum setup.
-- As you develop your application, you may want to first sign in using the developer tools like Azure CLI or Azure PowerShell to avoid signing in interactively every time you run your application.
+- As you develop your application, you may want to first sign-in using the developer tools like Azure CLI or Azure PowerShell, to avoid signing in interactively every time you run your application.
 - As you deploy your application to Azure App Service or run it in a virtual machine, you may want to make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
-You can [chain multiple credentials](#chaining-credentials) together so that they are tried sequentially until one of them succeeds.
-This is useful to make use of different authentication mechanisms based on your environment without changing your application code.
+We also provide a way to chain multiple credentials so that they try to authenticate sequentially until one of them succeeds. This will allow your code to work in multiple environments, including your local development tools. For more information, go to the section: [Chaining credentials](#chaining-credentials).
 
 One such chained credential that we provide out of the box is `DefaultAzureCredential`.
 
 ### Authenticating User Accounts
 
-Authenticating user accounts is the easiest way to get started with minimal set up. For production scenarios, we recommend authenticating using service principals or managed identity which are listed in the later sections.
+Authenticating user accounts is the easiest way to get started with minimal set-up. For production scenarios, we recommend authenticating using service principals or managed identity which are listed in the later sections.
 
 | Credential with example                                                                     | Usage                                                                                                                   | Setup required                                                   |
 | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -270,7 +275,7 @@ To authenticate a user through device code flow, use the following steps:
 
 1. Go to Azure Active Directory in Azure portal and find your app registration.
 2. Navigate to the **Authentication** section.
-3. Under **Advanced settings**, select `yes` on the option `Enable the following mobile and desktop flows`.
+3. Under **Advanced settings**, select `yes` on the option `Allow public client flows`.
 
 You also need to be the admin of your tenant to grant consent to your application when you log in for the first time.
 
@@ -280,7 +285,7 @@ If you can't configure the device code flow option on your Active Directory, the
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `UsernamePasswordCredential`. The user must **not** have Multi-factor auth turned on.
 
-Apart from user name and password, this credential requires you to know the tenant Id and client Id. To get the client Id, first [register your application][quickstart-register-app].
+Apart from user name and password, this credential requires you to know the tenant ID and client ID. To get the client ID, first [register your application][quickstart-register-app].
 
 ```ts
 /**
@@ -610,7 +615,7 @@ async function main() {
 
 Currently the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow). While future support for this is planned, users currently requiring this will have to implement their own `TokenCredential` class.
 
-In this example the `OnBehalfOfCredential` accepts a client Id, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token which can be used to authenticate client requests.
+In this example the `OnBehalfOfCredential` accepts a client ID, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token which can be used to authenticate client requests.
 
 You'll need to install the [@azure/msal-node][msal_node_npm] and the the [@azure/core-auth][core_auth] package for this sample.
 
