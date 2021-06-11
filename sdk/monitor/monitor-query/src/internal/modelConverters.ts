@@ -113,8 +113,8 @@ export function convertResponseForQueryBatch(
  * back as a JSON string, instead of being a JSON object.
  *
  * (examples, with excess stuff trimmed)
- * Correct: {"responses":[{"body":{"tables":[{"name":"PrimaryResult","columns":[{"name":"stringcolumn","type":"string"}],"rows":[["hello"]}
- * Broken: {"responses":[{"body":"{\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"stringcolumn\",\"type\":\"string\"}],\"rows\":[[\"hello\"]}
+ * Correct: `{"responses":[{"body":{"tables":[{"name":"PrimaryResult","columns":[{"name":"stringcolumn","type":"string"}],"rows":[["hello"]}`
+ * Broken: `{"responses":[{"body":"{\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"stringcolumn\",\"type\":\"string\"}],\"rows\":[[\"hello\"]}`
  *
  * Issue here: https://github.com/Azure/azure-sdk-for-js/issues/15688
  *
