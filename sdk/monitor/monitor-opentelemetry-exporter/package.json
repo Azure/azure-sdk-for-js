@@ -59,8 +59,16 @@
   "//metadata": {
     "constantPaths": [
       {
+        "path": "src/generated/applicationInsightsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
         "path": "src/utils/constants/applicationinsights.ts",
         "prefix": "packageVersion"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
