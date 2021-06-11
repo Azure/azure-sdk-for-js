@@ -266,7 +266,14 @@ export const SendChatMessageRequest: coreHttp.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "text",
+            "html",
+            "topicUpdated",
+            "participantAdded",
+            "participantRemoved"
+          ]
         }
       },
       metadata: {
@@ -341,7 +348,14 @@ export const ChatMessage: coreHttp.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "text",
+            "html",
+            "topicUpdated",
+            "participantAdded",
+            "participantRemoved"
+          ]
         }
       },
       sequenceId: {

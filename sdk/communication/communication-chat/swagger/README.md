@@ -32,3 +32,13 @@ directive:
   transform: >
     $["x-ms-client-name"] = "ChatError";
 ```
+
+### Set ChatMessageType Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ChatMessageType"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```
