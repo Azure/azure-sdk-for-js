@@ -516,9 +516,9 @@ function main () {
 
 ### Custom Credentials
 
-The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, it's possible the credential implementations provided might not meet the specific needs your application, or an application might want to avoid taking a dependency on the `@azure/identity` library.
+The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, it's possible the credential implementations provided might not meet the specific needs your application, or an application might want to avoid taking a dependency on the `@azure/identity` library. In such cases, you may want to write your own credential.
 
-In this section we'll examine some example cases in which it might make sense to write a credential on your own.
+In this section we'll examine some such scenarios.
 
 ### Authenticating with a pre-fetched access token
 
