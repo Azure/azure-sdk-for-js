@@ -23,7 +23,7 @@ npm install @azure/keyvault-admin
 ### Prerequisites
 
 - An [Azure subscription][azure-sub].
-- An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
+- An existing Azure Key Vault Managed HSM. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
 - Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 #### Getting Azure credentials
