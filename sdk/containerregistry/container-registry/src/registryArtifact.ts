@@ -14,10 +14,10 @@ import {
   TagOrderBy,
   TagPageResponse
 } from "./models";
-import { URL } from "./url";
+import { URL } from "./utils/url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
-import { extractNextLink, isDigest } from "./utils";
+import { extractNextLink, isDigest } from "./utils/utils";
 import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations";
 
 /**

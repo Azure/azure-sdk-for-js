@@ -18,7 +18,7 @@ import {
 } from "./models";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
 import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
-import { extractNextLink } from "./utils";
+import { extractNextLink } from "./utils/utils";
 
 /**
  * Options for delete repository operation.
