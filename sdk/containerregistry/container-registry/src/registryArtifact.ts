@@ -112,7 +112,7 @@ export interface RegistryArtifact {
    * @param options -
    */
   updateManifestProperties(
-    options?: UpdateManifestPropertiesOptions
+    options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
    * Retrieves properties of a tag.
@@ -315,7 +315,7 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async updateManifestProperties(
-    options: UpdateManifestPropertiesOptions = {}
+    options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-updateManifestProperties", {
       ...options,
