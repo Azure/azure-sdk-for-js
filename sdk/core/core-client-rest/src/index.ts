@@ -8,6 +8,7 @@
 
 export { createDefaultPipeline } from "./clientHelpers";
 export { CertificateCredential, isCertificateCredential } from "./certificateCredential";
+export { paginate } from "./paginate";
 export * from "./common";
 export * from "./getClient";
 export * from "./pathClientTypes";

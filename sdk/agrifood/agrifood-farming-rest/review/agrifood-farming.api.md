@@ -7,6 +7,7 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -2588,6 +2589,11 @@ export interface OAuthTokensListQueryParamProperties {
     minCreatedDateTime?: Date;
     minLastModifiedDateTime?: Date;
 }
+
+// Warning: (ae-forgotten-export) The symbol "PageableRoutes" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function paginate<TPath extends keyof PageableRoutes>(client: Client, path: TPath, options?: any): PagedAsyncIterableIterator<PageableRoutes[TPath], PageableRoutes[TPath][], {}>;
 
 // @public (undocumented)
 export interface Paths1LxjoxzFarmersFarmeridAttachmentsAttachmentidPatchRequestbodyContentMultipartFormDataSchema {

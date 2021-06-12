@@ -12,12 +12,12 @@ interface PaginateOptions {
   valuesName?: string;
 }
 
-export function paginate<T = Record<string, unknown>>(
+export function paginate<TPath extends string, TReturn = Record<string, unknown>>(
   client: Client,
-  path: string,
+  path: TPath,
   paginateOptions: PaginateOptions = {}
-): PagedAsyncIterableIterator<T, T[], {}> {
-  const iter = listAll<T>(client, path, paginateOptions);
+): PagedAsyncIterableIterator<TReturn, TReturn[], {}> {
+  const iter = listAll<TReturn>(client, path, paginateOptions);
   return {
     next() {
       return iter.next();
@@ -26,7 +26,7 @@ export function paginate<T = Record<string, unknown>>(
       return this;
     },
     byPage: () => {
-      return listPage<T>(client, path, paginateOptions);
+      return listPage<TReturn>(client, path, paginateOptions);
     },
   };
 }

@@ -5,6 +5,7 @@
 ```ts
 
 import { KeyCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
@@ -41,13 +42,14 @@ export type ClientOptions = PipelineOptions & {
     };
     baseUrl?: string;
     apiVersion?: string;
+    allowInsecureConnection?: boolean;
 };
 
 // @public
 export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
 
 // @public
-export function getClient(baseUrl: string, options?: PipelineOptions): Client;
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
@@ -62,6 +64,11 @@ export type HttpResponse = {
 
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
+
+// Warning: (ae-forgotten-export) The symbol "PaginateOptions" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function paginate<TPath extends string, TReturn = Record<string, unknown>>(client: Client, path: TPath, paginateOptions?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[], {}>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {

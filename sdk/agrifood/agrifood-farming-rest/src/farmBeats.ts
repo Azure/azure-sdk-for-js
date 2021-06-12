@@ -306,8 +306,15 @@ import {
   WeatherCreateDataDeleteJob202Response,
   WeatherCreateDataDeleteJobdefaultResponse,
 } from "./responses";
-import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
+import {
+  getClient,
+  ClientOptions,
+  Client,
+  paginate as corePaginate,
+} from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { Farmer } from "./models";
 
 export interface ApplicationDataListByFarmerId {
   /** Returns a paginated list of application data resources under a particular farm. */
@@ -1109,6 +1116,22 @@ export interface Routes {
 export type FarmBeatsRestClient = Client & {
   path: Routes;
 };
+
+interface PageableRoutes {
+  "/farmers": Farmer;
+}
+
+export function paginate<TPath extends keyof PageableRoutes>(
+  client: Client,
+  path: TPath,
+  options?: any
+): PagedAsyncIterableIterator<PageableRoutes[TPath], PageableRoutes[TPath][], {}> {
+  // In case a service needs a custom pagination logic, we could tell the generator
+  // to import from a different location instead of core-client.
+  // For example if we wanted to have an src/extensions/pagination.ts with a custom
+  // paginate implementation that follows the corePaginate type definition.
+  return corePaginate<TPath, PageableRoutes[TPath]>(client, path, options);
+}
 
 export default function FarmBeats(
   Endpoint: string,
