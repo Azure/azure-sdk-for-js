@@ -63,7 +63,12 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
           throw err;
         }
 
-        await checkWithTimeout(() => httpRequest.abortSignal?.aborted === true, 1, delayInMs);
+        const delayBetweenRechecksInMs = 1;
+        await checkWithTimeout(
+          () => httpRequest.abortSignal?.aborted === true,
+          delayBetweenRechecksInMs,
+          delayInMs
+        );
         if (httpRequest.abortSignal?.aborted) {
           throw new AbortError("The operation was aborted.");
         }
