@@ -20,7 +20,7 @@ import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
 import { RepositoryPageResponse } from "./models";
-import { extractNextLink } from ".//utils/utils";
+import { extractNextLink } from "./utils/helpers";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {
   ContainerRepository,
