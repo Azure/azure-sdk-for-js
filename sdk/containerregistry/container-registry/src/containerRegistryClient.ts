@@ -205,10 +205,9 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns a ContainerRepositoryClient instance for the given repository.
+   * Returns an instance of ContainerRepository that interacts with a container registry repository.
    *
-   * @param repositoryName - the name of repository to delete
-   * @param options - optional configuration for the operation
+   * @param repositoryName - the name of repository
    */
   public getRepository(repositoryName: string): ContainerRepository {
     if (!repositoryName) {
@@ -219,13 +218,41 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Iterates repositories.
+   * Returns an async iterable iterator to list repository names.
    *
    * Example usage:
-   * ```ts
-   * let client = new ContainerRegistryClient(url, credentials);
+   * ```javascript
+   * let client = new ContainerRegistryClient(url, credential);
    * for await (const repository of client.listRepositoryNames()) {
    *   console.log("repository name: ", repository);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * let iter = client.listRepositoryNames();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log(`repository name: ${item.value}`);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = client.listRepositoryNames().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const name of page.value) {
+   *      console.log(`  repository name: ${name}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
