@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, isNode } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { CredentialUnavailableError } from "../client/errors";
@@ -82,7 +82,7 @@ export const defaultLoggerCallback: (
   platform?: "Node" | "Browser"
 ) => msalCommon.ILoggerCallback = (
   logger: CredentialLogger,
-  platform: "Node" | "Browser" = "Node"
+  platform: "Node" | "Browser" = isNode ? "Node" : "Browser"
 ) => (level, message, containsPii): void => {
   if (containsPii) {
     return;
