@@ -85,7 +85,7 @@ stages:
                           write-host "$(Package.Archive)"
                           $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
                           write-host "Tag: $($result.Tag)"
-                          write-host "Tag: $($result.AdditionalTag)"
+                          write-host "Additional tag: $($result.AdditionalTag)"
                           echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
                           echo "##vso[task.setvariable variable=AdditionalTag]$($result.AdditionalTag)"
                         condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
@@ -96,7 +96,7 @@ stages:
                         inputs:
                           targetType: filePath
                           filePath: "eng/tools/publish-to-npm.ps1"
-                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
                           pwsh: true
 
                       - pwsh: |
