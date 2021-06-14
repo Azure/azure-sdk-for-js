@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
-
 /**
  * Parameters that enable token cache persistence in the Identity credentials.
  */

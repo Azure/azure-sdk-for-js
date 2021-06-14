@@ -185,11 +185,6 @@ export { GetTokenOptions }
 export type IdentityExtension = (context: unknown) => void;
 
 // @public
-export interface IdentityExtensionModule {
-    default: IdentityExtension;
-}
-
-// @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
@@ -245,7 +240,7 @@ export interface TokenCredentialOptions extends PipelineOptions {
 }
 
 // @public
-export function useIdentityExtension<Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>>(extensionOrModule: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void;
+export function useIdentityExtension(extension: IdentityExtension): void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {

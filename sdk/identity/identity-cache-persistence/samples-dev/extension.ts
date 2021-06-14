@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * This sample shows how to add a persistent token cache to `@azure/identity`

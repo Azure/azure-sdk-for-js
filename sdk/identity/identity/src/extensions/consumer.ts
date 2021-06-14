@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
-
 import { AzureExtensionContext, IdentityExtension } from "./provider";
 import { msalNodeFlowCacheControl } from "../msal/nodeFlows/nodeCommon";
 import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
@@ -17,32 +14,6 @@ const extensionContext: AzureExtensionContext = {
   cachePluginControl: msalNodeFlowCacheControl,
   vsCodeCredentialControl: vsCodeCredentialControl
 };
-
-/**
- * The type of a module that default-exports an IdentityExtension.
- */
-export interface IdentityExtensionModule {
-  /**
-   * An IdentityExtensionModule must export an IdentityExtension by default.
-   */
-  default: IdentityExtension;
-}
-
-/**
- * Tests a value to see if it resembles a Promise, with an optional built-in
- * cast to a generic type argument.
- *
- * @param value - a value to test for promise-likeness
- * @returns true if the value appears to be a promise
- * @internal
- */
-function isPromise<T = unknown>(value: unknown): value is PromiseLike<T> {
-  return (
-    value !== undefined &&
-    Object.prototype.hasOwnProperty.call(value, "then") &&
-    typeof (value as PromiseLike<unknown>).then === "function"
-  );
-}
 
 /**
  * Extend Azure Identity with additional functionality. Pass an extension from
@@ -93,14 +64,6 @@ function isPromise<T = unknown>(value: unknown): value is PromiseLike<T> {
  *
  * @param extension - the extension to register
  */
-export function useIdentityExtension<
-  Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>
->(extensionOrModule: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void {
-  if (isPromise<IdentityExtensionModule>(extensionOrModule)) {
-    return extensionOrModule.then(({ default: extension }) => {
-      return extension(extensionContext);
-    }) as any;
-  } else {
-    return (extensionOrModule as IdentityExtension)(extensionContext) as any;
-  }
+export function useIdentityExtension(extension: IdentityExtension): void {
+  extension(extensionContext);
 }
