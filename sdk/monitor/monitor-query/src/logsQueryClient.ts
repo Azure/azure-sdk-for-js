@@ -32,10 +32,15 @@ const defaultMonitorScope = "https://api.loganalytics.io/.default";
 export interface LogsQueryClientOptions extends PipelineOptions {
   /**
    * The host to connect to.
-   *
-   * Defaults to 'https://api.loganalytics.io/v1'.
    */
   endpoint?: string;
+
+  /**
+   * The authentication scopes to use when getting authentication tokens.
+   *
+   * Defaults to 'https://api.loganalytics.io/.default'
+   */
+  scopes?: string | string[];
 }
 
 /**
@@ -51,7 +56,10 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    const authPolicy = bearerTokenAuthenticationPolicy(tokenCredential, defaultMonitorScope);
+    const authPolicy = bearerTokenAuthenticationPolicy(
+      tokenCredential,
+      options?.scopes ?? defaultMonitorScope
+    );
 
     // This client defaults to using 'https://api.loganalytics.io/v1' as the
     // host.
@@ -59,7 +67,8 @@ export class LogsQueryClient {
 
     this._logAnalytics = new AzureLogAnalytics({
       ...serviceClientOptions,
-      $host: options?.endpoint
+      $host: options?.endpoint,
+      endpoint: options?.endpoint
     });
   }
 
