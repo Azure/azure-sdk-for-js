@@ -1,10 +1,11 @@
 # Release History
 
-## 1.2.6 (Unreleased)
+## 1.2.6 (2021-06-14)
 
 ### Key Bugs Fixed
 
 - Fixed an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+- Fixed an issue of incorrect minimum version of tslib [issue 15697](https://github.com/Azure/azure-sdk-for-js/issues/15697)
 
 ## 1.2.5 (2021-06-03)
 
