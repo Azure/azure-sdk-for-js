@@ -82,7 +82,8 @@ stages:
                         displayName: Detecting package archive
 
                       - pwsh: |
-                          $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)
+                          write-host "$(Package.Archive)"
+                          $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
                           echo "##vso[task.setvariable variable=Tag]$result.Tag"
                           echo "##vso[task.setvariable variable=AdditionalTag]$result.AdditionalTag"
                         condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
