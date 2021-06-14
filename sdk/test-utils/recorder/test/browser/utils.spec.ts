@@ -385,7 +385,7 @@ describe("Browser utils", () => {
           }
         },
         finalRequestBody:
-          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F"
+          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default"
       },
       {
         title: "scope at the middle of the request body gets replaced",
@@ -401,7 +401,7 @@ describe("Browser utils", () => {
           }
         },
         finalRequestBody:
-          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F&abc=123"
+          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default&abc=123"
       },
       {
         title: "unchanged for body with no scope",

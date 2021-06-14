@@ -420,7 +420,7 @@ describe("NodeJS utils", () => {
           'X-Content-Type-Options'
         ]);`,
         output: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fsanitized%2F")
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
           .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
           'Cache-Control',
           'no-store, no-cache',
@@ -457,7 +457,7 @@ describe("NodeJS utils", () => {
           'X-Content-Type-Options'
         ]);`,
         output: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fsanitized%2F")
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
           .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_string":"e6z-9_g"}, [
           'Cache-Control',
           'no-store, no-cache',
