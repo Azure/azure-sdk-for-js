@@ -77,7 +77,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller/README.md",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

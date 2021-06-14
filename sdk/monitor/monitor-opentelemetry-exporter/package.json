@@ -59,8 +59,16 @@
   "//metadata": {
     "constantPaths": [
       {
+        "path": "src/generated/applicationInsightsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
         "path": "src/utils/constants/applicationinsights.ts",
         "prefix": "packageVersion"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
@@ -91,7 +99,7 @@
     "@opentelemetry/resources": "^0.18.2",
     "@opentelemetry/semantic-conventions": "^0.18.2",
     "@opentelemetry/tracing": "^0.18.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "sideEffects": false,
   "keywords": [

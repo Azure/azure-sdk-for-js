@@ -93,6 +93,9 @@
     "requiredResources": {
       "Azure Service Bus": "https://docs.microsoft.com/azure/service-bus-messaging"
     },
+    "dependencyOverrides": {
+      "@azure/identity": "^1.1.0"
+    },
     "skip": [
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
@@ -122,7 +125,7 @@
     "jssha": "^3.1.0",
     "long": "^4.0.0",
     "process": "^0.11.10",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "rhea-promise": "^2.0.0"
   },
   "devDependencies": {

@@ -22,4 +22,5 @@ hide-clients: true
 use-core-v2: true
 use-extension:
   "@autorest/typescript": "C:/github/autorest.typescript"
+package-version: 1.0.0-beta.4
 ```

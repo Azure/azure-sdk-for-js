@@ -21,6 +21,7 @@ use-extension:
 azure-arm: false
 add-credentials: false
 disable-async-iterators: true
+package-version: 1.1.0-beta.1
 ```
 
 ### Rename CommunicationError to ChatError
@@ -31,4 +32,14 @@ directive:
   where: "$.definitions.CommunicationError"
   transform: >
     $["x-ms-client-name"] = "ChatError";
+```
+
+### Set ChatMessageType Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ChatMessageType"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
 ```

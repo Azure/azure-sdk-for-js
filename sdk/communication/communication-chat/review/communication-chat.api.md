@@ -110,7 +110,7 @@ export interface ChatMessageReadReceipt {
 }
 
 // @public
-export type ChatMessageType = string;
+export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
 
 // @public
 export interface ChatParticipant {

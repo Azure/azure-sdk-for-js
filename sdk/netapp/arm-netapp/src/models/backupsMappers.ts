@@ -28,6 +28,7 @@ export {
   NetAppAccount,
   NetAppAccountPatch,
   ReplicationObject,
+  RestoreStatus,
   Snapshot,
   SnapshotPolicy,
   SystemData,

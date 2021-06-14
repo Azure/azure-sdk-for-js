@@ -89,7 +89,10 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected defaultNodeMsalConfig(options: MsalNodeOptions): msalNode.Configuration {
     const clientId = options.clientId || DeveloperSignOnClientId;
     const tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    const authorityHost = getAuthorityHost(tenantId, options.authorityHost);
+    const authorityHost = getAuthorityHost(
+      tenantId,
+      options.authorityHost || process.env.AZURE_AUTHORITY_HOST
+    );
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
       authorityHost
