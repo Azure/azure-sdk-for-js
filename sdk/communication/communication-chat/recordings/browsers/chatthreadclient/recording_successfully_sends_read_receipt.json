@@ -2,11 +2,11 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2/readReceipts",
+   "url": "https://endpoint/chat/threads/19%3A3UhaYJAgmFT9pQAXBl_Zu_rxT_KhqrS08VzfQ39UqUI1%40thread.v2/readReceipts",
    "query": {
     "api-version": "2021-04-05-preview6"
    },
-   "requestBody": "{\"chatMessageId\":\"1620757481104\"}",
+   "requestBody": "{\"chatMessageId\":\"1623705338819\"}",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "3a4bac5fb39e45e34ff2ca210089c5ca"
+ "hash": "73d3c12e3f3a0509b0044b8187e2c051"
 }
