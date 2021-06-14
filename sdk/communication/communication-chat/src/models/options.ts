@@ -114,7 +114,9 @@ export type RemoveParticipantOptions = OperationOptions;
 /**
  * Options to send typing notifications.
  */
-export interface SendTypingNotificationOptions extends RestSendTypingNotificationOptions, OperationOptions {}
+export interface SendTypingNotificationOptions
+  extends RestSendTypingNotificationOptions,
+    OperationOptions {}
 
 /**
  * Options to send read receipt.

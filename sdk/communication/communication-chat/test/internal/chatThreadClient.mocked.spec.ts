@@ -349,7 +349,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const options = { senderDisplayName: "Bob Admin" }
+    const options = { senderDisplayName: "Bob Admin" };
     const result = await chatThreadClient.sendTypingNotification(options);
     assert.isTrue(result);
 
