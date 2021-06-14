@@ -11,8 +11,9 @@ description: Chat Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-chat-2021-04-05-preview6
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/896d05e37dbb00712726620b8d679cc3c3be09fb/specification/communication/data-plane/Chat/readme.md
+# tag: package-chat-2021-04-05-preview6
+# require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/896d05e37dbb00712726620b8d679cc3c3be09fb/specification/communication/data-plane/Chat/readme.md
+input-file: https://int.chatgateway.trafficmanager.net/swagger/2021-04-05-preview6/swagger.json
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:

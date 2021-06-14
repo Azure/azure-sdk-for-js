@@ -6,6 +6,7 @@ import {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
+  SendTypingNotificationRequest as RestSendTypingNotificationOptions,
   ChatMessageType
 } from "../generated/src/models";
 import { ChatParticipant } from "./models";
@@ -14,7 +15,8 @@ export {
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
-  RestListReadReceiptsOptions
+  RestListReadReceiptsOptions,
+  RestSendTypingNotificationOptions
 };
 
 /**
@@ -112,7 +114,7 @@ export type RemoveParticipantOptions = OperationOptions;
 /**
  * Options to send typing notifications.
  */
-export type SendTypingNotificationOptions = OperationOptions;
+export interface SendTypingNotificationOptions extends RestSendTypingNotificationOptions, OperationOptions {}
 
 /**
  * Options to send read receipt.
