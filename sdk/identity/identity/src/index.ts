@@ -47,6 +47,11 @@ export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswor
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 
+export {
+  VisualStudioCodeCredential,
+  VisualStudioCodeCredentialOptions
+} from "./credentials/visualStudioCodeCredential";
+
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 
 export {

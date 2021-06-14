@@ -5,10 +5,13 @@
 ```ts
 
 import { AccessToken } from '@azure/core-http';
+import { AccessToken as AccessToken_2 } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-http';
+import { GetTokenOptions as GetTokenOptions_2 } from '@azure/core-auth';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
+import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -219,7 +222,7 @@ export const logger: AzureLogger;
 export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: TokenCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
@@ -250,6 +253,17 @@ export class UsernamePasswordCredential implements TokenCredential {
 
 // @public
 export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+}
+
+// @public
+export class VisualStudioCodeCredential implements TokenCredential_2 {
+    constructor(options?: VisualStudioCodeCredentialOptions);
+    getToken(scopes: string | string[], _options?: GetTokenOptions_2): Promise<AccessToken_2>;
+    }
+
+// @public
+export interface VisualStudioCodeCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
 }
 
 

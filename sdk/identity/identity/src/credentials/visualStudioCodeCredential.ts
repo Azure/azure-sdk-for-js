@@ -172,6 +172,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     _options?: GetTokenOptions
   ): Promise<AccessToken> {
     await this.prepareOnce();
+    console.log(findCredentials);
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
         "No implementation of VisualStudioCodeCredential is available (do you need to install and use the `@azure/identity-vscode` extension package?)"
