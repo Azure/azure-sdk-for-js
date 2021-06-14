@@ -82,7 +82,7 @@ stages:
                         displayName: Detecting package archive
 
                       - pwsh: |
-                          $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $pkgArtifact -workingDirectory $(System.DefaultWorkingDirectory)
+                          $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)
                           echo "##vso[task.setvariable variable=Tag]$result.Tag"
                           echo "##vso[task.setvariable variable=AdditionalTag]$result.AdditionalTag"
                         condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
@@ -97,7 +97,7 @@ stages:
                           pwsh: true
 
                       - pwsh: |
-                          eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $pkgArtifact -workingDirectory $(System.DefaultWorkingDirectory) -npmToken $(azure-sdk-npm-token)
+                          eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory) -npmToken $(azure-sdk-npm-token)
                         displayName: 'Cleanup Npm Next Tag'
                         condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
 
