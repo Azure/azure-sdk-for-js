@@ -627,6 +627,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/synapse-artifacts",
+      "projectFolder": "sdk/synapse/synapse-artifacts-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/synapse-managed-private-endpoints",
       "projectFolder": "sdk/synapse/synapse-managed-private-endpoints",
       "versionPolicyName": "client"
