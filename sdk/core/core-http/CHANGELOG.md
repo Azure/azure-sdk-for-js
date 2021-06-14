@@ -1,5 +1,16 @@
 # Release History
 
+## 1.2.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
 ## 1.2.6 (2021-06-14)
 
 ### Key Bugs Fixed
