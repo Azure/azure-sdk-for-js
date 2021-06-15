@@ -44,6 +44,8 @@ stages:
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           Artifacts: ${{ parameters.Artifacts }}
+          ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+            TestPipeline: true
           RunUnitTests: ${{ parameters.RunUnitTests }}
           MatrixConfigs:
             - ${{ each config in parameters.MatrixConfigs }}:
