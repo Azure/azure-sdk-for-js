@@ -4,7 +4,7 @@
 /**
  * Current version of the Key Vault Admin SDK.
  */
-export const SDK_VERSION: string = "4.0.1";
+export const SDK_VERSION: string = "4.0.2";
 
 /**
  * The latest supported Key Vault service API version.
