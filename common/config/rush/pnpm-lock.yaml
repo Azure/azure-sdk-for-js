@@ -485,21 +485,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-8RoXLWoB9xQ/Knf10A/G0XrQPH49CcadN5DY9qtr2UNdGPTJrlxSr8u7+/4MFwEVQI9vtIt/dUjdOT9xoFCWww==
-  /@azure/keyvault-secrets/4.1.0:
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 1.2.4
-      '@azure/core-lro': 1.0.4
-      '@azure/core-paging': 1.1.3
-      '@azure/core-tracing': 1.0.0-preview.9
-      '@azure/logger': 1.0.2
-      '@opentelemetry/api': 0.10.2
-      tslib: 2.2.0
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-26ARU97svPkv8q6QbIdwdky8ntn+Q5mxTTCjpp9FUIyA2LTXmEL0wZDPBeM3mxZLHKnMEXQxEo+KYutrJW5xPQ==
   /@azure/keyvault-secrets/4.2.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -8470,7 +8455,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 2.0.0-beta.3
-      '@azure/keyvault-secrets': 4.1.0
+      '@azure/keyvault-secrets': 4.2.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -8518,7 +8503,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-OfJOcL5NaNu7OUJf+Jt8DYzSbQq/QSDQlRIpr604c9bx8e1LS9twUgGxg3W6y8O2TcliGOvjoJjao+X8OTD2nQ==
+      integrity: sha512-4Y/gFY7cxIWiTDNFxwPHq13jW5yOrhs/kXb7hqXt47VsNN2RtbICi0g7cxVDnPlR6z2Zs7aeXSa4TW5Ylhc4Jg==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/attestation.tgz:
