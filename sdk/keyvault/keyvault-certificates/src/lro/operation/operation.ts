@@ -25,7 +25,7 @@ import { createTraceFunction } from "../../../../keyvault-common/src";
 /**
  * @internal
  */
-export const withTrace = createTraceFunction(
+const withTrace = createTraceFunction(
   "Azure.KeyVault.Certificates.CertificateOperationPoller"
 );
 
