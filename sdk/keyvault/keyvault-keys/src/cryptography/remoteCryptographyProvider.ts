@@ -37,7 +37,11 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { createTraceFunction, TracedFunction, challengeBasedAuthenticationPolicy } from "../../../keyvault-common/src";
+import {
+  createTraceFunction,
+  TracedFunction,
+  challengeBasedAuthenticationPolicy
+} from "../../../keyvault-common/src";
 
 const withTrace: TracedFunction = createTraceFunction(
   "Azure.KeyVault.Keys.RemoteCryptographyProvider"
