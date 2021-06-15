@@ -25,9 +25,7 @@ import { createTraceFunction } from "../../../../keyvault-common/src";
 /**
  * @internal
  */
-const withTrace = createTraceFunction(
-  "Azure.KeyVault.Certificates.CertificateOperationPoller"
-);
+const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CertificateOperationPoller");
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
