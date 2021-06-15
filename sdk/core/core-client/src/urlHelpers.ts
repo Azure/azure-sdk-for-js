@@ -202,7 +202,7 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   queryString = queryString.slice(1);
   const pairs = queryString.split("&");
 
-  for (let pair of pairs) {
+  for (const pair of pairs) {
     const [name, value] = pair.split("=", 2);
     const existingValue = result.get(name);
     if (existingValue) {

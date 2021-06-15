@@ -151,7 +151,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2020-08-01");
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -166,9 +166,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01"
@@ -182,7 +181,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2022-08-01");
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -202,9 +201,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
@@ -218,7 +216,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", ["2020-08-01", "2021-08-01"]);
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -238,9 +236,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01"
@@ -254,7 +251,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", ["2022-08-01", "2023-08-01"]);
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -274,9 +271,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01&api-version=2023-08-01"
@@ -290,7 +286,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2020-08-01");
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -305,9 +301,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01"
@@ -321,7 +316,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2021-08-01");
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -336,9 +331,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2021-08-01"
@@ -352,7 +346,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", ["2021-08-01", "2022-08-01"]);
 
-    const operationSpec: OperationSpec = {
+    const res: string = appendQueryParams(url, queryParams, {
       serializer,
       httpMethod: "GET",
       responses: {},
@@ -367,9 +361,8 @@ describe("getRequestUrl", function() {
           }
         }
       ]
-    };
+    });
 
-    const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
