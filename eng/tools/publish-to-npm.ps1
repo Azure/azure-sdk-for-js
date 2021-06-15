@@ -135,7 +135,7 @@ try {
               npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
             }
             
-            if ($exitCode -ne 0) {
+            if ($LastExitCode -ne 0) {
                 Write-Host "npm publish failed with exit code $LastExitCode"
                 exit 1
             }
