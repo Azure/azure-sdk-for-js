@@ -12,6 +12,55 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
+ */
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes
+   * both an implicitly created identity and a set of user assigned identities. The type 'None'
+   * will remove any identities from the service. Possible values include: 'SystemAssigned',
+   * 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with resource. The user identity dictionary key
+   * references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: {
+    [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
+  };
+}
+
+/**
  * IpAddressOrRange object
  */
 export interface IpAddressOrRange {
@@ -222,41 +271,13 @@ export interface ApiProperties {
 }
 
 /**
- * Specific Databases to restore.
+ * Analytical storage specific properties.
  */
-export interface DatabaseRestoreResource {
+export interface AnalyticalStorageConfiguration {
   /**
-   * The name of the database available for restore.
+   * Possible values include: 'WellDefined', 'FullFidelity'
    */
-  databaseName?: string;
-  /**
-   * The names of the collections available for restore.
-   */
-  collectionNames?: string[];
-}
-
-/**
- * Parameters to indicate the information about the restore.
- */
-export interface RestoreParameters {
-  /**
-   * Describes the mode of the restore. Possible values include: 'PointInTime'
-   */
-  restoreMode?: RestoreMode;
-  /**
-   * The id of the restorable database account from which the restore has to be initiated. For
-   * example:
-   * /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}
-   */
-  restoreSource?: string;
-  /**
-   * Time to which the account has to be restored (ISO-8601 format).
-   */
-  restoreTimestampInUtc?: Date;
-  /**
-   * List of specific databases available for restore.
-   */
-  databasesToRestore?: DatabaseRestoreResource[];
+  schemaType?: AnalyticalStorageSchemaType;
 }
 
 /**
@@ -305,38 +326,6 @@ export interface CorsPolicy {
 }
 
 /**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
  * The core properties of ARM resources.
  */
 export interface ARMResourceProperties extends BaseResource {
@@ -360,7 +349,6 @@ export interface ARMResourceProperties extends BaseResource {
    */
   location?: string;
   tags?: { [propertyName: string]: string };
-  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -373,6 +361,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * 'GlobalDocumentDB'.
    */
   kind?: DatabaseAccountKind;
+  identity?: ManagedServiceIdentity;
   provisioningState?: string;
   /**
    * The connection endpoint for the Cosmos DB database account.
@@ -482,19 +471,9 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   enableAnalyticalStorage?: boolean;
   /**
-   * A unique identifier assigned to the database account
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Analytical storage specific properties.
    */
-  readonly instanceId?: string;
-  /**
-   * Enum to indicate the mode of account creation. Possible values include: 'Default', 'Restore'.
-   * Default value: 'Default'.
-   */
-  createMode?: CreateMode;
-  /**
-   * Parameters to indicate the information about the restore.
-   */
-  restoreParameters?: RestoreParameters;
+  analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
   /**
    * The object representing the policy for taking backups on an account.
    */
@@ -512,11 +491,6 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
    */
   networkAclBypassResourceIds?: string[];
-  /**
-   * The system meta data relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
 }
 
 /**
@@ -1390,55 +1364,6 @@ export interface RegionForOnlineOffline {
 }
 
 /**
- * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
- */
-export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
-  /**
-   * The principal id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clientId?: string;
-}
-
-/**
- * Identity for the resource.
- */
-export interface ManagedServiceIdentity {
-  /**
-   * The principal id of the system assigned identity. This property will only be provided for a
-   * system assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the system assigned identity. This property will only be provided for a
-   * system assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes
-   * both an implicitly created identity and a set of user assigned identities. The type 'None'
-   * will remove any identities from the service. Possible values include: 'SystemAssigned',
-   * 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
-   */
-  type?: ResourceIdentityType;
-  /**
-   * The list of user identities associated with resource. The user identity dictionary key
-   * references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   */
-  userAssignedIdentities?: {
-    [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
-  };
-}
-
-/**
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
@@ -1578,324 +1503,6 @@ export interface ThroughputSettingsGetResults extends ARMResourceProperties {
 }
 
 /**
- * Contains the possible cases for DatabaseAccountCreateUpdateProperties.
- */
-export type DatabaseAccountCreateUpdatePropertiesUnion =
-  | DatabaseAccountCreateUpdateProperties
-  | DefaultRequestDatabaseAccountCreateUpdateProperties
-  | RestoreReqeustDatabaseAccountCreateUpdateProperties;
-
-/**
- * Properties to create and update Azure Cosmos DB database accounts.
- */
-export interface DatabaseAccountCreateUpdateProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "DatabaseAccountCreateUpdateProperties";
-  /**
-   * The consistency policy for the Cosmos DB account.
-   */
-  consistencyPolicy?: ConsistencyPolicy;
-  /**
-   * An array that contains the georeplication locations enabled for the Cosmos DB account.
-   */
-  locations: Location[];
-  /**
-   * List of IpRules.
-   */
-  ipRules?: IpAddressOrRange[];
-  /**
-   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
-   */
-  isVirtualNetworkFilterEnabled?: boolean;
-  /**
-   * Enables automatic failover of the write region in the rare event that the region is
-   * unavailable due to an outage. Automatic failover will result in a new write region for the
-   * account and is chosen based on the failover priorities configured for the account.
-   */
-  enableAutomaticFailover?: boolean;
-  /**
-   * List of Cosmos DB capabilities for the account
-   */
-  capabilities?: Capability[];
-  /**
-   * List of Virtual Network ACL rules configured for the Cosmos DB account.
-   */
-  virtualNetworkRules?: VirtualNetworkRule[];
-  /**
-   * Enables the account to write in multiple locations
-   */
-  enableMultipleWriteLocations?: boolean;
-  /**
-   * Enables the cassandra connector on the Cosmos DB C* account
-   */
-  enableCassandraConnector?: boolean;
-  /**
-   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
-   * include: 'Small'
-   */
-  connectorOffer?: ConnectorOffer;
-  /**
-   * Disable write operations on metadata resources (databases, containers, throughput) via account
-   * keys
-   */
-  disableKeyBasedMetadataWriteAccess?: boolean;
-  /**
-   * The URI of the key vault
-   */
-  keyVaultKeyUri?: string;
-  /**
-   * The default identity for accessing key vault used in features like customer managed keys. The
-   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
-   * "SystemAssignedIdentity" and more.
-   */
-  defaultIdentity?: string;
-  /**
-   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * Flag to indicate whether Free Tier is enabled.
-   */
-  enableFreeTier?: boolean;
-  /**
-   * API specific properties. Currently, supported only for MongoDB API.
-   */
-  apiProperties?: ApiProperties;
-  /**
-   * Flag to indicate whether to enable storage analytics.
-   */
-  enableAnalyticalStorage?: boolean;
-  /**
-   * The object representing the policy for taking backups on an account.
-   */
-  backupPolicy?: BackupPolicyUnion;
-  /**
-   * The CORS policy for the Cosmos DB database account.
-   */
-  cors?: CorsPolicy[];
-  /**
-   * Indicates what services are allowed to bypass firewall checks. Possible values include:
-   * 'None', 'AzureServices'
-   */
-  networkAclBypass?: NetworkAclBypass;
-  /**
-   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
-   */
-  networkAclBypassResourceIds?: string[];
-}
-
-/**
- * Properties for non-restore Azure Cosmos DB database account requests.
- */
-export interface DefaultRequestDatabaseAccountCreateUpdateProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "Default";
-  /**
-   * The consistency policy for the Cosmos DB account.
-   */
-  consistencyPolicy?: ConsistencyPolicy;
-  /**
-   * An array that contains the georeplication locations enabled for the Cosmos DB account.
-   */
-  locations: Location[];
-  /**
-   * List of IpRules.
-   */
-  ipRules?: IpAddressOrRange[];
-  /**
-   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
-   */
-  isVirtualNetworkFilterEnabled?: boolean;
-  /**
-   * Enables automatic failover of the write region in the rare event that the region is
-   * unavailable due to an outage. Automatic failover will result in a new write region for the
-   * account and is chosen based on the failover priorities configured for the account.
-   */
-  enableAutomaticFailover?: boolean;
-  /**
-   * List of Cosmos DB capabilities for the account
-   */
-  capabilities?: Capability[];
-  /**
-   * List of Virtual Network ACL rules configured for the Cosmos DB account.
-   */
-  virtualNetworkRules?: VirtualNetworkRule[];
-  /**
-   * Enables the account to write in multiple locations
-   */
-  enableMultipleWriteLocations?: boolean;
-  /**
-   * Enables the cassandra connector on the Cosmos DB C* account
-   */
-  enableCassandraConnector?: boolean;
-  /**
-   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
-   * include: 'Small'
-   */
-  connectorOffer?: ConnectorOffer;
-  /**
-   * Disable write operations on metadata resources (databases, containers, throughput) via account
-   * keys
-   */
-  disableKeyBasedMetadataWriteAccess?: boolean;
-  /**
-   * The URI of the key vault
-   */
-  keyVaultKeyUri?: string;
-  /**
-   * The default identity for accessing key vault used in features like customer managed keys. The
-   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
-   * "SystemAssignedIdentity" and more.
-   */
-  defaultIdentity?: string;
-  /**
-   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * Flag to indicate whether Free Tier is enabled.
-   */
-  enableFreeTier?: boolean;
-  /**
-   * API specific properties. Currently, supported only for MongoDB API.
-   */
-  apiProperties?: ApiProperties;
-  /**
-   * Flag to indicate whether to enable storage analytics.
-   */
-  enableAnalyticalStorage?: boolean;
-  /**
-   * The object representing the policy for taking backups on an account.
-   */
-  backupPolicy?: BackupPolicyUnion;
-  /**
-   * The CORS policy for the Cosmos DB database account.
-   */
-  cors?: CorsPolicy[];
-  /**
-   * Indicates what services are allowed to bypass firewall checks. Possible values include:
-   * 'None', 'AzureServices'
-   */
-  networkAclBypass?: NetworkAclBypass;
-  /**
-   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
-   */
-  networkAclBypassResourceIds?: string[];
-}
-
-/**
- * Properties to restore Azure Cosmos DB database account.
- */
-export interface RestoreReqeustDatabaseAccountCreateUpdateProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "Restore";
-  /**
-   * The consistency policy for the Cosmos DB account.
-   */
-  consistencyPolicy?: ConsistencyPolicy;
-  /**
-   * An array that contains the georeplication locations enabled for the Cosmos DB account.
-   */
-  locations: Location[];
-  /**
-   * List of IpRules.
-   */
-  ipRules?: IpAddressOrRange[];
-  /**
-   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
-   */
-  isVirtualNetworkFilterEnabled?: boolean;
-  /**
-   * Enables automatic failover of the write region in the rare event that the region is
-   * unavailable due to an outage. Automatic failover will result in a new write region for the
-   * account and is chosen based on the failover priorities configured for the account.
-   */
-  enableAutomaticFailover?: boolean;
-  /**
-   * List of Cosmos DB capabilities for the account
-   */
-  capabilities?: Capability[];
-  /**
-   * List of Virtual Network ACL rules configured for the Cosmos DB account.
-   */
-  virtualNetworkRules?: VirtualNetworkRule[];
-  /**
-   * Enables the account to write in multiple locations
-   */
-  enableMultipleWriteLocations?: boolean;
-  /**
-   * Enables the cassandra connector on the Cosmos DB C* account
-   */
-  enableCassandraConnector?: boolean;
-  /**
-   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
-   * include: 'Small'
-   */
-  connectorOffer?: ConnectorOffer;
-  /**
-   * Disable write operations on metadata resources (databases, containers, throughput) via account
-   * keys
-   */
-  disableKeyBasedMetadataWriteAccess?: boolean;
-  /**
-   * The URI of the key vault
-   */
-  keyVaultKeyUri?: string;
-  /**
-   * The default identity for accessing key vault used in features like customer managed keys. The
-   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
-   * "SystemAssignedIdentity" and more.
-   */
-  defaultIdentity?: string;
-  /**
-   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * Flag to indicate whether Free Tier is enabled.
-   */
-  enableFreeTier?: boolean;
-  /**
-   * API specific properties. Currently, supported only for MongoDB API.
-   */
-  apiProperties?: ApiProperties;
-  /**
-   * Flag to indicate whether to enable storage analytics.
-   */
-  enableAnalyticalStorage?: boolean;
-  /**
-   * The object representing the policy for taking backups on an account.
-   */
-  backupPolicy?: BackupPolicyUnion;
-  /**
-   * The CORS policy for the Cosmos DB database account.
-   */
-  cors?: CorsPolicy[];
-  /**
-   * Indicates what services are allowed to bypass firewall checks. Possible values include:
-   * 'None', 'AzureServices'
-   */
-  networkAclBypass?: NetworkAclBypass;
-  /**
-   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
-   */
-  networkAclBypassResourceIds?: string[];
-  /**
-   * Parameters to indicate the information about the restore.
-   */
-  restoreParameters?: RestoreParameters;
-}
-
-/**
  * Parameters to create and update Cosmos DB database accounts.
  */
 export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProperties {
@@ -1905,7 +1512,103 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * 'GlobalDocumentDB'.
    */
   kind?: DatabaseAccountKind;
-  properties: DatabaseAccountCreateUpdatePropertiesUnion;
+  identity?: ManagedServiceIdentity;
+  /**
+   * The consistency policy for the Cosmos DB account.
+   */
+  consistencyPolicy?: ConsistencyPolicy;
+  /**
+   * An array that contains the georeplication locations enabled for the Cosmos DB account.
+   */
+  locations: Location[];
+  /**
+   * List of IpRules.
+   */
+  ipRules?: IpAddressOrRange[];
+  /**
+   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
+   */
+  isVirtualNetworkFilterEnabled?: boolean;
+  /**
+   * Enables automatic failover of the write region in the rare event that the region is
+   * unavailable due to an outage. Automatic failover will result in a new write region for the
+   * account and is chosen based on the failover priorities configured for the account.
+   */
+  enableAutomaticFailover?: boolean;
+  /**
+   * List of Cosmos DB capabilities for the account
+   */
+  capabilities?: Capability[];
+  /**
+   * List of Virtual Network ACL rules configured for the Cosmos DB account.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * Enables the account to write in multiple locations
+   */
+  enableMultipleWriteLocations?: boolean;
+  /**
+   * Enables the cassandra connector on the Cosmos DB C* account
+   */
+  enableCassandraConnector?: boolean;
+  /**
+   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
+   * include: 'Small'
+   */
+  connectorOffer?: ConnectorOffer;
+  /**
+   * Disable write operations on metadata resources (databases, containers, throughput) via account
+   * keys
+   */
+  disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * The default identity for accessing key vault used in features like customer managed keys. The
+   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
+   * "SystemAssignedIdentity" and more.
+   */
+  defaultIdentity?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Flag to indicate whether Free Tier is enabled.
+   */
+  enableFreeTier?: boolean;
+  /**
+   * API specific properties. Currently, supported only for MongoDB API.
+   */
+  apiProperties?: ApiProperties;
+  /**
+   * Flag to indicate whether to enable storage analytics.
+   */
+  enableAnalyticalStorage?: boolean;
+  /**
+   * Analytical storage specific properties.
+   */
+  analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+  /**
+   * The CORS policy for the Cosmos DB database account.
+   */
+  cors?: CorsPolicy[];
+  /**
+   * Indicates what services are allowed to bypass firewall checks. Possible values include:
+   * 'None', 'AzureServices'
+   */
+  networkAclBypass?: NetworkAclBypass;
+  /**
+   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
+   */
+  networkAclBypassResourceIds?: string[];
 }
 
 /**
@@ -1917,6 +1620,7 @@ export interface DatabaseAccountUpdateParameters {
    * The location of the resource group to which the resource belongs.
    */
   location?: string;
+  identity?: ManagedServiceIdentity;
   /**
    * The consistency policy for the Cosmos DB account.
    */
@@ -1993,6 +1697,10 @@ export interface DatabaseAccountUpdateParameters {
    */
   enableAnalyticalStorage?: boolean;
   /**
+   * Analytical storage specific properties.
+   */
+  analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+  /**
    * The object representing the policy for taking backups on an account.
    */
   backupPolicy?: BackupPolicyUnion;
@@ -2009,7 +1717,6 @@ export interface DatabaseAccountUpdateParameters {
    * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
    */
   networkAclBypassResourceIds?: string[];
-  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -2862,10 +2569,6 @@ export interface PeriodicModeProperties {
    * An integer representing the time (in hours) that each backup is retained
    */
   backupRetentionIntervalInHours?: number;
-  /**
-   * Enum to indicate type of backup residency. Possible values include: 'Geo', 'Local', 'Zone'
-   */
-  backupStorageRedundancy?: BackupStorageRedundancy;
 }
 
 /**
@@ -2890,143 +2593,6 @@ export interface ContinuousModeBackupPolicy {
    * Polymorphic Discriminator
    */
   type: "Continuous";
-}
-
-/**
- * Properties of the regional restorable account.
- */
-export interface RestorableLocationResource {
-  /**
-   * The location of the regional restorable account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locationName?: string;
-  /**
-   * The instance id of the regional restorable account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly regionalDatabaseAccountInstanceId?: string;
-  /**
-   * The creation time of the regional restorable database account (ISO-8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * The time at which the regional restorable database account has been deleted (ISO-8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly deletionTime?: Date;
-}
-
-/**
- * A Azure Cosmos DB restorable database account.
- */
-export interface RestorableDatabaseAccountGetResult {
-  /**
-   * The name of the global database account
-   */
-  accountName?: string;
-  /**
-   * The creation time of the restorable database account (ISO-8601 format).
-   */
-  creationTime?: Date;
-  /**
-   * The time at which the restorable database account has been deleted (ISO-8601 format).
-   */
-  deletionTime?: Date;
-  /**
-   * The API type of the restorable database account. Possible values include: 'MongoDB',
-   * 'Gremlin', 'Cassandra', 'Table', 'Sql', 'GremlinV2'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly apiType?: ApiType;
-  /**
-   * List of regions where the of the database account can be restored from.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restorableLocations?: RestorableLocationResource[];
-  /**
-   * The unique resource identifier of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The location of the resource group to which the resource belongs.
-   */
-  location?: string;
-}
-
-/**
- * Cosmos DB location metadata
- */
-export interface LocationProperties {
-  /**
-   * The current status of location in Azure.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * Flag indicating whether the location supports availability zones or not.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportsAvailabilityZone?: boolean;
-  /**
-   * Flag indicating whether the location is residency sensitive.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isResidencyRestricted?: boolean;
-  /**
-   * The properties of available backup storage redundancies.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly backupStorageRedundancies?: BackupStorageRedundancy[];
-}
-
-/**
- * Cosmos DB location get result
- */
-export interface LocationGetResult extends ARMProxyResource {
-  /**
-   * Cosmos DB location metadata
-   */
-  properties?: LocationProperties;
-}
-
-/**
- * Properties of the regional restorable account.
- */
-export interface ContinuousBackupRestoreLocation {
-  /**
-   * The name of the continuous backup restore location.
-   */
-  location?: string;
-}
-
-/**
- * Continuous backup description.
- */
-export interface ContinuousBackupInformation {
-  /**
-   * The latest restorable timestamp for a resource.
-   */
-  latestRestorableTimestamp?: string;
-}
-
-/**
- * Backup information of a resource.
- */
-export interface BackupInformation {
-  continuousBackupInformation?: ContinuousBackupInformation;
 }
 
 /**
@@ -3204,604 +2770,6 @@ export interface SqlRoleAssignmentGetResults extends ARMProxyResource {
 }
 
 /**
- * Cosmos DB SQL database resource object
- */
-export interface RestorableSqlDatabasePropertiesResourceDatabase {
-  /**
-   * Name of the Cosmos DB SQL database
-   */
-  id: string;
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * A system generated property that denotes the last updated timestamp of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _ts?: number;
-  /**
-   * A system generated property representing the resource etag required for optimistic concurrency
-   * control.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _etag?: string;
-  /**
-   * A system generated property that specified the addressable path of the collections resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _colls?: string;
-  /**
-   * A system generated property that specifies the addressable path of the users resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _users?: string;
-  /**
-   * A system generated property that specifies the addressable path of the database resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _self?: string;
-}
-
-/**
- * The resource of an Azure Cosmos DB SQL database event
- */
-export interface RestorableSqlDatabasePropertiesResource {
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * The operation type of this database event. Possible values include: 'Create', 'Replace',
-   * 'Delete', 'SystemOperation'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operationType?: OperationType;
-  /**
-   * The time when this database event happened.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly eventTimestamp?: string;
-  /**
-   * The name of the SQL database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerId?: string;
-  /**
-   * The resource ID of the SQL database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerResourceId?: string;
-  /**
-   * Cosmos DB SQL database resource object
-   */
-  database?: RestorableSqlDatabasePropertiesResourceDatabase;
-}
-
-/**
- * An Azure Cosmos DB SQL database event
- */
-export interface RestorableSqlDatabaseGetResult {
-  /**
-   * The resource of an Azure Cosmos DB SQL database event
-   */
-  resource?: RestorableSqlDatabasePropertiesResource;
-  /**
-   * The unique resource Identifier of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * Cosmos DB SQL container resource object
- */
-export interface RestorableSqlContainerPropertiesResourceContainer {
-  /**
-   * Name of the Cosmos DB SQL container
-   */
-  id: string;
-  /**
-   * The configuration of the indexing policy. By default, the indexing is automatic for all
-   * document paths within the container
-   */
-  indexingPolicy?: IndexingPolicy;
-  /**
-   * The configuration of the partition key to be used for partitioning data into multiple
-   * partitions
-   */
-  partitionKey?: ContainerPartitionKey;
-  /**
-   * Default time to live
-   */
-  defaultTtl?: number;
-  /**
-   * The unique key policy configuration for specifying uniqueness constraints on documents in the
-   * collection in the Azure Cosmos DB service.
-   */
-  uniqueKeyPolicy?: UniqueKeyPolicy;
-  /**
-   * The conflict resolution policy for the container.
-   */
-  conflictResolutionPolicy?: ConflictResolutionPolicy;
-  /**
-   * Analytical TTL.
-   */
-  analyticalStorageTtl?: number;
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * A system generated property that denotes the last updated timestamp of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _ts?: number;
-  /**
-   * A system generated property representing the resource etag required for optimistic concurrency
-   * control.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _etag?: string;
-  /**
-   * A system generated property that specifies the addressable path of the container resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _self?: string;
-}
-
-/**
- * The resource of an Azure Cosmos DB SQL container event
- */
-export interface RestorableSqlContainerPropertiesResource {
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * The operation type of this container event. Possible values include: 'Create', 'Replace',
-   * 'Delete', 'SystemOperation'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operationType?: OperationType;
-  /**
-   * The when this container event happened.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly eventTimestamp?: string;
-  /**
-   * The name of this SQL container.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerId?: string;
-  /**
-   * The resource ID of this SQL container.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerResourceId?: string;
-  /**
-   * Cosmos DB SQL container resource object
-   */
-  container?: RestorableSqlContainerPropertiesResourceContainer;
-}
-
-/**
- * An Azure Cosmos DB SQL container event
- */
-export interface RestorableSqlContainerGetResult {
-  /**
-   * The resource of an Azure Cosmos DB SQL container event
-   */
-  resource?: RestorableSqlContainerPropertiesResource;
-  /**
-   * The unique resource Identifier of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource of an Azure Cosmos DB MongoDB database event
- */
-export interface RestorableMongodbDatabasePropertiesResource {
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * The operation type of this database event. Possible values include: 'Create', 'Replace',
-   * 'Delete', 'SystemOperation'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operationType?: OperationType;
-  /**
-   * The time when this database event happened.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly eventTimestamp?: string;
-  /**
-   * The name of this MongoDB database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerId?: string;
-  /**
-   * The resource ID of this MongoDB database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerResourceId?: string;
-}
-
-/**
- * An Azure Cosmos DB MongoDB database event
- */
-export interface RestorableMongodbDatabaseGetResult {
-  /**
-   * The resource of an Azure Cosmos DB MongoDB database event
-   */
-  resource?: RestorableMongodbDatabasePropertiesResource;
-  /**
-   * The unique resource Identifier of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource of an Azure Cosmos DB MongoDB collection event
- */
-export interface RestorableMongodbCollectionPropertiesResource {
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * The operation type of this collection event. Possible values include: 'Create', 'Replace',
-   * 'Delete', 'SystemOperation'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operationType?: OperationType;
-  /**
-   * The time when this collection event happened.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly eventTimestamp?: string;
-  /**
-   * The name of this MongoDB collection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerId?: string;
-  /**
-   * The resource ID of this MongoDB collection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ownerResourceId?: string;
-}
-
-/**
- * An Azure Cosmos DB MongoDB collection event
- */
-export interface RestorableMongodbCollectionGetResult {
-  /**
-   * The resource of an Azure Cosmos DB MongoDB collection event
-   */
-  resource?: RestorableMongodbCollectionPropertiesResource;
-  /**
-   * The unique resource Identifier of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * An interface representing SeedNode.
- */
-export interface SeedNode {
-  /**
-   * IP address of this seed node.
-   */
-  ipAddress?: string;
-}
-
-/**
- * An interface representing Certificate.
- */
-export interface Certificate {
-  /**
-   * PEM formatted public key.
-   */
-  pem?: string;
-}
-
-/**
- * Properties of a managed Cassandra cluster.
- */
-export interface ClusterResourceProperties {
-  /**
-   * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
-   */
-  provisioningState?: ManagedCassandraProvisioningState;
-  /**
-   * To create an empty cluster, omit this field or set it to null. To restore a backup into a new
-   * cluster, set this field to the resource id of the backup.
-   */
-  restoreFromBackupId?: string;
-  /**
-   * Resource id of a subnet that this cluster's management service should have its network
-   * interface attached to. The subnet must be routable to all subnets that will be delegated to
-   * data centers. The resource id must be of the form '/subscriptions/<subscription
-   * id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual
-   * network>/subnets/<subnet>'
-   */
-  delegatedManagementSubnetId?: string;
-  /**
-   * Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated,
-   * the cluster may take some time to migrate to the new version.
-   */
-  cassandraVersion?: string;
-  /**
-   * If you need to set the clusterName property in cassandra.yaml to something besides the
-   * resource name of the cluster, set the value to use on this property.
-   */
-  clusterNameOverride?: string;
-  /**
-   * Which authentication method Cassandra should use to authenticate clients. 'None' turns off
-   * authentication, so should not be used except in emergencies. 'Cassandra' is the default
-   * password based authentication. The default is 'Cassandra'. Possible values include: 'None',
-   * 'Cassandra'
-   */
-  authenticationMethod?: AuthenticationMethod;
-  /**
-   * Initial password for clients connecting as admin to the cluster. Should be changed after
-   * cluster creation. Returns null on GET. This field only applies when the authenticationMethod
-   * field is 'Cassandra'.
-   */
-  initialCassandraAdminPassword?: string;
-  /**
-   * Number of hours to wait between taking a backup of the cluster. To disable backups, set this
-   * property to 0.
-   */
-  hoursBetweenBackups?: number;
-  /**
-   * Hostname or IP address where the Prometheus endpoint containing data about the managed
-   * Cassandra nodes can be reached.
-   */
-  prometheusEndpoint?: SeedNode;
-  /**
-   * Should automatic repairs run on this cluster? If omitted, this is true, and should stay true
-   * unless you are running a hybrid cluster where you are already doing your own repairs.
-   */
-  repairEnabled?: boolean;
-  /**
-   * List of TLS certificates used to authorize clients connecting to the cluster. All connections
-   * are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set,
-   * the managed Cassandra cluster will reject all connections not bearing a TLS client certificate
-   * that can be validated from one or more of the public certificates in this property.
-   */
-  clientCertificates?: Certificate[];
-  /**
-   * List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS
-   * certificates of all nodes in unmanaged data centers must be verifiable using one of the
-   * certificates provided in this property.
-   */
-  externalGossipCertificates?: Certificate[];
-  /**
-   * List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All
-   * managed nodes will present TLS client certificates that are verifiable using one of the
-   * certificates provided in this property.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly gossipCertificates?: Certificate[];
-  /**
-   * List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed
-   * node lists of all managed nodes.
-   */
-  externalSeedNodes?: SeedNode[];
-  /**
-   * List of IP addresses of seed nodes in the managed data centers. These should be added to the
-   * seed node lists of all unmanaged nodes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly seedNodes?: SeedNode[];
-}
-
-/**
- * Representation of a managed Cassandra cluster.
- */
-export interface ClusterResource extends ARMResourceProperties {
-  /**
-   * Properties of a managed Cassandra cluster.
-   */
-  properties?: ClusterResourceProperties;
-}
-
-/**
- * Specification of the keyspaces and tables to run repair on.
- */
-export interface RepairPostBody {
-  /**
-   * The name of the keyspace that repair should be run on.
-   */
-  keyspace: string;
-  /**
-   * List of tables in the keyspace to repair. If omitted, repair all tables in the keyspace.
-   */
-  tables?: string[];
-}
-
-/**
- * An interface representing ClusterNodeStatusNodesItem.
- */
-export interface ClusterNodeStatusNodesItem {
-  /**
-   * The Cassandra data center this node resides in.
-   */
-  datacenter?: string;
-  /**
-   * Indicates whether the node is functioning or not. Possible values include: 'Up', 'Down'
-   */
-  status?: NodeStatus;
-  /**
-   * The state of the node in relation to the cluster. Possible values include: 'Normal',
-   * 'Leaving', 'Joining', 'Moving', 'Stopped'
-   */
-  state?: NodeState;
-  /**
-   * The node's URL.
-   */
-  address?: string;
-  /**
-   * The amount of file system data in the data directory (e.g., 47.66 KB), excluding all content
-   * in the snapshots subdirectories. Because all SSTable data files are included, any data that is
-   * not cleaned up (such as TTL-expired cell or tombstoned data) is counted.
-   */
-  load?: string;
-  /**
-   * List of tokens.
-   */
-  tokens?: string[];
-  /**
-   * The percentage of the data owned by the node per datacenter times the replication factor
-   * (e.g., 33.3, or null if the data is not available). For example, a node can own 33% of the
-   * ring, but shows 100% if the replication factor is 3. For non-system keyspaces, the endpoint
-   * percentage ownership information is shown.
-   */
-  owns?: number;
-  /**
-   * The network ID of the node.
-   */
-  hostId?: string;
-  /**
-   * The rack this node is part of.
-   */
-  rack?: string;
-}
-
-/**
- * The status of all nodes in the cluster (as returned by 'nodetool status').
- */
-export interface ClusterNodeStatus {
-  /**
-   * Information about nodes in the cluster (corresponds to what is returned from nodetool info).
-   */
-  nodes?: ClusterNodeStatusNodesItem[];
-}
-
-/**
- * An interface representing BackupResourceProperties.
- */
-export interface BackupResourceProperties {
-  /**
-   * The time this backup was taken, formatted like 2021-01-21T17:35:21
-   */
-  timestamp?: Date;
-}
-
-/**
- * A restorable backup of a Cassandra cluster.
- */
-export interface BackupResource extends ARMProxyResource {
-  properties?: BackupResourceProperties;
-}
-
-/**
- * Properties of a managed Cassandra data center.
- */
-export interface DataCenterResourceProperties {
-  /**
-   * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
-   */
-  provisioningState?: ManagedCassandraProvisioningState;
-  /**
-   * The region this data center should be created in.
-   */
-  dataCenterLocation?: string;
-  /**
-   * Resource id of a subnet the nodes in this data center should have their network interfaces
-   * connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must
-   * be able to route to the subnet specified in the cluster's 'delegatedManagementSubnetId'
-   * property. This resource id will be of the form '/subscriptions/<subscription
-   * id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual
-   * network>/subnets/<subnet>'.
-   */
-  delegatedSubnetId?: string;
-  /**
-   * The number of nodes the data center should have. This is the desired number. After it is set,
-   * it may take some time for the data center to be scaled to match. To monitor the number of
-   * nodes and their status, use the fetchNodeStatus method on the cluster.
-   */
-  nodeCount?: number;
-  /**
-   * IP addresses for seed nodes in this data center. This is for reference. Generally you will
-   * want to use the seedNodes property on the cluster, which aggregates the seed nodes from all
-   * data centers in the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly seedNodes?: SeedNode[];
-  /**
-   * A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all
-   * nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys
-   * are allowed.
-   */
-  base64EncodedCassandraYamlFragment?: string;
-}
-
-/**
- * A managed Cassandra data center.
- */
-export interface DataCenterResource extends ARMProxyResource {
-  /**
-   * Properties of a managed Cassandra data center.
-   */
-  properties?: DataCenterResourceProperties;
-}
-
-/**
  * A private link resource
  */
 export interface PrivateLinkResource extends ARMProxyResource {
@@ -3820,174 +2788,6 @@ export interface PrivateLinkResource extends ARMProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly requiredZoneNames?: string[];
-}
-
-/**
- * Contains the possible cases for ServiceResourceProperties.
- */
-export type ServiceResourcePropertiesUnion =
-  | ServiceResourceProperties
-  | DataTransferServiceResourceProperties
-  | SqlDedicatedGatewayServiceResourceProperties;
-
-/**
- * Services response resource.
- */
-export interface ServiceResourceProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  serviceType: "ServiceResourceProperties";
-  /**
-   * Time of the last state change (ISO-8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * Possible values include: 'Cosmos.D4s', 'Cosmos.D8s', 'Cosmos.D16s'
-   */
-  instanceSize?: ServiceSize;
-  /**
-   * Instance count for the service.
-   */
-  instanceCount?: number;
-  /**
-   * Possible values include: 'Creating', 'Running', 'Updating', 'Deleting', 'Error', 'Stopped'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: ServiceStatus;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * Properties for the database account.
- */
-export interface ServiceResource extends ARMProxyResource {
-  properties?: ServiceResourcePropertiesUnion;
-}
-
-/**
- * Resource for a regional service location.
- */
-export interface RegionalServiceResource {
-  /**
-   * The regional service name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The location name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * Possible values include: 'Creating', 'Running', 'Updating', 'Deleting', 'Error', 'Stopped'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: ServiceStatus;
-}
-
-/**
- * Resource for a regional service location.
- */
-export interface DataTransferRegionalServiceResource extends RegionalServiceResource {}
-
-/**
- * Properties for DataTransferServiceResource.
- */
-export interface DataTransferServiceResourceProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  serviceType: "DataTransferServiceResourceProperties";
-  /**
-   * Time of the last state change (ISO-8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * Possible values include: 'Cosmos.D4s', 'Cosmos.D8s', 'Cosmos.D16s'
-   */
-  instanceSize?: ServiceSize;
-  /**
-   * Instance count for the service.
-   */
-  instanceCount?: number;
-  /**
-   * Possible values include: 'Creating', 'Running', 'Updating', 'Deleting', 'Error', 'Stopped'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: ServiceStatus;
-  /**
-   * An array that contains all of the locations for the service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locations?: DataTransferRegionalServiceResource[];
-}
-
-/**
- * Describes the service response property.
- */
-export interface DataTransferServiceResource {
-  properties?: DataTransferServiceResourceProperties;
-}
-
-/**
- * Resource for a regional service location.
- */
-export interface SqlDedicatedGatewayRegionalServiceResource extends RegionalServiceResource {
-  /**
-   * The regional endpoint for SqlDedicatedGateway.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sqlDedicatedGatewayEndpoint?: string;
-}
-
-/**
- * Properties for SqlDedicatedGatewayServiceResource.
- */
-export interface SqlDedicatedGatewayServiceResourceProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  serviceType: "SqlDedicatedGatewayServiceResourceProperties";
-  /**
-   * Time of the last state change (ISO-8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * Possible values include: 'Cosmos.D4s', 'Cosmos.D8s', 'Cosmos.D16s'
-   */
-  instanceSize?: ServiceSize;
-  /**
-   * Instance count for the service.
-   */
-  instanceCount?: number;
-  /**
-   * Possible values include: 'Creating', 'Running', 'Updating', 'Deleting', 'Error', 'Stopped'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: ServiceStatus;
-  /**
-   * SqlDedicatedGateway endpoint for the service.
-   */
-  sqlDedicatedGatewayEndpoint?: string;
-  /**
-   * An array that contains all of the locations for the service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
-}
-
-/**
- * Describes the service response property for SqlDedicatedGateway.
- */
-export interface SqlDedicatedGatewayServiceResource {
-  properties?: SqlDedicatedGatewayServiceResourceProperties;
 }
 
 /**
@@ -4032,62 +2832,6 @@ export interface CollectionPartitionListUsagesOptionalParams extends msRest.Requ
    * parameter is name.value (name of the metric, can have an or of multiple names).
    */
   filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RestorableSqlContainersListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The resource ID of the SQL database.
-   */
-  restorableSqlDatabaseRid?: string;
-  /**
-   * The snapshot create timestamp after which snapshots need to be listed.
-   */
-  startTime?: string;
-  /**
-   * The snapshot create timestamp before which snapshots need to be listed.
-   */
-  endTime?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RestorableSqlResourcesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The location where the restorable resources are located.
-   */
-  restoreLocation?: string;
-  /**
-   * The timestamp when the restorable resources existed.
-   */
-  restoreTimestampInUtc?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RestorableMongodbCollectionsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The resource ID of the MongoDB database.
-   */
-  restorableMongodbDatabaseRid?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RestorableMongodbResourcesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The location where the restorable resources are located.
-   */
-  restoreLocation?: string;
-  /**
-   * The timestamp when the restorable resources existed.
-   */
-  restoreTimestampInUtc?: string;
 }
 
 /**
@@ -4259,91 +3003,10 @@ export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {}
 
 /**
  * @interface
- * The List operation response, that contains the restorable database accounts and their
- * properties.
- * @extends Array<RestorableDatabaseAccountGetResult>
- */
-export interface RestorableDatabaseAccountsListResult
-  extends Array<RestorableDatabaseAccountGetResult> {}
-
-/**
- * @interface
- * The List operation response, that contains Cosmos DB locations and their properties.
- * @extends Array<LocationGetResult>
- */
-export interface LocationListResult extends Array<LocationGetResult> {}
-
-/**
- * @interface
  * A list of notebook workspace resources
  * @extends Array<NotebookWorkspace>
  */
 export interface NotebookWorkspaceListResult extends Array<NotebookWorkspace> {}
-
-/**
- * @interface
- * The List operation response, that contains the SQL database events and their properties.
- * @extends Array<RestorableSqlDatabaseGetResult>
- */
-export interface RestorableSqlDatabasesListResult extends Array<RestorableSqlDatabaseGetResult> {}
-
-/**
- * @interface
- * The List operation response, that contains the SQL container events and their properties.
- * @extends Array<RestorableSqlContainerGetResult>
- */
-export interface RestorableSqlContainersListResult extends Array<RestorableSqlContainerGetResult> {}
-
-/**
- * @interface
- * The List operation response, that contains the restorable SQL resources.
- * @extends Array<DatabaseRestoreResource>
- */
-export interface RestorableSqlResourcesListResult extends Array<DatabaseRestoreResource> {}
-
-/**
- * @interface
- * The List operation response, that contains the MongoDB database events and their properties.
- * @extends Array<RestorableMongodbDatabaseGetResult>
- */
-export interface RestorableMongodbDatabasesListResult
-  extends Array<RestorableMongodbDatabaseGetResult> {}
-
-/**
- * @interface
- * The List operation response, that contains the MongoDB collection events and their properties.
- * @extends Array<RestorableMongodbCollectionGetResult>
- */
-export interface RestorableMongodbCollectionsListResult
-  extends Array<RestorableMongodbCollectionGetResult> {}
-
-/**
- * @interface
- * The List operation response, that contains the restorable MongoDB resources.
- * @extends Array<DatabaseRestoreResource>
- */
-export interface RestorableMongodbResourcesListResult extends Array<DatabaseRestoreResource> {}
-
-/**
- * @interface
- * List of managed Cassandra clusters.
- * @extends Array<ClusterResource>
- */
-export interface ListClusters extends Array<ClusterResource> {}
-
-/**
- * @interface
- * List of restorable backups for a Cassandra cluster.
- * @extends Array<BackupResource>
- */
-export interface ListBackups extends Array<BackupResource> {}
-
-/**
- * @interface
- * List of managed Cassandra data centers and their properties.
- * @extends Array<DataCenterResource>
- */
-export interface ListDataCenters extends Array<DataCenterResource> {}
 
 /**
  * @interface
@@ -4360,19 +3023,24 @@ export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource
 export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {}
 
 /**
- * @interface
- * The List operation response, that contains the Service Resource and their properties.
- * @extends Array<ServiceResource>
- */
-export interface ServiceResourceListResult extends Array<ServiceResource> {}
-
-/**
  * Defines values for DatabaseAccountKind.
  * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'
  * @readonly
  * @enum {string}
  */
 export type DatabaseAccountKind = "GlobalDocumentDB" | "MongoDB" | "Parse";
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned"
+  | "None";
 
 /**
  * Defines values for DatabaseAccountOfferType.
@@ -4420,20 +3088,12 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
 export type ServerVersion = "3.2" | "3.6" | "4.0";
 
 /**
- * Defines values for CreateMode.
- * Possible values include: 'Default', 'Restore'
+ * Defines values for AnalyticalStorageSchemaType.
+ * Possible values include: 'WellDefined', 'FullFidelity'
  * @readonly
  * @enum {string}
  */
-export type CreateMode = "Default" | "Restore";
-
-/**
- * Defines values for RestoreMode.
- * Possible values include: 'PointInTime'
- * @readonly
- * @enum {string}
- */
-export type RestoreMode = "PointInTime";
+export type AnalyticalStorageSchemaType = "WellDefined" | "FullFidelity";
 
 /**
  * Defines values for NetworkAclBypass.
@@ -4442,14 +3102,6 @@ export type RestoreMode = "PointInTime";
  * @enum {string}
  */
 export type NetworkAclBypass = "None" | "AzureServices";
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /**
  * Defines values for IndexingMode.
@@ -4524,18 +3176,6 @@ export type TriggerType = "Pre" | "Post";
 export type TriggerOperation = "All" | "Create" | "Update" | "Delete" | "Replace";
 
 /**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned"
-  | "None";
-
-/**
  * Defines values for KeyKind.
  * Possible values include: 'primary', 'secondary', 'primaryReadonly', 'secondaryReadonly'
  * @readonly
@@ -4576,98 +3216,12 @@ export type PrimaryAggregationType = "None" | "Average" | "Total" | "Minimum" | 
 export type BackupPolicyType = "Periodic" | "Continuous";
 
 /**
- * Defines values for BackupStorageRedundancy.
- * Possible values include: 'Geo', 'Local', 'Zone'
- * @readonly
- * @enum {string}
- */
-export type BackupStorageRedundancy = "Geo" | "Local" | "Zone";
-
-/**
- * Defines values for ApiType.
- * Possible values include: 'MongoDB', 'Gremlin', 'Cassandra', 'Table', 'Sql', 'GremlinV2'
- * @readonly
- * @enum {string}
- */
-export type ApiType = "MongoDB" | "Gremlin" | "Cassandra" | "Table" | "Sql" | "GremlinV2";
-
-/**
  * Defines values for RoleDefinitionType.
  * Possible values include: 'BuiltInRole', 'CustomRole'
  * @readonly
  * @enum {string}
  */
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
-
-/**
- * Defines values for OperationType.
- * Possible values include: 'Create', 'Replace', 'Delete', 'SystemOperation'
- * @readonly
- * @enum {string}
- */
-export type OperationType = "Create" | "Replace" | "Delete" | "SystemOperation";
-
-/**
- * Defines values for ManagedCassandraProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
- * @readonly
- * @enum {string}
- */
-export type ManagedCassandraProvisioningState =
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
-
-/**
- * Defines values for AuthenticationMethod.
- * Possible values include: 'None', 'Cassandra'
- * @readonly
- * @enum {string}
- */
-export type AuthenticationMethod = "None" | "Cassandra";
-
-/**
- * Defines values for NodeStatus.
- * Possible values include: 'Up', 'Down'
- * @readonly
- * @enum {string}
- */
-export type NodeStatus = "Up" | "Down";
-
-/**
- * Defines values for NodeState.
- * Possible values include: 'Normal', 'Leaving', 'Joining', 'Moving', 'Stopped'
- * @readonly
- * @enum {string}
- */
-export type NodeState = "Normal" | "Leaving" | "Joining" | "Moving" | "Stopped";
-
-/**
- * Defines values for ServiceSize.
- * Possible values include: 'Cosmos.D4s', 'Cosmos.D8s', 'Cosmos.D16s'
- * @readonly
- * @enum {string}
- */
-export type ServiceSize = "Cosmos.D4s" | "Cosmos.D8s" | "Cosmos.D16s";
-
-/**
- * Defines values for ServiceStatus.
- * Possible values include: 'Creating', 'Running', 'Updating', 'Deleting', 'Error', 'Stopped'
- * @readonly
- * @enum {string}
- */
-export type ServiceStatus = "Creating" | "Running" | "Updating" | "Deleting" | "Error" | "Stopped";
-
-/**
- * Defines values for ServiceType.
- * Possible values include: 'SqlDedicatedGateway', 'DataTransfer'
- * @readonly
- * @enum {string}
- */
-export type ServiceType = "SqlDedicatedGateway" | "DataTransfer";
 
 /**
  * Contains response data for the get operation.
@@ -5795,26 +4349,6 @@ export type SqlResourcesCreateUpdateSqlTriggerResponse = SqlTriggerGetResults & 
 };
 
 /**
- * Contains response data for the retrieveContinuousBackupInformation operation.
- */
-export type SqlResourcesRetrieveContinuousBackupInformationResponse = BackupInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupInformation;
-  };
-};
-
-/**
  * Contains response data for the getSqlRoleDefinition operation.
  */
 export type SqlResourcesGetSqlRoleDefinitionResponse = SqlRoleDefinitionGetResults & {
@@ -6151,26 +4685,6 @@ export type SqlResourcesBeginCreateUpdateSqlTriggerResponse = SqlTriggerGetResul
      * The response body as parsed JSON or XML
      */
     parsedBody: SqlTriggerGetResults;
-  };
-};
-
-/**
- * Contains response data for the beginRetrieveContinuousBackupInformation operation.
- */
-export type SqlResourcesBeginRetrieveContinuousBackupInformationResponse = BackupInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupInformation;
   };
 };
 
@@ -7755,106 +6269,6 @@ export type GremlinResourcesBeginMigrateGremlinGraphToManualThroughputResponse =
 };
 
 /**
- * Contains response data for the listByLocation operation.
- */
-export type RestorableDatabaseAccountsListByLocationResponse = RestorableDatabaseAccountsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableDatabaseAccountsListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableDatabaseAccountsListResponse = RestorableDatabaseAccountsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableDatabaseAccountsListResult;
-  };
-};
-
-/**
- * Contains response data for the getByLocation operation.
- */
-export type RestorableDatabaseAccountsGetByLocationResponse = RestorableDatabaseAccountGetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableDatabaseAccountGetResult;
-  };
-};
-
-/**
- * Contains response data for the locationList operation.
- */
-export type LocationListResponse = LocationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LocationListResult;
-  };
-};
-
-/**
- * Contains response data for the locationGet operation.
- */
-export type LocationGetResponse = LocationGetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LocationGetResult;
-  };
-};
-
-/**
  * Contains response data for the listByDatabaseAccount operation.
  */
 export type NotebookWorkspacesListByDatabaseAccountResponse = NotebookWorkspaceListResult & {
@@ -7951,466 +6365,6 @@ export type NotebookWorkspacesBeginCreateOrUpdateResponse = NotebookWorkspace & 
      * The response body as parsed JSON or XML
      */
     parsedBody: NotebookWorkspace;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableSqlDatabasesListResponse = RestorableSqlDatabasesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableSqlDatabasesListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableSqlContainersListResponse = RestorableSqlContainersListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableSqlContainersListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableSqlResourcesListResponse = RestorableSqlResourcesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableSqlResourcesListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableMongodbDatabasesListResponse = RestorableMongodbDatabasesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableMongodbDatabasesListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableMongodbCollectionsListResponse = RestorableMongodbCollectionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableMongodbCollectionsListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RestorableMongodbResourcesListResponse = RestorableMongodbResourcesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RestorableMongodbResourcesListResult;
-  };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type CassandraClustersListBySubscriptionResponse = ListClusters & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListClusters;
-  };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type CassandraClustersListByResourceGroupResponse = ListClusters & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListClusters;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type CassandraClustersGetResponse = ClusterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterResource;
-  };
-};
-
-/**
- * Contains response data for the createUpdate operation.
- */
-export type CassandraClustersCreateUpdateResponse = ClusterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterResource;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type CassandraClustersUpdateResponse = ClusterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterResource;
-  };
-};
-
-/**
- * Contains response data for the fetchNodeStatus operation.
- */
-export type CassandraClustersFetchNodeStatusResponse = ClusterNodeStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterNodeStatus;
-  };
-};
-
-/**
- * Contains response data for the listBackupsMethod operation.
- */
-export type CassandraClustersListBackupsMethodResponse = ListBackups & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListBackups;
-  };
-};
-
-/**
- * Contains response data for the getBackup operation.
- */
-export type CassandraClustersGetBackupResponse = BackupResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResource;
-  };
-};
-
-/**
- * Contains response data for the beginCreateUpdate operation.
- */
-export type CassandraClustersBeginCreateUpdateResponse = ClusterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterResource;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type CassandraClustersBeginUpdateResponse = ClusterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterResource;
-  };
-};
-
-/**
- * Contains response data for the beginFetchNodeStatus operation.
- */
-export type CassandraClustersBeginFetchNodeStatusResponse = ClusterNodeStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterNodeStatus;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type CassandraDataCentersListResponse = ListDataCenters & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListDataCenters;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type CassandraDataCentersGetResponse = DataCenterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataCenterResource;
-  };
-};
-
-/**
- * Contains response data for the createUpdate operation.
- */
-export type CassandraDataCentersCreateUpdateResponse = DataCenterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataCenterResource;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type CassandraDataCentersUpdateResponse = DataCenterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataCenterResource;
-  };
-};
-
-/**
- * Contains response data for the beginCreateUpdate operation.
- */
-export type CassandraDataCentersBeginCreateUpdateResponse = DataCenterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataCenterResource;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type CassandraDataCentersBeginUpdateResponse = DataCenterResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataCenterResource;
   };
 };
 
@@ -8531,85 +6485,5 @@ export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpo
      * The response body as parsed JSON or XML
      */
     parsedBody: PrivateEndpointConnection;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServiceListResponse = ServiceResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ServiceResourceListResult;
-  };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type ServiceCreateResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ServiceResource;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServiceGetResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ServiceResource;
-  };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type ServiceBeginCreateResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ServiceResource;
   };
 };
