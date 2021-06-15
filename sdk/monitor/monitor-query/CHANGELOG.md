@@ -1,5 +1,16 @@
 # Release History
 
+## 1.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
 ## 1.0.0-beta.2 (2021-06-15)
 
 - Fixing issue using non-commercial clouds, where it wasn't possible to pass in an endpoint and custom
