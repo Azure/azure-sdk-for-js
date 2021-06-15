@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types/latest",
+    "paths": {
+      "@azure/core-rest-pipeline": ["./src/index"]
+    },
     "lib": ["dom"]
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

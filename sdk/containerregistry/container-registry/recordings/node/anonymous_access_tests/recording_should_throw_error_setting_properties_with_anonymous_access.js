@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "3ddd257bb6e84c712cd921c95b1ee28c";
+module.exports.hash = "36127f43aefa7c87e3b14a44690b4280";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -10,13 +10,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Thu, 27 May 2021 19:53:01 GMT',
+  'Fri, 11 Jun 2021 20:57:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '223',
   'Connection',
-  'close',
+  'keep-alive',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -34,7 +34,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '5d94de76-e04e-456c-8200-d63f5a95f6e7',
+  '1734fa53-7c6c-4b4b-a394-75314e76f0d4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -45,17 +45,17 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Thu, 27 May 2021 19:53:01 GMT',
+  'Fri, 11 Jun 2021 20:57:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
   'chunked',
   'Connection',
-  'close',
+  'keep-alive',
   'X-Ms-Correlation-Request-Id',
-  'af5dd94e-ab57-4efc-b52a-d4b673d814c2',
+  '57a8d0e2-4dc6-407c-91f7-2861b5cf845e',
   'x-ms-ratelimit-remaining-calls-per-second',
-  '166.65',
+  '166.633333',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -66,13 +66,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Thu, 27 May 2021 19:53:01 GMT',
+  'Fri, 11 Jun 2021 20:57:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '223',
   'Connection',
-  'close',
+  'keep-alive',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -90,7 +90,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  'df4d1ff8-4f9d-423a-9801-fbd6a5015c3b',
+  '2979fcf4-0622-4fa4-8737-16be8106300e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);

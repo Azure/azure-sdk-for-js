@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.11.4",
+  "version": "3.11.6",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -94,7 +94,7 @@
     "node-abort-controller": "^1.2.0",
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "universal-user-agent": "^6.0.0",
     "uuid": "^8.3.0"
   },

@@ -92,8 +92,16 @@
   "//metadata": {
     "constantPaths": [
       {
+        "path": "src/generated/src/storageClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
@@ -105,7 +113,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/storage-blob": "^12.6.0-beta.1",
     "events": "^3.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
