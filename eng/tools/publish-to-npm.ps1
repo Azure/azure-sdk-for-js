@@ -125,7 +125,7 @@ try {
 
     foreach ($p in $packageList) {
         if($p.Publish) {
-            if ($tag -ne $null) {
+            if ($tag) {
               Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
               npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
             }
