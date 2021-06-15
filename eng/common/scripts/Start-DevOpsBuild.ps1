@@ -41,9 +41,15 @@ param(
 # https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#use-a-pat-in-your-code
 $authHeader = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$DevOpsPat"))
 
-Invoke-RestMethod `
+$result = Invoke-RestMethod `
   -Uri "https://dev.azure.com/$DevOpsOrg/$DevOpsProject/_apis/pipelines/$DevOpsPipelineId/runs/?api-version=6.1-preview.1" `
   -Method POST `
   -Headers @{ Authorization = "Basic $authHeader" } `
   -ContentType 'application/json' `
   -Body $RequestBodyJson
+
+if ($result._links.web.href) {
+  Write-Host "Build URL: $($result._links.web.href)"
+}
+
+return $result
