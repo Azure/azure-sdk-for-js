@@ -35,7 +35,7 @@ export class MSALAuthCode extends MsalBrowser {
     };
     this.msalConfig.system = {
       loggerOptions: {
-        loggerCallback: defaultLoggerCallback(this.logger)
+        loggerCallback: defaultLoggerCallback(this.logger, "Browser")
       }
     };
 
