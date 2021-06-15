@@ -13,7 +13,7 @@ import { createTraceFunction } from "../../../../keyvault-common/src";
 /**
  * @internal
  */
-export const withTrace = createTraceFunction("Azure.KeyVault.Keys.RecoverDeletedKeyPoller");
+const withTrace = createTraceFunction("Azure.KeyVault.Keys.RecoverDeletedKeyPoller");
 
 /**
  * An interface representing the state of a delete key's poll operation
