@@ -17,6 +17,7 @@ if ($pkgProps -eq $null)
     exit 1
 }
 $packageName = $pkgProps.PackageId
+$packageVersion = $pkgProps.PackageVersion
 Write-Host "Package name: $packageName"
 Write-Host "Find latest and next versions in npm registry for package"
 
@@ -34,7 +35,7 @@ if ($npmVersionInfo -eq $null)
   exit 1
 }
 $nextVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.next)
-$latestVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.latest) 
+$latestVersion = [AzureEngSemanticVersion]::ParseVersionString($packageVersion) 
 
 if ( ($latestVersion -ne $null) -and ($nextVersion -ne $null) -and (!$latestVersion.IsPreRelease))
 {
