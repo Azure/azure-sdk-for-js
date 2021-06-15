@@ -1,3 +1,34 @@
+<#
+.SYNOPSIS
+Updates package README.md for publishing to docs.microsoft.com
+
+.DESCRIPTION
+Given a PackageInfo .json file, format the package README.md file with metadata
+and other information needed to release reference docs: 
+
+* Adjust README.md content to include metadata
+* Insert the package verison number in the README.md title 
+* Copy file to the appropriate location in the documentation repository
+* Copy PackageInfo .json file to the metadata location in the reference docs
+  repository. This enables the Docs CI build to onboard packages which have not
+  shipped and for which there are no entries in the metadata CSV files.
+
+.PARAMETER ArtifactLocation
+Location of the artifact information .json file. This is usually stored in build
+artifacts under packages/PackageInfo/<package-name>.json.
+
+.PARAMETER DocRepoLocation 
+Location of the root of the docs.microsoft.com reference doc location. Further
+path information is provided by $GetDocsMsMetadataForPackageFn
+
+.PARAMETER Language
+Programming language to supply to metadata
+
+.PARAMETER RepoId
+GitHub repository ID of the SDK. Typically of the form: 'Azure/azure-sdk-for-js'
+
+#>
+
 param(
   [Parameter(Mandatory = $true)]
   [string]$ArtifactLocation,
@@ -64,11 +95,11 @@ if ($packageInfo.DevVersion) {
   # docs title as well as written into the exported package info file in the 
   # docs repo where it is used for onboarding configuration.
   
-  # TODO: Use 'dev' tag in the case of JS. This must be refactored. The tag is 
-  # used because the dev version present in the package may not be published to
-  # NPM if the code in the dev package is the same as the code already published
-  # to NPM.
-  $packageInfo.Version = 'dev'
+  if ($GetDocsMsVersionForPackage -and (Test-Path "Function:$GetDocsMsVersionForPackage")) {
+    $packageInfo.Version = &$GetDocsMsVersionForPackage
+  } else { 
+    $packageInfo.Version = $packageInfo.DevVersion
+  }
 }
 
 $packageMetadataArray = (Get-CSVMetadata).Where({ $_.Package -eq $packageInfo.Name })

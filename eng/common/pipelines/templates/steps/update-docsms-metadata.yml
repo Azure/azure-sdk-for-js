@@ -47,11 +47,9 @@ steps:
 # name and attempt to checkout the daily docs branch. If the branch doesn't
 # exist, create it
 - ${{ if eq(parameters.DailyDocsBuild, 'true') }}:
-  - pwsh: |
-      $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
-      Write-Host "Daily Branch Name: $branchName"
-      Write-Host "##vso[task.setvariable variable=TargetBranchName;]$branchName"
-    displayName: Set daily docs branch name as $(TargetBranchName)
+  - template: /eng/common/pipelines/templates/steps/set-daily-docs-branch-name.yml
+    parameters:
+      DailyBranchVariableName: TargetBranchName
 
   - pwsh: |
       $ErrorActionPreference = "Continue"

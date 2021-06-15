@@ -1,10 +1,24 @@
-# This script is intended to update docs.ms CI configuration (currently supports Java, Python, C#, JS) in nightly build
-# For details on calling, check `docindex.yml`. 
+<#
+.SYNOPSIS
+Update docs.microsoft.com CI configuration with provided metadata
 
-# In this script, we will do the following business logic.
-# 1. Filter out the packages from release csv file by `New=true`, `Hide!=true`
-# 2. Compare current package list with the csv packages, and keep them in sync. Leave other packages as they are.
-# 3. Update the tarage packages back to CI config files. 
+.DESCRIPTION
+Update docs.microsoft.com CI configuration with metadata in the Azure/azure-sdk
+metadata CSV file and information in the docs.microsoft.com repo's own /metadata
+folder. The docs.microsoft.com repo's /metadata folder allows onboarding of
+packages which have not released to a central package manager.
+
+* Use packages in the Azure/azure-sdk metadata CSV where New == true and 
+  Hide != true
+* Add metadata from files in the metadata/ folder to the CSV metadata
+* Onboard new packages, update existing tracked packages, leave other packages
+  in place. (This is implemented on a per-language basis by 
+  $UpdateDocsMsPackagesFn)
+
+.PARAMETER DocRepoLocation
+Location of the docs.microsoft.com reference docs repo.
+
+#>
 param (
   [Parameter(Mandatory = $true)]
   $DocRepoLocation # the location of the cloned doc repo

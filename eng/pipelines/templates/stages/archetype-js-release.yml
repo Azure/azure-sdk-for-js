@@ -116,7 +116,7 @@ stages:
                   deploy:
                     steps:
                       - checkout: self
-                      - template: /eng/common/pipelines/templates/steps/docs-metadata-release2.yml
+                      - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           Artifacts: 
                             - Name: ${{ artifact.name }}
@@ -251,7 +251,7 @@ stages:
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
 
-        - template: /eng/common/pipelines/templates/steps/docs-metadata-release2.yml
+        - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             Artifacts: 
               - ${{ each artifact in parameters.Artifacts }}:
