@@ -36,16 +36,6 @@ export interface CloudErrorBody {
 /**
  * The response to an attestation policy management API
  */
-export interface PolicyCertificatesResponse {
-  /**
-   * An RFC7519 JSON Web Token structure containing a PolicyCertificatesResults object which contains the certificates used to validate policy changes
-   */
-  token?: string;
-}
-
-/**
- * The response to an attestation policy management API
- */
 export interface PolicyCertificatesModifyResponse {
   /**
    * An RFC7519 JSON Web Token structure whose body is a PolicyCertificatesModificationResult object.
@@ -158,26 +148,6 @@ export interface JsonWebKey {
    * Y coordinate for the Elliptic Curve point
    */
   y?: string;
-}
-
-/**
- * The body of the JWT used for the PolicyCertificates APIs
- */
-export interface AttestationCertificateManagementBody {
-  /**
-   * RFC 7517 Json Web Key describing the certificate.
-   */
-  policyCertificate?: JsonWebKey;
-}
-
-/**
- * The result of a call to retrieve policy certificates.
- */
-export interface PolicyCertificatesResult {
-  /**
-   * SHA256 Hash of the binary representation certificate which was added or removed
-   */
-  policyCertificates?: JsonWebKeySet;
 }
 
 /**
@@ -436,11 +406,6 @@ export enum KnownPolicyModification {
  * **Removed**: The specified policy object was removed.
  */
 export type PolicyModification = string;
-
-/**
- * Contains response data for the get operation.
- */
-export type PolicyCertificatesGetResponse = PolicyCertificatesResponse;
 
 /**
  * Contains response data for the add operation.

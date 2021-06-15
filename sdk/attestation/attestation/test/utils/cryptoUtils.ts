@@ -88,3 +88,12 @@ export function createX509Certificate(
 export function generateSha256Hash(buffer: string): Uint8Array {
   return hexToByteArray(jsrsasign.KJUR.crypto.Util.hashString(buffer, "sha256"));
 }
+
+/** Generate the SHA1 hash of the specified buffer.
+ *
+ * @param buffer HEX encoded buffer to be hashed.
+ * @returns SHA1 hash of the buffer.
+ */
+export function generateSha1Hash(buffer: string): Uint8Array {
+  return hexToByteArray(jsrsasign.KJUR.crypto.Util.hashHex(buffer, "sha1"));
+}

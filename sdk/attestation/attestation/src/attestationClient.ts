@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { SDK_VERSION } from "./constants";
-import { PolicyCertificates } from "./operations";
 import { GeneratedClient } from "./generated/generatedClient";
 
 import {
@@ -159,19 +158,6 @@ export class AttestationClient {
 
     this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
     this._validationOptions = options.validationOptions;
-
-    // Legacy compatibility classes functions which will be removed eventually.
-    this.policyCertificates = new PolicyCertificates(this);
-  }
-
-  /**
-   * @internal
-   * Temporary function to access the generated client, used for the operations
-   * TS files.
-   * @returns The generated client for the attestation service.
-   */
-  public getGeneratedClient(): GeneratedClient {
-    return this._client;
   }
 
   /** Attests an OpenEnclave report generated from an SGX Enclave using the OpenEnclave SDK.
@@ -384,11 +370,4 @@ export class AttestationClient {
     this._signers = this.getAttestationSigners();
     return Promise.resolve(this._signers);
   }
-
-  /**
-   * Legacy property to access policy certificate management APIs.
-   *
-   * Will be removed.
-   */
-  policyCertificates: PolicyCertificates;
 }

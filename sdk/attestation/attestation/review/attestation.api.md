@@ -13,7 +13,13 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class AttestationAdministrationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
+    // (undocumented)
+    addPolicyManagementCertificate(pemCertificate: string, signingKey: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
+    // (undocumented)
+    getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
+    // (undocumented)
+    removePolicyManagementCertificate(pemCertificate: string, signingKey: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
     setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
     }
@@ -29,24 +35,13 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
 }
 
 // @public
-export type AttestationAttestTpmResponse = TpmAttestationResponse;
-
-// @public
-export interface AttestationCertificateManagementBody {
-    policyCertificate?: JsonWebKey;
-}
-
-// @public
 export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
-    // @internal
-    getGeneratedClient(): GeneratedClient;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
-    policyCertificates: PolicyCertificates;
     }
 
 // @public
@@ -223,7 +218,7 @@ export class GeneratedClient extends GeneratedClientContext {
     // Warning: (ae-forgotten-export) The symbol "PolicyCertificates" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    policyCertificates: PolicyCertificates_2;
+    policyCertificates: PolicyCertificates;
     // Warning: (ae-forgotten-export) The symbol "SigningCertificates" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -291,18 +286,7 @@ export enum KnownPolicyModification {
 }
 
 // @public
-export class PolicyCertificates {
-    constructor(client: AttestationClient);
-    add(policyCertificateToAdd: string, options?: coreClient.OperationOptions): Promise<PolicyCertificatesAddResponse>;
-    get(options?: coreClient.OperationOptions): Promise<PolicyCertificatesGetResponse>;
-    remove(policyCertificateToRemove: string, options?: coreClient.OperationOptions): Promise<PolicyCertificatesRemoveResponse>;
-}
-
-// @public
 export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse;
-
-// @public
-export type PolicyCertificatesGetResponse = PolicyCertificatesResponse;
 
 // @public
 export interface PolicyCertificatesModificationResult {
@@ -317,16 +301,6 @@ export interface PolicyCertificatesModifyResponse {
 
 // @public
 export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse;
-
-// @public
-export interface PolicyCertificatesResponse {
-    token?: string;
-}
-
-// @public
-export interface PolicyCertificatesResult {
-    policyCertificates?: JsonWebKeySet;
-}
 
 // @public
 export type PolicyModification = string;
@@ -346,16 +320,6 @@ export class StoredAttestationPolicy {
     attestationPolicy: Uint8Array;
     static deserialize(value: unknown): StoredAttestationPolicy;
     serialize(): string;
-}
-
-// @public
-export interface TpmAttestationRequest {
-    data?: Uint8Array;
-}
-
-// @public
-export interface TpmAttestationResponse {
-    data?: Uint8Array;
 }
 
 

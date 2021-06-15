@@ -9,7 +9,12 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 
-import { GeneratedClientOptionalParams } from "./generated/models";
+import {
+  AttestationCertificateManagementBody,
+  GeneratedClientOptionalParams,
+  JsonWebKey,
+  PolicyCertificatesResult
+} from "./generated/models";
 
 import { bytesToString } from "./utils/utf8";
 
@@ -21,10 +26,18 @@ import {
   AttestationSigningKey,
   StoredAttestationPolicy,
   PolicyResult,
-  AttestationSigner
+  AttestationSigner,
+  PolicyCertificatesModificationResult
 } from "./models";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { TokenCredential } from "@azure/core-auth";
+import { TypeDeserializer } from "./utils/typeDeserializer";
+import * as Mappers from "./generated/models/mappers";
+
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+import { hexToBase64 } from "./utils/base64";
 
 /**
  * Attestation Client Construction Options.
@@ -290,6 +303,202 @@ export class AttestationAdministrationClient {
       // the actual policy object being retrieved. Serialize the token to an
       // AttestationToken object so we can access the body properties on the token.
       return new AttestationResponse<PolicyResult>(token, policyResult);
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getPolicyManagementCertificates(
+    options: AttestationAdministrationClientOperationOptions = {}
+  ): Promise<AttestationResponse<AttestationSigner[]>> {
+    const { span, updatedOptions } = createSpan(
+      "AttestationAdministrationClient-getPolicyManagementCertificates",
+      options
+    );
+    try {
+      const getCertificatesResult = await this._client.policyCertificates.get(updatedOptions);
+      // The attestation token returned from the service has a PolicyResult
+      // object as the body.
+      const token = new AttestationToken(getCertificatesResult.token);
+      token.validateToken(
+        await this.signingKeys(),
+        options.validationOptions ?? this._validationOptions
+      );
+
+      // Deserialize the PolicyResult object to retrieve the underlying policy
+      //  token
+      const jwks = TypeDeserializer.deserialize(
+        token.getBody(),
+        {
+          PolicyCertificatesResult: Mappers.PolicyCertificatesResult,
+          JsonWebKeySet: Mappers.JsonWebKeySet,
+          JsonWebKey: Mappers.JsonWebKey
+        },
+        "PolicyCertificatesResult"
+      ) as PolicyCertificatesResult;
+
+      let policyCertificates = new Array<AttestationSigner>();
+      jwks.policyCertificates.keys.forEach((jwk) => {
+        policyCertificates.push(new AttestationSigner(jwk));
+      });
+
+      return new AttestationResponse<AttestationSigner[]>(token, policyCertificates);
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async addPolicyManagementCertificate(
+    pemCertificate: string,
+    signingKey: AttestationSigningKey,
+    options: AttestationAdministrationClientOperationOptions = {}
+  ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
+    const { span, updatedOptions } = createSpan(
+      "AttestationAdministrationClient-addPolicyManagementCertificate",
+      options
+    );
+    try {
+      const cert = new jsrsasign.X509();
+      cert.readCertPEM(pemCertificate);
+      const kty = this.keyTypeFromCertificate(cert);
+
+      let jwk: JsonWebKey = {
+        x5C: [hexToBase64(cert.hex)],
+        kty: kty
+      };
+
+      const addBody: AttestationCertificateManagementBody = {
+        policyCertificate: jwk
+      };
+
+      const addCertToken = AttestationToken.create({
+        body: TypeDeserializer.serialize(
+          addBody,
+          {
+            AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
+            JsonWebKey: Mappers.JsonWebKey
+          },
+          Mappers.AttestationCertificateManagementBody
+        ),
+        signer: signingKey
+      });
+
+      const addCertificateResult = await this._client.policyCertificates.add(
+        addCertToken.serialize(),
+        updatedOptions
+      );
+      // The attestation token returned from the service has a PolicyResult
+      // object as the body.
+      const token = new AttestationToken(addCertificateResult.token);
+      token.validateToken(
+        await this.signingKeys(),
+        options.validationOptions ?? this._validationOptions
+      );
+
+      // Deserialize the PolicyCertificatesModificationResult object.
+      const result = TypeDeserializer.deserialize(
+        token.getBody(),
+        {
+          PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
+          JsonWebKeySet: Mappers.JsonWebKeySet,
+          JsonWebKey: Mappers.JsonWebKey
+        },
+        "PolicyCertificatesModificationResult"
+      ) as PolicyCertificatesModificationResult;
+
+      return new AttestationResponse<PolicyCertificatesModificationResult>(token, result);
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private keyTypeFromCertificate(cert: any): string {
+    let kty: string;
+    switch (cert.getSignatureAlgorithmName()) {
+      case "SHA256withRSA":
+      case "SHA384withRSA":
+      case "SHA512withRSA":
+        kty = "RSA";
+        break;
+      case "SHA256withECDSA":
+      case "SHA384withECDSA":
+        kty = "EC";
+        break;
+      default:
+        kty = "RSA";
+        break;
+    }
+    return kty;
+  }
+
+  public async removePolicyManagementCertificate(
+    pemCertificate: string,
+    signingKey: AttestationSigningKey,
+    options: AttestationAdministrationClientOperationOptions = {}
+  ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
+    const { span, updatedOptions } = createSpan(
+      "AttestationAdministrationClient-removePolicyManagementCertificate",
+      options
+    );
+    try {
+      const cert = new jsrsasign.X509();
+      cert.readCertPEM(pemCertificate);
+      const kty = this.keyTypeFromCertificate(cert);
+
+      let jwk: JsonWebKey = {
+        x5C: [hexToBase64(cert.hex)],
+        kty: kty
+      };
+
+      const addBody: AttestationCertificateManagementBody = {
+        policyCertificate: jwk
+      };
+
+      const removeCertToken = AttestationToken.create({
+        body: TypeDeserializer.serialize(
+          addBody,
+          {
+            AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
+            JsonWebKey: Mappers.JsonWebKey
+          },
+          Mappers.AttestationCertificateManagementBody
+        ),
+        signer: signingKey
+      });
+
+      const removeCertificateResult = await this._client.policyCertificates.remove(
+        removeCertToken.serialize(),
+        updatedOptions
+      );
+      // The attestation token returned from the service has a PolicyResult
+      // object as the body.
+      const token = new AttestationToken(removeCertificateResult.token);
+      token.validateToken(
+        await this.signingKeys(),
+        options.validationOptions ?? this._validationOptions
+      );
+
+      // Deserialize the PolicyCertificatesModificationResult object.
+      const result = TypeDeserializer.deserialize(
+        token.getBody(),
+        {
+          PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
+          JsonWebKeySet: Mappers.JsonWebKeySet,
+          JsonWebKey: Mappers.JsonWebKey
+        },
+        "PolicyCertificatesModificationResult"
+      ) as PolicyCertificatesModificationResult;
+
+      return new AttestationResponse<PolicyCertificatesModificationResult>(token, result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

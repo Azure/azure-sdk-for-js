@@ -6,10 +6,20 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { verifyAttestationToken } from "../utils/helpers";
+import {
+  createRecordedAdminClient,
+  createRecorder,
+  getIsolatedSigningKey
+} from "../utils/recordedClient";
+import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils";
+import { KnownCertificateModification } from "../../src/generated";
+
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+import { byteArrayToHex } from "../../src/utils/base64";
 
 describe("PolicyManagementTests ", function() {
   let recorder: Recorder;
@@ -22,64 +32,63 @@ describe("PolicyManagementTests ", function() {
     await recorder.stop();
   });
 
-  it("#GetPolicyManagementCertificatesAad", async () => {
-    const client = createRecordedClient("AAD");
+  it("#getPolicyCertificates - AAD", async () => {
+    const client = createRecordedAdminClient("AAD");
 
-    const policyResult = await client.policyCertificates.get();
+    const policyResult = await client.getPolicyManagementCertificates();
     const result = policyResult.token;
+    assert(policyResult.value.length === 0);
     assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      const tokenResult = await verifyAttestationToken(
-        result,
-        await client.getAttestationSigners(),
-        "AAD"
-      );
-      assert.isDefined(tokenResult);
-      if (tokenResult) {
-        const tokenKeys = tokenResult["x-ms-policy-certificates"];
-        assert.equal(tokenKeys.keys.length, 0);
-      }
-    }
   });
 
-  it("#GetPolicyShared", async () => {
-    const client = createRecordedClient("Shared");
-    const policyResult = await client.policyCertificates.get();
+  it("#getPolicyCertificates - Shared", async () => {
+    const client = createRecordedAdminClient("Shared");
+    const policyResult = await client.getPolicyManagementCertificates();
 
     const result = policyResult.token;
+    assert(policyResult.value.length === 0);
     assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      const tokenResult = await verifyAttestationToken(
-        result,
-        await client.getAttestationSigners(),
-        "Shared"
-      );
-      assert.isDefined(tokenResult);
-      if (tokenResult) {
-        const tokenKeys = tokenResult["x-ms-policy-certificates"];
-        assert.equal(tokenKeys.keys.length, 0);
-      }
-    }
   });
 
-  it("#GetPolicyIsolated", async () => {
-    const client = createRecordedClient("Isolated");
-    const policyResult = await client.policyCertificates.get();
+  it("#getPolicyCertificates - Isolated", async () => {
+    const client = createRecordedAdminClient("Isolated");
+    const policyResult = await client.getPolicyManagementCertificates();
 
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      const tokenResult = await verifyAttestationToken(
-        result,
-        await client.getAttestationSigners(),
-        "Isolated"
-      );
-      assert.isDefined(tokenResult);
-      if (tokenResult) {
-        const tokenKeys = tokenResult["x-ms-policy-certificates"];
-        // The isolated client has a single management client, unlike the others.
-        assert.equal(tokenKeys.keys.length, 1);
-      }
-    }
+    assert(policyResult.value !== undefined);
+    assert(policyResult.value?.length !== 0);
+  });
+
+  it("setPolicyCertificates", async () => {
+    recorder.skip(
+      undefined,
+      "setPolicyCertificate APIs require keys and certificates from the environment, which are not available in playback"
+    );
+
+    const client = createRecordedAdminClient("Isolated");
+
+    const signingKeys = getIsolatedSigningKey();
+
+    const [rsaKey, rsaPubKey] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
+
+    // Decode the PEM encoded certificate for validation later.
+    const cert = new jsrsasign.X509();
+    cert.readCertPEM(rsaCertificate);
+
+    const expectedThumbprint = byteArrayToHex(generateSha1Hash(cert.hex)).toUpperCase();
+
+    // Add a new signing certificate.
+    const setResult = await client.addPolicyManagementCertificate(rsaCertificate, signingKeys);
+    assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
+    assert(setResult.value.certificateThumbprint === expectedThumbprint);
+
+    const removeResult = await client.removePolicyManagementCertificate(
+      rsaCertificate,
+      signingKeys
+    );
+    assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
+    assert(setResult.value.certificateThumbprint === expectedThumbprint);
   });
 });

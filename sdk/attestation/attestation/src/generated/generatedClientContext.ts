@@ -40,6 +40,16 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
+
+    const packageDetails = `azsdk-js-attestation/1.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+    options.userAgentOptions = {
+      userAgentPrefix: userAgentPrefix
+    };
+
     if (!options.credentialScopes) {
       options.credentialScopes = ["https://attest.azure.net/.default"];
     }

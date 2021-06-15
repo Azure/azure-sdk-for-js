@@ -78,6 +78,7 @@ export const PolicyCertificatesResponse: coreClient.CompositeMapper = {
           )
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }
@@ -98,6 +99,7 @@ export const PolicyCertificatesModifyResponse: coreClient.CompositeMapper = {
           )
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }
@@ -276,6 +278,7 @@ export const JsonWebKeySet: coreClient.CompositeMapper = {
     modelProperties: {
       keys: {
         serializedName: "keys",
+        required: true,
         type: {
           name: "Sequence",
           element: {

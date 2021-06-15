@@ -56,3 +56,34 @@ directive:
     $.required = [ "token" ];
 ```
 
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesModifyResponse
+  transform: >
+    $.required = [ "token" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesResponse
+  transform: >
+    $.required = [ "token", "x-ms-policy-certificates" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesResult
+  transform: >
+    $.required = [ "x-ms-policy-certificates" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.JSONWebKeySet
+  transform: >
+    $.required = [ "keys" ];
+```

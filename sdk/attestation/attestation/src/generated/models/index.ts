@@ -31,13 +31,13 @@ export interface CloudErrorBody {
 /** The response to an attestation policy management API */
 export interface PolicyCertificatesResponse {
   /** An RFC7519 JSON Web Token structure containing a PolicyCertificatesResults object which contains the certificates used to validate policy changes */
-  token?: string;
+  token: string;
 }
 
 /** The response to an attestation policy management API */
 export interface PolicyCertificatesModifyResponse {
   /** An RFC7519 JSON Web Token structure whose body is a PolicyCertificatesModificationResult object. */
-  token?: string;
+  token: string;
 }
 
 /** Attestation request for Intel SGX enclaves */
@@ -106,7 +106,7 @@ export interface JsonWebKeySet {
    * can choose to assign a meaning to the order for their purposes, if
    * desired.
    */
-  keys?: JsonWebKey[];
+  keys: JsonWebKey[];
 }
 
 export interface JsonWebKey {
@@ -190,7 +190,7 @@ export interface AttestationCertificateManagementBody {
 /** The result of a call to retrieve policy certificates. */
 export interface PolicyCertificatesResult {
   /** SHA256 Hash of the binary representation certificate which was added or removed */
-  policyCertificates?: JsonWebKeySet;
+  policyCertificates: JsonWebKeySet;
 }
 
 /** The result of a policy certificate modification */
@@ -304,7 +304,7 @@ export const enum KnownAttestationType {
  * Defines values for AttestationType. \
  * {@link KnownAttestationType} can be used interchangeably with AttestationType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **SgxEnclave**: Intel Software Guard eXtensions \
  * **OpenEnclave**: OpenEnclave extensions to SGX \
  * **Tpm**: Edge TPM Virtualization Based Security
@@ -323,7 +323,7 @@ export const enum KnownDataType {
  * Defines values for DataType. \
  * {@link KnownDataType} can be used interchangeably with DataType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Binary**: The contents of the field should be treated as binary and not interpreted by MAA. \
  * **JSON**: The contents of the field should be treated as a JSON object and may be further interpreted by MAA.
  */
@@ -341,7 +341,7 @@ export const enum KnownCertificateModification {
  * Defines values for CertificateModification. \
  * {@link KnownCertificateModification} can be used interchangeably with CertificateModification,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **IsPresent**: After the operation was performed, the certificate is in the set of certificates. \
  * **IsAbsent**: After the operation was performed, the certificate is no longer present in the set of certificates.
  */
@@ -359,7 +359,7 @@ export const enum KnownPolicyModification {
  * Defines values for PolicyModification. \
  * {@link KnownPolicyModification} can be used interchangeably with PolicyModification,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Updated**: The specified policy object was updated. \
  * **Removed**: The specified policy object was removed.
  */
@@ -372,7 +372,8 @@ export interface PolicyGetOptionalParams extends coreClient.OperationOptions {}
 export type PolicyGetResponse = PolicyResponse;
 
 /** Optional parameters. */
-export interface PolicySetModelOptionalParams extends coreClient.OperationOptions {}
+export interface PolicySetModelOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the set operation. */
 export type PolicySetModelResponse = PolicyResponse;
