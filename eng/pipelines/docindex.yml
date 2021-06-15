@@ -73,3 +73,11 @@ jobs:
           TargetRepoOwner: $(DocRepoOwner)
           WorkingDirectory: $(DocRepoLocation)
           ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
+
+      - template: /eng/common/pipelines/templates/steps/start-devops-build.yml
+        parameters:
+          DevOpsPat: $(azuresdk-apidrop-devops-queue-build-pat)
+          DevOpsOrg: apidrop
+          DevOpsProject: Content%20CI
+          DevOpsPipelineId: 3452
+          RequestBodyJson: '{ "variables": { "params": { "value": "{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }" } } }'
