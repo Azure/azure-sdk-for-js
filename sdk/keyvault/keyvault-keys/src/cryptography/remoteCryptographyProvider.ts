@@ -23,7 +23,7 @@ import {
   SignOptions,
   SignResult
 } from "../cryptographyClientModels";
-import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common";
+import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common/src";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
 import { KeyVaultClient } from "../generated";
