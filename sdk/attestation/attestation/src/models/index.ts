@@ -53,26 +53,6 @@ export interface PolicyCertificatesModifyResponse {
   token?: string;
 }
 
-/**
- * Attestation request for Trusted Platform Module (TPM) attestation.
- */
-export interface TpmAttestationRequest {
-  /**
-   * Protocol data containing artifacts for attestation.
-   */
-  data?: Uint8Array;
-}
-
-/**
- * Attestation response for Trusted Platform Module (TPM) attestation.
- */
-export interface TpmAttestationResponse {
-  /**
-   * Protocol data containing attestation service response.
-   */
-  data?: Uint8Array;
-}
-
 export interface JsonWebKeySet {
   /**
    * The value of the "keys" parameter is an array of JWK values.  By
@@ -471,8 +451,3 @@ export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse;
  * Contains response data for the remove operation.
  */
 export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse;
-
-/**
- * Contains response data for the attestTpm operation.
- */
-export type AttestationAttestTpmResponse = TpmAttestationResponse;
