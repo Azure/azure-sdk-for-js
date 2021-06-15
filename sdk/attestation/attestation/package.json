@@ -61,7 +61,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/attestation.d.ts",
+    "types/latest/",
+    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
