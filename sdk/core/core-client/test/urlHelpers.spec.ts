@@ -372,7 +372,7 @@ describe("getRequestUrl", function() {
     const res: string = appendQueryParams(url, queryParams, operationSpec);
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2021-08-01,2022-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
     );
   });
 });

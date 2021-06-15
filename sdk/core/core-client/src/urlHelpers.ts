@@ -258,7 +258,7 @@ export function appendQueryParams(
               }
             } else {
               if (Array.isArray(value)) {
-                combinedParams.set(name, value.join(","));
+                combinedParams.set(name, [existingValue, ...value]);
               } else {
                 combinedParams.set(name, value);
               }
