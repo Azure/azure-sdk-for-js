@@ -18,7 +18,7 @@ disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
-package-version: 4.2.1
+package-version: 4.3.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
