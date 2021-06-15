@@ -39,7 +39,7 @@ export function getRequestUrl(
   }
 
   const queryParams = calculateQueryParameters(operationSpec, operationArguments, fallbackObject);
-  requestUrl = appendQueryParams(requestUrl, queryParams);
+  requestUrl = appendQueryParams(requestUrl, queryParams, operationSpec);
 
   return requestUrl;
 }
@@ -192,23 +192,39 @@ function calculateQueryParameters(
   return result;
 }
 
-function simpleParseQueryParams(queryString: string): Array<[string, string]> {
+function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
+  const result: Map<string, string | string[]> = new Map<string, string | string[]>();
   if (!queryString || queryString[0] !== "?") {
-    return [];
+    return result;
   }
 
   // remove the leading ?
   queryString = queryString.slice(1);
-
   const pairs = queryString.split("&");
 
-  return pairs.map((pair) => {
+  for (let pair of pairs) {
     const [name, value] = pair.split("=", 2);
-    return [name, value];
-  });
+    const existingValue = result.get(name);
+    if (existingValue) {
+      if (Array.isArray(existingValue)) {
+        result.set(name, [...existingValue, value]);
+      } else {
+        result.set(name, [existingValue, value]);
+      }
+    } else {
+      result.set(name, value);
+    }
+  }
+
+  return result;
 }
 
-function appendQueryParams(url: string, queryParams: Map<string, string | string[]>): string {
+/** @internal */
+export function appendQueryParams(
+  url: string,
+  queryParams: Map<string, string | string[]>,
+  operationSpec: OperationSpec
+): string {
   if (queryParams.size === 0) {
     return url;
   }
@@ -218,15 +234,38 @@ function appendQueryParams(url: string, queryParams: Map<string, string | string
   // QUIRK: parsedUrl.searchParams will have their name/value pairs decoded, which
   // can change their meaning to the server, such as in the case of a SAS signature.
   // To avoid accidentally un-encoding a query param, we parse the key/values ourselves
-  const existingParams = simpleParseQueryParams(parsedUrl.search);
-  const combinedParams = new Map<string, string | string[]>(existingParams);
+  const combinedParams = simpleParseQueryParams(parsedUrl.search);
 
   for (const [name, value] of queryParams) {
     const existingValue = combinedParams.get(name);
     if (Array.isArray(existingValue)) {
-      existingValue.push(...value);
+      if (Array.isArray(value)) {
+        if (existingValue.toString() !== value.toString()) {
+          existingValue.push(...value);
+        }
+      } else {
+        existingValue.push(value);
+      }
     } else if (existingValue) {
-      combinedParams.set(name, [existingValue, ...value]);
+      if (operationSpec.queryParameters?.length) {
+        for (const queryParameter of operationSpec.queryParameters) {
+          if (queryParameter.mapper.serializedName === name) {
+            if (queryParameter.mapper.type.name === "Sequence") {
+              if (Array.isArray(value)) {
+                combinedParams.set(name, [existingValue, ...value]);
+              } else {
+                combinedParams.set(name, [existingValue, value]);
+              }
+            } else {
+              if (Array.isArray(value)) {
+                combinedParams.set(name, value.join(","));
+              } else {
+                combinedParams.set(name, value);
+              }
+            }
+          }
+        }
+      }
     } else {
       combinedParams.set(name, value);
     }
