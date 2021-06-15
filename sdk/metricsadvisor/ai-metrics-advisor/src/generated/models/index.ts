@@ -1132,19 +1132,19 @@ export interface EnrichmentStatus {
 
 export interface AzureSQLConnectionStringParam {
   /** The connection string to access the Azure SQL. */
-  connectionString: string;
+  connectionString?: string;
 }
 
 export interface DataLakeGen2SharedKeyParam {
   /** The account key to access the Azure Data Lake Storage Gen2. */
-  accountKey: string;
+  accountKey?: string;
 }
 
 export interface ServicePrincipalParam {
   /** The client id of the service principal. */
   clientId: string;
   /** The client secret of the service principal. */
-  clientSecret: string;
+  clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
 }
@@ -1155,7 +1155,7 @@ export interface ServicePrincipalInKVParam {
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
   /** The Client Secret to access the Key Vault. */
-  keyVaultClientSecret: string;
+  keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;
   /** The secret name of the service principal's client secret in the Key Vault. */
@@ -1816,7 +1816,6 @@ export type Granularity =
   | "Daily"
   | "Hourly"
   | "Minutely"
-  | "Secondly"
   | "Custom";
 /** Defines values for EntityStatus. */
 export type EntityStatus = "Active" | "Paused";
