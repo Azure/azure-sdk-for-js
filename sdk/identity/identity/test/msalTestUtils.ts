@@ -52,6 +52,8 @@ export function msalNodeTestSetup(
       (recording: string): string =>
         recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
       (recording: string): string =>
+        recording.replace(/refresh_token=[^&]*/g, `refresh_token=refresh_token`),
+      (recording: string): string =>
         recording.replace(
           /client-request-id=[a-z0-9-]*/g,
           `client-request-id=${playbackValues.correlationId}`

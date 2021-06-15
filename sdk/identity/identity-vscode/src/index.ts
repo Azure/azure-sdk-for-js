@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { AzureExtensionContext, IdentityExtension } from "../../identity/src/extensions/provider";
