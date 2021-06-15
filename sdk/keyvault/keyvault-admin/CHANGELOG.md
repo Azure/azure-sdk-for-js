@@ -1,5 +1,15 @@
 # Release History
 
+## 4.1.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
 ## 4.0.0 (2021-06-15)
 
 This release marks the general availability of the `@azure/keyvault-admin` package.
