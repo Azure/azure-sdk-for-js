@@ -6,6 +6,8 @@ import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 
+const FIVE_MINUTES = 300000
+
 /**
  * @hidden
  * This internal class implements the logic for endpoint management for geo-replicated database accounts.
@@ -42,6 +44,7 @@ export class GlobalEndpointManager {
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
+    this.backgroundRefreshEndpointList();
   }
 
   /**
@@ -258,6 +261,14 @@ export class GlobalEndpointManager {
     }
 
     return null;
+  }
+
+  private async backgroundRefreshEndpointList() {
+    this.isRefreshing = true
+    this.refreshEndpointList();
+    setTimeout(() => {
+      this.backgroundRefreshEndpointList()
+    }, FIVE_MINUTES)
   }
 }
 
