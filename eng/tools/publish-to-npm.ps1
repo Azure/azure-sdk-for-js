@@ -125,9 +125,17 @@ try {
 
     foreach ($p in $packageList) {
         if($p.Publish) {
-            Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-            npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
-            if ($LastExitCode -ne 0) {
+            if ($tag -ne $null) {
+              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+            }
+            else {
+              Write-Host "Tag is empty"
+              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
+              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
+            }
+            
+            if ($exitCode -ne 0) {
                 Write-Host "npm publish failed with exit code $LastExitCode"
                 exit 1
             }
