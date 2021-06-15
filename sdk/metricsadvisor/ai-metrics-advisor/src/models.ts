@@ -181,14 +181,7 @@ export type DataFeedAccessMode = "Private" | "Public";
  */
 export type DataFeedGranularity =
   | {
-      granularityType:
-        | "Yearly"
-        | "Monthly"
-        | "Weekly"
-        | "Daily"
-        | "Hourly"
-        | "PerMinute"
-        | "PerSecond";
+      granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute";
     }
   | {
       granularityType: "Custom";
