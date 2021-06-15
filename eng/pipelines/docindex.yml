@@ -80,4 +80,7 @@ jobs:
           DevOpsOrg: apidrop
           DevOpsProject: Content%20CI
           DevOpsPipelineId: 3452
-          RequestBodyJson: '{ "variables": { "params": { "value": "{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }" } } }'
+          # Chomp syntax allows us to use leading and ending single quotes 
+          # without escaping
+          RequestBodyJson: >-
+            '{ "variables": { "params": { "value": "{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }" } } }'
