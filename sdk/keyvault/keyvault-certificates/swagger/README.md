@@ -18,5 +18,5 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e2c9f3
 output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
-package-version: 4.2.0-beta.4
+package-version: 4.2.1
 ```
