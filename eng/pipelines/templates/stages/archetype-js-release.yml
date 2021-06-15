@@ -100,6 +100,7 @@ stages:
                           pwsh: true
 
                       - pwsh: |
+                          write-host "$(Package.Archive)"
                           eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory) -npmToken $(azure-sdk-npm-token)
                         displayName: 'Cleanup Npm Next Tag'
                         condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
