@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-06-15)
 
 ### Features Added
 
-### Breaking Changes
+- The package now contains type definitions compatible with TypeScript versions earlier than v3.6.
 
 ### Key Bugs Fixed
 
-### Fixed
+- Fixes the location of types definition in package.json
 
 
 ## 1.0.0-beta.3 (2021-06-08)
