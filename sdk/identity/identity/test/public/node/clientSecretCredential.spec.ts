@@ -7,7 +7,7 @@ import assert from "assert";
 import { env, delay } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
-import { ClientSecretCredential } from "../../../src";
+import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential", function() {
@@ -81,4 +81,19 @@ describe("ClientSecretCredential", function() {
       ]
     })
   );
+
+  it.only("supports specifying the regional authority", async function() {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      {
+        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+      }
+    );
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
 });

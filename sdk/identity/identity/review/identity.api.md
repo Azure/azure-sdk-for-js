@@ -92,6 +92,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
+    regionalAuthority?: string;
     sendCertificateChain?: boolean;
 }
 
@@ -103,6 +104,7 @@ export class ClientSecretCredential implements TokenCredential {
 
 // @public
 export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+    regionalAuthority?: string;
 }
 
 // @public
@@ -209,6 +211,63 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
+
+// @public
+export enum RegionalAuthority {
+    AsiaEastValue = "eastasia",
+    AsiaSouthEastValue = "southeastasia",
+    AustraliaCentral2Value = "australiacentral2",
+    AustraliaCentralValue = "australiacentral",
+    AustraliaEastValue = "australiaeast",
+    AustraliaSouthEastValue = "australiasoutheast",
+    AutoDiscoverRegion = "AUTO_DISCOVER",
+    BrazilSouthValue = "brazilsouth",
+    CanadaCentralValue = "canadacentral",
+    CanadaEastValue = "canadaeast",
+    ChinaEast2Value = "chinaeast2",
+    ChinaEastValue = "chinaeast",
+    ChinaNorth2Value = "chinanorth2",
+    ChinaNorthValue = "chinanorth",
+    EuropeNorthValue = "northeurope",
+    EuropeWestValue = "westeurope",
+    FranceCentralValue = "francecentral",
+    FranceSouthValue = "francesouth",
+    GermanyCentralValue = "germanycentral",
+    GermanyNorthEastValue = "germanynortheast",
+    GermanyNorthValue = "germanynorth",
+    GermanyWestCentralValue = "germanywestcentral",
+    GovernmentUSArizonaValue = "usgovarizona",
+    GovernmentUSDodCentralValue = "usdodcentral",
+    GovernmentUSDodEastValue = "usdodeast",
+    GovernmentUSIowaValue = "usgoviowa",
+    GovernmentUSTexasValue = "usgovtexas",
+    GovernmentUSVirginiaValue = "usgovvirginia",
+    IndiaCentralValue = "centralindia",
+    IndiaSouthValue = "southindia",
+    IndiaWestValue = "westindia",
+    JapanEastValue = "japaneast",
+    JapanWestValue = "japanwest",
+    KoreaCentralValue = "koreacentral",
+    KoreaSouthValue = "koreasouth",
+    NorwayEastValue = "norwayeast",
+    NorwayWestValue = "norwaywest",
+    SouthAfricaNorthValue = "southafricanorth",
+    SouthAfricaWestValue = "southafricawest",
+    SwitzerlandNorthValue = "switzerlandnorth",
+    SwitzerlandWestValue = "switzerlandwest",
+    UAECentralValue = "uaecentral",
+    UAENorthValue = "uaenorth",
+    UKSouthValue = "uksouth",
+    UKWestValue = "ukwest",
+    USCentralValue = "centralus",
+    USEast2Value = "eastus2",
+    USEastValue = "eastus",
+    USNorthCentralValue = "northcentralus",
+    USSouthCentralValue = "southcentralus",
+    USWest2Value = "westus2",
+    USWestCentralValue = "westcentralus",
+    USWestValue = "westus"
+}
 
 // @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;

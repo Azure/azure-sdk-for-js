@@ -4,59 +4,111 @@
 /**
  * Helps specify a regional authority, or "autoDiscoverRegion" to auto-detect the region.
  */
-export type RegionalAuthority =
-  | "autoDiscoverRegion"
-  | "asiaeast"
-  | "asiasouth east"
-  | "australiacentral"
-  | "australiacentral2"
-  | "australiaeast"
-  | "australiasoutheast"
-  | "australiasoutheast"
-  | "brazilsouth"
-  | "canadacentral"
-  | "canadaeast"
-  | "chinaeast"
-  | "chinaeast2"
-  | "chinanorth"
-  | "chinanorth2"
-  | "europenorth"
-  | "europewest"
-  | "francecentral"
-  | "francesouth"
-  | "germanycentral"
-  | "germanynorth"
-  | "germanynortheast"
-  | "germanywestcentral"
-  | "governmentusarizona"
-  | "governmentusdodcentral"
-  | "governmentusdodeast"
-  | "governmentusiowa"
-  | "governmentustexas"
-  | "governmentusvirginia"
-  | "indiacentral"
-  | "indiasouth"
-  | "indiawest"
-  | "japaneast"
-  | "japanwest"
-  | "koreacentral"
-  | "koreasouth"
-  | "norwayeast"
-  | "norwaywest"
-  | "southafricanorth"
-  | "southafricawest"
-  | "switzerlandnorth"
-  | "switzerlandwest"
-  | "uaecentral"
-  | "uaenorth"
-  | "uksouth"
-  | "ukwest"
-  | "uscentral"
-  | "useast"
-  | "useast2"
-  | "usnorthcentral"
-  | "ussouthcentral"
-  | "uswest"
-  | "uswest2"
-  | "uswestcentral"
-  | string;
+export enum RegionalAuthority {
+  /** Instructs MSAL to attempt to discover the region */
+  AutoDiscoverRegion = "AUTO_DISCOVER",
+  /** westus */
+  USWestValue = "westus",
+  /** westus2 */
+  USWest2Value = "westus2",
+  /** centralus */
+  USCentralValue = "centralus",
+  /** eastus */
+  USEastValue = "eastus",
+  /** eastus2 */
+  USEast2Value = "eastus2",
+  /** northcentralus */
+  USNorthCentralValue = "northcentralus",
+  /** southcentralus */
+  USSouthCentralValue = "southcentralus",
+  /** westcentralus */
+  USWestCentralValue = "westcentralus",
+  /** canadacentral */
+  CanadaCentralValue = "canadacentral",
+  /** canadaeast */
+  CanadaEastValue = "canadaeast",
+  /** brazilsouth */
+  BrazilSouthValue = "brazilsouth",
+  /** northeurope */
+  EuropeNorthValue = "northeurope",
+  /** westeurope */
+  EuropeWestValue = "westeurope",
+  /** uksouth */
+  UKSouthValue = "uksouth",
+  /** ukwest */
+  UKWestValue = "ukwest",
+  /** francecentral */
+  FranceCentralValue = "francecentral",
+  /** francesouth */
+  FranceSouthValue = "francesouth",
+  /** switzerlandnorth */
+  SwitzerlandNorthValue = "switzerlandnorth",
+  /** switzerlandwest */
+  SwitzerlandWestValue = "switzerlandwest",
+  /** germanynorth */
+  GermanyNorthValue = "germanynorth",
+  /** germanywestcentral */
+  GermanyWestCentralValue = "germanywestcentral",
+  /** norwaywest */
+  NorwayWestValue = "norwaywest",
+  /** norwayeast */
+  NorwayEastValue = "norwayeast",
+  /** eastasia */
+  AsiaEastValue = "eastasia",
+  /** southeastasia */
+  AsiaSouthEastValue = "southeastasia",
+  /** japaneast */
+  JapanEastValue = "japaneast",
+  /** japanwest */
+  JapanWestValue = "japanwest",
+  /** australiaeast */
+  AustraliaEastValue = "australiaeast",
+  /** australiasoutheast */
+  AustraliaSouthEastValue = "australiasoutheast",
+  /** australiacentral */
+  AustraliaCentralValue = "australiacentral",
+  /** australiacentral2 */
+  AustraliaCentral2Value = "australiacentral2",
+  /** centralindia */
+  IndiaCentralValue = "centralindia",
+  /** southindia */
+  IndiaSouthValue = "southindia",
+  /** westindia */
+  IndiaWestValue = "westindia",
+  /** koreasouth */
+  KoreaSouthValue = "koreasouth",
+  /** koreacentral */
+  KoreaCentralValue = "koreacentral",
+  /** uaecentral */
+  UAECentralValue = "uaecentral",
+  /** uaenorth */
+  UAENorthValue = "uaenorth",
+  /** southafricanorth */
+  SouthAfricaNorthValue = "southafricanorth",
+  /** southafricawest */
+  SouthAfricaWestValue = "southafricawest",
+  /** chinanorth */
+  ChinaNorthValue = "chinanorth",
+  /** chinaeast */
+  ChinaEastValue = "chinaeast",
+  /** chinanorth2 */
+  ChinaNorth2Value = "chinanorth2",
+  /** chinaeast2 */
+  ChinaEast2Value = "chinaeast2",
+  /** germanycentral */
+  GermanyCentralValue = "germanycentral",
+  /** germanynortheast */
+  GermanyNorthEastValue = "germanynortheast",
+  /** usgovvirginia */
+  GovernmentUSVirginiaValue = "usgovvirginia",
+  /** usgoviowa */
+  GovernmentUSIowaValue = "usgoviowa",
+  /** usgovarizona */
+  GovernmentUSArizonaValue = "usgovarizona",
+  /** usgovtexas */
+  GovernmentUSTexasValue = "usgovtexas",
+  /** usdodeast */
+  GovernmentUSDodEastValue = "usdodeast",
+  /** usdodcentral */
+  GovernmentUSDodCentralValue = "usdodcentral"
+}
