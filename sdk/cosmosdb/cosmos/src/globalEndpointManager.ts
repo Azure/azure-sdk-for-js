@@ -264,12 +264,9 @@ export class GlobalEndpointManager {
   }
 
   private async backgroundRefreshEndpointList() {
-    let refreshCount = 0;
     setInterval(() => {
       try {
         this.refreshEndpointList();
-        refreshCount += 1;
-        console.log({ refreshCount })
       } catch (e) {
         console.warn(`Failed to refresh endpoints:  ${e}`)
       }
