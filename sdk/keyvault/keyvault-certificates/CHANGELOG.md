@@ -1,8 +1,27 @@
 # Release History
 
-## 4.2.0-beta.4 (Unreleased)
+## 4.3.0-beta.1 (Unreleased)
 
-- Marked `ErrorModel` as deprecated. It was erronously exported publicly in 4.1 and should not be used. Please change the type to use `CertificateOperationError` instead.
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+## 4.2.0 (2021-06-15)
+
+### Bug Fixes
+
+- Fixed an issue with `beginDeleteCertificate` and `beginRecoverDeletedCertificate` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed an issue where importing a certificate incorrectly required a Subject or Subject Alternative Name.
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+- Marked `ErrorModel` as deprecated. It was erroneously exported publicly in 4.1 and should not be used. Please change the type to use `CertificateOperationError` instead.
+
+### Changes since 4.2.0-beta.3
+
+- Marked `ErrorModel` as deprecated. It was erroneously exported publicly in 4.1 and should not be used. Please change the type to use `CertificateOperationError` instead.
 - Fixed a bug with `beginDeleteCertificate` and `beginRecoverDeletedCertificate` in which unknown service errors wouldn't bubble up properly to the end users.
 - Renamed the `KeyVaultCertificateId` to `KeyVaultCertificateIdentifier`, and exported a method to parse Key Vault Certificate Ids: `parseKeyVaultCertificateIdentifier`.
 

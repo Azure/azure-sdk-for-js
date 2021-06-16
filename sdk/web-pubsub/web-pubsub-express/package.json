@@ -61,7 +61,7 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "cloudevents": "^4.0.0"
   },

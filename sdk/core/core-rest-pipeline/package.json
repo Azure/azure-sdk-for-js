@@ -96,7 +96,7 @@
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
     "form-data": "^3.0.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "http-proxy-agent": "^4.0.1",
     "https-proxy-agent": "^5.0.0",
     "uuid": "^8.3.0"
@@ -144,5 +144,13 @@
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true,
+    "disableDocsMs": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }

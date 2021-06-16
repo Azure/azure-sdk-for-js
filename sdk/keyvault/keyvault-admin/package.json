@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.0.0-beta.4",
+  "version": "4.1.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/README.md",
@@ -71,6 +71,22 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/keyVaultClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "productName": "Azure Key Vault Administration",
     "productSlugs": [
@@ -95,14 +111,14 @@
     "@azure/logger": "^1.0.0",
     "@types/uuid": "^8.0.0",
     "uuid": "^8.3.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.0-beta.3",
-    "@azure/keyvault-keys": "^4.2.0-beta.5",
+    "@azure/keyvault-keys": "^4.2.1",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

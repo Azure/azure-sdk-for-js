@@ -47,36 +47,6 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const backupId: msRest.OperationURLParameter = {
-  parameterPath: "backupId",
-  mapper: {
-    required: true,
-    serializedName: "backupId",
-    constraints: {
-      MaxLength: 15,
-      MinLength: 1,
-      Pattern: /^[0-9]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const clusterName: msRest.OperationURLParameter = {
-  parameterPath: "clusterName",
-  mapper: {
-    required: true,
-    serializedName: "clusterName",
-    constraints: {
-      MaxLength: 100,
-      MinLength: 1,
-      Pattern: /^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const collectionName: msRest.OperationURLParameter = {
   parameterPath: "collectionName",
   mapper: {
@@ -127,30 +97,6 @@ export const databaseRid: msRest.OperationURLParameter = {
     }
   }
 };
-export const dataCenterName: msRest.OperationURLParameter = {
-  parameterPath: "dataCenterName",
-  mapper: {
-    required: true,
-    serializedName: "dataCenterName",
-    constraints: {
-      MaxLength: 100,
-      MinLength: 1,
-      Pattern: /^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const endTime: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "endTime"],
-  mapper: {
-    serializedName: "endTime",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const filter0: msRest.OperationQueryParameter = {
   parameterPath: "filter",
   mapper: {
@@ -190,31 +136,11 @@ export const groupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const instanceId: msRest.OperationURLParameter = {
-  parameterPath: "instanceId",
-  mapper: {
-    required: true,
-    serializedName: "instanceId",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const keyspaceName: msRest.OperationURLParameter = {
   parameterPath: "keyspaceName",
   mapper: {
     required: true,
     serializedName: "keyspaceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const location: msRest.OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    required: true,
-    serializedName: "location",
     type: {
       name: "String"
     }
@@ -288,42 +214,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const restorableMongodbDatabaseRid: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "restorableMongodbDatabaseRid"],
-  mapper: {
-    serializedName: "restorableMongodbDatabaseRid",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restorableSqlDatabaseRid: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "restorableSqlDatabaseRid"],
-  mapper: {
-    serializedName: "restorableSqlDatabaseRid",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restoreLocation: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "restoreLocation"],
-  mapper: {
-    serializedName: "restoreLocation",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restoreTimestampInUtc: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "restoreTimestampInUtc"],
-  mapper: {
-    serializedName: "restoreTimestampInUtc",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const roleAssignmentId: msRest.OperationURLParameter = {
   parameterPath: "roleAssignmentId",
   mapper: {
@@ -344,34 +234,11 @@ export const roleDefinitionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const serviceName: msRest.OperationURLParameter = {
-  parameterPath: "serviceName",
-  mapper: {
-    required: true,
-    serializedName: "serviceName",
-    constraints: {
-      MaxLength: 50,
-      MinLength: 3
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const sourceRegion: msRest.OperationURLParameter = {
   parameterPath: "sourceRegion",
   mapper: {
     required: true,
     serializedName: "sourceRegion",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const startTime: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "startTime"],
-  mapper: {
-    serializedName: "startTime",
     type: {
       name: "String"
     }

@@ -63,7 +63,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "rhea": "^2.0.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "//sampleConfiguration": {
     "skip": [

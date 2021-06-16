@@ -7872,10 +7872,9 @@ export interface CommonDataServiceForAppsLinkedService {
   /**
    * The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data
    * Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises
-   * with Ifd. Type: string (or Expression with resultType string). Possible values include:
-   * 'Online', 'OnPremisesWithIfd'
+   * with Ifd. Type: string (or Expression with resultType string).
    */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /**
    * The host name of the on-premises Common Data Service for Apps server. The property is required
    * for on-prem and not allowed for online. Type: string (or Expression with resultType string).
@@ -7902,9 +7901,9 @@ export interface CommonDataServiceForAppsLinkedService {
    * The authentication type to connect to Common Data Service for Apps server. 'Office365' for
    * online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for
    * Server-To-Server authentication in online scenario. Type: string (or Expression with
-   * resultType string). Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
+   * resultType string).
    */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /**
    * User name to access the Common Data Service for Apps instance. Type: string (or Expression
    * with resultType string).
@@ -7966,9 +7965,9 @@ export interface DynamicsCrmLinkedService {
   /**
    * The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and
    * 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with
-   * resultType string). Possible values include: 'Online', 'OnPremisesWithIfd'
+   * resultType string).
    */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /**
    * The host name of the on-premises Dynamics CRM server. The property is required for on-prem and
    * not allowed for online. Type: string (or Expression with resultType string).
@@ -7995,9 +7994,8 @@ export interface DynamicsCrmLinkedService {
    * The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario,
    * 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server
    * authentication in online scenario. Type: string (or Expression with resultType string).
-   * Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
    */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /**
    * User name to access the Dynamics CRM instance. Type: string (or Expression with resultType
    * string).
@@ -13650,6 +13648,9 @@ export interface DelimitedTextDataset {
    * string (or Expression with resultType string).
    */
   encodingName?: any;
+  /**
+   * The data compressionCodec. Type: string (or Expression with resultType string).
+   */
   compressionCodec?: any;
   /**
    * The data compression method used for DelimitedText.
@@ -13717,6 +13718,9 @@ export interface ParquetDataset {
    * The location of the parquet storage.
    */
   location: DatasetLocationUnion;
+  /**
+   * The data compressionCodec. Type: string (or Expression with resultType string).
+   */
   compressionCodec?: any;
 }
 
@@ -13763,9 +13767,14 @@ export interface ExcelDataset {
    */
   location: DatasetLocationUnion;
   /**
-   * The sheet of excel file. Type: string (or Expression with resultType string).
+   * The sheet name of excel file. Type: string (or Expression with resultType string).
    */
-  sheetName: any;
+  sheetName?: any;
+  /**
+   * The sheet index of excel file and default value is 0. Type: integer (or Expression with
+   * resultType integer)
+   */
+  sheetIndex?: any;
   /**
    * The partial data of one sheet. Type: string (or Expression with resultType string).
    */
@@ -15325,6 +15334,11 @@ export interface StoreReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -15343,6 +15357,11 @@ export interface HdfsReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15403,6 +15422,11 @@ export interface HttpReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
    * with resultType string).
    */
@@ -15445,6 +15469,11 @@ export interface SftpReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15501,6 +15530,11 @@ export interface FtpReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15551,6 +15585,11 @@ export interface GoogleCloudStorageReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15612,6 +15651,11 @@ export interface OracleCloudStorageReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15671,6 +15715,11 @@ export interface AmazonS3CompatibleReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15732,6 +15781,11 @@ export interface AzureFileStorageReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15791,6 +15845,11 @@ export interface FileServerReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15852,6 +15911,11 @@ export interface AmazonS3ReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15910,6 +15974,11 @@ export interface AzureDataLakeStoreReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15978,6 +16047,11 @@ export interface AzureBlobFSReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -16032,6 +16106,11 @@ export interface AzureBlobStorageReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -16296,6 +16375,11 @@ export interface CopySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -16323,6 +16407,11 @@ export interface SharePointOnlineListSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The OData query to filter the data in SharePoint Online list. For example, "$top=1". Type:
    * string (or Expression with resultType string).
@@ -16423,6 +16512,11 @@ export interface AzureDatabricksDeltaLakeSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Azure Databricks Delta Lake Sql query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -16454,6 +16548,11 @@ export interface SnowflakeSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Snowflake Sql query. Type: string (or Expression with resultType string).
    */
@@ -16487,6 +16586,11 @@ export interface HttpSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default
    * value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with
    * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -16516,6 +16620,11 @@ export interface AzureBlobFSSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Treat empty as null. Type: boolean (or Expression with resultType boolean).
    */
@@ -16555,6 +16664,11 @@ export interface AzureDataLakeStoreSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -16583,6 +16697,11 @@ export interface Office365Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The groups containing all the users. Type: array of strings (or Expression with resultType
    * array of strings).
@@ -16684,6 +16803,11 @@ export interface CosmosDbMongoDbApiSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies selection filter using query operators. To return all documents in a collection,
    * omit this parameter or pass an empty document ({}). Type: string (or Expression with
    * resultType string).
@@ -16734,6 +16858,11 @@ export interface MongoDbV2Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Specifies selection filter using query operators. To return all documents in a collection,
    * omit this parameter or pass an empty document ({}). Type: string (or Expression with
@@ -16786,6 +16915,11 @@ export interface MongoDbAtlasSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies selection filter using query operators. To return all documents in a collection,
    * omit this parameter or pass an empty document ({}). Type: string (or Expression with
    * resultType string).
@@ -16837,6 +16971,11 @@ export interface MongoDbSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Should be a SQL-92 query expression. Type: string (or Expression with
    * resultType string).
    */
@@ -16870,6 +17009,11 @@ export interface WebSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
@@ -16925,6 +17069,11 @@ export interface OracleSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Oracle reader query. Type: string (or Expression with resultType string).
    */
   oracleReaderQuery?: any;
@@ -16972,6 +17121,11 @@ export interface AzureDataExplorerSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Should be a Kusto Query Language (KQL) query. Type: string (or Expression with
    * resultType string).
    */
@@ -17016,6 +17170,11 @@ export interface HdfsSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -17048,6 +17207,11 @@ export interface FileSystemSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -17082,6 +17246,11 @@ export interface RestSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
    * with resultType string).
@@ -17142,6 +17311,11 @@ export interface SalesforceServiceCloudSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17179,6 +17353,11 @@ export interface ODataSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * OData query. For example, "$top=1". Type: string (or Expression with resultType string).
    */
@@ -17219,6 +17398,11 @@ export interface MicrosoftAccessSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17252,6 +17436,11 @@ export interface RelationalSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17284,6 +17473,11 @@ export interface CommonDataServiceForAppsSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
    * Apps (online & on-premises). Type: string (or Expression with resultType string).
@@ -17319,6 +17513,11 @@ export interface DynamicsCrmSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
@@ -17353,6 +17552,11 @@ export interface DynamicsSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
@@ -17386,6 +17590,11 @@ export interface CosmosDbSqlApiSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL API query. Type: string (or Expression with resultType string).
    */
@@ -17433,6 +17642,11 @@ export interface DocumentDbCollectionSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Documents query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17474,6 +17688,11 @@ export interface BlobSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Treat empty as null. Type: boolean (or Expression with resultType boolean).
    */
@@ -17595,6 +17814,11 @@ export interface TabularSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17628,6 +17852,11 @@ export interface AmazonRedshiftSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17673,6 +17902,11 @@ export interface GoogleAdWordsSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17711,6 +17945,11 @@ export interface OracleServiceCloudSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17748,6 +17987,11 @@ export interface DynamicsAXSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17793,6 +18037,11 @@ export interface ResponsysSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17831,6 +18080,11 @@ export interface SalesforceMarketingCloudSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17868,6 +18122,11 @@ export interface VerticaSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17928,6 +18187,11 @@ export interface NetezzaSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17975,6 +18239,11 @@ export interface ZohoSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18012,6 +18281,11 @@ export interface XeroSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18051,6 +18325,11 @@ export interface SquareSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18088,6 +18367,11 @@ export interface SparkSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18127,6 +18411,11 @@ export interface ShopifySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18164,6 +18453,11 @@ export interface ServiceNowSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18203,6 +18497,11 @@ export interface QuickBooksSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18240,6 +18539,11 @@ export interface PrestoSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18279,6 +18583,11 @@ export interface PhoenixSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18316,6 +18625,11 @@ export interface PaypalSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18355,6 +18669,11 @@ export interface MarketoSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18392,6 +18711,11 @@ export interface AzureMariaDBSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18431,6 +18755,11 @@ export interface MariaDBSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18468,6 +18797,11 @@ export interface MagentoSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18507,6 +18841,11 @@ export interface JiraSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18544,6 +18883,11 @@ export interface ImpalaSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18583,6 +18927,11 @@ export interface HubspotSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18620,6 +18969,11 @@ export interface HiveSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18659,6 +19013,11 @@ export interface HBaseSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18696,6 +19055,11 @@ export interface GreenplumSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18735,6 +19099,11 @@ export interface GoogleBigQuerySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18772,6 +19141,11 @@ export interface EloquaSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18811,6 +19185,11 @@ export interface DrillSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18848,6 +19227,11 @@ export interface CouchbaseSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18887,6 +19271,11 @@ export interface ConcurSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18924,6 +19313,11 @@ export interface AzurePostgreSqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18963,6 +19357,11 @@ export interface AmazonMWSSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19000,6 +19399,11 @@ export interface CassandraSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19070,6 +19474,11 @@ export interface TeradataSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19116,6 +19525,11 @@ export interface AzureMySqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19180,6 +19594,11 @@ export interface SqlDWSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19254,6 +19673,11 @@ export interface SqlMISource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19314,6 +19738,11 @@ export interface AzureSqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19376,6 +19805,11 @@ export interface SqlServerSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19436,6 +19870,11 @@ export interface SqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19526,6 +19965,11 @@ export interface SapTableSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19604,6 +20048,11 @@ export interface SapOpenHubSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19670,6 +20119,11 @@ export interface SapHanaSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19722,6 +20176,11 @@ export interface SapEccSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19766,6 +20225,11 @@ export interface SapCloudForCustomerSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19812,6 +20276,11 @@ export interface SalesforceSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19855,6 +20324,11 @@ export interface SapBwSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19892,6 +20366,11 @@ export interface SybaseSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19931,6 +20410,11 @@ export interface PostgreSqlSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19968,6 +20452,11 @@ export interface MySqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -20007,6 +20496,11 @@ export interface OdbcSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -20044,6 +20538,11 @@ export interface Db2Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -20083,6 +20582,11 @@ export interface InformixSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -20120,6 +20624,11 @@ export interface AzureTableSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -20164,6 +20673,11 @@ export interface BinarySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Binary store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20195,6 +20709,11 @@ export interface OrcSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * ORC store settings.
    */
@@ -20228,6 +20747,11 @@ export interface XmlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Xml store settings.
    */
@@ -20266,6 +20790,11 @@ export interface JsonSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Json store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20302,6 +20831,11 @@ export interface DelimitedTextSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * DelimitedText store settings.
    */
@@ -20340,6 +20874,11 @@ export interface ParquetSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Parquet store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20373,6 +20912,11 @@ export interface ExcelSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Excel store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20405,6 +20949,11 @@ export interface AvroSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Avro store settings.
    */
@@ -21491,6 +22040,11 @@ export interface CopySink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -21527,6 +22081,11 @@ export interface CosmosDbMongoDbApiSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw
    * exception (insert). The default value is "insert". Type: string (or Expression with resultType
@@ -21567,6 +22126,11 @@ export interface MongoDbV2Sink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw
    * exception (insert). The default value is "insert". Type: string (or Expression with resultType
    * string). Type: string (or Expression with resultType string).
@@ -21606,6 +22170,11 @@ export interface MongoDbAtlasSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw
    * exception (insert). The default value is "insert". Type: string (or Expression with resultType
    * string). Type: string (or Expression with resultType string).
@@ -21644,6 +22213,11 @@ export interface SalesforceServiceCloudSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The write behavior for the operation. Default is Insert. Possible values include: 'Insert',
    * 'Upsert'
@@ -21697,6 +22271,11 @@ export interface SalesforceSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The write behavior for the operation. Default is Insert. Possible values include: 'Insert',
    * 'Upsert'
    */
@@ -21749,6 +22328,11 @@ export interface AzureDataExplorerSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A name of a pre-created csv mapping that was defined on the target Kusto table. Type: string.
    */
   ingestionMappingName?: any;
@@ -21794,6 +22378,11 @@ export interface CommonDataServiceForAppsSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The flag indicating whether to ignore null values from input dataset (except key fields)
    * during write operation. Default is false. Type: boolean (or Expression with resultType
    * boolean).
@@ -21837,6 +22426,11 @@ export interface DynamicsCrmSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The flag indicating whether to ignore null values from input dataset (except key fields)
    * during write operation. Default is false. Type: boolean (or Expression with resultType
@@ -21882,6 +22476,11 @@ export interface DynamicsSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The flag indicating whether ignore null values from input dataset (except key fields) during
    * write operation. Default is false. Type: boolean (or Expression with resultType boolean).
    */
@@ -21925,6 +22524,11 @@ export interface MicrosoftAccessSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -21962,6 +22566,11 @@ export interface InformixSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
@@ -22001,6 +22610,11 @@ export interface OdbcSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -22039,10 +22653,29 @@ export interface AzureSearchIndexSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specify the write behavior when upserting documents into Azure Search Index. Possible values
    * include: 'Merge', 'Upload'
    */
   writeBehavior?: AzureSearchIndexWriteBehaviorType;
+}
+
+/**
+ * Specify the name and value of custom metadata item.
+ */
+export interface MetadataItem {
+  /**
+   * Metadata item key name. Type: string (or Expression with resultType string).
+   */
+  name?: any;
+  /**
+   * Metadata item value. Type: string (or Expression with resultType string).
+   */
+  value?: any;
 }
 
 /**
@@ -22077,9 +22710,19 @@ export interface AzureBlobFSSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
+  /**
+   * Specify the custom metadata to be added to sink data. Type: array of objects (or Expression
+   * with resultType array of objects).
+   */
+  metadata?: MetadataItem[];
 }
 
 /**
@@ -22113,6 +22756,11 @@ export interface AzureDataLakeStoreSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22154,6 +22802,11 @@ export interface OracleSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
@@ -22255,6 +22908,11 @@ export interface SnowflakeSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
@@ -22359,6 +23017,11 @@ export interface SqlDWSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -22419,6 +23082,11 @@ export interface SqlMISink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
   sqlWriterStoredProcedureName?: any;
@@ -22477,6 +23145,11 @@ export interface AzureSqlSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
@@ -22537,6 +23210,11 @@ export interface SqlServerSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
   sqlWriterStoredProcedureName?: any;
@@ -22595,6 +23273,11 @@ export interface SqlSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
@@ -22655,6 +23338,11 @@ export interface CosmosDbSqlApiSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType
    * string). Allowed values: insert and upsert.
    */
@@ -22692,6 +23380,11 @@ export interface DocumentDbCollectionSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Nested properties separator. Default is . (dot). Type: string (or Expression with resultType
    * string).
@@ -22736,6 +23429,11 @@ export interface FileSystemSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22773,6 +23471,11 @@ export interface BlobSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Blob writer overwrite files. Type: boolean (or Expression with resultType boolean).
    */
   blobWriterOverwriteFiles?: any;
@@ -22788,6 +23491,11 @@ export interface BlobSink {
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
+  /**
+   * Specify the custom metadata to be added to sink data. Type: array of objects (or Expression
+   * with resultType array of objects).
+   */
+  metadata?: MetadataItem[];
 }
 
 /**
@@ -22816,6 +23524,11 @@ export interface StoreWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22839,6 +23552,11 @@ export interface AzureFileStorageWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22858,6 +23576,11 @@ export interface FileServerWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22876,6 +23599,11 @@ export interface AzureDataLakeStoreWriteSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22902,6 +23630,11 @@ export interface AzureBlobFSWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22926,6 +23659,11 @@ export interface AzureBlobStorageWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22949,6 +23687,11 @@ export interface SftpWriteSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22997,6 +23740,11 @@ export interface BinarySink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Binary store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23037,10 +23785,9 @@ export interface JsonWriteSettings {
   type: "JsonWriteSettings";
   /**
    * File pattern of JSON. This setting controls the way a collection of JSON objects will be
-   * treated. The default value is 'setOfObjects'. It is case-sensitive. Possible values include:
-   * 'setOfObjects', 'arrayOfObjects'
+   * treated. The default value is 'setOfObjects'. It is case-sensitive.
    */
-  filePattern?: JsonWriteFilePattern;
+  filePattern?: any;
 }
 
 /**
@@ -23177,6 +23924,11 @@ export interface ParquetSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Parquet store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23218,6 +23970,11 @@ export interface AvroSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Avro store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23258,6 +24015,11 @@ export interface AzureTableSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Azure Table default partition key value. Type: string (or Expression with resultType string).
    */
@@ -23307,6 +24069,11 @@ export interface AzureQueueSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
 }
 
 /**
@@ -23340,6 +24107,11 @@ export interface SapCloudForCustomerSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The write behavior for the operation. Default is 'Insert'. Possible values include: 'Insert',
    * 'Update'
@@ -23385,6 +24157,11 @@ export interface AzureDatabricksDeltaLakeSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -23426,6 +24203,11 @@ export interface AzureMySqlSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -23464,6 +24246,11 @@ export interface AzurePostgreSqlSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -23501,6 +24288,11 @@ export interface RestSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression
    * with resultType string).
@@ -23560,6 +24352,11 @@ export interface OrcSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * ORC store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23601,6 +24398,11 @@ export interface JsonSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Json store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23641,6 +24443,11 @@ export interface DelimitedTextSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * DelimitedText store settings.
    */
@@ -24710,7 +25517,7 @@ export interface SelfHostedIntegrationRuntime {
 export interface EntityReference {
   /**
    * The type of this referenced entity. Possible values include: 'IntegrationRuntimeReference',
-   * 'LinkedServiceReference'
+   * 'LinkedServiceReference', 'CredentialReference'
    */
   type?: IntegrationRuntimeEntityReferenceType;
   /**
@@ -24923,6 +25730,10 @@ export interface IntegrationRuntimeSsisProperties {
    * Package stores for the SSIS Integration Runtime.
    */
   packageStores?: PackageStore[];
+  /**
+   * The user-assigned managed identity reference.
+   */
+  managedCredential?: EntityReference;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -26451,22 +27262,6 @@ export type Db2AuthenticationType = "Basic";
 export type SybaseAuthenticationType = "Basic" | "Windows";
 
 /**
- * Defines values for DynamicsDeploymentType.
- * Possible values include: 'Online', 'OnPremisesWithIfd'
- * @readonly
- * @enum {string}
- */
-export type DynamicsDeploymentType = "Online" | "OnPremisesWithIfd";
-
-/**
- * Defines values for DynamicsAuthenticationType.
- * Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
- * @readonly
- * @enum {string}
- */
-export type DynamicsAuthenticationType = "Office365" | "Ifd" | "AADServicePrincipal";
-
-/**
  * Defines values for CosmosDbServicePrincipalCredentialType.
  * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
  * @readonly
@@ -26683,14 +27478,6 @@ export type AzureSearchIndexWriteBehaviorType = "Merge" | "Upload";
 export type PolybaseSettingsRejectType = "value" | "percentage";
 
 /**
- * Defines values for JsonWriteFilePattern.
- * Possible values include: 'setOfObjects', 'arrayOfObjects'
- * @readonly
- * @enum {string}
- */
-export type JsonWriteFilePattern = "setOfObjects" | "arrayOfObjects";
-
-/**
  * Defines values for SapCloudForCustomerSinkWriteBehavior.
  * Possible values include: 'Insert', 'Update'
  * @readonly
@@ -26763,13 +27550,15 @@ export type ManagedIntegrationRuntimeNodeStatus =
 
 /**
  * Defines values for IntegrationRuntimeEntityReferenceType.
- * Possible values include: 'IntegrationRuntimeReference', 'LinkedServiceReference'
+ * Possible values include: 'IntegrationRuntimeReference', 'LinkedServiceReference',
+ * 'CredentialReference'
  * @readonly
  * @enum {string}
  */
 export type IntegrationRuntimeEntityReferenceType =
   | "IntegrationRuntimeReference"
-  | "LinkedServiceReference";
+  | "LinkedServiceReference"
+  | "CredentialReference";
 
 /**
  * Defines values for IntegrationRuntimeSsisCatalogPricingTier.
@@ -26822,6 +27611,81 @@ export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environ
  * @enum {string}
  */
 export type IntegrationRuntimeAuthKeyName = "authKey1" | "authKey2";
+
+/**
+ * Defines values for JsonFormatFilePattern.
+ * Possible values include: 'setOfObjects', 'arrayOfObjects'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonFormatFilePattern = "setOfObjects" | "arrayOfObjects";
+
+/**
+ * Defines values for DatasetCompressionLevel.
+ * Possible values include: 'Optimal', 'Fastest'
+ * @readonly
+ * @enum {string}
+ */
+export type DatasetCompressionLevel = "Optimal" | "Fastest";
+
+/**
+ * Defines values for CompressionCodec.
+ * Possible values include: 'none', 'lzo', 'bzip2', 'gzip', 'deflate', 'zipDeflate', 'snappy',
+ * 'lz4', 'tar', 'tarGZip'
+ * @readonly
+ * @enum {string}
+ */
+export type CompressionCodec =
+  | "none"
+  | "lzo"
+  | "bzip2"
+  | "gzip"
+  | "deflate"
+  | "zipDeflate"
+  | "snappy"
+  | "lz4"
+  | "tar"
+  | "tarGZip";
+
+/**
+ * Defines values for DynamicsDeploymentType.
+ * Possible values include: 'Online', 'OnPremisesWithIfd'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicsDeploymentType = "Online" | "OnPremisesWithIfd";
+
+/**
+ * Defines values for DynamicsAuthenticationType.
+ * Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicsAuthenticationType = "Office365" | "Ifd" | "AADServicePrincipal";
+
+/**
+ * Defines values for ServicePrincipalCredentialType.
+ * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
+ * @readonly
+ * @enum {string}
+ */
+export type ServicePrincipalCredentialType = "ServicePrincipalKey" | "ServicePrincipalCert";
+
+/**
+ * Defines values for HdiNodeTypes.
+ * Possible values include: 'Headnode', 'Workernode', 'Zookeeper'
+ * @readonly
+ * @enum {string}
+ */
+export type HdiNodeTypes = "Headnode" | "Workernode" | "Zookeeper";
+
+/**
+ * Defines values for JsonWriteFilePattern.
+ * Possible values include: 'setOfObjects', 'arrayOfObjects'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonWriteFilePattern = "setOfObjects" | "arrayOfObjects";
 
 /**
  * Defines values for CopyBehaviorType.

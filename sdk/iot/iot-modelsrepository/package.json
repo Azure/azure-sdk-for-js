@@ -70,7 +70,7 @@
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -132,5 +132,13 @@
     ],
     "requiredResources": {},
     "apiRefLink": "https://docs.microsoft.com/javascript/api/"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   }
 }

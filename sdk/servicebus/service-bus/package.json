@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.2.0-beta.2",
+  "version": "7.2.1",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/",
@@ -93,6 +93,9 @@
     "requiredResources": {
       "Azure Service Bus": "https://docs.microsoft.com/azure/service-bus-messaging"
     },
+    "dependencyOverrides": {
+      "@azure/identity": "^1.1.0"
+    },
     "skip": [
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
@@ -122,13 +125,13 @@
     "jssha": "^3.1.0",
     "long": "^4.0.0",
     "process": "^0.11.10",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "rhea-promise": "^2.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.3",
     "@azure/test-utils-perfstress": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

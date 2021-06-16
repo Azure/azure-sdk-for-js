@@ -15,7 +15,12 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { withTrace } from "./poller";
+import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultBackupPoller");
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
