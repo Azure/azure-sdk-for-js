@@ -27,7 +27,7 @@
     "prebuild": "npm run clean",
     "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "ts-node runAllTests.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
@@ -78,6 +78,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "typescript": "~4.2.0"
+    "typescript": "~4.2.0",
+    "ts-node": "^8.3.0"
   }
 }
