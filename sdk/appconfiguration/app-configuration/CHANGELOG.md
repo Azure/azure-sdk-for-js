@@ -8,11 +8,11 @@
 
 ### Key Bugs Fixed
 
+### Fixed
+
 - High request rate would result in throttling. SDK would retry on the failed requests based on the service suggested time from the `retry-after-ms` header in the error response. If there are too many parallel requests, retries for all of them may also result in a high request rate entering into a state which might seem like the application is hanging forever.
   - [#15721](https://github.com/Azure/azure-sdk-for-js/pull/15721) allows the user-provided abortSignal to be taken into account to abort the requests sooner.
   - More resources - [App Configuration | Throttling](https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://docs.microsoft.com/en-us/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
-
-### Fixed
 
 ## 1.2.0-beta.2 (2021-06-08)
 
