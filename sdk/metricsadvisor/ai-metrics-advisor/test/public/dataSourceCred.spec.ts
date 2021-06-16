@@ -65,8 +65,10 @@ describe("DataSourceCredential", () => {
         connectionString: "updated-string",
         type: "AzureSQLConnectionString"
       };
-      await client.updateDatasourceCredential(createdSqlServerCredId, sqlServerCredentialPatch);
-      const updated = await client.getDatasourceCredential(createdSqlServerCredId);
+      const updated = await client.updateDatasourceCredential(
+        createdSqlServerCredId,
+        sqlServerCredentialPatch
+      );
       assert.ok(updated.id, "Expecting valid datasource credential");
       assert.equal(updated.description, sqlServerCredentialPatch.description);
       assert.equal(updated.type, sqlServerCredentialPatch.type);
@@ -99,8 +101,10 @@ describe("DataSourceCredential", () => {
         accountKey: "updated account key",
         type: "DataLakeGen2SharedKey"
       };
-      await client.updateDatasourceCredential(createdDatalakeCredId, dataLakeCredentialPatch);
-      const updated = await client.getDatasourceCredential(createdDatalakeCredId);
+      const updated = await client.updateDatasourceCredential(
+        createdDatalakeCredId,
+        dataLakeCredentialPatch
+      );
       assert.ok(updated.id, "Expecting valid datasource credential");
       assert.equal(updated.description, dataLakeCredentialPatch.description);
       assert.equal(updated.type, dataLakeCredentialPatch.type);
@@ -139,11 +143,10 @@ describe("DataSourceCredential", () => {
         tenantId: "updated-tenant",
         type: "ServicePrincipal"
       };
-      await client.updateDatasourceCredential(
+      const updated = await client.updateDatasourceCredential(
         createdServicePrincipalCredId,
         servicePrincipalCredentialPatch
       );
-      const updated = await client.getDatasourceCredential(createdServicePrincipalCredId);
       assert.ok(updated.id, "Expecting valid datasource credential");
       assert.equal(updated.description, servicePrincipalCredentialPatch.description);
       assert.equal(updated.type, servicePrincipalCredentialPatch.type);
@@ -196,11 +199,10 @@ describe("DataSourceCredential", () => {
         type: "ServicePrincipalInKV"
       };
 
-      await client.updateDatasourceCredential(
+      const updated = await client.updateDatasourceCredential(
         createdServicePrincipalInKVCredId,
         servicePrincipalInKVCredentialPatch
       );
-      const updated = await client.getDatasourceCredential(createdServicePrincipalInKVCredId);
       assert.ok(updated.id, "Expecting valid datasource credential");
       assert.equal(updated.description, servicePrincipalInKVCredentialPatch.description);
       assert.equal(updated.type, servicePrincipalInKVCredentialPatch.type);

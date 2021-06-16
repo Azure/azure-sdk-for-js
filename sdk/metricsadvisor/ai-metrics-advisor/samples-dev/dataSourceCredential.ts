@@ -111,8 +111,7 @@ async function updateDatasourceCredential(
 
   try {
     console.log(`Updating credential ${credentialId}...`);
-    await client.updateDatasourceCredential(credentialId, patch);
-    const updated = await client.getDataFeed(credentialId);
+    const updated = await client.updateDatasourceCredential(credentialId, patch);
     console.dir(updated);
   } catch (err) {
     console.log("Error occurred when updating credential");

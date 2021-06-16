@@ -176,8 +176,7 @@ async function updateDetectionConfig(
     ]
   };
   console.log(`Updating existing detection configuration '${configId}'`);
-  await adminClient.updateDetectionConfig(configId, patch);
-  const result = adminClient.getDetectionConfig(configId);
+  const result = await adminClient.updateDetectionConfig(configId, patch);
   console.log(result);
   return result;
 }

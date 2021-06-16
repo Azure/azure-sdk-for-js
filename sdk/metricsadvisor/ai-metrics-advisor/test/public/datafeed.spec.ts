@@ -346,8 +346,7 @@ matrix([[true, false]] as const, async (useAad) => {
             viewerEmails: ["viewer1@example.com"],
             actionLinkTemplate: "Updated Azure Blob action link template"
           };
-          await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
-          const updated = await client.getDataFeed(createdAzureBlobDataFeedId);
+          const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(
@@ -827,8 +826,7 @@ matrix([[true, false]] as const, async (useAad) => {
               authenticationType: "Basic"
             }
           };
-          await client.updateDataFeed(createdPostGreSqlId, patch);
-          const updated = await client.getDataFeed(createdPostGreSqlId);
+          const updated = await client.updateDataFeed(createdPostGreSqlId, patch);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "MongoDB");
 

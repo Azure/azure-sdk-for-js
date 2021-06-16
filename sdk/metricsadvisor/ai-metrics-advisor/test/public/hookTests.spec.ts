@@ -78,8 +78,7 @@ matrix([[true, false]] as const, async (useAad) => {
             toList: ["test2@example.com", "test3@example.com"]
           }
         };
-        await client.updateHook(createdEmailHookId, emailPatch);
-        const updated = await client.getHook(createdEmailHookId);
+        const updated = await client.updateHook(createdEmailHookId, emailPatch);
         assert.equal(updated.hookType, emailPatch.hookType);
         const emailHook = updated as EmailNotificationHook;
         assert.deepEqual(emailHook.hookParameter?.toList, [
@@ -97,8 +96,7 @@ matrix([[true, false]] as const, async (useAad) => {
             password: "pass123"
           }
         };
-        await client.updateHook(createdWebHookId, webPatch);
-        const updated = await client.getHook(createdWebHookId);
+        const updated = await client.updateHook(createdWebHookId, webPatch);
         assert.equal(updated.hookType, webPatch.hookType);
         const webHook = updated as WebNotificationHook;
         assert.equal(webHook.hookParameter?.username, "user1");
