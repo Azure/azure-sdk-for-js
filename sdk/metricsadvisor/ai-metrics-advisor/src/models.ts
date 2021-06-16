@@ -122,9 +122,9 @@ export interface DataFeedIngestionSettings {
 }
 
 /**
- * Defines values for DataFeedRollupMethod.
+ * Defines values for DataFeedAutoRollupMethod.
  */
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+export type DataFeedAutoRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 
 /**
  * Specifies the rollup settings for a data feed.
@@ -149,7 +149,7 @@ export type DataFeedRollupSettings =
       /**
        * roll up method
        */
-      rollupMethod?: DataFeedRollupMethod;
+      rollupMethod?: DataFeedAutoRollupMethod;
       /**
        * the identification value for the row of calculated all-up value.
        */

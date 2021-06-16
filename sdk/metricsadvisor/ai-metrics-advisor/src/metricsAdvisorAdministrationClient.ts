@@ -36,7 +36,7 @@ import {
   GetAnomalyAlertConfigurationResponse as GetAlertConfigResponse,
   GetHookResponse,
   NotificationHookUnion,
-  DataFeedRollupMethod,
+  DataFeedAutoRollupMethod,
   DataFeedsPageResponse,
   IngestionStatusPageResponse,
   AlertConfigurationsPageResponse,
@@ -239,7 +239,7 @@ export class MetricsAdvisorAdministrationClient {
       rollupSettings?.rollupType === "AutoRollup" || rollupSettings?.rollupType === "AlreadyRollup"
         ? rollupSettings.rollupIdentificationValue
         : undefined;
-    const rollUpMethod: DataFeedRollupMethod | undefined =
+    const rollUpMethod: DataFeedAutoRollupMethod | undefined =
       rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
     const fillMissingPointType = missingDataPointFillSettings?.fillType;
     const fillMissingPointValue =

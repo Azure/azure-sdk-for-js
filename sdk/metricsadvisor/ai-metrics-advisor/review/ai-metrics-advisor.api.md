@@ -264,6 +264,9 @@ export type DataFeed = {
 export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
+export type DataFeedAutoRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+
+// @public
 export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
@@ -333,9 +336,6 @@ export type DataFeedPatch = {
 };
 
 // @public
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
-
-// @public
 export type DataFeedRollupSettings = {
     rollupType: "NoRollup";
 } | {
@@ -344,7 +344,7 @@ export type DataFeedRollupSettings = {
 } | {
     rollupType: "AutoRollup";
     autoRollupGroupByColumnNames?: string[];
-    rollupMethod?: DataFeedRollupMethod;
+    rollupMethod?: DataFeedAutoRollupMethod;
     rollupIdentificationValue?: string;
 };
 
