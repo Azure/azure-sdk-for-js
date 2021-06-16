@@ -23,11 +23,11 @@
 
 ## Introduction
 
-Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. While we have example code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/typescript) that cover the basic authentication scenarios, in this document, we will go over several use cases of Identity with greater context and links to the underlying authentication flows and other available documentation.
+Authenticating your application, users, and principals is an integral part of working with the Azure client libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. There is sample code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/typescript) to cover the basic authentication scenarios. This document covers several use cases of Identity with greater context and links to the underlying authentication flows and other available documentation.
 
 ## Authenticating client-side browser applications
 
-For client-side applications running in the browser, the `InteractiveBrowserCredential` provides the most direct user authentication experience and is the only credential type that we support in the browser. To get started, you need to register your application in the Microsoft identity platform and set the proper permissions.
+For client-side applications running in the browser, the `InteractiveBrowserCredential` provides the most direct user authentication experience. It's the only credential type that we support in the browser. To get started, register your application in the Microsoft Identity platform and set the proper permissions.
 
 - [Register a single page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the Microsoft identity platform
 - Configure the app registration with a redirect URI to specify where the Microsoft identity platform should redirect the client along with any security tokens.
@@ -36,7 +36,7 @@ For client-side applications running in the browser, the `InteractiveBrowserCred
 - * Ensure that your application has the correct permission for the APIs it intends to use.
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
-  - Select the API you want to use. For example, if you are using any of our management/control plane packages, i.e., the ones whose name starts with `@azure/arm-`, then you should select ``Azure Service Management`.
+  - Select the API you want to use. For example, if you're using any of our management/control plane packages, i.e., the ones whose name starts with `@azure/arm-`, you should select `Azure Service Management`.
 - Ensure that your AAD Application has enabled public authentication flows:
   - Go to Azure Active Directory in the Azure portal and find your app registration.
   - Navigate to the **Authentication** section.
@@ -104,7 +104,7 @@ To learn more, read [Application and service principal objects in Azure Active D
 | [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                              |
 | [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                         |
 | [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                       |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what is available in the current environment without changing your code. |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code. |
 
 ### Authenticating Azure Hosted Applications
 
@@ -119,7 +119,7 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 #### Authenticating with `DefaultAzureCredential`
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` makes for a simple starting point as it provides sane defaults with minimal configuration and chains multiple credentials together. While your project may eventually need only a specific set of credentials, it is a sensible first choice for most scenarios where a project in active development will be running in the Azure Cloud.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` provides sane defaults with minimal configuration and chains multiple credentials together. While your project may eventually need only a specific set of credentials, it's a sensible first choice for most scenarios in which a project in active development will be running in the Azure Cloud.
 
 ```ts
 /**
@@ -136,7 +136,7 @@ function withDefaultAzureCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`, deployed to an Azure resource with a user-assigned managed identity configured.
 
-For more information about configuring a user-assigned managed identity for an Azure resource, please refer to [What are managed identities for Azure resources][azure_managed_identities].
+For more information about configuring a user-assigned managed identity for an Azure resource, refer to [What are managed identities for Azure resources][azure_managed_identities].
 
 ```ts
 /**
@@ -158,7 +158,7 @@ For clients with a default browser available and client-side applications runnin
 
 For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
 
-For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. Please see [Authenticating client-side browser applications](#authenticating-client-side-browser-applications).
+For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. For more information, see [Authenticating client-side browser applications](#authenticating-client-side-browser-applications).
 
 ```ts
 function withInteractiveBrowserCredential() {
@@ -179,9 +179,9 @@ You'll need to:
 - [Create an application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-To learn more about service principals, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
+To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
 
-In the sample below, an application authenticates a `SecretClient` from the [@azure/service-bus][service_bus_client_library] using the `ClientSecretCredential`.
+In the following sample, an application authenticates a `SecretClient` from the [@azure/service-bus][service_bus_client_library] using the `ClientSecretCredential`:
 
 ```ts
 /**
@@ -199,7 +199,10 @@ function withClientSecretCredential() {
 
 #### Authenticating a service principal with environment credentials
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `EnvironmentCredential`. The `EnvironmentCredential` looks for well-known environment variable names to determine how it should authenticate. It effectively acts as a wrapper for the `ClientSecretCredential`, `ClientCertificateCredential`, or `UsernamePasswordCredential`, depending on which environment variables are present.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `EnvironmentCredential`. The `EnvironmentCredential`:
+
+- Looks for well-known environment variable names to determine how it should authenticate.
+- Acts as a wrapper for the `ClientSecretCredential`, `ClientCertificateCredential`, or `UsernamePasswordCredential`, depending on which environment variables are present.
 
 You'll need to:
 
@@ -210,7 +213,7 @@ You'll need to:
   - `AZURE_CLIENT_ID`, containing the ID of the user/service principal to authenticate as.
   - `AZURE_CLIENT_SECRET`, containing a client secret created belonging to the same user/service principal.
 
-To learn more about service principals, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
+To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
 
 ```ts
 /**
@@ -231,7 +234,7 @@ You'll need to:
 - [Create an application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-To learn more about service principals, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
+To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
 
 ```ts
 /**
@@ -249,17 +252,21 @@ function withClientCertificateCredential() {
 
 #### Authenticating a user account with device code flow
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`. The `DeviceCodeCredential` offers a credential that can be used with little to no setup - the user is free to use whatever browser they choose to complete the authentication process.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`. The `DeviceCodeCredential` offers a credential that can be used with little to no setup. The user can use the browser of their choice to complete the authentication process.
 
-To authenticate a user through device code flow, use the following steps:
+To authenticate a user through device code flow, complete the following steps:
 
 1. Go to Azure Active Directory in Azure portal and find your app registration.
 2. Navigate to the **Authentication** section.
 3. Under **Advanced settings**, select `yes` on the option `Allow public client flows`.
 
-You also need to be the admin of your tenant to grant consent to your application when you log in for the first time.
+You also need to be the administrator of your tenant to grant consent to your application when you log in for the first time.
 
-If you can't configure the device code flow option on your Active Directory, then it may require your app to be multi-tenant. To make your app multi-tenant, navigate to the **Authentication** panel, then select **Accounts in any organizational directory**. Then, select _yes_ for Treat application as Public Client.
+If you can't configure the device code flow option on your Active Directory, it may require your app to be multi-tenant. To make your app multi-tenant:
+
+1. Navigate to the **Authentication** panel.
+2. Select **Accounts in any organizational directory**.
+3. Then, select _yes_ for Treat application as Public Client.
 
 ```ts
 /**
@@ -301,15 +308,15 @@ function withClientCertificateCredential() {
 
 #### Authenticating a user account with auth code flow
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a Node.js service intended as the back-end for a web application. This can be useful when you want complete control over the authentication flow or when the `InteractiveBrowserCredential` does not fit your use-case.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a Node.js service intended as the back-end for a web application. This can be useful when you want complete control over the authentication flow or when the `InteractiveBrowserCredential` doesn't fit your use case.
 
 First, [register your application][quickstart-register-app] and get your client ID, tenant ID and redirect URL.
 
-Next, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code). You will need the client ID, tenant ID, redirect URL, and the scopes your application plans to access.
+Next, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code). You'll need the client ID, tenant ID, redirect URL, and the scopes your application plans to access.
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
 
-For a complete example using the authorization code flow in Electron please refer to [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/frameworks/electron/ts/src/authProvider.ts).
+For a complete example using the authorization code flow in Electron, see [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/frameworks/electron/ts/src/authProvider.ts).
 
 ```ts
 /**
@@ -430,9 +437,9 @@ function withAzurePowerShellCredential() {
 
 #### Authenticating in Azure with managed identity
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `ManagedIdentityCredential` in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system-assigned or user-assigned managed identity enabled.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `ManagedIdentityCredential` in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned or user-assigned managed identity enabled.
 
-For more information about configuring your Azure resource for managed identity, please refer to [Configure managed identities for Azure resources](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-cli-windows-vm).
+For more information about configuring your Azure resource for managed identity, see [Configure managed identities for Azure resources](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-cli-windows-vm).
 
 ```ts
 /**
@@ -490,7 +497,7 @@ The ActiveDirectory Authority in the output will be your Azure Authority Host
 
 ### Determine the Tenant ID for Azure Stack
 
-If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD), then contact your Azure Stack Administrator to find out your tenant ID. Otherwise, if the Identity provider of your Azure Stack is Active Directory Federation Services (AD FS), then your tenant id is `adfs`.
+If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD), contact your Azure Stack Administrator to find your tenant ID. Otherwise, if the Identity provider of your Azure Stack is Active Directory Federation Services (ADFS), your tenant ID is `adfs`.
 
 ### Authentication example
 
@@ -517,15 +524,15 @@ function main() {
 
 ### Custom Credentials
 
-The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, we understand there are cases in which the credentials provided might not meet the specific needs of your application. Some applications might want to avoid taking a dependency on the `@azure/identity` package. In such cases, you may want to write your custom credential.
+The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, we understand there are cases in which the credentials provided might not meet the specific needs of your application. Some applications might avoid taking a dependency on the `@azure/identity` package. In such cases, you may want to write your custom credential.
 
 In this section, we'll examine some such scenarios.
 
 ### Authenticating with a pre-fetched access token
 
-Our package `@azure/core-auth` exports a `TokenCredential` interface used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. We understand there are cases in which it will be convenient to create custom credentials. One example is when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
+The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface. The interface is used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. There are cases in which it's convenient to create custom credentials. For example, when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
 
-In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://docs.microsoft.com/javascript/api/@azure/core-auth/accesstoken), and returns that from its implementation of `getToken()`.
+In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://docs.microsoft.com/javascript/api/@azure/core-auth/accesstoken) and returns that from its implementation of `getToken()`.
 
 > You'll need to install the [@azure/core-auth][core_auth] package for this sample.
 
@@ -563,20 +570,20 @@ async function main() {
 }
 ```
 
-When using this custom credential type, it is the caller's responsibility to ensure that the token is valid and contains the correct claims needed to authenticate calls from the particular service client. For instance in the above case the token must have the scope "https://vault.azure.net/.default" to authorize calls to Azure Blob Storage.
+When using this custom credential type, it's the caller's responsibility to ensure the token is valid and contains the correct claims needed to authenticate calls from the particular service client. In the preceding case, the token must have the scope `https://vault.azure.net/.default` to authorize calls to Azure Blob Storage.
 
 ### Authenticating with MSAL Directly
 
-Some applications already use the `@azure/msal-node` or `@azure/msal-browser` to authenticate portions of their application. In these cases, the application might want to use the same to authenticate Azure SDK clients, to take advantage of the token caching the MSAL client application is doing, and preventing unnecessary authentication calls.
+Some applications already use the [@azure/msal-node][msal_node_npm] or [@azure/msal-browser][msal_browser_npm] package to authenticate portions of their application. In these cases, the application might want to use the same to authenticate Azure SDK clients, to take advantage of the token caching the MSAL client application is doing, and preventing unnecessary authentication calls.
 
 #### Authenticating with the @azure/msal-node Confidential Client
 
-In this example the [ConfidentialClientApplicationCredential](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md) is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
+In this example, the [ConfidentialClientApplicationCredential](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md) is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
 
 You'll need to install the [@azure/msal-node][msal_node_npm] and the the [@azure/core-auth][core_auth] package for this sample.
 
-> For more information about MSAL for Node.js, please refer to [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, please refer to [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
+> For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
+> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -622,9 +629,9 @@ In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, 
 
 You'll need to install the [@azure/msal-node][msal_node_npm] and the the [@azure/core-auth][core_auth] package for this sample.
 
-> For more information about MSAL for Node.js, please refer to [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, please refer to [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
-> For more information about working with the On Behalf Flow with MSAL, please refer to [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow).
+> For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
+> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
+> For more information about working with the On Behalf Flow with MSAL, see [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow).
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -658,7 +665,7 @@ class OnBehalfOfCredential implements TokenCredential {
 }
 ```
 
-The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`.
+The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`:
 
 ```ts
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -672,13 +679,18 @@ async function main() {
 
 #### Authenticating with the @azure/msal-browser Public Client
 
-While `@azure/identity` provides some browser support, for users that need the complete set of features offered by `@azure/msal-browser`, it is possible to implement a `TokenCredential` on top of MSAL's public API for the browsers.
+While `@azure/identity` provides some browser support, for users that need the complete feature set offered by `@azure/msal-browser`, it's possible to implement a `TokenCredential` on top of MSAL's public API for the browsers.
 
 You'll need to install the [@azure/msal-browser][msal_browser_npm] and the the [@azure/core-auth][core_auth] package for this sample.
 
-> For more information about MSAL for browsers, please refer to [the README of the `@azure/msal-browser` package][msal_browser_readme].
+> For more information about MSAL for browsers, see [the README of the `@azure/msal-browser` package][msal_browser_readme].
 
-For this example, we will define a `BrowserCredential` class that has a `getToken` method (which will use the Silent Authentication flow, retrieving the account from memory, as we want to prevent unnecessary redirections), and also a `prepare()` method that will try either to check if the account has previously authenticated, or to parse the redirection URI values if present, also a `hasAuthenticated` method which can be used to know if the authentication has taken place, and finally a `loginRedirect` method, which if called will trigger the authentication via redirection.
+For this example, you'll define a `BrowserCredential` class with the following methods:
+
+- `getToken` &mdash; Will use the Silent Authentication flow, retrieving the account from memory to prevent unnecessary redirections.
+- `prepare` &mdash; Will try either to check if the account has previously authenticated or to parse the redirection URI values if present.
+- `hasAuthenticated` &mdash; Can be used to determine if the authentication has taken place.
+- `loginRedirect` &mdash; If called, this method triggers the authentication via redirection.
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -744,7 +756,7 @@ class BrowserCredential implements TokenCredential {
 }
 ```
 
-The following example shows how the `BrowserCredential` could be used to authenticate a `ServiceBusClient`. Keep in mind that for this example to work, the redirect URI configured in the AAD application should point to the same page that runs this code originally (for example, `http://localhost:80`):
+The following example shows how the `BrowserCredential` could be used to authenticate a `ServiceBusClient`. For this example to work, the redirect URI configured in the AAD application should point to the same page that runs this code originally. For example, `http://localhost:80`.
 
 ```ts
 import { ServiceBusClient } from "@azure/service-bus";
@@ -766,15 +778,15 @@ async function main() {
 
 Azure Key Vault supports creating secure certificates that can be used to authenticate Azure SDK clients.
 
-There are different ways to create Key Vault Certificates. For example, through the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-cli).
+There are different ways to create Key Vault certificates. For example, through the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-cli).
 
 Once you have a certificate, you may export the certificate with the Azure CLI following the steps at [Export certificates from Azure Key Vault](https://docs.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
 
 You can also export your certificate through the portal by going to your Key Vault, going to a specific certificate, then downloading the certificate in PFX/PEM format.
 
-Once you have a Key Vault certificate downloaded, go to Azure Active Directory, find the Enterprise app you want to authenticate with, go to `Certificates & secrets` and then upload the certificate.
+Once you have a Key Vault certificate downloaded, go to Azure Active Directory. Find the Enterprise app you want to authenticate with, go to `Certificates & secrets`, and upload the certificate.
 
-After that, you'll be able to authenticate by pointing the `@azure/identity`'s `ClientCertificateCredential` to the path where your PEM certificate is, as follows:
+After that, you can authenticate by pointing the `@azure/identity`'s `ClientCertificateCredential` to the PEM certificate's path, as follows:
 
 ```ts
 const credential = new ClientCertificateCredential(
@@ -786,7 +798,7 @@ const credential = new ClientCertificateCredential(
 
 ### Rolling Certificates
 
-Long-running applications may need to roll certificates during process execution. At the moment, the `ClientCertificateCredential` does not support certificate rotation (the credential treats the certificate provided as immutable). Therefore, clients constructed with a `ClientCertificateCredential` using a particular cert would fail to authenticate requests after that certificate rolls and the original is no longer valid.
+Long-running applications may need to roll certificates during process execution. At the moment, the `ClientCertificateCredential` doesn't support certificate rotation. The credential treats the certificate provided as immutable. Therefore, clients constructed with a `ClientCertificateCredential` using a particular certificate would fail to authenticate requests after that certificate rolls and the original is no longer valid.
 
 However, if an application wants to roll this certificate without creating new service clients, it can accomplish this by creating its own `TokenCredential` implementation, which wraps the `ClientCertificateCredential`. Implementing this custom `TokenCredential` would somewhat depend on how the application handles certificate rotation.
 
@@ -825,7 +837,7 @@ class RotatableCertificateCredential implements TokenCredential {
 }
 ```
 
-The above example shows a custom credential type `RotatableCertificateCredential`, which provides a `rotateCertificate`. The implementation internally relies on an instance of `ClientCertificateCredential`, and `rotateCertificate` replaces this instance with a new one using the new certificate path.
+The preceding example shows a custom credential type `RotatableCertificateCredential`, which provides a `rotateCertificate`. The implementation internally relies on an instance of `ClientCertificateCredential`. `rotateCertificate` replaces this instance with a new one using the new certificate path.
 
 #### Implicit rotation
 
