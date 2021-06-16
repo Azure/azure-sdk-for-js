@@ -1,27 +1,27 @@
 let nock = require('nock');
 
-module.exports.hash = "a029440b94d74f4bb37d8021fa55d003";
+module.exports.hash = "9d22e91b3c0859e19eebf021b89a898f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
   .query(true)
   .reply(404, "", [
   'Request-Context',
   'appId=',
   'MS-CV',
-  'A1uTBbq3nk2rB2RHx2xxiQ.0',
+  'gSnHgOKetEmOZoEI9jY9PQ.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '277ms',
+  '443ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0blm2YAAAAAApYfcZTdxvQ4um59ELvNWHWVZSMzBFREdFMDMxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '044bKYAAAAACaoL6VIvwWSpV8a2VvSOPFWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 01 Jun 2021 15:59:42 GMT',
+  'Wed, 16 Jun 2021 23:18:59 GMT',
   'Content-Length',
   '0'
 ]);
