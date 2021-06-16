@@ -7,12 +7,6 @@ import {
 } from "./operation";
 import { SecretProperties } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-export const withTrace = createTraceFunction("Azure.KeyVault.Secrets.RecoverDeletedSecretPoller");
 
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted

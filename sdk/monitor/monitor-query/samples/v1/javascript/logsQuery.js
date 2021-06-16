@@ -48,8 +48,13 @@ async function main() {
     return;
   }
 
+  const executionTime =
+    result.statistics && result.statistics.query && result.statistics.query.executionTime;
+
   console.log(
-    `Results for query '${kustoQuery}', execution time: ${result.statistics?.query?.executionTime}`
+    `Results for query '${kustoQuery}', execution time: ${
+      executionTime == null ? "unknown" : executionTime
+    }`
   );
 
   for (const table of tablesFromResult) {

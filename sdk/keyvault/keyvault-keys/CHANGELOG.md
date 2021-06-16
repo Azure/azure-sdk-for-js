@@ -1,5 +1,21 @@
 # Release History
 
+## 4.3.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+## 4.2.1 (2021-06-15)
+
+### Bug Fixes
+
+- Fixed an issue where bundling could fail when importing this library due to an incorrectly set import.
+
 ## 4.2.0 (2021-06-15)
 
 ### New Features

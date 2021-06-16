@@ -128,10 +128,10 @@ describe("LogsQueryClient live tests", function() {
       }
     );
 
-    // TODO: statistics are not currently modeled in the generated code.
-
-    // do a very basic check that the statistics were returnedassert.
-    assert.ok(query.statistics?.query?.executionTime);
+    // TODO: statistics are not currently modeled in the generated code but
+    // the executionTime field is pretty useful.
+    assert.isOk(query.statistics);
+    assert.isNumber(query.statistics?.query?.executionTime);
   });
 
   it("query with types", async () => {

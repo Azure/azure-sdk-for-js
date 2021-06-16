@@ -3,7 +3,7 @@
   "author": "Microsoft Corporation",
   "sdk-type": "client",
   "version": "1.0.6",
-  "description": "LRO Polling strtegy for the Azure SDK in TypeScript",
+  "description": "LRO Polling strategy for the Azure SDK in TypeScript",
   "tags": [
     "isomorphic",
     "browser",
