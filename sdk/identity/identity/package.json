@@ -20,7 +20,8 @@
     "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
     "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
-    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js"
+    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
+    "./dist-esm/src/extensions/consumer.js": "./dist-esm/src/extensions/consumer.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
