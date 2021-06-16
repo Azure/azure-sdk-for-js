@@ -264,11 +264,16 @@ export class GlobalEndpointManager {
   }
 
   private async backgroundRefreshEndpointList() {
-    this.isRefreshing = true
-    this.refreshEndpointList();
-    setTimeout(() => {
-      this.backgroundRefreshEndpointList()
-    }, FIVE_MINUTES)
+    let refreshCount = 0;
+    setInterval(() => {
+      try {
+        this.refreshEndpointList();
+        refreshCount += 1;
+        console.log({ refreshCount })
+      } catch (e) {
+        console.warn(`Failed to refresh endpoints:  ${e}`)
+      }
+    }, FIVE_MINUTES).unref()
   }
 }
 
