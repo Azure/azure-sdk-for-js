@@ -832,20 +832,20 @@ export class MetricsAdvisorClient {
    * @param detectionConfigId - Anomaly detection configuration id
    * @param startTime - The start of time range to query metric enriched series data
    * @param endTime - The end of time range to query metric enriched series data
-   * @param seriesToFilter - Series to retrieve their data
+   * @param seriesKey - Series to retrieve their data
    * @param options - The options parameter.
    */
   public async getMetricEnrichedSeriesData(
     detectionConfigId: string,
+    seriesKey: DimensionKey[],
     startTime: Date | string,
     endTime: Date | string,
-    seriesToFilter: DimensionKey[],
     options: GetMetricEnrichedSeriesDataOptions = {}
   ): Promise<GetMetricEnrichedSeriesDataResponse> {
     const optionsBody = {
       startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
       endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
-      series: seriesToFilter.map((s) => {
+      series: seriesKey.map((s) => {
         return { dimension: s };
       })
     };
@@ -1790,20 +1790,20 @@ export class MetricsAdvisorClient {
    * @param metricId - Metric id
    * @param startTime - The start of the time range to retrieve series data
    * @param endTime - The end of the time range to retrieve series data
-   * @param seriesToFilter - A list of time series to retrieve their data
+   * @param seriesKey - A list of time series to retrieve their data
    * @param options - The options parameter
    */
   public async getMetricSeriesData(
     metricId: string,
+    seriesKey: DimensionKey[],
     startTime: Date | string,
     endTime: Date | string,
-    seriesToFilter: DimensionKey[],
     options: GetMetricSeriesDataOptions = {}
   ): Promise<GetMetricSeriesDataResponse> {
     const optionsBody = {
       startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
       endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
-      series: seriesToFilter
+      series: seriesKey
     };
     const result = await this.client.getMetricData(metricId, optionsBody, options);
     const resultArray =

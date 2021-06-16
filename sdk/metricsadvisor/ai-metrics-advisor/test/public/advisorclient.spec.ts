@@ -324,12 +324,12 @@ matrix([[true, false]] as const, async (useAad) => {
       it("lists series data for a metric", async function() {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          new Date(Date.UTC(2020, 7, 5)),
-          new Date(Date.UTC(2020, 8, 5)),
           [
             { city: "Manila", category: "Shoes Handbags & Sunglasses" },
             { city: "Cairo", category: "Home & Garden" }
-          ]
+          ],
+          new Date(Date.UTC(2020, 7, 5)),
+          new Date(Date.UTC(2020, 8, 5))
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
@@ -370,12 +370,12 @@ matrix([[true, false]] as const, async (useAad) => {
       it("lists series data for a metric with datetime strings", async function() {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          "2020-08-05T00:00:00.000Z",
-          "2020-09-05T00:00:00.000Z",
           [
             { city: "Cairo", category: "Home & Garden" },
             { city: "Manila", category: "Shoes Handbags & Sunglasses" }
-          ]
+          ],
+          "2020-08-05T00:00:00.000Z",
+          "2020-09-05T00:00:00.000Z"
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
@@ -399,12 +399,12 @@ matrix([[true, false]] as const, async (useAad) => {
       it("list enriched data for a detection configuration", async function() {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          new Date(Date.UTC(2020, 7, 1)),
-          new Date(Date.UTC(2020, 7, 27)),
           [
             { city: "Manila", category: "Shoes Handbags & Sunglasses" },
             { city: "Cairo", category: "Home & Garden" }
-          ]
+          ],
+          new Date(Date.UTC(2020, 7, 1)),
+          new Date(Date.UTC(2020, 7, 27))
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
@@ -442,12 +442,12 @@ matrix([[true, false]] as const, async (useAad) => {
       it("list enriched data for a detection configuration with datetime strings", async function() {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          "2020-08-01T00:00:00.000Z",
-          "2020-08-27T00:00:00.000Z",
           [
             { city: "Manila", category: "Shoes Handbags & Sunglasses" },
             { city: "Cairo", category: "Home & Garden" }
-          ]
+          ],
+          "2020-08-01T00:00:00.000Z",
+          "2020-08-27T00:00:00.000Z"
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
