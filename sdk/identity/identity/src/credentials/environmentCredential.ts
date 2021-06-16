@@ -47,10 +47,9 @@ export class EnvironmentCredential implements TokenCredential {
     | ClientCertificateCredential
     | UsernamePasswordCredential = undefined;
   /**
-   * Creates an instance of the EnvironmentCredential class and reads
-   * client secret details from environment variables.  If the expected
-   * environment variables are not found at this time, the getToken method
-   * will return null when invoked.
+   * Creates an instance of the EnvironmentCredential class and reads client secret details from environment variables.
+   * If the environment variables required to perform the authentication are missing, a {@link CredentialUnavailableError} will be thrown.
+   * If the authentication fails, an {@link AuthenticationError} will be thrown.
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
