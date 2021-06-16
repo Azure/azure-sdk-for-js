@@ -35,12 +35,12 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
   try {
     const result = await client.getMetricEnrichedSeriesData(
       detectionConfigId,
-      new Date("09/01/2020"),
-      new Date("09/12/2020"),
       [
         { city: "Manila", category: "Handmade" },
         { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
-      ]
+      ],
+      new Date("09/01/2020"),
+      new Date("09/12/2020")
     );
 
     for (const enriched of result) {
@@ -70,12 +70,12 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
   try {
     const result = await client.getMetricSeriesData(
       metricId,
-      new Date("09/01/2020"),
-      new Date("09/12/2020"),
       [
         { city: "Manila", category: "Handmade" },
         { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
-      ]
+      ],
+      new Date("09/01/2020"),
+      new Date("09/12/2020")
     );
 
     for (const series of result) {
