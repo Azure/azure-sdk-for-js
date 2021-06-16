@@ -13,10 +13,10 @@
   "types": "./typings/src/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:browser": "echo skipped",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Skipped.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p .",
     "build": "tsc -p . && rollup -c 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
@@ -30,7 +30,7 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace --exclude dist-esm/**/browser/**/*.spec.js dist-esm/**/*.spec.js",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -65,9 +65,10 @@
   "dependencies": {
     "@azure/test-utils-recorder": "^1.0.0",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-rest-pipeline": "1.1.0-beta.3"
+    "@azure/core-rest-pipeline": "^1.0.3"
   },
   "devDependencies": {
+    "@azure/storage-blob": "^12.6.0-beta.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
