@@ -336,8 +336,7 @@ export interface DatasetGetDatasetsByWorkspace {
   get(
     options?: DatasetGetDatasetsByWorkspaceParameters
   ): Promise<
-    | DatasetGetDatasetsByWorkspace200Response
-    | DatasetGetDatasetsByWorkspacedefaultResponse
+    DatasetGetDatasetsByWorkspace200Response | DatasetGetDatasetsByWorkspacedefaultResponse
   >;
 }
 
@@ -354,9 +353,7 @@ export interface DatasetCreateOrUpdateDataset {
   get(
     options?: DatasetGetDatasetParameters
   ): Promise<
-    | DatasetGetDataset200Response
-    | DatasetGetDataset304Response
-    | DatasetGetDatasetdefaultResponse
+    DatasetGetDataset200Response | DatasetGetDataset304Response | DatasetGetDatasetdefaultResponse
   >;
   /** Deletes a dataset. */
   delete(
@@ -385,8 +382,7 @@ export interface PipelineGetPipelinesByWorkspace {
   get(
     options?: PipelineGetPipelinesByWorkspaceParameters
   ): Promise<
-    | PipelineGetPipelinesByWorkspace200Response
-    | PipelineGetPipelinesByWorkspacedefaultResponse
+    PipelineGetPipelinesByWorkspace200Response | PipelineGetPipelinesByWorkspacedefaultResponse
   >;
 }
 
@@ -433,10 +429,7 @@ export interface PipelineCreatePipelineRun {
   /** Creates a run of a pipeline. */
   post(
     options?: PipelineCreatePipelineRunParameters
-  ): Promise<
-    | PipelineCreatePipelineRun202Response
-    | PipelineCreatePipelineRundefaultResponse
-  >;
+  ): Promise<PipelineCreatePipelineRun202Response | PipelineCreatePipelineRundefaultResponse>;
 }
 
 export interface PipelineRunQueryPipelineRunsByWorkspace {
@@ -453,30 +446,21 @@ export interface PipelineRunGetPipelineRun {
   /** Get a pipeline run by its run ID. */
   get(
     options?: PipelineRunGetPipelineRunParameters
-  ): Promise<
-    | PipelineRunGetPipelineRun200Response
-    | PipelineRunGetPipelineRundefaultResponse
-  >;
+  ): Promise<PipelineRunGetPipelineRun200Response | PipelineRunGetPipelineRundefaultResponse>;
 }
 
 export interface PipelineRunQueryActivityRuns {
   /** Query activity runs based on input filter conditions. */
   post(
     options: PipelineRunQueryActivityRunsParameters
-  ): Promise<
-    | PipelineRunQueryActivityRuns200Response
-    | PipelineRunQueryActivityRunsdefaultResponse
-  >;
+  ): Promise<PipelineRunQueryActivityRuns200Response | PipelineRunQueryActivityRunsdefaultResponse>;
 }
 
 export interface PipelineRunCancelPipelineRun {
   /** Cancel a pipeline run by its run ID. */
   post(
     options?: PipelineRunCancelPipelineRunParameters
-  ): Promise<
-    | PipelineRunCancelPipelineRun200Response
-    | PipelineRunCancelPipelineRundefaultResponse
-  >;
+  ): Promise<PipelineRunCancelPipelineRun200Response | PipelineRunCancelPipelineRundefaultResponse>;
 }
 
 export interface TriggerGetTriggersByWorkspace {
@@ -484,8 +468,7 @@ export interface TriggerGetTriggersByWorkspace {
   get(
     options?: TriggerGetTriggersByWorkspaceParameters
   ): Promise<
-    | TriggerGetTriggersByWorkspace200Response
-    | TriggerGetTriggersByWorkspacedefaultResponse
+    TriggerGetTriggersByWorkspace200Response | TriggerGetTriggersByWorkspacedefaultResponse
   >;
 }
 
@@ -502,9 +485,7 @@ export interface TriggerCreateOrUpdateTrigger {
   get(
     options?: TriggerGetTriggerParameters
   ): Promise<
-    | TriggerGetTrigger200Response
-    | TriggerGetTrigger304Response
-    | TriggerGetTriggerdefaultResponse
+    TriggerGetTrigger200Response | TriggerGetTrigger304Response | TriggerGetTriggerdefaultResponse
   >;
   /** Deletes a trigger. */
   delete(
@@ -533,8 +514,7 @@ export interface TriggerGetEventSubscriptionStatus {
   post(
     options?: TriggerGetEventSubscriptionStatusParameters
   ): Promise<
-    | TriggerGetEventSubscriptionStatus200Response
-    | TriggerGetEventSubscriptionStatusdefaultResponse
+    TriggerGetEventSubscriptionStatus200Response | TriggerGetEventSubscriptionStatusdefaultResponse
   >;
 }
 
@@ -553,9 +533,7 @@ export interface TriggerStartTrigger {
   /** Starts a trigger. */
   post(
     options?: TriggerStartTriggerParameters
-  ): Promise<
-    TriggerStartTrigger200Response | TriggerStartTriggerdefaultResponse
-  >;
+  ): Promise<TriggerStartTrigger200Response | TriggerStartTriggerdefaultResponse>;
 }
 
 export interface TriggerStopTrigger {
@@ -570,8 +548,7 @@ export interface TriggerRunRerunTriggerInstance {
   post(
     options?: TriggerRunRerunTriggerInstanceParameters
   ): Promise<
-    | TriggerRunRerunTriggerInstance200Response
-    | TriggerRunRerunTriggerInstancedefaultResponse
+    TriggerRunRerunTriggerInstance200Response | TriggerRunRerunTriggerInstancedefaultResponse
   >;
 }
 
@@ -580,8 +557,7 @@ export interface TriggerRunCancelTriggerInstance {
   post(
     options?: TriggerRunCancelTriggerInstanceParameters
   ): Promise<
-    | TriggerRunCancelTriggerInstance200Response
-    | TriggerRunCancelTriggerInstancedefaultResponse
+    TriggerRunCancelTriggerInstance200Response | TriggerRunCancelTriggerInstancedefaultResponse
   >;
 }
 
@@ -607,9 +583,7 @@ export interface DataFlowCreateOrUpdateDataFlow {
   /** Gets a data flow. */
   get(
     options?: DataFlowGetDataFlowParameters
-  ): Promise<
-    DataFlowGetDataFlow200Response | DataFlowGetDataFlowdefaultResponse
-  >;
+  ): Promise<DataFlowGetDataFlow200Response | DataFlowGetDataFlowdefaultResponse>;
   /** Deletes a data flow. */
   delete(
     options?: DataFlowDeleteDataFlowParameters
@@ -637,8 +611,7 @@ export interface DataFlowGetDataFlowsByWorkspace {
   get(
     options?: DataFlowGetDataFlowsByWorkspaceParameters
   ): Promise<
-    | DataFlowGetDataFlowsByWorkspace200Response
-    | DataFlowGetDataFlowsByWorkspacedefaultResponse
+    DataFlowGetDataFlowsByWorkspace200Response | DataFlowGetDataFlowsByWorkspacedefaultResponse
   >;
 }
 
@@ -668,8 +641,7 @@ export interface DataFlowDebugSessionAddDataFlow {
   post(
     options: DataFlowDebugSessionAddDataFlowParameters
   ): Promise<
-    | DataFlowDebugSessionAddDataFlow200Response
-    | DataFlowDebugSessionAddDataFlowdefaultResponse
+    DataFlowDebugSessionAddDataFlow200Response | DataFlowDebugSessionAddDataFlowdefaultResponse
   >;
 }
 
@@ -699,8 +671,7 @@ export interface SqlScriptGetSqlScriptsByWorkspace {
   get(
     options?: SqlScriptGetSqlScriptsByWorkspaceParameters
   ): Promise<
-    | SqlScriptGetSqlScriptsByWorkspace200Response
-    | SqlScriptGetSqlScriptsByWorkspacedefaultResponse
+    SqlScriptGetSqlScriptsByWorkspace200Response | SqlScriptGetSqlScriptsByWorkspacedefaultResponse
   >;
 }
 
@@ -819,8 +790,7 @@ export interface NotebookGetNotebooksByWorkspace {
   get(
     options?: NotebookGetNotebooksByWorkspaceParameters
   ): Promise<
-    | NotebookGetNotebooksByWorkspace200Response
-    | NotebookGetNotebooksByWorkspacedefaultResponse
+    NotebookGetNotebooksByWorkspace200Response | NotebookGetNotebooksByWorkspacedefaultResponse
   >;
 }
 
@@ -912,18 +882,14 @@ export interface IntegrationRuntimesList {
   /** List Integration Runtimes */
   get(
     options?: IntegrationRuntimesListParameters
-  ): Promise<
-    IntegrationRuntimesList200Response | IntegrationRuntimesListdefaultResponse
-  >;
+  ): Promise<IntegrationRuntimesList200Response | IntegrationRuntimesListdefaultResponse>;
 }
 
 export interface IntegrationRuntimesGet {
   /** Get Integration Runtime */
   get(
     options?: IntegrationRuntimesGetParameters
-  ): Promise<
-    IntegrationRuntimesGet200Response | IntegrationRuntimesGetdefaultResponse
-  >;
+  ): Promise<IntegrationRuntimesGet200Response | IntegrationRuntimesGetdefaultResponse>;
 }
 
 export interface LibraryList {
@@ -937,11 +903,7 @@ export interface LibraryFlush {
   /** Flush Library */
   post(
     options?: LibraryFlushParameters
-  ): Promise<
-    | LibraryFlush200Response
-    | LibraryFlush202Response
-    | LibraryFlushdefaultResponse
-  >;
+  ): Promise<LibraryFlush200Response | LibraryFlush202Response | LibraryFlushdefaultResponse>;
 }
 
 export interface LibraryGetOperationResult {
@@ -968,18 +930,12 @@ export interface LibraryDelete {
   /** Get Library */
   get(
     options?: LibraryGetParameters
-  ): Promise<
-    LibraryGet200Response | LibraryGet304Response | LibraryGetdefaultResponse
-  >;
+  ): Promise<LibraryGet200Response | LibraryGet304Response | LibraryGetdefaultResponse>;
   /** Creates a library with the library name. */
   put(
-    options: LibraryCreateParameters | LibraryAppendParameters
+    options?: LibraryCreateParameters | LibraryAppendParameters
   ):
-    | Promise<
-        | LibraryCreate200Response
-        | LibraryCreate202Response
-        | LibraryCreatedefaultResponse
-      >
+    | Promise<LibraryCreate200Response | LibraryCreate202Response | LibraryCreatedefaultResponse>
     | Promise<LibraryAppend201Response | LibraryAppenddefaultResponse>;
 }
 
@@ -1006,32 +962,17 @@ export interface Routes {
   /** Resource for '/datasets' has methods for the following verbs: get */
   (path: "/datasets"): DatasetGetDatasetsByWorkspace;
   /** Resource for '/datasets/\{datasetName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/datasets/{datasetName}",
-    datasetName: string
-  ): DatasetCreateOrUpdateDataset;
+  (path: "/datasets/{datasetName}", datasetName: string): DatasetCreateOrUpdateDataset;
   /** Resource for '/datasets/\{datasetName\}/rename' has methods for the following verbs: post */
-  (
-    path: "/datasets/{datasetName}/rename",
-    datasetName: string
-  ): DatasetRenameDataset;
+  (path: "/datasets/{datasetName}/rename", datasetName: string): DatasetRenameDataset;
   /** Resource for '/pipelines' has methods for the following verbs: get */
   (path: "/pipelines"): PipelineGetPipelinesByWorkspace;
   /** Resource for '/pipelines/\{pipelineName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/pipelines/{pipelineName}",
-    pipelineName: string
-  ): PipelineCreateOrUpdatePipeline;
+  (path: "/pipelines/{pipelineName}", pipelineName: string): PipelineCreateOrUpdatePipeline;
   /** Resource for '/pipelines/\{pipelineName\}/rename' has methods for the following verbs: post */
-  (
-    path: "/pipelines/{pipelineName}/rename",
-    pipelineName: string
-  ): PipelineRenamePipeline;
+  (path: "/pipelines/{pipelineName}/rename", pipelineName: string): PipelineRenamePipeline;
   /** Resource for '/pipelines/\{pipelineName\}/createRun' has methods for the following verbs: post */
-  (
-    path: "/pipelines/{pipelineName}/createRun",
-    pipelineName: string
-  ): PipelineCreatePipelineRun;
+  (path: "/pipelines/{pipelineName}/createRun", pipelineName: string): PipelineCreatePipelineRun;
   /** Resource for '/queryPipelineRuns' has methods for the following verbs: post */
   (path: "/queryPipelineRuns"): PipelineRunQueryPipelineRunsByWorkspace;
   /** Resource for '/pipelineruns/\{runId\}' has methods for the following verbs: get */
@@ -1043,17 +984,11 @@ export interface Routes {
     runId: string
   ): PipelineRunQueryActivityRuns;
   /** Resource for '/pipelineruns/\{runId\}/cancel' has methods for the following verbs: post */
-  (
-    path: "/pipelineruns/{runId}/cancel",
-    runId: string
-  ): PipelineRunCancelPipelineRun;
+  (path: "/pipelineruns/{runId}/cancel", runId: string): PipelineRunCancelPipelineRun;
   /** Resource for '/triggers' has methods for the following verbs: get */
   (path: "/triggers"): TriggerGetTriggersByWorkspace;
   /** Resource for '/triggers/\{triggerName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/triggers/{triggerName}",
-    triggerName: string
-  ): TriggerCreateOrUpdateTrigger;
+  (path: "/triggers/{triggerName}", triggerName: string): TriggerCreateOrUpdateTrigger;
   /** Resource for '/triggers/\{triggerName\}/subscribeToEvents' has methods for the following verbs: post */
   (
     path: "/triggers/{triggerName}/subscribeToEvents",
@@ -1070,15 +1005,9 @@ export interface Routes {
     triggerName: string
   ): TriggerUnsubscribeTriggerFromEvents;
   /** Resource for '/triggers/\{triggerName\}/start' has methods for the following verbs: post */
-  (
-    path: "/triggers/{triggerName}/start",
-    triggerName: string
-  ): TriggerStartTrigger;
+  (path: "/triggers/{triggerName}/start", triggerName: string): TriggerStartTrigger;
   /** Resource for '/triggers/\{triggerName\}/stop' has methods for the following verbs: post */
-  (
-    path: "/triggers/{triggerName}/stop",
-    triggerName: string
-  ): TriggerStopTrigger;
+  (path: "/triggers/{triggerName}/stop", triggerName: string): TriggerStopTrigger;
   /** Resource for '/triggers/\{triggerName\}/triggerRuns/\{runId\}/rerun' has methods for the following verbs: post */
   (
     path: "/triggers/{triggerName}/triggerRuns/{runId}/rerun",
@@ -1094,49 +1023,29 @@ export interface Routes {
   /** Resource for '/queryTriggerRuns' has methods for the following verbs: post */
   (path: "/queryTriggerRuns"): TriggerRunQueryTriggerRunsByWorkspace;
   /** Resource for '/dataflows/\{dataFlowName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/dataflows/{dataFlowName}",
-    dataFlowName: string
-  ): DataFlowCreateOrUpdateDataFlow;
+  (path: "/dataflows/{dataFlowName}", dataFlowName: string): DataFlowCreateOrUpdateDataFlow;
   /** Resource for '/dataflows/\{dataFlowName\}/rename' has methods for the following verbs: post */
-  (
-    path: "/dataflows/{dataFlowName}/rename",
-    dataFlowName: string
-  ): DataFlowRenameDataFlow;
+  (path: "/dataflows/{dataFlowName}/rename", dataFlowName: string): DataFlowRenameDataFlow;
   /** Resource for '/dataflows' has methods for the following verbs: get */
   (path: "/dataflows"): DataFlowGetDataFlowsByWorkspace;
   /** Resource for '/createDataFlowDebugSession' has methods for the following verbs: post */
-  (
-    path: "/createDataFlowDebugSession"
-  ): DataFlowDebugSessionCreateDataFlowDebugSession;
+  (path: "/createDataFlowDebugSession"): DataFlowDebugSessionCreateDataFlowDebugSession;
   /** Resource for '/queryDataFlowDebugSessions' has methods for the following verbs: post */
-  (
-    path: "/queryDataFlowDebugSessions"
-  ): DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspace;
+  (path: "/queryDataFlowDebugSessions"): DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspace;
   /** Resource for '/addDataFlowToDebugSession' has methods for the following verbs: post */
   (path: "/addDataFlowToDebugSession"): DataFlowDebugSessionAddDataFlow;
   /** Resource for '/deleteDataFlowDebugSession' has methods for the following verbs: post */
-  (
-    path: "/deleteDataFlowDebugSession"
-  ): DataFlowDebugSessionDeleteDataFlowDebugSession;
+  (path: "/deleteDataFlowDebugSession"): DataFlowDebugSessionDeleteDataFlowDebugSession;
   /** Resource for '/executeDataFlowDebugCommand' has methods for the following verbs: post */
   (path: "/executeDataFlowDebugCommand"): DataFlowDebugSessionExecuteCommand;
   /** Resource for '/sqlScripts' has methods for the following verbs: get */
   (path: "/sqlScripts"): SqlScriptGetSqlScriptsByWorkspace;
   /** Resource for '/sqlScripts/\{sqlScriptName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/sqlScripts/{sqlScriptName}",
-    sqlScriptName: string
-  ): SqlScriptCreateOrUpdateSqlScript;
+  (path: "/sqlScripts/{sqlScriptName}", sqlScriptName: string): SqlScriptCreateOrUpdateSqlScript;
   /** Resource for '/sqlScripts/\{sqlScriptName\}/rename' has methods for the following verbs: post */
-  (
-    path: "/sqlScripts/{sqlScriptName}/rename",
-    sqlScriptName: string
-  ): SqlScriptRenameSqlScript;
+  (path: "/sqlScripts/{sqlScriptName}/rename", sqlScriptName: string): SqlScriptRenameSqlScript;
   /** Resource for '/sparkJobDefinitions' has methods for the following verbs: get */
-  (
-    path: "/sparkJobDefinitions"
-  ): SparkJobDefinitionGetSparkJobDefinitionsByWorkspace;
+  (path: "/sparkJobDefinitions"): SparkJobDefinitionGetSparkJobDefinitionsByWorkspace;
   /** Resource for '/sparkJobDefinitions/\{sparkJobDefinitionName\}' has methods for the following verbs: put, get, delete */
   (
     path: "/sparkJobDefinitions/{sparkJobDefinitionName}",
@@ -1159,15 +1068,9 @@ export interface Routes {
   /** Resource for '/notebooks/summary' has methods for the following verbs: get */
   (path: "/notebooks/summary"): NotebookGetNotebookSummaryByWorkSpace;
   /** Resource for '/notebooks/\{notebookName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/notebooks/{notebookName}",
-    notebookName: string
-  ): NotebookCreateOrUpdateNotebook;
+  (path: "/notebooks/{notebookName}", notebookName: string): NotebookCreateOrUpdateNotebook;
   /** Resource for '/notebooks/\{notebookName\}/rename' has methods for the following verbs: post */
-  (
-    path: "/notebooks/{notebookName}/rename",
-    notebookName: string
-  ): NotebookRenameNotebook;
+  (path: "/notebooks/{notebookName}/rename", notebookName: string): NotebookRenameNotebook;
   /** Resource for '/workspace' has methods for the following verbs: get */
   (path: "/workspace"): WorkspaceGet;
   /** Resource for '/sqlPools' has methods for the following verbs: get */
@@ -1177,10 +1080,7 @@ export interface Routes {
   /** Resource for '/bigDataPools' has methods for the following verbs: get */
   (path: "/bigDataPools"): BigDataPoolsList;
   /** Resource for '/bigDataPools/\{bigDataPoolName\}' has methods for the following verbs: get */
-  (
-    path: "/bigDataPools/{bigDataPoolName}",
-    bigDataPoolName: string
-  ): BigDataPoolsGet;
+  (path: "/bigDataPools/{bigDataPoolName}", bigDataPoolName: string): BigDataPoolsGet;
   /** Resource for '/integrationRuntimes' has methods for the following verbs: get */
   (path: "/integrationRuntimes"): IntegrationRuntimesList;
   /** Resource for '/integrationRuntimes/\{integrationRuntimeName\}' has methods for the following verbs: get */
@@ -1193,16 +1093,11 @@ export interface Routes {
   /** Resource for '/libraries/\{libraryName\}/flush' has methods for the following verbs: post */
   (path: "/libraries/{libraryName}/flush", libraryName: string): LibraryFlush;
   /** Resource for '/libraryOperationResults/\{operationId\}' has methods for the following verbs: get */
-  (
-    path: "/libraryOperationResults/{operationId}",
-    operationId: string
-  ): LibraryGetOperationResult;
+  (path: "/libraryOperationResults/{operationId}", operationId: string): LibraryGetOperationResult;
   /** Resource for '/libraries/\{libraryName\}' has methods for the following verbs: delete, get, put */
   (path: "/libraries/{libraryName}", libraryName: string): LibraryDelete;
   /** Resource for '/getGitHubAccessToken' has methods for the following verbs: post */
-  (
-    path: "/getGitHubAccessToken"
-  ): WorkspaceGitRepoManagementGetGitHubAccessToken;
+  (path: "/getGitHubAccessToken"): WorkspaceGitRepoManagementGetGitHubAccessToken;
 }
 
 export type ArtifactsClientRestClient = Client & {
@@ -1223,5 +1118,7 @@ export default function ArtifactsClient(
     }
   };
 
-  return getClient(baseUrl, credentials, options) as ArtifactsClientRestClient;
+  const client = getClient(baseUrl, credentials, options) as ArtifactsClientRestClient;
+
+  return client;
 }

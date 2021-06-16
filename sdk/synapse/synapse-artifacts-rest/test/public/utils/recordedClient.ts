@@ -8,7 +8,8 @@ import { Context } from "mocha";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
-import ArtifactsClient, { ArtifactsClientRestClient, ClientOptions } from "../../../src";
+import ArtifactsClient, { ArtifactsClientRestClient } from "../../../src";
+import { ClientOptions } from "@azure-rest/core-client";
 import "./env";
 
 const replaceableVariables: { [k: string]: string } = {

@@ -7,6 +7,5 @@ export * from "./artifactsClient";
 export * from "./models";
 export * from "./parameters";
 export * from "./responses";
-export { ClientOptions } from "@azure-rest/core-client";
 
 export default ArtifactsClient;
