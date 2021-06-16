@@ -337,6 +337,7 @@ export {
   MarketoLinkedService,
   MarketoObjectDataset,
   MarketoSource,
+  MetadataItem,
   MicrosoftAccessLinkedService,
   MicrosoftAccessSink,
   MicrosoftAccessSource,

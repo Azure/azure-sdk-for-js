@@ -985,6 +985,45 @@ describe("Serializer", function() {
       }
     });
 
+    it("should correctly deserialize a pageable type with nextLink  first in mapper", function() {
+      const serializer = createSerializer(Mappers);
+      const mapper = Mappers.ProductListResultNextLinkFirst;
+      const responseBody = {
+        value: [
+          {
+            id: 101,
+            name: "TestProduct",
+            properties: {
+              provisioningState: "Succeeded"
+            }
+          },
+          {
+            id: 104,
+            name: "TestProduct1",
+            properties: {
+              provisioningState: "Failed"
+            }
+          }
+        ],
+        nextLink: "https://helloworld.com"
+      };
+      const deserializedProduct = serializer.deserialize(mapper, responseBody, "responseBody");
+      assert.isTrue(Array.isArray(deserializedProduct));
+      assert.equal(deserializedProduct.length, 2);
+      assert.equal(deserializedProduct.nextLink, "https://helloworld.com");
+      for (let i = 0; i < deserializedProduct.length; i++) {
+        if (i === 0) {
+          assert.equal(deserializedProduct[i].id, 101);
+          assert.equal(deserializedProduct[i].name, "TestProduct");
+          assert.equal(deserializedProduct[i].provisioningState, "Succeeded");
+        } else if (i === 1) {
+          assert.equal(deserializedProduct[i].id, 104);
+          assert.equal(deserializedProduct[i].name, "TestProduct1");
+          assert.equal(deserializedProduct[i].provisioningState, "Failed");
+        }
+      }
+    });
+
     it("should correctly deserialize a pageable type with nextLink", function() {
       const serializer = createSerializer(Mappers);
       const mapper = Mappers.ProductListResultNextLink;

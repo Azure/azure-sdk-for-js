@@ -71,7 +71,7 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -110,6 +110,22 @@
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/mixedRealityStsRestClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
   },
   "//sampleConfiguration": {
     "disableDocsMs": false,

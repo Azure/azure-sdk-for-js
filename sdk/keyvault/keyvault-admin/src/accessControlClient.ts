@@ -7,8 +7,7 @@ import {
   isTokenCredential,
   signingPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions,
-  RestResponse
+  InternalPipelineOptions
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -178,10 +177,10 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleAssignmentOptions = {}
-  ): Promise<RestResponse> {
-    return withTrace("deleteRoleAssignment", options, (updatedOptions) =>
-      this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions)
-    );
+  ): Promise<void> {
+    return withTrace("deleteRoleAssignment", options, async (updatedOptions) => {
+      await this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions);
+    });
   }
 
   /**
@@ -487,9 +486,9 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleDefinitionOptions = {}
-  ): Promise<RestResponse> {
-    return withTrace("deleteRoleDefinition", options, (updatedOptions) =>
-      this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions)
-    );
+  ): Promise<void> {
+    return withTrace("deleteRoleDefinition", options, async (updatedOptions) => {
+      await this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions);
+    });
   }
 }
