@@ -277,7 +277,7 @@ export interface DataFeedDimension {
 
 // @public
 export type DataFeedGranularity = {
-    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute" | "PerSecond";
+    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute";
 } | {
     granularityType: "Custom";
     customGranularityValue: number;
@@ -377,7 +377,7 @@ export type DataFeedStatus = "Paused" | "Active";
 
 // @public
 export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
-    accountKey: string;
+    accountKey?: string;
     type: "DataLakeGen2SharedKey";
 }
 
@@ -527,14 +527,6 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
 };
 
 // @public
-export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
-
-// @public
 export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -544,6 +536,14 @@ export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
 
 // @public
 export type GetDataFeedResponse = DataFeed & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: any;
+    };
+};
+
+// @public
+export type GetDetectionConfigResponse = AnomalyDetectionConfiguration & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -935,7 +935,7 @@ export class MetricsAdvisorAdministrationClient {
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
     createDatasourceCredential(datasourceCredential: DatasourceCredentialUnion, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
-    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
+    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
@@ -947,7 +947,7 @@ export class MetricsAdvisorAdministrationClient {
     getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
     getDatasourceCredential(id: string, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
-    getDetectionConfig(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
+    getDetectionConfig(id: string, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
@@ -956,11 +956,11 @@ export class MetricsAdvisorAdministrationClient {
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
-    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<RestResponse>;
-    updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<RestResponse>;
-    updateDatasourceCredential(id: string, patch: DatasourceCredentialPatch, options?: OperationOptions): Promise<RestResponse>;
-    updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<RestResponse>;
-    updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<RestResponse>;
+    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
+    updateDatasourceCredential(id: string, patch: DatasourceCredentialPatch, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
+    updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
+    updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
 }
 
 // @public
@@ -970,7 +970,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 // @public
 export class MetricsAdvisorClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
-    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
+    addFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
@@ -1085,7 +1085,7 @@ export type PostgreSqlDataFeedSource = {
 // @public
 export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
     clientId: string;
-    clientSecret: string;
+    clientSecret?: string;
     tenantId: string;
     type: "ServicePrincipal";
 }
@@ -1103,7 +1103,7 @@ export interface ServicePrincipalDatasourceCredentialPatch {
 // @public
 export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
     keyVaultClientId: string;
-    keyVaultClientSecret: string;
+    keyVaultClientSecret?: string;
     keyVaultEndpoint: string;
     servicePrincipalIdNameInKV: string;
     servicePrincipalSecretNameInKV: string;
@@ -1187,7 +1187,7 @@ export type SqlServerAuthTypes = SqlServerAuthBasic | SqlServerAuthManagedIdenti
 
 // @public
 export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
-    connectionString: string;
+    connectionString?: string;
     type: "AzureSQLConnectionString";
 }
 

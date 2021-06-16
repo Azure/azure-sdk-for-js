@@ -32,8 +32,8 @@ import {
   AnomalyDetectionConfiguration,
   AnomalyDetectionConfigurationPatch,
   GetDataFeedResponse,
-  GetAnomalyDetectionConfigurationResponse,
-  GetAnomalyAlertConfigurationResponse,
+  GetDetectionConfigResponse,
+  GetAnomalyAlertConfigurationResponse as GetAlertConfigResponse,
   GetHookResponse,
   NotificationHookUnion,
   DataFeedRollupMethod,
@@ -48,7 +48,7 @@ import {
   DatasourceCredentialUnion,
   DatasourceCredentialPatch,
   CredentialsPageResponse,
-  GetCredentialEntityResponse
+  GetCredentialEntityResponse as GetDatasourceCredentialEntityResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -472,7 +472,7 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     patch: DataFeedPatch,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDataFeed",
       options
@@ -511,7 +511,9 @@ export class MetricsAdvisorAdministrationClient {
         status: patch.status,
         actionLinkTemplate: patch.actionLinkTemplate
       };
-      return await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
+      const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
+      const resultDataFeed: DataFeed = fromServiceDataFeedDetailUnion(result);
+      return { ...resultDataFeed, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -558,7 +560,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<GetDetectionConfigResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDetectionConfig",
       options
@@ -596,7 +598,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getDetectionConfig(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<GetDetectionConfigResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDetectionConfig",
       options
@@ -631,7 +633,7 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: AnomalyDetectionConfigurationPatch,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<GetDetectionConfigResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDetectionConfig",
       options
@@ -640,7 +642,15 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
-      return await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
+      const result = await this.client.updateAnomalyDetectionConfiguration(
+        id,
+        transformed,
+        requestOptions
+      );
+      return {
+        ...fromServiceAnomalyDetectionConfiguration(result),
+        _response: result._response
+      };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -689,7 +699,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<GetAlertConfigResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createAlertConfig",
       options
@@ -728,7 +738,7 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<GetAlertConfigResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateAlertConfig",
       options
@@ -737,7 +747,12 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfigurationPatch(patch);
-      return await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
+      const result = await this.client.updateAnomalyAlertingConfiguration(
+        id,
+        transformed,
+        requestOptions
+      );
+      return { ...fromServiceAlertConfiguration(result), _response: result._response };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -758,7 +773,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getAlertConfig(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<GetAlertConfigResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getAlertConfig",
       options
@@ -1132,14 +1147,18 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateHook",
       options
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.updateHook(id, patch, requestOptions);
+      const result = await this.client.updateHook(id, patch, requestOptions);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
+        result._response.parsedBody
+      );
+      return { ...resultHookResponse, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1567,7 +1586,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createDatasourceCredential(
     datasourceCredential: DatasourceCredentialUnion,
     options: OperationOptions = {}
-  ): Promise<GetCredentialEntityResponse> {
+  ): Promise<GetDatasourceCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDatasourceCredential",
       options
@@ -1603,7 +1622,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getDatasourceCredential(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetCredentialEntityResponse> {
+  ): Promise<GetDatasourceCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDatasourceCredential",
       options
@@ -1767,18 +1786,20 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: DatasourceCredentialPatch,
     options: OperationOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<GetDatasourceCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
       options
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.updateCredential(
+      const result = await this.client.updateCredential(
         id,
         toServiceCredentialPatch(patch),
         requestOptions
       );
+      const resultCred = fromServiceCredential(result);
+      return { ...resultCred, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

@@ -1556,12 +1556,12 @@ export class MetricsAdvisorClient {
    * @param options - The options parameter
    * @returns Response with Feedback object
    */
-  public async createFeedback(
+  public async addFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
   ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createFeedback",
+      "MetricsAdvisorClient-addFeedback",
       options
     );
 
@@ -1596,7 +1596,7 @@ export class MetricsAdvisorClient {
     options: OperationOptions = {}
   ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getFeedback",
+      "MetricsAdvisorClient-getFeedback",
       options
     );
 

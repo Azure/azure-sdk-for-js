@@ -525,7 +525,7 @@ matrix([[true, false]] as const, async (useAad) => {
             value: "NotAnomaly",
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const actual = await client.createFeedback(anomalyFeedback);
+          const actual = await client.addFeedback(anomalyFeedback);
 
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
@@ -543,7 +543,7 @@ matrix([[true, false]] as const, async (useAad) => {
             value: "ChangePoint",
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const actual = await client.createFeedback(changePointFeedback);
+          const actual = await client.addFeedback(changePointFeedback);
 
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
@@ -561,7 +561,7 @@ matrix([[true, false]] as const, async (useAad) => {
             periodValue: 4,
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const actual = await client.createFeedback(periodFeedback);
+          const actual = await client.addFeedback(periodFeedback);
 
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
@@ -580,7 +580,7 @@ matrix([[true, false]] as const, async (useAad) => {
             comment: "This is a comment"
           };
 
-          const actual = await client.createFeedback(expectedCommentFeedback);
+          const actual = await client.addFeedback(expectedCommentFeedback);
 
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;

@@ -341,8 +341,6 @@ function fromServiceGranularity(original: ServiceGranularity, value?: number): D
   switch (original) {
     case "Minutely":
       return { granularityType: "PerMinute" };
-    case "Secondly":
-      return { granularityType: "PerSecond" };
     case "Custom":
       return { granularityType: "Custom", customGranularityValue: value! };
     default:
@@ -361,8 +359,6 @@ export function toServiceGranularity(
       return { granularityName: "Custom", granularityAmount: model.customGranularityValue };
     case "PerMinute":
       return { granularityName: "Minutely" };
-    case "PerSecond":
-      return { granularityName: "Secondly" };
     default:
       return { granularityName: model.granularityType };
   }

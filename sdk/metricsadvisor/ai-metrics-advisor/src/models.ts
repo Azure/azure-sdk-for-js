@@ -1676,7 +1676,7 @@ export type GetDataFeedResponse = DataFeed & {
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.
  */
-export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
+export type GetDetectionConfigResponse = AnomalyDetectionConfiguration & {
   /**
    * The underlying HTTP response.
    */
@@ -2199,7 +2199,7 @@ export interface SqlServerConnectionStringDatasourceCredential extends Datasourc
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** The connection string for SqlServer Data Source Credential */
-  connectionString: string;
+  connectionString?: string;
 }
 
 /**
@@ -2209,7 +2209,7 @@ export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCre
   /** DataLakeGen2 Shared Key Datasource credential */
   type: "DataLakeGen2SharedKey";
   /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
-  accountKey: string;
+  accountKey?: string;
 }
 
 /**
@@ -2221,7 +2221,7 @@ export interface ServicePrincipalDatasourceCredential extends DatasourceCredenti
   /** The client id of the service principal. */
   clientId: string;
   /** The client secret of the service principal. */
-  clientSecret: string;
+  clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
 }
@@ -2237,7 +2237,7 @@ export interface ServicePrincipalInKeyVaultDatasourceCredential extends Datasour
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
   /** The Client Secret to access the Key Vault. */
-  keyVaultClientSecret: string;
+  keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;
   /** The secret name of the service principal's client secret in the Key Vault. */
