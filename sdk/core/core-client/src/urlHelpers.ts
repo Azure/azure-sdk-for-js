@@ -128,7 +128,10 @@ function calculateQueryParameters(
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
   fallbackObject: { [parameterName: string]: any }
-) {
+): {
+  queryParams: Map<string, string | string[]>;
+  sequenceParams: Set<string>;
+} {
   const result = new Map<string, string | string[]>();
   const sequenceParams: Set<string> = new Set<string>();
 
@@ -231,7 +234,7 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   return result;
 }
 
-function arrayEquals(array_1: string[], array_2: string[]) {
+function arrayEquals(array_1: string[], array_2: string[]): boolean {
   return (
     Array.isArray(array_1) &&
     Array.isArray(array_2) &&
@@ -258,7 +261,7 @@ export function appendQueryParams(
   const combinedParams = simpleParseQueryParams(parsedUrl.search);
 
   for (const [name, value] of queryParams) {
-    let existingValue = combinedParams.get(name);
+    const existingValue = combinedParams.get(name);
     if (Array.isArray(existingValue)) {
       if (Array.isArray(value)) {
         if (!arrayEquals(existingValue, value)) {
