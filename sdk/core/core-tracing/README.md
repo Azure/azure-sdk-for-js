@@ -24,7 +24,7 @@ To change this, you have to use `setTracer` to set a new default `Tracer`.
 ### Example 1 - Setting an OpenTelemetry Tracer
 
 ```js
-const opentelemetry = require("@opentelemetry/core");
+const opentelemetry = require("@opentelemetry/api");
 const { BasicTracer, SimpleSpanProcessor } = require("@opentelemetry/tracing");
 const { ZipkinExporter } = require("@opentelemetry/exporter-zipkin");
 const { setTracer } = require("@azure/core-tracing");
@@ -35,9 +35,10 @@ const exporter = new ZipkinExporter({
 const tracer = new BasicTracer();
 tracer.addSpanProcessor(new SimpleSpanProcessor(exporter));
 
-opentelemetry.initGlobalTracer(tracer);
+setTracer(tracer);
 
-const rootSpan = opentelemetry.getTracer().startSpan("root");
+const rootSpan = tracer.startSpan("root");
+const context = opentelemetry.setSpan(opentelemetry.context.active(), rootSpan);
 
 // Call some client library methods and pass rootSpan via tracingOptions.
 
@@ -45,13 +46,13 @@ rootSpan.end();
 exporter.shutdown();
 ```
 
-### Example 3 - Passing parent Spans to library operations
+### Example 2 - Passing parent Spans to library operations
 
 ```js
 // Given a BlobClient from @azure/storage-blob
 const result = await blobClient.download(undefined, undefined, {
   tracingOptions: {
-    spanOptions: { parent: rootSpan }
+    tracingContext: context
   }
 });
 ```
