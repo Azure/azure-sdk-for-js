@@ -20,6 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
+package-version: 12.5.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -260,6 +261,46 @@ directive:
     where: $["x-ms-paths"]["/{filesystem}?restype=container&comp=list&hierarchy"]["get"]
     transform: >
       delete $["x-ms-pageable"];
+```
+
+### Rename "BlobItemInternal" to "BlobItemModel" to avoid "internal" word in interface.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobItemInternal"]
+    transform: >
+      $["x-ms-client-name"] = "BlobItemModel";
+```
+
+### Rename "BlobPropertiesInternal" to "BlobPropertiesModel" to avoid "internal" word in interface.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      $["x-ms-client-name"] = "BlobPropertiesModel";
+```
+
+### Remove "is" prefix from boolean variable: "isSealed"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      delete $["properties"]["Sealed"]["x-ms-client-name"];
+```
+
+### Remove duplicated "DeleteTime" property
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      delete $["properties"]["DeleteTime"]
 ```
 
 ### Update service version from "2020-06-12" to "2020-08-04"

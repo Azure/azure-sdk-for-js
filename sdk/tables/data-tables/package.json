@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "12.0.0-beta.4",
+  "version": "12.0.1",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -14,20 +14,27 @@
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "types": "types/latest/data-tables.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-beta.4",
+    "build:autorest": "autorest ./swagger/README.md --typescript",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -48,6 +55,7 @@
     "dist-esm/src/",
     "types/tables.d.ts",
     "types/latest/",
+    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -75,7 +83,7 @@
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.11",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
@@ -141,12 +149,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   }

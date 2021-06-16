@@ -962,12 +962,20 @@ function deserializeCompositeType(
       // paging
       if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
         propertyInstance = responseBody[key];
-        instance = serializer.deserialize(
+        const arrayInstance = serializer.deserialize(
           propertyMapper,
           propertyInstance,
           propertyObjectName,
           options
         );
+        // Copy over any properties that have already been added into the instance, where they do
+        // not exist on the newly de-serialized array
+        for (const [k, v] of Object.entries(instance)) {
+          if (!Object.prototype.hasOwnProperty.call(arrayInstance, k)) {
+            arrayInstance[k] = v;
+          }
+        }
+        instance = arrayInstance;
       } else if (propertyInstance !== undefined || propertyMapper.defaultValue !== undefined) {
         serializedValue = serializer.deserialize(
           propertyMapper,

@@ -37,7 +37,7 @@ const replaceableVariables: { [k: string]: string } = {
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
-  AZURE_CLIENT_SECRET: "SomeClientSecret",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
   COMMUNICATION_MSAL_USERNAME: "MSALUsername",
   COMMUNICATION_MSAL_PASSWORD: "MSALPassword",

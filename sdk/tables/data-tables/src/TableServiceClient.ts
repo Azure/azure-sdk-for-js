@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { GeneratedClient } from "./generated/generatedClient";
-import { Service } from "./generated/operations";
-import { Table } from "./generated/operations";
+import { Service, Table } from "./generated";
 import {
   ListTableItemsOptions,
   TableServiceClientOptions,
@@ -18,7 +17,12 @@ import {
   SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
+import {
+  isNamedKeyCredential,
+  NamedKeyCredential,
+  SASCredential,
+  isSASCredential
+} from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
@@ -30,6 +34,8 @@ import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { ListTableItemsResponse } from "./utils/internalModels";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { isCredential } from "./utils/isCredential";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -54,7 +60,7 @@ export class TableServiceClient {
    * @param url - The URL of the service account that is the target of the desired operation., such as
    *              "https://myaccount.table.core.windows.net". You can append a SAS,
    *              such as "https://myaccount.table.core.windows.net?sasString".
-   * @param credential - NamedKeyCredential used to authenticate requests. Only Supported for Node
+   * @param credential - NamedKeyCredential | SASCredential used to authenticate requests. Only Supported for Node
    * @param options - Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
@@ -70,7 +76,11 @@ export class TableServiceClient {
    * );
    * ```
    */
-  constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+  constructor(
+    url: string,
+    credential: NamedKeyCredential | SASCredential,
+    options?: TableServiceClientOptions
+  );
   /**
    * Creates a new instance of the TableServiceClient class.
    *
@@ -92,15 +102,15 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: NamedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?: NamedKeyCredential | SASCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
     this.url = url;
-    const credential = isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : undefined;
+    const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
-      (!isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
+      (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
+    clientOptions.endpoint = clientOptions.endpoint || this.url;
 
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
@@ -128,10 +138,13 @@ export class TableServiceClient {
       }
     };
 
-    const client = new GeneratedClient(url, internalPipelineOptions);
-    if (credential) {
+    const client = new GeneratedClient(this.url, internalPipelineOptions);
+    if (isNamedKeyCredential(credential)) {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
+    } else if (isSASCredential(credential)) {
+      client.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
+
     this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
@@ -142,10 +155,10 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  public getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
+  public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
-      return this.service.getStatistics(updatedOptions);
+      return await this.service.getStatistics(updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -159,10 +172,10 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
+  public async getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
     try {
-      return this.service.getProperties(updatedOptions);
+      return await this.service.getProperties(updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -177,13 +190,13 @@ export class TableServiceClient {
    * @param properties - The Table Service properties.
    * @param options - The options parameters.
    */
-  public setProperties(
+  public async setProperties(
     properties: ServiceProperties,
     options: SetPropertiesOptions = {}
   ): Promise<SetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-setProperties", options);
     try {
-      return this.service.setProperties(properties, updatedOptions);
+      return await this.service.setProperties(properties, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -311,7 +324,6 @@ export class TableServiceClient {
     const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
       options
     );
-
     return Object.assign([...value], { nextTableName });
   }
 

@@ -6,25 +6,29 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { MetricsClient } = require("@azure/monitor-query");
+const { Durations, MetricsQueryClient } = require("@azure/monitor-query");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-const monitorWorkspaceId = process.env.METRICS_RESOURCE_ID_TO_QUERY;
+const metricsResourceId = process.env.METRICS_RESOURCE_ID;
 
 async function main() {
   const tokenCredential = new DefaultAzureCredential();
-  const metricsClient = new MetricsClient(tokenCredential);
+  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
-  if (!monitorWorkspaceId) {
-    throw new Error("METRICS_RESOURCE_ID_TO_QUERY must be set in the environment for this sample");
+  if (!metricsResourceId) {
+    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const metricsResponse = await metricsClient.queryMetrics(monitorWorkspaceId, {
-    metricNames: ["SuccessfulRequests"],
-    interval: "P1D"
-  });
+  const metricsResponse = await metricsQueryClient.queryMetrics(
+    metricsResourceId,
+    Durations.lastDay,
+    {
+      metricNames: ["SuccessfulRequests"],
+      interval: "P1D"
+    }
+  );
 
   console.log(
     `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`

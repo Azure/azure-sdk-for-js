@@ -11,7 +11,7 @@ import { ContainerRegistryClient } from "../../src";
 const replaceableVariables: Record<string, string> = {
   CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT: "https://myregistry.azurecr.io",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   SUBSCRIPTION_ID: "subscription_id",
@@ -19,6 +19,7 @@ const replaceableVariables: Record<string, string> = {
   REGISTRY: "myregistry"
 };
 
+const expiryReplacement = "eyJleHAiOjg2NDAwMDAwMDAwMDB9"; //  base64 encoding of '{"exp":8640000000000}' ;
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // == Recorder Environment Setup == Add the replaceable variables from
   // above
@@ -35,11 +36,17 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // replacements within recordings.
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"refresh_token":"[^"]+"/g, `"refresh_token":"refresh_token"`),
+      recording.replace(
+        /"refresh_token":"[^"]+"/g,
+        `"refresh_token":"sanitized.${expiryReplacement}.sanitized"`
+      ),
     (recording: string): string =>
       recording.replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`),
     (recording: string): string =>
-      recording.replace(/refresh_token=([^&]+?)(&|")/, `refresh_token=refresh_token$2`)
+      recording.replace(
+        /refresh_token=([^&]+?)(&|")/,
+        `refresh_token=sanitized.${expiryReplacement}.sanitized$2`
+      )
   ]
 };
 

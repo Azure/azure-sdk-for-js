@@ -9,7 +9,7 @@ Use the client library for Azure Monitor to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) |
-[API reference documentation]<!--(https://docs.microsoft.com/javascript/api/@azure/monitor-query)--> |
+[API reference documentation][msdocs_apiref]|
 [Product documentation][azure_monitor_product_documentation]
 [Samples][samples]
 
@@ -37,7 +37,7 @@ Instructions:
 
 ### Authenticate the client
 
-[LogsClient]<!--[msdocs_logs_client]--> and [MetricsClient]<!--[msdocs_metrics_client]--> authenticate using a [service principal](#authenticating-with-a-service-principal).
+[LogsQueryClient][msdocs_logs_client] and [MetricsQueryClient][msdocs_metrics_client] authenticate using a [service principal](#authenticating-with-a-service-principal).
 
 #### Authenticating with a service principal
 
@@ -51,40 +51,40 @@ Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsClient, MetricsClient } = require("@azure/monitor-query");
+const { LogsQueryClient, MetricsQueryClient } = require("@azure/monitor-query");
 
 const credential = new DefaultAzureCredential();
 
-const logsClient = new LogsClient(credential);
+const logsQueryClient = new LogsQueryClient(credential);
 // or
-const metricsClient = new MetricsClient(credential);
+const metricsQueryClient = new MetricsQueryClient(credential);
 ```
 
 More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
 
 ## Key concepts
 
-The [`LogsClient`]<!--[msdocs_logs_client]--> allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
+The [`LogsQueryClient`][msdocs_logs_client] allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
 portal using tables like `AppEvents`, `AppDependencies` and others.
 
-The [`MetricsClient`]<!--[msdocs_metrics_client]--> allows you to query metrics.
+The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
 
 ## Examples
 
 #### Querying logs
 
-The LogsClient can be used to query a Monitor workspace using the Kusto Query language.
+The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language.
 
 ```javascript
-const { LogsClient } = require("@azure/monitor-query");
+const { LogsQueryClient } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
-const logsClient = new LogsClient(new DefaultAzureCredential());
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = logsClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
+  const result = await logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
@@ -129,9 +129,9 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 The following samples show you the various ways you can query your Log Analytics workspace:
 
-- [`logsQuery.ts`]<!--[samples_logsquery_ts]--> - Query logs in a Monitor workspace
-- [`logsQueryBatchSample.ts`]<!--[samples_logquerybatch_ts]--> - Run multiple queries, simultaneously, with a batch in a Monitor workspace
-- [`metricsQuerySample.ts`]<!--[samples_metricsquery_ts]--> - Query metrics in a Monitor workspace
+- [`logsQuery.ts`][samples_logsquery_ts] - Query logs in a Monitor workspace
+- [`logsQueryBatchSample.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
+- [`metricsQuerySample.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/) folder on GitHub.
 
@@ -166,9 +166,10 @@ folder for more details.
 [azure_monitor_create_using_cli]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace-cli
 [azure_monitor_roles]: https://docs.microsoft.com/azure/azure-monitor/roles-permissions-security
 [kusto_query_language]: https://docs.microsoft.com/azure/data-explorer/kusto/query/
-[msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsclient
-[msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsclient
+[msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsqueryclient
+[msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsqueryclient
+[msdocs_apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-query
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples
-[samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logQuery.ts
-[samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logQueryBatch.ts
-[samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
+[samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
+[samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
+[samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts

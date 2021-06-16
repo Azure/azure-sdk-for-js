@@ -291,28 +291,13 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
-
-/** Known values of {@link ChatMessageType} that the service accepts. */
-export const enum KnownChatMessageType {
-  Text = "text",
-  Html = "html",
-  TopicUpdated = "topicUpdated",
-  ParticipantAdded = "participantAdded",
-  ParticipantRemoved = "participantRemoved"
-}
-
-/**
- * Defines values for ChatMessageType. \
- * {@link KnownChatMessageType} can be used interchangeably with ChatMessageType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **text** \
- * **html** \
- * **topicUpdated** \
- * **participantAdded** \
- * **participantRemoved**
- */
-export type ChatMessageType = string;
+/** Defines values for ChatMessageType. */
+export type ChatMessageType =
+  | "text"
+  | "html"
+  | "topicUpdated"
+  | "participantAdded"
+  | "participantRemoved";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams

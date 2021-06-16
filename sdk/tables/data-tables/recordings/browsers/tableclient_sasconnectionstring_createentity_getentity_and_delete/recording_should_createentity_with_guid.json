@@ -1,0 +1,69 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser",
+   "query": {},
+   "requestBody": "{\"PartitionKey\":\"P3_browser\",\"RowKey\":\"R3\",\"testField\":\"cf8ef051-1b7d-4e93-a1e5-a3944d7e441c\",\"testField@odata.type\":\"Edm.Guid\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "dataserviceid": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='P3_browser',RowKey='R3')",
+    "date": "Wed, 09 Jun 2021 16:21:58 GMT",
+    "etag": "W/\"datetime'2021-06-09T16%3A21%3A59.6237387Z'\"",
+    "location": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='P3_browser',RowKey='R3')",
+    "preference-applied": "return-no-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "aa5b4afd-d597-4288-bcd5-ffb940ea3994",
+    "x-ms-request-id": "a2edf8ca-3002-00fd-494b-5dbedd000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='P3_browser',RowKey='R3')",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser/@Element\",\"odata.etag\":\"W/\\\"datetime'2021-06-09T16%3A21%3A59.6237387Z'\\\"\",\"PartitionKey\":\"P3_browser\",\"RowKey\":\"R3\",\"Timestamp\":\"2021-06-09T16:21:59.6237387Z\",\"testField@odata.type\":\"Edm.Guid\",\"testField\":\"cf8ef051-1b7d-4e93-a1e5-a3944d7e441c\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Wed, 09 Jun 2021 16:21:58 GMT",
+    "etag": "W/\"datetime'2021-06-09T16%3A21%3A59.6237387Z'\"",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "03758fd7-68ea-4c8d-9d53-036f112ad5c0",
+    "x-ms-request-id": "a2edf8db-3002-00fd-594b-5dbedd000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='P3_browser',RowKey='R3')",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "date": "Wed, 09 Jun 2021 16:21:59 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "2a638ce7-06ba-4931-8b66-24d557af7a3b",
+    "x-ms-request-id": "a2edf8f2-3002-00fd-6e4b-5dbedd000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "897924982f4efea7bf4bf1282402ae9c"
+}

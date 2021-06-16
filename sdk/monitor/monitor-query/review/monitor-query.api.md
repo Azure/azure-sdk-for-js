@@ -18,7 +18,7 @@ export interface BatchQuery {
     qualifiedNames?: string[];
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan?: string;
+    timespan: string;
     workspace: string;
     workspaceIds?: string[];
     workspaces?: string[];
@@ -28,7 +28,7 @@ export interface BatchQuery {
 export type ColumnDataType = string;
 
 // @public
-export const CommonDurations: {
+export const Durations: {
     readonly last7Days: "P7D";
     readonly last3Days: "P3D";
     readonly last2Days: "P2D";
@@ -66,7 +66,7 @@ export interface GetMetricDefinitionsOptions extends OperationOptions {
 }
 
 // @public
-export interface GetMetricDefinitionsResponse {
+export interface GetMetricDefinitionsResult {
     definitions: MetricDefinition[];
 }
 
@@ -76,33 +76,39 @@ export interface GetMetricNamespacesOptions {
 }
 
 // @public
-export interface GetMetricNamespacesResponse {
+export interface GetMetricNamespacesResult {
     namespaces: MetricNamespace[];
 }
 
 // @public
-export interface LocalizableString {
-    localizedValue?: string;
-    value: string;
+export interface LogsColumn {
+    name?: string;
+    type?: ColumnDataType;
 }
 
 // @public
-export class LogsClient {
-    constructor(tokenCredential: TokenCredential, options?: LogsClientOptions);
-    // (undocumented)
-    queryLogs(workspaceId: string, query: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    // (undocumented)
-    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResponse>;
+export class LogsQueryClient {
+    constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
+    queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
+    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
-// @public (undocumented)
-export interface LogsClientOptions extends PipelineOptions {
+// @public
+export interface LogsQueryClientOptions extends PipelineOptions {
     endpoint?: string;
+    scopes?: string | string[];
+}
+
+// @public
+export interface LogsTable {
+    columns: LogsColumn[];
+    name: string;
+    rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
 
 // @public
 export interface MetadataValue {
-    name?: LocalizableString;
+    name?: string;
     value?: string;
 }
 
@@ -111,7 +117,7 @@ export interface Metric {
     displayDescription: string;
     errorCode?: string;
     id: string;
-    name: LocalizableString;
+    name: string;
     timeseries: TimeSeriesElement[];
     type: string;
     unit: MetricUnit;
@@ -124,25 +130,17 @@ export interface MetricAvailability {
 }
 
 // @public
-export interface MetricColumn {
-    name?: string;
-    type?: ColumnDataType;
-}
-
-// @public
 export interface MetricDefinition {
     category?: string;
-    dimensions?: LocalizableString_2[];
+    dimensions?: string[];
     displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
     metricAvailabilities?: MetricAvailability[];
-    // Warning: (ae-forgotten-export) The symbol "LocalizableString" needs to be exported by the entry point index.d.ts
-    name?: LocalizableString_2;
+    name?: string;
     primaryAggregationType?: AggregationType;
     resourceId?: string;
-    // Warning: (ae-forgotten-export) The symbol "MetricUnit" needs to be exported by the entry point index.d.ts
-    unit?: MetricUnit_2;
+    unit?: MetricUnit;
 }
 
 // @public
@@ -159,20 +157,17 @@ export interface MetricNamespaceName {
     metricNamespaceName?: string;
 }
 
-// @public (undocumented)
-export class MetricsClient {
-    constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
-    // (undocumented)
-    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResponse>;
-    // (undocumented)
-    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResponse>;
-    // (undocumented)
-    queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
-}
-
-// @public (undocumented)
+// @public
 export interface MetricsClientOptions extends PipelineOptions {
     endpoint?: string;
+}
+
+// @public
+export class MetricsQueryClient {
+    constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
+    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
+    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
+    queryMetrics(resourceUri: string, timespan: string, options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
 }
 
 // @public
@@ -196,30 +191,30 @@ export interface QueryLogsBatch {
     queries: BatchQuery[];
 }
 
-// @public (undocumented)
+// @public
 export type QueryLogsBatchOptions = OperationOptions;
 
 // @public
-export interface QueryLogsBatchResponse {
+export interface QueryLogsBatchResult {
     results?: {
         id?: string;
         status?: number;
-        tables?: Table[];
+        tables?: LogsTable[];
         error?: ErrorInfo;
     }[];
 }
 
-// @public (undocumented)
+// @public
 export interface QueryLogsOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     serverTimeoutInSeconds?: number;
-    timespan?: string;
 }
 
-// @public (undocumented)
-export type QueryLogsResult = QueryResults & {
-    statistics?: QueryStatistics;
-};
+// @public
+export interface QueryLogsResult {
+    statistics?: any;
+    tables: LogsTable[];
+}
 
 // @public
 export interface QueryMetricsOptions extends OperationOptions {
@@ -230,12 +225,11 @@ export interface QueryMetricsOptions extends OperationOptions {
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
-    timespan?: string;
     top?: number;
 }
 
 // @public
-export interface QueryMetricsResponse {
+export interface QueryMetricsResult {
     cost?: number;
     interval?: string;
     metrics: Metric[];
@@ -245,31 +239,7 @@ export interface QueryMetricsResponse {
 }
 
 // @public
-export interface QueryResults {
-    statistics?: any;
-    tables: Table[];
-}
-
-// @public (undocumented)
-export interface QueryStatistics {
-    // (undocumented)
-    [key: string]: unknown;
-    // (undocumented)
-    query?: {
-        executionTime?: number;
-        [key: string]: unknown;
-    };
-}
-
-// @public
 export type ResultType = "Data" | "Metadata";
-
-// @public
-export interface Table {
-    columns: MetricColumn[];
-    name: string;
-    rows: string[][];
-}
 
 // @public
 export interface TimeSeriesElement {

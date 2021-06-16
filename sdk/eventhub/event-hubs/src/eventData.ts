@@ -3,7 +3,7 @@
 
 import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
-import { isDefined } from "./util/typeGuards";
+import { isDefined, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Describes the delivery annotations.
@@ -156,13 +156,15 @@ export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
           if (!data.systemProperties) {
             data.systemProperties = {};
           }
-          data.systemProperties[annotationKey] = msg.message_annotations[annotationKey];
+          data.systemProperties[annotationKey] = convertDatesToNumbers(
+            msg.message_annotations[annotationKey]
+          );
           break;
       }
     }
   }
   if (msg.application_properties) {
-    data.properties = msg.application_properties;
+    data.properties = convertDatesToNumbers(msg.application_properties);
   }
   if (msg.delivery_annotations) {
     data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
@@ -181,7 +183,9 @@ export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
       data.systemProperties = {};
     }
     if (msg[messageProperty] != null) {
-      data.systemProperties[messagePropertiesMap[messageProperty]] = msg[messageProperty];
+      data.systemProperties[messagePropertiesMap[messageProperty]] = convertDatesToNumbers(
+        msg[messageProperty]
+      );
     }
   }
 
@@ -283,4 +287,44 @@ export interface ReceivedEventData {
   systemProperties?: {
     [key: string]: any;
   };
+}
+
+/**
+ * Converts any Date objects into a number representing date.getTime().
+ * Recursively checks for any Date objects in arrays and objects.
+ * @internal
+ */
+function convertDatesToNumbers<T = unknown>(thing: T): T {
+  // fast exit
+  if (!isDefined(thing)) return thing;
+
+  // When 'thing' is a Date, return the number representation
+  if (
+    typeof thing === "object" &&
+    objectHasProperty(thing, "getTime") &&
+    typeof thing.getTime === "function"
+  ) {
+    return thing.getTime();
+  }
+
+  /*
+    Examples:
+    [0, 'foo', new Date(), { nested: new Date()}]
+  */
+  if (Array.isArray(thing)) {
+    return (thing.map(convertDatesToNumbers) as unknown) as T;
+  }
+
+  /*
+    Examples:
+    { foo: new Date(), children: { nested: new Date() }}
+  */
+  if (typeof thing === "object" && isDefined(thing)) {
+    thing = { ...thing };
+    for (const key of Object.keys(thing)) {
+      (thing as any)[key] = convertDatesToNumbers((thing as any)[key]);
+    }
+  }
+
+  return thing;
 }

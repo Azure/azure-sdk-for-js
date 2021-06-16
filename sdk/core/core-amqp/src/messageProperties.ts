@@ -79,7 +79,7 @@ export const AmqpMessageProperties = {
   toRheaMessageProperties(props: AmqpMessageProperties): RheaMessageProperties {
     const amqpProperties: RheaMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
-      amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
+      amqpProperties.absolute_expiry_time = new Date(props.absoluteExpiryTime);
     }
     if (props.contentEncoding != undefined) {
       amqpProperties.content_encoding = props.contentEncoding;
@@ -91,7 +91,7 @@ export const AmqpMessageProperties = {
       amqpProperties.correlation_id = props.correlationId;
     }
     if (props.creationTime != undefined) {
-      amqpProperties.creation_time = props.creationTime;
+      amqpProperties.creation_time = new Date(props.creationTime);
     }
     if (props.groupId != undefined) {
       amqpProperties.group_id = props.groupId;
@@ -130,7 +130,7 @@ export const AmqpMessageProperties = {
   fromRheaMessageProperties(props: RheaMessageProperties): AmqpMessageProperties {
     const msgProperties: AmqpMessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
-      msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
+      msgProperties.absoluteExpiryTime = props.absolute_expiry_time.getTime();
     }
     if (props.content_encoding != undefined) {
       msgProperties.contentEncoding = props.content_encoding;
@@ -142,7 +142,7 @@ export const AmqpMessageProperties = {
       msgProperties.correlationId = props.correlation_id;
     }
     if (props.creation_time != undefined) {
-      msgProperties.creationTime = props.creation_time;
+      msgProperties.creationTime = props.creation_time.getTime();
     }
     if (props.group_id != undefined) {
       msgProperties.groupId = props.group_id;

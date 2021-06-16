@@ -15,7 +15,12 @@ import {
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { KeyVaultRestoreResult } from "../../backupClientModels";
-import { withTrace } from "./poller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultRestorePoller");
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.

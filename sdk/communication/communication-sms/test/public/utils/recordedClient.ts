@@ -18,7 +18,7 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
     COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
     AZURE_PHONE_NUMBER: "+14255550123",
     AZURE_CLIENT_ID: "SomeClientId",
-    AZURE_CLIENT_SECRET: "SomeClientSecret",
+    AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "SomeTenantId",
     COMMUNICATION_SKIP_INT_SMS_TEST: "false"
   },

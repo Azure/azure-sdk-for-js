@@ -47,9 +47,23 @@ describe("ContainerRegistryClient tests", function() {
     assert.ok(first.value, "Expecting a valid repository");
   });
 
+  it("should list repositories by pages", async () => {
+    const iterator = client.listRepositoryNames().byPage({ maxPageSize: 1 });
+    let result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in first page");
+    result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in second page");
+  });
+
+  it("should list repositories by pages with continuationToken", async () => {
+    const continuationToken = "/acr/v1/_catalog?last=busybox&n=1&orderby=";
+    const iterator = client.listRepositoryNames().byPage({ continuationToken });
+    const result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in first page");
+  });
+
   it("deletes repository of given name", async () => {
-    const response = await client.deleteRepository(repositoryName);
-    assert.ok(response);
+    await client.deleteRepository(repositoryName);
     const iter = client.listRepositoryNames();
     for await (const repository of iter) {
       if (repository === repositoryName) {

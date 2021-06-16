@@ -1,0 +1,67 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://fakeaccount.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": "{\"TableName\":\"testTableSASConnectionStringbrowser\"}",
+   "status": 201,
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"testTableSASConnectionStringbrowser\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Wed, 09 Jun 2021 16:22:00 GMT",
+    "location": "https://fakeaccount.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
+    "preference-applied": "return-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "cb9c6e69-490f-4321-95a9-f9398f7aa6fc",
+    "x-ms-request-id": "a2edfb49-3002-00fd-164b-5dbedd000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakeaccount.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"testTableSASConnectionStringbrowser\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Wed, 09 Jun 2021 16:22:00 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "9c754221-d686-4430-801f-dae286c7a418",
+    "x-ms-request-id": "a2edfb68-3002-00fd-324b-5dbedd000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakeaccount.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "date": "Wed, 09 Jun 2021 16:22:00 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "8b1b2a53-69a6-4f8a-be0c-e79b22152942",
+    "x-ms-request-id": "a2edfb8a-3002-00fd-514b-5dbedd000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9cf963b1fa28f4167de5ad68246e835c"
+}
