@@ -151,22 +151,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2020-08-01");
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "String"
-            }
-          }
-        }
-      ]
-    });
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
 
     assert.strictEqual(
       res,
@@ -181,27 +166,9 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2022-08-01");
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "Sequence",
-              element: {
-                type: {
-                  name: "String"
-                }
-              }
-            }
-          }
-        }
-      ]
-    });
+    const set: Set<string> = new Set<string>();
+    set.add("api-version");
+    const res: string = appendQueryParams(url, queryParams, set);
 
     assert.strictEqual(
       res,
@@ -216,27 +183,9 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", ["2020-08-01", "2021-08-01"]);
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "Sequence",
-              element: {
-                type: {
-                  name: "String"
-                }
-              }
-            }
-          }
-        }
-      ]
-    });
+    const set: Set<string> = new Set<string>();
+    set.add("api-version");
+    const res: string = appendQueryParams(url, queryParams, set);
 
     assert.strictEqual(
       res,
@@ -251,27 +200,9 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", ["2022-08-01", "2023-08-01"]);
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "Sequence",
-              element: {
-                type: {
-                  name: "String"
-                }
-              }
-            }
-          }
-        }
-      ]
-    });
+    const set: Set<string> = new Set<string>();
+    set.add("api-version");
+    const res: string = appendQueryParams(url, queryParams, set);
 
     assert.strictEqual(
       res,
@@ -286,22 +217,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2020-08-01");
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "String"
-            }
-          }
-        }
-      ]
-    });
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
 
     assert.strictEqual(
       res,
@@ -316,22 +232,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", "2021-08-01");
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "String"
-            }
-          }
-        }
-      ]
-    });
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
 
     assert.strictEqual(
       res,
@@ -346,23 +247,7 @@ describe("getRequestUrl", function() {
     const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
     queryParams.set("api-version", ["2021-08-01", "2022-08-01"]);
 
-    const res: string = appendQueryParams(url, queryParams, {
-      serializer,
-      httpMethod: "GET",
-      responses: {},
-      queryParameters: [
-        {
-          parameterPath: "",
-          mapper: {
-            serializedName: "api-version",
-            type: {
-              name: "String"
-            }
-          }
-        }
-      ]
-    });
-
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
     assert.strictEqual(
       res,
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"

@@ -38,8 +38,12 @@ export function getRequestUrl(
     }
   }
 
-  const queryParams = calculateQueryParameters(operationSpec, operationArguments, fallbackObject);
-  requestUrl = appendQueryParams(requestUrl, queryParams, operationSpec);
+  const { queryParams, sequenceParams } = calculateQueryParameters(
+    operationSpec,
+    operationArguments,
+    fallbackObject
+  );
+  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
 
   return requestUrl;
 }
@@ -124,10 +128,15 @@ function calculateQueryParameters(
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
   fallbackObject: { [parameterName: string]: any }
-): Map<string, string | string[]> {
+) {
   const result = new Map<string, string | string[]>();
+  const sequenceParams: Set<string> = new Set<string>();
+
   if (operationSpec.queryParameters?.length) {
     for (const queryParameter of operationSpec.queryParameters) {
+      if (queryParameter.mapper.type.name === "Sequence" && queryParameter.mapper.serializedName) {
+        sequenceParams.add(queryParameter.mapper.serializedName);
+      }
       let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
         operationArguments,
         queryParameter,
@@ -189,7 +198,10 @@ function calculateQueryParameters(
       }
     }
   }
-  return result;
+  return {
+    queryParams: result,
+    sequenceParams
+  };
 }
 
 function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
@@ -207,7 +219,7 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
     const existingValue = result.get(name);
     if (existingValue) {
       if (Array.isArray(existingValue)) {
-        result.set(name, [...existingValue, value]);
+        existingValue.push(value);
       } else {
         result.set(name, [existingValue, value]);
       }
@@ -219,11 +231,20 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   return result;
 }
 
+function arrayEquals(array_1: string[], array_2: string[]) {
+  return (
+    Array.isArray(array_1) &&
+    Array.isArray(array_2) &&
+    array_1.length === array_2.length &&
+    array_1.every((value, index) => value === array_2[index])
+  );
+}
+
 /** @internal */
 export function appendQueryParams(
   url: string,
   queryParams: Map<string, string | string[]>,
-  operationSpec: OperationSpec
+  sequenceParams: Set<string>
 ): string {
   if (queryParams.size === 0) {
     return url;
@@ -237,35 +258,23 @@ export function appendQueryParams(
   const combinedParams = simpleParseQueryParams(parsedUrl.search);
 
   for (const [name, value] of queryParams) {
-    const existingValue = combinedParams.get(name);
+    let existingValue = combinedParams.get(name);
     if (Array.isArray(existingValue)) {
       if (Array.isArray(value)) {
-        if (existingValue.toString() !== value.toString()) {
+        if (!arrayEquals(existingValue, value)) {
           existingValue.push(...value);
         }
       } else {
         existingValue.push(value);
       }
     } else if (existingValue) {
-      if (operationSpec.queryParameters?.length) {
-        for (const queryParameter of operationSpec.queryParameters) {
-          if (queryParameter.mapper.serializedName === name) {
-            if (queryParameter.mapper.type.name === "Sequence") {
-              if (Array.isArray(value)) {
-                combinedParams.set(name, [existingValue, ...value]);
-              } else {
-                combinedParams.set(name, [existingValue, value]);
-              }
-            } else {
-              if (Array.isArray(value)) {
-                combinedParams.set(name, [existingValue, ...value]);
-              } else {
-                combinedParams.set(name, value);
-              }
-            }
-          }
-        }
+      let newValue = value;
+      if (Array.isArray(value)) {
+        value.unshift(existingValue);
+      } else if (sequenceParams.has(name)) {
+        newValue = [existingValue, value];
       }
+      combinedParams.set(name, newValue);
     } else {
       combinedParams.set(name, value);
     }
