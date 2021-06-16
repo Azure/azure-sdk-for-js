@@ -48,6 +48,22 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
+  it("authenticates with specific permissions", async function() {
+    // These tests should not run live because this credential requires user interaction.
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
+
+    // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
+    const token = await credential.getToken("https://graph.microsoft.com/Calendars.Read");
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
+
   it("authenticates and allows the customization of the prompt callback", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
