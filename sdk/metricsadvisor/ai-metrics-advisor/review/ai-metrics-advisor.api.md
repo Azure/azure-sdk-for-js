@@ -450,9 +450,12 @@ export type DatasourceCredentialUnion = SqlServerConnectionStringDatasourceCrede
 export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureLogAnalytics" | "AzureTable" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
 
 // @public
+export type DetectionConditionOperator = "AND" | "OR";
+
+// @public
 export interface DetectionConditionsCommon {
     changeThresholdCondition?: ChangeThresholdConditionUnion;
-    conditionOperator?: DetectionConditionsOperator;
+    conditionOperator?: DetectionConditionOperator;
     hardThresholdCondition?: HardThresholdConditionUnion;
     smartDetectionCondition?: SmartDetectionCondition;
 }
@@ -460,13 +463,10 @@ export interface DetectionConditionsCommon {
 // @public
 export interface DetectionConditionsCommonPatch {
     changeThresholdCondition?: Partial<ChangeThresholdConditionUnion>;
-    conditionOperator?: DetectionConditionsOperator;
+    conditionOperator?: DetectionConditionOperator;
     hardThresholdCondition?: Partial<HardThresholdConditionUnion>;
     smartDetectionCondition?: Partial<SmartDetectionCondition>;
 }
-
-// @public
-export type DetectionConditionsOperator = "AND" | "OR";
 
 // @public
 export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
@@ -974,8 +974,8 @@ export class MetricsAdvisorClient {
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
-    getMetricEnrichedSeriesData(detectionConfigId: string, startTime: Date | string, endTime: Date | string, seriesToFilter: DimensionKey[], options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
-    getMetricSeriesData(metricId: string, startTime: Date | string, endTime: Date | string, seriesToFilter: DimensionKey[], options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
+    getMetricEnrichedSeriesData(detectionConfigId: string, seriesKey: DimensionKey[], startTime: Date | string, endTime: Date | string, options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
+    getMetricSeriesData(metricId: string, seriesKey: DimensionKey[], startTime: Date | string, endTime: Date | string, options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;
     listAlerts(alertConfigId: string, startTime: Date | string, endTime: Date | string, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, AlertsPageResponse>;
     listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
     listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;

@@ -790,7 +790,7 @@ export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 /**
  * The logical operator to apply across anomaly detection conditions.
  */
-export type DetectionConditionsOperator = "AND" | "OR";
+export type DetectionConditionOperator = "AND" | "OR";
 
 /**
  * Represents properties common to anomaly detection conditions.
@@ -799,7 +799,7 @@ export interface DetectionConditionsCommon {
   /**
    * Condition operator
    */
-  conditionOperator?: DetectionConditionsOperator;
+  conditionOperator?: DetectionConditionOperator;
   /**
    * Specifies the condition for Smart Detection
    */
@@ -821,7 +821,7 @@ export interface DetectionConditionsCommonPatch {
   /**
    * Condition operator
    */
-  conditionOperator?: DetectionConditionsOperator;
+  conditionOperator?: DetectionConditionOperator;
   /**
    * Specifies the condition for Smart Detection
    */
