@@ -82,7 +82,7 @@ describe("ClientSecretCredential", function() {
     })
   );
 
-  it.only("supports specifying the regional authority", async function() {
+  it("supports specifying the regional authority", async function() {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
