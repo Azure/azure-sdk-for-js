@@ -1496,7 +1496,7 @@ export interface AnomalyAlertConfiguration {
   /**
    * dimensions used to split alert
    */
-  splitAlertByDimensions?: string[];
+  dimensionsToSplitAlert?: string[];
 }
 
 /**

@@ -276,7 +276,7 @@ matrix([[true, false]] as const, async (useAad) => {
             crossMetricsOperator: "AND",
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig],
             hookIds: [],
-            splitAlertByDimensions: []
+            dimensionsToSplitAlert: []
           };
 
           const actual = await client.createAlertConfig(expectedAlertConfig);
@@ -292,8 +292,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
           assert.deepStrictEqual(actual.hookIds, expectedAlertConfig.hookIds);
           assert.deepStrictEqual(
-            actual.splitAlertByDimensions,
-            expectedAlertConfig.splitAlertByDimensions
+            actual.dimensionsToSplitAlert,
+            expectedAlertConfig.dimensionsToSplitAlert
           );
         });
 

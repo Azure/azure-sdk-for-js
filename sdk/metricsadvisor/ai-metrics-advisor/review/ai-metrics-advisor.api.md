@@ -53,11 +53,11 @@ export interface AnomalyAlert {
 export interface AnomalyAlertConfiguration {
     crossMetricsOperator?: MetricAnomalyAlertConfigurationsOperator;
     description?: string;
+    dimensionsToSplitAlert?: string[];
     hookIds: string[];
     id: string;
     metricAlertConfigurations: MetricAlertConfiguration[];
     name: string;
-    splitAlertByDimensions?: string[];
 }
 
 // @public

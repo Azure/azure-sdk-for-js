@@ -1314,7 +1314,7 @@ export function fromServiceAlertConfiguration(
         }
       };
     }),
-    splitAlertByDimensions: result.splitAlertByDimensions
+    dimensionsToSplitAlert: result.splitAlertByDimensions
   };
 }
 
@@ -1347,7 +1347,7 @@ export function toServiceAlertConfiguration(
         valueFilter: c.alertConditions?.metricBoundaryCondition
       };
     }),
-    splitAlertByDimensions: from.splitAlertByDimensions
+    splitAlertByDimensions: from.dimensionsToSplitAlert
   };
 }
 
@@ -1380,7 +1380,7 @@ export function toServiceAlertConfigurationPatch(
         valueFilter: c.alertConditions?.metricBoundaryCondition
       };
     }),
-    splitAlertByDimensions: from.splitAlertByDimensions
+    splitAlertByDimensions: from.dimensionsToSplitAlert
   };
 }
 
