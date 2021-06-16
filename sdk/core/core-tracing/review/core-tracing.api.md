@@ -4,9 +4,6 @@
 
 ```ts
 
-import { Span as OpenCensusSpan } from '@opencensus/web-types';
-import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
-
 // @public
 export interface Context {
     deleteValue(key: symbol): Context;
@@ -113,10 +110,6 @@ export class NoOpTracer implements Tracer {
     startSpan(_name: string, _options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
 }
-
-export { OpenCensusSpan }
-
-export { OpenCensusTracer }
 
 // @public
 export interface OperationTracingOptions {
