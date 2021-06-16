@@ -12,6 +12,7 @@ import {
   Constants,
   RestError
 } from "@azure/core-http";
+import { isDefined } from "../internal/typeguards";
 
 /**
  * @internal
@@ -27,84 +28,52 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
 const StandardAbortMessage = "The operation was aborted.";
 
 /**
- * An executor for a function that returns a Promise that obeys both a timeout and an
- * optional AbortSignal.
- * @param actionFn - The callback that we want to resolve.
- * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
- * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @param delayInMs - The number of milliseconds to be delayed.
  * @param abortSignal - The abortSignal associated with containing operation.
- *
- * @internal
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @returns - Resolved promise
  */
-export async function waitForTimeoutOrAbortOrResolve<T>(args: {
-  actionFn: () => Promise<T>;
-  timeoutMs: number;
-  timeoutMessage: string;
-  abortSignal: AbortSignalLike | undefined;
-}): Promise<T> {
-  if (args.abortSignal && args.abortSignal.aborted) {
-    throw new AbortError(StandardAbortMessage);
-  }
+export function delay<T>(
+  delayInMs: number,
+  abortSignal?: AbortSignalLike,
+  abortErrorMsg?: string
+): Promise<T | void> {
+  return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+    let onAborted: (() => void) | undefined = undefined;
 
-  let timer: any | undefined = undefined;
-  let clearAbortSignal: (() => void) | undefined = undefined;
+    const rejectOnAbort = (): void => {
+      return reject(new AbortError(abortErrorMsg ? abortErrorMsg : StandardAbortMessage));
+    };
 
-  const clearAbortSignalAndTimer = (): void => {
-    clearTimeout(timer);
+    const removeListeners = (): void => {
+      if (abortSignal && onAborted) {
+        abortSignal.removeEventListener("abort", onAborted);
+      }
+    };
 
-    if (clearAbortSignal) {
-      clearAbortSignal();
+    onAborted = (): void => {
+      if (isDefined(timer)) {
+        clearTimeout(timer);
+      }
+      removeListeners();
+      return rejectOnAbort();
+    };
+
+    if (abortSignal && abortSignal.aborted) {
+      return rejectOnAbort();
     }
-  };
-
-  const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
-    clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortSignal);
 
     timer = setTimeout(() => {
-      reject(new Error(args.timeoutMessage));
-    }, args.timeoutMs);
+      removeListeners();
+      resolve();
+    }, delayInMs);
+
+    if (abortSignal) {
+      abortSignal.addEventListener("abort", onAborted);
+    }
   });
-
-  try {
-    return await Promise.race([abortOrTimeoutPromise, args.actionFn()]);
-  } finally {
-    clearAbortSignalAndTimer();
-  }
-}
-
-/**
- * Registers listener to the abort event on the abortSignal to call your abortFn and
- * returns a function that will clear the same listener.
- *
- * If abort signal is already aborted, then throws an AbortError and returns a function that does nothing
- *
- * @returns A function that removes any of our attached event listeners on the abort signal or an empty function if
- * the abortSignal was not defined.
- *
- * @internal
- */
-function checkAndRegisterWithAbortSignal(
-  onAbortFn: (abortError: AbortError) => void,
-  abortSignal?: AbortSignalLike
-): () => void {
-  if (abortSignal == null) {
-    return () => {
-      /** Nothing to do here, no abort signal */
-    };
-  }
-
-  if (abortSignal.aborted) {
-    throw new AbortError(StandardAbortMessage);
-  }
-
-  const onAbort = (): void => {
-    abortSignal.removeEventListener("abort", onAbort);
-    onAbortFn(new AbortError(StandardAbortMessage));
-  };
-
-  abortSignal.addEventListener("abort", onAbort);
-
-  return () => abortSignal.removeEventListener("abort", onAbort);
 }
 
 /**
@@ -128,12 +97,11 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
           throw err;
         }
 
-        return await waitForTimeoutOrAbortOrResolve({
-          timeoutMs: delayInMs,
-          abortSignal: httpRequest.abortSignal,
-          actionFn: () => this.sendRequest(httpRequest.clone()),
-          timeoutMessage: `Unable to fulfill the request in ${delayInMs}ms when retried.`
-        });
+        await delay(delayInMs, httpRequest.abortSignal, StandardAbortMessage);
+        if (httpRequest.abortSignal?.aborted) {
+          throw new AbortError(StandardAbortMessage);
+        }
+        return await this.sendRequest(httpRequest.clone());
       } else {
         throw err;
       }
