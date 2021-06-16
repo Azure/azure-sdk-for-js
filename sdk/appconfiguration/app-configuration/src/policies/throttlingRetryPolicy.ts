@@ -34,11 +34,11 @@ const StandardAbortMessage = "The operation was aborted.";
  * @param abortErrorMsg - The abort error message associated with containing operation.
  * @returns - Resolved promise
  */
-export function delay<T>(
+export function delay(
   delayInMs: number,
   abortSignal?: AbortSignalLike,
   abortErrorMsg?: string
-): Promise<T | void> {
+): Promise<void> {
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     let onAborted: (() => void) | undefined = undefined;
