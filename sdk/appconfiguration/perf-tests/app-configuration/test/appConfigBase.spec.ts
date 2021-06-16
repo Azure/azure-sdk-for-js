@@ -1,7 +1,5 @@
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-import {
-  AppConfigurationClient
-} from "@azure/app-configuration";
+import { AppConfigurationClient } from "@azure/app-configuration";
 
 export abstract class AppConfigTest<TOptions> extends PerfStressTest<TOptions> {
   client: AppConfigurationClient;
@@ -12,8 +10,7 @@ export abstract class AppConfigTest<TOptions> extends PerfStressTest<TOptions> {
     this.client = new AppConfigurationClient(connectionString);
   }
 
-  public async globalSetup() {
-  }
+  public async globalSetup() {}
 
-  public async globalCleanup() { }
+  public async globalCleanup() {}
 }

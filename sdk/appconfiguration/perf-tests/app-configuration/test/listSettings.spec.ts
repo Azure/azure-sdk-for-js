@@ -24,7 +24,10 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     await super.globalSetup();
     await executeParallel(
       async (_count: number, _index: number) => {
-        await this.client.addConfigurationSetting({key: ListSettingsTest.prefix+generateUuid(), value:"random"});
+        await this.client.addConfigurationSetting({
+          key: ListSettingsTest.prefix + generateUuid(),
+          value: "random"
+        });
       },
       this.parsedOptions.count.value!,
       32
@@ -32,22 +35,26 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
   }
 
   async runAsync(): Promise<void> {
-    for await (const response of this.client.listConfigurationSettings({keyFilter:ListSettingsTest.prefix+"*"}).byPage()) {
+    for await (const response of this.client
+      .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
+      .byPage()) {
       for (const _ of response.items) {
       }
     }
   }
 
   public async globalCleanup() {
-    const keys:string[]=[];
-    for await (const response of this.client.listConfigurationSettings({keyFilter:ListSettingsTest.prefix+"*"}).byPage()) {
+    const keys: string[] = [];
+    for await (const response of this.client
+      .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
+      .byPage()) {
       for (const setting of response.items) {
         keys.push(setting.key);
       }
     }
     await executeParallel(
       async (count: number, _: number) => {
-        await this.client.deleteConfigurationSetting({key: keys[count]});
+        await this.client.deleteConfigurationSetting({ key: keys[count] });
       },
       this.parsedOptions.count.value!,
       32
