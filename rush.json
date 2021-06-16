@@ -769,6 +769,11 @@
       "packageName": "@azure-tests/perf-core-rest-pipeline",
       "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-app-configuration",
+      "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
+      "versionPolicyName": "test"
     }
   ]
 }
