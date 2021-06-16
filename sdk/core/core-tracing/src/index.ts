@@ -46,6 +46,3 @@ export {
   extractSpanContextFromTraceParentHeader,
   getTraceParentHeader
 } from "./utils/traceParentHeader";
-
-// OpenCensus Interfaces
-export { Tracer as OpenCensusTracer, Span as OpenCensusSpan } from "@opencensus/web-types";
