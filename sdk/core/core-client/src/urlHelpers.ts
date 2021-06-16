@@ -234,15 +234,6 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   return result;
 }
 
-function arrayEquals(array_1: string[], array_2: string[]): boolean {
-  return (
-    Array.isArray(array_1) &&
-    Array.isArray(array_2) &&
-    array_1.length === array_2.length &&
-    array_1.every((value, index) => value === array_2[index])
-  );
-}
-
 /** @internal */
 export function appendQueryParams(
   url: string,
@@ -264,9 +255,9 @@ export function appendQueryParams(
     const existingValue = combinedParams.get(name);
     if (Array.isArray(existingValue)) {
       if (Array.isArray(value)) {
-        if (!arrayEquals(existingValue, value)) {
-          existingValue.push(...value);
-        }
+        existingValue.push(...value);
+        const valueSet = new Set(existingValue);
+        combinedParams.set(name, Array.from(valueSet));
       } else {
         existingValue.push(value);
       }
