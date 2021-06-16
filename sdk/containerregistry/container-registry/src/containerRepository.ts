@@ -180,7 +180,7 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Returns an instance of RegistryArtifact that interacts with a container registry artifact.
+   * Returns an instance of {@link RegistryArtifact} that interacts with a container registry artifact.
    * @param tagOrDigest - the tag or digest of the artifact
    */
   public getArtifact(tagOrDigest: string): RegistryArtifact {

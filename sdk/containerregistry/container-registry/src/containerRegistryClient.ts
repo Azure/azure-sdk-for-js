@@ -205,7 +205,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an instance of ContainerRepository that interacts with a container registry repository.
+   * Returns an instance of {@link ContainerRepository} that interacts with a container registry repository.
    *
    * @param repositoryName - the name of repository
    */
