@@ -21,6 +21,6 @@ disable-async-iterators: true
 hide-clients: true
 use-core-v2: true
 use-extension:
-  "@autorest/typescript": "C:/github/autorest.typescript"
+  "@autorest/typescript": "1.0.0-beta.3"
 package-version: 1.0.0-beta.4
 ```
