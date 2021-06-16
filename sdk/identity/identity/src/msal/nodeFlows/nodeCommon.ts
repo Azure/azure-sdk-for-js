@@ -20,6 +20,7 @@ import {
   msalToPublic,
   publicToMsal
 } from "../utils";
+import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -27,6 +28,7 @@ import {
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCredentialOptions: TokenCredentialOptions;
+  regionalAuthority?: RegionalAuthority;
 }
 
 /**
@@ -45,11 +47,17 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected clientId: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
+  protected azureRegion?: string;
 
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
+
+    this.azureRegion = options.regionalAuthority || process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    if (this.azureRegion === "autoDiscoverRegion") {
+      this.azureRegion = "AUTO_DISCOVER";
+    }
   }
 
   /**
