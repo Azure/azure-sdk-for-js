@@ -48,7 +48,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with specific permissions", async function() {
+  it("authenticates with specific permissions", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
