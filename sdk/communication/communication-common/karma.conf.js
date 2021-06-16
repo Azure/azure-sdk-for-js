@@ -24,9 +24,7 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      "dist-test/index.browser.js"
-    ],
+    files: ["dist-test/index.browser.js"],
 
     // list of files / patterns to exclude
     exclude: [],
