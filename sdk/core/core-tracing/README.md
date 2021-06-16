@@ -46,7 +46,7 @@ rootSpan.end();
 exporter.shutdown();
 ```
 
-### Example 2 - Passing parent Spans to library operations
+### Example 2 - Passing current Context to library operations
 
 ```js
 // Given a BlobClient from @azure/storage-blob
