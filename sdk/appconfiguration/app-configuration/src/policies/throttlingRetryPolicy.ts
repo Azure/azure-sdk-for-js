@@ -83,7 +83,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
  *
  * @internal
  */
-export function checkAndRegisterWithAbortSignal(
+function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
   abortSignal?: AbortSignalLike
 ): () => void {
@@ -131,10 +131,8 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         return await waitForTimeoutOrAbortOrResolve({
           timeoutMs: delayInMs,
           abortSignal: httpRequest.abortSignal,
-          actionFn: async () => {
-            return await this.sendRequest(httpRequest.clone());
-          },
-          timeoutMessage: `ServiceBusy: Unable to fulfill the request in ${delayInMs}ms when retried.`
+          actionFn: () => this.sendRequest(httpRequest.clone()),
+          timeoutMessage: `Unable to fulfill the request in ${delayInMs}ms when retried.`
         });
       } else {
         throw err;
