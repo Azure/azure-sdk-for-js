@@ -236,57 +236,6 @@ export class Blob {
   }
 
   /**
-   * The Set Immutability Policy operation sets the immutability policy on the blob
-   * @param options The options parameters.
-   */
-  setImmutabilityPolicy(
-    options?: BlobSetImmutabilityPolicyOptionalParams
-  ): Promise<BlobSetImmutabilityPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      setImmutabilityPolicyOperationSpec
-    ) as Promise<BlobSetImmutabilityPolicyResponse>;
-  }
-
-  /**
-   * The Delete Immutability Policy operation deletes the immutability policy on the blob
-   * @param options The options parameters.
-   */
-  deleteImmutabilityPolicy(
-    options?: BlobDeleteImmutabilityPolicyOptionalParams
-  ): Promise<BlobDeleteImmutabilityPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteImmutabilityPolicyOperationSpec
-    ) as Promise<BlobDeleteImmutabilityPolicyResponse>;
-  }
-
-  /**
-   * The Set Legal Hold operation sets a legal hold on the blob.
-   * @param legalHold Specified if a legal hold should be set on the blob.
-   * @param options The options parameters.
-   */
-  setLegalHold(
-    legalHold: boolean,
-    options?: BlobSetLegalHoldOptionalParams
-  ): Promise<BlobSetLegalHoldResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      legalHold,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      setLegalHoldOperationSpec
-    ) as Promise<BlobSetLegalHoldResponse>;
-  }
-
-  /**
    * The Set Blob Metadata operation sets user-defined metadata for the specified blob as one or more
    * name-value pairs
    * @param options The options parameters.
@@ -763,76 +712,6 @@ const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const setImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/{containerName}/{blob}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      headersMapper: Mappers.BlobSetImmutabilityPolicyHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.BlobSetImmutabilityPolicyExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept1,
-    Parameters.ifUnmodifiedSince,
-    Parameters.immutabilityPolicyExpiry,
-    Parameters.immutabilityPolicyMode
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const deleteImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/{containerName}/{blob}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.BlobDeleteImmutabilityPolicyHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.BlobDeleteImmutabilityPolicyExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept1
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const setLegalHoldOperationSpec: coreHttp.OperationSpec = {
-  path: "/{containerName}/{blob}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      headersMapper: Mappers.BlobSetLegalHoldHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.BlobSetLegalHoldExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp13],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept1,
-    Parameters.legalHold
   ],
   isXML: true,
   serializer: xmlSerializer

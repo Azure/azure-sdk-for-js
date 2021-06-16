@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
-package-version: 12.6.0
+package-version: 12.6.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -323,11 +323,11 @@ directive:
       delete $["properties"]["DeleteTime"]
 ```
 
-### Update service version from "2020-06-12" to "2020-08-04"
+### Update service version from "2020-06-12" to "2020-10-02"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2020-08-04" ];
+    transform: $.enum = [ "2020-10-02" ];
 ```

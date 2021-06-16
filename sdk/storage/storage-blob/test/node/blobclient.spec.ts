@@ -773,6 +773,21 @@ describe("BlobClient Node.js only", () => {
       }
     });
   });
+
+  it("query should work with Parquet input configuration", async function() {
+    //Enable the case when STG78 - version 2020-10-02 features is enabled in production.
+    this.skip();
+    const parquetFilePath = join("test", "resources", "parquet.parquet");
+    await blockBlobClient.uploadFile(parquetFilePath);
+
+    const response = await blockBlobClient.query("select * from blobstorage where id < 1;", {
+      inputTextConfiguration: {
+        kind: "parquet"
+      }
+    });
+
+    assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
+  });
 });
 
 describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {

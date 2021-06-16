@@ -1531,7 +1531,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
-    inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+    inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryParquetConfiguration;
     onError?: (error: BlobQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
     outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
