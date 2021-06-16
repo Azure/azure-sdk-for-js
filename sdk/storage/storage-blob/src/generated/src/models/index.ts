@@ -370,7 +370,7 @@ export interface QuerySerialization {
 
 export interface QueryFormat {
   /** The quick query format type. */
-  type: QueryFormatType;
+  type?: QueryFormatType;
   /** Groups the settings used for interpreting the blob data if the blob is delimited text formatted. */
   delimitedTextConfiguration?: DelimitedTextConfiguration;
   /** json text configuration */
@@ -1035,6 +1035,8 @@ export interface BlobDownloadHeaders {
   immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
   /** Indicates if a legal hold is present on the blob. */
   legalHold?: boolean;
+  /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
+  contentCrc64?: Uint8Array;
   /** Error Code */
   errorCode?: string;
   /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
@@ -3451,6 +3453,66 @@ export type BlobSetHttpHeadersResponse = BlobSetHttpHeadersHeaders & {
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
     parsedHeaders: BlobSetHttpHeadersHeaders;
+  };
+};
+
+/** Optional parameters. */
+export interface BlobSetImmutabilityPolicyOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Parameter group */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+  /** Specifies the date time when the blobs immutability policy is set to expire. */
+  immutabilityPolicyExpiry?: Date;
+  /** Specifies the immutability policy mode to set on the blob. */
+  immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+}
+
+/** Contains response data for the setImmutabilityPolicy operation. */
+export type BlobSetImmutabilityPolicyResponse = BlobSetImmutabilityPolicyHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: BlobSetImmutabilityPolicyHeaders;
+  };
+};
+
+/** Optional parameters. */
+export interface BlobDeleteImmutabilityPolicyOptionalParams
+  extends coreHttp.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
+
+/** Contains response data for the deleteImmutabilityPolicy operation. */
+export type BlobDeleteImmutabilityPolicyResponse = BlobDeleteImmutabilityPolicyHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: BlobDeleteImmutabilityPolicyHeaders;
+  };
+};
+
+/** Optional parameters. */
+export interface BlobSetLegalHoldOptionalParams
+  extends coreHttp.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
+
+/** Contains response data for the setLegalHold operation. */
+export type BlobSetLegalHoldResponse = BlobSetLegalHoldHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: BlobSetLegalHoldHeaders;
   };
 };
 

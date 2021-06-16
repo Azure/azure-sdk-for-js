@@ -3993,80 +3993,6 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      acceptRanges: {
-        serializedName: "accept-ranges",
-        xmlName: "accept-ranges",
-        type: {
-          name: "String"
-        }
-      },
-      date: {
-        serializedName: "date",
-        xmlName: "date",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      blobCommittedBlockCount: {
-        serializedName: "x-ms-blob-committed-block-count",
-        xmlName: "x-ms-blob-committed-block-count",
-        type: {
-          name: "Number"
-        }
-      },
-      isServerEncrypted: {
-        serializedName: "x-ms-server-encrypted",
-        xmlName: "x-ms-server-encrypted",
-        type: {
-          name: "Boolean"
-        }
-      },
-      encryptionKeySha256: {
-        serializedName: "x-ms-encryption-key-sha256",
-        xmlName: "x-ms-encryption-key-sha256",
-        type: {
-          name: "String"
-        }
-      },
-      encryptionScope: {
-        serializedName: "x-ms-encryption-scope",
-        xmlName: "x-ms-encryption-scope",
-        type: {
-          name: "String"
-        }
-      },
-      blobContentMD5: {
-        serializedName: "x-ms-blob-content-md5",
-        xmlName: "x-ms-blob-content-md5",
-        type: {
-          name: "ByteArray"
-        }
-      },
-      tagCount: {
-        serializedName: "x-ms-tag-count",
-        xmlName: "x-ms-tag-count",
-        type: {
-          name: "Number"
-        }
-      },
-      isSealed: {
-        serializedName: "x-ms-blob-sealed",
-        xmlName: "x-ms-blob-sealed",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastAccessed: {
-        serializedName: "x-ms-last-access-time",
-        xmlName: "x-ms-last-access-time",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      immutabilityPolicyExpiresOn: {
-        serializedName: "x-ms-immutability-policy-until-date",
-        xmlName: "x-ms-immutability-policy-until-date",
         type: {
           name: "DateTimeRfc1123"
         }
@@ -4779,6 +4705,193 @@ export const BlobSetHttpHeadersExceptionHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BlobSetHttpHeadersExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetImmutabilityPolicyHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Blob_setImmutabilityPolicyHeaders",
+  type: {
+    name: "Composite",
+    className: "BlobSetImmutabilityPolicyHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      immutabilityPolicyExpiry: {
+        serializedName: "x-ms-immutability-policy-until-date",
+        xmlName: "x-ms-immutability-policy-until-date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      immutabilityPolicyMode: {
+        serializedName: "x-ms-immutability-policy-mode",
+        xmlName: "x-ms-immutability-policy-mode",
+        type: {
+          name: "Enum",
+          allowedValues: ["Mutable", "Unlocked", "Locked"]
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetImmutabilityPolicyExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Blob_setImmutabilityPolicyExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "BlobSetImmutabilityPolicyExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobDeleteImmutabilityPolicyHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Blob_deleteImmutabilityPolicyHeaders",
+  type: {
+    name: "Composite",
+    className: "BlobDeleteImmutabilityPolicyHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const BlobDeleteImmutabilityPolicyExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Blob_deleteImmutabilityPolicyExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "BlobDeleteImmutabilityPolicyExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetLegalHoldHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Blob_setLegalHoldHeaders",
+  type: {
+    name: "Composite",
+    className: "BlobSetLegalHoldHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      legalHold: {
+        serializedName: "x-ms-legal-hold",
+        xmlName: "x-ms-legal-hold",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetLegalHoldExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Blob_setLegalHoldExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "BlobSetLegalHoldExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",
