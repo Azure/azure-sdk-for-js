@@ -12,7 +12,6 @@ import {
 import {
   setTracer,
   NoOpTracer,
-  NoOpSpan,
   SpanOptions,
   SpanContext,
   TraceFlags,
@@ -20,24 +19,42 @@ import {
   setSpan,
   context,
   SpanStatusCode,
-  SpanStatus
+  SpanStatus,
+  Span,
+  SpanAttributes,
+  SpanAttributeValue,
+  Tracer
 } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
-class MockSpan extends NoOpSpan {
+class MockSpan implements Span {
   private _endCalled = false;
   private _status: SpanStatus = {
     code: SpanStatusCode.UNSET
   };
-  private _attributes: { [s: string]: unknown } = {};
+  private _attributes: SpanAttributes = {};
 
   constructor(
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
     private state: string
-  ) {
-    super();
+  ) {}
+
+  addEvent(): this {
+    throw new Error("Not implemented.");
+  }
+
+  isRecording(): boolean {
+    return true;
+  }
+
+  recordException(): void {
+    throw new Error("Not implemented.");
+  }
+
+  updateName(): this {
+    throw new Error("Not implemented.");
   }
 
   didEnd(): boolean {
@@ -57,7 +74,12 @@ class MockSpan extends NoOpSpan {
     return this;
   }
 
-  setAttribute(key: string, value: unknown) {
+  setAttributes(attributes: SpanAttributes): this {
+    this._attributes = attributes;
+    return this;
+  }
+
+  setAttribute(key: string, value: SpanAttributeValue) {
     this._attributes[key] = value;
     return this;
   }
@@ -95,7 +117,7 @@ class MockSpan extends NoOpSpan {
   }
 }
 
-class MockTracer extends NoOpTracer {
+class MockTracer implements Tracer {
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
@@ -104,9 +126,7 @@ class MockTracer extends NoOpTracer {
     private spanId = "",
     private flags = TraceFlags.NONE,
     private state = ""
-  ) {
-    super();
-  }
+  ) {}
 
   getStartedSpans(): MockSpan[] {
     return this.spans;
