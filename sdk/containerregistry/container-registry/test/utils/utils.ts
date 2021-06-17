@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
+import { ClientSecretCredential, ClientSecretCredentialOptions } from "@azure/identity";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { ContainerRegistryClient } from "../../src";
+import { ContainerRegistryClient, ContainerRegistryClientOptions } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -58,6 +58,16 @@ export function createRegistryClient(
     return new ContainerRegistryClient(endpoint);
   }
 
+  const credentialOptions: ClientSecretCredentialOptions | undefined = env.AUTH_HOST
+    ? {
+        authorityHost: env.AUTH_HOST
+      }
+    : undefined;
+  const clientOptions: ContainerRegistryClientOptions | undefined = env.AUTH_SCOPE
+    ? {
+        authenticationScope: env.AUTH_SCOPE
+      }
+    : undefined;
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If
   // we used DefaultAzureCredential, they might be different on some machines
@@ -66,8 +76,9 @@ export function createRegistryClient(
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    credentialOptions
   );
 
-  return new ContainerRegistryClient(endpoint, credential);
+  return new ContainerRegistryClient(endpoint, credential, clientOptions);
 }
