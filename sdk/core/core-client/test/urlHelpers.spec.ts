@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getRequestUrl } from "../src/urlHelpers";
+import { getRequestUrl, appendQueryParams } from "../src/urlHelpers";
 import {
   OperationSpec,
   OperationURLParameter,
@@ -142,5 +142,115 @@ describe("getRequestUrl", function() {
       {}
     );
     assert.strictEqual(result, "https://test.com/path?abc%3Ddef");
+  });
+
+  it("should create url when there is no existing value", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", "2020-08-01");
+
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
+
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01"
+    );
+  });
+
+  it("should create url when the existing value is an array and the new value is not an array", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", "2022-08-01");
+
+    const set: Set<string> = new Set<string>();
+    set.add("api-version");
+    const res: string = appendQueryParams(url, queryParams, set);
+
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
+    );
+  });
+
+  it("should create url when the existing value is an array and the new value is also the same array", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", ["2020-08-01", "2021-08-01"]);
+
+    const set: Set<string> = new Set<string>();
+    set.add("api-version");
+    const res: string = appendQueryParams(url, queryParams, set);
+
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01"
+    );
+  });
+
+  it("should create url when the existing value is an array and the new value is a different array", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", ["2022-08-01", "2023-08-01"]);
+
+    const set: Set<string> = new Set<string>();
+    set.add("api-version");
+    const res: string = appendQueryParams(url, queryParams, set);
+
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01&api-version=2023-08-01"
+    );
+  });
+
+  it("should create url when the existing value is not an array and the new value is the same value", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", "2020-08-01");
+
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
+
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01"
+    );
+  });
+
+  it("should create url when the existing value is not an array and the new value is a different value", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", "2021-08-01");
+
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
+
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2021-08-01"
+    );
+  });
+
+  it("should create url when the existing value is not an array and the new value is an array", function() {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("api-version", ["2021-08-01", "2022-08-01"]);
+
+    const res: string = appendQueryParams(url, queryParams, new Set<string>());
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
+    );
   });
 });

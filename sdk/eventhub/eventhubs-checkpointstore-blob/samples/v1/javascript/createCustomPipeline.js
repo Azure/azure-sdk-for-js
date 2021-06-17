@@ -1,24 +1,23 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-  This sample demonstrates how to create a custom `Pipeline` that the
-  Storage Blob Container Client uses to change the API version used
-  when communicating with the service.
-
-  This may be useful if the environment you are targetting supports an
-  older version of Storage Blob than is officially supported by the
-  @azure/storage-blob SDK.
-
-  For example, if you are running Event Hubs on Azure Stack Hub,
-  the Azure Stack Hub version 2002 supports up to version 2017-11-09
-  of the Azure Storage service.
-
-  For more information on the Azure Storage versions supported on Azure Stack,
-  please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences.
-*/
+/**
+ * Demonstrates how to create a custom `Pipeline` that the
+ * Storage Blob Container Client uses to change the API version used
+ * when communicating with the service.
+ *
+ * This may be useful in environments like Azure Stack which supports an
+ * older version of Storage service than is officially supported by the
+ * Storage Blob SDK.
+ */
 
 const { newPipeline } = require("@azure/storage-blob");
+
+// In this example, we assume you are running Event Hubs on Azure Stack Hub
+// version 2002 that supports up to version 2017-11-09 of the Azure Storage service.
+
+// For more information on the Azure Storage versions supported on Azure Stack,\
+// please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences.
 
 const API_VERSION = "2017-11-09";
 
@@ -46,5 +45,3 @@ export function createCustomPipeline(credentials) {
 
   return storagePipeline;
 }
-
-exports.createCustomPipeline = createCustomPipeline;

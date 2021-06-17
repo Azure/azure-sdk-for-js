@@ -27,7 +27,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/postgresql/arm-postgresql-flexible",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -54,5 +54,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-postgresql-flexible.js.map'\" -o ./dist/arm-postgresql-flexible.min.js ./dist/arm-postgresql-flexible.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "autoPublish": true
 }
