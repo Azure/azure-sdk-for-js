@@ -5,12 +5,15 @@
 
 import Sinon from "sinon";
 import assert from "assert";
+
 import { env } from "@azure/test-utils-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
+
 import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/nodeCommon";
-import { createPersistence } from "../../../src/provider";
+
+import { createPersistence } from "./setup.spec";
 
 const scope = "https://graph.microsoft.com/.default";
 

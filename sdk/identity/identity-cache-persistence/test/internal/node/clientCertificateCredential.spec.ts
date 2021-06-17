@@ -17,7 +17,7 @@ import {
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/nodeCommon";
 
-import { createPersistence } from "../../../src/provider";
+import { createPersistence } from "./setup.spec";
 
 const ASSET_PATH = "assets";
 

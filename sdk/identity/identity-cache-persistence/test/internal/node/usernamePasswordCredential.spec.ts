@@ -5,12 +5,15 @@
 
 import Sinon from "sinon";
 import assert from "assert";
+
 import { env } from "@azure/test-utils-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
+
 import { UsernamePasswordCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/nodeCommon";
-import { createPersistence } from "../../../src/provider";
+
+import { createPersistence } from "./setup.spec";
 
 describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

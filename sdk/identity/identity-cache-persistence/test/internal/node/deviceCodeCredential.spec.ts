@@ -5,12 +5,15 @@
 
 import Sinon from "sinon";
 import assert from "assert";
+
 import { PublicClientApplication } from "@azure/msal-node";
 import { isLiveMode } from "@azure/test-utils-recorder";
+
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/nodeCommon";
-import { createPersistence } from "../../../src/provider";
+
+import { createPersistence } from "./setup.spec";
 
 describe("DeviceCodeCredential (internal)", function(this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 // We need to set up the extension for the tests!
 
 import { useIdentityExtension } from "../../../../identity/src";
@@ -17,8 +19,15 @@ if (!process.versions.node.startsWith("14")) {
   process.exit(0);
 }
 
-import { cachePersistenceExtension as extension } from "../../../src";
+// This shim is required to defer loading of msal-node-extensions in environments where
+// it will crash CI with an invalid Node API version.
+export const createPersistence: typeof import("../../../src/provider").createPersistence = (
+  ...args
+) => {
+  const { createPersistence: create } = require("../../../src/provider");
+  return create(...args);
+};
 
 before(function() {
-  useIdentityExtension(extension);
+  useIdentityExtension(require("../../../src").cachePersistenceExtension);
 });
