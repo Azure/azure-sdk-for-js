@@ -4,13 +4,10 @@
 
 ```ts
 
-// @public
-export type IdentityExtension = (context: unknown) => void;
+import { IdentityExtension } from '@azure/identity';
 
 // @public
-const persistence: IdentityExtension;
-
-export default persistence;
+export const cachePersistenceExtension: IdentityExtension;
 
 
 // (No @packageDocumentation comment for this package)

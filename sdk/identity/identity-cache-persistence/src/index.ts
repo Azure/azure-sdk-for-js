@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureExtensionContext, IdentityExtension } from "../../identity/src/extensions/provider";
+import { IdentityExtension } from "@azure/identity";
+
+import { AzureExtensionContext } from "../../identity/src/extensions/provider";
 import { createPersistenceCachePlugin } from "./provider";
 
 /**
@@ -18,10 +20,10 @@ import { createPersistenceCachePlugin } from "./provider";
  *
  * ```typescript
  * import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
- * import persistence from "@azure/identity-cache-persistence";
+ * import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
  *
  * // Load the extension
- * useIdentityExtension(persistence);
+ * useIdentityExtension(cachePersistenceExtension);
  *
  * const credential = new DeviceCodeCredential({
  *   tokenCachePersistenceOptions: {
@@ -31,12 +33,8 @@ import { createPersistenceCachePlugin } from "./provider";
  * ```
  */
 
-const persistence: IdentityExtension = (context) => {
+export const cachePersistenceExtension: IdentityExtension = (context) => {
   const { cachePluginControl } = context as AzureExtensionContext;
 
   cachePluginControl.persistence = createPersistenceCachePlugin;
 };
-
-export default persistence;
-
-export { IdentityExtension };

@@ -4,7 +4,7 @@
 // We need to set up the extension for the tests!
 
 import { useIdentityExtension } from "../../../../identity/src";
-import extension from "../../../src";
+import { cachePersistenceExtension as extension } from "../../../src";
 
 // The persistence tests have to run on the same version of Node that's used to
 // install dependencies, currently 12.

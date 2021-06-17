@@ -17,8 +17,8 @@
 
 import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
 
-import persistence from "@azure/identity-cache-persistence";
-useIdentityExtension(persistence);
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+useIdentityExtension(cachePersistenceExtension);
 
 import dotenv from "dotenv";
 dotenv.config();

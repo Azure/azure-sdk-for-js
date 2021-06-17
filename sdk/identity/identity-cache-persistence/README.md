@@ -33,9 +33,9 @@ As of `@azure/identity` version 2.0.0, the Identity client library for JavaScrip
 
 ```typescript
 import { useIdentityExtension } from "@azure/identity";
-import persistence from "@azure/identity-cache-persistence";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
-useIdentityExtension(persistence);
+useIdentityExtension(cachePersistenceExtension);
 ```
 
 After calling `useIdentityExtension`, the persistent token cache extension is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
@@ -46,9 +46,9 @@ Once the extension is registered, you can enable token cache persistence by pass
 
 ```typescript
 import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
-import persistence from "@azure/identity-cache-persistence";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
-useIdentityExtension(persistence);
+useIdentityExtension(cachePersistenceExtension);
 
 async function main() {
   const credential = new DeviceCodeCredential({
