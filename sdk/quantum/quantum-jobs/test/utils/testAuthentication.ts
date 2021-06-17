@@ -15,7 +15,7 @@ export async function authenticate(that: any): Promise<any> {
       WORKSPACE_NAME: "workspace",
       AZURE_CLIENT_ID: "ce7bd34e-0000-0000-0000-000000000000",
       AZURE_CLIENT_SECRET: "clientsecret",
-      AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888" //dummy
+      AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012" //dummy
     },
     customizationsOnRecordings: [
       (recording: any): any =>
