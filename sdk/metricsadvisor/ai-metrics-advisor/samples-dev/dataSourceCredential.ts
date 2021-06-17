@@ -13,9 +13,9 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  GetCredentialEntityResponse,
-  DatasourceCredentialPatch,
-  SqlServerConnectionStringDatasourceCredential
+  GetDataSourceCredentialEntityResponse,
+  DataSourceCredentialPatch,
+  SqlServerConnectionStringDataSourceCredential
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -27,19 +27,19 @@ export async function main() {
 
   const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
 
-  const created = await createDatasourceCredential(adminClient);
+  const created = await createDataSourceCredential(adminClient);
   if (created.id) {
-    await getDatasourceCredential(adminClient, created.id);
-    await updateDatasourceCredential(adminClient, created.id);
-    await listDatasourceCredentials(adminClient);
-    await deleteDatasourceCredential(adminClient, created.id);
+    await getDataSourceCredential(adminClient, created.id);
+    await updateDataSourceCredential(adminClient, created.id);
+    await listDataSourceCredentials(adminClient);
+    await deleteDataSourceCredential(adminClient, created.id);
   }
 }
 
-async function listDatasourceCredentials(client: MetricsAdvisorAdministrationClient) {
-  console.log("Listing Datasource credentials ...");
+async function listDataSourceCredentials(client: MetricsAdvisorAdministrationClient) {
+  console.log("Listing DataSource credentials ...");
   console.log("  using while loop");
-  const iter = client.listDatasourceCredential();
+  const iter = client.listDataSourceCredential();
   let result = await iter.next();
   while (!result.done) {
     console.log(`id :${result.value.id}, name: ${result.value.name}`);
@@ -48,7 +48,7 @@ async function listDatasourceCredentials(client: MetricsAdvisorAdministrationCli
 
   // second approach
   console.log("  using for-await-of loop");
-  const iterator = client.listDatasourceCredential();
+  const iterator = client.listDataSourceCredential();
   for await (const datasourceCredential of iterator) {
     console.log(
       `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`
@@ -57,7 +57,7 @@ async function listDatasourceCredentials(client: MetricsAdvisorAdministrationCli
 
   // by pages
   console.log("  by pages");
-  const pages = client.listDatasourceCredential().byPage({ maxPageSize: 1 });
+  const pages = client.listDataSourceCredential().byPage({ maxPageSize: 1 });
   let page = await pages.next();
   let i = 1;
   while (!page.done) {
@@ -71,34 +71,34 @@ async function listDatasourceCredentials(client: MetricsAdvisorAdministrationCli
   }
 }
 
-async function createDatasourceCredential(
+async function createDataSourceCredential(
   client: MetricsAdvisorAdministrationClient
-): Promise<GetCredentialEntityResponse> {
-  console.log("Creating Datasource credential...");
-  const datasourceCredential: SqlServerConnectionStringDatasourceCredential = {
+): Promise<GetDataSourceCredentialEntityResponse> {
+  console.log("Creating DataSource credential...");
+  const datasourceCredential: SqlServerConnectionStringDataSourceCredential = {
     name: "Sql-server-cred",
     description: "an example sql server credential",
     type: "AzureSQLConnectionString",
     connectionString: "connection-string"
   };
-  const result = await client.createDatasourceCredential(datasourceCredential);
+  const result = await client.createDataSourceCredential(datasourceCredential);
   console.dir(result);
   return result;
 }
 
-async function getDatasourceCredential(
+async function getDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
   datasourceCredentialId: string
 ) {
   console.log("Retrieving datasourceCredential by id...");
-  const result = await client.getDatasourceCredential(datasourceCredentialId);
+  const result = await client.getDataSourceCredential(datasourceCredentialId);
   console.log("datasource credential result is as follows - ");
   console.log(`  id: ${result.id}`);
   console.log(`  datasource credential type: ${result.type}`);
   console.log(`  name: ${result.name}`);
 }
 
-async function updateDatasourceCredential(
+async function updateDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
   credentialId: string
 ) {
@@ -107,11 +107,11 @@ async function updateDatasourceCredential(
     description: "updated-description",
     type: "AzureSQLConnectionString",
     connectionString: "connection-string"
-  } as DatasourceCredentialPatch;
+  } as DataSourceCredentialPatch;
 
   try {
     console.log(`Updating credential ${credentialId}...`);
-    const updated = await client.updateDatasourceCredential(credentialId, patch);
+    const updated = await client.updateDataSourceCredential(credentialId, patch);
     console.dir(updated);
   } catch (err) {
     console.log("Error occurred when updating credential");
@@ -119,12 +119,12 @@ async function updateDatasourceCredential(
   }
 }
 
-async function deleteDatasourceCredential(
+async function deleteDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
   credentialId: string
 ) {
   console.log(`Deleting datasource credential ${credentialId}...`);
-  await client.deleteDatasourceCredential(credentialId);
+  await client.deleteDataSourceCredential(credentialId);
 }
 
 main()

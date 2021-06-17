@@ -738,7 +738,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Eventhubs data feed", async function() {
+        it.skip("deletes Eventhubs data feed", async function(this: Context) {
           await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 

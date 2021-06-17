@@ -230,7 +230,7 @@ export interface CreateDataFeedOptions extends OperationOptions {
 }
 
 // @public
-export interface CredentialsPageResponse extends Array<DatasourceCredentialUnion> {
+export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
     continuationToken?: string;
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -376,13 +376,13 @@ export interface DataFeedsPageResponse extends Array<DataFeed> {
 export type DataFeedStatus = "Paused" | "Active";
 
 // @public
-export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
+export interface DataLakeGen2SharedKeyDataSourceCredential extends DataSourceCredential {
     accountKey?: string;
     type: "DataLakeGen2SharedKey";
 }
 
 // @public
-export interface DataLakeGen2SharedKeyDatasourceCredentialPatch {
+export interface DataLakeGen2SharedKeyDataSourceCredentialPatch {
     accountKey?: string;
     description?: string;
     name?: string;
@@ -434,17 +434,17 @@ export interface DataPointAnomaly {
 }
 
 // @public
-export interface DatasourceCredential {
+export interface DataSourceCredential {
     description?: string;
     readonly id?: string;
     name: string;
 }
 
 // @public
-export type DatasourceCredentialPatch = SqlServerConnectionStringDatasourceCredentialPatch | DataLakeGen2SharedKeyDatasourceCredentialPatch | ServicePrincipalDatasourceCredentialPatch | ServicePrincipalInKeyVaultDatasourceCredentialPatch;
+export type DataSourceCredentialPatch = SqlServerConnectionStringDataSourceCredentialPatch | DataLakeGen2SharedKeyDataSourceCredentialPatch | ServicePrincipalDataSourceCredentialPatch | ServicePrincipalInKeyVaultDataSourceCredentialPatch;
 
 // @public (undocumented)
-export type DatasourceCredentialUnion = SqlServerConnectionStringDatasourceCredential | DataLakeGen2SharedKeyDatasourceCredential | ServicePrincipalDatasourceCredential | ServicePrincipalInKeyVaultDatasourceCredential;
+export type DataSourceCredentialUnion = SqlServerConnectionStringDataSourceCredential | DataLakeGen2SharedKeyDataSourceCredential | ServicePrincipalDataSourceCredential | ServicePrincipalInKeyVaultDataSourceCredential;
 
 // @public
 export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureLogAnalytics" | "AzureTable" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
@@ -527,7 +527,7 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
 };
 
 // @public
-export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
+export type GetDataFeedResponse = DataFeed & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -535,7 +535,7 @@ export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
 };
 
 // @public
-export type GetDataFeedResponse = DataFeed & {
+export type GetDataSourceCredentialEntityResponse = DataSourceCredentialUnion & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -725,7 +725,7 @@ export interface ListDataFeedsOptions extends OperationOptions {
 }
 
 // @public
-export interface ListDatasourceCredentialsOptions extends OperationOptions {
+export interface ListDataSourceCredentialsOptions extends OperationOptions {
     skip?: number;
 }
 
@@ -934,31 +934,31 @@ export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
-    createDatasourceCredential(datasourceCredential: DatasourceCredentialUnion, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
+    createDataSourceCredential(dataSourceCredential: DataSourceCredentialUnion, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDatasourceCredential(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAlertConfig(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
-    getDatasourceCredential(id: string, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
+    getDataSourceCredential(id: string, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
     getDetectionConfig(id: string, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse>;
-    listDatasourceCredential(options?: ListDatasourceCredentialsOptions): PagedAsyncIterableIterator<DatasourceCredentialUnion, CredentialsPageResponse>;
+    listDataSourceCredential(options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialUnion, CredentialsPageResponse>;
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
     updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
-    updateDatasourceCredential(id: string, patch: DatasourceCredentialPatch, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
+    updateDataSourceCredential(id: string, patch: DataSourceCredentialPatch, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
     updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
     updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
 }
@@ -1083,7 +1083,7 @@ export type PostgreSqlDataFeedSource = {
 };
 
 // @public
-export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
+export interface ServicePrincipalDataSourceCredential extends DataSourceCredential {
     clientId: string;
     clientSecret?: string;
     tenantId: string;
@@ -1091,7 +1091,7 @@ export interface ServicePrincipalDatasourceCredential extends DatasourceCredenti
 }
 
 // @public
-export interface ServicePrincipalDatasourceCredentialPatch {
+export interface ServicePrincipalDataSourceCredentialPatch {
     clientId?: string;
     clientSecret?: string;
     description?: string;
@@ -1101,7 +1101,7 @@ export interface ServicePrincipalDatasourceCredentialPatch {
 }
 
 // @public
-export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
+export interface ServicePrincipalInKeyVaultDataSourceCredential extends DataSourceCredential {
     keyVaultClientId: string;
     keyVaultClientSecret?: string;
     keyVaultEndpoint: string;
@@ -1112,7 +1112,7 @@ export interface ServicePrincipalInKeyVaultDatasourceCredential extends Datasour
 }
 
 // @public
-export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
+export interface ServicePrincipalInKeyVaultDataSourceCredentialPatch {
     description?: string;
     keyVaultClientId?: string;
     keyVaultClientSecret?: string;
@@ -1186,13 +1186,13 @@ export interface SqlServerAuthServicePrincipalInKeyVault {
 export type SqlServerAuthTypes = SqlServerAuthBasic | SqlServerAuthManagedIdentity | SqlServerAuthConnectionString | SqlServerAuthServicePrincipal | SqlServerAuthServicePrincipalInKeyVault;
 
 // @public
-export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
+export interface SqlServerConnectionStringDataSourceCredential extends DataSourceCredential {
     connectionString?: string;
     type: "AzureSQLConnectionString";
 }
 
 // @public
-export interface SqlServerConnectionStringDatasourceCredentialPatch {
+export interface SqlServerConnectionStringDataSourceCredentialPatch {
     connectionString?: string;
     description?: string;
     name?: string;
