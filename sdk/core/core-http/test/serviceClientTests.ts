@@ -44,7 +44,7 @@ describe("ServiceClient", function() {
 
     const testOperationSpec: OperationSpec = {
       httpMethod: "GET",
-      baseUrl: "https.bin.org",
+      baseUrl: "https://bin.org",
       serializer: new Serializer(),
       headerParameters: [
         {
@@ -217,7 +217,7 @@ describe("ServiceClient", function() {
       },
       {
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         serializer: new Serializer(),
         headerParameters: [
           {
@@ -271,7 +271,7 @@ describe("ServiceClient", function() {
       {},
       {
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         serializer: new Serializer(),
         headerParameters: [],
         responses: {
@@ -385,7 +385,7 @@ describe("ServiceClient", function() {
   });
 
   it("should serialize collection with empty multi query parameter", async function() {
-    await testSendOperationRequest([], QueryCollectionFormat.Multi, true, "https.bin.org");
+    await testSendOperationRequest([], QueryCollectionFormat.Multi, true, "https://bin.org");
   });
 
   it("should apply withCredentials to requests", async function() {
@@ -406,7 +406,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: { 200: {} }
       }
     );
@@ -423,7 +423,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: { 200: {} }
       }
     );
@@ -454,7 +454,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: {
           200: {
             bodyMapper: {
@@ -494,7 +494,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: {}
       }
     );
@@ -521,7 +521,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: {}
       }
     );
@@ -547,7 +547,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: {}
       }
     );
@@ -576,7 +576,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: {}
       }
     );
@@ -607,7 +607,7 @@ describe("ServiceClient", function() {
       {
         serializer: new Serializer(),
         httpMethod: "GET",
-        baseUrl: "https.bin.org",
+        baseUrl: "https://bin.org",
         responses: {}
       }
     );
@@ -1960,7 +1960,7 @@ describe("ServiceClient", function() {
           bodyMapper: BodyMapper
         }
       },
-      baseUrl: "https.bin.org",
+      baseUrl: "https://bin.org",
       serializer
     };
 
@@ -2032,7 +2032,7 @@ async function testSendOperationRequest(
     },
     {
       httpMethod: "GET",
-      baseUrl: "https.bin.org",
+      baseUrl: "https://bin.org",
       serializer: new Serializer(),
       queryParameters: [
         {
