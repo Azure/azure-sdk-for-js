@@ -36,7 +36,6 @@ required_readme_sections:
   - ^Contributing$
 
 known_content_issues:
-  - ["sdk/core/core-tracing/README.md",  "#14725"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
 
