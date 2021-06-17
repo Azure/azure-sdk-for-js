@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { KeyVaultClientOptionalParams } from "./models";
 
 const packageName = "@azure/keyvault-admin";
-export const packageVersion = "4.0.0-beta.4";
+export const packageVersion = "4.1.0-beta.1";
 
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
@@ -33,7 +33,6 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
     super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "{vaultBaseUrl}";
 
     // Assigning values to Constant parameters

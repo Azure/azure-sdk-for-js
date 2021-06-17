@@ -41,9 +41,6 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "types": "./types/logger.d.ts",
-  "engine": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -71,7 +68,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger/README.md",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

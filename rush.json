@@ -333,8 +333,27 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/agrifood-farming",
+      "projectFolder": "sdk/agrifood/agrifood-farming-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-catalog",
+      "projectFolder": "sdk/purview/purview-catalog-rest"
+    },
+    {
+      "packageName": "@azure-rest/purview-scanning",
+      "projectFolder": "sdk/purview/purview-scanning-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/confidential-ledger",
+      "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
     },
     {
@@ -388,6 +407,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-network-traversal",
+      "projectFolder": "sdk/communication/communication-network-traversal",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-phone-numbers",
       "projectFolder": "sdk/communication/communication-phone-numbers",
       "versionPolicyName": "client"
@@ -409,7 +433,7 @@
     },
     {
       "packageName": "@azure-rest/core-client",
-      "projectFolder": "sdk/core-rest/core-client",
+      "projectFolder": "sdk/core/core-client-rest",
       "versionPolicyName": "core"
     },
     {
@@ -475,6 +499,11 @@
     {
       "packageName": "@azure/monitor-opentelemetry-exporter",
       "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query",
       "versionPolicyName": "client"
     },
     {
@@ -638,14 +667,23 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-multi-version",
-      "projectFolder": "sdk/test-utils/multi-version",
+      "packageName": "@azure/test-utils",
+      "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/video-analyzer-edge",
+      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/iot-modelsrepository",
+      "projectFolder": "sdk/iot/iot-modelsrepository"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
@@ -725,6 +763,11 @@
     {
       "packageName": "@azure-tests/perf-ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-core-rest-pipeline",
+      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
     }
   ]

@@ -1,8 +1,26 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.1.3 (Unreleased)
+
+### Key Bugs Fixed
+
+- Fix an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+
+## 1.1.2 (2021-05-20)
+
+### Fixed
+
+- Fixed an issue to check for the mandatory parameter in the header and query values. [PR 15278](https://github.com/Azure/azure-sdk-for-js/pull/15278)
+
+## 1.1.1 (2021-05-06)
+
+### Features Added
 
 - Expose `allowInsecureConnection` in `ServiceClientOptions` and `OperationRequestOptions` to allow operation requests to HTTP endpoints
+
+### Fixed
+
+- Consider more mapper types as primitive thus requires wrapping
 
 ## 1.1.0 (2021-03-30)
 

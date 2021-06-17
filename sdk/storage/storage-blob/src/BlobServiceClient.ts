@@ -336,6 +336,7 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
   /**
    * Optional. Specifies the new name of the restored container.
    * Will use its original name if this is not specified.
+   * @deprecated Restore container to a different name is not supported by service anymore.
    */
   destinationContainerName?: string;
 }

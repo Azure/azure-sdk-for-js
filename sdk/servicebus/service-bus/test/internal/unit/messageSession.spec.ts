@@ -5,11 +5,12 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../../src/session/messageSession";
 import {
+  addCloseablesCleanup,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
   defer
 } from "./unittestUtils";
-import sinon from "sinon";
+import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
 import {
   ReceiverEvents,
@@ -20,9 +21,10 @@ import {
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
-import { ProcessErrorArgs } from "../../../src";
+import { ProcessErrorArgs, ServiceBusError } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 import { Constants } from "@azure/core-amqp";
+import { AbortError } from "@azure/abort-controller";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -349,9 +351,21 @@ describe("Message session unit tests", () => {
     }
   });
 
-  describe("errorSource", () => {
-    it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
-      const messageSession = await MessageSession.create(
+  describe("errors", () => {
+    const closeables = addCloseablesCleanup();
+    let messageSession: MessageSession;
+    const eventContextWithMessage: EventContext = ({
+      delivery: {},
+      message: {
+        message_annotations: {
+          [Constants.enqueuedTime]: new Date()
+        }
+      }
+    } as any) as EventContext;
+    let processCreditErrorSpy: SinonSpy;
+
+    beforeEach(async () => {
+      messageSession = await MessageSession.create(
         createConnectionContextForTestsWithSessionId("session id"),
         "entity path",
         "session id",
@@ -361,59 +375,173 @@ describe("Message session unit tests", () => {
         }
       );
 
-      try {
-        let errorArgs: ProcessErrorArgs | undefined;
+      closeables.push(messageSession);
 
-        const eventContext = {
-          delivery: {},
-          message: {
-            message_annotations: {
-              [Constants.enqueuedTime]: new Date()
-            }
-          }
-        };
+      processCreditErrorSpy = sinon.spy(
+        (messageSession as any) as { processCreditError: (err: any) => void },
+        "processCreditError"
+      );
+    });
 
-        const subscribePromise = new Promise<void>((resolve) => {
-          messageSession.subscribe(
-            async (_message) => {
-              throw new Error("Error thrown from the user's processMessage callback");
-            },
-            async (args) => {
-              errorArgs = args;
-              resolve();
-            },
-            {}
-          );
-        });
+    it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
+      let errorArgs: ProcessErrorArgs | undefined;
 
-        messageSession["_link"]?.emit(
-          ReceiverEvents.message,
-          (eventContext as any) as EventContext
-        );
-
-        // once we emit the event we need to wait for it to be processed (and then in turn
-        // generate an error)
-        await subscribePromise;
-
-        assert.exists(errorArgs, "We should have triggered processError.");
-
-        assert.deepEqual(
-          {
-            message: errorArgs!.error.message,
-            errorSource: errorArgs!.errorSource,
-            entityPath: errorArgs!.entityPath,
-            fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+      const subscribePromise = new Promise<void>((resolve) => {
+        messageSession.subscribe(
+          async (_message) => {
+            throw new Error("Error thrown from the user's processMessage callback");
           },
-          {
-            message: "Error thrown from the user's processMessage callback",
-            errorSource: "processMessageCallback",
-            entityPath: "entity path",
-            fullyQualifiedNamespace: "fakeHost"
-          }
+          async (args) => {
+            errorArgs = args;
+            resolve();
+          },
+          {}
         );
-      } finally {
-        await messageSession.close();
+      });
+
+      messageSession["_link"]?.emit(ReceiverEvents.message, eventContextWithMessage);
+
+      // once we emit the event we need to wait for it to be processed (and then in turn
+      // generate an error)
+      await subscribePromise;
+      assert.exists(errorArgs, "We should have triggered processError.");
+
+      assert.deepEqual(
+        {
+          message: errorArgs!.error.message,
+          errorSource: errorArgs!.errorSource,
+          entityPath: errorArgs!.entityPath,
+          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+        },
+        {
+          message: "Error thrown from the user's processMessage callback",
+          errorSource: "processMessageCallback",
+          entityPath: "entity path",
+          fullyQualifiedNamespace: "fakeHost"
+        }
+      );
+    });
+
+    it("errors thrown in the post-message-processing addCredit are sent to the user", async () => {
+      let errorArgs: ProcessErrorArgs | undefined;
+      let addCreditWasCalled = false;
+
+      const subscribePromise = new Promise<void>((resolve) => {
+        messageSession.subscribe(
+          async (_message) => {
+            // the next addCredit call should trigger an exception now
+            messageSession["_receiverHelper"]["addCredit"] = (_credits) => {
+              addCreditWasCalled = true;
+              throw new Error("Purposeful failure in addCredit()");
+            };
+          },
+          async (args) => {
+            errorArgs = args;
+            resolve();
+          },
+          {}
+        );
+      });
+
+      messageSession["_link"]?.emit(ReceiverEvents.message, eventContextWithMessage);
+
+      // once we emit the event we need to wait for it to be processed (and then in turn
+      // generate an error)
+      await subscribePromise;
+
+      assert.exists(errorArgs, "We should have triggered processError.");
+
+      assert.deepEqual(
+        {
+          message: errorArgs!.error.message,
+          errorSource: errorArgs!.errorSource,
+          entityPath: errorArgs!.entityPath,
+          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+        },
+        {
+          message: "Cannot request messages on the receiver",
+          errorSource: "processMessageCallback",
+          entityPath: "entity path",
+          fullyQualifiedNamespace: "fakeHost"
+        }
+      );
+
+      assert.isTrue(
+        addCreditWasCalled,
+        "Error thrown should have come from the call to addCredit()"
+      );
+
+      assert.isTrue(processCreditErrorSpy.called);
+    });
+
+    it("failing to add credits results in a SessionLockLost error", async () => {
+      // we fabricate this error (there is no actual link activity here) but it's a more
+      // sensible error type for sessions since it'll indicate that the link itself is bad.
+      const errors: { message: string; code: string }[] = [];
+
+      messageSession["_receiverHelper"]["addCredit"] = () => {
+        throw new Error("addCredit had an error!");
+      };
+
+      messageSession.subscribe(
+        async (_message) => {},
+        (errorArgs) => {
+          errors.push({
+            message: errorArgs.error.message,
+            code: (errorArgs.error as ServiceBusError).code
+          });
+        },
+        {}
+      );
+
+      assert.deepEqual(errors, [
+        {
+          message: "Cannot request messages on the receiver",
+          code: "SessionLockLost"
+        }
+      ]);
+
+      assert.isTrue(processCreditErrorSpy.called);
+    });
+
+    it("processCreditError doesn't log or forward AbortError's", () => {
+      let onErrorCalled = false;
+      messageSession["_onError"] = (_err) => {
+        onErrorCalled = true;
+      };
+
+      // We allow AbortError to no-op since the user is already aware they
+      // are suspending the connection (and thus credit errors will occur)
+      messageSession["processCreditError"](new AbortError());
+      assert.isFalse(onErrorCalled);
+    });
+
+    it("processCreditError forwards non-retryable errors", () => {
+      let err: ServiceBusError | Error | undefined;
+      messageSession["_onError"] = (errArgs) => {
+        err = errArgs.error;
+      };
+
+      // We allow AbortError to no-op since the user is already aware they
+      // are suspending the connection (and thus credit errors will occur)
+      messageSession["processCreditError"](new Error("Somewthing"));
+
+      if (!err) {
+        throw new Error("Expected an error to be passed to _onError");
       }
+
+      assert.deepEqual(
+        {
+          name: err.name,
+          code: (err as ServiceBusError).code,
+          retryable: (err as ServiceBusError).retryable
+        },
+        {
+          name: "ServiceBusError",
+          code: "SessionLockLost",
+          retryable: false
+        }
+      );
     });
   });
 });

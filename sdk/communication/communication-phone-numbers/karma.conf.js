@@ -33,12 +33,9 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    files: ["dist-test/index.browser.js"].concat(
+      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
+    ),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -58,10 +55,14 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
-      "COMMUNICATION_ENDPOINT"
+      "COMMUNICATION_ENDPOINT",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID",
+      "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS"
     ],
 
     // test results reporter to use
@@ -116,7 +117,7 @@ module.exports = function(config) {
     customLaunchers: {
       HeadlessChrome: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
+        flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
 

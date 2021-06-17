@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  AnalyticalStorageConfiguration,
   ApiProperties,
   ARMProxyResource,
   ARMResourceProperties,
@@ -44,8 +45,6 @@ export {
   CreateUpdateOptions,
   DatabaseAccountCreateUpdateParameters,
   DatabaseAccountGetResults,
-  ErrorResponse,
-  ErrorResponseUpdatedFormat,
   ExcludedPath,
   FailoverPolicy,
   GremlinDatabaseCreateUpdateParameters,
@@ -83,6 +82,7 @@ export {
   OptionsResource,
   PeriodicModeBackupPolicy,
   PeriodicModeProperties,
+  Permission,
   PrivateEndpointConnection,
   PrivateEndpointProperty,
   PrivateLinkResource,
@@ -100,6 +100,8 @@ export {
   SqlDatabaseGetPropertiesResource,
   SqlDatabaseGetResults,
   SqlDatabaseResource,
+  SqlRoleAssignmentGetResults,
+  SqlRoleDefinitionGetResults,
   SqlStoredProcedureCreateUpdateParameters,
   SqlStoredProcedureGetPropertiesResource,
   SqlStoredProcedureGetResults,

@@ -16,7 +16,38 @@ import {
   WebhookHookInfo,
   EmailHookInfo,
   NeedRollupEnum,
-  RollUpMethod as DataFeedDetailRollUpMethod
+  RollUpMethod as DataFeedDetailRollUpMethod,
+  DataSourceCredentialPatchUnion as ServiceDataSourceCredentialPatch,
+  AzureApplicationInsightsDataFeed as ServiceAzureApplicationInsightsDataFeed,
+  AzureDataExplorerDataFeed as ServiceAzureDataExplorerDataFeed,
+  AzureDataLakeStorageGen2DataFeed as ServiceAzureDataLakeStorageGen2DataFeed,
+  AzureBlobDataFeed as ServiceAzureBlobDataFeed,
+  AzureCosmosDBDataFeed as ServiceAzureCosmosDBDataFeed,
+  AzureTableDataFeed as ServiceAzureTableDataFeed,
+  MongoDBDataFeed as ServiceMongoDBDataFeed,
+  MySqlDataFeed as ServiceMySqlDataFeed,
+  PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
+  SQLServerDataFeed as ServiceSQLServerDataFeed,
+  InfluxDBDataFeed as ServiceInfluxDBDataFeed,
+  AzureEventHubsDataFeed as ServiceAzureEventHubsDataFeed,
+  AzureLogAnalyticsDataFeed as ServiceAzureLogAnalyticsDataFeed,
+  AnomalyDetectionConfigurationPatch as ServiceAnomalyDetectionConfigurationPatch,
+  DataSourceCredentialUnion as ServiceDataSourceCredentialUnion,
+  DataLakeGen2SharedKeyCredential,
+  AzureSQLConnectionStringCredential,
+  ServicePrincipalCredential,
+  ServicePrincipalInKVCredential,
+  AzureApplicationInsightsParameter,
+  MongoDBParameter,
+  AuthenticationTypeEnum,
+  AzureBlobParameter,
+  AzureCosmosDBParameter,
+  AzureDataLakeStorageGen2Parameter,
+  AzureEventHubsParameter,
+  AzureLogAnalyticsParameter,
+  AzureTableParameter,
+  InfluxDBParameter,
+  SqlSourceParameter
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -27,29 +58,32 @@ import {
   MetricCommentFeedback,
   MetricPeriodFeedback,
   DataFeed,
-  AzureApplicationInsightsDataFeedSource,
   AzureBlobDataFeedSource,
-  AzureCosmosDBDataFeedSource,
   AzureDataExplorerDataFeedSource,
-  AzureDataLakeStorageGen2DataFeedSource,
-  AzureTableDataFeedSource,
-  HttpRequestDataFeedSource,
-  InfluxDBDataFeedSource,
-  MongoDBDataFeedSource,
-  MySqlDataFeedSource,
-  PostgreSqlDataFeedSource,
-  SQLServerDataFeedSource,
   NotificationHookUnion,
   DataFeedRollupSettings,
   MetricFeedbackCommon,
   NotificationHook,
-  ElasticsearchDataFeedSource,
   AnomalyAlertConfiguration,
   MetricAnomalyAlertScope,
   MetricBoundaryCondition,
   HardThresholdConditionUnion,
   ChangeThresholdConditionUnion,
-  DataFeedGranularity
+  DataFeedGranularity,
+  DatasourceCredentialPatch,
+  AzureDataExplorerAuthTypes,
+  AzureDataLakeStorageGen2AuthTypes,
+  AzureDataLakeStorageGen2DataFeedSource,
+  SqlServerAuthTypes,
+  AnomalyDetectionConfigurationPatch,
+  DatasourceCredentialUnion,
+  DatasourceCredential,
+  DataFeedSource,
+  DataFeedSourcePatch,
+  SqlServerConnectionStringDatasourceCredentialPatch,
+  DataLakeGen2SharedKeyDatasourceCredentialPatch,
+  ServicePrincipalDatasourceCredentialPatch,
+  ServicePrincipalInKeyVaultDatasourceCredentialPatch
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -142,8 +176,8 @@ export function toServiceAnomalyDetectionConfiguration(
 }
 
 export function toServiceAnomalyDetectionConfigurationPatch(
-  from: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>
-): Partial<Omit<ServiceAnomalyDetectionConfiguration, "id" | "metricId">> {
+  from: AnomalyDetectionConfigurationPatch
+): ServiceAnomalyDetectionConfigurationPatch {
   return {
     name: from.name,
     description: from.description,
@@ -268,10 +302,6 @@ export function toRollupSettings(original: ServiceDataFeedDetailUnion): DataFeed
         rollupIdentificationValue: original.allUpIdentification
       };
   }
-
-  return {
-    rollupType: "NoRollup"
-  };
 }
 
 export function toServiceRollupSettings(
@@ -338,8 +368,533 @@ export function toServiceGranularity(
   }
 }
 
+export function toServiceDataFeedSource(
+  source: DataFeedSource
+): {
+  dataSourceType:
+    | "AzureApplicationInsights"
+    | "AzureBlob"
+    | "AzureCosmosDB"
+    | "AzureDataExplorer"
+    | "AzureDataLakeStorageGen2"
+    | "AzureTable"
+    | "InfluxDB"
+    | "MySql"
+    | "PostgreSql"
+    | "SqlServer"
+    | "MongoDB"
+    | "AzureLogAnalytics"
+    | "AzureEventHubs";
+  dataSourceParameter:
+    | AzureApplicationInsightsParameter
+    | AzureCosmosDBParameter
+    | MongoDBParameter
+    | AzureBlobParameter
+    | SqlSourceParameter
+    | InfluxDBParameter
+    | AzureDataLakeStorageGen2Parameter
+    | AzureTableParameter
+    | AzureLogAnalyticsParameter
+    | AzureEventHubsParameter;
+  authenticationType?: AuthenticationTypeEnum;
+  credentialId?: string;
+} {
+  switch (source.dataSourceType) {
+    case "MongoDB":
+      return {
+        dataSourceType: "MongoDB",
+        dataSourceParameter: {
+          command: source.command,
+          database: source.database,
+          connectionString: source.connectionString
+        },
+        authenticationType: source.authenticationType
+      };
+    case "AzureApplicationInsights": {
+      return {
+        dataSourceType: "AzureApplicationInsights",
+        dataSourceParameter: {
+          azureCloud: source.azureCloud,
+          applicationId: source.applicationId,
+          apiKey: source.apiKey,
+          query: source.query
+        },
+        authenticationType: source.authenticationType
+      };
+    }
+    case "AzureBlob":
+      return {
+        dataSourceType: "AzureBlob",
+        dataSourceParameter: {
+          connectionString: source.connectionString,
+          container: source.container,
+          blobTemplate: source.blobTemplate
+        },
+        authenticationType: source.authenticationType
+      };
+
+    case "AzureCosmosDB":
+      return {
+        dataSourceType: "AzureCosmosDB",
+        dataSourceParameter: {
+          connectionString: source.connectionString!,
+          database: source.database,
+          collectionId: source.collectionId,
+          sqlQuery: source.sqlQuery
+        },
+        authenticationType: source.authenticationType
+      };
+    case "SqlServer":
+      if (source.authenticationType === "AzureSQLConnectionString") {
+        return {
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      } else if (
+        source.authenticationType === "Basic" ||
+        source.authenticationType === "ManagedIdentity"
+      ) {
+        return {
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query,
+            connectionString: source.connectionString
+          },
+          authenticationType: source.authenticationType
+        };
+      } else {
+        return {
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query,
+            connectionString: source.connectionString
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      }
+    case "AzureDataExplorer":
+      if (
+        source.authenticationType === "ServicePrincipal" ||
+        source.authenticationType === "ServicePrincipalInKV"
+      ) {
+        return {
+          dataSourceType: "AzureDataExplorer",
+          dataSourceParameter: {
+            connectionString: source.connectionString,
+            query: source.query
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      } else {
+        return {
+          dataSourceType: "AzureDataExplorer",
+          dataSourceParameter: {
+            connectionString: source.connectionString,
+            query: source.query
+          },
+          authenticationType: source.authenticationType
+        };
+      }
+    case "AzureDataLakeStorageGen2":
+      if (source.authenticationType === "Basic") {
+        return {
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate,
+            fileTemplate: source.fileTemplate,
+            fileSystemName: source.fileSystemName,
+            accountKey: source.accountKey
+          },
+          authenticationType: source.authenticationType
+        };
+      } else if (source.authenticationType === "ManagedIdentity") {
+        return {
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate,
+            fileTemplate: source.fileTemplate,
+            fileSystemName: source.fileSystemName
+          },
+          authenticationType: source.authenticationType
+        };
+      } else {
+        return {
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate,
+            fileTemplate: source.fileTemplate,
+            fileSystemName: source.fileSystemName
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      }
+    case "AzureEventHubs":
+      return {
+        dataSourceType: "AzureEventHubs",
+        dataSourceParameter: {
+          connectionString: source.connectionString!,
+          consumerGroup: source.consumerGroup
+        },
+        authenticationType: source.authenticationType
+      };
+    case "AzureLogAnalytics":
+      if (source.authenticationType === "Basic") {
+        return {
+          dataSourceType: "AzureLogAnalytics",
+          dataSourceParameter: {
+            tenantId: source.tenantId!,
+            clientId: source.clientId!,
+            clientSecret: source.clientSecret!,
+            workspaceId: source.workspaceId,
+            query: source.query
+          },
+          authenticationType: source.authenticationType
+        };
+      } else {
+        return {
+          dataSourceType: "AzureLogAnalytics",
+          dataSourceParameter: {
+            tenantId: source.tenantId!,
+            clientId: source.clientId!,
+            clientSecret: source.clientSecret!,
+            workspaceId: source.workspaceId,
+            query: source.query
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      }
+
+    case "AzureTable":
+      return {
+        dataSourceType: "AzureTable",
+        dataSourceParameter: {
+          query: source.query,
+          connectionString: source.connectionString,
+          table: source.table
+        },
+        authenticationType: source.authenticationType
+      };
+    case "InfluxDB":
+      return {
+        dataSourceType: "InfluxDB",
+        dataSourceParameter: {
+          query: source.query,
+          connectionString: source.connectionString,
+          database: source.database,
+          userName: source.userName,
+          password: source.password
+        },
+        authenticationType: source.authenticationType
+      };
+    case "MySql":
+      return {
+        dataSourceType: "MySql",
+        dataSourceParameter: {
+          query: source.query,
+          connectionString: source.connectionString
+        },
+        authenticationType: source.authenticationType
+      };
+    case "PostgreSql":
+      return {
+        dataSourceType: "PostgreSql",
+        dataSourceParameter: {
+          query: source.query,
+          connectionString: source.connectionString
+        },
+        authenticationType: source.authenticationType
+      };
+    default:
+      throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
+  }
+}
+
+export function toServiceDataFeedSourcePatch(
+  source: DataFeedSourcePatch
+): {
+  dataSourceType:
+    | "AzureApplicationInsights"
+    | "AzureBlob"
+    | "AzureCosmosDB"
+    | "AzureDataExplorer"
+    | "AzureDataLakeStorageGen2"
+    | "AzureTable"
+    | "InfluxDB"
+    | "MySql"
+    | "PostgreSql"
+    | "SqlServer"
+    | "MongoDB"
+    | "AzureLogAnalytics"
+    | "AzureEventHubs";
+  dataSourceParameter:
+    | AzureApplicationInsightsParameter
+    | AzureCosmosDBParameter
+    | MongoDBParameter
+    | AzureBlobParameter
+    | SqlSourceParameter
+    | InfluxDBParameter
+    | AzureDataLakeStorageGen2Parameter
+    | AzureTableParameter
+    | AzureLogAnalyticsParameter
+    | AzureEventHubsParameter;
+  authenticationType?: AuthenticationTypeEnum;
+  credentialId?: string;
+} {
+  switch (source.dataSourceType) {
+    case "MongoDB":
+      return {
+        dataSourceType: "MongoDB",
+        dataSourceParameter: {
+          command: source.command!,
+          database: source.database,
+          connectionString: source.connectionString
+        },
+        authenticationType: source.authenticationType
+      };
+    case "AzureApplicationInsights": {
+      return {
+        dataSourceType: "AzureApplicationInsights",
+        dataSourceParameter: {
+          azureCloud: source.azureCloud,
+          applicationId: source.applicationId,
+          apiKey: source.apiKey,
+          query: source.query!
+        },
+        authenticationType: source.authenticationType
+      };
+    }
+    case "AzureBlob":
+      return {
+        dataSourceType: "AzureBlob",
+        dataSourceParameter: {
+          connectionString: source.connectionString,
+          container: source.container!,
+          blobTemplate: source.blobTemplate!
+        },
+        authenticationType: source.authenticationType
+      };
+
+    case "AzureCosmosDB":
+      return {
+        dataSourceType: "AzureCosmosDB",
+        dataSourceParameter: {
+          connectionString: source.connectionString,
+          database: source.database!,
+          collectionId: source.collectionId!,
+          sqlQuery: source.sqlQuery!
+        },
+        authenticationType: source.authenticationType
+      };
+    case "SqlServer":
+      if (source.authenticationType === "AzureSQLConnectionString") {
+        return {
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query!
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      } else if (
+        source.authenticationType === "Basic" ||
+        source.authenticationType === "ManagedIdentity"
+      ) {
+        return {
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query!,
+            connectionString: source.connectionString
+          },
+          authenticationType: source.authenticationType
+        };
+      } else if (
+        source.authenticationType === "ServicePrincipalInKV" ||
+        source.authenticationType === "ServicePrincipal"
+      ) {
+        return {
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query!,
+            connectionString: source.connectionString
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      } else {
+        throw new Error(`Unexpected datafeed authentication type: '${source.authenticationType}'`);
+      }
+
+    case "AzureDataExplorer":
+      if (
+        source.authenticationType === "ServicePrincipal" ||
+        source.authenticationType === "ServicePrincipalInKV"
+      ) {
+        return {
+          dataSourceType: "AzureDataExplorer",
+          dataSourceParameter: {
+            connectionString: source.connectionString,
+            query: source.query!
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      } else {
+        return {
+          dataSourceType: "AzureDataExplorer",
+          dataSourceParameter: {
+            connectionString: source.connectionString,
+            query: source.query!
+          },
+          authenticationType: source.authenticationType
+        };
+      }
+    case "AzureDataLakeStorageGen2":
+      if (source.authenticationType === "Basic") {
+        return {
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate!,
+            fileTemplate: source.fileTemplate!,
+            fileSystemName: source.fileSystemName!,
+            accountKey: source.accountKey
+          },
+          authenticationType: source.authenticationType
+        };
+      } else if (source.authenticationType === "ManagedIdentity") {
+        return {
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate!,
+            fileTemplate: source.fileTemplate!,
+            fileSystemName: source.fileSystemName!
+          },
+          authenticationType: source.authenticationType
+        };
+      } else if (
+        source.authenticationType === "DataLakeGen2SharedKey" ||
+        source.authenticationType === "ServicePrincipal" ||
+        source.authenticationType === "ServicePrincipalInKV"
+      ) {
+        return {
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate!,
+            fileTemplate: source.fileTemplate!,
+            fileSystemName: source.fileSystemName!
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId!
+        };
+      } else {
+        throw new Error(`Unexpected datafeed authentication type: '${source.authenticationType}'`);
+      }
+    case "AzureEventHubs":
+      return {
+        dataSourceType: "AzureEventHubs",
+        dataSourceParameter: {
+          connectionString: source.connectionString!,
+          consumerGroup: source.consumerGroup!
+        },
+        authenticationType: source.authenticationType
+      };
+    case "AzureLogAnalytics":
+      if (source.authenticationType === "Basic") {
+        return {
+          dataSourceType: "AzureLogAnalytics",
+          dataSourceParameter: {
+            tenantId: source.tenantId,
+            clientId: source.clientId,
+            clientSecret: source.clientSecret,
+            workspaceId: source.workspaceId,
+            query: source.query!
+          },
+          authenticationType: source.authenticationType
+        };
+      } else if (
+        source.authenticationType === "ServicePrincipal" ||
+        source.authenticationType === "ServicePrincipalInKV"
+      ) {
+        return {
+          dataSourceType: "AzureLogAnalytics",
+          dataSourceParameter: {
+            tenantId: source.tenantId,
+            clientId: source.clientId,
+            clientSecret: source.clientSecret,
+            workspaceId: source.workspaceId,
+            query: source.query!
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        };
+      } else {
+        throw new Error(`Unexpected datafeed authentication type: '${source.authenticationType}'`);
+      }
+
+    case "AzureTable":
+      return {
+        dataSourceType: "AzureTable",
+        dataSourceParameter: {
+          query: source.query!,
+          connectionString: source.connectionString,
+          table: source.table
+        },
+        authenticationType: source.authenticationType
+      };
+    case "InfluxDB":
+      return {
+        dataSourceType: "InfluxDB",
+        dataSourceParameter: {
+          query: source.query!,
+          connectionString: source.connectionString,
+          database: source.database,
+          userName: source.userName,
+          password: source.password
+        },
+        authenticationType: source.authenticationType
+      };
+    case "MySql":
+      return {
+        dataSourceType: "MySql",
+        dataSourceParameter: {
+          query: source.query!,
+          connectionString: source.connectionString
+        },
+        authenticationType: source.authenticationType
+      };
+    case "PostgreSql":
+      return {
+        dataSourceType: "PostgreSql",
+        dataSourceParameter: {
+          query: source.query!,
+          connectionString: source.connectionString
+        },
+        authenticationType: source.authenticationType
+      };
+    default:
+      throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
+  }
+}
+
 export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUnion): DataFeed {
-  const metricMap = new Map(original.metrics.map((x) => [x.name, x.id!]));
+  const metricMap: Record<string, string> = {};
+  for (const metric of original.metrics) {
+    metricMap[metric.name] = metric.id!;
+  }
+
   const common = {
     id: original.dataFeedId!,
     name: original.dataFeedName,
@@ -379,154 +934,274 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
-      const orig = original as AzureApplicationInsightsDataFeedSource;
+      const orig = original as ServiceAzureApplicationInsightsDataFeed;
       const result1: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
-          dataSourceParameter: orig.dataSourceParameter
+          azureCloud: orig.dataSourceParameter.azureCloud,
+          applicationId: orig.dataSourceParameter.applicationId,
+          apiKey: orig.dataSourceParameter.apiKey,
+          query: orig.dataSourceParameter.query,
+          authenticationType: "Basic"
         }
       };
       return result1;
     }
     case "AzureBlob": {
-      const orig2 = original as AzureBlobDataFeedSource;
+      const orig2 = original as ServiceAzureBlobDataFeed;
+      let auth: { authenticationType: "Basic" } | { authenticationType: "ManagedIdentity" };
+      if (!original.authenticationType) {
+        auth = { authenticationType: "Basic" };
+      } else if (
+        original.authenticationType === "Basic" ||
+        original.authenticationType === "ManagedIdentity"
+      ) {
+        auth = { authenticationType: original.authenticationType };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
+      const source: AzureBlobDataFeedSource = {
+        dataSourceType: "AzureBlob",
+        blobTemplate: orig2.dataSourceParameter.blobTemplate,
+        connectionString: orig2.dataSourceParameter.connectionString!,
+        container: orig2.dataSourceParameter.container,
+        ...auth
+      };
       const result2: DataFeed = {
         ...common,
-        source: {
-          dataSourceType: "AzureBlob",
-          dataSourceParameter: orig2.dataSourceParameter
-        }
+        source
       };
       return result2;
     }
     case "AzureCosmosDB": {
-      const orig3 = original as AzureCosmosDBDataFeedSource;
+      const orig3 = original as ServiceAzureCosmosDBDataFeed;
       const result3: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureCosmosDB",
-          dataSourceParameter: orig3.dataSourceParameter
+          authenticationType: "Basic",
+          ...orig3.dataSourceParameter
         }
       };
       return result3;
     }
     case "AzureDataExplorer": {
-      const orig4 = original as AzureDataExplorerDataFeedSource;
+      const orig4 = original as ServiceAzureDataExplorerDataFeed;
+      let auth: AzureDataExplorerAuthTypes;
+      if (!original.authenticationType) {
+        auth = { authenticationType: "Basic" };
+      } else if (
+        original.authenticationType === "Basic" ||
+        original.authenticationType === "ManagedIdentity"
+      ) {
+        auth = { authenticationType: original.authenticationType };
+      } else if (
+        original.authenticationType === "ServicePrincipal" ||
+        original.authenticationType === "ServicePrincipalInKV"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: original.credentialId!
+        };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
+      const source: AzureDataExplorerDataFeedSource = {
+        dataSourceType: "AzureDataExplorer",
+        connectionString: orig4.dataSourceParameter.connectionString!,
+        query: orig4.dataSourceParameter.query,
+        ...auth
+      };
       const result4: DataFeed = {
         ...common,
-        source: {
-          dataSourceType: "AzureDataExplorer",
-          dataSourceParameter: orig4.dataSourceParameter
-        }
+        source
       };
       return result4;
     }
     case "AzureDataLakeStorageGen2": {
-      const orig5 = original as AzureDataLakeStorageGen2DataFeedSource;
+      const orig5 = original as ServiceAzureDataLakeStorageGen2DataFeed;
+      let auth: AzureDataLakeStorageGen2AuthTypes;
+      if (!original.authenticationType || original.authenticationType === "Basic") {
+        auth = { authenticationType: "Basic", accountKey: orig5.dataSourceParameter.accountKey! };
+      } else if (original.authenticationType === "ManagedIdentity") {
+        auth = { authenticationType: original.authenticationType };
+      } else if (
+        original.authenticationType === "ServicePrincipal" ||
+        original.authenticationType === "ServicePrincipalInKV" ||
+        original.authenticationType === "DataLakeGen2SharedKey"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: original.credentialId!
+        };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
+      const source: AzureDataLakeStorageGen2DataFeedSource = {
+        dataSourceType: "AzureDataLakeStorageGen2",
+        accountName: orig5.dataSourceParameter.accountName!,
+        directoryTemplate: orig5.dataSourceParameter.directoryTemplate,
+        fileSystemName: orig5.dataSourceParameter.fileSystemName,
+        fileTemplate: orig5.dataSourceParameter.fileTemplate,
+        ...auth
+      };
       const result5: DataFeed = {
         ...common,
-        source: {
-          dataSourceType: "AzureDataLakeStorageGen2",
-          dataSourceParameter: orig5.dataSourceParameter
-        }
+        source
       };
       return result5;
     }
     case "AzureTable": {
-      const orig6 = original as AzureTableDataFeedSource;
+      const orig6 = original as ServiceAzureTableDataFeed;
       const result6: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureTable",
-          dataSourceParameter: orig6.dataSourceParameter
+          connectionString: orig6.dataSourceParameter.connectionString!,
+          table: orig6.dataSourceParameter.table,
+          query: orig6.dataSourceParameter.query,
+          authenticationType: "Basic"
         }
       };
       return result6;
     }
-    case "HttpRequest": {
-      const orig7 = original as HttpRequestDataFeedSource;
-      const result7: DataFeed = {
-        ...common,
-        source: {
-          dataSourceType: "HttpRequest",
-          dataSourceParameter: orig7.dataSourceParameter
-        }
-      };
-      return result7;
-    }
     case "InfluxDB": {
-      const orig8 = original as InfluxDBDataFeedSource;
+      const orig8 = original as ServiceInfluxDBDataFeed;
       const result8: DataFeed = {
         ...common,
         source: {
           dataSourceType: "InfluxDB",
-          dataSourceParameter: orig8.dataSourceParameter
+          connectionString: orig8.dataSourceParameter.connectionString!,
+          database: orig8.dataSourceParameter.database!,
+          password: orig8.dataSourceParameter.password!,
+          query: orig8.dataSourceParameter.query,
+          userName: orig8.dataSourceParameter.userName!,
+          authenticationType: "Basic"
         }
       };
       return result8;
     }
     case "MongoDB": {
-      const orig9 = original as MongoDBDataFeedSource;
+      const orig9 = original as ServiceMongoDBDataFeed;
       const result9: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MongoDB",
-          dataSourceParameter: orig9.dataSourceParameter
+          connectionString: orig9.dataSourceParameter.connectionString!,
+          database: orig9.dataSourceParameter.database!,
+          command: orig9.dataSourceParameter.command,
+          authenticationType: "Basic"
         }
       };
       return result9;
     }
     case "MySql": {
-      const orig10 = original as MySqlDataFeedSource;
+      const orig10 = original as ServiceMySqlDataFeed;
       const result10: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MySql",
-          dataSourceParameter: orig10.dataSourceParameter
+          connectionString: orig10.dataSourceParameter.connectionString,
+          query: orig10.dataSourceParameter.query,
+          authenticationType: "Basic"
         }
       };
       return result10;
     }
     case "PostgreSql": {
-      const orig11 = original as PostgreSqlDataFeedSource;
+      const orig11 = original as ServicePostgreSqlDataFeed;
       const result11: DataFeed = {
         ...common,
         source: {
           dataSourceType: "PostgreSql",
-          dataSourceParameter: orig11.dataSourceParameter
+          connectionString: orig11.dataSourceParameter.connectionString,
+          query: orig11.dataSourceParameter.query,
+          authenticationType: "Basic"
         }
       };
       return result11;
     }
     case "SqlServer": {
-      const orig12 = original as SQLServerDataFeedSource;
+      const orig12 = original as ServiceSQLServerDataFeed;
+      let auth: SqlServerAuthTypes;
+      if (!original.authenticationType) {
+        auth = {
+          authenticationType: "Basic",
+          connectionString: orig12.dataSourceParameter.connectionString!
+        };
+      }
+      if (
+        original.authenticationType === "Basic" ||
+        original.authenticationType === "ManagedIdentity"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          connectionString: orig12.dataSourceParameter.connectionString!
+        };
+      } else if (
+        original.authenticationType === "ServicePrincipal" ||
+        original.authenticationType === "ServicePrincipalInKV"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: orig12.credentialId!,
+          connectionString: orig12.dataSourceParameter.connectionString!
+        };
+      } else if (original.authenticationType === "AzureSQLConnectionString") {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: original.credentialId!
+        };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
       const result12: DataFeed = {
         ...common,
         source: {
           dataSourceType: "SqlServer",
-          dataSourceParameter: orig12.dataSourceParameter
+          query: orig12.dataSourceParameter.query,
+          ...auth
         }
       };
       return result12;
     }
-    case "Elasticsearch": {
-      const orig13 = original as ElasticsearchDataFeedSource;
+    case "AzureEventHubs": {
+      const orig13 = original as ServiceAzureEventHubsDataFeed;
       const result13: DataFeed = {
         ...common,
         source: {
-          dataSourceType: "Elasticsearch",
-          dataSourceParameter: orig13.dataSourceParameter
+          dataSourceType: "AzureEventHubs",
+          connectionString: orig13.dataSourceParameter.connectionString,
+          consumerGroup: orig13.dataSourceParameter.consumerGroup,
+          authenticationType: "Basic"
         }
       };
       return result13;
+    }
+    case "AzureLogAnalytics": {
+      const orig14 = original as ServiceAzureLogAnalyticsDataFeed;
+      const result14: DataFeed = {
+        ...common,
+        source: {
+          dataSourceType: "AzureLogAnalytics",
+          clientId: orig14.dataSourceParameter.clientId,
+          clientSecret: orig14.dataSourceParameter.clientSecret,
+          tenantId: orig14.dataSourceParameter.tenantId,
+          query: orig14.dataSourceParameter.query,
+          workspaceId: orig14.dataSourceParameter.workspaceId,
+          authenticationType: "Basic"
+        }
+      };
+      return result14;
     }
     default:
       return {
         ...common,
         source: {
           dataSourceType: "Unknown",
-          dataSourceParameter: (original as any).dataSourceParameter
+          dataSourceParameter: (original as any).dataSourceParameter,
+          authenticationType: "Basic"
         }
       };
   }
@@ -582,7 +1257,7 @@ export function toServiceMetricFeedbackUnion(
         startTime: from.startTime,
         endTime: from.endTime,
         value: {
-          anomalyValue: from.value
+          anomalyValue: from.value!
         }
       };
     case "ChangePoint":
@@ -593,7 +1268,7 @@ export function toServiceMetricFeedbackUnion(
         startTime: from.startTime,
         endTime: from.startTime,
         value: {
-          changePointValue: from.value
+          changePointValue: from.value!
         }
       };
     case "Comment":
@@ -601,7 +1276,7 @@ export function toServiceMetricFeedbackUnion(
         ...common,
         feedbackType: from.feedbackType,
         value: {
-          commentValue: from.comment
+          commentValue: from.comment!
         }
       };
     case "Period":
@@ -609,8 +1284,8 @@ export function toServiceMetricFeedbackUnion(
         ...common,
         feedbackType: from.feedbackType,
         value: {
-          periodType: from.periodType,
-          periodValue: from.periodValue
+          periodType: from.periodType!,
+          periodValue: from.periodValue!
         }
       };
   }
@@ -642,7 +1317,8 @@ export function fromServiceAlertConfiguration(
           metricBoundaryCondition: c.valueFilter as MetricBoundaryCondition
         }
       };
-    })
+    }),
+    splitAlertByDimensions: result.splitAlertByDimensions
   };
 }
 
@@ -674,7 +1350,8 @@ export function toServiceAlertConfiguration(
         severityFilter: c.alertConditions?.severityCondition,
         valueFilter: c.alertConditions?.metricBoundaryCondition
       };
-    })
+    }),
+    splitAlertByDimensions: from.splitAlertByDimensions
   };
 }
 
@@ -706,6 +1383,168 @@ export function toServiceAlertConfigurationPatch(
         severityFilter: c.alertConditions?.severityCondition,
         valueFilter: c.alertConditions?.metricBoundaryCondition
       };
-    })
+    }),
+    splitAlertByDimensions: from.splitAlertByDimensions
   };
+}
+
+export function fromServiceCredential(
+  result: ServiceDataSourceCredentialUnion
+): DatasourceCredentialUnion {
+  const common: DatasourceCredential = {
+    description: result.dataSourceCredentialDescription,
+    id: result.dataSourceCredentialId,
+    name: result.dataSourceCredentialName
+  };
+  switch (result.dataSourceCredentialType) {
+    case "AzureSQLConnectionString": {
+      const cred1 = result as AzureSQLConnectionStringCredential;
+      return {
+        ...common,
+        type: "AzureSQLConnectionString",
+        ...cred1.parameters
+      };
+    }
+    case "DataLakeGen2SharedKey": {
+      const cred2 = result as DataLakeGen2SharedKeyCredential;
+      return {
+        ...common,
+        type: "DataLakeGen2SharedKey",
+        ...cred2.parameters
+      };
+    }
+    case "ServicePrincipal": {
+      const cred3 = result as ServicePrincipalCredential;
+      return {
+        ...common,
+        type: "ServicePrincipal",
+        ...cred3.parameters
+      };
+    }
+    case "ServicePrincipalInKV": {
+      const cred4 = result as ServicePrincipalInKVCredential;
+      return {
+        ...common,
+        type: "ServicePrincipalInKV",
+        ...cred4.parameters
+      };
+    }
+  }
+}
+
+export function toServiceCredential(
+  from: DatasourceCredentialUnion
+): ServiceDataSourceCredentialUnion {
+  const common = {
+    dataSourceCredentialName: from.name,
+    dataSourceCredentialDescription: from.description
+  };
+  switch (from.type) {
+    case "AzureSQLConnectionString": {
+      const parameters = {
+        connectionString: from.connectionString
+      };
+      const sqlcred: AzureSQLConnectionStringCredential = {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters
+      };
+      return sqlcred;
+    }
+    case "DataLakeGen2SharedKey": {
+      const datalake: DataLakeGen2SharedKeyCredential = {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          accountKey: from.accountKey
+        }
+      };
+      return datalake;
+    }
+    case "ServicePrincipal": {
+      const sp: ServicePrincipalCredential = {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          clientId: from.clientId,
+          clientSecret: from.clientSecret,
+          tenantId: from.tenantId
+        }
+      };
+      return sp;
+    }
+    case "ServicePrincipalInKV": {
+      const spInKV: ServicePrincipalInKVCredential = {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          keyVaultEndpoint: from.keyVaultEndpoint,
+          keyVaultClientId: from.keyVaultClientId,
+          keyVaultClientSecret: from.keyVaultClientSecret,
+          servicePrincipalIdNameInKV: from.servicePrincipalIdNameInKV,
+          servicePrincipalSecretNameInKV: from.servicePrincipalSecretNameInKV,
+          tenantId: from.tenantId
+        }
+      };
+      return spInKV;
+    }
+  }
+}
+
+export function toServiceCredentialPatch(
+  from: DatasourceCredentialPatch
+): ServiceDataSourceCredentialPatch {
+  const common = {
+    dataSourceCredentialName: from.name,
+    dataSourceCredentialDescription: from.description
+  };
+  switch (from.type) {
+    case "AzureSQLConnectionString": {
+      const cred1 = from as SqlServerConnectionStringDatasourceCredentialPatch;
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          connectionString: cred1.connectionString
+        }
+      };
+    }
+    case "DataLakeGen2SharedKey": {
+      const cred2 = from as DataLakeGen2SharedKeyDatasourceCredentialPatch;
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          accountKey: cred2.accountKey
+        }
+      };
+    }
+    case "ServicePrincipal": {
+      const cred3 = from as ServicePrincipalDatasourceCredentialPatch;
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          clientId: cred3.clientId,
+          clientSecret: cred3.clientSecret,
+          tenantId: cred3.tenantId
+        }
+      };
+    }
+    case "ServicePrincipalInKV": {
+      const cred4 = from as ServicePrincipalInKeyVaultDatasourceCredentialPatch;
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+          keyVaultEndpoint: cred4.keyVaultEndpoint,
+          keyVaultClientId: cred4.keyVaultClientId,
+          keyVaultClientSecret: cred4.keyVaultClientSecret,
+          servicePrincipalIdNameInKV: cred4.servicePrincipalIdNameInKV,
+          servicePrincipalSecretNameInKV: cred4.servicePrincipalSecretNameInKV,
+          tenantId: cred4.tenantId
+        }
+      };
+    }
+  }
 }

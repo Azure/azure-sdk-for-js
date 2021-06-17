@@ -30,10 +30,11 @@ Using the cryptography client available in this library you also have access to:
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription][azure-sub] and a
-[Key Vault resource][createkeyvault] to use this package.
+### Prerequisites
 
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+- An [Azure subscription][azure-sub].
+- An existing Azure Key Vault Managed HSM. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
+- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 ### Install the package
 
@@ -91,6 +92,10 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
 
   > --key-permissions:
   > Accepted values: backup, create, decrypt, delete, encrypt, get, import, list, purge, recover, restore, sign, unwrapKey, update, verify, wrapKey
+
+  If you have enabled role-based access control (RBAC) for Key Vault instead, you can find roles like "Key Vault Crypto Officer" in our [RBAC guide](https://docs.microsoft.com/azure/key-vault/general/rbac-guide).
+
+  If you are managing your keys using Managed HSM, read about its [access control](https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control) that supports different built-in roles isolated from Azure Resource Manager (ARM).
 
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
@@ -152,14 +157,14 @@ The Key Vault service relies on Azure Active Directory to authenticate requests 
 
 Here's a quick example. First, import `DefaultAzureCredential` and `KeyClient`:
 
-```typescript
+```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 ```
 
 Once these are imported, we can connect to the Azure Key Vault service. To do this, we'll need to copy some settings from the Azure Key Vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
-```typescript
+```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
@@ -181,7 +186,7 @@ const client = new KeyClient(url, credential);
 
 By default, this package uses the latest Azure Key Vault service version which is `7.2`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
 
-```typescript
+```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
@@ -209,8 +214,7 @@ tasks using Azure Key Vault Keys. The scenarios that are covered here consist of
 
 ### Creating a key
 
-`createKey` creates a Key to be stored in the Azure Key Vault. If a key with
-the same name already exists, then a new version of the key is created.
+`createKey` creates a Key to be stored in the Azure Key Vault. If a key with the same name already exists, then a new version of the key is created.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -599,7 +603,10 @@ async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
-  const encryptResult = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
+  const encryptResult = await cryptographyClient.encrypt({
+    algorithm: "RSA1_5",
+    plaintext: Buffer.from("My Message")
+  });
   console.log("encrypt result: ", encryptResult.result);
 }
 
@@ -625,10 +632,16 @@ async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
-  const encryptResult = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
+  const encryptResult = await cryptographyClient.encrypt({
+    algorithm: "RSA1_5",
+    plaintext: Buffer.from("My Message")
+  });
   console.log("encrypt result: ", encryptResult.result);
 
-  const decryptResult = await cryptographyClient.decrypt("RSA1_5", encryptResult.result);
+  const decryptResult = await cryptographyClient.decrypt({
+    algorithm: "RSA1_5",
+    ciphertext: encryptResult.result
+  });
   console.log("decrypt result: ", decryptResult.result.toString());
 }
 
@@ -653,7 +666,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const signatureValue = "MySignature";
   let hash = createHash("sha256");
@@ -685,7 +698,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
   console.log("sign result: ", signResult.result);
@@ -712,7 +725,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const hash = createHash("sha256");
   hash.update("My Message");
@@ -745,7 +758,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const buffer = Buffer.from("My Message");
 
@@ -776,7 +789,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
   console.log("wrap result:", wrapResult.result);
@@ -802,7 +815,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  const cryptographyClient = new CryptographyClient(myKey, credential);
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
   console.log("wrap result:", wrapResult.result);
@@ -819,7 +832,7 @@ main();
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```
@@ -828,8 +841,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript)
-- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript)
+- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/javascript)
+- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/typescript)
 - [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/)
 
 ## Contributing

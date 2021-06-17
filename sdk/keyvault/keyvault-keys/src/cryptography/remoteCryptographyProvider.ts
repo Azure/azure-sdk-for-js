@@ -23,11 +23,10 @@ import {
   SignOptions,
   SignResult
 } from "../cryptographyClientModels";
-import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
 import { KeyVaultClient } from "../generated";
-import { parseKeyVaultKeyId } from "../identifier";
+import { parseKeyVaultKeyIdentifier } from "../identifier";
 import {
   CryptographyClientOptions,
   GetKeyOptions,
@@ -38,7 +37,11 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { createTraceFunction, TracedFunction } from "../../../keyvault-common/src";
+import {
+  createTraceFunction,
+  TracedFunction,
+  challengeBasedAuthenticationPolicy
+} from "../../../keyvault-common/src";
 
 const withTrace: TracedFunction = createTraceFunction(
   "Azure.KeyVault.Keys.RemoteCryptographyProvider"
@@ -96,7 +99,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     }
 
     try {
-      const parsed = parseKeyVaultKeyId(keyId);
+      const parsed = parseKeyVaultKeyIdentifier(keyId);
       if (parsed.name === "") {
         throw new Error("Could not find 'name' of key in key URL");
       }

@@ -10,22 +10,28 @@ import {
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
+import { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { withTrace } from "./poller";
+import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultBackupPoller");
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
  */
-export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
+export type KeyVaultBackupOperationState = KeyVaultAdminPollOperationState<KeyVaultBackupResult>;
 
 /**
  * An internal interface representing the state of a backup Key Vault's poll operation.
  */
-export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<BackupResult> {
+export interface KeyVaultBackupPollOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultBackupResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -39,12 +45,12 @@ export interface BackupPollOperationState extends KeyVaultAdminPollOperationStat
 /**
  * The backup Key Vault's poll operation.
  */
-export class BackupPollOperation extends KeyVaultAdminPollOperation<
-  BackupPollOperationState,
+export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
+  KeyVaultBackupPollOperationState,
   string
 > {
   constructor(
-    public state: BackupPollOperationState,
+    public state: KeyVaultBackupPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
@@ -68,7 +74,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
    */
   private fullBackupStatus(
     jobId: string,
-    options: BeginBackupOptions
+    options: KeyVaultBeginBackupOptions
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
     return withTrace("fullBackupStatus", options, (updatedOptions) =>
       this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
@@ -81,9 +87,9 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: BackupPollOperationState) => void;
+      fireProgress?: (state: KeyVaultBackupPollOperationState) => void;
     } = {}
-  ): Promise<BackupPollOperation> {
+  ): Promise<KeyVaultBackupPollOperation> {
     const state = this.state;
     const { blobStorageUri, sasToken } = state;
 
@@ -135,16 +141,15 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     state.startTime = startTime;
     state.status = status;
     state.statusDetails = statusDetails;
+    state.isCompleted = !!endTime;
 
-    if (status?.toLowerCase() === "failed") {
+    if (state.isCompleted && error?.code) {
       throw new Error(error?.message || statusDetails);
     }
 
-    state.isCompleted = !!endTime;
-
     if (state.isCompleted) {
       state.result = {
-        backupFolderUri: azureStorageBlobContainerUri,
+        folderUri: azureStorageBlobContainerUri,
         startTime,
         endTime
       };

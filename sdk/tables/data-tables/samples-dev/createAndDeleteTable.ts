@@ -41,10 +41,10 @@ async function createAndDeleteTableWithTableClient() {
   const client = TableClient.fromConnectionString(sasConnectionString, tableName);
 
   // Will attempt to create a table with the tableName specified above
-  await client.create();
+  await client.createTable();
 
   // Will attempt to delete the table with the tableName specified above
-  await client.delete();
+  await client.deleteTable();
 }
 
 export async function main() {

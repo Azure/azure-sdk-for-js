@@ -65,7 +65,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/storage-blob": "^12.4.1",
     "events": "^3.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

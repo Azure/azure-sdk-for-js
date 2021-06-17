@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { matrix } from "@azure/test-utils";
 import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
-import { matrix } from "./utils/matrix";
-import {
-  canCreateRecordedClientWithToken,
-  createRecordedClient,
-  createRecordedClientWithToken
-} from "./utils/recordedClient";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function() {
@@ -18,10 +14,6 @@ matrix([[true, false]], async function(useAad) {
     let client: PhoneNumbersClient;
 
     before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-
       const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
       if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
         this.skip();
@@ -81,8 +73,10 @@ matrix([[true, false]], async function(useAad) {
 
       await releasePoller.pollUntilDone();
       assert.ok(releasePoller.getOperationState().isCompleted);
+      const result = releasePoller.getOperationState().result! as any;
+      assert.equal(result.status, "succeeded");
 
       console.log(`Released: ${purchasedPhoneNumber}`);
-    }).timeout(60000);
+    }).timeout(90000);
   });
 });

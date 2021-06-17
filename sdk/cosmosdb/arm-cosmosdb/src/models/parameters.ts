@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -108,10 +108,7 @@ export const filter0: msRest.OperationQueryParameter = {
   }
 };
 export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -166,7 +163,7 @@ export const notebookWorkspaceName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "notebookWorkspaceName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -212,6 +209,26 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleAssignmentId: msRest.OperationURLParameter = {
+  parameterPath: "roleAssignmentId",
+  mapper: {
+    required: true,
+    serializedName: "roleAssignmentId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const roleDefinitionId: msRest.OperationURLParameter = {
+  parameterPath: "roleDefinitionId",
+  mapper: {
+    required: true,
+    serializedName: "roleDefinitionId",
     type: {
       name: "String"
     }

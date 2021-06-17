@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import AsyncLock from "async-lock";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "./typeGuards";
 import { StandardAbortMessage } from "../errors";
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 
-export { AsyncLock };
 /**
  * @internal
  *
@@ -112,22 +110,6 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 
   return output as any;
 }
-
-/**
- * @internal
- *
- * Gets a new instance of the async lock with desired settings.
- * @param options - The async lock options.
- * @returns AsyncLock
- */
-export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
-  return new AsyncLock(options);
-}
-
-/**
- * The async lock instance with default settings.
- */
-export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
 /**
  * The cancellable async lock instance.

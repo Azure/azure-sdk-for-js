@@ -20,6 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
+package-version: 12.6.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -504,6 +505,19 @@ directive:
       $["x-ms-error-code"]["description"] = "Error Code";
   - from: swagger-document
     where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["206"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_SetHTTPHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=properties&SetHTTPHeaders"]["put"]["responses"]["200"]["headers"]
     transform: >
       $["x-ms-error-code"] = {};
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
@@ -1214,12 +1228,12 @@ directive:
       delete $["modelAsString"]
 ```
 
-### Define GeoReplication as enum type
+### Define GeoReplicationStatusType as enum type
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $["definitions"]["GeoReplication"]["x-ms-enum"]
+    where: $["definitions"]["GeoReplication"]["properties"]["Status"]["x-ms-enum"]
     transform: >
       delete $["modelAsString"]
 ```
@@ -1230,6 +1244,16 @@ directive:
 directive:
   - from: swagger-document
     where: $["parameters"]["BlobPublicAccess"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define PublicAccessType as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["PublicAccessType"]["x-ms-enum"]
     transform: >
       delete $["modelAsString"]
 ```
@@ -1256,6 +1280,15 @@ directive:
     where: $.definitions.RetentionPolicy
     transform: >
       delete $.properties["AllowPermanentDelete"];
+```
+
+### Update service version from "2020-06-12" to "2020-08-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-08-04" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

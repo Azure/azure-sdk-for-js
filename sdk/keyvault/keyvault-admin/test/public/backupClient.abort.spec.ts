@@ -7,7 +7,7 @@ import { AbortController } from "@azure/abort-controller";
 import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
-import { assertThrowsAbortError, getFolderName, getSasToken } from "../utils/common";
+import { assertThrowsAbortError, getSasToken } from "../utils/common";
 
 describe("Aborting KeyVaultBackupClient's requests", () => {
   let client: KeyVaultBackupClient;
@@ -46,28 +46,25 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
 
   it("can abort beginRestore", async function() {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
-    const folderName = getFolderName(backupURI);
-
     const controller = new AbortController();
     controller.abort();
 
     await assertThrowsAbortError(async () => {
-      await client.beginRestore(blobStorageUri, blobSasToken, folderName, {
+      await client.beginRestore(backupURI, blobSasToken, {
         ...testPollerProperties,
         abortSignal: controller.signal
       });
     });
   });
 
-  it("can abort beginSelectiveRestore", async function() {
+  it("can abort beginSelectiveKeyRestore", async function() {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
-    const folderName = getFolderName(backupURI);
 
     const controller = new AbortController();
     controller.abort();
 
     await assertThrowsAbortError(async () => {
-      await client.beginSelectiveRestore(blobStorageUri, blobSasToken, folderName, "Key Name", {
+      await client.beginSelectiveKeyRestore("key-name", backupURI, blobSasToken, {
         ...testPollerProperties,
         abortSignal: controller.signal
       });

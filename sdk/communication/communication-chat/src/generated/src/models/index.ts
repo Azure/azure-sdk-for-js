@@ -106,8 +106,8 @@ export interface SendChatMessageRequest {
   senderDisplayName?: string;
   /** The chat message type. */
   type?: ChatMessageType;
-  /** Message properties */
-  properties?: { [propertyName: string]: string };
+  /** Message metadata. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Result of the send message operation. */
@@ -149,8 +149,8 @@ export interface ChatMessage {
   deletedOn?: Date;
   /** The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   editedOn?: Date;
-  /** Properties */
-  properties?: { [propertyName: string]: string };
+  /** Message metadata. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Content of a chat message. */
@@ -179,8 +179,8 @@ export interface ChatParticipant {
 export interface UpdateChatMessageRequest {
   /** Chat message content. */
   content?: string;
-  /** Message properties */
-  properties?: { [propertyName: string]: string };
+  /** Message metadata. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Collection of participants belong to a particular thread. */
@@ -291,28 +291,13 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
-
-/** Known values of {@link ChatMessageType} that the service accepts. */
-export const enum KnownChatMessageType {
-  Text = "text",
-  Html = "html",
-  TopicUpdated = "topicUpdated",
-  ParticipantAdded = "participantAdded",
-  ParticipantRemoved = "participantRemoved"
-}
-
-/**
- * Defines values for ChatMessageType. \
- * {@link KnownChatMessageType} can be used interchangeably with ChatMessageType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **text** \
- * **html** \
- * **topicUpdated** \
- * **participantAdded** \
- * **participantRemoved**
- */
-export type ChatMessageType = string;
+/** Defines values for ChatMessageType. */
+export type ChatMessageType =
+  | "text"
+  | "html"
+  | "topicUpdated"
+  | "participantAdded"
+  | "participantRemoved";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams

@@ -2,7 +2,11 @@
 
 Azure Key Vault Managed HSM is a fully-managed, highly-available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications using FIPS 140-2 Level 3 validated HSMs. If you would like to know more about Azure Key Vault Managed HSM, you may want to review: [What is Azure Key Vault Managed HSM?][managedhsm]
 
-The package `@azure/keyvault-admin` provides support for the administrative Key Vault tasks. It includes the backup and restore operations for whole Key Vault instances, and the role-based access control (RBAC) operations.
+The package `@azure/keyvault-admin` provides support for administrative Key Vault tasks such as full backup / restore and key-level role-based access control (RBAC).
+
+> Note: The Administration library only works with [Azure Key Vault Managed HSM][managedhsm] - functions targeting a Key Vault will fail.
+>
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
 
 [Source code][package-gh] | [Package (npm)][package-npm] | [API Reference Documentation][docs] | [Product documentation][docs-service] | [Samples][samples]
 
@@ -18,11 +22,9 @@ npm install @azure/keyvault-admin
 
 ### Prerequisites
 
-To work with the Azure Key Vault Administration client, the following is necessary:
-
 - An [Azure subscription][azure-sub].
-- An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-- Use [Node.js](https://nodejs.org/) 8.x or higher.
+- An existing Azure Key Vault Managed HSM. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
+- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 #### Getting Azure credentials
 
@@ -56,11 +58,11 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
 
 - Create the Managed HSM and grant the above mentioned service principal authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
 
-  ```
+  ```PowerShell
   az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
   ```
 
-  The service principal is automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles].
+  This service principal is automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles].
 
 - Use the above mentioned Azure Key Vault name to retrieve details of your Vault which also contains your Azure Key Vault URL:
   ```PowerShell
@@ -131,7 +133,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the `KeyVaultAccessControlClient` class, or an instance of the `KeyVaultBackupClient` class, respectively.
+In order to control permissions to the Key Vault service or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the `KeyVaultAccessControlClient` class or an instance of the `KeyVaultBackupClient` class, respectively.
 
 In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal, and a credential object from the [@azure/identity][identity-npm] package which is used to authenticate with Azure Active Directory.
 
@@ -145,9 +147,9 @@ npm install @azure/identity
 
 Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultAccessControlClient`:
 
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
@@ -159,9 +161,9 @@ const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 
 Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultBackupClient`:
 
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
@@ -175,7 +177,7 @@ const client = new KeyVaultBackupClient(vaultUrl, credentials);
 
 A Role Definition is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, and delete. It can also define the operations that are excluded from allowed operations.
 
-Role definitions can be listed and specified as part of a Role Assignment.
+Role definitions can be listed and specified as part of a `KeyVaultRoleAssignment`.
 
 ### KeyVaultRoleAssignment.
 
@@ -183,15 +185,15 @@ A Role Assignment is the association of a Role Definition to a service principal
 
 ### KeyVaultAccessControlClient
 
-A `KeyVaultAccessControlClient` provides both synchronous and asynchronous operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
+A `KeyVaultAccessControlClient` provides operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
 
 ### KeyVaultBackupClient
 
-A `KeyVaultBackupClient` provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
+A `KeyVaultBackupClient` provides operations for performing full key backups, full key restores, and selective key restores.
 
 ### Long running operations
 
-The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
+The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize, and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
 
 The `KeyVaultBackupClient` offers three methods that execute long running operations:
 
@@ -205,29 +207,15 @@ The methods that begin long running operations return a poller that allows you t
 
 We have samples both in JavaScript and TypeScript that show the access control and backup/restore features in this package. Please follow the corresponding readmes for detailed steps to run the samples.
 
-- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/README.md)
-- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/README.md)
-
-Direct links to the specific JavaScript samples follow:
-
-- Access control (RBAC):
-  - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-- Backup and restore:
-  - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-  - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-  - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
-  - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
+- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/README.md)
+- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/README.md)
 
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```
@@ -236,8 +224,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
-- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
+- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/v4/javascript)
+- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/v4/typescript)
 - [KeyVault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing

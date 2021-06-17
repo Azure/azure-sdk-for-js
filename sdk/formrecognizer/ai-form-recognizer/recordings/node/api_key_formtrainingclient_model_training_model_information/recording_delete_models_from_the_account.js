@@ -5,111 +5,131 @@ module.exports.hash = "98aacaa3c4cd6e8a687856c9c25251f3";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.3/custom/models/3a97a25c-aa72-4512-93da-766c2e504b2b')
+  .delete('/formrecognizer/v2.1/custom/models/c7218fa6-05b6-4d7c-bf60-8929eb8fc1c6')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '37',
+  '24',
   'apim-request-id',
-  'ff6a7d22-9aaf-4c35-b8da-e80abee5b108',
+  'e726cfdf-6a1f-48cf-aa38-8ffd281f2e7a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:46 GMT'
+  'Tue, 25 May 2021 18:09:43 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.3/custom/models/542bd102-93ad-4a08-a51d-aac779db0474')
+  .delete('/formrecognizer/v2.1/custom/models/ddb0dd82-f2ca-4be6-8bc2-bdb7278589fb')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '39',
+  '23',
   'apim-request-id',
-  '1d7dab73-963e-4307-9eea-58571944a6c2',
+  'c4d02a22-1263-46d6-b8ff-6f99ee8859a4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:46 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.3/custom/models/ba53ea34-a14a-40c5-87bc-83b6144528c6')
+  .delete('/formrecognizer/v2.1/custom/models/a3877e0d-44cc-425f-8273-6cec3180018f')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '44',
+  '30',
   'apim-request-id',
-  'd4685d17-44bb-49cc-b6f0-490c60f1faea',
+  '1f9d7fd8-ae58-4163-9dca-f2f86838b1ce',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:46 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.3/custom/models/19289163-d697-4dcb-9ca6-0ee36e398c03')
+  .delete('/formrecognizer/v2.1/custom/models/3e9469cc-a370-4d59-98df-e03c58a9f259')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '45',
+  '25',
   'apim-request-id',
-  '0d0aea30-134b-493e-860d-2e9451352055',
+  'a15ffffc-e361-4492-8f29-966cd4eee647',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:46 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.3/custom/models/4c98fec3-1a50-4643-ada6-c0abf3a2f2d1')
+  .delete('/formrecognizer/v2.1/custom/models/f053fea9-e6e3-4758-8213-23a10bfe53c0')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '41',
+  '26',
   'apim-request-id',
-  '88a16c7c-0085-45c8-a0ed-1c37f9789841',
+  'f2d23528-14f9-4822-a002-293ec9db5a90',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:46 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.3/custom/models/b51b10a5-d01d-49d1-a7f5-da824c25a59e')
+  .delete('/formrecognizer/v2.1/custom/models/ac414e79-56f7-4153-a6ee-30814fd2f9e9')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '133',
+  '22',
   'apim-request-id',
-  'abd381bc-1b4a-4062-b363-46b0155b2429',
+  '5208167e-e1ac-4636-bc01-0df16a50b001',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/custom/models/3a97a25c-aa72-4512-93da-766c2e504b2b')
+  .get('/formrecognizer/v2.1/custom/models/c7218fa6-05b6-4d7c-bf60-8929eb8fc1c6')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=3a97a25c-aa72-4512-93da-766c2e504b2b' not found."}}, [
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=c7218fa6-05b6-4d7c-bf60-8929eb8fc1c6' not found."}}, [
+  'Content-Length',
+  '101',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '12',
+  'apim-request-id',
+  'e6a3ff39-5dd0-4cdb-a8b2-1af1b956dfe0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 25 May 2021 18:09:44 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.1/custom/models/ac414e79-56f7-4153-a6ee-30814fd2f9e9')
+  .query(true)
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=ac414e79-56f7-4153-a6ee-30814fd2f9e9' not found."}}, [
   'Content-Length',
   '101',
   'Content-Type',
@@ -117,111 +137,91 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '17',
   'apim-request-id',
-  '7c99adcb-31cc-4265-8ce6-23662591c14a',
+  '5239bec4-0c02-4c34-85c5-3a7cb63c555d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/custom/models/542bd102-93ad-4a08-a51d-aac779db0474')
+  .get('/formrecognizer/v2.1/custom/models/a3877e0d-44cc-425f-8273-6cec3180018f')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=542bd102-93ad-4a08-a51d-aac779db0474' not found."}}, [
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=a3877e0d-44cc-425f-8273-6cec3180018f' not found."}}, [
   'Content-Length',
   '101',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '18',
+  '81',
   'apim-request-id',
-  '9b4123bb-87cd-4b18-a389-a3980c63498e',
+  'ba150fc3-5d65-40eb-8166-bf94702f70f3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/custom/models/4c98fec3-1a50-4643-ada6-c0abf3a2f2d1')
+  .get('/formrecognizer/v2.1/custom/models/f053fea9-e6e3-4758-8213-23a10bfe53c0')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=4c98fec3-1a50-4643-ada6-c0abf3a2f2d1' not found."}}, [
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=f053fea9-e6e3-4758-8213-23a10bfe53c0' not found."}}, [
   'Content-Length',
   '101',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '21',
+  '20',
   'apim-request-id',
-  '3c5fbf9f-8f86-4366-91fe-9eb3bacbfe9f',
+  '7fe9fcd0-bd66-4a85-b8f4-a5eb32d6a69c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/custom/models/b51b10a5-d01d-49d1-a7f5-da824c25a59e')
+  .get('/formrecognizer/v2.1/custom/models/ddb0dd82-f2ca-4be6-8bc2-bdb7278589fb')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=b51b10a5-d01d-49d1-a7f5-da824c25a59e' not found."}}, [
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=ddb0dd82-f2ca-4be6-8bc2-bdb7278589fb' not found."}}, [
   'Content-Length',
   '101',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '22',
+  '15',
   'apim-request-id',
-  '00c8cca3-0a6d-4ebf-a222-da8227450384',
+  'd81a0a52-a2f1-4b5d-a5b4-a2126cc354b6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/custom/models/ba53ea34-a14a-40c5-87bc-83b6144528c6')
+  .get('/formrecognizer/v2.1/custom/models/3e9469cc-a370-4d59-98df-e03c58a9f259')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=ba53ea34-a14a-40c5-87bc-83b6144528c6' not found."}}, [
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=3e9469cc-a370-4d59-98df-e03c58a9f259' not found."}}, [
   'Content-Length',
   '101',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '29',
+  '19',
   'apim-request-id',
-  '0a7d0758-19c6-4de4-9112-2a290c8b6407',
+  '80b1390e-47b1-4f86-b420-5c385cf22915',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.3/custom/models/19289163-d697-4dcb-9ca6-0ee36e398c03')
-  .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=19289163-d697-4dcb-9ca6-0ee36e398c03' not found."}}, [
-  'Content-Length',
-  '101',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '64',
-  'apim-request-id',
-  '23b55bc0-93ff-4909-8dff-4f3a1fbcf9cf',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 30 Mar 2021 23:13:47 GMT'
+  'Tue, 25 May 2021 18:09:44 GMT'
 ]);

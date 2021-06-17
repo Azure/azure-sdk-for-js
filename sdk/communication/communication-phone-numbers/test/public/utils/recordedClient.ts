@@ -21,7 +21,7 @@ import {
 } from "@azure/core-http";
 import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 
 if (isNode) {
   dotenv.config();
@@ -33,13 +33,14 @@ export interface RecordedClient<T> {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
   AZURE_TENANT_ID: "SomeTenantId",
-  AZURE_PHONE_NUMBER: "+14155550100"
+  AZURE_PHONE_NUMBER: "+14155550100",
+  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -58,35 +59,30 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+    client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
     } as PhoneNumbersClientOptions),
     recorder
   };
 }
 
-export const canCreateRecordedClientWithToken = (): boolean => {
-  try {
-    new DefaultAzureCredential();
-    return true;
-  } catch {
-    return false;
-  }
-};
+export function createMockToken(): TokenCredential {
+  return {
+    getToken: async (_scopes) => {
+      return { token: "testToken", expiresOnTimestamp: 11111 };
+    }
+  };
+}
 
 export function createRecordedClientWithToken(
   context: Context
 ): RecordedClient<PhoneNumbersClient> | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
     .endpoint;
   if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
+    credential = createMockToken();
 
     // casting is a workaround to enable min-max testing
     return {
@@ -97,10 +93,14 @@ export function createRecordedClientWithToken(
     };
   }
 
-  try {
+  if (isNode) {
     credential = new DefaultAzureCredential();
-  } catch {
-    return undefined;
+  } else {
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
   // casting is a workaround to enable min-max testing
@@ -125,9 +125,11 @@ function createTestHttpClient(): HttpClient {
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299) {
-      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
-    }
+    console.log(
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
+      } - ${requestResponse.headers.get("ms-cv")})`
+    );
 
     return requestResponse;
   };

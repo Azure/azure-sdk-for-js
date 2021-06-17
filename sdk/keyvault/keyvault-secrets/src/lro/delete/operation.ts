@@ -9,8 +9,13 @@ import {
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
-import { withTrace } from "./poller";
 import { OperationOptions } from "@azure/core-http";
+import { createTraceFunction } from "../../../../keyvault-common/src";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Secrets.DeleteSecretPoller");
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -95,6 +100,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+          throw error;
         }
       }
     }

@@ -2,7 +2,7 @@
   "name": "@azure/core-http",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.2.5",
+  "version": "1.2.7",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -28,7 +28,7 @@
     "cloud"
   ],
   "main": "dist/index.js",
-  "module": "./es/src/coreHttp.js",
+  "module": "./dist-esm/src/coreHttp.js",
   "types": "./types/latest/src/coreHttp.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -38,25 +38,23 @@
     }
   },
   "files": [
-    "dist/**/*.node.js",
-    "dist/**/*.node.js.map",
+    "dist/",
+    "dist-esm/src/",
     "dom-shim.d.ts",
-    "es/src/**/*.js",
-    "es/src/**/*.js.map",
     "types/*/src/**/*.d.ts",
     "types/*/src/**/*.d.ts.map",
     "README.md",
     "LICENSE"
   ],
   "browser": {
-    "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
-    "./es/src/policies/disableResponseDecompressionPolicy.js": "./es/src/policies/disableResponseDecompressionPolicy.browser.js",
-    "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
-    "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
-    "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
-    "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
-    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js",
-    "./es/src/util/url.js": "./es/src/util/url.browser.js"
+    "./dist-esm/src/policies/msRestUserAgentPolicy.js": "./dist-esm/src/policies/msRestUserAgentPolicy.browser.js",
+    "./dist-esm/src/policies/disableResponseDecompressionPolicy.js": "./dist-esm/src/policies/disableResponseDecompressionPolicy.browser.js",
+    "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
+    "./dist-esm/src/util/base64.js": "./dist-esm/src/util/base64.browser.js",
+    "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.browser.js",
+    "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
+    "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-http/README.md",
@@ -139,7 +137,7 @@
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",
     "tough-cookie": "^4.0.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "tunnel": "^0.0.6",
     "uuid": "^8.3.0",
     "xml2js": "^0.4.19"
@@ -153,6 +151,7 @@
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
     "@types/glob": "^7.1.1",

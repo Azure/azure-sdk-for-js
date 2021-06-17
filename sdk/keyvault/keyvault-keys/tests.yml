@@ -5,7 +5,7 @@ stages:
     parameters:
       PackageName: "@azure/keyvault-keys"
       ServiceDirectory: keyvault
-      TimeoutInMinutes: 59
+      TimeoutInMinutes: 90
       # KV HSM limitation prevents us from running live tests
       # against multiple platforms in parallel (we're limited to a single
       # instance per region per subscription) so we're only running

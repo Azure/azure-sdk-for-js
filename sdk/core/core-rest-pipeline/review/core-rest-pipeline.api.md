@@ -51,21 +51,9 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
-    credential: TokenCredential;
-    scopes: string | string[];
-}
-
-// @public
-export function bearerTokenChallengeAuthenticationPolicy(options: BearerTokenChallengeAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export const bearerTokenChallengeAuthenticationPolicyName = "bearerTokenChallengeAuthenticationPolicy";
-
-// @public
-export interface BearerTokenChallengeAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
-    credential: TokenCredential;
-    scopes: string[];
+    credential?: TokenCredential;
+    scopes: string | string[];
 }
 
 // @public

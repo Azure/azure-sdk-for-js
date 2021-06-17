@@ -86,7 +86,7 @@ export interface ChatMessage {
     deletedOn?: Date;
     editedOn?: Date;
     id: string;
-    properties?: Record<string, string>;
+    metadata?: Record<string, string>;
     sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
     sequenceId: string;
@@ -110,7 +110,7 @@ export interface ChatMessageReadReceipt {
 }
 
 // @public
-export type ChatMessageType = string;
+export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
 
 // @public
 export interface ChatParticipant {
@@ -239,7 +239,7 @@ export interface SendChatMessageResult {
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
-    properties?: Record<string, string>;
+    metadata?: Record<string, string>;
     senderDisplayName?: string;
     type?: ChatMessageType;
 }
@@ -263,7 +263,7 @@ export type SendTypingNotificationOptions = OperationOptions;
 // @public
 export interface UpdateMessageOptions extends OperationOptions {
     content?: string;
-    properties?: Record<string, string>;
+    metadata?: Record<string, string>;
 }
 
 // @public

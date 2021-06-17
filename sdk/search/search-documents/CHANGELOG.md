@@ -1,5 +1,29 @@
 # Release History
 
+## 11.3.0-beta.1 (Unreleased)
+
+## 11.2.0 (2021-06-08)
+
+The list of changes in 11.2.0 since 11.1.0 & 11.2.0-beta.2 are provided below:
+
+**Changes since 11.1.0**
+
+- Added support for Knowledge Store feature through the new `SearchIndexerKnowledgeStore` in the `SearchIndexerSkillset` object.
+- The `skillsetCounter` property in `ServiceCounters` object has been made optional.
+- Added Support for new datasource `adlsgen2`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+
+**Changes since 11.2.0-beta.2**
+
+- Removed Support for Semantic Search and introduced new properties in `SearchOptions`, `SearchRequest`, `SearchResult` and `SearchDocumentsResult` objects.
+- Removed Support for normalizers `LexicalNormalizer` & `CustomNormalizer`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+
+## 11.2.0-beta.2 (2021-05-11)
+
+- Added Support for Semantic Search and introduced new properties in `SearchOptions`, `SearchRequest`, `SearchResult` and `SearchDocumentsResult` objects.
+- Added support for Knowledge Store feature through the new `SearchIndexerKnowledgeStore` in the `SearchIndexerSkillset` object.
+- The `skillsetCounter` property in `ServiceCounters` object has been made optional.
+
 ## 11.2.0-beta.1 (2021-04-06)
 
 - Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.

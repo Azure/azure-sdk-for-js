@@ -266,11 +266,18 @@ export const SendChatMessageRequest: coreHttp.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "text",
+            "html",
+            "topicUpdated",
+            "participantAdded",
+            "participantRemoved"
+          ]
         }
       },
-      properties: {
-        serializedName: "properties",
+      metadata: {
+        serializedName: "metadata",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -341,7 +348,14 @@ export const ChatMessage: coreHttp.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "text",
+            "html",
+            "topicUpdated",
+            "participantAdded",
+            "participantRemoved"
+          ]
         }
       },
       sequenceId: {
@@ -397,8 +411,8 @@ export const ChatMessage: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      properties: {
-        serializedName: "properties",
+      metadata: {
+        serializedName: "metadata",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -487,8 +501,8 @@ export const UpdateChatMessageRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      properties: {
-        serializedName: "properties",
+      metadata: {
+        serializedName: "metadata",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }

@@ -3,7 +3,7 @@
 ## 1.1.0-beta.1 (Unreleased)
 
 ### Added
-- Added support to add `properties` for `message`
+- Added support to add `metadata` for `message`
 
 ## 1.0.1 (Unreleased)
 

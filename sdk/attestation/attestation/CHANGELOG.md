@@ -1,7 +1,44 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
+## 1.0.0-beta.4 (2021-06-15)
+
+### Features Added
+
+- The package now contains type definitions compatible with TypeScript versions earlier than v3.6.
+
+### Key Bugs Fixed
+
+- Fixes the location of types definition in package.json
+
+
+## 1.0.0-beta.3 (2021-06-08)
+
+### Features Added
+
+### Breaking Changes
+
+- Essentially completely rewritten. All existing functionality has been replaced.
+  - Removed `policy` property on `AttestationClient` object, because it has been replaced.
+  - Removed `policy.reset` and `policy.set`, replaced with the `resetPolicy` and `setPolicy` methods on the `AttestationAdministrationClient`.
+  - Removed `policy.get`, replaced with the `getPolicy` method of the new  `AttestationAdministrationClient` client object.
+  - Removed `attestation.attestSgxEnclave`, `attestation.attestOpenEnclave`, `attestation.attestTpm`, and `attestation` property from attestationClient, replaced with `attestSgxEnclave`, `attestOpenEnclave` and `attestTpm`.
+  - Removed `metadataConfiguration` and `signingCertificates` properties from attestationClient.
+  - Removed `metadataConfiguration.get()` method, replaced with `client.getOpenIdMetadata()`.
+  - Removed `signingCertificates.get()` method, replaced with `client.getAttestationSigners()`. The return value for `getAttestationSigners()` is an array of `AttestationSigner` objects,
+  each of which has two properties: `key_id` and `certificates`. `key_id`
+  reflects the `kid` JSON Web Key attribute, and `certificates` is the **decoded** `x5c` attribute
+  in the JSON Web Key.
 
 ## 1.0.0-beta.2 (2021-01-19)
 

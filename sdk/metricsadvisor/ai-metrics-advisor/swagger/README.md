@@ -14,13 +14,14 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 # openapi v2 in PR
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3cbc984fcf0fab278b9c28175319f65db1b9162a/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7efe0ae6a89c93a915c85af1e2f871501adac0c9/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
 disable-async-iterators: true
 hide-clients: true
+package-version: 1.0.0
 ```
 
 ## Customizations for Track 2 Generator

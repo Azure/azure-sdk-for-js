@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.11",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "keywords": [
     "node",
@@ -20,9 +20,6 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "engine": {
-    "node": ">=8.0.0"
-  },
   "engines": {
     "node": ">=8.0.0"
   },

@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  AnalyticalStorageConfiguration,
   ApiProperties,
   ARMProxyResource,
   ARMResourceProperties,
@@ -81,6 +82,7 @@ export {
   OptionsResource,
   PeriodicModeBackupPolicy,
   PeriodicModeProperties,
+  Permission,
   PrivateEndpointConnection,
   PrivateEndpointProperty,
   PrivateLinkResource,
@@ -98,6 +100,8 @@ export {
   SqlDatabaseGetPropertiesResource,
   SqlDatabaseGetResults,
   SqlDatabaseResource,
+  SqlRoleAssignmentGetResults,
+  SqlRoleDefinitionGetResults,
   SqlStoredProcedureCreateUpdateParameters,
   SqlStoredProcedureGetPropertiesResource,
   SqlStoredProcedureGetResults,

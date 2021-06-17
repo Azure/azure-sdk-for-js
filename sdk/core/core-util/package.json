@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -68,7 +68,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

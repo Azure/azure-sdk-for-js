@@ -8,7 +8,7 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.11",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "keywords": [
     "node",
@@ -20,12 +20,12 @@
   ],
   "license": "MIT",
   "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./types/iot-device-update.d.ts",
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.4",
     "@microsoft/api-extractor": "7.7.11",
     "@types/node": "^8.0.0",
     "@types/uuid": "^8.0.0",
@@ -51,7 +51,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/",
+    "dist-esm/src/",
     "types/iot-device-update.d.ts",
     "README.md",
     "LICENSE"
@@ -68,22 +68,29 @@
     "node": ">=8.0.0"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "productName": "Azure IoT Hub Device Update",
+    "productSlugs": [
+      "azure",
+      "azure-iot"
+    ],
+    "requiredResources": {
+      "Azure Device Update for IoT Hub instance": "https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update"
+    }
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:samples": "echo Obsolete.",
     "build:test": "echo skip",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skip",
     "integration-test:node": "echo skip",
     "integration-test": "echo skip",

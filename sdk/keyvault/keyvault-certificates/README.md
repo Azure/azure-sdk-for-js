@@ -1,10 +1,8 @@
 # Azure Key Vault Certificates client library for JavaScript
 
-Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
-If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
+Azure Key Vault is a cloud service that provides secure storage and automated management of certificates used throughout a cloud application. Multiple certificates, and multiple versions of the same certificate, can be kept in the Azure Key Vault. Each certificate in the vault has a policy associated with it which controls the issuance and lifetime of the certificate, along with actions to be taken as certificates near expiry.
 
-Azure Key Vault Certificates allows you to securely manage, store and
-tightly control your certificates.
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
 
 Use the client library for Azure Key Vault Certificates in your Node.js application to:
 
@@ -22,16 +20,17 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal) to use this package.
-
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
-
 ### Install the package
 
 Install the Azure Key Vault Certificates client library using npm
 
 `npm install @azure/keyvault-certificates`
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/).
+- An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI](https://docs.microsoft.com/azure/key-vault/general/quick-create-cli).
+- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 ### Install the identity library
 
@@ -83,6 +82,8 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
   > --certificate-permissions:
   > Accepted values: backup, create, delete, deleteissuers, get, getissuers, import, list, listissuers, managecontacts, manageissuers, purge, recover, restore, setissuers, update
+
+  If you have enabled role-based access control (RBAC) for Key Vault instead, you can find roles like "Key Vault Certificates Officer" in our [RBAC guide](https://docs.microsoft.com/azure/key-vault/general/rbac-guide).
 
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
@@ -677,8 +678,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript)
-- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/typescript)
+- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/javascript)
+- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript)
 - [KeyVault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/test/)
 
 ## Contributing

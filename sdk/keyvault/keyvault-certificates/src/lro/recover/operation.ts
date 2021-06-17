@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
+import { createTraceFunction } from "../../../../keyvault-common/src";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
@@ -14,7 +15,13 @@ import {
   KeyVaultCertificatePollOperation,
   KeyVaultCertificatePollOperationState
 } from "../keyVaultCertificatePoller";
-import { withTrace } from "./poller";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction(
+  "Azure.KeyVault.Certificates.RecoverDeletedCertificatePoller"
+);
 
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
@@ -117,6 +124,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+          throw error;
         }
       }
     }

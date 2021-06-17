@@ -1,10 +1,10 @@
 let nock = require('nock');
 
-module.exports.hash = "549b167dc03a3cf6dae04aefb3aae12b";
+module.exports.hash = "9db468d876f027cff1a56c0b2ccac1a5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/%2B14155550100')
   .query(true)
   .reply(404, {"error":{"code":"PhoneNumberNotFound","message":"The specified phone number +14155550100 cannot be found.","target":"phonenumber"}}, [
@@ -15,13 +15,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'MQcqFgpZNk+fdVb4DMSkrQ.0',
+  'iHCcarEEpkiclAyzF4xJhg.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '317ms',
+  '345ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0GQZ2YAAAAAA1fvTcallKQ5K+BA3+W+EHWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0xVi2YAAAAAC4ob71ReBlQYzjbDLSxmjbWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 13 Apr 2021 20:59:05 GMT'
+  'Tue, 01 Jun 2021 15:56:52 GMT'
 ]);

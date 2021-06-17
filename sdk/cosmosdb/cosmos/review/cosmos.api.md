@@ -376,6 +376,7 @@ export const Constants: {
         CollectionSize: string;
     };
     Path: {
+        Root: string;
         DatabasesPathSegment: string;
         CollectionsPathSegment: string;
         UsersPathSegment: string;
@@ -1544,6 +1545,8 @@ export interface StatusCodesType {
     Conflict: 409;
     // (undocumented)
     Created: 201;
+    // (undocumented)
+    ENOTFOUND: "ENOTFOUND";
     // (undocumented)
     Forbidden: 403;
     // (undocumented)

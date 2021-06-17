@@ -1,6 +1,23 @@
 # Release History
 
-## 5.5.1 (Unreleased)
+## 5.5.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
+## 5.5.2 (2021-06-10)
+
+### Bug fixes
+
+- Fixes issue [#13500](https://github.com/Azure/azure-sdk-for-js/issues/13500) where a `TypeError: Cannot read property '_process' of undefined` could be thrown in rare cases.
+
+## 5.5.1 (2021-04-29)
 
 - Fixes a race condition that would cause connection recovery to sometimes fail if a consumer or producer was closed at the same time a connection was disconnected.
 

@@ -33,12 +33,9 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    files: ["dist-test/index.browser.js"].concat(
+      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
+    ),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -58,7 +55,7 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "COMMUNICATION_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_TESTS",
       "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",

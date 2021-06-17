@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
+import { logger, receiverLogger } from "../log";
+import { ReceiveMode } from "../models";
 import {
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusReceivedMessage
 } from "../serviceBusMessage";
-import { ReceiveMode } from "../models";
 import { isDefined } from "./typeGuards";
 
 /**

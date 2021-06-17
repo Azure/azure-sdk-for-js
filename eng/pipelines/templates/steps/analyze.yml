@@ -4,6 +4,8 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"
@@ -92,11 +94,9 @@ steps:
       flattenFolders: true
     displayName: "Copy lint reports"
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish Report Artifacts"
-    inputs:
-      artifactName: reports
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'reports'
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

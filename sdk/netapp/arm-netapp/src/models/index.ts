@@ -167,6 +167,21 @@ export interface ResourceNameAvailabilityRequest {
 }
 
 /**
+ * File path availability request content - availability is based on the name and the subnetId.
+ */
+export interface FilePathAvailabilityRequest {
+  /**
+   * File path to verify.
+   */
+  name: string;
+  /**
+   * The Azure Resource URI for a delegated subnet. Must have the delegation
+   * Microsoft.NetApp/volumes
+   */
+  subnetId: string;
+}
+
+/**
  * Quota availability request content.
  */
 export interface QuotaAvailabilityRequest {
@@ -241,6 +256,11 @@ export interface ActiveDirectory {
    * usernames without domain specifier
    */
   backupOperators?: string[];
+  /**
+   * Users to be added to the Built-in Administrators active directory group. A list of unique
+   * usernames without domain specifier
+   */
+  administrators?: string[];
   /**
    * kdc server IP addresses for the active directory machine. This optional parameter is used only
    * while creating kerberos volume.
@@ -474,6 +494,10 @@ export interface CapacityPool extends BaseResource {
    * 'Auto'.
    */
   qosType?: QosType;
+  /**
+   * If enabled (true) the pool can contain cool Access enabled volumes. Default value: false.
+   */
+  coolAccess?: boolean;
 }
 
 /**
@@ -582,6 +606,13 @@ export interface ExportPolicyRule {
    * Has root access to volume. Default value: true.
    */
   hasRootAccess?: boolean;
+  /**
+   * This parameter specifies who is authorized to change the ownership of a file. restricted -
+   * Only root user can change the ownership of the file. unrestricted - Non-root users can change
+   * ownership of files that they own. Possible values include: 'Restricted', 'Unrestricted'.
+   * Default value: 'Restricted'.
+   */
+  chownMode?: ChownMode;
 }
 
 /**
@@ -750,7 +781,7 @@ export interface Volume extends BaseResource {
    */
   exportPolicy?: VolumePropertiesExportPolicy;
   /**
-   * protocolTypes. Set of protocol types, default NFSv3, CIFS fro SMB protocol
+   * protocolTypes. Set of protocol types, default NFSv3, CIFS for SMB protocol
    */
   protocolTypes?: string[];
   /**
@@ -831,10 +862,26 @@ export interface Volume extends BaseResource {
    * Specifies whether LDAP is enabled or not for a given NFS volume. Default value: false.
    */
   ldapEnabled?: boolean;
+  /**
+   * Specifies whether Cool Access(tiering) is enabled for the volume. Default value: false.
+   */
+  coolAccess?: boolean;
+  /**
+   * Specifies the number of days after which data that is not accessed by clients will be tiered.
+   */
+  coolnessPeriod?: number;
+  /**
+   * UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set
+   * user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for
+   * the owner of the file: read (4), write (2) and execute (1). Third selects permissions for
+   * other users in the same group. the fourth for other users not in the group. 0755 - gives
+   * read/write/execute permissions to owner and read/execute to group and other users.
+   */
+  unixPermissions?: string;
 }
 
 /**
- * An interface representing ResourceIdentity.
+ * Identity for the resource.
  */
 export interface ResourceIdentity {
   /**
@@ -899,6 +946,10 @@ export interface VolumePatchPropertiesDataProtection {
    * Backup. Backup Properties
    */
   backup?: VolumeBackupProperties;
+  /**
+   * Snapshot. Snapshot properties.
+   */
+  snapshot?: VolumeSnapshotProperties;
 }
 
 /**
@@ -1395,10 +1446,10 @@ export interface Backup extends BaseResource {
    */
   label?: string;
   /**
-   * Type of backup adhoc or scheduled
+   * backupType. Type of backup Manual or Scheduled. Possible values include: 'Manual', 'Scheduled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly backupType?: string;
+  readonly backupType?: BackupType;
   /**
    * Failure reason
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1409,6 +1460,11 @@ export interface Backup extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly volumeName?: string;
+  /**
+   * Manual backup an already existing snapshot. This will always be false for scheduled backups
+   * and true/false for manual backups. Default value: false.
+   */
+  useExistingSnapshot?: boolean;
 }
 
 /**
@@ -1444,10 +1500,10 @@ export interface BackupPatch extends BaseResource {
    */
   label?: string;
   /**
-   * Type of backup adhoc or scheduled
+   * backupType. Type of backup Manual or Scheduled. Possible values include: 'Manual', 'Scheduled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly backupType?: string;
+  readonly backupType?: BackupType;
   /**
    * Failure reason
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1458,6 +1514,11 @@ export interface BackupPatch extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly volumeName?: string;
+  /**
+   * Manual backup an already existing snapshot. This will always be false for scheduled backups
+   * and true/false for manual backups. Default value: false.
+   */
+  useExistingSnapshot?: boolean;
 }
 
 /**
@@ -1737,6 +1798,57 @@ export interface BackupStatus {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly errorMessage?: string;
+  /**
+   * Displays the last transfer size
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastTransferSize?: number;
+  /**
+   * Displays the last transfer type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastTransferType?: string;
+  /**
+   * Displays the total bytes transferred
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalTransferBytes?: number;
+}
+
+/**
+ * Restore status
+ */
+export interface RestoreStatus {
+  /**
+   * Restore health status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly healthy?: boolean;
+  /**
+   * Status of the restore SnapMirror relationship. Possible values include: 'Idle', 'Transferring'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly relationshipStatus?: RelationshipStatus;
+  /**
+   * The status of the restore. Possible values include: 'Uninitialized', 'Mirrored', 'Broken'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mirrorState?: MirrorState;
+  /**
+   * Reason for the unhealthy restore relationship
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unhealthyReason?: string;
+  /**
+   * Displays error message if the restore is in an error state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * Displays the total bytes transferred
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalTransferBytes?: number;
 }
 
 /**
@@ -1804,35 +1916,11 @@ export interface VolumesBeginAuthorizeReplicationOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface BackupsCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Label for backup
-   */
-  label?: string;
-}
-
-/**
- * Optional Parameters.
- */
 export interface BackupsUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Resource tags
+   * Backup object supplied in the body of the operation.
    */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Label for backup
-   */
-  label?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface BackupsBeginCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Label for backup
-   */
-  label?: string;
+  body?: BackupPatch;
 }
 
 /**
@@ -1840,13 +1928,9 @@ export interface BackupsBeginCreateOptionalParams extends msRest.RequestOptionsB
  */
 export interface BackupsBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Resource tags
+   * Backup object supplied in the body of the operation.
    */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Label for backup
-   */
-  label?: string;
+  body?: BackupPatch;
 }
 
 /**
@@ -2004,6 +2088,14 @@ export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
 export type QosType = 'Auto' | 'Manual';
 
 /**
+ * Defines values for ChownMode.
+ * Possible values include: 'Restricted', 'Unrestricted'
+ * @readonly
+ * @enum {string}
+ */
+export type ChownMode = 'Restricted' | 'Unrestricted';
+
+/**
  * Defines values for EndpointType.
  * Possible values include: 'src', 'dst'
  * @readonly
@@ -2042,6 +2134,14 @@ export type RelationshipStatus = 'Idle' | 'Transferring';
  * @enum {string}
  */
 export type MirrorState = 'Uninitialized' | 'Mirrored' | 'Broken';
+
+/**
+ * Defines values for BackupType.
+ * Possible values include: 'Manual', 'Scheduled'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupType = 'Manual' | 'Scheduled';
 
 /**
  * Contains response data for the list operation.
@@ -2804,9 +2904,9 @@ export type SnapshotPoliciesBeginUpdateResponse = SnapshotPolicy & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the getStatus operation.
  */
-export type VolumeBackupStatusGetResponse = BackupStatus & {
+export type BackupsGetStatusResponse = BackupStatus & {
   /**
    * The underlying HTTP response.
    */
@@ -2824,9 +2924,9 @@ export type VolumeBackupStatusGetResponse = BackupStatus & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the getVolumeRestoreStatus operation.
  */
-export type AccountBackupsListResponse = BackupsList & {
+export type BackupsGetVolumeRestoreStatusResponse = RestoreStatus & {
   /**
    * The underlying HTTP response.
    */
@@ -2839,27 +2939,7 @@ export type AccountBackupsListResponse = BackupsList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: BackupsList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AccountBackupsGetResponse = Backup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Backup;
+      parsedBody: RestoreStatus;
     };
 };
 
@@ -2986,6 +3066,46 @@ export type BackupsBeginUpdateResponse = Backup & {
 /**
  * Contains response data for the list operation.
  */
+export type AccountBackupsListResponse = BackupsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AccountBackupsGetResponse = Backup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Backup;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
 export type BackupPoliciesListResponse = BackupPoliciesList & {
   /**
    * The underlying HTTP response.
@@ -3067,6 +3187,26 @@ export type BackupPoliciesUpdateResponse = BackupPolicy & {
  * Contains response data for the beginCreate operation.
  */
 export type BackupPoliciesBeginCreateResponse = BackupPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type BackupPoliciesBeginUpdateResponse = BackupPolicy & {
   /**
    * The underlying HTTP response.
    */
