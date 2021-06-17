@@ -73,7 +73,8 @@ steps:
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory)
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item $(Build.ArtifactStagingDirectory)/Documentation/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+        New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
       }
     displayName: 'Copy Packages'
 
