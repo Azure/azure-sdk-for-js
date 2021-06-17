@@ -6,6 +6,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "newLine": "LF",
+    "target": "ES2017",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
