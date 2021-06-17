@@ -32,6 +32,8 @@ extends:
         safeName: azuresynapseaccesscontrol
       - name: azure-synapse-artifacts
         safeName: azuresynapseartifacts
+      - name: azure-synapse-artifacts-rest
+        safeName: azuresynapseartifactsrest
       - name: azure-synapse-managed-private-endpoints
         safeName: azuresynapsemanagedprivateendpoints
       - name: azure-synapse-monitoring
