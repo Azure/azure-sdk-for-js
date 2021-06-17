@@ -1,33 +1,46 @@
-// import { ArtifactsClient } from "../../src/artifactsClient";
-// import { Recorder } from "@azure/test-utils-recorder";
-// import { assert } from "chai";
-// import { createClient, createRecorder } from "./utils/recordedClient";
+import { ArtifactsClientRestClient } from "../../src/artifactsClient";
+import { Recorder } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { createClient, createRecorder } from "./utils/recordedClient";
 
-// describe("IntegrationRuntimes", () => {
-//   let recorder: Recorder;
-//   let client: ArtifactsClient;
+describe("IntegrationRuntimes", () => {
+  let recorder: Recorder;
+  let client: ArtifactsClientRestClient;
 
-//   beforeEach(function() {
-//     recorder = createRecorder(this);
-//     client = createClient();
-//   });
+  beforeEach(function() {
+    recorder = createRecorder(this);
+    client = createClient();
+  });
 
-//   afterEach(async () => {
-//     await recorder.stop();
-//   });
+  afterEach(async () => {
+    await recorder.stop();
+  });
 
-//   it("should list integrationRuntimes", async () => {
-//     const result = await client.integrationRuntimes.list();
-//     if (result.value.length) {
-//       assert.equal(result.value[0].name, "AutoResolveIntegrationRuntime");
-//     } else {
-//       assert.fail("No integrationRuntimes found");
-//     }
-//   });
+  it("should list integrationRuntimes", async () => {
+    const result = await client.path("/integrationRuntimes").get();
+    if (result.status !== "200") {
+      throw new Error(`Unexpected status code ${result.status}`);
+    }
 
-//   it("should get integrationRuntimes", async () => {
+    const integrationRuntimes = result.body.value;
 
-//     const result = await client.integrationRuntimes.get("AutoResolveIntegrationRuntime");
-//     assert.equal(result.name, "AutoResolveIntegrationRuntime");
-//   });
-// });
+    if (integrationRuntimes) {
+      assert.equal(integrationRuntimes[0].name, "AutoResolveIntegrationRuntime");
+    } else {
+      assert.fail("No integrationRuntimes found");
+    }
+  });
+
+  it("should get integrationRuntimes", async () => {
+    const runtimeName = "AutoResolveIntegrationRuntime";
+    const result = await client
+      .path("/integrationRuntimes/{integrationRuntimeName}", runtimeName)
+      .get();
+
+    if (result.status !== "200") {
+      throw new Error(`Unexpected status code ${result.status}`);
+    }
+
+    assert.equal(result.body.name, "AutoResolveIntegrationRuntime");
+  });
+});

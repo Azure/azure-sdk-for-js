@@ -7,6 +7,9 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
@@ -1618,8 +1621,6 @@ export interface ChainingTriggerTypeProperties {
     dependsOn: Array<PipelineReference>;
     runDimension: string;
 }
-
-export { ClientOptions }
 
 // @public (undocumented)
 export interface CloudError {
@@ -3744,6 +3745,9 @@ export interface GenericDatasetTypeProperties {
 }
 
 // @public (undocumented)
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, pollerOptions?: LROPollerOptions): PollerLike<PollOperationState<TResult>, TResult>;
+
+// @public (undocumented)
 export type GetMetadataActivity = GetMetadataActivityBase & ExecutionActivity;
 
 // @public (undocumented)
@@ -4861,7 +4865,7 @@ export type LibraryCreateParameters = RequestParameters;
 export interface LibraryDelete {
     delete(options?: LibraryDeleteParameters): Promise<LibraryDelete200Response | LibraryDelete202Response | LibraryDelete409Response | LibraryDeletedefaultResponse>;
     get(options?: LibraryGetParameters): Promise<LibraryGet200Response | LibraryGet304Response | LibraryGetdefaultResponse>;
-    put(options: LibraryCreateParameters | LibraryAppendParameters): Promise<LibraryCreate200Response | LibraryCreate202Response | LibraryCreatedefaultResponse> | Promise<LibraryAppend201Response | LibraryAppenddefaultResponse>;
+    put(options?: LibraryCreateParameters | LibraryAppendParameters): Promise<LibraryCreate200Response | LibraryCreate202Response | LibraryCreatedefaultResponse> | Promise<LibraryAppend201Response | LibraryAppenddefaultResponse>;
 }
 
 // @public
@@ -5317,6 +5321,12 @@ export interface LookupActivityTypeProperties {
     dataset: DatasetReference;
     firstRowOnly?: Record<string, unknown>;
     source: CopySource;
+}
+
+// @public (undocumented)
+export interface LROPollerOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
 }
 
 // @public (undocumented)
@@ -6335,6 +6345,68 @@ export interface OrcWriteSettingsBase {
     fileNamePrefix?: Record<string, unknown>;
     maxRowsPerFile?: Record<string, unknown>;
 }
+
+// @public (undocumented)
+export interface PageablePaths {
+    // (undocumented)
+    "/dataflows": {
+        parameters: DataFlowGetDataFlowsByWorkspaceParameters;
+        result: DataFlowResource;
+    };
+    // (undocumented)
+    "/datasets": {
+        parameters: DatasetGetDatasetsByWorkspaceParameters;
+        result: DatasetResource;
+    };
+    // (undocumented)
+    "/libraries": {
+        parameters: LibraryListParameters;
+        result: LibraryResource;
+    };
+    // (undocumented)
+    "/linkedservices": {
+        parameters: LinkedServiceGetLinkedServicesByWorkspaceParameters;
+        result: LinkedServiceResource;
+    };
+    // (undocumented)
+    "/notebooks": {
+        parameters: NotebookGetNotebooksByWorkspaceParameters;
+        result: NotebookListResponse;
+    };
+    // (undocumented)
+    "/notebooks/summary": {
+        parameters: NotebookGetNotebookSummaryByWorkSpaceParameters;
+        result: NotebookResource;
+    };
+    // (undocumented)
+    "/pipelines": {
+        parameters: PipelineGetPipelinesByWorkspaceParameters;
+        result: PipelineResource;
+    };
+    // (undocumented)
+    "/queryDataFlowDebugSessions": {
+        parameters: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceParameters;
+        result: DataFlowDebugSessionInfo;
+    };
+    // (undocumented)
+    "/sparkJobDefinitions": {
+        parameters: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceParameters;
+        result: SparkJobDefinitionResource;
+    };
+    // (undocumented)
+    "/sqlScripts": {
+        parameters: SqlScriptGetSqlScriptsByWorkspaceParameters;
+        result: SqlScriptsListResponse;
+    };
+    // (undocumented)
+    "/triggers": {
+        parameters: TriggerGetTriggersByWorkspaceParameters;
+        result: TriggerResource;
+    };
+}
+
+// @public (undocumented)
+export function paginate<TPath extends keyof PageablePaths>(client: Client, path: TPath, options?: PageablePaths[TPath]["parameters"]): PagedAsyncIterableIterator<PageablePaths[TPath]["result"], PageablePaths[TPath]["result"][], {}>;
 
 // @public (undocumented)
 export type ParameterDefinitionSpecificationDictionary = Record<string, ParameterSpecification>;

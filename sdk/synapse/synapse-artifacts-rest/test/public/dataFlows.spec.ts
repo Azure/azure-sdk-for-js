@@ -1,63 +1,80 @@
-// import { ArtifactsClientRestClient } from "../../src/artifactsClient";
-// import { Recorder } from "@azure/test-utils-recorder";
-// import { assert } from "chai";
-// import { createClient, createRecorder } from "./utils/recordedClient";
+import { ArtifactsClientRestClient } from "../../src";
+import { Recorder } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { createClient, createRecorder } from "./utils/recordedClient";
+import { getLongRunningPoller, paginate } from "../../src";
 
-// describe("DataFlow", () => {
-//   let recorder: Recorder;
-//   let client: ArtifactsClientRestClient;
-//   const dataFlowName = "testdataflow";
-//   const renamedDataflow = "testdataflow2";
+describe("DataFlow", () => {
+  let recorder: Recorder;
+  let client: ArtifactsClientRestClient;
+  const dataFlowName = "testdataflow";
+  const renamedDataflow = "testdataflow2";
 
-//   beforeEach(function() {
-//     recorder = createRecorder(this);
-//     client = createClient();
-//   });
+  beforeEach(function() {
+    recorder = createRecorder(this);
+    client = createClient();
+  });
 
-//   afterEach(async () => {
-//     await recorder.stop();
-//   });
+  afterEach(async () => {
+    await recorder.stop();
+  });
 
-//   it("should create dataFlow", async () => {
-//     const poller = await client.dataFlow.createOrUpdateDataFlow(dataFlowName, {
-//       properties: { type: "MappingDataFlow" }
-//     });
+  it("should create dataFlow", async () => {
+    const beginCreateOrUpdate = await client
+      .path("/dataflows/{dataFlowName}", dataFlowName)
+      .put({ body: { properties: { type: "MappingDataFlow" } } });
 
-//     const result = await poller.pollUntilDone();
+    const poller = getLongRunningPoller(client, beginCreateOrUpdate);
 
-//     assert.equal(result.name, dataFlowName);
-//   }).timeout(30000);
+    const result = await poller.pollUntilDone();
 
-//   it("should list dataFlows", async () => {
-//     const dataflows = client.dataFlow.listDataFlowsByWorkspace();
-//     let count = 0;
-//     for await (const item of dataflows) {
-//       if (item) {
-//         count++;
-//       }
-//     }
+    if (result.status !== "200") {
+      throw new Error(`Unexpected status ${result.status}`);
+    }
 
-//     assert.ok(count > 0, "No data flows found");
-//   }).timeout(30000);
+    assert.equal(result.body.name, dataFlowName);
+  }).timeout(30000);
 
-//   it("should get dataFlow", async () => {
-//     const dataFlow = await client.dataFlow.getDataFlow(dataFlowName);
-//     assert.equal(dataFlow.name, dataFlowName);
-//   });
+  it("should list dataFlows", async () => {
+    const dataflows = paginate(client, "/dataflows");
+    let count = 0;
+    for await (const item of dataflows) {
+      if (item) {
+        count++;
+      }
+    }
 
-//   it("should rename dataFlow", async () => {
-//     const poller = await client.dataFlow.renameDataFlow(dataFlowName, {
-//       newName: renamedDataflow
-//     });
-//     const result = await poller.pollUntilDone();
+    assert.ok(count > 0, "No data flows found");
+  }).timeout(30000);
 
-//     assert.equal(result._response.status, 200);
-//   }).timeout(30000);
+  it("should get dataFlow", async () => {
+    const dataFlow = await client.path("/dataflows/{dataFlowName}", dataFlowName).get();
 
-//   it("should delete dataFlow", async () => {
-//     const poller = await client.dataFlow.deleteDataFlow(renamedDataflow);
-//     const result = await poller.pollUntilDone();
+    if (dataFlow.status !== "200") {
+      throw new Error(`Unexpected status ${dataFlow.status}`);
+    }
 
-//     assert.equal(result._response.status, 200);
-//   }).timeout(30000);
-// });
+    assert.equal(dataFlow.body.name, dataFlowName);
+  });
+
+  it("should rename dataFlow", async () => {
+    const renameOperation = await client
+      .path("/dataflows/{dataFlowName}/rename", dataFlowName)
+      .post({ body: { newName: renamedDataflow } });
+
+    const poller = getLongRunningPoller(client, renameOperation);
+    const result = await poller.pollUntilDone();
+
+    assert.equal(result.status, "200");
+  }).timeout(30000);
+
+  it("should delete dataFlow", async () => {
+    const deleteOperation = await client
+      .path("/dataflows/{dataFlowName}", renamedDataflow)
+      .delete();
+    const poller = getLongRunningPoller(client, deleteOperation);
+    const result = await poller.pollUntilDone();
+
+    assert.equal(result.status, "200");
+  }).timeout(30000);
+});

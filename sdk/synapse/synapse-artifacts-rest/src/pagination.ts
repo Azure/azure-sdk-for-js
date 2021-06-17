@@ -36,7 +36,7 @@ import {
 
 const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
 
-interface PageablePaths {
+export interface PageablePaths {
   "/linkedservices": {
     parameters: LinkedServiceGetLinkedServicesByWorkspaceParameters;
     result: LinkedServiceResource;

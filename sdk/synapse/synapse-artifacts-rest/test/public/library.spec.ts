@@ -3,7 +3,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { paginate } from "../../src/pagination";
-import { beginOperation as getPoller } from "../../src/longRunningHelper";
+import { getLongRunningPoller } from "../../src/longRunningHelper";
 
 describe("Library", () => {
   let recorder: Recorder;
@@ -19,10 +19,11 @@ describe("Library", () => {
   });
 
   const testLibraryName = "testLibraryName3.jar";
+
   it("should create library", async () => {
     const testLibraryName = "testLibraryName3.jar";
     const operationResult = await client.path("/libraries/{libraryName}", testLibraryName).put();
-    const poller = getPoller(client, operationResult.request);
+    const poller = getLongRunningPoller(client, operationResult);
     const result = await poller.pollUntilDone();
 
     assert.equal(result.status, "200");
@@ -55,7 +56,7 @@ describe("Library", () => {
 
   it("should delete library", async () => {
     const initialResponse = await client.path("/libraries/{libraryName}", testLibraryName).delete();
-    const poller = getPoller(client, initialResponse);
+    const poller = getLongRunningPoller(client, initialResponse);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
   }).timeout(30000);
