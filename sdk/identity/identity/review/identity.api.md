@@ -4,14 +4,11 @@
 
 ```ts
 
-import { AccessToken } from '@azure/core-http';
-import { AccessToken as AccessToken_2 } from '@azure/core-auth';
+import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
-import { GetTokenOptions } from '@azure/core-http';
-import { GetTokenOptions as GetTokenOptions_2 } from '@azure/core-auth';
+import { GetTokenOptions } from '@azure/core-auth';
 import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
-import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -256,9 +253,9 @@ export interface UsernamePasswordCredentialOptions extends TokenCredentialOption
 }
 
 // @public
-export class VisualStudioCodeCredential implements TokenCredential_2 {
+export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], _options?: GetTokenOptions_2): Promise<AccessToken_2>;
+    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public

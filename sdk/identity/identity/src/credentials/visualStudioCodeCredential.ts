@@ -153,7 +153,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   private prepareOnce(): Promise<void> | undefined {
     if (!this.preparePromise) {
-       this.preparePromise = this.prepare();
+      this.preparePromise = this.prepare();
     }
     return this.preparePromise;
   }

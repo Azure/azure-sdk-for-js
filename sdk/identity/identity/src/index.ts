@@ -5,7 +5,7 @@ export * from "./extensions/consumer";
 
 export { IdentityExtension } from "./extensions/provider";
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
 export { AuthenticationRecord } from "./msal/types";
@@ -64,7 +64,7 @@ export {
   CredentialUnavailableErrorName
 } from "./client/errors";
 
-export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";
 
 export { AzureAuthorityHosts } from "./constants";

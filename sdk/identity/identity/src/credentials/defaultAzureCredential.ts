@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+
 import { TokenCredentialOptions } from "../client/identityClient";
 
 import { ChainedTokenCredential } from "./chainedTokenCredential";
