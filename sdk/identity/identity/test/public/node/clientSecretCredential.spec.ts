@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
-import { env, delay } from "@azure/test-utils-recorder";
+import { env, delay, isLiveMode } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";
@@ -82,7 +82,11 @@ describe("ClientSecretCredential", function() {
     })
   );
 
-  it("supports specifying the regional authority", async function() {
+  it("supports specifying the regional authority", async function(this: Context) {
+    if (isLiveMode()) {
+      this.skip();
+    }
+
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
