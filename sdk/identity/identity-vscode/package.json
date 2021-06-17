@@ -49,9 +49,8 @@
     "authentication",
     "credential",
     "certificate",
-    "managed service identity",
-    "client secret",
-    "access token"
+    "vscode",
+    "account"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
