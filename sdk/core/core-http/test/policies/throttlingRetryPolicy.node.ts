@@ -3,7 +3,7 @@ import { Constants, ServiceClient } from "../../src/coreHttp";
 import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
 
-describe.only("Throttling rety policy", () => {
+describe("Throttling retry policy", () => {
   let client: ServiceClient;
 
   beforeEach(function() {
