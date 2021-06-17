@@ -2,17 +2,17 @@
 
 [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the client library for App Configuration to:
+- Use the client library for App Configuration to:
 
-- Create flexible key representations and mappings
-- Tag keys with labels
-- Replay settings from any point in time
-
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration) |
-[Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+  - Create flexible key representations and mappings
+  - Tag keys with labels
+  - Replay settings from any point in time
+- Key links
+  - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/)
+  - [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
+  - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration)
+  - [Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/)
+  - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples  )
 
 ## Getting started
 
