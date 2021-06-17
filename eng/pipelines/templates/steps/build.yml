@@ -68,11 +68,12 @@ steps:
       $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
       foreach ($artifact in $artifacts)
       {
-        Write-Host "Copying $($artifact.name) artifacts to $(Build.ArtifactStagingDirectory)/$($artifact.name)"
-        New-Item -Type Directory -Name $artifact.name -Path $(Build.ArtifactStagingDirectory)
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifact.name-*.tgz $(Build.ArtifactStagingDirectory)/$artifact.name
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifact.name-*.zip $(Build.ArtifactStagingDirectory)/$artifact.name
-        Copy-Item $(Build.ArtifactStagingDirectory)/Documentation/$artifact.name.zip $(Build.ArtifactStagingDirectory)/$artifact.name/documentation
+        $artifactName = $artifact.name
+        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
+        New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory)
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item $(Build.ArtifactStagingDirectory)/Documentation/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
       }
     displayName: 'Copy Packages'
 
