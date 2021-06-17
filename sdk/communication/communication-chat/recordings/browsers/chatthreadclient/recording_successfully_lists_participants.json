@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A5wh8PSs1rSodUxP0nBeGrcKMr4Ka72Cs9z3hN5akWEc1%40thread.v2/participants",
+   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2/participants",
    "query": {
     "api-version": "2021-04-05-preview6"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"communicationIdentifier\":{\"rawId\":\"8:acs:ac80d96a-85de-48b1-995d-a3a3fa3627c8_0000000a-b6f5-05a0-28c5-593a0d00b87d\",\"communicationUser\":{\"id\":\"8:acs:ac80d96a-85de-48b1-995d-a3a3fa3627c8_0000000a-b6f5-05a0-28c5-593a0d00b87d\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:ac80d96a-85de-48b1-995d-a3a3fa3627c8_0000000a-b6f5-05f1-28c5-593a0d00b87e\",\"communicationUser\":{\"id\":\"8:acs:ac80d96a-85de-48b1-995d-a3a3fa3627c8_0000000a-b6f5-05f1-28c5-593a0d00b87e\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:ac80d96a-85de-48b1-995d-a3a3fa3627c8_0000000a-b6f5-1778-28c5-593a0d00b884\",\"communicationUser\":{\"id\":\"8:acs:ac80d96a-85de-48b1-995d-a3a3fa3627c8_0000000a-b6f5-1778-28c5-593a0d00b884\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "response": "{\"value\":[{\"communicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1be3-2e7c-5b3a0d000549\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1be3-2e7c-5b3a0d000549\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1dbf-2e7c-5b3a0d00054a\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1dbf-2e7c-5b3a0d00054a\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-36a0-2e7c-5b3a0d00054b\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-36a0-2e7c-5b3a0d00054b\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f4cc3c6bd04fd6621cf0a53395745ca9"
+ "hash": "79a38c810c223a8b25e83ef1eef1419f"
 }
