@@ -21,7 +21,7 @@ const logger = credentialLogger("VisualStudioCodeCredential");
 let findCredentials: VSCodeCredentialFinder | undefined = undefined;
 
 export const vsCodeCredentialControl = {
-  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder) {
+  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
     findCredentials = finder;
   }
 };
