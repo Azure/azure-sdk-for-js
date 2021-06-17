@@ -87,6 +87,8 @@ jobs:
   steps:
   - template: /eng/pipelines/templates/steps/common.yml
 
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+
   - script: |
       node common/scripts/install-run-rush.js install
       node common/scripts/install-run-rush.js update --recheck
@@ -95,7 +97,9 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
     parameters:
       RepoName: azure-sdk-for-js
+      BaseBranchName: $(DefaultBranch)
       PRBranchName: automated-rush-update
       CommitMsg: "Automatic rush update recheck"
       PRTitle: "Automatic rush update"
+      PRBody: "Automatic rush update PR"
       PushArgs: "-f"
