@@ -2,15 +2,18 @@
 
 FarmBeats is a B2B PaaS offering from Microsoft that makes it easy for AgriFood companies to build intelligent digital agriculture solutions on Azure. FarmBeats allows users to acquire, aggregate, and process agricultural data from various sources (farm equipment, weather, satellite) without the need to invest in deep data engineering resources.  Customers can build SaaS solutions on top of FarmBeats and leverage first class support for model building to generate insights at scale.
 
-Use FarmBeats client library for JavaScript to do the following.
+- Use FarmBeats client library for JavaScript to do the following.
 
-- Create & update farmers, farms, fields, seasonal fields and boundaries.
-- Ingest satellite and weather data for areas of interest.
-- Ingest farm operations data covering tilling, planting, harvesting and application of farm inputs.
+  - Create & update farmers, farms, fields, seasonal fields and boundaries.
+  - Ingest satellite and weather data for areas of interest.
+  - Ingest farm operations data covering tilling, planting, harvesting and application of farm inputs.
 
-**Please rely heavily on the [service's documentation][product_documentation] and our [REST client docs][rest_client] to use this library**
-
-[Source code][source_code] | [Package (NPM)][npm] | [API reference documentation][ref_docs]| [Product documentation][product_documentation]
+- **Please rely heavily on the [service's documentation][product_documentation] and our [REST client docs][rest_client] to use this library**
+- Key links
+  - [Source code][source_code]
+  - [Package (NPM)][npm]
+  - [API reference documentation][ref_docs]
+  - [Product documentation][product_documentation]
 
 ## Getting started
 
