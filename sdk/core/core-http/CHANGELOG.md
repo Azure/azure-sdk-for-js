@@ -11,6 +11,7 @@
 ### Fixed
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+- Throttling retry policy respects abort signal [#15796](https://github.com/Azure/azure-sdk-for-js/issues/15796)
 
 ## 1.2.6 (2021-06-14)
 
