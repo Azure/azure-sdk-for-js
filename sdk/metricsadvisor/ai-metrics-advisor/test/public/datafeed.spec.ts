@@ -460,16 +460,16 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(result.value.length, 1, "Expecting one entry in second page");
         });
 
-        it("deletes an Azure Blob datafeed", async function() {
-          await verifyDataFeedDeletion(client, createdAzureBlobDataFeedId);
+        it("deletes an Azure Blob datafeed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAzureBlobDataFeedId);
         });
 
-        it("deletes an Azure Application Insights feed", async function() {
-          await verifyDataFeedDeletion(client, createdAppFeedId);
+        it("deletes an Azure Application Insights feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAppFeedId);
         });
 
-        it("deletes an Azure SQL Server feed", async function() {
-          await verifyDataFeedDeletion(client, createdSqlServerFeedId);
+        it("deletes an Azure SQL Server feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdSqlServerFeedId);
         });
 
         it("creates an Azure Cosmos DB Feed", async () => {
@@ -505,8 +505,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Cosmos DB", async function() {
-          await verifyDataFeedDeletion(client, createdCosmosFeedId);
+        it("deletes an Azure Cosmos DB", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdCosmosFeedId);
         });
 
         it("creates an Azure Data Explorer feed", async () => {
@@ -538,8 +538,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Data Explorer feed", async function() {
-          await verifyDataFeedDeletion(client, createdAzureDataExplorerFeedId);
+        it("deletes an Azure Data Explorer feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAzureDataExplorerFeedId);
         });
 
         it("creates an Azure Table feed", async () => {
@@ -570,8 +570,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Table feed", async function() {
-          await verifyDataFeedDeletion(client, createdAzureTableFeedId);
+        it("deletes an Azure Table feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAzureTableFeedId);
         });
 
         it("creates InfluxDB data feed", async () => {
@@ -605,8 +605,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes InfluxDB data feed", async function() {
-          await verifyDataFeedDeletion(client, createdInfluxFeedId);
+        it("deletes InfluxDB data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdInfluxFeedId);
         });
 
         it("creates MongoDB data feed", async () => {
@@ -640,8 +640,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes MongoDB data feed", async function() {
-          await verifyDataFeedDeletion(client, createdMongoDbFeedId);
+        it("deletes MongoDB data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdMongoDbFeedId);
         });
 
         it("creates MySQL data feed", async () => {
@@ -673,8 +673,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes MySQL data feed", async function() {
-          await verifyDataFeedDeletion(client, createdMySqlFeedId);
+        it("deletes MySQL data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdMySqlFeedId);
         });
 
         it("creates Datalake Gen 2 data feed", async () => {
@@ -708,8 +708,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Datalake Gen 2 data feed", async function() {
-          await verifyDataFeedDeletion(client, createdDataLakeGenId);
+        it("deletes Datalake Gen 2 data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
         });
 
         it.skip("creates Eventhubs data feed", async () => {
@@ -739,7 +739,7 @@ matrix([[true, false]] as const, async (useAad) => {
         });
 
         it.skip("deletes Eventhubs data feed", async function() {
-          await verifyDataFeedDeletion(client, createdEventhubsId);
+          await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 
         it("creates Log Analytics data feed", async () => {
@@ -774,8 +774,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Log Analytics data feed", async function() {
-          await verifyDataFeedDeletion(client, createdLogAnalyticsId);
+        it("deletes Log Analytics data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdLogAnalyticsId);
         });
 
         it("creates PostgreSQL data feed", async () => {
@@ -836,8 +836,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("deletes PostgreSQL data feed", async function() {
-          await verifyDataFeedDeletion(client, createdPostGreSqlId);
+        it("deletes PostgreSQL data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdPostGreSqlId);
         });
 
         it("creates Unknown data feed", async () => {
@@ -888,12 +888,12 @@ matrix([[true, false]] as const, async (useAad) => {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function verifyDataFeedDeletion(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  this: any,
+  context: Context,
   client: MetricsAdvisorAdministrationClient,
   createdDataFeedId: string
 ): Promise<void> {
   if (!createdDataFeedId) {
-    this.skip();
+    context.skip();
   }
 
   await client.deleteDataFeed(createdDataFeedId);

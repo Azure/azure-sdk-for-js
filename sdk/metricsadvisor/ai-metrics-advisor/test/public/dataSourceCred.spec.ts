@@ -240,40 +240,40 @@ describe("DataSourceCredential", () => {
       if (!createdSqlServerCredId) {
         this.skip();
       }
-      await verifyDatasourceCredentialDeletion(client, createdSqlServerCredId);
+      await verifyDatasourceCredentialDeletion(this, client, createdSqlServerCredId);
     });
 
     it("deletes datalake gen2 shared key datasource credential", async function(this: Context) {
       if (!createdDatalakeCredId) {
         this.skip();
       }
-      await verifyDatasourceCredentialDeletion(client, createdDatalakeCredId);
+      await verifyDatasourceCredentialDeletion(this, client, createdDatalakeCredId);
     });
 
     it("deletes service principal datasource credential", async function(this: Context) {
       if (!createdServicePrincipalCredId) {
         this.skip();
       }
-      await verifyDatasourceCredentialDeletion(client, createdServicePrincipalCredId);
+      await verifyDatasourceCredentialDeletion(this, client, createdServicePrincipalCredId);
     });
 
     it("deletes service principal in KeyVault datasource credential", async function(this: Context) {
       if (!createdServicePrincipalInKVCredId) {
         this.skip();
       }
-      await verifyDatasourceCredentialDeletion(client, createdServicePrincipalInKVCredId);
+      await verifyDatasourceCredentialDeletion(this, client, createdServicePrincipalInKVCredId);
     });
   });
 }).timeout(60000);
 
 export async function verifyDatasourceCredentialDeletion(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  this: any,
+  context: Context,
   client: MetricsAdvisorAdministrationClient,
   createdDatasourceCredentialId: string
 ): Promise<void> {
   if (!createdDatasourceCredentialId) {
-    this.skip();
+    context.skip();
   }
 
   await client.deleteDatasourceCredential(createdDatasourceCredentialId);
