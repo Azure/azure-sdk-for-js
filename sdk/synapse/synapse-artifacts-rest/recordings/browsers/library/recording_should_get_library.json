@@ -1,0 +1,52 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 17 Jun 2021 16:42:05 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11829.4 - SCUS ProdSlices",
+    "x-ms-request-id": "279a36dd-3cda-4a3a-b4ef-e8aba2bf9c00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName3.jar",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/libraries/testLibraryName3.jar\",\"name\":\"testLibraryName3.jar\",\"type\":\"Microsoft.Synapse/workspaces/libraries\",\"properties\":{\"name\":\"testLibraryName3.jar\",\"path\":\"xysynapsetest/libraries/testLibraryName3.jar\",\"containerName\":\"prep\",\"uploadedTimestamp\":\"2021-06-17T16:42:03.4063685+00:00\",\"type\":\"jar\",\"provisioningStatus\":\"Incomplete\",\"creatorId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\"},\"etag\":\"e0004817-0000-0800-0000-60cb7b5d0000\"}",
+   "responseHeaders": {
+    "content-length": "568",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 17 Jun 2021 16:42:05 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "ed1cf191-0bfb-4026-af82-c24b5cac1f4c"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "951c1003b24e21338b4f660b260fd5dd"
+}

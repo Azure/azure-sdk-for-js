@@ -1,0 +1,58 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 17 Jun 2021 16:42:02 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11829.4 - NCUS ProdSlices",
+    "x-ms-request-id": "dfb1e41b-f55f-472f-9b12-16f988c25200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/integrationRuntimes/AutoResolveIntegrationRuntime",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/integrationruntimes/AutoResolveIntegrationRuntime\",\"name\":\"AutoResolveIntegrationRuntime\",\"type\":\"Microsoft.Synapse/workspaces/integrationruntimes\",\"properties\":{\"type\":\"Managed\",\"typeProperties\":{\"computeProperties\":{\"location\":\"AutoResolve\"}},\"provisioningState\":null},\"etag\":\"3801cded-0000-0800-0000-5fa34e1b0000\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "453",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 17 Jun 2021 16:42:03 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-correlation-request-id": "aa7b1a15-d1b2-490f-95bd-a5a23396c944",
+    "x-ms-request-id": "3752fb1b-56ce-4b94-9b90-18f9fea6dc29",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "67fef57d73678edbb7d661541ced88e6"
+}

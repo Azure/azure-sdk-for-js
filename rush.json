@@ -617,6 +617,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/synapse-access-control",
       "projectFolder": "sdk/synapse/synapse-access-control",
       "versionPolicyName": "client"
@@ -626,9 +631,19 @@
       "projectFolder": "sdk/synapse/synapse-artifacts",
       "versionPolicyName": "client"
     },
+     {
+      "packageName": "@azure-rest/synapse-artifacts",
+      "projectFolder": "sdk/synapse/synapse-artifacts-rest",
+      "versionPolicyName": "client"
+    },
     {
       "packageName": "@azure/synapse-managed-private-endpoints",
       "projectFolder": "sdk/synapse/synapse-managed-private-endpoints",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/synapse-managed-private-endpoints",
+      "projectFolder": "sdk/synapse/synapse-managed-private-endpoints-rest",
       "versionPolicyName": "client"
     },
     {
@@ -636,9 +651,20 @@
       "projectFolder": "sdk/synapse/synapse-monitoring",
       "versionPolicyName": "client"
     },
+     {
+      "packageName": "@azure-rest/synapse-monitoring",
+      "projectFolder": "sdk/synapse/synapse-monitoring-rest",
+      "versionPolicyName": "client"
+    },
     {
       "packageName": "@azure/synapse-spark",
       "projectFolder": "sdk/synapse/synapse-spark",
+      "versionPolicyName": "client"
+    },
+
+    {
+      "packageName": "@azure-rest/synapse-spark",
+      "projectFolder": "sdk/synapse/synapse-spark-rest",
       "versionPolicyName": "client"
     },
     {
