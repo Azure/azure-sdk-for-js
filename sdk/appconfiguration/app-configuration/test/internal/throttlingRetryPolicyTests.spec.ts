@@ -228,6 +228,7 @@ describe("Should not retry forever - honors the abort signal passed", () => {
     const key = generateUuid();
     const numberOfSettings = 200;
     const promises = [];
+    let errorWasThrown = false;
     try {
       for (let index = 0; index < numberOfSettings; index++) {
         promises.push(
@@ -243,6 +244,10 @@ describe("Should not retry forever - honors the abort signal passed", () => {
         );
       }
       await Promise.all(promises);
-    } catch (_) {}
+    } catch (error) {
+      errorWasThrown = true;
+      chai.assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
+    }
+    chai.assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 });
