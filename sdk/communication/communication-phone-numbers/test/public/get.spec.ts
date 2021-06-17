@@ -37,7 +37,7 @@ matrix([[true, false]], async function(useAad) {
       try {
         await client.getPurchasedPhoneNumber(fake);
       } catch (error) {
-        assert.strictEqual(error.code, "PhoneNumberNotFound");
+        assert.strictEqual(error.code, "NotFound");
         assert.strictEqual(
           error.message,
           "The specified phone number +14155550100 cannot be found."
