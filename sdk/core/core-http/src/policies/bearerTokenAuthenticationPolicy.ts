@@ -241,7 +241,7 @@ export function bearerTokenAuthenticationPolicy(
 
     public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
       if (!webResource.url.toLowerCase().startsWith("https://")) {
-        throw Error(
+        throw new Error(
           "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
