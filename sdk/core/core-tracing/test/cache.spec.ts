@@ -5,7 +5,7 @@ import assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 
-const validOpenTelemetryVersions = ["1.0.0-rc1", "0.20.0"];
+const validOpenTelemetryVersions = ["0.20.0"];
 
 describe("cache", () => {
   const packageJson = JSON.parse(
