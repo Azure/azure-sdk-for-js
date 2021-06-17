@@ -10,7 +10,7 @@ import {
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
-import { delay } from "../util/utils";
+import { delay } from "@azure/core-util";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
@@ -25,6 +25,8 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
     }
   };
 }
+
+const StandardAbortMessage = "The operation was aborted.";
 
 /**
  * To learn more, please refer to
@@ -67,7 +69,9 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         retryAfterHeader
       );
       if (delayInMs) {
-        return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
+        await delay(delayInMs, httpRequest.abortSignal, StandardAbortMessage);
+        // await delay(delayInMs);
+        return await this._nextPolicy.sendRequest(httpRequest);
       }
     }
 

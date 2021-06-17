@@ -4,8 +4,10 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+
 // @public
-export function delay(timeInMs: number): Promise<void>;
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export const isNode: boolean;
