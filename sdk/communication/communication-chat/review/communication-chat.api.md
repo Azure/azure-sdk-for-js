@@ -233,11 +233,6 @@ export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RestSendTypingNotificationOptions {
-    senderDisplayName?: string;
-}
-
-// @public
 export interface SendChatMessageResult {
     id: string;
 }
@@ -263,7 +258,8 @@ export interface SendReadReceiptRequest {
 }
 
 // @public
-export interface SendTypingNotificationOptions extends RestSendTypingNotificationOptions, OperationOptions {
+export interface SendTypingNotificationOptions extends OperationOptions {
+    senderDisplayName?: string;
 }
 
 // @public

@@ -6,7 +6,6 @@ import {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
-  SendTypingNotificationRequest as RestSendTypingNotificationOptions,
   ChatMessageType
 } from "../generated/src/models";
 import { ChatParticipant } from "./models";
@@ -15,8 +14,7 @@ export {
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
-  RestListReadReceiptsOptions,
-  RestSendTypingNotificationOptions
+  RestListReadReceiptsOptions
 };
 
 /**
@@ -114,9 +112,10 @@ export type RemoveParticipantOptions = OperationOptions;
 /**
  * Options to send typing notifications.
  */
-export interface SendTypingNotificationOptions
-  extends RestSendTypingNotificationOptions,
-    OperationOptions {}
+export interface SendTypingNotificationOptions extends OperationOptions {
+  /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+}
 
 /**
  * Options to send read receipt.
