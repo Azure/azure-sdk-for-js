@@ -4,7 +4,9 @@ An internal support library for the various Azure Key Vault client libraries.
 
 This package contains common code that needs to be shared among the other Azure Key Vault libraries. It is not published to NPM and is not meant for usage by any other consumers.
 
-Azure Key Vault libraries that use this package:
+## Key Vault client libraries
+
+The following client libraries use this package:
 
 - [@azure/keyvault-admin](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/README.md)
 - [@azure/keyvault-certificates](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md)
@@ -13,19 +15,19 @@ Azure Key Vault libraries that use this package:
 
 ## Getting started
 
-For information on getting started, please see our Key Vault client libraries.
+For information on getting started, please see our [Key Vault client libraries](#key-vault-client-libraries).
 
 ## Key concepts
 
-For information on key concepts, please see our Key Vault client libraries.
+For information on key concepts, please see our [Key Vault client libraries](#key-vault-client-libraries).
 
 ## Examples
 
-For examples, please see our Key Vault client libraries.
+For examples, please see our [Key Vault client libraries](#key-vault-client-libraries).
 
 ## Next steps
 
-For information on next steps, please see our Key Vault client libraries.
+For information on next steps, please see our [Key Vault client libraries](#key-vault-client-libraries).
 
 ## Troubleshooting
 
