@@ -64,13 +64,17 @@ steps:
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  - ${{ each artifact in parameters.Artifacts }}:
-    - pwsh: |
-        New-Item -Type Directory -Name ${{artifact.name}} -Path $(Build.ArtifactStagingDirectory)
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/${{artifact.name}}-*.tgz $(Build.ArtifactStagingDirectory)/${{artifact.name}}
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/${{artifact.name}}-*.zip $(Build.ArtifactStagingDirectory)/${{artifact.name}}
-        Copy-Item $(Build.ArtifactStagingDirectory)/Documentation/${{artifact.name}}.zip $(Build.ArtifactStagingDirectory)/${{artifact.name}}/documentation
-      displayName: 'Copy Package ${{artifact.name}}'
+  - pwsh: |
+      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+      foreach ($artifact in $artifacts)
+      {
+        Write-Host "Copying $($artifact.name) artifacts to $(Build.ArtifactStagingDirectory)/$($artifact.name)"
+        New-Item -Type Directory -Name $artifact.name -Path $(Build.ArtifactStagingDirectory)
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifact.name-*.tgz $(Build.ArtifactStagingDirectory)/$artifact.name
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifact.name-*.zip $(Build.ArtifactStagingDirectory)/$artifact.name
+        Copy-Item $(Build.ArtifactStagingDirectory)/Documentation/$artifact.name.zip $(Build.ArtifactStagingDirectory)/$artifact.name/documentation
+      }
+    displayName: 'Copy Packages'
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
