@@ -1,11 +1,11 @@
 ## Azure SqlManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for SqlManagementClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for SqlManagementClient.
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
@@ -21,7 +21,6 @@ Install both packages using the below command:
 ```bash
 npm install --save @azure/arm-sql @azure/identity
 ```
-
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
 If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
@@ -37,7 +36,6 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
 Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
-
 #### nodejs - Authentication, client creation, and get recoverableDatabases as an example written in JavaScript.
 
 ##### Sample code
@@ -88,7 +86,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
       const credential = new InteractiveBrowserCredential(
       {
         clientId: "<client id for your Azure AD app>",
-        tenantId: "<optional tenant for your organization>"
+        tenant: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmSql.SqlManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
@@ -111,4 +109,4 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/.\sdk\sql\arm-sql\/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/sql/arm-sql/README.png)
