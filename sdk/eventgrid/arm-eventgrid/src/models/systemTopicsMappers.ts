@@ -53,7 +53,6 @@ export {
   PartnerNamespace,
   PartnerRegistration,
   PartnerTopic,
-  PartnerTopicType,
   PrivateEndpoint,
   PrivateEndpointConnection,
   Resource,

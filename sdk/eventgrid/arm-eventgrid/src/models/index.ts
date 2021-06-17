@@ -122,7 +122,7 @@ export interface InboundIpRule {
 export interface ResourceSku {
   /**
    * The Sku name of the resource. The possible values are: Basic or Premium. Possible values
-   * include: 'Basic', 'Premium'
+   * include: 'Basic', 'Premium'. Default value: 'Basic'.
    */
   name?: Sku;
 }
@@ -250,27 +250,60 @@ export interface TrackedResource extends Resource {
 }
 
 /**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
  * EventGrid Domain.
  */
 export interface Domain extends TrackedResource {
   /**
    * List of private endpoint connections.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
-   * Provisioning state of the domain. Possible values include: 'Creating', 'Updating', 'Deleting',
-   * 'Succeeded', 'Canceled', 'Failed'
+   * Provisioning state of the Event Grid Domain Resource. Possible values include: 'Creating',
+   * 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: DomainProvisioningState;
   /**
-   * Endpoint for the domain.
+   * Endpoint for the Event Grid Domain Resource which is used for publishing the events.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
   /**
    * This determines the format that Event Grid should expect for incoming events published to the
-   * domain. Possible values include: 'EventGridSchema', 'CustomEventSchema',
+   * Event Grid Domain Resource. Possible values include: 'EventGridSchema', 'CustomEventSchema',
    * 'CloudEventSchemaV1_0'. Default value: 'EventGridSchema'.
    */
   inputSchema?: InputSchema;
@@ -279,7 +312,7 @@ export interface Domain extends TrackedResource {
    */
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
-   * Metric resource id for the domain.
+   * Metric resource id for the Event Grid Domain Resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly metricResourceId?: string;
@@ -287,7 +320,7 @@ export interface Domain extends TrackedResource {
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
    * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -296,13 +329,56 @@ export interface Domain extends TrackedResource {
    */
   inboundIpRules?: InboundIpRule[];
   /**
-   * The Sku pricing tier for the domain.
+   * This boolean is used to enable or disable local auth. Default value is false. When the
+   * property is set to true, only AAD token will be used to authenticate if user is allowed to
+   * publish to the domain. Default value: false.
+   */
+  disableLocalAuth?: boolean;
+  /**
+   * This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics
+   * associated with this Event Grid Domain resource.
+   * In this context, creation of domain topic can be auto-managed (when true) or self-managed
+   * (when false). The default value for this property is true.
+   * When this property is null or set to true, Event Grid is responsible of automatically creating
+   * the domain topic when the first event subscription is
+   * created at the scope of the domain topic. If this property is set to false, then creating the
+   * first event subscription will require creating a domain topic
+   * by the user. The self-management mode can be used if the user wants full control of when the
+   * domain topic is created, while auto-managed mode provides the
+   * flexibility to perform less operations and manage fewer resources by the user. Also, note that
+   * in auto-managed creation mode, user is allowed to create the
+   * domain topic on demand if needed. Default value: true.
+   */
+  autoCreateTopicWithFirstSubscription?: boolean;
+  /**
+   * This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics
+   * associated with this Event Grid Domain resource.
+   * In this context, deletion of domain topic can be auto-managed (when true) or self-managed
+   * (when false). The default value for this property is true.
+   * When this property is set to true, Event Grid is responsible of automatically deleting the
+   * domain topic when the last event subscription at the scope
+   * of the domain topic is deleted. If this property is set to false, then the user needs to
+   * manually delete the domain topic when it is no longer needed
+   * (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The
+   * self-management mode can be used if the user wants full
+   * control of when the domain topic needs to be deleted, while auto-managed mode provides the
+   * flexibility to perform less operations and manage fewer
+   * resources by the user. Default value: true.
+   */
+  autoDeleteTopicWithLastSubscription?: boolean;
+  /**
+   * The Sku pricing tier for the Event Grid Domain resource.
    */
   sku?: ResourceSku;
   /**
-   * Identity information for the resource.
+   * Identity information for the Event Grid Domain resource.
    */
   identity?: IdentityInfo;
+  /**
+   * The system metadata relating to the Event Grid Domain resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -325,6 +401,44 @@ export interface DomainUpdateParameters {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
+  /**
+   * This boolean is used to enable or disable local auth. Default value is false. When the
+   * property is set to true, only AAD token will be used to authenticate if user is allowed to
+   * publish to the domain.
+   */
+  disableLocalAuth?: boolean;
+  /**
+   * This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics
+   * associated with this Event Grid Domain resource.
+   * In this context, creation of domain topic can be auto-managed (when true) or self-managed
+   * (when false). The default value for this property is true.
+   * When this property is null or set to true, Event Grid is responsible of automatically creating
+   * the domain topic when the first event subscription is
+   * created at the scope of the domain topic. If this property is set to false, then creating the
+   * first event subscription will require creating a domain topic
+   * by the user. The self-management mode can be used if the user wants full control of when the
+   * domain topic is created, while auto-managed mode provides the
+   * flexibility to perform less operations and manage fewer resources by the user. Also, note that
+   * in auto-managed creation mode, user is allowed to create the
+   * domain topic on demand if needed.
+   */
+  autoCreateTopicWithFirstSubscription?: boolean;
+  /**
+   * This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics
+   * associated with this Event Grid Domain resource.
+   * In this context, deletion of domain topic can be auto-managed (when true) or self-managed
+   * (when false). The default value for this property is true.
+   * When this property is set to true, Event Grid is responsible of automatically deleting the
+   * domain topic when the last event subscription at the scope
+   * of the domain topic is deleted. If this property is set to false, then the user needs to
+   * manually delete the domain topic when it is no longer needed
+   * (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The
+   * self-management mode can be used if the user wants full
+   * control of when the domain topic needs to be deleted, while auto-managed mode provides the
+   * flexibility to perform less operations and manage fewer
+   * resources by the user.
+   */
+  autoDeleteTopicWithLastSubscription?: boolean;
   /**
    * Identity information for the resource.
    */
@@ -366,8 +480,14 @@ export interface DomainTopic extends Resource {
   /**
    * Provisioning state of the domain topic. Possible values include: 'Creating', 'Updating',
    * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: DomainTopicProvisioningState;
+  readonly provisioningState?: DomainTopicProvisioningState;
+  /**
+   * The system metadata relating to Domain Topic resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -429,7 +549,7 @@ export interface AdvancedFilter {
 export interface EventChannelFilter {
   /**
    * Allows advanced filters to be evaluated against an array of values instead of expecting a
-   * singular value.
+   * singular value. The default value is either false or null. Default value: false.
    */
   enableAdvancedFilteringOnArrays?: boolean;
   /**
@@ -773,38 +893,6 @@ export interface IsNotNullAdvancedFilter {
 }
 
 /**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
  * Event Channel.
  */
 export interface EventChannel extends Resource {
@@ -847,7 +935,7 @@ export interface EventChannel extends Resource {
    */
   partnerTopicFriendlyDescription?: string;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Event Channel resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -942,11 +1030,11 @@ export interface EventSubscriptionFilter {
  */
 export interface RetryPolicy {
   /**
-   * Maximum number of delivery retry attempts for events.
+   * Maximum number of delivery retry attempts for events. Default value: 30.
    */
   maxDeliveryAttempts?: number;
   /**
-   * Time To Live (in minutes) for events.
+   * Time To Live (in minutes) for events. Default value: 1440.
    */
   eventTimeToLiveInMinutes?: number;
 }
@@ -1081,11 +1169,11 @@ export interface WebHookEventSubscriptionDestination {
    */
   readonly endpointBaseUrl?: string;
   /**
-   * Maximum number of events per batch.
+   * Maximum number of events per batch. Default value: 1.
    */
   maxEventsPerBatch?: number;
   /**
-   * Preferred batch size in Kilobytes.
+   * Preferred batch size in Kilobytes. Default value: 64.
    */
   preferredBatchSizeInKilobytes?: number;
   /**
@@ -1218,11 +1306,11 @@ export interface AzureFunctionEventSubscriptionDestination {
    */
   resourceId?: string;
   /**
-   * Maximum number of events per batch.
+   * Maximum number of events per batch. Default value: 1.
    */
   maxEventsPerBatch?: number;
   /**
-   * Preferred batch size in Kilobytes.
+   * Preferred batch size in Kilobytes. Default value: 64.
    */
   preferredBatchSizeInKilobytes?: number;
   /**
@@ -1274,7 +1362,8 @@ export interface EventSubscription extends Resource {
   expirationTimeUtc?: Date;
   /**
    * The event delivery schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
+   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'. Default value:
+   * 'EventGridSchema'.
    */
   eventDeliverySchema?: EventDeliverySchema;
   /**
@@ -1297,7 +1386,7 @@ export interface EventSubscription extends Resource {
    */
   deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Event Subscription resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1418,6 +1507,10 @@ export interface Operation {
    */
   origin?: string;
   /**
+   * This Boolean is used to determine if the operation is a data plane action or not.
+   */
+  isDataAction?: boolean;
+  /**
    * Properties of the operation
    */
   properties?: any;
@@ -1427,6 +1520,10 @@ export interface Operation {
  * EventGrid Partner Namespace.
  */
 export interface PartnerNamespace extends TrackedResource {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the partner namespace. Possible values include: 'Creating', 'Updating',
    * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
@@ -1445,7 +1542,25 @@ export interface PartnerNamespace extends TrackedResource {
    */
   readonly endpoint?: string;
   /**
-   * The system metadata relating to this resource.
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso
+   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceProperties.InboundIpRules"
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
+   * considered only if PublicNetworkAccess is enabled.
+   */
+  inboundIpRules?: InboundIpRule[];
+  /**
+   * This boolean is used to enable or disable local auth. Default value is false. When the
+   * property is set to true, only AAD token will be used to authenticate if user is allowed to
+   * publish to the partner namespace. Default value: false.
+   */
+  disableLocalAuth?: boolean;
+  /**
+   * The system metadata relating to Partner Namespace resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1459,6 +1574,24 @@ export interface PartnerNamespaceUpdateParameters {
    * Tags of the partner namespace.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso
+   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceUpdateParameterProperties.InboundIpRules"
+   * />. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
+   * considered only if PublicNetworkAccess is enabled.
+   */
+  inboundIpRules?: InboundIpRule[];
+  /**
+   * This boolean is used to enable or disable local auth. Default value is false. When the
+   * property is set to true, only AAD token will be used to authenticate if user is allowed to
+   * publish to the partner namespace.
+   */
+  disableLocalAuth?: boolean;
 }
 
 /**
@@ -1560,7 +1693,7 @@ export interface PartnerRegistration extends TrackedResource {
    */
   authorizedAzureSubscriptionIds?: string[];
   /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Partner Registration resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
@@ -1627,27 +1760,17 @@ export interface EventType extends Resource {
 }
 
 /**
- * Result of the List Partner Registration Event Types operation.
- */
-export interface PartnerRegistrationEventTypesListResult {
-  /**
-   * A collection of partner registration event types.
-   */
-  value?: EventType[];
-  /**
-   * A link for the next page of partner registration event types.
-   */
-  nextLink?: string;
-}
-
-/**
  * Properties of the Partner Topic update.
  */
 export interface PartnerTopicUpdateParameters {
   /**
-   * Tags of the partner topic.
+   * Tags of the Partner Topic resource.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * Identity information for the Partner Topic resource.
+   */
+  identity?: IdentityInfo;
 }
 
 /**
@@ -1683,58 +1806,14 @@ export interface PartnerTopic extends TrackedResource {
    */
   partnerTopicFriendlyDescription?: string;
   /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
-  /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to Partner Topic resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
-}
-
-/**
- * Properties of a partner topic type.
- */
-export interface PartnerTopicType extends Resource {
   /**
-   * Official name of the partner.
+   * Identity information for the Partner Topic resource.
    */
-  partnerName?: string;
-  /**
-   * Name of the partner topic type. This name should be unique among all partner topic types
-   * names.
-   */
-  topicTypeName?: string;
-  /**
-   * Display Name for the partner topic type.
-   */
-  displayName?: string;
-  /**
-   * Description of the partner topic type.
-   */
-  description?: string;
-  /**
-   * URI of the partner website that can be used by Azure customers to setup Event Grid
-   * integration on an event source.
-   */
-  setupUri?: string;
-  /**
-   * Status of whether the customer has authorized a partner to create partner topics
-   * in the customer's subscription. Possible values include: 'NotApplicable', 'NotAuthorized',
-   * 'Authorized'
-   */
-  authorizationState?: PartnerTopicTypeAuthorizationState;
-}
-
-/**
- * Result of the List Partner Topic Types operation.
- */
-export interface PartnerTopicTypesListResult {
-  /**
-   * A collection of partner topic types.
-   */
-  value?: PartnerTopicType[];
+  identity?: IdentityInfo;
 }
 
 /**
@@ -1783,14 +1862,14 @@ export interface SystemTopic extends TrackedResource {
    */
   readonly metricResourceId?: string;
   /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
-  /**
-   * The system metadata relating to this resource.
+   * The system metadata relating to System Topic resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+  /**
+   * Identity information for the resource.
+   */
+  identity?: IdentityInfo;
 }
 
 /**
@@ -1825,7 +1904,10 @@ export interface ExtendedLocation {
  * EventGrid Topic
  */
 export interface Topic extends TrackedResource {
-  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Canceled', 'Failed'
@@ -1858,7 +1940,7 @@ export interface Topic extends TrackedResource {
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
    * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -1866,6 +1948,12 @@ export interface Topic extends TrackedResource {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
+  /**
+   * This boolean is used to enable or disable local auth. Default value is false. When the
+   * property is set to true, only AAD token will be used to authenticate if user is allowed to
+   * publish to the topic. Default value: false.
+   */
+  disableLocalAuth?: boolean;
   /**
    * The Sku pricing tier for the topic.
    */
@@ -1882,6 +1970,11 @@ export interface Topic extends TrackedResource {
    * Extended location of the resource.
    */
   extendedLocation?: ExtendedLocation;
+  /**
+   * The system metadata relating to Topic resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -1889,11 +1982,11 @@ export interface Topic extends TrackedResource {
  */
 export interface TopicUpdateParameters {
   /**
-   * Tags of the resource.
+   * Tags of the Topic resource.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Resource identity information.
+   * Topic resource identity information.
    */
   identity?: IdentityInfo;
   /**
@@ -1908,6 +2001,12 @@ export interface TopicUpdateParameters {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
+  /**
+   * This boolean is used to enable or disable local auth. Default value is false. When the
+   * property is set to true, only AAD token will be used to authenticate if user is allowed to
+   * publish to the topic.
+   */
+  disableLocalAuth?: boolean;
   /**
    * The Sku pricing tier for the topic.
    */
@@ -3189,12 +3288,12 @@ export interface DomainsListResult extends Array<Domain> {
 
 /**
  * @interface
- * Result of the List Domain Topics operation
+ * Result of the List Domain Topics operation.
  * @extends Array<DomainTopic>
  */
 export interface DomainTopicsListResult extends Array<DomainTopic> {
   /**
-   * A link for the next page of domain topics
+   * A link for the next page of domain topics.
    */
   nextLink?: string;
 }
@@ -3397,6 +3496,14 @@ export type Sku = 'Basic' | 'Premium';
 export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
  * Defines values for DomainTopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
@@ -3420,14 +3527,6 @@ export type EventChannelProvisioningState = 'Creating' | 'Updating' | 'Deleting'
  * @enum {string}
  */
 export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByUser' | 'DeactivatedByUser' | 'DeletedByUser';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
@@ -3495,14 +3594,6 @@ export type PartnerTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting'
 export type PartnerTopicActivationState = 'NeverActivated' | 'Activated' | 'Deactivated';
 
 /**
- * Defines values for PartnerTopicTypeAuthorizationState.
- * Possible values include: 'NotApplicable', 'NotAuthorized', 'Authorized'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicTypeAuthorizationState = 'NotApplicable' | 'NotAuthorized' | 'Authorized';
-
-/**
  * Defines values for TopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
@@ -3536,35 +3627,35 @@ export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 
 
 /**
  * Defines values for ParentType.
- * Possible values include: 'topics', 'domains'
+ * Possible values include: 'topics', 'domains', 'partnerNamespaces'
  * @readonly
  * @enum {string}
  */
-export type ParentType = 'topics' | 'domains';
+export type ParentType = 'topics' | 'domains' | 'partnerNamespaces';
 
 /**
  * Defines values for ParentType1.
- * Possible values include: 'topics', 'domains'
+ * Possible values include: 'topics', 'domains', 'partnerNamespaces'
  * @readonly
  * @enum {string}
  */
-export type ParentType1 = 'topics' | 'domains';
+export type ParentType1 = 'topics' | 'domains' | 'partnerNamespaces';
 
 /**
  * Defines values for ParentType2.
- * Possible values include: 'topics', 'domains'
+ * Possible values include: 'topics', 'domains', 'partnerNamespaces'
  * @readonly
  * @enum {string}
  */
-export type ParentType2 = 'topics' | 'domains';
+export type ParentType2 = 'topics' | 'domains' | 'partnerNamespaces';
 
 /**
  * Defines values for ParentType3.
- * Possible values include: 'topics', 'domains'
+ * Possible values include: 'topics', 'domains', 'partnerNamespaces'
  * @readonly
  * @enum {string}
  */
-export type ParentType3 = 'topics' | 'domains';
+export type ParentType3 = 'topics' | 'domains' | 'partnerNamespaces';
 
 /**
  * Contains response data for the get operation.
@@ -5190,26 +5281,6 @@ export type PartnerRegistrationsListBySubscriptionResponse = PartnerRegistration
  * Contains response data for the listByResourceGroup operation.
  */
 export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PartnerRegistrationsListResponse = PartnerRegistrationsListResult & {
   /**
    * The underlying HTTP response.
    */
