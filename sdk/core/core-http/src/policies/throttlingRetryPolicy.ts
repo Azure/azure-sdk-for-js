@@ -70,7 +70,6 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       );
       if (delayInMs) {
         await delay(delayInMs, httpRequest.abortSignal, StandardAbortMessage);
-        // await delay(delayInMs);
         return await this._nextPolicy.sendRequest(httpRequest);
       }
     }
