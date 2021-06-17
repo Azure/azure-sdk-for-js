@@ -24,7 +24,7 @@ import { ClientSecretCredential } from "@azure/identity";
 // Once we move to a common folder, and after some refactoring,
 // we will be able to unit test the insides in detail.
 
-describe.only("Challenge based authentication tests", () => {
+describe("Challenge based authentication tests", () => {
   const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
