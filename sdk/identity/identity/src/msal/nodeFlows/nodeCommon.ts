@@ -46,7 +46,7 @@ let persistenceProvider:
  * @internal
  */
 export const msalNodeFlowCacheControl = {
-  set persistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>) {
+  setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>) {
     persistenceProvider = pluginProvider;
   }
 };

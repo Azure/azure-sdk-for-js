@@ -4,13 +4,10 @@
 
 ```ts
 
-// @public
-export type IdentityExtension = (context: unknown) => void;
+import { IdentityExtension } from '@azure/identity';
 
 // @public
-const vsCodeExtension: IdentityExtension;
-
-export default vsCodeExtension;
+export const vsCodeExtension: IdentityExtension;
 
 
 // (No @packageDocumentation comment for this package)

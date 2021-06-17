@@ -34,7 +34,7 @@ As of `@azure/identity` version 2.0.0, the Identity client library for JavaScrip
 
 ```typescript
 import { useIdentityExtension } from "@azure/identity";
-import vsCodeExtension from "@azure/identity-vscode";
+import { vsCodeExtension } from "@azure/identity-vscode";
 
 useIdentityExtension(vsCodeExtension);
 ```
@@ -53,7 +53,7 @@ Once the extension is registered, you can use `VisualStudioCodeCredential` in a 
 
 ```typescript
 import { useIdentityExtension, VisualStudioCodeCredential } from "@azure/identity";
-import vsCodeExtension from "@azure/identity-vscode";
+import { vsCodeExtension } from "@azure/identity-vscode";
 
 useIdentityExtension(vsCodeExtension);
 
@@ -75,7 +75,7 @@ You can also use `DefaultAzureCredential`, which will attempt to authenticate us
 
 ```typescript
 import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
-import vsCodeExtension from "@azure/identity-vscode";
+import { vsCodeExtension } from "@azure/identity-vscode";
 
 useIdentityExtension(vsCodeExtension);
 

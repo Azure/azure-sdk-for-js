@@ -36,5 +36,5 @@ import { createPersistenceCachePlugin } from "./provider";
 export const cachePersistenceExtension: IdentityExtension = (context) => {
   const { cachePluginControl } = context as AzureExtensionContext;
 
-  cachePluginControl.persistence = createPersistenceCachePlugin;
+  cachePluginControl.setPersistence(createPersistenceCachePlugin);
 };

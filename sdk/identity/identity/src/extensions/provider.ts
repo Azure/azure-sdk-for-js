@@ -14,16 +14,18 @@ export type IdentityExtension = (context: unknown) => void;
  * Extension context entries for controlling cache plugins.
  */
 export interface CachePluginControl {
-  persistence: (
-    options?: TokenCachePersistenceOptions
-  ) => Promise<import("@azure/msal-common").ICachePlugin>;
+  setPersistence(
+    persistenceFactory: (
+      options?: TokenCachePersistenceOptions
+    ) => Promise<import("@azure/msal-common").ICachePlugin>
+  ): void;
 }
 
 /**
  * Extension context entries for controlling VisualStudioCodeCredential.
  */
 export interface VisualStudioCodeCredentialControl {
-  vsCodeCredentialFinder: VSCodeCredentialFinder;
+  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
 }
 
 /**

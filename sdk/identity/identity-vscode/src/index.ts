@@ -40,5 +40,7 @@ const VSCodeServiceName = "VS Code Azure";
 export const vsCodeExtension: IdentityExtension = (context) => {
   const { vsCodeCredentialControl } = context as AzureExtensionContext;
 
-  vsCodeCredentialControl.vsCodeCredentialFinder = () => keytar.findCredentials(VSCodeServiceName);
+  vsCodeCredentialControl.setVsCodeCredentialFinder(() =>
+    keytar.findCredentials(VSCodeServiceName)
+  );
 };
