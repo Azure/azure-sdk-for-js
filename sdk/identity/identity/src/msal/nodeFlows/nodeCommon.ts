@@ -57,7 +57,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
-    this.azureRegion = options.regionalAuthority || process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
   }
 
   /**
