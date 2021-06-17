@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to create a custom `Pipeline` that the
+ * Demonstrates how to create a custom `Pipeline` that the
  * Storage Blob Container Client uses to change the API version used
  * when communicating with the service.
  *

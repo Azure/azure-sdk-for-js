@@ -14,7 +14,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                                 | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [createCustomPipeline.ts][createcustompipeline]                               | Demonstrates how to create a custom `Pipeline` that the Storage Blob Container Client uses to change the API version used when communicating with the service. This may be useful in environments like Azure Stack which supports an older version of Storage service than is officially supported by the Storage Blob SDK.                                                                                                                                                                                                                |
 | [receiveEventsUsingCheckpointStore.ts][receiveeventsusingcheckpointstore]     | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way. Checkpointing using a durable store allows your application to be more resilient. When you restart your application after a crash (or an intentional stop), your application can continue consuming events from where it last checkpointed.                                                                                                                |
 | [receiveEventsWithApiSpecificStorage.ts][receiveeventswithapispecificstorage] | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way. This sample uses the `createCustomPipeline` function to override the targetted version of the Storage service. Checkpointing using a durable store allows your application to be more resilient. When you restart your application after a crash (or an intentional stop), your application can continue consuming events from where it last checkpointed. |
 
@@ -58,20 +57,19 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/createCustomPipeline.ts
+node dist/receiveEventsUsingCheckpointStore.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/createCustomPipeline.js
+npx cross-env EVENT_HUB_CONNECTION_STRING="<event hub connection string>" EVENT_HUB_NAME="<event hub name>" EVENT_HUB_CONSUMER_GROUP="<event hub consumer group>" STORAGE_CONTAINER_URL="<storage container url>" STORAGE_ACCOUNT_NAME="<storage account name>" STORAGE_ACCOUNT_KEY="<storage account key>" node dist/receiveEventsUsingCheckpointStore.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[createcustompipeline]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/createCustomPipeline.ts
 [receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsUsingCheckpointStore.ts
 [receiveeventswithapispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsWithApiSpecificStorage.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob
