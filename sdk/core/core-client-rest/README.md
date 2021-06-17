@@ -14,6 +14,54 @@ This package is primarily used in generated code and not meant to be consumed di
 
 ## Key concepts
 
+### paginateResponse
+
+Paginate response is a helper function to handle pagination for the user. Given a response that contains a body with a link to the next page and an array with the current page of results, this helper returns a PagebleAsyncIterator that can be used to get all the items or page by page.
+
+In order to provide better typings, the library that consumes `paginateResponse` can wrap it providing additional types. For example a code generator may consume and export in the following way
+
+```typescript
+/**
+ * This is the wrapper function that would be exposed. It is hiding the Pagination Options because it can be
+ * obtained in the case of a generator from the Swagger definition or by a developer context knowledge in case of a
+ * hand written library.
+ */
+export function paginate<TReturn extends PathUncheckedResponse>(
+  client: Client,
+  initialResponse: TReturn
+): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[], {}> {
+  return paginateResponse<PaginateReturn<TReturn>>(client, initialResponse, {
+    // For example these values could come from the swagger
+    itemName: "items",
+    nextLinkName: "continuationLink",
+  });
+}
+
+// Helper type to extract the type of an array
+type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
+// Helper type to infer the Type of the paged elements from the response type
+// This type will be generated based on the swagger information for x-ms-pageable
+// specifically on the itemName property which indicates the property of the response
+// where the page items are found. The default value is `value`.
+// This type will allow us to provide stronly typed Iterator based on the response we get as second parameter
+export type PaginateReturn<TResult> = TResult extends {
+  body: { items: infer TPage };
+}
+  ? GetArrayType<TPage>
+  : Array<unknown>;
+
+// Usage
+const client = Client("https://example.org", new DefaultAzureCredentials());
+
+const response = client.path("/foo").get();
+const items = paginate(client, response);
+
+for await (const item of items) {
+  console.log(item.name);
+}
+```
+
 ## Examples
 
 Examples can be found in the `samples` folder.

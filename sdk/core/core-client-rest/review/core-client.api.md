@@ -65,10 +65,14 @@ export type HttpResponse = {
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
-// Warning: (ae-forgotten-export) The symbol "PaginateOptions" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface PaginateOptions {
+    itemName?: string;
+    nextLinkName?: string;
+}
+
 // @public (undocumented)
-export function paginate<TPath extends string, TReturn = Record<string, unknown>>(client: Client, path: TPath, paginateOptions?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[], {}>;
+export function paginateResponse<TReturn>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[], {}>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
