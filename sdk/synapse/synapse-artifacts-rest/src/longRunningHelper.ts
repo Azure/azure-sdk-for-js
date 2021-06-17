@@ -4,6 +4,9 @@ import { createGetLROState, LROPoller } from "./lro";
 import { LROPollerOptions } from "./lro/lroPoller";
 import { LRO, LROBody, LROState } from "./lro/models";
 
+/**
+ * Note: the contents of this file will live in @azure-rest/core-client
+ */
 export function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,

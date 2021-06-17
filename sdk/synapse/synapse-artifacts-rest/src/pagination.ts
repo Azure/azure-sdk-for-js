@@ -105,6 +105,10 @@ export function paginate<TPath extends keyof PageablePaths>(
   });
 }
 
+/**
+ * NOTE: !!!!! Everything below this line will be moved to @azure-rest/core-client. It is included here just for the purpose of this prototype
+ */
+
 interface PagingOptions {
   paginateOptions?: PaginateOptions;
   requestOptions?: RequestParameters;
