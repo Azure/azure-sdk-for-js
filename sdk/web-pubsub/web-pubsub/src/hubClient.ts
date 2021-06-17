@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  OperationOptions,
-  RestResponse,
-  RestError,
-  HttpRequestBody,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  PipelineOptions
-} from "@azure/core-http";
-import { AzureWebPubSubServiceRestAPI as GeneratedClient } from "./generated/azureWebPubSubServiceRestAPI";
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { InternalPipelineOptions, RestError, RequestBodyType } from "@azure/core-rest-pipeline";
+import { GeneratedClient } from "./generated/generatedClient";
 import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
 import normalizeSendToAllOptions from "./normalizeOptions";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { webPubSubAzureKeyCredentialPolicyFactory } from "./webPubSubCredentialPolicy";
+import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
@@ -56,7 +49,7 @@ export type JSONTypes = string | number | boolean | object;
 /**
  * Options for constructing a HubAdmin client.
  */
-export interface HubAdminClientOptions extends PipelineOptions {}
+export interface HubAdminClientOptions extends CommonClientOptions {}
 
 /**
  * Options for checking if a connection exists.
@@ -259,7 +252,7 @@ export class WebPubSubServiceClient {
       this.endpoint = parsedCs.endpoint;
       this.credential = parsedCs.credential;
       this.hubName = credsOrHubName as string;
-      this.clientOptions = hubNameOrOpts as PipelineOptions;
+      this.clientOptions = hubNameOrOpts as HubAdminClientOptions;
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
@@ -271,12 +264,8 @@ export class WebPubSubServiceClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      webPubSubAzureKeyCredentialPolicyFactory(this.credential)
-    );
-
-    this.client = new GeneratedClient(this.endpoint, pipeline);
+    this.client = new GeneratedClient(this.endpoint, internalPipelineOptions);
+    this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
   }
 
   /**
@@ -324,29 +313,26 @@ export class WebPubSubServiceClient {
    * @param message The text message to send
    * @param options Additional options
    */
-  public async sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
+  public async sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;
   /**
    * Broadcast a JSON message to all connections on this hub.
    *
    * @param message The JSON message to send
    * @param options Additional options
    */
-  public async sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<RestResponse>;
+  public async sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<void>;
   /**
    * Broadcast a binary message to all connections on this hub.
    *
    * @param message The message to send
    * @param options Additional options
    */
-  public async sendToAll(
-    message: HttpRequestBody,
-    options?: HubSendToAllOptions
-  ): Promise<RestResponse>;
+  public async sendToAll(message: RequestBodyType, options?: HubSendToAllOptions): Promise<void>;
 
   public async sendToAll(
-    message: HttpRequestBody | string,
+    message: RequestBodyType | JSONTypes,
     options: HubSendToAllOptions | HubSendTextToAllOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-sendToAll",
@@ -354,11 +340,12 @@ export class WebPubSubServiceClient {
     );
 
     const contentType = getContentTypeForMessage(message, updatedOptions);
+    const payload = contentType === "application/json" ? JSON.stringify(message) : message;
     try {
       return await this.client.webPubSub.sendToAll(
         this.hubName,
-        contentType as any,
-        contentType === "application/json" ? JSON.stringify(message) : message,
+        contentType,
+        payload,
         updatedOptions
       );
     } finally {
@@ -377,7 +364,7 @@ export class WebPubSubServiceClient {
     username: string,
     message: string,
     options: HubSendTextToUserOptions
-  ): Promise<RestResponse>;
+  ): Promise<void>;
 
   /**
    * Send a JSON message to a specific user
@@ -390,7 +377,7 @@ export class WebPubSubServiceClient {
     username: string,
     message: JSONTypes,
     options?: HubSendToUserOptions
-  ): Promise<RestResponse>;
+  ): Promise<void>;
 
   /**
    * Send a binary message to a specific user
@@ -401,24 +388,24 @@ export class WebPubSubServiceClient {
    */
   public async sendToUser(
     username: string,
-    message: HttpRequestBody,
+    message: RequestBodyType,
     options?: HubSendToUserOptions | HubSendTextToUserOptions
-  ): Promise<RestResponse>;
+  ): Promise<void>;
   public async sendToUser(
     username: string,
-    message: string | HttpRequestBody,
+    message: RequestBodyType | JSONTypes,
     options: HubSendToUserOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-sendToUser", options);
 
     const contentType = getContentTypeForMessage(message, updatedOptions);
-
+    const payload = contentType === "application/json" ? JSON.stringify(message) : message;
     try {
       return await this.client.webPubSub.sendToUser(
         this.hubName,
         username,
-        contentType as any,
-        contentType === "application/json" ? JSON.stringify(message) : message,
+        contentType,
+        payload,
         updatedOptions
       );
     } finally {
@@ -437,7 +424,7 @@ export class WebPubSubServiceClient {
     connectionId: string,
     message: string,
     options: HubSendTextToConnectionOptions
-  ): Promise<RestResponse>;
+  ): Promise<void>;
 
   /**
    * Send a binary message to a specific connection
@@ -450,7 +437,7 @@ export class WebPubSubServiceClient {
     connectionId: string,
     message: JSONTypes,
     options?: HubSendToConnectionOptions
-  ): Promise<RestResponse>;
+  ): Promise<void>;
 
   /**
    * Send a binary message to a specific connection
@@ -461,26 +448,27 @@ export class WebPubSubServiceClient {
    */
   public async sendToConnection(
     connectionId: string,
-    message: HttpRequestBody | JSONTypes,
+    message: RequestBodyType,
     options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions
-  ): Promise<RestResponse>;
+  ): Promise<void>;
   public async sendToConnection(
     connectionId: string,
-    message: string | HttpRequestBody,
+    message: RequestBodyType | JSONTypes,
     options: HubSendToConnectionOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-sendToConnection",
       options
     );
     const contentType = getContentTypeForMessage(message, updatedOptions);
+    const payload = contentType === "application/json" ? JSON.stringify(message) : message;
 
     try {
       return await this.client.webPubSub.sendToConnection(
         this.hubName,
         connectionId,
-        contentType as any,
-        contentType === "application/json" ? JSON.stringify(message) : message,
+        contentType,
+        payload,
         updatedOptions
       );
     } finally {
@@ -504,25 +492,30 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      const res = await this.client.webPubSub.connectionExists(
-        this.hubName,
-        connectionId,
-        updatedOptions
-      );
+      let rawResponse: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        rawResponse = rawResponse;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
 
-      if (res._response.status === 200) {
+      await this.client.webPubSub.connectionExists(this.hubName, connectionId, {
+        ...updatedOptions,
+        onResponse
+      });
+
+      if (rawResponse?.status === 200) {
         return true;
-      } else if (res._response.status === 404) {
+      } else if (rawResponse?.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(
-          res._response.bodyAsText!,
-          undefined,
-          res._response.status,
-          res._response.request,
-          res._response
-        );
+        throw new RestError(rawResponse?.bodyAsText!, {
+          statusCode: rawResponse?.status,
+          request: rawResponse?.request,
+          response: rawResponse
+        });
       }
     } finally {
       span.end();
@@ -538,7 +531,7 @@ export class WebPubSubServiceClient {
   public async closeConnection(
     connectionId: string,
     options: CloseConnectionOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-removeConnection",
       options
@@ -563,7 +556,7 @@ export class WebPubSubServiceClient {
   public async removeUserFromAllGroups(
     userId: string,
     options: CloseConnectionOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-removeUserFromAllGroups",
       options
@@ -590,20 +583,28 @@ export class WebPubSubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasGroup", options);
 
     try {
-      const res = await this.client.webPubSub.groupExists(this.hubName, groupName, updatedOptions);
+      let rawResponse: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        rawResponse = rawResponse;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
+      await this.client.webPubSub.groupExists(this.hubName, groupName, {
+        ...updatedOptions,
+        onResponse
+      });
 
-      if (res._response.status === 200) {
+      if (rawResponse?.status === 200) {
         return true;
-      } else if (res._response.status === 404) {
+      } else if (rawResponse?.status === 404) {
         return false;
       } else {
-        throw new RestError(
-          res._response.bodyAsText!,
-          undefined,
-          res._response.status,
-          res._response.request,
-          res._response
-        );
+        throw new RestError(rawResponse?.bodyAsText!, {
+          statusCode: rawResponse?.status,
+          request: rawResponse?.request,
+          response: rawResponse
+        });
       }
     } finally {
       span.end();
@@ -620,21 +621,29 @@ export class WebPubSubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
 
     try {
-      const res = await this.client.webPubSub.userExists(this.hubName, username, updatedOptions);
+      let rawResponse: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        rawResponse = rawResponse;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
+      await this.client.webPubSub.userExists(this.hubName, username, {
+        ...updatedOptions,
+        onResponse
+      });
 
-      if (res._response.status === 200) {
+      if (rawResponse?.status === 200) {
         return true;
-      } else if (res._response.status === 404) {
+      } else if (rawResponse?.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(
-          res._response.bodyAsText!,
-          undefined,
-          res._response.status,
-          res._response.request,
-          res._response
-        );
+        throw new RestError(rawResponse?.bodyAsText!, {
+          statusCode: rawResponse?.status,
+          request: rawResponse?.request,
+          response: rawResponse
+        });
       }
     } finally {
       span.end();

@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  OperationOptions,
-  RestResponse,
-  RestError,
-  HttpRequestBody,
-  PipelineOptions
-} from "@azure/core-http";
-import { AzureWebPubSubServiceRestAPI as GeneratedClient } from "./generated/azureWebPubSubServiceRestAPI";
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
+import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import normalizeSendToAllOptions from "./normalizeOptions";
 import { getContentTypeForMessage } from "./utils";
@@ -17,7 +12,7 @@ import { JSONTypes } from "./hubClient";
 /**
  * Options for constructing a GroupAdmin client.
  */
-export interface GroupAdminClientOptions extends PipelineOptions {}
+export interface GroupAdminClientOptions extends CommonClientOptions {}
 
 /**
  * Options for adding a connection to a group.
@@ -92,7 +87,7 @@ export interface WebPubSubGroup {
    * @param connectionId The connection id to add to this group
    * @param options Additional options
    */
-  addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<RestResponse>;
+  addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
 
   /**
    * Remove a specific connection from this group
@@ -100,10 +95,7 @@ export interface WebPubSubGroup {
    * @param connectionId The connection id to remove from this group
    * @param options Additional options
    */
-  removeConnection(
-    connectionId: string,
-    options?: GroupRemoveConnectionOptions
-  ): Promise<RestResponse>;
+  removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
 
   /**
    * Add a user to this group
@@ -111,7 +103,7 @@ export interface WebPubSubGroup {
    * @param username The user name to add
    * @param options Additional options
    */
-  addUser(username: string, options?: GroupAddUserOptions): Promise<RestResponse>;
+  addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
 
   /**
    * Check if a user is in this group
@@ -127,7 +119,7 @@ export interface WebPubSubGroup {
    * @param username The user name to remove
    * @param options Additional options
    */
-  removeUser(username: string, options?: GroupRemoveUserOptions): Promise<RestResponse>;
+  removeUser(username: string, options?: GroupRemoveUserOptions): Promise<void>;
 
   /**
    * Send a text message to every connection in this group
@@ -135,21 +127,21 @@ export interface WebPubSubGroup {
    * @param message The message to send
    * @param options Additional options
    */
-  sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
+  sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<void>;
   /**
    * Send a json message to every connection in this group
    *
    * @param message The message to send
    * @param options Additional options
    */
-  sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
+  sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<void>;
   /**
    * Send a binary message to every connection in this group
    *
    * @param message The binary message to send
    * @param options Additional options
    */
-  sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
+  sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
 }
 
 /**
@@ -196,28 +188,33 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   public async addConnection(
     connectionId: string,
     options: GroupAddConnectionOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-group-addConnection",
       options
     );
 
     try {
+      let rawResponse: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        rawResponse = rawResponse;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
       const res = await this.client.webPubSub.addConnectionToGroup(
         this.hubName,
         this.groupName,
         connectionId,
-        updatedOptions
+        { ...updatedOptions, onResponse }
       );
 
-      if (res._response.status === 404) {
-        throw new RestError(
-          `Connection id '${connectionId}' doesn't exist`,
-          undefined,
-          res._response.status,
-          res._response.request,
-          res._response
-        );
+      if (rawResponse?.status === 404) {
+        throw new RestError(`Connection id '${connectionId}' doesn't exist`, {
+          statusCode: rawResponse?.status,
+          request: rawResponse?.request,
+          response: rawResponse
+        });
       }
 
       return res;
@@ -235,7 +232,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   public async removeConnection(
     connectionId: string,
     options: GroupRemoveConnectionOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-group-removeConnection",
       options
@@ -261,7 +258,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    * @param username The user name to add
    * @param options Additional options
    */
-  public async addUser(username: string, options: GroupAddUserOptions = {}): Promise<RestResponse> {
+  public async addUser(username: string, options: GroupAddUserOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-addUser", options);
 
     try {
@@ -286,11 +283,18 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-hasUser", options);
 
     try {
+      let rawResponse: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        rawResponse = rawResponse;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
       const res = await this.client.webPubSub.userExistsInGroup(
         this.hubName,
         this.groupName,
         username,
-        updatedOptions
+        { ...updatedOptions, onResponse }
       );
 
       if (res._response.status === 200) {
@@ -299,13 +303,11 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(
-          res._response.bodyAsText!,
-          undefined,
-          res._response.status,
-          res._response.request,
-          res._response
-        );
+        throw new RestError(rawResponse?.bodyAsText!, {
+          statusCode: rawResponse?.status,
+          request: rawResponse?.request,
+          response: rawResponse
+        });
       }
     } finally {
       span.end();
@@ -318,10 +320,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    * @param username The user name to remove
    * @param options Additional options
    */
-  public async removeUser(
-    username: string,
-    options: GroupRemoveUserOptions = {}
-  ): Promise<RestResponse> {
+  public async removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
 
     try {
@@ -342,35 +341,26 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    * @param message The message to send
    * @param options Additional options
    */
-  public async sendToAll(
-    message: string,
-    options: GroupSendTextToAllOptions
-  ): Promise<RestResponse>;
+  public async sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<void>;
   /**
    * Send a json message to every connection in this group
    *
    * @param message The message to send
    * @param options Additional options
    */
-  public async sendToAll(
-    message: JSONTypes,
-    options?: GroupSendToAllOptions
-  ): Promise<RestResponse>;
+  public async sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<void>;
   /**
    * Send a binary message to every connection in this group
    *
    * @param message The binary message to send
    * @param options Additional options
    */
-  public async sendToAll(
-    message: HttpRequestBody,
-    options?: GroupSendToAllOptions
-  ): Promise<RestResponse>;
+  public async sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
 
   public async sendToAll(
-    message: string | HttpRequestBody,
+    message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-group-sendToAll",
@@ -383,7 +373,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       return await this.client.webPubSub.sendToGroup(
         this.hubName,
         this.groupName,
-        contentType as any,
+        contentType,
         contentType === "application/json" ? JSON.stringify(message) : message,
         updatedOptions
       );

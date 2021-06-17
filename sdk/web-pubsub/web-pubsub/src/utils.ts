@@ -1,6 +1,6 @@
-import { HttpRequestBody } from "@azure/core-http";
+import { RequestBodyType } from "@azure/core-rest-pipeline";
 
-function isHttpRequestBody(obj: unknown): obj is HttpRequestBody {
+function isRequestBody(obj: unknown): obj is RequestBodyType {
   return (
     typeof obj === "function" ||
     (typeof obj === "object" &&
@@ -20,7 +20,7 @@ export function getContentTypeForMessage(
       throw new TypeError("Message must be a string.");
     }
     return "text/plain";
-  } else if (isHttpRequestBody(message)) {
+  } else if (isRequestBody(message)) {
     return "application/octet-stream";
   } else {
     return "application/json";
