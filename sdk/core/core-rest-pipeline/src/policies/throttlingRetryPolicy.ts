@@ -3,12 +3,15 @@
 
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { delay } from "../util/helpers";
+import { delay } from "@azure/core-util";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * The programmatic identifier of the throttlingRetryPolicy.
  */
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+const StandardAbortMessage = "The operation was aborted.";
 
 /**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
@@ -32,7 +35,10 @@ export function throttlingRetryPolicy(): PipelinePolicy {
       if (retryAfterHeader) {
         const delayInMs = parseRetryAfterHeader(retryAfterHeader);
         if (delayInMs) {
-          await delay(delayInMs);
+          await delay(delayInMs, request.abortSignal, StandardAbortMessage);
+          if (request.abortSignal?.aborted) {
+            throw new AbortError(StandardAbortMessage);
+          }
           return next(request);
         }
       }

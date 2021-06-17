@@ -11,6 +11,7 @@ import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { delay } from "@azure/core-util";
+import { AbortError } from "@azure/abort-controller";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
@@ -70,6 +71,9 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       );
       if (delayInMs) {
         await delay(delayInMs, httpRequest.abortSignal, StandardAbortMessage);
+        if (httpRequest.abortSignal?.aborted) {
+          throw new AbortError(StandardAbortMessage);
+        }
         return await this._nextPolicy.sendRequest(httpRequest);
       }
     }
