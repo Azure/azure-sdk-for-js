@@ -3,8 +3,7 @@ import {
   handleSingleQuotesInUrlPath,
   isBrowser,
   maskAccessTokenInBrowserRecording,
-  maskAccessTokenInNockFixture,
-  sanitizeScopeUrl
+  maskAccessTokenInNockFixture
 } from "./utils";
 
 export const defaultCustomizationsForNodeRecordings = [
@@ -15,9 +14,7 @@ export const defaultCustomizationsForNodeRecordings = [
   // The following is the workaround we use in the recorder until nock fixes it.
   handleSingleQuotesInUrlPath,
   // Masks "access_token"s in the json response from the recording if any exists.
-  maskAccessTokenInNockFixture,
-  // Sanitizes the scope url in the request bodies to clean false positives in cred-scan reports
-  sanitizeScopeUrl
+  maskAccessTokenInNockFixture
 ];
 
 export const defaultCustomizationsForBrowserRecordings = [
