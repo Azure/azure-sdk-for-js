@@ -267,7 +267,6 @@ describe("DataSourceCredential", () => {
 }).timeout(60000);
 
 export async function verifyDatasourceCredentialDeletion(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   context: Context,
   client: MetricsAdvisorAdministrationClient,
   createdDatasourceCredentialId: string

@@ -885,9 +885,7 @@ matrix([[true, false]] as const, async (useAad) => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function verifyDataFeedDeletion(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   context: Context,
   client: MetricsAdvisorAdministrationClient,
   createdDataFeedId: string
