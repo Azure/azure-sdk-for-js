@@ -17,7 +17,7 @@ import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
 
 // The extension is the package's default export, so you may import and use it
 // as any name you like, and simply pass it to `useIdentityExtension`.
-import vsCodeExtension from "@azure/identity-vscode";
+import { vsCodeExtension } from "@azure/identity-vscode";
 useIdentityExtension(vsCodeExtension);
 
 export async function main() {

@@ -30,7 +30,10 @@ const isProduction = process.env.NODE_ENV === "production";
 // may also have other development environments. You can customize this logic to
 // suit your needs.
 if (!isProduction) {
-  useIdentityExtension(require("@azure/identity-vscode"));
+  const {
+    vsCodeExtension
+  } = require("@azure/identity-vscode") as typeof import("@azure/identity-vscode");
+  useIdentityExtension(vsCodeExtension);
 }
 
 export async function main() {

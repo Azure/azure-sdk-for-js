@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureExtensionContext, IdentityExtension } from "../../identity/src/extensions/provider";
+import { IdentityExtension } from "@azure/identity";
+
+import { AzureExtensionContext } from "../../identity/src/extensions/provider";
 
 import keytar from "keytar";
 
@@ -26,7 +28,7 @@ const VSCodeServiceName = "VS Code Azure";
  *
  * ```typescript
  * import { useIdentityExtension, VisualStudioCodeCredential } from "@azure/identity";
- * import vsCodeExtension from "@azure/identity-vscode";
+ * import { vsCodeExtension } from "@azure/identity-vscode";
  *
  * // Load the extension
  * useIdentityExtension(vsCodeExtension);
@@ -35,12 +37,8 @@ const VSCodeServiceName = "VS Code Azure";
  * const credential = new VisualStudioCodeCredential();
  * ```
  */
-const vsCodeExtension: IdentityExtension = (context) => {
+export const vsCodeExtension: IdentityExtension = (context) => {
   const { vsCodeCredentialControl } = context as AzureExtensionContext;
 
   vsCodeCredentialControl.vsCodeCredentialFinder = () => keytar.findCredentials(VSCodeServiceName);
 };
-
-export default vsCodeExtension;
-
-export { IdentityExtension };

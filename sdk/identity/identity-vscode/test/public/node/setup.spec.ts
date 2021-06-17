@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import extension from "../../../src";
+import { vsCodeExtension as extension } from "../../../src";
 
 import { useIdentityExtension } from "@azure/identity";
 
