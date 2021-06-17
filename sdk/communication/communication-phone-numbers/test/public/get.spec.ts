@@ -40,7 +40,7 @@ matrix([[true, false]], async function(useAad) {
         assert.strictEqual(error.code, "NotFound");
         assert.strictEqual(
           error.message,
-          "The specified phone number +14155550100 cannot be found."
+          "Input phone number +14155550100 cannot be found."
         );
       }
     });
