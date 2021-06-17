@@ -145,21 +145,6 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
   return true;
 }
 
-export function isIE(): boolean {
-  const sAgent = self.navigator.userAgent;
-  const Idx = sAgent.indexOf("MSIE");
-
-  // If IE, return version number.
-  if (Idx > 0) {
-    return true;
-  } else if (navigator.userAgent.match(/Trident\/7\./)) {
-    // IE 11
-    return true;
-  } else {
-    return false;
-  } // It is not IE
-}
-
 // Mock a Browser file with specified name and size
 export function getBrowserFile(name: string, size: number): File {
   const uint8Arr = new Uint8Array(size);

@@ -8,7 +8,7 @@ import {
   DEPENDENCY_MODE_DISABLED,
   DEPENDENCY_MODE_ENABLED,
   DEPENDENCY_MODE_TRY_FROM_EXPANDED
-} from "./constants";
+} from "./utils/constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
 import { URL } from "./utils/url";
