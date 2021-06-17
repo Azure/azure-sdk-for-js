@@ -39,9 +39,6 @@ known_content_issues:
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
 
-known_presence_issues:
-  - ["sdk/keyvault/keyvault-common/README.md",  "#15587"]
-
 package_indexing_exclusion_list:
   - "@azure/template"
   - "azure-sp"
