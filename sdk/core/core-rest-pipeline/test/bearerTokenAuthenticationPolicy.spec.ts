@@ -225,7 +225,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
 
   it("throws if the target URI doesn't start with 'https'", async () => {
     const expireDelayMs = defaultRefreshWindow + 5000;
-    let tokenExpiration = Date.now() + expireDelayMs;
+    const tokenExpiration = Date.now() + expireDelayMs;
     const credential = new MockRefreshAzureCredential(tokenExpiration);
 
     const request = createPipelineRequest({ url: "http://example.com" });
