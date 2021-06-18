@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
-  .query(false)
+  .query(true)
   .reply(404, {"error":{"code":"InternalError","message":"The server encountered an internal error."}}, [
   'Transfer-Encoding',
   'chunked',
