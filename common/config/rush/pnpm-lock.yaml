@@ -8444,7 +8444,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-jZqkkEeCPML2qMGYMR41TgxOWQ2nufOoiFiqYFjSmeZrDbhSeC5cfYg4BdGwDTxlolLgfYVnnkZ+Z68oWYg1uw==
+      integrity: sha512-hYJ2Lj/Ytr0bj0SwC6UlHWkmFFm7c0z9H5Caic14Cd9liyHs/6ae8yP+N+Rqd9PNV/JstbjHlcbtgpyH/hvZFA==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/attestation.tgz:
@@ -9998,7 +9998,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-l5HgHjbzO2yCSOUjphikP0boXBpKh2Lq6lEWArwGObOuBq2BC62Ds4tQ6fyIAENce479KMDEyY0iBdd/vceSVg==
+      integrity: sha512-OFIS+gx/7T0Bs3YObe7wv2MKfdGawdgRQ7UvRN6mQUYDCjkW37NpPdP8QoLCNQi1m3u0BwWf2HhuKEUhG/Y/Bw==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
