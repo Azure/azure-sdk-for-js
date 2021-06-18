@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
@@ -21,6 +20,7 @@ import {
   DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
   isNumber
 } from "../util/exponentialBackoffStrategy";
+import { delay } from "@azure/core-util";
 
 export function systemErrorRetryPolicy(
   retryCount?: number,
@@ -107,7 +107,7 @@ async function retry(
   if (shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, operationResponse, err)) {
     // If previous operation ended with an error and the policy allows a retry, do that
     try {
-      await utils.delay(retryData.retryInterval);
+      await delay(retryData.retryInterval);
       return policy._nextPolicy.sendRequest(request.clone());
     } catch (nestedErr) {
       return retry(policy, request, operationResponse, nestedErr, retryData);
