@@ -1,36 +1,36 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-  This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
-  of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
-
-  Checkpointing using a durable store allows your application to be more resilient. When you restart
-  your application after a crash (or an intentional stop), your application can continue consuming
-  events from where it last checkpointed.
-  
-  If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
-  to populate it before running this sample.
-
-  If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" from the event-hubs project
-  located here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts
-*/
+/**
+ * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions
+ * of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
+ *
+ * Checkpointing using a durable store allows your application to be more resilient. When you restart
+ * your application after a crash (or an intentional stop), your application can continue consuming
+ * events from where it last checkpointed.
+ */
 
 import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
 
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 
-const connectionString = "";
-const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
-const consumerGroup = "";
+const connectionString =
+  process.env["EVENT_HUB_CONNECTION_STRING"] || "<event-hub-connection-string>";
+const eventHubName = process.env["EVENT_HUB_NAME"] || "<eventHubName>";
+const consumerGroup =
+  process.env["EVENT_HUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
+const storageContainerUrl =
+  process.env["STORAGE_CONTAINER_URL"] ||
+  "https://<storageaccount>.blob.core.windows.net/<containername>";
+const storageAccountName = process.env["STORAGE_ACCOUNT_NAME"] || "<storageaccount>";
+const storageAccountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<key>";
 
 export async function main() {
   // this client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
-  const containerClient = new ContainerClient(storageConnectionString, containerName);
+  const storageCredential = new StorageSharedKeyCredential(storageAccountName, storageAccountKey);
+  const containerClient = new ContainerClient(storageContainerUrl, storageCredential);
 
   if (!(await containerClient.exists())) {
     await containerClient.create();
@@ -44,6 +44,10 @@ export async function main() {
     eventHubName,
     checkpointStore
   );
+
+  // The below code will set up your program to listen to events from your Event Hub instance.
+  // If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" from the event-hubs project
+  // located here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {

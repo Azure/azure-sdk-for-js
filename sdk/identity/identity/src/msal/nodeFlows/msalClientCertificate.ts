@@ -108,7 +108,8 @@ export class MsalClientCertificate extends MsalNode {
     try {
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,
-        correlationId: options.correlationId
+        correlationId: options.correlationId,
+        azureRegion: this.azureRegion
       });
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,

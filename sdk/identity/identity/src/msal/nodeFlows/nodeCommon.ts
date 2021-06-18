@@ -23,6 +23,7 @@ import {
   publicToMsal
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -31,6 +32,12 @@ import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
+  /**
+   * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
+   * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
+   * If the property is not specified, uses a non-regional authority endpoint.
+   */
+  regionalAuthority?: string;
 }
 
 /**
@@ -67,6 +74,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected clientId: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
+  protected azureRegion?: string;
 
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
@@ -82,6 +90,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       throw new Error(
         "Persistent token caching was requested, but no persistence provider was configured (do you need to use the `@azure/identity-cache-persistence` package?)"
       );
+    }
+
+    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+      this.azureRegion = "AUTO_DISCOVER";
     }
   }
 

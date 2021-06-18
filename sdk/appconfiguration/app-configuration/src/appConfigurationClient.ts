@@ -204,7 +204,6 @@ export class AppConfigurationClient {
         entity: keyValue,
         ...newOptions
       });
-
       return transformKeyValueResponse(originalResponse);
     });
   }
