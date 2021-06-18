@@ -76,7 +76,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.  If authentication cannot be performed at this time, this method may
+   * Authenticates with Azure Active Directory and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
