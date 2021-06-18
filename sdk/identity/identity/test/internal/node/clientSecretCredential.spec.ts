@@ -66,7 +66,7 @@ describe("ClientSecretCredential (internal)", function() {
       }
     );
 
-    // We'll abort since we only want to ensure the parameters are sent apporpriately.
+    // We'll abort since we only want to ensure the parameters are sent appropriately.
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
       abortSignal: controller.signal
@@ -79,9 +79,6 @@ describe("ClientSecretCredential (internal)", function() {
       // Nothing to do here.
     }
 
-    assert.equal(
-      doGetTokenSpy.getCall(0).args[0].azureRegion,
-      RegionalAuthority.AutoDiscoverRegion
-    );
+    assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
   });
 });

@@ -100,9 +100,6 @@ describe("ClientCertificateCredential (internal)", function() {
       // Nothing to do here.
     }
 
-    assert.equal(
-      doGetTokenSpy.getCall(0).args[0].azureRegion,
-      RegionalAuthority.AutoDiscoverRegion
-    );
+    assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
   });
 });

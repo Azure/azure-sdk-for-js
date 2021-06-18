@@ -20,6 +20,7 @@ import {
   msalToPublic,
   publicToMsal
 } from "../utils";
+import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -58,6 +59,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
     this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+      this.azureRegion = "AUTO_DISCOVER";
+    }
   }
 
   /**

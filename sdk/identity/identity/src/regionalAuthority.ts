@@ -6,109 +6,109 @@
  */
 export enum RegionalAuthority {
   /** Instructs MSAL to attempt to discover the region */
-  AutoDiscoverRegion = "AUTO_DISCOVER",
+  AutoDiscoverRegion = "AutoDiscoverRegion",
   /** Uses the {@link RegionalAuthority} for the Azure 'westus' region. */
-  USWestValue = "westus",
+  USWest = "westus",
   /** Uses the {@link RegionalAuthority} for the Azure 'westus2' region. */
-  USWest2Value = "westus2",
+  USWest2 = "westus2",
   /** Uses the {@link RegionalAuthority} for the Azure 'centralus' region. */
-  USCentralValue = "centralus",
+  USCentral = "centralus",
   /** Uses the {@link RegionalAuthority} for the Azure 'eastus' region. */
-  USEastValue = "eastus",
+  USEast = "eastus",
   /** Uses the {@link RegionalAuthority} for the Azure 'eastus2' region. */
-  USEast2Value = "eastus2",
+  USEast2 = "eastus2",
   /** Uses the {@link RegionalAuthority} for the Azure 'northcentralus' region. */
-  USNorthCentralValue = "northcentralus",
+  USNorthCentral = "northcentralus",
   /** Uses the {@link RegionalAuthority} for the Azure 'southcentralus' region. */
-  USSouthCentralValue = "southcentralus",
+  USSouthCentral = "southcentralus",
   /** Uses the {@link RegionalAuthority} for the Azure 'westcentralus' region. */
-  USWestCentralValue = "westcentralus",
+  USWestCentral = "westcentralus",
   /** Uses the {@link RegionalAuthority} for the Azure 'canadacentral' region. */
-  CanadaCentralValue = "canadacentral",
+  CanadaCentral = "canadacentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'canadaeast' region. */
-  CanadaEastValue = "canadaeast",
+  CanadaEast = "canadaeast",
   /** Uses the {@link RegionalAuthority} for the Azure 'brazilsouth' region. */
-  BrazilSouthValue = "brazilsouth",
+  BrazilSouth = "brazilsouth",
   /** Uses the {@link RegionalAuthority} for the Azure 'northeurope' region. */
-  EuropeNorthValue = "northeurope",
+  EuropeNorth = "northeurope",
   /** Uses the {@link RegionalAuthority} for the Azure 'westeurope' region. */
-  EuropeWestValue = "westeurope",
+  EuropeWest = "westeurope",
   /** Uses the {@link RegionalAuthority} for the Azure 'uksouth' region. */
-  UKSouthValue = "uksouth",
+  UKSouth = "uksouth",
   /** Uses the {@link RegionalAuthority} for the Azure 'ukwest' region. */
-  UKWestValue = "ukwest",
+  UKWest = "ukwest",
   /** Uses the {@link RegionalAuthority} for the Azure 'francecentral' region. */
-  FranceCentralValue = "francecentral",
+  FranceCentral = "francecentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'francesouth' region. */
-  FranceSouthValue = "francesouth",
+  FranceSouth = "francesouth",
   /** Uses the {@link RegionalAuthority} for the Azure 'switzerlandnorth' region. */
-  SwitzerlandNorthValue = "switzerlandnorth",
+  SwitzerlandNorth = "switzerlandnorth",
   /** Uses the {@link RegionalAuthority} for the Azure 'switzerlandwest' region. */
-  SwitzerlandWestValue = "switzerlandwest",
+  SwitzerlandWest = "switzerlandwest",
   /** Uses the {@link RegionalAuthority} for the Azure 'germanynorth' region. */
-  GermanyNorthValue = "germanynorth",
+  GermanyNorth = "germanynorth",
   /** Uses the {@link RegionalAuthority} for the Azure 'germanywestcentral' region. */
-  GermanyWestCentralValue = "germanywestcentral",
+  GermanyWestCentral = "germanywestcentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'norwaywest' region. */
-  NorwayWestValue = "norwaywest",
+  NorwayWest = "norwaywest",
   /** Uses the {@link RegionalAuthority} for the Azure 'norwayeast' region. */
-  NorwayEastValue = "norwayeast",
+  NorwayEast = "norwayeast",
   /** Uses the {@link RegionalAuthority} for the Azure 'eastasia' region. */
-  AsiaEastValue = "eastasia",
+  AsiaEast = "eastasia",
   /** Uses the {@link RegionalAuthority} for the Azure 'southeastasia' region. */
-  AsiaSouthEastValue = "southeastasia",
+  AsiaSouthEast = "southeastasia",
   /** Uses the {@link RegionalAuthority} for the Azure 'japaneast' region. */
-  JapanEastValue = "japaneast",
+  JapanEast = "japaneast",
   /** Uses the {@link RegionalAuthority} for the Azure 'japanwest' region. */
-  JapanWestValue = "japanwest",
+  JapanWest = "japanwest",
   /** Uses the {@link RegionalAuthority} for the Azure 'australiaeast' region. */
-  AustraliaEastValue = "australiaeast",
+  AustraliaEast = "australiaeast",
   /** Uses the {@link RegionalAuthority} for the Azure 'australiasoutheast' region. */
-  AustraliaSouthEastValue = "australiasoutheast",
+  AustraliaSouthEast = "australiasoutheast",
   /** Uses the {@link RegionalAuthority} for the Azure 'australiacentral' region. */
-  AustraliaCentralValue = "australiacentral",
+  AustraliaCentral = "australiacentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'australiacentral2' region. */
-  AustraliaCentral2Value = "australiacentral2",
+  AustraliaCentral2 = "australiacentral2",
   /** Uses the {@link RegionalAuthority} for the Azure 'centralindia' region. */
-  IndiaCentralValue = "centralindia",
+  IndiaCentral = "centralindia",
   /** Uses the {@link RegionalAuthority} for the Azure 'southindia' region. */
-  IndiaSouthValue = "southindia",
+  IndiaSouth = "southindia",
   /** Uses the {@link RegionalAuthority} for the Azure 'westindia' region. */
-  IndiaWestValue = "westindia",
+  IndiaWest = "westindia",
   /** Uses the {@link RegionalAuthority} for the Azure 'koreasouth' region. */
-  KoreaSouthValue = "koreasouth",
+  KoreaSouth = "koreasouth",
   /** Uses the {@link RegionalAuthority} for the Azure 'koreacentral' region. */
-  KoreaCentralValue = "koreacentral",
+  KoreaCentral = "koreacentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'uaecentral' region. */
-  UAECentralValue = "uaecentral",
+  UAECentral = "uaecentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'uaenorth' region. */
-  UAENorthValue = "uaenorth",
+  UAENorth = "uaenorth",
   /** Uses the {@link RegionalAuthority} for the Azure 'southafricanorth' region. */
-  SouthAfricaNorthValue = "southafricanorth",
+  SouthAfricaNorth = "southafricanorth",
   /** Uses the {@link RegionalAuthority} for the Azure 'southafricawest' region. */
-  SouthAfricaWestValue = "southafricawest",
+  SouthAfricaWest = "southafricawest",
   /** Uses the {@link RegionalAuthority} for the Azure 'chinanorth' region. */
-  ChinaNorthValue = "chinanorth",
+  ChinaNorth = "chinanorth",
   /** Uses the {@link RegionalAuthority} for the Azure 'chinaeast' region. */
-  ChinaEastValue = "chinaeast",
+  ChinaEast = "chinaeast",
   /** Uses the {@link RegionalAuthority} for the Azure 'chinanorth2' region. */
-  ChinaNorth2Value = "chinanorth2",
+  ChinaNorth2 = "chinanorth2",
   /** Uses the {@link RegionalAuthority} for the Azure 'chinaeast2' region. */
-  ChinaEast2Value = "chinaeast2",
+  ChinaEast2 = "chinaeast2",
   /** Uses the {@link RegionalAuthority} for the Azure 'germanycentral' region. */
-  GermanyCentralValue = "germanycentral",
+  GermanyCentral = "germanycentral",
   /** Uses the {@link RegionalAuthority} for the Azure 'germanynortheast' region. */
-  GermanyNorthEastValue = "germanynortheast",
+  GermanyNorthEast = "germanynortheast",
   /** Uses the {@link RegionalAuthority} for the Azure 'usgovvirginia' region. */
-  GovernmentUSVirginiaValue = "usgovvirginia",
+  GovernmentUSVirginia = "usgovvirginia",
   /** Uses the {@link RegionalAuthority} for the Azure 'usgoviowa' region. */
-  GovernmentUSIowaValue = "usgoviowa",
+  GovernmentUSIowa = "usgoviowa",
   /** Uses the {@link RegionalAuthority} for the Azure 'usgovarizona' region. */
-  GovernmentUSArizonaValue = "usgovarizona",
+  GovernmentUSArizona = "usgovarizona",
   /** Uses the {@link RegionalAuthority} for the Azure 'usgovtexas' region. */
-  GovernmentUSTexasValue = "usgovtexas",
+  GovernmentUSTexas = "usgovtexas",
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodeast' region. */
-  GovernmentUSDodEastValue = "usdodeast",
+  GovernmentUSDodEast = "usdodeast",
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodcentral' region. */
-  GovernmentUSDodCentralValue = "usdodcentral"
+  GovernmentUSDodCentral = "usdodcentral"
 }
