@@ -6,9 +6,4 @@ import { TokenCredentialOptions } from "../client/identityClient";
 /**
  * Optional parameters for the {@link ClientSecretCredential} class.
  */
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
-  /**
-   * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
-   */
-  allowMultiTenantAuthentication?: boolean;
-}
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions {}

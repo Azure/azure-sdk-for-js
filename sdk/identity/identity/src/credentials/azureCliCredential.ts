@@ -8,6 +8,8 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
+import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
+import { validateMultiTenantRequest } from "./managedIdentityCredential/utils";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -64,6 +66,19 @@ const logger = credentialLogger("AzureCliCredential");
  * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
+  private tenantId?: string;
+  private allowMultiTenantAuthentication: boolean = false;
+
+  /**
+   * Creates an instance of the {@link AzureCliCredential}.
+   *
+   * @param options - Options, to optionally allow multi-tenant requests.
+   */
+  constructor(options?: AzureCliCredentialOptions) {
+    this.tenantId = options?.tenantId;
+    this.allowMultiTenantAuthentication = Boolean(options?.allowMultiTenantAuthentication);
+  }
+
   /**
    * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
@@ -81,6 +96,7 @@ export class AzureCliCredential implements TokenCredential {
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
 
+    validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
     ensureValidScope(scope, logger);
     const resource = getScopeResource(scope);
 

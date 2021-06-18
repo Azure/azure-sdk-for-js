@@ -28,7 +28,7 @@ import { validateMultiTenantRequest } from "../../credentials/managedIdentityCre
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCredentialOptions: TokenCredentialOptions;
-  allowMultiTenantAuthentication?: Boolean;
+  allowMultiTenantAuthentication?: boolean;
 }
 
 /**

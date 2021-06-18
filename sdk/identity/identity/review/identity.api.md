@@ -58,8 +58,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
 // @public
 export interface AuthorizationCodeCredentialOptions extends TokenCredentialOptions {
-    allowMultiTenantAuthentication?: boolean;
-    tenantId?: string;
 }
 
 // @public
@@ -72,13 +70,22 @@ export enum AzureAuthorityHosts {
 
 // @public
 export class AzureCliCredential implements TokenCredential {
+    constructor(options?: AzureCliCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface AzureCliCredentialOptions extends TokenCredentialOptions {
+    allowMultiTenantAuthentication?: boolean;
+    tenantId?: string;
 }
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
+    // Warning: (ae-forgotten-export) The symbol "AzurePowerShellCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
+    }
 
 // @public
 export type BrowserLoginStyle = "redirect" | "popup";
@@ -98,7 +105,6 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
-    allowMultiTenantAuthentication?: boolean;
     sendCertificateChain?: boolean;
 }
 
@@ -110,7 +116,6 @@ export class ClientSecretCredential implements TokenCredential {
 
 // @public
 export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
-    allowMultiTenantAuthentication?: boolean;
 }
 
 // @public
@@ -220,7 +225,6 @@ export class ManagedIdentityCredential implements TokenCredential {
 
 // @public
 export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
-    allowMultiTenantAuthentication?: boolean;
     tenantId?: string;
 }
 
@@ -231,6 +235,7 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {
+    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 

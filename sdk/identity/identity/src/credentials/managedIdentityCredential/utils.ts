@@ -55,8 +55,13 @@ export function validateMultiTenantRequest(
   allowMultiTenantAuthentication: boolean,
   tenantId?: string,
   getTokenOptions?: GetTokenOptions
-) {
-  if (!allowMultiTenantAuthentication && getTokenOptions && getTokenOptions.tenantId !== tenantId) {
+): void {
+  if (
+    !allowMultiTenantAuthentication &&
+    getTokenOptions &&
+    tenantId &&
+    getTokenOptions.tenantId !== tenantId
+  ) {
     throw new Error(
       "Multi-tenant authentication was attempted, but multi-tenant authentication was not enabled in this credential instance."
     );
