@@ -23,7 +23,7 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   IngestionStatus,
   DataFeedGranularity,
-  DataFeed,
+  MetricsAdvisorDataFeed,
   DataFeedPatch,
   WebNotificationHook,
   EmailNotificationHook,
@@ -137,7 +137,7 @@ export interface ListDataFeedsOptions extends OperationOptions {
  * describes the input to Create Data Feed operation
  */
 export type DataFeedDescriptor = Omit<
-  DataFeed,
+  MetricsAdvisorDataFeed,
   "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn"
 >;
 
@@ -307,7 +307,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getDataFeedById(id, requestOptions);
-      const resultDataFeed: DataFeed = fromServiceDataFeedDetailUnion(result);
+      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return { ...resultDataFeed, _response: result._response };
     } catch (e) {
       span.setStatus({
@@ -374,7 +374,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public listDataFeeds(
     options: ListDataFeedsOptions = {}
-  ): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse> {
+  ): PagedAsyncIterableIterator<MetricsAdvisorDataFeed, DataFeedsPageResponse> {
     const iter = this.listItemsOfDataFeeds(options);
     return {
       /**
@@ -403,7 +403,7 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
-  ): AsyncIterableIterator<DataFeed> {
+  ): AsyncIterableIterator<MetricsAdvisorDataFeed> {
     for await (const segment of this.listSegmentsOfDataFeeds(options)) {
       if (segment) {
         yield* segment;
@@ -512,7 +512,7 @@ export class MetricsAdvisorAdministrationClient {
         actionLinkTemplate: patch.actionLinkTemplate
       };
       const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
-      const resultDataFeed: DataFeed = fromServiceDataFeedDetailUnion(result);
+      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return { ...resultDataFeed, _response: result._response };
     } catch (e) {
       span.setStatus({

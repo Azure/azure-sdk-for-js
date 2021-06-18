@@ -239,35 +239,13 @@ export interface CredentialsPageResponse extends Array<DataSourceCredentialEntit
 }
 
 // @public
-export type DataFeed = {
-    id: string;
-    name: string;
-    createdOn: Date;
-    status: DataFeedStatus;
-    isAdmin: boolean;
-    creator: string;
-    source: DataFeedSource;
-    schema: DataFeedSchema;
-    metricIds: Record<string, string>;
-    granularity: DataFeedGranularity;
-    ingestionSettings: DataFeedIngestionSettings;
-    description?: string;
-    rollupSettings?: DataFeedRollupSettings;
-    missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
-    accessMode?: DataFeedAccessMode;
-    adminEmails?: string[];
-    viewerEmails?: string[];
-    actionLinkTemplate?: string;
-};
-
-// @public
 export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
 export type DataFeedAutoRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 
 // @public
-export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
+export type DataFeedDescriptor = Omit<MetricsAdvisorDataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
 export type DataFeedDetailStatus = "Active" | "Paused";
@@ -364,7 +342,7 @@ export type DataFeedSourcePatch = Partial<DataFeedSource> & {
 };
 
 // @public
-export interface DataFeedsPageResponse extends Array<DataFeed> {
+export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
     continuationToken?: string;
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -583,7 +561,7 @@ export type GetAlertConfigResponse = AnomalyAlertConfiguration & {
 };
 
 // @public
-export type GetDataFeedResponse = DataFeed & {
+export type GetDataFeedResponse = MetricsAdvisorDataFeed & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -1007,7 +985,7 @@ export class MetricsAdvisorAdministrationClient {
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
-    listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse>;
+    listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<MetricsAdvisorDataFeed, DataFeedsPageResponse>;
     listDataSourceCredential(options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse>;
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
@@ -1047,6 +1025,28 @@ export class MetricsAdvisorClient {
 // @public
 export interface MetricsAdvisorClientOptions extends PipelineOptions {
 }
+
+// @public
+export type MetricsAdvisorDataFeed = {
+    id: string;
+    name: string;
+    createdOn: Date;
+    status: DataFeedStatus;
+    isAdmin: boolean;
+    creator: string;
+    source: DataFeedSource;
+    schema: DataFeedSchema;
+    metricIds: Record<string, string>;
+    granularity: DataFeedGranularity;
+    ingestionSettings: DataFeedIngestionSettings;
+    description?: string;
+    rollupSettings?: DataFeedRollupSettings;
+    missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+    accessMode?: DataFeedAccessMode;
+    adminEmails?: string[];
+    viewerEmails?: string[];
+    actionLinkTemplate?: string;
+};
 
 // @public
 export class MetricsAdvisorKeyCredential {

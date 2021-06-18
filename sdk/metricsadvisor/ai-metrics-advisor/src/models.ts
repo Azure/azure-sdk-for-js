@@ -194,7 +194,7 @@ export type DataFeedStatus = "Paused" | "Active";
 /**
  * Represents a Metrics Advisor data feed.
  */
-export type DataFeed = {
+export type MetricsAdvisorDataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -1656,7 +1656,7 @@ export interface MetricEnrichedSeriesData {
 /**
  * Contains response data for the getDataFeed operation.
  */
-export type GetDataFeedResponse = DataFeed & {
+export type GetDataFeedResponse = MetricsAdvisorDataFeed & {
   /**
    * The underlying HTTP response.
    */
@@ -1976,7 +1976,7 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
 /**
  * Contains response data for the listDataFeeds operation.
  */
-export interface DataFeedsPageResponse extends Array<DataFeed> {
+export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
