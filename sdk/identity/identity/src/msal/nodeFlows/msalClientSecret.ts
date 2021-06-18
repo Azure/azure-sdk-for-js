@@ -31,7 +31,8 @@ export class MsalClientSecret extends MsalNode {
     try {
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,
-        correlationId: options.correlationId
+        correlationId: options.correlationId,
+        azureRegion: this.azureRegion
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
