@@ -534,7 +534,9 @@ The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface.
 
 In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://docs.microsoft.com/javascript/api/@azure/core-auth/accesstoken) and returns that from its implementation of `getToken()`.
 
-> You'll need to install the [@azure/core-auth][core_auth] package for this sample.
+**Prerequisites**
+
+Install the [@azure/core-auth][core_auth] package.
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -580,7 +582,9 @@ Some applications already use the [@azure/msal-node][msal_node_npm] or [@azure/m
 
 In this example, the [ConfidentialClientApplicationCredential](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md) is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
 
-You'll need to install the [@azure/msal-node][msal_node_npm] and the the [@azure/core-auth][core_auth] package for this sample.
+**Prerequisites**
+
+Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
 
 > For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
 > For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
@@ -627,7 +631,9 @@ Currently, the `@azure/identity` library doesn't provide a credential type for c
 
 In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token that can authenticate client requests.
 
-You'll need to install the [@azure/msal-node][msal_node_npm] and the the [@azure/core-auth][core_auth] package for this sample.
+**Prerequisites**
+
+Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
 
 > For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
 > For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
@@ -681,16 +687,18 @@ async function main() {
 
 While `@azure/identity` provides some browser support, for users that need the complete feature set offered by `@azure/msal-browser`, it's possible to implement a `TokenCredential` on top of MSAL's public API for the browsers.
 
-You'll need to install the [@azure/msal-browser][msal_browser_npm] and the the [@azure/core-auth][core_auth] package for this sample.
-
-> For more information about MSAL for browsers, see [the README of the `@azure/msal-browser` package][msal_browser_readme].
-
 For this example, you'll define a `BrowserCredential` class with the following methods:
 
 - `getToken` &mdash; Will use the Silent Authentication flow, retrieving the account from memory to prevent unnecessary redirections.
 - `prepare` &mdash; Will try either to check if the account has previously authenticated or to parse the redirection URI values if present.
 - `hasAuthenticated` &mdash; Can be used to determine if the authentication has taken place.
 - `loginRedirect` &mdash; If called, this method triggers the authentication via redirection.
+
+**Prerequisites**
+
+Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth].  
+
+> For more information about MSAL for browsers, see [the README of the `@azure/msal-browser` package][msal_browser_readme].
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -806,7 +814,9 @@ However, if an application wants to roll this certificate without creating new s
 
 If the application gets notified of certificate rotations and can directly respond, it might choose to wrap the `ClientCertificateCredential` in a custom credential which provides a means for rotating the certificate.
 
-> You'll need to install the [@azure/core-auth][core_auth] package for this sample.
+**Prerequisites**
+
+Install the [@azure/core-auth][core_auth] package.
 
 ```ts
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
