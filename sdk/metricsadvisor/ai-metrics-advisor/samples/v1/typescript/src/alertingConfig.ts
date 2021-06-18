@@ -65,7 +65,7 @@ async function createAlertConfig(
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          dimensionAnomalyScope: { city: "Manila", category: "Handmade" }
+          seriesGroupInScope: { city: "Manila", category: "Handmade" }
         }
       }
     ],
@@ -100,7 +100,7 @@ async function updateAlertConfig(
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          dimensionAnomalyScope: {
+          seriesGroupInScope: {
             city: "Kolkata",
             category: "Shoes Handbags & Sunglasses"
           }

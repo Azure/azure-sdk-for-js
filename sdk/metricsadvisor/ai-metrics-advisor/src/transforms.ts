@@ -57,7 +57,7 @@ import {
   MetricChangePointFeedback,
   MetricCommentFeedback,
   MetricPeriodFeedback,
-  DataFeed,
+  MetricsAdvisorDataFeed,
   AzureBlobDataFeedSource,
   AzureDataExplorerDataFeedSource,
   NotificationHookUnion,
@@ -106,7 +106,7 @@ export function fromServiceAnomalyDetectionConfiguration(
         changeThresholdCondition
       } = c;
       return {
-        group: group.dimension,
+        groupKey: group.dimension,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
@@ -122,7 +122,7 @@ export function fromServiceAnomalyDetectionConfiguration(
         changeThresholdCondition
       } = c;
       return {
-        series: series.dimension,
+        seriesKey: series.dimension,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
@@ -142,14 +142,14 @@ export function toServiceAnomalyDetectionConfiguration(
     wholeMetricConfiguration: from.wholeSeriesDetectionCondition,
     dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions?.map((c) => {
       const {
-        group,
+        groupKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        group: { dimension: group },
+        group: { dimension: groupKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -158,14 +158,14 @@ export function toServiceAnomalyDetectionConfiguration(
     }),
     seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
       const {
-        series,
+        seriesKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        series: { dimension: series },
+        series: { dimension: seriesKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -184,14 +184,14 @@ export function toServiceAnomalyDetectionConfigurationPatch(
     wholeMetricConfiguration: from.wholeSeriesDetectionCondition,
     dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions?.map((c) => {
       const {
-        group,
+        groupKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        group: { dimension: group },
+        group: { dimension: groupKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -200,14 +200,14 @@ export function toServiceAnomalyDetectionConfigurationPatch(
     }),
     seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
       const {
-        series,
+        seriesKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        series: { dimension: series },
+        series: { dimension: seriesKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -885,7 +885,9 @@ export function toServiceDataFeedSourcePatch(
   }
 }
 
-export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUnion): DataFeed {
+export function fromServiceDataFeedDetailUnion(
+  original: ServiceDataFeedDetailUnion
+): MetricsAdvisorDataFeed {
   const metricMap: Record<string, string> = {};
   for (const metric of original.metrics) {
     metricMap[metric.name] = metric.id!;
@@ -931,7 +933,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
       const orig = original as ServiceAzureApplicationInsightsDataFeed;
-      const result1: DataFeed = {
+      const result1: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
@@ -964,7 +966,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         container: orig2.dataSourceParameter.container,
         ...auth
       };
-      const result2: DataFeed = {
+      const result2: MetricsAdvisorDataFeed = {
         ...common,
         source
       };
@@ -972,7 +974,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "AzureCosmosDB": {
       const orig3 = original as ServiceAzureCosmosDBDataFeed;
-      const result3: DataFeed = {
+      const result3: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureCosmosDB",
@@ -1009,7 +1011,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         query: orig4.dataSourceParameter.query,
         ...auth
       };
-      const result4: DataFeed = {
+      const result4: MetricsAdvisorDataFeed = {
         ...common,
         source
       };
@@ -1042,7 +1044,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         fileTemplate: orig5.dataSourceParameter.fileTemplate,
         ...auth
       };
-      const result5: DataFeed = {
+      const result5: MetricsAdvisorDataFeed = {
         ...common,
         source
       };
@@ -1050,7 +1052,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "AzureTable": {
       const orig6 = original as ServiceAzureTableDataFeed;
-      const result6: DataFeed = {
+      const result6: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureTable",
@@ -1064,7 +1066,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "InfluxDB": {
       const orig8 = original as ServiceInfluxDBDataFeed;
-      const result8: DataFeed = {
+      const result8: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "InfluxDB",
@@ -1080,7 +1082,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "MongoDB": {
       const orig9 = original as ServiceMongoDBDataFeed;
-      const result9: DataFeed = {
+      const result9: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "MongoDB",
@@ -1094,7 +1096,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "MySql": {
       const orig10 = original as ServiceMySqlDataFeed;
-      const result10: DataFeed = {
+      const result10: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "MySql",
@@ -1107,7 +1109,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "PostgreSql": {
       const orig11 = original as ServicePostgreSqlDataFeed;
-      const result11: DataFeed = {
+      const result11: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "PostgreSql",
@@ -1152,7 +1154,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
       }
-      const result12: DataFeed = {
+      const result12: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "SqlServer",
@@ -1164,7 +1166,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "AzureEventHubs": {
       const orig13 = original as ServiceAzureEventHubsDataFeed;
-      const result13: DataFeed = {
+      const result13: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureEventHubs",
@@ -1177,7 +1179,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "AzureLogAnalytics": {
       const orig14 = original as ServiceAzureLogAnalyticsDataFeed;
-      const result14: DataFeed = {
+      const result14: MetricsAdvisorDataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureLogAnalytics",
@@ -1301,7 +1303,7 @@ export function fromServiceAlertConfiguration(
         c.anomalyScopeType === "All"
           ? { scopeType: "All" }
           : c.anomalyScopeType === "Dimension"
-          ? { scopeType: "Dimension", dimensionAnomalyScope: c.dimensionAnomalyScope!.dimension }
+          ? { scopeType: "Dimension", seriesGroupInScope: c.dimensionAnomalyScope!.dimension }
           : { scopeType: "TopN", topNAnomalyScope: c.topNAnomalyScope! };
       return {
         detectionConfigurationId: c.anomalyDetectionConfigurationId,
@@ -1333,7 +1335,7 @@ export function toServiceAlertConfiguration(
           : c.alertScope.scopeType === "Dimension"
           ? {
               anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.dimensionAnomalyScope }
+              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope }
             }
           : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {
@@ -1366,7 +1368,7 @@ export function toServiceAlertConfigurationPatch(
           : c.alertScope.scopeType === "Dimension"
           ? {
               anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.dimensionAnomalyScope }
+              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope }
             }
           : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {

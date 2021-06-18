@@ -51,7 +51,7 @@ export interface MetricsAdvisorClientOptions extends PipelineOptions {}
  */
 export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
   /** Dimension Filter */
-  dimensionFilter?: DimensionKey[]; // lifted
+  seriesGroupKeys?: DimensionKey[]; // lifted
 }
 
 /**
@@ -66,7 +66,7 @@ export interface ListAnomaliesForDetectionConfigurationOptions extends Operation
   /** Number of items to skip */
   skip?: number;
   /** Dimension Filter */
-  dimensionFilter?: DimensionKey[];
+  seriesGroupKeys?: DimensionKey[];
   /** Severity Filter */
   severityFilter?: SeverityFilterCondition;
 }
@@ -93,7 +93,7 @@ export interface ListIncidentsForAlertOptions extends OperationOptions {
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
   /** Number of items to skip */
   skip?: number;
-  dimensionFilter?: DimensionKey;
+  seriesGroupKey?: DimensionKey;
 }
 
 /**
@@ -106,7 +106,7 @@ export interface ListFeedbackOptions extends OperationOptions {
    * filter when listing feedbacks
    */
   filter?: {
-    dimensionFilter?: DimensionKey;
+    dimensionKey?: DimensionKey;
     /**
      * filter feedbacks by type
      */
@@ -813,7 +813,7 @@ export class MetricsAdvisorClient {
     );
     const results = result.value.map((d) => {
       return {
-        series: d.series.dimension,
+        seriesKey: d.series.dimension,
         timestamps: d.timestampList,
         values: d.valueList,
         expectedValues: d.expectedValueList,
@@ -846,9 +846,9 @@ export class MetricsAdvisorClient {
       startTime: startTime,
       endTime: endTime,
       filter:
-        options.dimensionFilter || options.severityFilter
+        options.seriesGroupKeys || options.severityFilter
           ? {
-              dimensionFilter: options.dimensionFilter?.map((d) => {
+              dimensionFilter: options.seriesGroupKeys?.map((d) => {
                 return { dimension: d };
               }),
               severityFilter: options.severityFilter
@@ -1051,7 +1051,7 @@ export class MetricsAdvisorClient {
     let segmentResponse;
     const optionsBody = {
       ...options,
-      dimensionFilter: options.dimensionFilter ? { dimension: options.dimensionFilter } : undefined,
+      dimensionFilter: options.seriesGroupKey ? { dimension: options.seriesGroupKey } : undefined,
       startTime,
       endTime,
       dimensionName
@@ -1237,7 +1237,7 @@ export class MetricsAdvisorClient {
       startTime: startTime,
       endTime: endTime,
       filter: {
-        dimensionFilter: options.dimensionFilter?.map((d) => {
+        dimensionFilter: options.seriesGroupKeys?.map((d) => {
           return { dimension: d };
         })
       }
@@ -1560,8 +1560,8 @@ export class MetricsAdvisorClient {
         : options.filter?.endTime;
     const optionsBody = {
       metricId,
-      dimensionFilter: options.filter?.dimensionFilter
-        ? { dimension: options.filter?.dimensionFilter }
+      dimensionFilter: options.filter?.dimensionKey
+        ? { dimension: options.filter?.dimensionKey }
         : undefined,
       feedbackType: options.filter?.feedbackType,
       startTime,
@@ -1734,7 +1734,7 @@ export class MetricsAdvisorClient {
     const resultArray =
       result.value?.map((s) => {
         return {
-          definition: { metricId: s.id!.metricId!, dimension: s.id!.dimension! },
+          definition: { metricId: s.id!.metricId!, seriesKey: s.id!.dimension! },
           timestamps: s.timestampList,
           values: s.valueList
         };
@@ -1767,7 +1767,7 @@ export class MetricsAdvisorClient {
       const definitions = segmentResponse.value?.map((d) => {
         return {
           metricId: d.metricId!,
-          dimension: d.dimension!
+          seriesKey: d.dimension!
         };
       });
       const resultArray = Object.defineProperty(definitions || [], "continuationToken", {
@@ -1793,7 +1793,7 @@ export class MetricsAdvisorClient {
       const definitions = segmentResponse.value?.map((d) => {
         return {
           metricId: d.metricId!,
-          dimension: d.dimension!
+          seriesKey: d.dimension!
         };
       });
       const resultArray = Object.defineProperty(definitions || [], "continuationToken", {

@@ -77,7 +77,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
-      dimensionFilter: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
+      seriesGroupKeys: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
     }
   );
   for await (const incident of listIterator) {

@@ -113,9 +113,9 @@ const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credent
 
 `MetricsAdvisorAdministrationClient` is the interface responsible for managing entities in the Metrics Advisor resources, such as managing data feeds, anomaly detection configurations, anomaly alerting configurations.
 
-### DataFeed
+### Data Feed
 
-A `DataFeed` is what Metrics Advisor ingests from your data source, such as Cosmos DB or a SQL server. A data feed contains rows of:
+A data feed is what Metrics Advisor ingests from your data source, such as Cosmos DB or a SQL server. A data feed contains rows of:
 
 - timestamps
 - zero or more dimensions
@@ -123,7 +123,7 @@ A `DataFeed` is what Metrics Advisor ingests from your data source, such as Cosm
 
 ### Metric
 
-A `Metric` is a quantifiable measure that is used to monitor and assess the status of a specific business process. It can be a combination of multiple time series values divided into dimensions. For example a web health metric might contain dimensions for user count and the en-us market.
+A metric is a quantifiable measure that is used to monitor and assess the status of a specific business process. It can be a combination of multiple time series values divided into dimensions. For example a web health metric might contain dimensions for user count and the en-us market.
 
 ### AnomalyDetectionConfiguration
 
@@ -131,15 +131,15 @@ A `Metric` is a quantifiable measure that is used to monitor and assess the stat
 
 ### Anomaly & Incident
 
-After a detection configuration is applied to metrics, `Incident`s are generated whenever any series within it has an `Anomaly`.
+After a detection configuration is applied to metrics, `AnomalyIncident`s are generated whenever any series within it has an `DataPointAnomaly`.
 
 ### Alert
 
-You can configure which anomalies should trigger an `Alert`. You can set multiple alerts with different settings. For example, you could create an alert for anomalies with lower business impact, and another for more important alerts.
+You can configure which anomalies should trigger an `AnomalyAlert`. You can set multiple alerts with different settings. For example, you could create an alert for anomalies with lower business impact, and another for more important alerts.
 
 ### Hook
 
-Metrics Advisor lets you create and subscribe to real-time alerts. These alerts are sent over the internet, using a `Hook`.
+Metrics Advisor lets you create and subscribe to real-time alerts. These alerts are sent over the internet, using a notification hook.
 
 Please refer to [the Metrics Advisory Glossary][metrics_advisor_glossary] documentation page for a comprehensive list of concepts.
 
@@ -465,7 +465,7 @@ async function queryAnomaliesByAlert(client, alert) {
   const iterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of iterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey} ${anomaly.timestamp}`
     );
   }
 }

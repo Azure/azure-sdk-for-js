@@ -46,7 +46,7 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
 
     for (const enriched of result) {
       console.log("enriched series:");
-      console.log(enriched.series);
+      console.log(enriched.seriesKey);
       if (enriched.timestamps && enriched.timestamps.length > 0) {
         for (let i = 0; i < enriched.timestamps.length; i++) {
           console.log("  ----");

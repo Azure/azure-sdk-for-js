@@ -194,7 +194,7 @@ export type DataFeedStatus = "Paused" | "Active";
 /**
  * Represents a Metrics Advisor data feed.
  */
-export type DataFeed = {
+export type MetricsAdvisorDataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -861,7 +861,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the group of time series
    */
-  group: DimensionKey;
+  groupKey: DimensionKey;
 };
 
 /**
@@ -871,7 +871,7 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the time series
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
 };
 
 /**
@@ -1337,7 +1337,7 @@ export type MetricAnomalyAlertScope =
       /**
        * dimension scope
        */
-      dimensionAnomalyScope: DimensionKey;
+      seriesGroupInScope: DimensionKey;
     }
   | {
       scopeType: "TopN";
@@ -1592,7 +1592,7 @@ export interface MetricSeriesDefinition {
   /**
    * identifies a time series
    */
-  dimension: Record<string, string>;
+  seriesKey: Record<string, string>;
 }
 
 /**
@@ -1620,7 +1620,7 @@ export interface MetricEnrichedSeriesData {
   /**
    * identifies the time series.
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * timestamp list
    */
@@ -1656,7 +1656,7 @@ export interface MetricEnrichedSeriesData {
 /**
  * Contains response data for the getDataFeed operation.
  */
-export type GetDataFeedResponse = DataFeed & {
+export type GetDataFeedResponse = MetricsAdvisorDataFeed & {
   /**
    * The underlying HTTP response.
    */
@@ -1696,7 +1696,7 @@ export type GetDetectionConfigResponse = AnomalyDetectionConfiguration & {
 /**
  * Contains response data for the getAnomalyAlertConfiguration operation.
  */
-export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
+export type GetAlertConfigResponse = AnomalyAlertConfiguration & {
   /**
    * The underlying HTTP response.
    */
@@ -1976,7 +1976,7 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
 /**
  * Contains response data for the listDataFeeds operation.
  */
-export interface DataFeedsPageResponse extends Array<DataFeed> {
+export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
