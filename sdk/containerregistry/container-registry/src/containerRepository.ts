@@ -18,7 +18,7 @@ import {
 } from "./models";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
 import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
-import { extractNextLink } from "./utils";
+import { extractNextLink } from "./utils/helpers";
 
 /**
  * Options for delete repository operation.
@@ -87,14 +87,43 @@ export interface ContainerRepository {
     options: UpdateRepositoryPropertiesOptions
   ): Promise<ContainerRepositoryProperties>;
   /**
-   * Iterates manifests.
+   * Returns an async iterable iterator to list manifest properties.
    *
-   * Example usage:
-   * ```ts
-   * const client = new ContainerRegistryClient(url, credentials);
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
    * const repository = client.getRepository(repositoryName)
    * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = repository.listManifestProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("manifest properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = repository.listManifestProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const manifestProperties of page.value) {
+   *      console.log(`  manifest properties: ${manifestProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
@@ -151,7 +180,7 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Returns an instance of RegistryArtifact.
+   * Returns an instance of {@link RegistryArtifact} that interacts with a container registry artifact.
    * @param tagOrDigest - the tag or digest of the artifact
    */
   public getArtifact(tagOrDigest: string): RegistryArtifact {
@@ -210,14 +239,43 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Iterates manifests.
+   * Returns an async iterable iterator to list manifest properties.
    *
-   * Example usage:
-   * ```ts
-   * const client = new ContainerRegistryClient(url, credentials);
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
    * const repository = client.getRepository(repositoryName)
    * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = repository.listManifestProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("manifest properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = repository.listManifestProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const manifestProperties of page.value) {
+   *      console.log(`  manifest properties: ${manifestProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
