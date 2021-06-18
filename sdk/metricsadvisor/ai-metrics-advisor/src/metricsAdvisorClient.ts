@@ -711,7 +711,7 @@ export class MetricsAdvisorClient {
    * ```js
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const incidentList = client.listIncidents(anomalyAlert);
+   * const incidentList = client.listIncidentsForAlert(anomalyAlert);
    * let i = 1;
    * for await (const incident of incidentList){
    *   console.log(`incident ${i++}:`);
@@ -722,7 +722,7 @@ export class MetricsAdvisorClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listIncidents(anomalyAlert);
+   * let iter = client.listIncidentsForAlert(anomalyAlert);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` incident - ${result.value.id}`);
@@ -734,7 +734,7 @@ export class MetricsAdvisorClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listIncidents(anomalyAlert).byPage({ maxPageSize: 10 });
+   * const pages = client.listIncidentsForAlert(anomalyAlert).byPage({ maxPageSize: 10 });
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
@@ -750,100 +750,7 @@ export class MetricsAdvisorClient {
    * @param alert - Anomaly alert containing alertConfigId and id
    * @param options - The options parameter.
    */
-  public listIncidents(
-    alert: AnomalyAlert,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListIncidentsForAlertOptions
-  ): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
-  /**
-   * Returns an async iterable iterator to list incidents for an anomaly detection configuration.
-   *
-   * `.byPage()` returns an async iterable iterator to list the incidents in pages.
-   *
-   * Example using `for await` syntax:
-   *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const incidentList = client
-   *   .listIncidents(detectionConfigId, startTime, endTime);
-   * let i = 1;
-   * for await (const incident of incidentList){
-   *  console.log(`incident ${i++}:`);
-   *  console.log(incident);
-   * }
-   * ```
-   *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listIncidents(detectionConfigId, startTime, endTime);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` incident - ${result.value.id}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listIncidents(detectionConfigId, startTime, endTime)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const incident of page.value) {
-   *      console.dir(incident);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param startTime - The start of time range to query for incidents
-   * @param endTime - The end of time range to query for incidents
-   * @param options - The options parameter.
-   */
-  public listIncidents(
-    detectionConfigId: string,
-    startTime: Date | string,
-    endTime: Date | string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListIncidentsForDetectionConfigurationOptions
-  ): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
-
-  public listIncidents(
-    alertOrDetectionConfigId: AnomalyAlert | string,
-    optionsOrStartTime?: ListIncidentsForAlertOptions | Date | string,
-    endTime?: Date | string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListIncidentsForDetectionConfigurationOptions
-  ): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse> {
-    if (typeof alertOrDetectionConfigId === "string") {
-      if (!optionsOrStartTime || !endTime) {
-        throw new Error("Invalid startTime or endTime");
-      }
-      return this.listIncidentsForDetectionConfiguration(
-        alertOrDetectionConfigId,
-        typeof optionsOrStartTime === "string"
-          ? new Date(optionsOrStartTime)
-          : (optionsOrStartTime as Date),
-        typeof endTime === "string" ? new Date(endTime) : endTime,
-        options || {}
-      );
-    } else {
-      return this.listIncidentsForAlert(
-        alertOrDetectionConfigId as AnomalyAlert,
-        (optionsOrStartTime || {}) as ListIncidentsForAlertOptions
-      );
-    }
-  }
-
-  private listIncidentsForAlert(
+  public listIncidentsForAlert(
     alert: AnomalyAlert,
     options: ListIncidentsForAlertOptions = {}
   ): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse> {
@@ -1424,16 +1331,71 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private listIncidentsForDetectionConfiguration(
+  /**
+   * Returns an async iterable iterator to list incidents for an anomaly detection configuration.
+   *
+   * `.byPage()` returns an async iterable iterator to list the incidents in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const client = new MetricsAdvisorClient(endpoint,
+   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
+   * const incidentList = client
+   *   .listIncidentsForDetectionConfiguration(detectionConfigId, startTime, endTime);
+   * let i = 1;
+   * for await (const incident of incidentList){
+   *  console.log(`incident ${i++}:`);
+   *  console.log(incident);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listIncidentsForDetectionConfiguration(detectionConfigId, startTime, endTime);
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.log(` incident - ${result.value.id}`);
+   *   console.dir(result.value);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * const pages = client.listIncidentsForDetectionConfiguration(detectionConfigId, startTime, endTime)
+   *   .byPage({ maxPageSize: 10 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const incident of page.value) {
+   *      console.dir(incident);
+   *    }
+   *  }
+   *  page = await pages.next();
+   * }
+   * ```
+   * @param detectionConfigId - Anomaly detection configuration id
+   * @param startTime - The start of time range to query for incidents
+   * @param endTime - The end of time range to query for incidents
+   * @param options - The options parameter.
+   */
+  public listIncidentsForDetectionConfiguration(
     detectionConfigId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: ListIncidentsForDetectionConfigurationOptions = {}
   ): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse> {
+    const start: Date = typeof startTime === "string" ? new Date(startTime) : startTime;
+    const end: Date = typeof endTime === "string" ? new Date(endTime) : endTime;
     const iter = this.listItemsOfIncidentsForDetectionConfig(
       detectionConfigId,
-      startTime,
-      endTime,
+      start,
+      end,
       options
     );
     return {
@@ -1455,8 +1417,8 @@ export class MetricsAdvisorClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfIncidentsForDetectionConfig(
           detectionConfigId,
-          startTime,
-          endTime,
+          start,
+          end,
           settings.continuationToken,
           settings.maxPageSize,
           options

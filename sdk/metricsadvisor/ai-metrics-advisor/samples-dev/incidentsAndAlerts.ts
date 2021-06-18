@@ -76,7 +76,7 @@ async function listIncidentsForDetectionConfig(
 ) {
   console.log(`Listing incidents for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
-  const listIterator = client.listIncidents(
+  const listIterator = client.listIncidentsForDetectionConfiguration(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
@@ -97,7 +97,11 @@ async function listIncidentsForDetectionConfig(
 
   console.log(`  by pages`);
   const iterator = client
-    .listIncidents(detectionConfigId, new Date("10/22/2020"), new Date("10/24/2020"))
+    .listIncidentsForDetectionConfiguration(
+      detectionConfigId,
+      new Date("10/22/2020"),
+      new Date("10/24/2020")
+    )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
 
@@ -228,7 +232,7 @@ async function listIncidentsForAlert(
     `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`
   );
   console.log("  using for-await-of syntax");
-  const listIterator = client.listIncidents({ alertConfigId, id: alertId });
+  const listIterator = client.listIncidentsForAlert({ alertConfigId, id: alertId });
   for await (const incident of listIterator) {
     console.log("    Incident");
     console.log(`      id: ${incident.id}`);
@@ -241,7 +245,9 @@ async function listIncidentsForAlert(
   }
 
   console.log(`  by pages`);
-  const iterator = client.listIncidents({ alertConfigId, id: alertId }).byPage({ maxPageSize: 20 });
+  const iterator = client
+    .listIncidentsForAlert({ alertConfigId, id: alertId })
+    .byPage({ maxPageSize: 20 });
 
   let result = await iterator.next();
   while (!result.done) {
