@@ -47,7 +47,7 @@ describe("Receiver unit tests", () => {
       await assertThrows(() => batchingReceiver.receive(1, 1, 1, {}), {
         name: "ServiceBusError",
         code: "GeneralError",
-        message: "Link closed before receiving."
+        message: "Link closed before receiving messages."
       });
       assert.isTrue(initWasCalled);
     });
