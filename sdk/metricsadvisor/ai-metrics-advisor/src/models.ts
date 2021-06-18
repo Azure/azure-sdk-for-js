@@ -1592,7 +1592,7 @@ export interface MetricSeriesDefinition {
   /**
    * identifies a time series
    */
-  dimension: Record<string, string>;
+  seriesKey: Record<string, string>;
 }
 
 /**
@@ -1620,7 +1620,7 @@ export interface MetricEnrichedSeriesData {
   /**
    * identifies the time series.
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * timestamp list
    */

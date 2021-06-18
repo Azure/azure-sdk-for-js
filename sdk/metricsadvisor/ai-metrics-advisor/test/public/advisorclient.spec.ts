@@ -271,9 +271,9 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2020, 7, 5))
         );
         let result = await iterator.next();
-        assert.ok(result.value.dimension, "Expecting first definition");
+        assert.ok(result.value.seriesKey, "Expecting first definition");
         result = await iterator.next();
-        assert.ok(result.value.dimension, "Expecting second definition");
+        assert.ok(result.value.seriesKey, "Expecting second definition");
       });
 
       it("listMetricSeriesDefinitions() with datetime string", async function() {
@@ -282,9 +282,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "2020-08-05T00:00:00.000Z"
         );
         let result = await iterator.next();
-        assert.ok(result.value.dimension, "Expecting first definition");
+        assert.ok(result.value.seriesKey, "Expecting first definition");
         result = await iterator.next();
-        assert.ok(result.value.dimension, "Expecting second definition");
+        assert.ok(result.value.seriesKey, "Expecting second definition");
       });
 
       it("listMetricSeriesDefinitions() by page", async function() {
@@ -336,7 +336,7 @@ matrix([[true, false]] as const, async (useAad) => {
           data![0].definition.metricId,
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
-        assert.deepStrictEqual(data![0].definition.dimension, {
+        assert.deepStrictEqual(data![0].definition.seriesKey, {
           city: "Manila",
           category: "Shoes Handbags & Sunglasses"
         });
@@ -353,7 +353,7 @@ matrix([[true, false]] as const, async (useAad) => {
           data![1].definition.metricId,
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
-        assert.deepStrictEqual(data![1].definition.dimension, {
+        assert.deepStrictEqual(data![1].definition.seriesKey, {
           city: "Cairo",
           category: "Home & Garden"
         });
@@ -382,7 +382,7 @@ matrix([[true, false]] as const, async (useAad) => {
           data![0].definition.metricId,
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
-        assert.deepStrictEqual(data![0].definition.dimension, {
+        assert.deepStrictEqual(data![0].definition.seriesKey, {
           city: "Cairo",
           category: "Home & Garden"
         });
@@ -408,7 +408,7 @@ matrix([[true, false]] as const, async (useAad) => {
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
-        assert.deepStrictEqual(data![0].series, {
+        assert.deepStrictEqual(data![0].seriesKey, {
           city: "Manila",
           category: "Shoes Handbags & Sunglasses"
         });
@@ -423,7 +423,7 @@ matrix([[true, false]] as const, async (useAad) => {
           "Expecting enriched data for the first time series"
         );
 
-        assert.deepStrictEqual(data![1].series, {
+        assert.deepStrictEqual(data![1].seriesKey, {
           city: "Cairo",
           category: "Home & Garden"
         });
@@ -451,7 +451,7 @@ matrix([[true, false]] as const, async (useAad) => {
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
-        assert.deepStrictEqual(data![0].series, {
+        assert.deepStrictEqual(data![0].seriesKey, {
           city: "Manila",
           category: "Shoes Handbags & Sunglasses"
         });

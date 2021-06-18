@@ -751,7 +751,7 @@ export interface ListAnomaliesForAlertConfigurationOptions extends OperationOpti
 
 // @public
 export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
-    dimensionFilter?: DimensionKey[];
+    seriesGroupKeys?: DimensionKey[];
     severityFilter?: SeverityFilterCondition;
     skip?: number;
 }
@@ -759,7 +759,7 @@ export interface ListAnomaliesForDetectionConfigurationOptions extends Operation
 // @public
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
     // (undocumented)
-    dimensionFilter?: DimensionKey;
+    seriesGroupKey?: DimensionKey;
     skip?: number;
 }
 
@@ -788,7 +788,7 @@ export interface ListDataSourceCredentialsOptions extends OperationOptions {
 // @public
 export interface ListFeedbackOptions extends OperationOptions {
     filter?: {
-        dimensionFilter?: DimensionKey;
+        dimensionKey?: DimensionKey;
         feedbackType?: FeedbackType;
         startTime?: Date | string;
         endTime?: Date | string;
@@ -810,7 +810,7 @@ export interface ListIncidentsForAlertOptions extends OperationOptions {
 
 // @public
 export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
-    dimensionFilter?: DimensionKey[];
+    seriesGroupKeys?: DimensionKey[];
 }
 
 // @public
@@ -942,7 +942,7 @@ export interface MetricEnrichedSeriesData {
     isAnomaly?: boolean[];
     lowerBounds?: number[];
     periods?: number[];
-    series: DimensionKey;
+    seriesKey: DimensionKey;
     timestamps?: Date[];
     upperBounds?: number[];
     values?: number[];
@@ -1071,8 +1071,8 @@ export interface MetricSeriesData {
 
 // @public
 export interface MetricSeriesDefinition {
-    dimension: Record<string, string>;
     metricId: string;
+    seriesKey: Record<string, string>;
 }
 
 // @public
