@@ -79,9 +79,8 @@ export function getClient(
   }
 
   const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
+  const { allowInsecureConnection } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
-    const { allowInsecureConnection } = clientOptions;
-
     return {
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(

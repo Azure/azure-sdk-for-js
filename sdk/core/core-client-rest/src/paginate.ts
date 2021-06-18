@@ -107,7 +107,13 @@ function checkPagingRequest(response: PathUncheckedResponse) {
  */
 function getNextLink(body: Record<string, unknown>, paginateOptions: PaginateOptions = {}) {
   const nextLinkName = paginateOptions.nextLinkName ?? DEFAULT_NEXTLINK;
-  return (body[nextLinkName] as string) ?? undefined;
+  const nextLink = body[nextLinkName];
+
+  if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
+    throw new Error(`Body Property ${nextLinkName} should be a string or undefined`);
+  }
+
+  return nextLink;
 }
 
 /**
@@ -119,5 +125,11 @@ function getElements<T = unknown>(
   paginateOptions: PaginateOptions = {}
 ): T[] {
   const valueName = paginateOptions?.itemName ?? DEFAULT_VALUES;
-  return (body[valueName] as T[]) ?? [];
+  const value = body[valueName];
+
+  if (!Array.isArray(value)) {
+    throw new Error(`Body Property ${valueName} is not an array`);
+  }
+
+  return (value as T[]) ?? [];
 }
