@@ -3,14 +3,13 @@
 ## 12.0.1 (Unreleased)
 
 ### Features Added
-- Support for Azure Active Directory (AAD) authorization has been added to `TableServiceClient` and `TableClient`. This enables use of `TokenCredential` credentials. Note: Only Azure Storage API endpoints currently support AAD authorization. [#15493](https://github.com/Azure/azure-sdk-for-js/pull/15493)
+- Support for Azure Active Directory (AAD) authorization has been added to `TableServiceClient` and `TableClient`. This enables use of `TokenCredential` credentials. Note: Only Azure Storage API endpoints currently support AAD authorization. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 
 ### Breaking Changes
 
-### Key Bugs Fixed
 ### Fixed
 
-- Fix #15701 by improving error handling and reporting on `submitTransaction`. [#15493](https://github.com/Azure/azure-sdk-for-js/pull/15493)
+- Fix [#15701](https://github.com/Azure/azure-sdk-for-js/issues/15701) by improving error handling and reporting on `submitTransaction`. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 
 ## 12.0.0 (2021-06-09)
 
