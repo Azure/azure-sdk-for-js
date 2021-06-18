@@ -82,10 +82,15 @@ export interface AzureCliCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "AzurePowerShellCredentialOptions" needs to be exported by the entry point index.d.ts
     constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions {
+    allowMultiTenantAuthentication?: boolean;
+    tenantId?: string;
+}
 
 // @public
 export type BrowserLoginStyle = "redirect" | "popup";
