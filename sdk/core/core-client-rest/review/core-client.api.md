@@ -71,8 +71,8 @@ export interface PaginateOptions {
     nextLinkName?: string;
 }
 
-// @public (undocumented)
-export function paginateResponse<TReturn>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[], {}>;
+// @public
+export function paginateResponse<TReturn>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[]>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {

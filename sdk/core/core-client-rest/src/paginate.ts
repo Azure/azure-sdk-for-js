@@ -30,7 +30,7 @@ export interface PaginateOptions {
 }
 
 /**
- *
+ * Helper to iterate pageable responses
  * @param client - Client to use for sending the request to get additional pages
  * @param initialResponse - The initial response
  * @param options - Options to use custom property names for pagination

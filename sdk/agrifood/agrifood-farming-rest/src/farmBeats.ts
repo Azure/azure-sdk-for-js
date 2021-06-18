@@ -310,11 +310,11 @@ import {
   getClient,
   ClientOptions,
   Client,
-  paginate as corePaginate,
+  paginateResponse,
+  PathUncheckedResponse,
 } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Farmer } from "./models";
 
 export interface ApplicationDataListByFarmerId {
   /** Returns a paginated list of application data resources under a particular farm. */
@@ -1117,22 +1117,37 @@ export type FarmBeatsRestClient = Client & {
   path: Routes;
 };
 
-interface PageableRoutes {
-  "/farmers": Farmer;
-}
+/**
+ * Helper type to extract the type of an array
+ */
+export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
-export function paginate<TPath extends keyof PageableRoutes>(
+/**
+ * Helper type to infer the Type of the paged elements from the response type
+ * This type is generated based on the swagger information for x-ms-pageable
+ * specifically on the itemName property which indicates the property of the response
+ * where the page items are found. The default value is `value`.
+ * This type will allow us to provide strongly typed Iterator based on the response we get as second parameter
+ */
+export type PaginateReturn<TResult> = TResult extends {
+  body: { value?: infer TPage };
+}
+  ? GetArrayType<TPage>
+  : Array<unknown>;
+
+/**
+ * This is the wrapper function that would be exposed. It is hiding the Pagination Options because it can be
+ * obtained from the swagger
+ * @param client - Client to use for sending the next page requests
+ * @param initialResponse - Initial response containing the nextLink and current page of elements
+ * @returns - PagedAsyncIterableIterator to iterate the elements
+ */
+export function paginate<TReturn extends PathUncheckedResponse>(
   client: Client,
-  path: TPath,
-  options?: any
-): PagedAsyncIterableIterator<PageableRoutes[TPath], PageableRoutes[TPath][], {}> {
-  // In case a service needs a custom pagination logic, we could tell the generator
-  // to import from a different location instead of core-client.
-  // For example if we wanted to have an src/extensions/pagination.ts with a custom
-  // paginate implementation that follows the corePaginate type definition.
-  return corePaginate<TPath, PageableRoutes[TPath]>(client, path, options);
+  initialResponse: TReturn
+): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]> {
+  return paginateResponse<PaginateReturn<TReturn>>(client, initialResponse);
 }
-
 export default function FarmBeats(
   Endpoint: string,
   credentials: TokenCredential,

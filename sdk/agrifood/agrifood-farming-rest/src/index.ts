@@ -8,4 +8,6 @@ export * from "./models";
 export * from "./parameters";
 export * from "./responses";
 
+export { paginate, PaginateReturn, GetArrayType } from "./farmBeats";
+
 export default FarmBeats;

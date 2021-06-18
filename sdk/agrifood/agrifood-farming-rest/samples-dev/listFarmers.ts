@@ -8,8 +8,7 @@
  * @azsdk-weight 20
  */
 
-import FarmBeats, { Farmer, paginate } from "@azure-rest/agrifood-farming";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import FarmBeats, { paginate } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -19,7 +18,13 @@ const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
   const farming = FarmBeats(endpoint, new DefaultAzureCredential());
-  const farmers: PagedAsyncIterableIterator<Farmer, Farmer[]> = paginate(farming, "/farmers");
+  const response = await farming.path("/farmers").get();
+
+  if (response.status !== "200") {
+    throw response.body.error || new Error(`Unexpected status code ${response.status}`);
+  }
+
+  const farmers = paginate(farming, response);
 
   // Lof each farmer id
   for await (const farmer of farmers) {

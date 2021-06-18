@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsRestClient } from "../../src";
+import { FarmBeatsRestClient, Farmer, paginate } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { assert } from "chai";
@@ -29,7 +29,14 @@ describe("List farmers", () => {
       assert.fail(`GET "/farmers" failed with ${result.status}`);
     }
 
-    assert.isDefined(result.body.value?.length);
+    const farmers = paginate(client, result);
+
+    let lastFarmer: Farmer | undefined = undefined;
+    for await (const farmer of farmers) {
+      lastFarmer = farmer;
+    }
+
+    assert.isDefined(lastFarmer);
   });
 
   it("should create a farmer", async () => {
