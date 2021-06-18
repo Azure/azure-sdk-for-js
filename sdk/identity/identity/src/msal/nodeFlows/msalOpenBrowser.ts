@@ -84,7 +84,8 @@ export class MsalOpenBrowser extends MsalNode {
         const tokenRequest: msalNode.AuthorizationCodeRequest = {
           code: url.searchParams.get("code")!,
           redirectUri: this.redirectUri,
-          scopes: scopes
+          scopes: scopes,
+          codeVerifier: this.pkceCodes?.verifier
         };
 
         this.acquireTokenByCode(tokenRequest)
@@ -182,10 +183,22 @@ export class MsalOpenBrowser extends MsalNode {
     });
   }
 
+  private pkceCodes?: {
+    verifier: string;
+    challenge: string;
+  };
+
   private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
+    // Initialize CryptoProvider instance
+    const cryptoProvider = new msalNode.CryptoProvider();
+    // Generate PKCE Codes before starting the authorization flow
+    this.pkceCodes = await cryptoProvider.generatePkceCodes();
+
     const authCodeUrlParameters: msalNode.AuthorizationUrlRequest = {
       scopes: scopeArray,
-      redirectUri: this.redirectUri
+      redirectUri: this.redirectUri,
+      codeChallenge: this.pkceCodes.challenge,
+      codeChallengeMethod: "S256" // Use SHA256 Algorithm
     };
 
     const response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);

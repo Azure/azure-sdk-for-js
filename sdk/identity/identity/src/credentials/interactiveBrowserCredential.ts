@@ -85,6 +85,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *
    * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
    *
+   * On Node.js, this credential has [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) enabled by default.
+   * PKCE is a security feature that mitigates authentication code interception attacks.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                  TokenCredential implementation might make.
