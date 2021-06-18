@@ -870,7 +870,7 @@ export type MetricAnomalyAlertScope = {
     scopeType: "All";
 } | {
     scopeType: "Dimension";
-    dimensionAnomalyScope: DimensionKey;
+    seriesGroupInScope: DimensionKey;
 } | {
     scopeType: "TopN";
     topNAnomalyScope: TopNGroupScope;

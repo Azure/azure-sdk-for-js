@@ -1301,7 +1301,7 @@ export function fromServiceAlertConfiguration(
         c.anomalyScopeType === "All"
           ? { scopeType: "All" }
           : c.anomalyScopeType === "Dimension"
-          ? { scopeType: "Dimension", dimensionAnomalyScope: c.dimensionAnomalyScope!.dimension }
+          ? { scopeType: "Dimension", seriesGroupInScope: c.dimensionAnomalyScope!.dimension }
           : { scopeType: "TopN", topNAnomalyScope: c.topNAnomalyScope! };
       return {
         detectionConfigurationId: c.anomalyDetectionConfigurationId,
@@ -1333,7 +1333,7 @@ export function toServiceAlertConfiguration(
           : c.alertScope.scopeType === "Dimension"
           ? {
               anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.dimensionAnomalyScope }
+              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope }
             }
           : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {
@@ -1366,7 +1366,7 @@ export function toServiceAlertConfigurationPatch(
           : c.alertScope.scopeType === "Dimension"
           ? {
               anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.dimensionAnomalyScope }
+              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope }
             }
           : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {

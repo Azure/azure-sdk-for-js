@@ -1337,7 +1337,7 @@ export type MetricAnomalyAlertScope =
       /**
        * dimension scope
        */
-      dimensionAnomalyScope: DimensionKey;
+      seriesGroupInScope: DimensionKey;
     }
   | {
       scopeType: "TopN";
