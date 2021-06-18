@@ -46,3 +46,19 @@ export async function msiGenericGetToken(
 
   return (tokenResponse && tokenResponse.accessToken) || null;
 }
+
+/**
+ * Verifies whether locally assigned tenants are equal to tenants received through getToken.
+ * @internal
+ */
+export function validateMultiTenantRequest(
+  allowMultiTenantAuthentication: boolean,
+  tenantId?: string,
+  getTokenOptions?: GetTokenOptions
+) {
+  if (!allowMultiTenantAuthentication && getTokenOptions && getTokenOptions.tenantId !== tenantId) {
+    throw new Error(
+      "Multi-tenant authentication was attempted, but multi-tenant authentication was not enabled in this credential instance."
+    );
+  }
+}

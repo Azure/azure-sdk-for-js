@@ -51,10 +51,16 @@ export class AuthenticationRequiredError extends Error {
 
 // @public
 export class AuthorizationCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
-    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
+    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
+    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
+
+// @public
+export interface AuthorizationCodeCredentialOptions extends TokenCredentialOptions {
+    allowMultiTenantAuthentication?: boolean;
+    tenantId?: string;
+}
 
 // @public
 export enum AzureAuthorityHosts {
@@ -92,6 +98,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
+    allowMultiTenantAuthentication?: boolean;
     sendCertificateChain?: boolean;
 }
 
@@ -103,6 +110,7 @@ export class ClientSecretCredential implements TokenCredential {
 
 // @public
 export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+    allowMultiTenantAuthentication?: boolean;
 }
 
 // @public
@@ -205,10 +213,16 @@ export const logger: AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(clientId: string, options?: TokenCredentialOptions);
-    constructor(options?: TokenCredentialOptions);
+    constructor(clientId: string, options?: ManagedIdentityCredentialOptions);
+    constructor(options?: ManagedIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
+
+// @public
+export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
+    allowMultiTenantAuthentication?: boolean;
+    tenantId?: string;
+}
 
 // @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;

@@ -7,7 +7,7 @@ import { createSpan } from "../../util/tracing";
 import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
-import { mapScopesToResource } from "./utils";
+import { mapScopesToResource, validateMultiTenantRequest } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
@@ -15,6 +15,20 @@ import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
+
+/**
+ * Options for the {@link ManagedIdentityCredential}
+ */
+export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Allows specifying a tenant ID
+   */
+  tenantId?: string;
+  /**
+   * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
+   */
+  allowMultiTenantAuthentication?: boolean;
+}
 
 /**
  * Attempts authentication using a managed identity that has been assigned
@@ -27,8 +41,10 @@ const logger = credentialLogger("ManagedIdentityCredential");
  */
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
-  private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
+  private clientId?: string;
+  private tenantId?: string;
+  private allowMultiTenantAuthentication: boolean = false;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -37,28 +53,39 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(clientId: string, options?: TokenCredentialOptions);
+  constructor(clientId: string, options?: ManagedIdentityCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: TokenCredentialOptions);
+  constructor(options?: ManagedIdentityCredentialOptions);
   /**
    * @internal
    * @hidden
    */
   constructor(
-    clientIdOrOptions: string | TokenCredentialOptions | undefined,
-    options?: TokenCredentialOptions
+    clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
+    options?: ManagedIdentityCredentialOptions
   ) {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
       this.identityClient = new IdentityClient(options);
+
+      if (options) {
+        this.tenantId = options.tenantId;
+        this.allowMultiTenantAuthentication = Boolean(options.allowMultiTenantAuthentication);
+      }
     } else {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
+      if (clientIdOrOptions) {
+        this.tenantId = clientIdOrOptions.tenantId;
+        this.allowMultiTenantAuthentication = Boolean(
+          clientIdOrOptions.allowMultiTenantAuthentication
+        );
+      }
     }
   }
 
@@ -128,6 +155,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
+    validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
+
     let result: AccessToken | null = null;
 
     const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);

@@ -52,6 +52,11 @@ export interface GetTokenOptions {
      */
     tracingContext?: Context;
   };
+
+  /**
+   * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
+   */
+  tenantId?: string;
 }
 
 /**

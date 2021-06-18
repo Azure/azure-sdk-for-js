@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { TokenCredentialOptions } from "../client/identityClient";
 
 /**
- * Optional parameters for the {@link ClientSecretCredential} class.
+ * Options for the {@link AuthorizationCodeCredential}
  */
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+export interface AuthorizationCodeCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Allows specifying a tenant ID
+   */
+  tenantId?: string;
   /**
    * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
    */

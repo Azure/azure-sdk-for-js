@@ -47,6 +47,7 @@ export interface GetTokenOptions {
     requestOptions?: {
         timeout?: number;
     };
+    tenantId?: string;
     tracingOptions?: {
         spanOptions?: SpanOptions;
         tracingContext?: Context;
