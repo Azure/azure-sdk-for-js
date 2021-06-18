@@ -2,10 +2,6 @@
 
 ## 1.0.0 (Unreleased)
 
-## 2021-06-17
-
-- Removed the default transformation to replace scope URLs in request bodies due to incompatibilities with `@azure/identity` tests.
-
 ## 2021-05-12
 
 - Extended the `requestBodyTransformations` from [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897) to handle browser tests as well.

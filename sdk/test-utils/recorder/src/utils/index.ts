@@ -530,6 +530,13 @@ export function maskAccessTokenInBrowserRecording(fixtures: string): string {
 }
 
 /**
+ * Sanitizes the scope url in the request bodies [Meant for cleaning the false positives in cred-scan reports]
+ */
+export function sanitizeScopeUrl(body: string) {
+  return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
+}
+
+/**
  * List of binary content types.
  * Currently, "avro/binary" is the only one present.
  */
