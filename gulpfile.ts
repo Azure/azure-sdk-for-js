@@ -167,7 +167,7 @@ function pack(): void {
   if (toPack === PackagesToPack.BranchHasChanges) {
     let packBaseReference: string | undefined = baseReference;
     if (!packBaseReference) {
-      packBaseReference = "master";
+      packBaseReference = "main";
       _logger.log(`No base-reference argument specified on command line or in environment variables. Defaulting to "${packBaseReference}".`);
     }
 
