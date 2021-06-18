@@ -21,7 +21,7 @@
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
 - `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints.
 - Added an `AzurePowerShellCredential` which will use the authenticated user session from the `Az.Account` PowerShell module. This credential will attempt to use PowerShell Core by calling `pwsh`, and on Windows it will fall back to Windows PowerShell (`powershell`) if PowerShell Core is not available.
-
+- Added `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
 ### Breaking changes from 2.0.0-beta.1
 
 - Removed `VisualStudioCodeCredential`, as it requires us to list `keytar` as an optional dependency. `keytar` containes machine-code components that are difficult to build in certain environments, so this credential will be offered through a separate extension package in the future.

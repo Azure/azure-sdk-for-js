@@ -185,6 +185,7 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     tenantId?: string;
     clientId: string;
     loginStyle?: BrowserLoginStyle;
+    loginHint?: string;
 };
 
 // @public
@@ -192,6 +193,7 @@ export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & Inter
     redirectUri?: string | (() => string);
     tenantId?: string;
     clientId?: string;
+    loginHint?: string;
 };
 
 // @public

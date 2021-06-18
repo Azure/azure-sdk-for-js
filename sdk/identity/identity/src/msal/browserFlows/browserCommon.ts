@@ -20,6 +20,7 @@ import { CredentialUnavailableError } from "../../client/errors";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
+  loginHint?: string;
 }
 
 /**
