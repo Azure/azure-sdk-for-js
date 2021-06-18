@@ -23,19 +23,19 @@ async function main() {
 
   const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
 
-  const created = await createDatasourceCredential(adminClient);
+  const created = await createDataSourceCredential(adminClient);
   if (created.id) {
-    await getDatasourceCredential(adminClient, created.id);
-    await updateDatasourceCredential(adminClient, created.id);
-    await listDatasourceCredentials(adminClient);
-    await deleteDatasourceCredential(adminClient, created.id);
+    await getDataSourceCredential(adminClient, created.id);
+    await updateDataSourceCredential(adminClient, created.id);
+    await listDataSourceCredentials(adminClient);
+    await deleteDataSourceCredential(adminClient, created.id);
   }
 }
 
-async function listDatasourceCredentials(client) {
-  console.log("Listing Datasource credentials ...");
+async function listDataSourceCredentials(client) {
+  console.log("Listing DataSource credentials ...");
   console.log("  using while loop");
-  const iter = client.listDatasourceCredential();
+  const iter = client.listDataSourceCredential();
   let result = await iter.next();
   while (!result.done) {
     console.log(`id :${result.value.id}, name: ${result.value.name}`);
@@ -44,7 +44,7 @@ async function listDatasourceCredentials(client) {
 
   // second approach
   console.log("  using for-await-of loop");
-  const iterator = client.listDatasourceCredential();
+  const iterator = client.listDataSourceCredential();
   for await (const datasourceCredential of iterator) {
     console.log(
       `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`
@@ -53,7 +53,7 @@ async function listDatasourceCredentials(client) {
 
   // by pages
   console.log("  by pages");
-  const pages = client.listDatasourceCredential().byPage({ maxPageSize: 1 });
+  const pages = client.listDataSourceCredential().byPage({ maxPageSize: 1 });
   let page = await pages.next();
   let i = 1;
   while (!page.done) {
@@ -67,29 +67,29 @@ async function listDatasourceCredentials(client) {
   }
 }
 
-async function createDatasourceCredential(client) {
-  console.log("Creating Datasource credential...");
+async function createDataSourceCredential(client) {
+  console.log("Creating DataSource credential...");
   const datasourceCredential = {
     name: "Sql-server-cred",
     description: "an example sql server credential",
     type: "AzureSQLConnectionString",
     connectionString: "connection-string"
   };
-  const result = await client.createDatasourceCredential(datasourceCredential);
+  const result = await client.createDataSourceCredential(datasourceCredential);
   console.dir(result);
   return result;
 }
 
-async function getDatasourceCredential(client, datasourceCredentialId) {
+async function getDataSourceCredential(client, datasourceCredentialId) {
   console.log("Retrieving datasourceCredential by id...");
-  const result = await client.getDatasourceCredential(datasourceCredentialId);
+  const result = await client.getDataSourceCredential(datasourceCredentialId);
   console.log("datasource credential result is as follows - ");
   console.log(`  id: ${result.id}`);
   console.log(`  datasource credential type: ${result.type}`);
   console.log(`  name: ${result.name}`);
 }
 
-async function updateDatasourceCredential(client, credentialId) {
+async function updateDataSourceCredential(client, credentialId) {
   const patch = {
     name: "update-credential-name",
     description: "updated-description",
@@ -99,7 +99,7 @@ async function updateDatasourceCredential(client, credentialId) {
 
   try {
     console.log(`Updating credential ${credentialId}...`);
-    const updated = await client.updateDatasourceCredential(credentialId, patch);
+    const updated = await client.updateDataSourceCredential(credentialId, patch);
     console.dir(updated);
   } catch (err) {
     console.log("Error occurred when updating credential");
@@ -107,9 +107,9 @@ async function updateDatasourceCredential(client, credentialId) {
   }
 }
 
-async function deleteDatasourceCredential(client, credentialId) {
+async function deleteDataSourceCredential(client, credentialId) {
   console.log(`Deleting datasource credential ${credentialId}...`);
-  await client.deleteDatasourceCredential(credentialId);
+  await client.deleteDataSourceCredential(credentialId);
 }
 
 main()

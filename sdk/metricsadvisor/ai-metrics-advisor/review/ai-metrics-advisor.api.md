@@ -1077,7 +1077,7 @@ export interface MetricSeriesDefinition {
 
 // @public
 export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
-    group: DimensionKey;
+    groupKey: DimensionKey;
 };
 
 // @public
@@ -1091,7 +1091,7 @@ export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> 
 
 // @public
 export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
-    series: DimensionKey;
+    seriesKey: DimensionKey;
 };
 
 // @public
