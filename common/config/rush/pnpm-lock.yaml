@@ -420,7 +420,7 @@ packages:
       '@azure/logger': 1.0.2
       '@azure/msal-browser': 2.9.0
       '@azure/msal-common': 4.0.3
-      '@azure/msal-node': 1.0.2
+      '@azure/msal-node': 1.1.0
       '@types/stoppable': 1.1.0
       events: 3.3.0
       jws: 4.0.0
@@ -442,7 +442,7 @@ packages:
       '@azure/logger': 1.0.2
       '@azure/msal-browser': 2.9.0
       '@azure/msal-common': 4.0.3
-      '@azure/msal-node': 1.0.2_debug@4.3.1
+      '@azure/msal-node': 1.1.0_debug@4.3.1
       '@types/stoppable': 1.1.0
       events: 3.3.0
       jws: 4.0.0
@@ -458,21 +458,48 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-eOHstXRBRntoqBLi3bugYBEHpYkm0JiET6y5+P1fz7dqYRFN6hJW8qMJQtYIzIbpXJfRJTJdoiOS5fDQhsez0A==
-  /@azure/keyvault-secrets/4.1.0:
+  /@azure/keyvault-certificates/4.2.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-http': 1.2.4
       '@azure/core-lro': 1.0.4
       '@azure/core-paging': 1.1.3
-      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/core-tracing': 1.0.0-preview.11
       '@azure/logger': 1.0.2
-      '@opentelemetry/api': 0.10.2
       tslib: 2.2.0
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-26ARU97svPkv8q6QbIdwdky8ntn+Q5mxTTCjpp9FUIyA2LTXmEL0wZDPBeM3mxZLHKnMEXQxEo+KYutrJW5xPQ==
+      integrity: sha512-5Y8WgETz0lnAoksk8qpEOJ6PBnPV8edscusKiwbfm7rfadsfm1rl+kZPJP8YrjkY+bfnMNeixVZHe8QB5Mpa8Q==
+  /@azure/keyvault-keys/4.2.1:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 1.2.4
+      '@azure/core-lro': 1.0.4
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.2
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-bO3Dl4cJgOkYSLudmzkSFg4os4gsDvaUozcJ9ZKdqZjIp/RHIZRFytbRcNe40rpKH2iLXcavNGVpMvEzAfERyQ==
+  /@azure/keyvault-secrets/4.2.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 1.2.4
+      '@azure/core-lro': 1.0.4
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.2
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-fQIbloZA1whluFmMGzWrex+PuzwBjDi59Lw/g73AVrLQIsqpz2YUnkzdwqSUuSDve8Q3McIEWMWkIUJpLVn+oA==
   /@azure/logger-js/1.3.2:
     dependencies:
       tslib: 1.14.1
@@ -607,9 +634,17 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-dOImswKoo0E0t/j6ePcWYBZ2oPrt9I7LeuXfW9zxbPBRwfqpd0MBHjTXkCFZinn0xW8UbzCnWT7DxP/4UsOQLA==
+  /@azure/msal-common/4.3.0:
+    dependencies:
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha512-jFqUWe83wVb6O8cNGGBFg2QlKvqM1ezUgJTEV7kIsAPX0RXhGFE4B1DLNt6hCnkTXDbw+KGW0zgxOEr4MJQwLw==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
-      '@azure/msal-common': 4.2.0
+      '@azure/msal-common': 4.3.0
       axios: 0.21.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -618,7 +653,7 @@ packages:
       integrity: sha512-ZQI11Uz1j0HJohb9JZLRD8z0moVcPks1AFW4Q/Gcl67+QvH4aKEJti7fjCcipEEZYb/qzLSO8U6IZgPYytsiJQ==
   /@azure/msal-node/1.0.0-beta.6_debug@4.3.1:
     dependencies:
-      '@azure/msal-common': 4.2.0
+      '@azure/msal-common': 4.3.0
       axios: 0.21.1_debug@4.3.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -638,19 +673,30 @@ packages:
       node: 10 || 12 || 14
     resolution:
       integrity: sha512-ZOHmoImpePXWTUS+78jzMgbhyTzeW0ydI3dJ9DupZZBxImV+Bqz5wfth0yKdNGV65rKWYuUIQtBVjnGwSqmpTQ==
-  /@azure/msal-node/1.0.2_debug@4.3.1:
+  /@azure/msal-node/1.1.0:
     dependencies:
-      '@azure/msal-common': 4.2.0
+      '@azure/msal-common': 4.3.0
+      axios: 0.21.1
+      jsonwebtoken: 8.5.1
+      uuid: 8.3.2
+    dev: false
+    engines:
+      node: 10 || 12 || 14 || 16
+    resolution:
+      integrity: sha512-gMO9aZdWOzufp1PcdD5ID25DdS9eInxgeCqx4Tk8PVU6Z7RxJQhoMzS64cJhGdpYgeIQwKljtF0CLCcPFxew/w==
+  /@azure/msal-node/1.1.0_debug@4.3.1:
+    dependencies:
+      '@azure/msal-common': 4.3.0
       axios: 0.21.1_debug@4.3.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
     dev: false
     engines:
-      node: 10 || 12 || 14
+      node: 10 || 12 || 14 || 16
     peerDependencies:
       debug: '*'
     resolution:
-      integrity: sha512-ZOHmoImpePXWTUS+78jzMgbhyTzeW0ydI3dJ9DupZZBxImV+Bqz5wfth0yKdNGV65rKWYuUIQtBVjnGwSqmpTQ==
+      integrity: sha512-gMO9aZdWOzufp1PcdD5ID25DdS9eInxgeCqx4Tk8PVU6Z7RxJQhoMzS64cJhGdpYgeIQwKljtF0CLCcPFxew/w==
   /@azure/service-bus/7.0.5:
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -8429,7 +8475,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 2.0.0-beta.3
-      '@azure/keyvault-secrets': 4.1.0
+      '@azure/keyvault-secrets': 4.2.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -8477,7 +8523,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-DVGCRv/NJRI7PLIn9OeMUjb1IlD9b5h7P1lZIp009G2OsazP8W1BMVwCWqwJxSIE2XpmNoBafPqNjOc3YP6JPA==
+      integrity: sha512-HVlcQjKcWPO7j8OLEmvcEXVcBYpxEJFK0FPCYHwvSdviWASM1klDmUh14KgBI5ukXUOQceDPtEJBKn/ox/5g8g==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/attestation.tgz:
@@ -8949,7 +8995,7 @@ packages:
     dev: false
     name: '@rush-temp/container-registry'
     resolution:
-      integrity: sha512-EtCnuuPQBPDJdlInE2BVGrFIoEvplHQI0YhO5px+KPEgjLBAspIKyc5/htsLtIB6nsuXG4jjdXtUPf/qNYxdxQ==
+      integrity: sha512-DFt88tLfBmEUwAR8+6xpAupuO1aKe9m2Ajb5uNRjiDzQBA6GlFEG6+hV5ToyDt6pGxGOpFH+T60ij7pjEuUkqg==
       tarball: file:projects/container-registry.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -9406,6 +9452,17 @@ packages:
       cross-env: 7.0.3
       eslint: 7.23.0
       inherits: 2.0.4
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.2
+      karma-junit-reporter: 2.0.1_karma@6.3.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.2
+      karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
@@ -9422,7 +9479,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-8DVpttwoStfTVGZM2XsYARGD6+Gi+DruU0I7WudAoHKzkfmpCuytc597UHeLsjtDZscuTIYYdrJXT8k5bXg/eQ==
+      integrity: sha512-WKF4Y6QQ34GMRVUm7b5wj4L16AQP+Yu+/H/LoreZzm7NCnV4C5F0V5OsDkfXdvQvVjspW6CBCZxr6p+a9/LhjA==
       tarball: file:projects/core-tracing.tgz
     version: 0.0.0
   file:projects/core-util.tgz:
@@ -10007,8 +10064,8 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/msal-browser': 2.9.0
-      '@azure/msal-common': 4.2.0
-      '@azure/msal-node': 1.0.2
+      '@azure/msal-common': 4.3.0
+      '@azure/msal-node': 1.1.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -10061,7 +10118,7 @@ packages:
     optionalDependencies:
       keytar: 7.6.0
     resolution:
-      integrity: sha512-2H4J3QdHPuGaq/U642XgXcnHAl8JKjyAGkIX7HLykIvf5/6LQk8uFb+kp3DdlQVRU8rDKAcxu25bB9JWN9s7fw==
+      integrity: sha512-r3u9P6Nl7eZfRVHi+xzt5cfkfOnAt0xbCpGVnwSz0wYIUQFhTIC/9PpuB1iZ3pTdqm6cBzAy3SFMIbWOYTpXjA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -10148,6 +10205,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 2.0.0-beta.3
+      '@azure/keyvault-keys': 4.2.1
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -10186,13 +10244,14 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-gOfCroYFFPB7uEHCBSeBZa86eoKqgwbbelkGOZe08I6x0DzlvWI6THvbOqlZjZuaXfPRrhsWPWKPXHi2PsSQmw==
+      integrity: sha512-gMC9p+W6CAB2lQWRyn5gMX5fPZxrqcfyeBhDpVE5EeJn4qIVqtGZbXU7ZHUGAwbXRRWSicr4HgTferuy51fXqQ==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
   file:projects/keyvault-certificates.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 2.0.0-beta.3
+      '@azure/keyvault-secrets': 4.2.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -10244,7 +10303,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-glzL8qjbyIQ8dAWWgRg/MUs+W3qAkFIIX//5wFNGhBFN8fr6U4EFgjAEK80EVzYUHMpGfvB7ZrhUXXg6UBi2Jg==
+      integrity: sha512-mOQOv05qCpNK+lLfPYUrip7aATQgbj8aAFGp1xwbpgkUAirK6WPdAoyXasmGwmN70OLX74vw5MfM0sfL77cvcQ==
       tarball: file:projects/keyvault-certificates.tgz
     version: 0.0.0
   file:projects/keyvault-common.tgz:
@@ -10629,7 +10688,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-app-configuration'
     resolution:
-      integrity: sha512-RCgzpgbqWjRV+0UWNirK0ZP9Mj2ujrlNprzYtvnxv8/sGm+OwjfOtK56Yqj7CL7RYTSwlUKauLqktaGsW4o0dA==
+      integrity: sha512-VWN7lu++QI4Ih1FbYekPqTDzOPRB0ORvL/w0VkuTOGim0hgmatVmUdbnfhg/Z/wJZBGPyR7koOchW9/uxpASNA==
       tarball: file:projects/perf-app-configuration.tgz
     version: 0.0.0
   file:projects/perf-core-rest-pipeline.tgz:
@@ -10685,6 +10744,7 @@ packages:
   file:projects/perf-keyvault-certificates.tgz:
     dependencies:
       '@azure/identity': 2.0.0-beta.3
+      '@azure/keyvault-certificates': 4.2.0
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
       eslint: 7.23.0
@@ -10697,12 +10757,13 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-certificates'
     resolution:
-      integrity: sha512-LuqTp1y1C1AkKrPjAupGb2ScTGfQiVq7+B+4X8DR7l+wUSLwDuacOMzNHMf6F+YIIME4J7bGKOqf/dyKot2IDg==
+      integrity: sha512-4//pIdPhCj2R5lVDRuVpKsX0B7oJlL1o+HkZNounvtZIK82XIQpFgG6YaXqxlTUsUVbDyzOyM+FWBGZ0JneKow==
       tarball: file:projects/perf-keyvault-certificates.tgz
     version: 0.0.0
   file:projects/perf-keyvault-keys.tgz:
     dependencies:
       '@azure/identity': 2.0.0-beta.3
+      '@azure/keyvault-keys': 4.2.1
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
       eslint: 7.23.0
@@ -10715,12 +10776,13 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-keys'
     resolution:
-      integrity: sha512-hPbnxEQXl7LslSG534lDK3rR/UiZNvKeqgBuoD76pfz8ruNvyjPwsOX/+7qMzBBN21psjQpdmVIktPslHxiy2g==
+      integrity: sha512-oxilWE4b/H49CSh5D1XEBp7RtB0E4HEwF5aZGw7ZnP6/gjuG+8KDpFayZZ/Z4C3+HPT2eDn85OlP4kol4feApQ==
       tarball: file:projects/perf-keyvault-keys.tgz
     version: 0.0.0
   file:projects/perf-keyvault-secrets.tgz:
     dependencies:
       '@azure/identity': 2.0.0-beta.3
+      '@azure/keyvault-secrets': 4.2.0
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
       eslint: 7.23.0
@@ -10733,7 +10795,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-secrets'
     resolution:
-      integrity: sha512-cRYN92fq0w3FJpW/fYtLT48J/ehpU/LdIzcsDrPv0tTFZZwZlaF+nGLf0l0ZA99hdMrQNrmAKPfV3PCZi57FWQ==
+      integrity: sha512-TE/BwyyUp0hpRF5B3u2jg3Oli+Ni6CVb2usjvY2MFXb2ZSvliNGvlMtRNlMGbh8QLQObSQ2bavzBi817tYdc5g==
       tarball: file:projects/perf-keyvault-secrets.tgz
     version: 0.0.0
   file:projects/perf-search-documents.tgz:
