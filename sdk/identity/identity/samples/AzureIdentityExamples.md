@@ -33,7 +33,7 @@ For client-side applications running in the browser, the `InteractiveBrowserCred
 - Configure the app registration with a redirect URI to specify where the Microsoft identity platform should redirect the client along with any security tokens.
   - If using v1 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 1.0 with implicit flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-10-with-implicit-flow) to set the redirect URI.
   - If using v2 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 2.0 with auth code flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow)
-- * Ensure that your application has the correct permission for the APIs it intends to use.
+- Ensure that your application has the correct permission for the APIs it intends to use.
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
   - Select the API you want to use. For example, if you're using any of our management/control plane packages, i.e., the ones whose name starts with `@azure/arm-`, you should select `Azure Service Management`.
@@ -316,7 +316,7 @@ Next, prompt the user to login at the URL documented at [Microsoft identity plat
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
 
-For a complete example using the authorization code flow in Electron, see [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/frameworks/electron/ts/src/authProvider.ts).
+For a complete example using the authorization code flow in Electron, see [our Electron sample](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/frameworks/electron/ts/src/authProvider.ts).
 
 ```ts
 /**
@@ -479,7 +479,7 @@ function withChainedTokenCredential() {
 
 ### Determine the Azure Authority Host for Azure Stack
 
-In PowerShell, run this command or have your Azure Stack Administrator run this command:
+In PowerShell, run this command or have your Azure Stack administrator run this command:
 
 ```powershell
 Get-AzEnvironment -Name <Name-of-Azure-Stack-Instance>
@@ -497,7 +497,7 @@ The ActiveDirectory Authority in the output will be your Azure Authority Host
 
 ### Determine the Tenant ID for Azure Stack
 
-If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD), contact your Azure Stack Administrator to find your tenant ID. Otherwise, if the Identity provider of your Azure Stack is Active Directory Federation Services (ADFS), your tenant ID is `adfs`.
+If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD), contact your Azure Stack administrator to find your tenant ID. Otherwise, if the Identity provider of your Azure Stack is Active Directory Federation Services (ADFS), your tenant ID is `adfs`.
 
 ### Authentication example
 
@@ -782,7 +782,7 @@ There are different ways to create Key Vault certificates. For example, through 
 
 Once you have a certificate, you may export the certificate with the Azure CLI following the steps at [Export certificates from Azure Key Vault](https://docs.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
 
-You can also export your certificate through the portal by going to your Key Vault, going to a specific certificate, then downloading the certificate in PFX/PEM format.
+You can also export your certificate through the Azure portal. Navigate to your Key Vault resource, go to a specific certificate, then download the certificate in PFX/PEM format.
 
 Once you have a Key Vault certificate downloaded, go to Azure Active Directory. Find the Enterprise app you want to authenticate with, go to `Certificates & secrets`, and upload the certificate.
 
