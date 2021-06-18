@@ -11,16 +11,16 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1327",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 00:24:16 GMT",
+    "date": "Fri, 18 Jun 2021 16:38:52 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+chi\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.4 - NCUS ProdSlices",
+    "x-ms-ests-server": "2.1.11829.4 - WUS2 ProdSlices",
     "x-ms-request-id": "sanitized"
    }
   },
@@ -36,13 +36,13 @@
    "responseHeaders": {
     "api-supported-versions": "2021-03-07",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 00:24:17 GMT",
-    "ms-cv": "6A+1WbvpJEGqVPQcp4l06g.0",
+    "date": "Fri, 18 Jun 2021 16:38:53 GMT",
+    "ms-cv": "X7KoivmRI0ORvOvQiRe5Yw.0",
     "request-context": "appId=",
     "status": "200",
-    "x-azure-ref": "0sOfLYAAAAADj5Nj7IjgqRYMfpZR4dKHhWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0HczMYAAAAADurcVbQQZMT6IQ1w5A9EM3WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1354ms"
+    "x-processing-time": "1050ms"
    }
   }
  ],

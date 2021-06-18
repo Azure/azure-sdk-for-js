@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "13def522ee31a2a933aced2eb64bc576";
+module.exports.hash = "24cf17e5a184ecc379d3cf483e2ba7f3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -27,15 +27,15 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'x-ms-ests-server',
   '2.1.11829.4 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ai4CmGiDYqFBkzYib2S8D45Wyo4SAgAAAPLdXdgOAAAA; expires=Sun, 18-Jul-2021 00:21:23 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akx-rKIenedChRbNwm0wEmhWyo4SAgAAAGbCXtgOAAAA; expires=Sun, 18-Jul-2021 16:36:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZFh2biWKa_hR3PJRxe4i0ZzGEYlq6uNsh6bcZ0jaC_7HdbX9edQOa_D0uUjz4Hkf3m2g75pVAB2EmU2eYiSZoHu6haoBSShyV9HqupzS6Qu5ZEGhk08seVSNTOigCEfvLwGDTmzI2gtAqm5o71ZiuHWrCkkU3gcHSRKjxOYSOdUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrWA4TVTVJ--yV-tAaRKSw82dQmlRZrksVnk1wIMoEy4eFe6yyeOum9TXxGrscjBsZRVVQ4JhONBgQ-RGH_8p-epdAGxxjwaiT36ngO5jm9CdDDMM22ThkyoB54Kxs7ETEdqDUFX5VrF1mFJbj8r0AznXWIyNQwDE_xsob-j7n2OggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 18 Jun 2021 00:21:22 GMT',
+  'Fri, 18 Jun 2021 16:36:04 GMT',
   'Content-Length',
   '980'
 ]);
@@ -60,17 +60,17 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11829.4 - WUS2 ProdSlices',
+  '2.1.11829.4 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ai4CmGiDYqFBkzYib2S8D45Wyo4SAgAAAPLdXdgOAAAA; expires=Sun, 18-Jul-2021 00:21:23 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akx-rKIenedChRbNwm0wEmhWyo4SAgAAAGbCXtgOAAAA; expires=Sun, 18-Jul-2021 16:36:05 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr5xv2YlIMb6qak6_rdwhuPwhSVmdid63Jx2v_kYvqIMfLIsxZvHnccrAzvR6qFhZPqYnolxq1-mYxoSoVimuj1sVYOYGRHS5KAbyzf1ADaaN9Ja3hdJXS2h9PRiL5hpPPTPEg_Sv19utsShK3rQu4eWBHgvN2fBlUHOXwwJP2x9sgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrWUfqJo6CJ7-tp8l1uQZdnbH5Hg3QtJJ3YV6l5FSvSrts7dc0Mtw98QKHGHX-hHDUihskQhI24tjh274XbYTBtohP00omgTX1ZCid6oA_zJjD0B8nq-HcHlOiO6tKY4uRG25JG0O9S7-TxPEjctoxvthAaT2RJXZhVFrPxlzo2z4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 18 Jun 2021 00:21:22 GMT',
+  'Fri, 18 Jun 2021 16:36:04 GMT',
   'Content-Length',
   '1753'
 ]);
@@ -95,17 +95,17 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11829.4 - WUS2 ProdSlices',
+  '2.1.11829.4 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Ai4CmGiDYqFBkzYib2S8D45Wyo4SAwAAAPLdXdgOAAAA; expires=Sun, 18-Jul-2021 00:21:23 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akx-rKIenedChRbNwm0wEmhWyo4SAwAAAGbCXtgOAAAA; expires=Sun, 18-Jul-2021 16:36:05 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 18 Jun 2021 00:21:23 GMT',
+  'Fri, 18 Jun 2021 16:36:05 GMT',
   'Content-Length',
   '1327'
 ]);
@@ -121,7 +121,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'JiPY3Zb5lE2t26vmpmjeWg.0',
+  'MCw5jaxsc0OKKIdsD/rFKA.0',
   'Operation-Location',
   '/phoneNumbers/operations/search_sanitized?api-version=2021-03-07',
   'operation-id',
@@ -131,13 +131,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '4158ms',
+  '2804ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0A+fLYAAAAACydDA8uiJVQYiE7m3xekh1WVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0dcvMYAAAAAAf9JYYxgNPRKbq+nb9n31RWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:27 GMT',
+  'Fri, 18 Jun 2021 16:36:08 GMT',
   'Content-Length',
   '0'
 ]);
@@ -145,7 +145,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/search_sanitized')
   .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07","createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"search_sanitized","operationType":"search","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"notStarted","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07","createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"search_sanitized","operationType":"search","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -157,23 +157,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'ZKLaMUyuY0KZUpVj2zv13Q.0',
+  'CigSHtcSJ06zyHQ11V6dbQ.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '523ms',
+  '569ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0COfLYAAAAAB8KK5dM0VQSK06p/YarAEIWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0eMvMYAAAAABIMnGIbChPTYPe2kzfIyR9WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:27 GMT'
+  'Fri, 18 Jun 2021 16:36:08 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/search_sanitized')
   .query(false)
-  .reply(200, {"status":"succeeded","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07","createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"search_sanitized","operationType":"search","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"succeeded","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07","createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"search_sanitized","operationType":"search","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -185,23 +185,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'te6jFTtOrUSX1lqRg94kTQ.0',
+  '2iKmajM+XUaK0rHac9hVyg.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '381ms',
+  '357ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0CufLYAAAAAAMaKQQweCCS6W0FHGd+cpTWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0esvMYAAAAAA86FWamU90QqkDHK5oQzyGWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:30 GMT'
+  'Fri, 18 Jun 2021 16:36:11 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/availablePhoneNumbers/searchResults/sanitized')
   .query(false)
-  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2021-06-18T00:37:29.0350364+00:00"}, [
+  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2021-06-18T16:52:09.6164096+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -209,17 +209,17 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'XazqDvo38EiPlqkDMIm3Qw.0',
+  'ApF14udBC0yfrcC1FqW77Q.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '958ms',
+  '924ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0DefLYAAAAACDZB01DpePSJTKKhkfWUr9WVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0fcvMYAAAAACP0u5xWy5GT46rTuMAMSikWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:33 GMT'
+  'Fri, 18 Jun 2021 16:36:14 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
@@ -231,7 +231,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'w1LidCbBIEe8DA1KtS7fkw.0',
+  'Ijj8faEWRUWp3xbyTZ+mhQ.0',
   'Operation-Location',
   '/phoneNumbers/operations/purchase_sanitized?api-version=2021-03-07',
   'operation-id',
@@ -241,13 +241,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1979ms',
+  '1862ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0EOfLYAAAAAC0KsvJ24IqRaYBbIGTx2l4WVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0gMvMYAAAAAB24pCALPnWTJxkK7MTldEZWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:37 GMT',
+  'Fri, 18 Jun 2021 16:36:18 GMT',
   'Content-Length',
   '0'
 ]);
@@ -255,7 +255,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/purchase_sanitized')
   .query(false)
-  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -263,7 +263,127 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'qGEwExF6d0y22Kb9n943NA.0',
+  '5OuM8uL8Xk64AQMf33n5pQ.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '379ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0gsvMYAAAAAB3vCaS82geSI0b3IFTK411WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:36:18 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/purchase_sanitized')
+  .query(false)
+  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  '0qJeHyB9CU2OsQbAhf9FKg.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '590ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0hMvMYAAAAACJbAgwjlDXR59x/3KHHbGTWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:36:21 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/purchase_sanitized')
+  .query(false)
+  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  'xX1s5HSj8kixxn15HyHtTw.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '432ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0h8vMYAAAAAD8AUDDixgdQLaGr2hrH+PpWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:36:23 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/purchase_sanitized')
+  .query(false)
+  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  'eY9D/SqXJUm4JWXTVepS8Q.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '379ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0icvMYAAAAABxjdOXjcJZQYQKS4Shn+8JWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:36:26 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/purchase_sanitized')
+  .query(false)
+  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  '+HLcTPqDY06YvTkZfL+uQg.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '388ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0jMvMYAAAAAAQV17OMRsgR6xULrUZhpO5WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:36:28 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/purchase_sanitized')
+  .query(false)
+  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  'asqsJTp/Ck66+WDunA9Wlw.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
@@ -271,15 +391,15 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0EufLYAAAAABRNQfEAKO4QZUpGW7gWDG3WVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0jsvMYAAAAADjiRBQweHjTb9hGK5JynmwWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:37 GMT'
+  'Fri, 18 Jun 2021 16:36:30 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/purchase_sanitized')
   .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -287,23 +407,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'R7ivLMYLCUaKLLscqD11MA.0',
+  'iqSaEKWk/0aTV1f+80JQ5g.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '371ms',
+  '577ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0FOfLYAAAAAD54212kGUMSaEMN0+HONDUWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0kcvMYAAAAADWIoF679ZKTK9BiKrK5mumWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:41 GMT'
+  'Fri, 18 Jun 2021 16:36:33 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/purchase_sanitized')
   .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"succeeded","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:07.8086229+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -311,143 +431,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'EgnYn0qFiEe+E5D7B61mSQ.0',
+  '8V/chfNreUCOKu5ASrFGdw.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '655ms',
+  '373ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0F+fLYAAAAADL3dUBay/iQqe/3cCr70LHWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0k8vMYAAAAAADVch+A5aOSrao/RG66cK2WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:43 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":false})
-  .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Request-Context',
-  'appId=',
-  'MS-CV',
-  'nU6REpF0d0SmJY+Opc5HUg.0',
-  'api-supported-versions',
-  '2021-03-07',
-  'X-Processing-Time',
-  '510ms',
-  'X-Cache',
-  'CONFIG_NOCACHE',
-  'X-Azure-Ref',
-  '0GefLYAAAAAAv+0IHTzu5RoNB3+KpZBInWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
-  'Date',
-  'Fri, 18 Jun 2021 00:21:46 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":false})
-  .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Request-Context',
-  'appId=',
-  'MS-CV',
-  'yZ9s2+VMWkyS0VI6UdPO/Q.0',
-  'api-supported-versions',
-  '2021-03-07',
-  'X-Processing-Time',
-  '348ms',
-  'X-Cache',
-  'CONFIG_NOCACHE',
-  'X-Azure-Ref',
-  '0HOfLYAAAAACqDvbA1dJXS7YLQvAPpRLjWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
-  'Date',
-  'Fri, 18 Jun 2021 00:21:48 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":false})
-  .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Request-Context',
-  'appId=',
-  'MS-CV',
-  'fHVYK0DtyEWfKO8tY6cw9w.0',
-  'api-supported-versions',
-  '2021-03-07',
-  'X-Processing-Time',
-  '357ms',
-  'X-Cache',
-  'CONFIG_NOCACHE',
-  'X-Azure-Ref',
-  '0H+fLYAAAAADxerwaAX07SZ+15nqfg/ovWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
-  'Date',
-  'Fri, 18 Jun 2021 00:21:51 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":false})
-  .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
-  .reply(200, {"status":"notStarted","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Request-Context',
-  'appId=',
-  'MS-CV',
-  'mZVm4vBuhECfphKcP53cuQ.0',
-  'api-supported-versions',
-  '2021-03-07',
-  'X-Processing-Time',
-  '375ms',
-  'X-Cache',
-  'CONFIG_NOCACHE',
-  'X-Azure-Ref',
-  '0IefLYAAAAAC4C3/bPoc+Sp3Va8kjwhKXWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
-  'Date',
-  'Fri, 18 Jun 2021 00:21:53 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":false})
-  .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
-  .reply(200, {"status":"succeeded","resourceLocation":null,"createdDateTime":"2021-06-18T00:21:26.9614972+00:00","id":"purchase_sanitized","operationType":"purchase","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Request-Context',
-  'appId=',
-  'MS-CV',
-  'sHKJHFqolESbxGLrhqnvXQ.0',
-  'api-supported-versions',
-  '2021-03-07',
-  'X-Processing-Time',
-  '370ms',
-  'X-Cache',
-  'CONFIG_NOCACHE',
-  'X-Azure-Ref',
-  '0I+fLYAAAAAD2czWmh68rTqoOzsR9cyPmWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
-  'Date',
-  'Fri, 18 Jun 2021 00:21:56 GMT'
+  'Fri, 18 Jun 2021 16:36:35 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/%2B14155550100')
   .query(false)
-  .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-06-18T00:21:53.2858909+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}, [
+  .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-06-18T16:36:33.156404+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -455,17 +455,17 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'HMBJ2esxqE+QTh9vQEUt8g.0',
+  'JZ4SOp+HVE6fmkxRQ+FdWw.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1076ms',
+  '1384ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0KOfLYAAAAACvy0IWZqt4SYoA8YVoIF0nWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0mMvMYAAAAAAGkDyRTGvaRLdWYYDdRkKBWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:22:01 GMT'
+  'Fri, 18 Jun 2021 16:36:41 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
@@ -477,7 +477,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'md709tsx/Ee45ycnjaTkEQ.0',
+  'xOeRAOQsL0KQKUSRWqRzKA.0',
   'Operation-Location',
   '/phoneNumbers/operations/release_sanitized?api-version=2021-03-07',
   'operation-id',
@@ -487,13 +487,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1062ms',
+  '1052ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0KefLYAAAAACQHB2gVh5WQ7y4tLgEhhfUWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0mcvMYAAAAAC1AH9pxpUJQ45YpADcvLLuWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:22:02 GMT',
+  'Fri, 18 Jun 2021 16:36:42 GMT',
   'Content-Length',
   '0'
 ]);
@@ -501,7 +501,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
   .query(false)
-  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T00:22:02.0335928+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:42.286569+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -509,23 +509,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'qFfuVFE+aEmq7qhA+iRJ7w.0',
+  'V+bSK7fs9UKnasknwxKm/w.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '362ms',
+  '294ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0KufLYAAAAAAEI3wjAyv9RZF1J1dJaFfDWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0msvMYAAAAAAWZl8/zoSoRobIkdZ5DNbVWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:22:02 GMT'
+  'Fri, 18 Jun 2021 16:36:42 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
   .query(false)
-  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T00:22:02.0335928+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:42.286569+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -533,23 +533,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'wm8jfrd6iEmCPo1kv0CePg.0',
+  'OFXGT/BLFESM9xOZweSqug.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '320ms',
+  '310ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0LefLYAAAAABcNxUhAMWUTJxlV9uw76M6WVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0ncvMYAAAAAD4ClT0E8MaQosaL4JpA738WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:22:05 GMT'
+  'Fri, 18 Jun 2021 16:36:45 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
   .query(false)
-  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T00:22:02.0335928+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:42.286569+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -557,23 +557,23 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'eHby00jWok2D4GirTJ7kKw.0',
+  'n/OyEPhqWkSJSv9+9jSMpQ.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '320ms',
+  '491ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0L+fLYAAAAABeOTZohEi5RqQH3U7qwOxjWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0n8vMYAAAAAAy88rNBfegSpb+NyFYKkg6WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:22:07 GMT'
+  'Fri, 18 Jun 2021 16:36:47 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
   .query(false)
-  .reply(200, {"status":"succeeded","resourceLocation":null,"createdDateTime":"2021-06-18T00:22:02.0335928+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"succeeded","resourceLocation":null,"createdDateTime":"2021-06-18T16:36:42.286569+00:00","id":"release_sanitized","operationType":"releasePhoneNumber","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -581,15 +581,15 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '/MHnIXFiwEqw264KNGekNg.0',
+  '4K25XunquEaJ9P6alt4kqg.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '319ms',
+  '296ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0MufLYAAAAABtPWq39JkYSJj/HboSbZSpWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0osvMYAAAAABnZayl7tXrT7iETkScwtYRWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:22:10 GMT'
+  'Fri, 18 Jun 2021 16:36:50 GMT'
 ]);

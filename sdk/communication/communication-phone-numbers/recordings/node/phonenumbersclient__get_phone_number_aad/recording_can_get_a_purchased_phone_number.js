@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "6e2aa0c261e9424059ecb87e0e89552a";
+module.exports.hash = "c277fc9e40dbe9b6a340b0fd4b58a391";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -25,17 +25,17 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11829.4 - WUS2 ProdSlices',
+  '2.1.11829.4 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ai4CmGiDYqFBkzYib2S8D44; expires=Sun, 18-Jul-2021 00:21:06 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akx-rKIenedChRbNwm0wEmg; expires=Sun, 18-Jul-2021 16:35:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrtVeqxAfUAXBATvrOI6PNAGLfQP3ulOtNPI2fNGENXn_k0B-3H6mNE7yICwzq5Ev4-RE2pKY9JENeiqsI8pdNsLPkuIOCz-eEdilqFU2oFPn99EvQBTbyno0Ab9HOb1wTDeYMStX9WHS8IFBQ8snCYtXlc8XqvUYynwUMXEKPQ-YgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrUP5rFdyppgto6T8-nEb-weSXa06T3sZE0rV4WBtoC_dTrep1oqXIpsRCNXtWIukOmPj92Gt26VyOLN6XE-XKvJ7XcQE59_vz-dNlkBc_J8VZ7GjgG7S6CjdxulZVzMzMlDdkM2yRKeusNVCWgiDqTSO48fqvon-NDB76qnBZdyogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 18 Jun 2021 00:21:06 GMT',
+  'Fri, 18 Jun 2021 16:35:50 GMT',
   'Content-Length',
   '980'
 ]);
@@ -60,17 +60,17 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11829.4 - WUS2 ProdSlices',
+  '2.1.11829.4 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ai4CmGiDYqFBkzYib2S8D44; expires=Sun, 18-Jul-2021 00:21:07 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akx-rKIenedChRbNwm0wEmg; expires=Sun, 18-Jul-2021 16:35:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrUfNs_MfmeinN7isSeUXGNOQI39F02Hs4Nwvc5dMdYiMCeUCBaNBkJFE_ghxfKhif-BwD30vKuh3scxK_XEG7WBlJykxZwUQ07ZPgdEkFdTbx01zLC2wxxj5iL0LhzQRiT5_Gkq_5Fvcnc8e2e5Q1BGtOaDdkL417FR0GKauAeE8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr-b_WLBcSGjYlr0c9ILgUCAhxmoTuW9ANnvF1jvK4yIU6kvPeEZFJEwqFquJGp1ev-2w7nImXRUY5U6GdZumMW_KTH7UkZ2Z7jEfg1wvr6ckWSTsfXUaxiIuFT_DHYmkmbqt740_YXWVtpF5Sixv0NI4uFhfxCVw1-fcltiwag1EgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 18 Jun 2021 00:21:06 GMT',
+  'Fri, 18 Jun 2021 16:35:50 GMT',
   'Content-Length',
   '1753'
 ]);
@@ -99,13 +99,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Ai4CmGiDYqFBkzYib2S8D45Wyo4SAQAAAPLdXdgOAAAA; expires=Sun, 18-Jul-2021 00:21:07 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akx-rKIenedChRbNwm0wEmhWyo4SAQAAAGbCXtgOAAAA; expires=Sun, 18-Jul-2021 16:35:51 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 18 Jun 2021 00:21:06 GMT',
+  'Fri, 18 Jun 2021 16:35:51 GMT',
   'Content-Length',
   '1327'
 ]);
@@ -121,15 +121,15 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'EYbASDPTJ02y1JC3X6BuDQ.0',
+  '0/oqhO7TbE6ufoLEkR1wNg.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '4226ms',
+  '2125ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '08+bLYAAAAADmuWldGHZbRqoGvA+uKmTUWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Z8vMYAAAAAAfP6LIwgfUQI0EYqw1q7UYWVZSMzBFREdFMDQwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 00:21:11 GMT'
+  'Fri, 18 Jun 2021 16:35:53 GMT'
 ]);
