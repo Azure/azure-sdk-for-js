@@ -343,7 +343,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     testLogger.info(`Done testing dead letter`);
   }
 
-  it.only(
+  it(
     noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
     async function(): Promise<void> {
       enableCommonLoggers();

@@ -871,17 +871,7 @@ describe("Batching Receiver", () => {
         refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
       });
 
-      //
-      // TODO: this is the one that appears to consistently fail.
-      //
-      //
-      //
-      //
-
-      // it.only("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
-      //   void
-      // > {
-      it.only("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
+      it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
         void
       > {
         // Create the sender and receiver.
