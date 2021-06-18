@@ -165,7 +165,10 @@ describe("#AzureMonitorBaseExporter", () => {
         let persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual((<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual(
+          (<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"],
+          redirectHost
+        );
       });
 
       it("should handle temporary redirects in Azure Monitor", async () => {
@@ -183,7 +186,10 @@ describe("#AzureMonitorBaseExporter", () => {
         let persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual((<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual(
+          (<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"],
+          redirectHost
+        );
       });
 
       it("should use redirect URL for following requests", async () => {
@@ -198,10 +204,16 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(307, {}, { location: redirectLocation });
         let result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual((<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual(
+          (<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"],
+          redirectHost
+        );
         result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual((<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual(
+          (<HttpSender>exporter["_sender"])["_appInsightsClient"]["host"],
+          redirectHost
+        );
       });
 
       it("should stop redirecting when circular redirect is triggered", async () => {
@@ -213,8 +225,14 @@ describe("#AzureMonitorBaseExporter", () => {
           return true;
         });
         // Circle redirect
-        scope.reply(307, JSON.stringify(successfulBreezeResponse(1)), { location: redirectLocation }).persist();
-        redirectScope.reply(307, JSON.stringify(successfulBreezeResponse(1)), { location: DEFAULT_BREEZE_ENDPOINT }).persist();
+        scope
+          .reply(307, JSON.stringify(successfulBreezeResponse(1)), { location: redirectLocation })
+          .persist();
+        redirectScope
+          .reply(307, JSON.stringify(successfulBreezeResponse(1)), {
+            location: DEFAULT_BREEZE_ENDPOINT
+          })
+          .persist();
 
         let result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.FAILED);
