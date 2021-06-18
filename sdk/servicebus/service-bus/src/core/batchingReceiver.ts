@@ -281,7 +281,7 @@ export class BatchingReceiverLite {
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)
-        return [];
+        throw new ServiceBusError("Link closed before receiving.", "GeneralError");
       }
 
       const messages = await new Promise<ServiceBusMessageImpl[]>((resolve, reject) =>
