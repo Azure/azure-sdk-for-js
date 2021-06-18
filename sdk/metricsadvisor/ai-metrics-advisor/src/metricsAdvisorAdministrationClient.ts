@@ -33,7 +33,7 @@ import {
   AnomalyDetectionConfigurationPatch,
   GetDataFeedResponse,
   GetDetectionConfigResponse,
-  GetAnomalyAlertConfigurationResponse as GetAlertConfigResponse,
+  GetAlertConfigResponse,
   GetHookResponse,
   NotificationHookUnion,
   DataFeedAutoRollupMethod,

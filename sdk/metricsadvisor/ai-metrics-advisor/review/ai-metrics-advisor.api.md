@@ -575,7 +575,7 @@ export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
 export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
 
 // @public
-export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
+export type GetAlertConfigResponse = AnomalyAlertConfiguration & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -988,7 +988,7 @@ export type MetricPeriodFeedback = {
 // @public
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
-    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAlertConfigResponse>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
     createDataSourceCredential(dataSourceCredential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
@@ -999,7 +999,7 @@ export class MetricsAdvisorAdministrationClient {
     deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    getAlertConfig(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    getAlertConfig(id: string, options?: OperationOptions): Promise<GetAlertConfigResponse>;
     getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
     getDataSourceCredential(id: string, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
@@ -1012,7 +1012,7 @@ export class MetricsAdvisorAdministrationClient {
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
-    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAlertConfigResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
     updateDataSourceCredential(id: string, patch: DataSourceCredentialPatch, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
     updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<GetDetectionConfigResponse>;

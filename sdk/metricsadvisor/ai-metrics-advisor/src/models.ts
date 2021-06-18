@@ -1696,7 +1696,7 @@ export type GetDetectionConfigResponse = AnomalyDetectionConfiguration & {
 /**
  * Contains response data for the getAnomalyAlertConfiguration operation.
  */
-export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
+export type GetAlertConfigResponse = AnomalyAlertConfiguration & {
   /**
    * The underlying HTTP response.
    */
