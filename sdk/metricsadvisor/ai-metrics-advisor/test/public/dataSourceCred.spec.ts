@@ -4,15 +4,15 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
-  DataLakeGen2SharedKeyDataSourceCredential,
-  DataLakeGen2SharedKeyDataSourceCredentialPatch,
+  DataSourceDataLakeGen2SharedKey,
+  DataSourceDataLakeGen2SharedKeyPatch,
   MetricsAdvisorAdministrationClient,
-  ServicePrincipalDataSourceCredential,
-  ServicePrincipalDataSourceCredentialPatch,
-  ServicePrincipalInKeyVaultDataSourceCredential,
-  ServicePrincipalInKeyVaultDataSourceCredentialPatch,
-  SqlServerConnectionStringDataSourceCredential,
-  SqlServerConnectionStringDataSourceCredentialPatch
+  DataSourceServicePrincipal,
+  DataSourceServicePrincipalPatch,
+  DataSourceServicePrincipalInKeyVault,
+  DataSourceServicePrincipalInKeyVaultPatch,
+  DataSourceSqlConnectionString,
+  DataSourceSqlServerConnectionStringPatch
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -41,7 +41,7 @@ describe("DataSourceCredential", () => {
     let createdServicePrincipalInKVCredId: string;
 
     it("creates sql server connection string credential", async function() {
-      const sqlServerCredential: SqlServerConnectionStringDataSourceCredential = {
+      const sqlServerCredential: DataSourceSqlConnectionString = {
         ...dataSourceCredential,
         name: "ExampleSQLCredential",
         type: "AzureSQLConnectionString",
@@ -59,7 +59,7 @@ describe("DataSourceCredential", () => {
       if (!createdSqlServerCredId) {
         this.skip();
       }
-      const sqlServerCredentialPatch: SqlServerConnectionStringDataSourceCredentialPatch = {
+      const sqlServerCredentialPatch: DataSourceSqlServerConnectionStringPatch = {
         name: "UpdatedSqlCred",
         description: "updated description",
         connectionString: "updated-string",
@@ -76,7 +76,7 @@ describe("DataSourceCredential", () => {
     });
 
     it("creates datalake gen2 shared key credential", async function() {
-      const datalakeCred: DataLakeGen2SharedKeyDataSourceCredential = {
+      const datalakeCred: DataSourceDataLakeGen2SharedKey = {
         ...dataSourceCredential,
         name: "ExampleDLCredential",
         type: "DataLakeGen2SharedKey",
@@ -95,7 +95,7 @@ describe("DataSourceCredential", () => {
       if (!createdDatalakeCredId) {
         this.skip();
       }
-      const dataLakeCredentialPatch: DataLakeGen2SharedKeyDataSourceCredentialPatch = {
+      const dataLakeCredentialPatch: DataSourceDataLakeGen2SharedKeyPatch = {
         name: "UpdatedDataLakeCred",
         description: "updated description",
         accountKey: "updated account key",
@@ -112,7 +112,7 @@ describe("DataSourceCredential", () => {
     });
 
     it("creates service principal credential", async function() {
-      const servicePrincipalCred: ServicePrincipalDataSourceCredential = {
+      const servicePrincipalCred: DataSourceServicePrincipal = {
         ...dataSourceCredential,
         name: "ExampleSPCredential",
         type: "ServicePrincipal",
@@ -135,7 +135,7 @@ describe("DataSourceCredential", () => {
       if (!createdServicePrincipalCredId) {
         this.skip();
       }
-      const servicePrincipalCredentialPatch: ServicePrincipalDataSourceCredentialPatch = {
+      const servicePrincipalCredentialPatch: DataSourceServicePrincipalPatch = {
         name: "UpdatedSPCred",
         description: "updated description",
         clientId: "updated-client",
@@ -152,13 +152,13 @@ describe("DataSourceCredential", () => {
       assert.equal(updated.type, servicePrincipalCredentialPatch.type);
       assert.equal(updated.name, servicePrincipalCredentialPatch.name);
       assert.equal(
-        (updated as ServicePrincipalDataSourceCredentialPatch).clientId,
+        (updated as DataSourceServicePrincipalPatch).clientId,
         servicePrincipalCredentialPatch.clientId
       );
     });
 
     it("creates service principal in keyvault credential", async function() {
-      const servicePrincipalInKVCred: ServicePrincipalInKeyVaultDataSourceCredential = {
+      const servicePrincipalInKVCred: DataSourceServicePrincipalInKeyVault = {
         ...dataSourceCredential,
         name: "ExampleSPinKVCredential",
         type: "ServicePrincipalInKV",
@@ -187,7 +187,7 @@ describe("DataSourceCredential", () => {
       if (!createdServicePrincipalInKVCredId) {
         this.skip();
       }
-      const servicePrincipalInKVCredentialPatch: ServicePrincipalInKeyVaultDataSourceCredentialPatch = {
+      const servicePrincipalInKVCredentialPatch: DataSourceServicePrincipalInKeyVaultPatch = {
         name: "UpdatedSPinKVCred",
         description: "updated description",
         keyVaultEndpoint: "updated-keyvault-endpoint",
@@ -208,15 +208,15 @@ describe("DataSourceCredential", () => {
       assert.equal(updated.type, servicePrincipalInKVCredentialPatch.type);
       assert.equal(updated.name, servicePrincipalInKVCredentialPatch.name);
       assert.equal(
-        (updated as ServicePrincipalDataSourceCredentialPatch).tenantId,
+        (updated as DataSourceServicePrincipalPatch).tenantId,
         servicePrincipalInKVCredentialPatch.tenantId
       );
       assert.equal(
-        (updated as ServicePrincipalInKeyVaultDataSourceCredentialPatch).keyVaultClientId,
+        (updated as DataSourceServicePrincipalInKeyVaultPatch).keyVaultClientId,
         servicePrincipalInKVCredentialPatch.keyVaultClientId
       );
       assert.equal(
-        (updated as ServicePrincipalInKeyVaultDataSourceCredentialPatch).servicePrincipalIdNameInKV,
+        (updated as DataSourceServicePrincipalInKeyVaultPatch).servicePrincipalIdNameInKV,
         servicePrincipalInKVCredentialPatch.servicePrincipalIdNameInKV
       );
     });

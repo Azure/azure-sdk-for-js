@@ -45,7 +45,7 @@ import {
   DataFeedStatus,
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration,
-  DataSourceCredentialUnion,
+  DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
   CredentialsPageResponse,
   GetDataSourceCredentialEntityResponse
@@ -1584,7 +1584,7 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async createDataSourceCredential(
-    dataSourceCredential: DataSourceCredentialUnion,
+    dataSourceCredential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
   ): Promise<GetDataSourceCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1692,7 +1692,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public listDataSourceCredential(
     options: ListDataSourceCredentialsOptions = {}
-  ): PagedAsyncIterableIterator<DataSourceCredentialUnion, CredentialsPageResponse> {
+  ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
     const iter = this.listItemsOfDataSourceCredentials(options);
     return {
       /**
@@ -1721,7 +1721,7 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listItemsOfDataSourceCredentials(
     options: ListDataSourceCredentialsOptions
-  ): AsyncIterableIterator<DataSourceCredentialUnion> {
+  ): AsyncIterableIterator<DataSourceCredentialEntityUnion> {
     for await (const segment of this.listSegmentsOfCredentialEntities(options)) {
       if (segment) {
         yield* segment;

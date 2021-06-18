@@ -1736,7 +1736,7 @@ export type GetHookResponse = NotificationHookUnion & {
 /**
  * Contains response data for the getCredentialEntity operation.
  */
-export type GetDataSourceCredentialEntityResponse = DataSourceCredentialUnion & {
+export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -2180,7 +2180,7 @@ export type GetIngestionProgressResponse = {
 /**
  * Data Source Credential
  */
-export interface DataSourceCredential {
+export interface DataSourceCredentialEntity {
   /**
    * Unique id of data source credential
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2195,7 +2195,7 @@ export interface DataSourceCredential {
 /**
  * SqlServer Data Source Credential
  */
-export interface SqlServerConnectionStringDataSourceCredential extends DataSourceCredential {
+export interface DataSourceSqlConnectionString extends DataSourceCredentialEntity {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** The connection string for SqlServer Data Source Credential */
@@ -2205,7 +2205,7 @@ export interface SqlServerConnectionStringDataSourceCredential extends DataSourc
 /**
  * DataLake Gen2 Shared Key DataSource Credential
  */
-export interface DataLakeGen2SharedKeyDataSourceCredential extends DataSourceCredential {
+export interface DataSourceDataLakeGen2SharedKey extends DataSourceCredentialEntity {
   /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
   /** The account key of the DataLake Gen2 Shared Key DataSource Credential  */
@@ -2215,7 +2215,7 @@ export interface DataLakeGen2SharedKeyDataSourceCredential extends DataSourceCre
 /**
  * Service Principal DataSource Credential
  */
-export interface ServicePrincipalDataSourceCredential extends DataSourceCredential {
+export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
   /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** The client id of the service principal. */
@@ -2229,7 +2229,7 @@ export interface ServicePrincipalDataSourceCredential extends DataSourceCredenti
 /**
  * Service Principal in KeyVault DataSource Credential
  */
-export interface ServicePrincipalInKeyVaultDataSourceCredential extends DataSourceCredential {
+export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredentialEntity {
   /** Service Principal in KeyVault DataSource Credential */
   type: "ServicePrincipalInKV";
   /** The Key Vault endpoint that storing the service principal. */
@@ -2246,16 +2246,16 @@ export interface ServicePrincipalInKeyVaultDataSourceCredential extends DataSour
   tenantId: string;
 }
 
-export type DataSourceCredentialUnion =
-  | SqlServerConnectionStringDataSourceCredential
-  | DataLakeGen2SharedKeyDataSourceCredential
-  | ServicePrincipalDataSourceCredential
-  | ServicePrincipalInKeyVaultDataSourceCredential;
+export type DataSourceCredentialEntityUnion =
+  | DataSourceSqlConnectionString
+  | DataSourceDataLakeGen2SharedKey
+  | DataSourceServicePrincipal
+  | DataSourceServicePrincipalInKeyVault;
 
 /**
  * SqlServer Data Source Credential Patch
  */
-export interface SqlServerConnectionStringDataSourceCredentialPatch {
+export interface DataSourceSqlServerConnectionStringPatch {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** Name of data source credential */
@@ -2269,7 +2269,7 @@ export interface SqlServerConnectionStringDataSourceCredentialPatch {
 /**
  * DataLake Gen2 Shared Key DataSource Credential Patch
  */
-export interface DataLakeGen2SharedKeyDataSourceCredentialPatch {
+export interface DataSourceDataLakeGen2SharedKeyPatch {
   /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
   /** Name of data source credential */
@@ -2283,7 +2283,7 @@ export interface DataLakeGen2SharedKeyDataSourceCredentialPatch {
 /**
  *  Service Principal DataSource Credential Patch
  */
-export interface ServicePrincipalDataSourceCredentialPatch {
+export interface DataSourceServicePrincipalPatch {
   /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** Name of data source credential */
@@ -2301,7 +2301,7 @@ export interface ServicePrincipalDataSourceCredentialPatch {
 /**
  *  Service Principal in KeyVault DataSource Credential Patch
  */
-export interface ServicePrincipalInKeyVaultDataSourceCredentialPatch {
+export interface DataSourceServicePrincipalInKeyVaultPatch {
   /** Service Principal in KeyVault DataSource Credential */
   type: "ServicePrincipalInKV";
   /** Name of data source credential */
@@ -2326,15 +2326,15 @@ export interface ServicePrincipalInKeyVaultDataSourceCredentialPatch {
  * DataSource credential patch types
  */
 export type DataSourceCredentialPatch =
-  | SqlServerConnectionStringDataSourceCredentialPatch
-  | DataLakeGen2SharedKeyDataSourceCredentialPatch
-  | ServicePrincipalDataSourceCredentialPatch
-  | ServicePrincipalInKeyVaultDataSourceCredentialPatch;
+  | DataSourceSqlServerConnectionStringPatch
+  | DataSourceDataLakeGen2SharedKeyPatch
+  | DataSourceServicePrincipalPatch
+  | DataSourceServicePrincipalInKeyVaultPatch;
 
 /**
  * Contains response data for the listCredentials operation.
  */
-export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
+export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */

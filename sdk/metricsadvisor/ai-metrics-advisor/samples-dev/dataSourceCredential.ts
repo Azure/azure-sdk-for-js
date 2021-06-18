@@ -15,7 +15,7 @@ import {
   MetricsAdvisorAdministrationClient,
   GetDataSourceCredentialEntityResponse,
   DataSourceCredentialPatch,
-  SqlServerConnectionStringDataSourceCredential
+  DataSourceSqlConnectionString
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -75,7 +75,7 @@ async function createDataSourceCredential(
   client: MetricsAdvisorAdministrationClient
 ): Promise<GetDataSourceCredentialEntityResponse> {
   console.log("Creating DataSource credential...");
-  const datasourceCredential: SqlServerConnectionStringDataSourceCredential = {
+  const datasourceCredential: DataSourceSqlConnectionString = {
     name: "Sql-server-cred",
     description: "an example sql server credential",
     type: "AzureSQLConnectionString",

@@ -76,14 +76,14 @@ import {
   AzureDataLakeStorageGen2DataFeedSource,
   SqlServerAuthTypes,
   AnomalyDetectionConfigurationPatch,
-  DataSourceCredentialUnion,
-  DataSourceCredential,
+  DataSourceCredentialEntityUnion,
+  DataSourceCredentialEntity,
   DataFeedSource,
   DataFeedSourcePatch,
-  SqlServerConnectionStringDataSourceCredentialPatch,
-  DataLakeGen2SharedKeyDataSourceCredentialPatch,
-  ServicePrincipalDataSourceCredentialPatch,
-  ServicePrincipalInKeyVaultDataSourceCredentialPatch
+  DataSourceSqlServerConnectionStringPatch,
+  DataSourceDataLakeGen2SharedKeyPatch,
+  DataSourceServicePrincipalPatch,
+  DataSourceServicePrincipalInKeyVaultPatch
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -1386,8 +1386,8 @@ export function toServiceAlertConfigurationPatch(
 
 export function fromServiceCredential(
   result: ServiceDataSourceCredentialUnion
-): DataSourceCredentialUnion {
-  const common: DataSourceCredential = {
+): DataSourceCredentialEntityUnion {
+  const common: DataSourceCredentialEntity = {
     description: result.dataSourceCredentialDescription,
     id: result.dataSourceCredentialId,
     name: result.dataSourceCredentialName
@@ -1429,7 +1429,7 @@ export function fromServiceCredential(
 }
 
 export function toServiceCredential(
-  from: DataSourceCredentialUnion
+  from: DataSourceCredentialEntityUnion
 ): ServiceDataSourceCredentialUnion {
   const common = {
     dataSourceCredentialName: from.name,
@@ -1496,7 +1496,7 @@ export function toServiceCredentialPatch(
   };
   switch (from.type) {
     case "AzureSQLConnectionString": {
-      const cred1 = from as SqlServerConnectionStringDataSourceCredentialPatch;
+      const cred1 = from as DataSourceSqlServerConnectionStringPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1506,7 +1506,7 @@ export function toServiceCredentialPatch(
       };
     }
     case "DataLakeGen2SharedKey": {
-      const cred2 = from as DataLakeGen2SharedKeyDataSourceCredentialPatch;
+      const cred2 = from as DataSourceDataLakeGen2SharedKeyPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1516,7 +1516,7 @@ export function toServiceCredentialPatch(
       };
     }
     case "ServicePrincipal": {
-      const cred3 = from as ServicePrincipalDataSourceCredentialPatch;
+      const cred3 = from as DataSourceServicePrincipalPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1528,7 +1528,7 @@ export function toServiceCredentialPatch(
       };
     }
     case "ServicePrincipalInKV": {
-      const cred4 = from as ServicePrincipalInKeyVaultDataSourceCredentialPatch;
+      const cred4 = from as DataSourceServicePrincipalInKeyVaultPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,

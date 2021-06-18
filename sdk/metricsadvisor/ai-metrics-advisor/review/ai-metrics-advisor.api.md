@@ -230,7 +230,7 @@ export interface CreateDataFeedOptions extends OperationOptions {
 }
 
 // @public
-export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
+export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
     continuationToken?: string;
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -376,20 +376,6 @@ export interface DataFeedsPageResponse extends Array<DataFeed> {
 export type DataFeedStatus = "Paused" | "Active";
 
 // @public
-export interface DataLakeGen2SharedKeyDataSourceCredential extends DataSourceCredential {
-    accountKey?: string;
-    type: "DataLakeGen2SharedKey";
-}
-
-// @public
-export interface DataLakeGen2SharedKeyDataSourceCredentialPatch {
-    accountKey?: string;
-    description?: string;
-    name?: string;
-    type: "DataLakeGen2SharedKey";
-}
-
-// @public
 export type DataLakeStorageGen2AuthBasic = {
     authenticationType: "Basic";
     accountKey: string;
@@ -434,17 +420,87 @@ export interface DataPointAnomaly {
 }
 
 // @public
-export interface DataSourceCredential {
+export interface DataSourceCredentialEntity {
     description?: string;
     readonly id?: string;
     name: string;
 }
 
-// @public
-export type DataSourceCredentialPatch = SqlServerConnectionStringDataSourceCredentialPatch | DataLakeGen2SharedKeyDataSourceCredentialPatch | ServicePrincipalDataSourceCredentialPatch | ServicePrincipalInKeyVaultDataSourceCredentialPatch;
-
 // @public (undocumented)
-export type DataSourceCredentialUnion = SqlServerConnectionStringDataSourceCredential | DataLakeGen2SharedKeyDataSourceCredential | ServicePrincipalDataSourceCredential | ServicePrincipalInKeyVaultDataSourceCredential;
+export type DataSourceCredentialEntityUnion = DataSourceSqlConnectionString | DataSourceDataLakeGen2SharedKey | DataSourceServicePrincipal | DataSourceServicePrincipalInKeyVault;
+
+// @public
+export type DataSourceCredentialPatch = DataSourceSqlServerConnectionStringPatch | DataSourceDataLakeGen2SharedKeyPatch | DataSourceServicePrincipalPatch | DataSourceServicePrincipalInKeyVaultPatch;
+
+// @public
+export interface DataSourceDataLakeGen2SharedKey extends DataSourceCredentialEntity {
+    accountKey?: string;
+    type: "DataLakeGen2SharedKey";
+}
+
+// @public
+export interface DataSourceDataLakeGen2SharedKeyPatch {
+    accountKey?: string;
+    description?: string;
+    name?: string;
+    type: "DataLakeGen2SharedKey";
+}
+
+// @public
+export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
+    clientId: string;
+    clientSecret?: string;
+    tenantId: string;
+    type: "ServicePrincipal";
+}
+
+// @public
+export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredentialEntity {
+    keyVaultClientId: string;
+    keyVaultClientSecret?: string;
+    keyVaultEndpoint: string;
+    servicePrincipalIdNameInKV: string;
+    servicePrincipalSecretNameInKV: string;
+    tenantId: string;
+    type: "ServicePrincipalInKV";
+}
+
+// @public
+export interface DataSourceServicePrincipalInKeyVaultPatch {
+    description?: string;
+    keyVaultClientId?: string;
+    keyVaultClientSecret?: string;
+    keyVaultEndpoint?: string;
+    name?: string;
+    servicePrincipalIdNameInKV?: string;
+    servicePrincipalSecretNameInKV?: string;
+    tenantId?: string;
+    type: "ServicePrincipalInKV";
+}
+
+// @public
+export interface DataSourceServicePrincipalPatch {
+    clientId?: string;
+    clientSecret?: string;
+    description?: string;
+    name?: string;
+    tenantId?: string;
+    type: "ServicePrincipal";
+}
+
+// @public
+export interface DataSourceSqlConnectionString extends DataSourceCredentialEntity {
+    connectionString?: string;
+    type: "AzureSQLConnectionString";
+}
+
+// @public
+export interface DataSourceSqlServerConnectionStringPatch {
+    connectionString?: string;
+    description?: string;
+    name?: string;
+    type: "AzureSQLConnectionString";
+}
 
 // @public
 export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureLogAnalytics" | "AzureTable" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
@@ -535,7 +591,7 @@ export type GetDataFeedResponse = DataFeed & {
 };
 
 // @public
-export type GetDataSourceCredentialEntityResponse = DataSourceCredentialUnion & {
+export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: any;
@@ -934,7 +990,7 @@ export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
-    createDataSourceCredential(dataSourceCredential: DataSourceCredentialUnion, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
+    createDataSourceCredential(dataSourceCredential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
@@ -952,7 +1008,7 @@ export class MetricsAdvisorAdministrationClient {
     listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse>;
-    listDataSourceCredential(options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialUnion, CredentialsPageResponse>;
+    listDataSourceCredential(options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse>;
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
@@ -1083,48 +1139,6 @@ export type PostgreSqlDataFeedSource = {
 };
 
 // @public
-export interface ServicePrincipalDataSourceCredential extends DataSourceCredential {
-    clientId: string;
-    clientSecret?: string;
-    tenantId: string;
-    type: "ServicePrincipal";
-}
-
-// @public
-export interface ServicePrincipalDataSourceCredentialPatch {
-    clientId?: string;
-    clientSecret?: string;
-    description?: string;
-    name?: string;
-    tenantId?: string;
-    type: "ServicePrincipal";
-}
-
-// @public
-export interface ServicePrincipalInKeyVaultDataSourceCredential extends DataSourceCredential {
-    keyVaultClientId: string;
-    keyVaultClientSecret?: string;
-    keyVaultEndpoint: string;
-    servicePrincipalIdNameInKV: string;
-    servicePrincipalSecretNameInKV: string;
-    tenantId: string;
-    type: "ServicePrincipalInKV";
-}
-
-// @public
-export interface ServicePrincipalInKeyVaultDataSourceCredentialPatch {
-    description?: string;
-    keyVaultClientId?: string;
-    keyVaultClientSecret?: string;
-    keyVaultEndpoint?: string;
-    name?: string;
-    servicePrincipalIdNameInKV?: string;
-    servicePrincipalSecretNameInKV?: string;
-    tenantId?: string;
-    type: "ServicePrincipalInKV";
-}
-
-// @public
 export type Severity = "Low" | "Medium" | "High";
 
 // @public (undocumented)
@@ -1184,20 +1198,6 @@ export interface SqlServerAuthServicePrincipalInKeyVault {
 
 // @public
 export type SqlServerAuthTypes = SqlServerAuthBasic | SqlServerAuthManagedIdentity | SqlServerAuthConnectionString | SqlServerAuthServicePrincipal | SqlServerAuthServicePrincipalInKeyVault;
-
-// @public
-export interface SqlServerConnectionStringDataSourceCredential extends DataSourceCredential {
-    connectionString?: string;
-    type: "AzureSQLConnectionString";
-}
-
-// @public
-export interface SqlServerConnectionStringDataSourceCredentialPatch {
-    connectionString?: string;
-    description?: string;
-    name?: string;
-    type: "AzureSQLConnectionString";
-}
 
 // @public
 export type SqlServerDataFeedSource = {
