@@ -1358,14 +1358,16 @@ describe("Batching Receiver", () => {
 });
 
 /**
- * Sets `batchingReceiver` so it's next drain call will result in the connection recycling (via connection.idle()).
+ * Sets `batchingReceiver` so it's next drain call will result in the connection recycling prior to the
+ * drain completing. The primary use is just to make sure that when we terminate a receiveMessages() call
+ * early due to a disconnect (and interrupt the drain) that the link is restored and can be used
+ * again afterwards.
  *
- * The `onDetachedCalledPromise` property in the return object allows you to await until the batching receiver has
- * actually been detached.
+ * The `onDetachedCalledPromise` property in the return object allows you to await until the batching
+ * receiver has actually been detached.
  *
- * @param receiverContext An active receiver context we can use to call _connection.idle()
  * @param batchingReceiver A batching receiver (minimal interface compatible with sessions and non-sessions)
- * @returns an object with `onDetachedCalledPromise` that resolves when onDetach has completed
+ * @returns an object with `onDetachedCalledPromise` that resolves when onDetached has completed
  *   for the batching receiver.
  */
 function causeDisconnectDuringDrain(
