@@ -179,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
             },
             seriesGroupDetectionConditions: [
               {
-                group: { city: "Mumbai" },
+                groupKey: { city: "Mumbai" },
                 hardThresholdCondition: {
                   anomalyDetectorDirection: "Up",
                   upperBound: 400,
@@ -189,7 +189,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ],
             seriesDetectionConditions: [
               {
-                series: { city: "Kolkata", category: "Handmade" },
+                seriesKey: { city: "Kolkata", category: "Handmade" },
                 changeThresholdCondition: {
                   anomalyDetectorDirection: "Both",
                   shiftPoint: 1,
@@ -216,18 +216,18 @@ matrix([[true, false]] as const, async (useAad) => {
             "Expecting valid seriesGroupDetectionConditions"
           );
           assert.deepStrictEqual(
-            actual.seriesGroupDetectionConditions![0].group,
-            expected.seriesGroupDetectionConditions![0].group
+            actual.seriesGroupDetectionConditions![0].groupKey,
+            expected.seriesGroupDetectionConditions![0].groupKey
           );
           assert.deepStrictEqual(
             actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
             expected.seriesGroupDetectionConditions![0].hardThresholdCondition
           );
           assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
-          delete (actual.seriesDetectionConditions![0].series as any).seriesId; // workaround service issue
+          delete (actual.seriesDetectionConditions![0].seriesKey as any).seriesId; // workaround service issue
           assert.deepStrictEqual(
-            actual.seriesDetectionConditions![0].series,
-            expected.seriesDetectionConditions![0].series
+            actual.seriesDetectionConditions![0].seriesKey,
+            expected.seriesDetectionConditions![0].seriesKey
           );
           assert.deepStrictEqual(
             actual.seriesDetectionConditions![0].changeThresholdCondition,

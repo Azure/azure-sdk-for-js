@@ -861,7 +861,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the group of time series
    */
-  group: DimensionKey;
+  groupKey: DimensionKey;
 };
 
 /**
@@ -871,7 +871,7 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the time series
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
 };
 
 /**

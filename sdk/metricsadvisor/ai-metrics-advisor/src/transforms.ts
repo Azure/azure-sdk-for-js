@@ -106,7 +106,7 @@ export function fromServiceAnomalyDetectionConfiguration(
         changeThresholdCondition
       } = c;
       return {
-        group: group.dimension,
+        groupKey: group.dimension,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
@@ -122,7 +122,7 @@ export function fromServiceAnomalyDetectionConfiguration(
         changeThresholdCondition
       } = c;
       return {
-        series: series.dimension,
+        seriesKey: series.dimension,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
@@ -142,14 +142,14 @@ export function toServiceAnomalyDetectionConfiguration(
     wholeMetricConfiguration: from.wholeSeriesDetectionCondition,
     dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions?.map((c) => {
       const {
-        group,
+        groupKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        group: { dimension: group },
+        group: { dimension: groupKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -158,14 +158,14 @@ export function toServiceAnomalyDetectionConfiguration(
     }),
     seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
       const {
-        series,
+        seriesKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        series: { dimension: series },
+        series: { dimension: seriesKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -184,14 +184,14 @@ export function toServiceAnomalyDetectionConfigurationPatch(
     wholeMetricConfiguration: from.wholeSeriesDetectionCondition,
     dimensionGroupOverrideConfigurations: from.seriesGroupDetectionConditions?.map((c) => {
       const {
-        group,
+        groupKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        group: { dimension: group },
+        group: { dimension: groupKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
@@ -200,14 +200,14 @@ export function toServiceAnomalyDetectionConfigurationPatch(
     }),
     seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
       const {
-        series,
+        seriesKey,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
         changeThresholdCondition
       } = c;
       return {
-        series: { dimension: series },
+        series: { dimension: seriesKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
