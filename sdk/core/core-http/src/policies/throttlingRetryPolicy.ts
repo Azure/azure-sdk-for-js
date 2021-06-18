@@ -74,7 +74,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         if (httpRequest.abortSignal?.aborted) {
           throw new AbortError(StandardAbortMessage);
         }
-        return await this._nextPolicy.sendRequest(httpRequest);
+        return this._nextPolicy.sendRequest(httpRequest);
       }
     }
 

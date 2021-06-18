@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { delay } from "@azure/core-util";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
@@ -185,14 +186,13 @@ function getRegistrationStatus(
   reqOptions.url = url;
   reqOptions.method = "GET";
 
-  return policy._nextPolicy.sendRequest(reqOptions).then((res) => {
+  return policy._nextPolicy.sendRequest(reqOptions).then(async (res) => {
     const obj = res.parsedBody as any;
     if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
       return true;
     } else {
-      return utils
-        .delay(policy._retryTimeout * 1000)
-        .then(() => getRegistrationStatus(policy, url, originalRequest));
+      await delay(policy._retryTimeout * 1000);
+      return getRegistrationStatus(policy, url, originalRequest);
     }
   });
 }

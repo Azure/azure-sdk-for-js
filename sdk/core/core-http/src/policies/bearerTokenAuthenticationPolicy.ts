@@ -11,7 +11,7 @@ import {
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/utils";
+import { delay } from "@azure/core-util";
 
 // #region Access Token Cycler
 
@@ -71,7 +71,7 @@ async function beginRefresh(
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
-  async function tryGetAccessToken() {
+  async function tryGetAccessToken(): Promise<AccessToken | null> {
     if (Date.now() < timeoutInMs) {
       try {
         return await getAccessToken();

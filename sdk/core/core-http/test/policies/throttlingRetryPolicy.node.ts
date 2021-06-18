@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import nock from "nock";
 import { Constants, ServiceClient } from "../../src/coreHttp";
 import { AbortController } from "@azure/abort-controller";
