@@ -4,13 +4,7 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import {
-  ServiceBusMessage,
-  delay,
-  ServiceBusSender,
-  ServiceBusReceivedMessage,
-  ServiceBusError
-} from "../../src";
+import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
 import { InvalidOperationForPeekedMessage } from "../../src/util/errors";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
@@ -971,10 +965,13 @@ describe("Batching Receiver", () => {
         // so that the receiver will have to drain.
         const testFailureMessage = "Test failure";
         try {
-          await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
+          await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err) {
-          err.message && err.message.should.not.equal(testFailureMessage);
+          assert.deepNestedInclude(err, {
+            name: "Error",
+            message: "Test: fake connection failure"
+          });
         }
 
         await onDetachedCalledPromise;
@@ -984,7 +981,7 @@ describe("Batching Receiver", () => {
         await sender.sendMessages(TestMessage.getSample());
 
         // wait for the 2nd message to be received.
-        const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+        const messages = await receiver.receiveMessages(1);
 
         messages.length.should.equal(1, "Unexpected number of messages received.");
       });
@@ -1237,12 +1234,13 @@ describe("Batching Receiver", () => {
         // so that the receiver will have to drain.
         const testFailureMessage = "Test failure";
         try {
-          await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
+          await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err) {
-          err.message &&
-            err.code.should.equal("SessionLockLost") &&
-            err.message.should.not.equal(testFailureMessage);
+          assert.deepNestedInclude(err, {
+            name: "Error",
+            message: "Test: fake connection failure"
+          });
         }
 
         await drainRequestedPromise;
@@ -1345,12 +1343,13 @@ describe("Batching Receiver", () => {
         // so that the receiver will have to drain.
         const testFailureMessage = "Test failure";
         try {
-          await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
+          await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err) {
-          err.message &&
-            err.code.should.equal("SessionLockLost") &&
-            err.message.should.not.equal(testFailureMessage);
+          assert.deepNestedInclude(err, {
+            name: "Error",
+            message: "Test: fake connection failure"
+          });
         }
       });
     });
@@ -1398,18 +1397,9 @@ function causeDisconnectDuringDrain(
     origAddCredit.call(link, credits);
 
     if (link.drain && credits === 1) {
-      // only need to prevent that first drain from happening in the tests
-      // that use this "trick".
-      link["addCredit"] = origAddCredit;
-
       // initiate the detach now (prior to any possibilty of the 'drain' call being scheduled)
       batchingReceiver
-        .onDetached(
-          new ServiceBusError(
-            "Test: purposefully disconnecting receiver before drain",
-            "GeneralError"
-          )
-        )
+        .onDetached(new Error("Test: fake connection failure"))
         .then(() => resolveOnDetachedCallPromise());
     }
   };
