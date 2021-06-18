@@ -16,7 +16,7 @@
 - Added regional STS support to client credential types.
   - Added the `RegionalAuthority` type, that allows specifying Azure regions.
   - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
-  - If instead of a region, `autoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
+  - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
   - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
    
 ## 2.0.0-beta.3 (2021-05-12)
