@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "067942f4c3d80b9135fe9a839778ea97";
+module.exports.hash = "c2c79babdf0a75c701089dad1adeddf2";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -18,15 +18,15 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f17422da-a002-00f3-1d4e-5d52d6000000',
+  'b2fd8b72-3002-0090-0c8a-6414f3000000',
   'x-ms-client-request-id',
-  '6b9bac01-b7f6-4214-8f21-ddc8fa2de261',
+  '207c2975-1251-425f-a34a-1ee81b26f3de',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 09 Jun 2021 16:44:59 GMT'
+  'Fri, 18 Jun 2021 21:43:33 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -38,13 +38,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f17422eb-a002-00f3-2a4e-5d52d6000000',
+  'b2fd8b82-3002-0090-1a8a-6414f3000000',
   'x-ms-client-request-id',
-  'f5a0c1ec-306f-4e62-aebf-81d8d070aa96',
+  '8766a207-e32e-4809-a63a-3002a3680069',
   'x-ms-version',
   '2019-02-02',
   'Date',
-  'Wed, 09 Jun 2021 16:45:00 GMT'
+  'Fri, 18 Jun 2021 21:43:33 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -58,9 +58,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f1742343-a002-00f3-794e-5d52d6000000',
+  'b2fd8ba4-3002-0090-3c8a-6414f3000000',
   'x-ms-client-request-id',
-  'ec752160-bbbc-4284-9903-f7c46be99765',
+  'e3b0f981-4cce-4c0b-acf7-0e8a9785321e',
   'x-ms-version',
   '2019-02-02',
   'Access-Control-Expose-Headers',
@@ -68,5 +68,5 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Wed, 09 Jun 2021 16:45:00 GMT'
+  'Fri, 18 Jun 2021 21:43:34 GMT'
 ]);

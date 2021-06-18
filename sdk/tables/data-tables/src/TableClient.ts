@@ -29,8 +29,10 @@ import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   isNamedKeyCredential,
   isSASCredential,
+  isTokenCredential,
   NamedKeyCredential,
-  SASCredential
+  SASCredential,
+  TokenCredential
 } from "@azure/core-auth";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
@@ -44,7 +46,7 @@ import {
   serializeSignedIdentifiers
 } from "./serialization";
 import { Table } from "./generated/operationsInterfaces";
-import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { LIB_INFO, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   FullOperationResponse,
   InternalClientPipelineOptions,
@@ -78,7 +80,7 @@ export class TableClient {
    */
   public pipeline: Pipeline;
   private table: Table;
-  private credential?: NamedKeyCredential | SASCredential;
+  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private transactionClient?: InternalTableTransaction;
 
   /**
@@ -89,16 +91,16 @@ export class TableClient {
   /**
    * Creates a new instance of the TableClient class.
    *
-   * @param url - The URL of the service account that is the target of the desired operation., such as
-   *                     "https://myaccount.table.core.windows.net".
+   * @param url - The URL of the service account that is the target of the desired operation, such as "https://myaccount.table.core.windows.net".
    * @param tableName - the name of the table
-   * @param credential - NamedKeyCredential or SASCredential used to authenticate requests. Only Supported for Node
+   * @param credential - NamedKeyCredential used to authenticate requests. Only Supported for Node
    * @param options - Optional. Options to configure the HTTP pipeline.
+   *
    *
    * ### Example using an account name/key:
    *
    * ```js
-   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables");
    * const account = "<storage account name>";
    * const accountKey = "<account key>"
    * const tableName = "<table name>";
@@ -106,15 +108,30 @@ export class TableClient {
    *
    * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
-   *   `${tableName}`,
+   *   tableName,
    *   sharedKeyCredential
    * );
    * ```
+   */
+  constructor(
+    url: string,
+    tableName: string,
+    credential: NamedKeyCredential,
+    options?: TableClientOptions
+  );
+  /**
+   * Creates a new instance of the TableClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation, such as "https://myaccount.table.core.windows.net".
+   * @param tableName - the name of the table
+   * @param credential - SASCredential used to authenticate requests
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   *
    *
    * ### Example using a SAS Token:
    *
    * ```js
-   * const { AzureSASCredential, TableClient } = require("@azure/data-tables")
+   * const { AzureSASCredential, TableClient } = require("@azure/data-tables");
    * const account = "<storage account name>";
    * const sasToken = "<sas-token>";
    * const tableName = "<table name>";
@@ -122,7 +139,7 @@ export class TableClient {
    *
    * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
-   *   `${tableName}`,
+   *   tableName,
    *   sasCredential
    * );
    * ```
@@ -130,7 +147,39 @@ export class TableClient {
   constructor(
     url: string,
     tableName: string,
-    credential: NamedKeyCredential | SASCredential,
+    credential: SASCredential,
+    options?: TableClientOptions
+  );
+  /**
+   * Creates a new instance of the TableClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation, such as "https://myaccount.table.core.windows.net".
+   * @param tableName - the name of the table
+   * @param credential - Azure Active Directory credential used to authenticate requests
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   *
+   *
+   * ### Example using an Azure Active Directory credential:
+   *
+   * ```js
+   * cons { DefaultAzureCredential } = require("@azure/identity");
+   * const { AzureSASCredential, TableClient } = require("@azure/data-tables");
+   * const account = "<storage account name>";
+   * const sasToken = "<sas-token>";
+   * const tableName = "<table name>";
+   * const credential = new DefaultAzureCredential();
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   tableName,
+   *   credential
+   * );
+   * ```
+   */
+  constructor(
+    url: string,
+    tableName: string,
+    credential: TokenCredential,
     options?: TableClientOptions
   );
   /**
@@ -160,17 +209,20 @@ export class TableClient {
   constructor(
     url: string,
     tableName: string,
-    credentialOrOptions?: NamedKeyCredential | SASCredential | TableClientOptions,
+    credentialOrOptions?: NamedKeyCredential | SASCredential | TableClientOptions | TokenCredential,
     options: TableClientOptions = {}
   ) {
     this.url = url;
+    this.tableName = tableName;
 
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
+    this.credential = credential;
 
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
     clientOptions.endpoint = clientOptions.endpoint || this.url;
+
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -192,11 +244,13 @@ export class TableClient {
       },
       serializationOptions: {
         stringifyXML
-      }
+      },
+      ...(isTokenCredential(this.credential) && {
+        credential: this.credential,
+        credentialScopes: STORAGE_SCOPE
+      })
     };
 
-    this.tableName = tableName;
-    this.credential = credential;
     const generatedClient = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
       generatedClient.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));

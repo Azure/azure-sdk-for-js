@@ -14,7 +14,7 @@ import { assert } from "chai";
 import { FullOperationResponse } from "@azure/core-client";
 
 // SASConnectionString and SASToken are supported in both node and browser
-const authModes: CreateClientMode[] = ["SASConnectionString"];
+const authModes: CreateClientMode[] = ["TokenCredential", "SASConnectionString"];
 
 // Validate all supported auth strategies when running in live mode
 if (isLiveMode()) {

@@ -6,13 +6,15 @@ import {
   createPipelineRequest,
   PipelineResponse,
   RestError,
-  Pipeline
+  Pipeline,
+  PipelineRequest
 } from "@azure/core-rest-pipeline";
 import {
   ServiceClient,
   OperationOptions,
   serializationPolicy,
-  serializationPolicyName
+  serializationPolicyName,
+  ServiceClientOptions
 } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
@@ -26,8 +28,10 @@ import {
 import {
   isNamedKeyCredential,
   isSASCredential,
+  isTokenCredential,
   NamedKeyCredential,
-  SASCredential
+  SASCredential,
+  TokenCredential
 } from "@azure/core-auth";
 import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { TableClientLike } from "./utils/internalModels";
@@ -48,6 +52,7 @@ import {
 } from "./TablePolicies";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -126,7 +131,7 @@ export class InternalTableTransaction {
     partitionKey: string;
   };
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential | SASCredential;
+  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
 
   /**
    * @param url - Tables account url
@@ -139,7 +144,7 @@ export class InternalTableTransaction {
     transactionId: string,
     changesetId: string,
     interceptClient: TableClientLike,
-    credential?: NamedKeyCredential | SASCredential
+    credential?: NamedKeyCredential | SASCredential | TokenCredential
   ) {
     this.credential = credential;
     this.url = url;
@@ -150,7 +155,7 @@ export class InternalTableTransaction {
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
-      // When authenticating with SAS we need to add the SAS token after $batch
+      // When the SAS token is provided as part of the URL we need to move it after $batch
       const urlParts = url.split("?");
       this.url = urlParts[0];
       const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
@@ -266,7 +271,15 @@ export class InternalTableTransaction {
       this.resetableState.transactionId,
       this.resetableState.changesetId
     );
-    const client = new ServiceClient();
+
+    const options: ServiceClientOptions = {
+      ...(isTokenCredential(this.credential) && {
+        credentialScopes: STORAGE_SCOPE,
+        credential: this.credential
+      })
+    };
+
+    const client = new ServiceClient(options);
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
@@ -318,7 +331,13 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
   const status = transactionResponse.status;
   const rawBody = transactionResponse.bodyAsText || "";
   const splitBody = rawBody.split(subResponsePrefix);
-  // Droping the first and last elemets as they are the boundaries
+  const isSuccessByStatus = 200 <= status && status < 300;
+
+  if (!isSuccessByStatus) {
+    handleBodyError(rawBody, status, transactionResponse.request, transactionResponse);
+  }
+
+  // Dropping the first and last elements as they are the boundaries
   // we just care about sub request content
   const subResponses = splitBody.slice(1, splitBody.length - 1);
 
@@ -334,18 +353,12 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
 
     const bodyMatch = subResponse.match(/\{(.*)\}/);
     if (bodyMatch?.length === 2) {
-      const parsedError = JSON.parse(bodyMatch[0]);
-      // Only transaction sub-responses return body
-      if (parsedError && parsedError["odata.error"]) {
-        const error: TableServiceErrorOdataError = parsedError["odata.error"];
-        const message = error.message?.value || "One of the transaction operations failed";
-        throw new RestError(message, {
-          code: error.code,
-          statusCode: subResponseStatus,
-          request: transactionResponse.request,
-          response: transactionResponse
-        });
-      }
+      handleBodyError(
+        bodyMatch[0],
+        subResponseStatus,
+        transactionResponse.request,
+        transactionResponse
+      );
     }
 
     const etagMatch = subResponse.match(/ETag: (.*)/);
@@ -363,6 +376,26 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
     subResponses: responses,
     getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
   };
+}
+
+function handleBodyError(
+  bodyAsText: string,
+  statusCode: number,
+  request: PipelineRequest,
+  response: PipelineResponse
+) {
+  const parsedError = JSON.parse(bodyAsText);
+  // Only transaction sub-responses return body
+  if (parsedError && parsedError["odata.error"]) {
+    const error: TableServiceErrorOdataError = parsedError["odata.error"];
+    const message = error.message?.value || "One of the transaction operations failed";
+    throw new RestError(message, {
+      code: error.code,
+      statusCode,
+      request,
+      response
+    });
+  }
 }
 
 /**

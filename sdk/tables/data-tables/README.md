@@ -41,12 +41,14 @@ npm install @azure/data-tables
 
 Azure Tables supports several ways to authenticate. In order to interact with the Azure Tables service you'll need to create an instance of a Tables client - `TableServiceClient` or `TableClient` for example. See [samples for creating the `TableServiceClient`](#create-the-table-service-client) to learn more about authentication.
 
-Note: Azure Tables doesn't support Azure Active Directory (AAD)
+Note: Azure Active Directory (AAD) is only supported for Azure Storage accounts.
 
 - [Service client with Shared Key](#tableserviceclient-with-azurenamedkeycredential)
 - [Service client with Shared access signatures](#tableserviceclient-with-sas-token)
+- [Service client with TokenCredential (AAD)](#tableserviceclient-with-tokencredential-aad)
 - [Table client with Shared Key](#tableclient-with-azurenamedkeycredential)
 - [Table client with Shared access signatures](#tableclient-with-sas-token)
+- [Table client with TokenCredential (AAD)](#tableclient-with-tokencredential-aad)
 
 #### Following features, interfaces, classes or functions are only available in Node.js
 
@@ -115,22 +117,28 @@ const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tab
 
 The `TableServiceClient` requires a URL to the table service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
-#### `TableServiceClient` with `AzureNamedKeyCredential`
+#### `TableServiceClient` with TokenCredential (AAD)
+Azure Tables provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests
+to the Table service when targeting a Storage endpoint. With Azure AD, you can use role-based access control (RBAC) to
+grant access to your Azure Table resources to users, groups, or applications.
 
-You can instantiate a `TableServiceClient` with a `AzureNamedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
-[ONLY AVAILABLE IN NODE.JS RUNTIME]
+To access a table resource with a `TokenCredential`, the authenticated identity should have either the "Storage Table Data Contributor" or "Storage Table Data Reader" role.
+
+With the `@azure/identity` package, you can seamlessly authorize requests in both development and production environments.
+To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
 
 ```javascript
-const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
+const { TableServiceClient } = require("@azure/data-tables");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-// Enter your storage account name and shared key
-const account = "<account>";
-const accountKey = "<accountkey>";
+// DefaultAzureCredential expects the following three environment variables:
+// - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// - AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new DefaultAzureCredential();
+const account = "<account name>";
 
-// Use AzureNamedKeyCredential with storage account and account key
-// AzureNamedKeyCredential is only available in Node.js runtime, not in browsers
-const credential = new AzureNamedKeyCredential(account, accountKey);
-const serviceClient = new TableServiceClient(
+const clientWithAAD = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential
 );
@@ -214,7 +222,7 @@ main();
 
 The `TableClient` is created in a similar way as the `TableServiceClient` with the difference that `TableClient` takes a table name as a parameter
 
-#### TableClient with `AzureNamedKeyCredential`
+#### `TableClient` with `AzureNamedKeyCredential`
 
 You can instantiate a `TableClient` with a `AzureNamedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
@@ -233,9 +241,38 @@ const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 ```
 
-#### TableClient with SAS Token
+#### `TableClient` with TokenCredential (AAD)
+Azure Tables provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests
+to the Table service when targeting a Storage endpoint. With Azure AD, you can use role-based access control (RBAC) to
+grant access to your Azure Table resources to users, groups, or applications.
 
-Also, You can instantiate a `TableClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal.
+To access a table resource with a `TokenCredential`, the authenticated identity should have either the "Storage Table Data Contributor" or "Storage Table Data Reader" role.
+
+With the `@azure/identity` package, you can seamlessly authorize requests in both development and production environments.
+To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
+
+```javascript
+const { TableClient } = require("@azure/data-tables");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+// DefaultAzureCredential expects the following three environment variables:
+// - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// - AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new DefaultAzureCredential();
+const account = "<account name>";
+const tableName = "<tableName>";
+
+const clientWithAAD = new TableClient(
+  `https://${account}.table.core.windows.net`,
+  tableName,
+  credential
+);
+```
+
+#### `TableClient` with SAS Token
+
+You can instantiate a `TableClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal.
 
 ```javascript
 const { TableClient, AzureSASCredential } = require("@azure/data-tables");

@@ -8,11 +8,13 @@
  * @summary authenticates using different authentication methods
  * @azsdk-weight 40
  */
-import {
+ import {
   TableServiceClient,
   AzureNamedKeyCredential,
   AzureSASCredential
 } from "@azure/data-tables";
+
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -38,6 +40,19 @@ const sasToken = process.env["SAS_TOKEN"] || "";
  */
 async function tableServiceClientWithSasConnectionString() {
   const client = TableServiceClient.fromConnectionString(sasConnectionString);
+  countTablesWithClient(client);
+}
+
+/**
+ * Create a TableServiceCLient using a SAS connection String
+ */
+async function tableServiceClientWithAAD() {
+  // DefaultAzureCredential expects the following three environment variables:
+  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+  // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new DefaultAzureCredential();
+  const client = new TableServiceClient(tablesUrl, credential);
   countTablesWithClient(client);
 }
 
@@ -88,6 +103,8 @@ export async function main() {
 
   await tableServiceClientWithAccountConnectionString();
   await tableServiceClientWithAccountKey();
+
+  await tableServiceClientWithAAD();
 }
 
 main().catch((err) => {

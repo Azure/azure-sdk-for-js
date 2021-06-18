@@ -3,6 +3,7 @@
 
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
+import { ClientSecretCredential } from "@azure/identity";
 import { TableClient, TableServiceClient } from "../../../src";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
@@ -56,7 +57,8 @@ export type CreateClientMode =
   | "SASConnectionString"
   | "SASToken"
   | "AccountKey"
-  | "AccountConnectionString";
+  | "AccountConnectionString"
+  | "TokenCredential";
 
 export function createTableClient(
   tableName: string,
@@ -97,6 +99,21 @@ export function createTableClient(
         tableName,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY)
       );
+
+    case "TokenCredential":
+      if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
+        throw new Error(
+          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment"
+        );
+      }
+
+      const credential = new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
+
+      return new TableClient(env.TABLES_URL, tableName, credential);
 
     case "AccountConnectionString":
       if (!env.ACCOUNT_CONNECTION_STRING) {
@@ -145,6 +162,21 @@ export function createTableServiceClient(
         env.TABLES_URL,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY)
       );
+
+    case "TokenCredential":
+      if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
+        throw new Error(
+          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment"
+        );
+      }
+
+      const credential = new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
+
+      return new TableServiceClient(env.TABLES_URL, credential);
 
     case "AccountConnectionString":
       if (!env.ACCOUNT_CONNECTION_STRING) {
