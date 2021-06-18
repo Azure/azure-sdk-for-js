@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * Helps specify a regional authority, or "autoDiscoverRegion" to auto-detect the region.
+ * Helps specify a regional authority, or "AutoDiscoverRegion" to auto-detect the region.
  */
 export enum RegionalAuthority {
   /** Instructs MSAL to attempt to discover the region */
