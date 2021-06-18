@@ -1037,8 +1037,8 @@ export class MetricsAdvisorClient {
     listAnomaliesForDetectionConfiguration(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
     listAnomalyDimensionValues(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListAnomalyDimensionValuesOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
     listFeedback(metricId: string, options?: ListFeedbackOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, MetricFeedbackPageResponse>;
-    listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
-    listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
+    listIncidentsForAlert(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
+    listIncidentsForDetectionConfiguration(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
     listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
     listMetricEnrichmentStatus(metricId: string, startTime: Date | string, endTime: Date | string, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, MetricEnrichmentStatusPageResponse>;
     listMetricSeriesDefinitions(metricId: string, activeSince: Date | string, options?: ListMetricSeriesDefinitionsOptions): PagedAsyncIterableIterator<MetricSeriesDefinition, MetricSeriesPageResponse>;
