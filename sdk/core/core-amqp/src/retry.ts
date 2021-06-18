@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 
 import { MessagingError, translate } from "./errors";
-import { delay } from "./util/utils";
+import { delay } from "@azure/core-util";
 import { logger } from "./log";
 import { Constants } from "./util/constants";
 import { AbortSignalLike } from "@azure/abort-controller";
