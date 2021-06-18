@@ -517,7 +517,57 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private listAnomaliesForAlert(
+  /**
+   * Returns an async iterable iterator to list anamolies associated with an alert
+   *
+   * `.byPage()` returns an async iterable iterator to list the anomalies in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const client = new MetricsAdvisorClient(endpoint,
+   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
+   * const anamolyList = client.listAnomaliesForAlert({alertConfigId, id: alertId});
+   * let i = 1;
+   * for await (const anamoly of anamolyList){
+   *  console.log(`anamoly ${i++}:`);
+   *  console.log(anamoly);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listAnomaliesForAlert({alertConfigId, id: alertId});
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.log(` anamoly - ${result.value.metricId}, ${result.value.detectionConfigurationId} `);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * const pages = client.listAnomaliesForAlert({alertConfigId, id: alertId}).byPage({ maxPageSize: 10 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const anomaly of page.value) {
+   *      console.log(`${anomaly}`);
+   *    }
+   *  }
+   *  page = await pages.next();
+   * }
+   *
+   * ```
+   * @param alert - Anomaly alert containing alertConfigId and id
+   * @param options - The options parameter.
+   */
+
+  public listAnomaliesForAlert(
     alert: AnomalyAlert,
     options: ListAnomaliesForAlertConfigurationOptions = {}
   ): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse> {
@@ -985,16 +1035,71 @@ export class MetricsAdvisorClient {
     }
   }
 
-  private listAnomaliesForDetectionConfiguration(
+  /**
+   * Returns an async iterable iterator to list anomalies for a detection configuration.
+   *
+   * `.byPage()` returns an async iterable iterator to list the anomalies in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const client = new MetricsAdvisorClient(endpoint,
+   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
+   * const anomalies = client.listAnomaliesForDetectionConfiguration(detectionConfigId, startTime, endTime);
+   * let i = 1;
+   * for await (const anomaly of anomalies) {
+   *   console.log(`anomaly ${i++}:`);
+   *   console.log(anomaly);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listAnomaliesForDetectionConfiguration(detectionConfigId, startTime, endTime);
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.log(` anomaly - ${result.value.severity} ${result.value.status}`);
+   *   console.dir(result.value);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * const pages = client.listAnomaliesForDetectionConfiguration(detectionConfigId, startTime, endTime)
+   *   .byPage({ maxPageSize: 10 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const anomaly of page.value) {
+   *      console.dir(anomaly);
+   *    }
+   *  }
+   *  page = await pages.next();
+   * }
+   *
+   * ```
+   * @param detectionConfigId - Anomaly detection configuration id
+   * @param startTime - The start of time range to query anomalies
+   * @param endTime - The end of time range to query anomalies
+   * @param options - The options parameter.
+   */
+  public listAnomaliesForDetectionConfiguration(
     detectionConfigId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: ListAnomaliesForDetectionConfigurationOptions = {}
   ): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse> {
+    const start: Date = typeof startTime === "string" ? new Date(startTime) : startTime;
+    const end: Date = typeof endTime === "string" ? new Date(endTime) : endTime;
     const iter = this.listItemsOfAnomaliesForDetectionConfig(
       detectionConfigId,
-      startTime,
-      endTime,
+      start,
+      end,
       options
     );
     return {
@@ -1016,156 +1121,14 @@ export class MetricsAdvisorClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfAnomaliesForDetectionConfig(
           detectionConfigId,
-          startTime,
-          endTime,
+          start,
+          end,
           settings.maxPageSize,
           settings.continuationToken,
           options
         );
       }
     };
-  }
-
-  /**
-   * Returns an async iterable iterator to list anamolies associated with an alert
-   *
-   * `.byPage()` returns an async iterable iterator to list the anomalies in pages.
-   *
-   * Example using `for await` syntax:
-   *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anamolyList = client.listAnomalies({alertConfigId, id: alertId});
-   * let i = 1;
-   * for await (const anamoly of anamolyList){
-   *  console.log(`anamoly ${i++}:`);
-   *  console.log(anamoly);
-   * }
-   * ```
-   *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listAnomalies({alertConfigId, id: alertId});
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` anamoly - ${result.value.metricId}, ${result.value.detectionConfigurationId} `);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listAnomalies({alertConfigId, id: alertId}).byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const anomaly of page.value) {
-   *      console.log(`${anomaly}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
-   * @param alert - Anomaly alert containing alertConfigId and id
-   * @param options - The options parameter.
-   */
-  public listAnomalies(
-    alert: AnomalyAlert,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListAnomaliesForAlertConfigurationOptions
-  ): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
-
-  /**
-   * Returns an async iterable iterator to list anomalies for a detection configuration.
-   *
-   * `.byPage()` returns an async iterable iterator to list the anomalies in pages.
-   *
-   * Example using `for await` syntax:
-   *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anomalies = client.listAnomalies(detectionConfigId, startTime, endTime);
-   * let i = 1;
-   * for await (const anomaly of anomalies) {
-   *   console.log(`anomaly ${i++}:`);
-   *   console.log(anomaly);
-   * }
-   * ```
-   *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listAnomalies(detectionConfigId, startTime, endTime);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` anomaly - ${result.value.severity} ${result.value.status}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listAnomalies(detectionConfigId, startTime, endTime)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const anomaly of page.value) {
-   *      console.dir(anomaly);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param startTime - The start of time range to query anomalies
-   * @param endTime - The end of time range to query anomalies
-   * @param options - The options parameter.
-   */
-  public listAnomalies(
-    detectionConfigId: string,
-    startTime: Date | string,
-    endTime: Date | string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListAnomaliesForDetectionConfigurationOptions
-  ): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
-  public listAnomalies(
-    alertOrDetectionConfigId: AnomalyAlert | string,
-    optionsOrStartTime?: ListAnomaliesForAlertConfigurationOptions | Date | string,
-    endTime?: Date | string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListAnomaliesForDetectionConfigurationOptions
-  ): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse> {
-    if (typeof alertOrDetectionConfigId === "string") {
-      if (!optionsOrStartTime || !endTime) {
-        throw new Error("Invalid startTime or endTime");
-      }
-      return this.listAnomaliesForDetectionConfiguration(
-        alertOrDetectionConfigId,
-        typeof optionsOrStartTime === "string"
-          ? new Date(optionsOrStartTime)
-          : (optionsOrStartTime as Date),
-        typeof endTime === "string" ? new Date(endTime) : endTime,
-        options || {}
-      );
-    } else {
-      return this.listAnomaliesForAlert(
-        alertOrDetectionConfigId,
-        (optionsOrStartTime as ListAnomaliesForAlertConfigurationOptions) || {}
-      );
-    }
   }
 
   // ## list segments of dimension values of anomalies detected by a detection configuration
