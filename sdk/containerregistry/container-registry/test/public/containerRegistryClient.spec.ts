@@ -8,8 +8,8 @@ import * as dotenv from "dotenv";
 import { ContainerRegistryClient } from "../../src";
 
 import { env, record, Recorder } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-util";
-import { createRegistryClient, recorderEnvSetup } from "./utils";
+import { isNode } from "../utils/isNode";
+import { createRegistryClient, recorderEnvSetup } from "../utils/utils";
 
 if (isNode) {
   dotenv.config();

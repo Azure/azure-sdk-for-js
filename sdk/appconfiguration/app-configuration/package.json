@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.2.0-beta.2",
+  "version": "1.2.0-beta.3",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -96,7 +96,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.0-beta.3",
-    "@azure/keyvault-secrets": "^4.1.0",
+    "@azure/keyvault-secrets": "^4.2.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

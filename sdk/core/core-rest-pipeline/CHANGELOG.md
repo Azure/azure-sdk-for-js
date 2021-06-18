@@ -2,6 +2,9 @@
 
 ## 1.1.0-beta.4 (Unreleased)
 
+### Fixed
+
+- Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
 
 ## 1.1.0-beta.3 (2021-06-03)
 
