@@ -12,13 +12,13 @@ urlFragment: event-hubs-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Event Hubs in some common scenarios.
 
-| **File Name**                                                             | **Description**                                                                                                                                                                         |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [sendEvents.js][sendevents]                                               | demonstrates how the send() function can be used to send events to Event Hubs                                                                                                           |
-| [useWithIotHub.js][usewithiothub]                                         | demonstrates how to use the `EventHubClient` with an `IotHub` instance                                                                                                                  |
-| [websockets.js][websockets]                                               | demonstrates how to use WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked (see the sample for more information)  |
-| [usingAadAuth.js][usingaadauth]                                           | demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using Service Principal Secrets                                                               |
-| [receiveEvents.js][receiveevents]                                         | demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance.                                                 |
+| **File Name**                     | **Description**                                                                                                                                                                        |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [sendEvents.js][sendevents]       | demonstrates how the send() function can be used to send events to Event Hubs                                                                                                          |
+| [useWithIotHub.js][usewithiothub] | demonstrates how to use the `EventHubClient` with an `IotHub` instance                                                                                                                 |
+| [websockets.js][websockets]       | demonstrates how to use WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked (see the sample for more information) |
+| [usingAadAuth.js][usingaadauth]   | demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using Service Principal Secrets                                                              |
+| [receiveEvents.js][receiveevents] | demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance.                                                |
 
 **Note**: `EventHubConsumerClient` supports checkpointing using the `@azure/eventhubs-checkpointstore-blob` and `@azure/storage-blob` packages. For an example that demonstrates how to use this functionality, see the [receiveEventsUsingCheckpointStore][checkpointing] sample in the `@azure/eventhubs-checkpointstore-blob` repository.
 
@@ -70,7 +70,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/usingAadAuth.js
 [receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/receiveEvents.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
-[checkpointing]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/javascript/receiveEventsUsingCheckpointStore.js
+[checkpointing]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/javascript/receiveEventsUsingCheckpointStore.js
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
 [aziothub]: https://docs.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
 [freesub]: https://azure.microsoft.com/free/
