@@ -67,9 +67,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk.")
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -80,6 +80,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
+      this._numConsecutiveRedirects = 0;
       if (statusCode === 200) {
         // Success -- @todo: start retry timer
         if (!this._retryTimer) {
@@ -121,12 +122,23 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       }
     } catch (error) {
       const restError = error as RestError;
-      if (restError.statusCode && restError.statusCode === 308) {
-        // Permanent redirect
-        if (restError.response && restError.response.headers) {
-          let location = restError.response.headers.get("location");
-          this._handleRedirect(location);
-          return await this._persist(envelopes);
+      if (restError.statusCode && (restError.statusCode === 307 // Temporary redirect
+        || restError.statusCode === 308)) {// Permanent redirect
+        this._numConsecutiveRedirects++;
+        // To prevent circular redirects
+        if (this._numConsecutiveRedirects < 10) {
+          if (restError.response && restError.response.headers) {
+            let location = restError.response.headers.get("location");
+            if (location) {
+              // Update sender URL
+              this._sender.handlePermanentRedirect(location);
+              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+              return this.exportEnvelopes(envelopes);
+            }
+          }
+        }
+        else {
+          return { code: ExportResultCode.FAILED, error: new Error("Circular redirect") };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
         return await this._persist(envelopes);
@@ -187,15 +199,5 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return true;
     }
     return false;
-  }
-
-  private _handleRedirect(location: string | undefined) {
-    if (location) {
-      this._numConsecutiveRedirects++;
-      // To prevent circular redirects
-      if (this._numConsecutiveRedirects < 10) {
-        this._sender.handlePermanentRedirect(location);
-      }
-    }
   }
 }
