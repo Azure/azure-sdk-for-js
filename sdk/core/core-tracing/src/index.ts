@@ -23,7 +23,6 @@ export {
   getSpanContext,
   HrTime,
   Link,
-  LinkContext,
   OperationTracingOptions,
   setSpan,
   setSpanContext,

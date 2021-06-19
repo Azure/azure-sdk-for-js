@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure/test-utils-perfstress": "^1.0.0",
     "dotenv": "^8.2.0",
-    "@azure/identity": "2.0.0-beta.3",
+    "@azure/identity": "2.0.0-beta.4",
     "uuid": "^8.3.0",
     "@azure/keyvault-secrets": "^4.2.0"
   },
