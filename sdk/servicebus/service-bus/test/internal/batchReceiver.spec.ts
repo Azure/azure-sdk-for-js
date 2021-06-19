@@ -1347,8 +1347,8 @@ describe("Batching Receiver", () => {
           throw new Error(testFailureMessage);
         } catch (err) {
           assert.deepNestedInclude(err, {
-            name: "Error",
-            message: "Test: fake connection failure"
+            name: "ServiceBusError",
+            code: "SessionLockLost"
           });
         }
       });
