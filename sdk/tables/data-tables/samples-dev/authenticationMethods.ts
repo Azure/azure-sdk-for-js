@@ -8,7 +8,7 @@
  * @summary authenticates using different authentication methods
  * @azsdk-weight 40
  */
- import {
+import {
   TableServiceClient,
   AzureNamedKeyCredential,
   AzureSASCredential

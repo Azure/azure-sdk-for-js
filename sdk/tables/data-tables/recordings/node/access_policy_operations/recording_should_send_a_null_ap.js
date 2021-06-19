@@ -18,15 +18,15 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b2fd8b72-3002-0090-0c8a-6414f3000000',
+  '7c52f145-1002-0129-2ba5-64b1a8000000',
   'x-ms-client-request-id',
-  '207c2975-1251-425f-a34a-1ee81b26f3de',
+  'c145c784-e0ea-4f0c-a458-c282737b3f6d',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 18 Jun 2021 21:43:33 GMT'
+  'Sat, 19 Jun 2021 00:55:30 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -38,13 +38,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b2fd8b82-3002-0090-1a8a-6414f3000000',
+  '7c52f154-1002-0129-38a5-64b1a8000000',
   'x-ms-client-request-id',
-  '8766a207-e32e-4809-a63a-3002a3680069',
+  '7c01318d-9e9e-47e3-822a-58524b1bd78c',
   'x-ms-version',
   '2019-02-02',
   'Date',
-  'Fri, 18 Jun 2021 21:43:33 GMT'
+  'Sat, 19 Jun 2021 00:55:30 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -58,9 +58,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b2fd8ba4-3002-0090-3c8a-6414f3000000',
+  '7c52f15c-1002-0129-40a5-64b1a8000000',
   'x-ms-client-request-id',
-  'e3b0f981-4cce-4c0b-acf7-0e8a9785321e',
+  '8637b70d-adc8-4199-b467-e7898fa7e59a',
   'x-ms-version',
   '2019-02-02',
   'Access-Control-Expose-Headers',
@@ -68,5 +68,5 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 18 Jun 2021 21:43:34 GMT'
+  'Sat, 19 Jun 2021 00:55:30 GMT'
 ]);
