@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import sinon from "sinon";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  parseWWWAuthenticate,
-  ChallengeCallbackHandler
+  createChallengeCallbacks,
+  parseWWWAuthenticate
 } from "../../src/challengeAuthenticationCallbacks";
 import {
   AuthorizeRequestOptions,
+  ChallengeCallbacks,
   createHttpHeaders,
   createPipelineRequest,
   PipelineRequest
 } from "@azure/core-rest-pipeline";
+import { authenticate } from "../utils/authentication";
+import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 
 describe("Challenge based authentication tests", function() {
+  let request: PipelineRequest;
+  let challengeCallbacks: ChallengeCallbacks;
+
+  beforeEach(() => {
+    request = createPipelineRequest({ url: "https://foo.bar" });
+    challengeCallbacks = createChallengeCallbacks();
+  });
+
   describe("authorizeRequest", () => {
-    let request: PipelineRequest;
-    let challengeCallbacks: ChallengeCallbackHandler;
-
-    beforeEach(() => {
-      request = createPipelineRequest({ url: "https://foo.bar" });
-      challengeCallbacks = new ChallengeCallbackHandler();
-    });
-
     it("always starts the challenge on the first call", async () => {
       let getAccessTokenCallCount = 0;
       const options: AuthorizeRequestOptions = {
@@ -55,7 +59,7 @@ describe("Challenge based authentication tests", function() {
       };
 
       // Set up the challenge state to complete by calling authorizeRequestOnChallenge first
-      await challengeCallbacks.authorizeRequestOnChallenge({
+      await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => {
           return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
         },
@@ -70,7 +74,7 @@ describe("Challenge based authentication tests", function() {
         scopes: []
       });
 
-      await challengeCallbacks.authorizeRequest(options);
+      await challengeCallbacks.authorizeRequest!(options);
 
       assert.equal(1, getAccessTokenCallCount);
       assert.equal(options.request.headers.get("authorization"), "Bearer access_token");
@@ -92,80 +96,80 @@ describe("Challenge based authentication tests", function() {
 
       assert.notExists(options.request.headers.get("authorization"));
     });
+  });
 
-    describe("authorizeRequestOnChallenge", () => {
-      it("validates WWW-Authenticate exists", async () => {
-        await assert.isRejected(
-          challengeCallbacks.authorizeRequestOnChallenge!({
-            getAccessToken: () => Promise.resolve(null),
+  describe("authorizeRequestOnChallenge", () => {
+    it("validates WWW-Authenticate exists", async () => {
+      await assert.isRejected(
+        challengeCallbacks.authorizeRequestOnChallenge!({
+          getAccessToken: () => Promise.resolve(null),
+          request,
+          response: {
+            headers: createHttpHeaders(),
             request,
-            response: {
-              headers: createHttpHeaders(),
-              request,
-              status: 200
-            },
-            scopes: []
+            status: 200
+          },
+          scopes: []
+        }),
+        "Missing challenge"
+      );
+    });
+
+    it("passes the correct scopes if provided", async () => {
+      let getAccessTokenScopes: string[] = [];
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: (scopes) => {
+          getAccessTokenScopes = scopes;
+          return Promise.resolve(null);
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer scope="cae_scope"`
           }),
-          "Missing challenge"
-        );
-      });
-
-      it("passes the correct scopes if provided", async () => {
-        let getAccessTokenScopes: string[] = [];
-        await challengeCallbacks.authorizeRequestOnChallenge!({
-          getAccessToken: (scopes) => {
-            getAccessTokenScopes = scopes;
-            return Promise.resolve(null);
-          },
           request,
-          response: {
-            headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer scope="cae_scope"`
-            }),
-            request,
-            status: 200
-          },
-          scopes: []
-        });
-
-        assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
+          status: 200
+        },
+        scopes: []
       });
 
-      it("returns true and sets the authorization header if challenge succeeds", async () => {
-        const result = await challengeCallbacks.authorizeRequestOnChallenge!({
-          getAccessToken: () => {
-            return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
-          },
+      assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
+    });
+
+    it("returns true and sets the authorization header if challenge succeeds", async () => {
+      const result = await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: () => {
+          return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer scope="cae_scope"`
+          }),
           request,
-          response: {
-            headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer scope="cae_scope"`
-            }),
-            request,
-            status: 200
-          },
-          scopes: []
-        });
-        assert.isTrue(result);
+          status: 200
+        },
+        scopes: []
       });
+      assert.isTrue(result);
+    });
 
-      it("returns false and does not modify header if challenge fails", async () => {
-        const result = await challengeCallbacks.authorizeRequestOnChallenge!({
-          getAccessToken: () => {
-            return Promise.resolve(null);
-          },
+    it("returns false and does not modify header if challenge fails", async () => {
+      const result = await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: () => {
+          return Promise.resolve(null);
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer scope="cae_scope"`
+          }),
           request,
-          response: {
-            headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer scope="cae_scope"`
-            }),
-            request,
-            status: 200
-          },
-          scopes: []
-        });
-        assert.isFalse(result);
+          status: 200
+        },
+        scopes: []
       });
+      assert.isFalse(result);
     });
   });
 

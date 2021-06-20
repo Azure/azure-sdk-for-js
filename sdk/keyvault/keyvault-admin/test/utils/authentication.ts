@@ -67,12 +67,7 @@ export async function authenticate(that: any): Promise<any> {
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  // Passing a separate httpClient for every instance as a workaround
-  // for a caching issue when creating role assignments
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
-    // TODO: restore this
-    // httpClient: new DefaultHttpClient()
-  });
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
   const keyClient = new KeyClient(keyVaultHsmUrl, credential);
   const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 

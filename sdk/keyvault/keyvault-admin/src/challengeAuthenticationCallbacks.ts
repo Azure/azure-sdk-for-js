@@ -2,6 +2,7 @@ import {
   AuthorizeRequestOnChallengeOptions,
   AuthorizeRequestOptions,
   ChallengeCallbacks,
+  PipelineRequest,
   RequestBodyType
 } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
@@ -22,18 +23,23 @@ type ParsedWWWAuthenticate = {
  * When making the first request we force Key Vault to begin a challenge
  * by clearing out the request body and storing it locally.
  *
- * Later on the authorizeRequestOnChallenge callback will process the
- * challenge and if ready to resend the original request reset the body
+ * Later on, the authorizeRequestOnChallenge callback will process the
+ * challenge and, if ready to resend the original request, reset the body
  * so that it may be sent again.
  *
  * Once a client has succeeded once, we can start skipping CAE.
  */
 type ChallengeState =
   | {
-      firstRequestState: "none";
+      status: "none";
     }
-  | { firstRequestState: "started"; originalBody?: RequestBodyType }
-  | { firstRequestState: "complete" };
+  | {
+      status: "started";
+      originalBody?: RequestBodyType;
+    }
+  | {
+      status: "complete";
+    };
 
 /**
  * Parses an WWW-Authenticate response.
@@ -66,59 +72,71 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
 /**
  * @internal
  *
- * A class that manages continuous access evaluation challenges for Key Vault.
+ * Creates challenge callback handlers to manage CAE lifecycle in Azure Key Vault.
  *
- * Key Vault supports non-CAE requests but discourages them. This class applies
- * best practices by forcing the challenge whenever a client makes a request for
- * first time by clearing the request body.
+ * Key Vault supports other authentication schemes, but we ensure challenge authentication
+ * is used by first sending a copy of the request, without authorization or content.
  *
- * At some point downstream, the challenge will be processed and the original request
- * body will be restored to be sent again.
+ * when the challenge is received, it will be authenticated and used to send the original
+ * request with authorization.
  *
  * Following the first request of a client, follow-up requests will get the cached token
  * if possible.
  */
-export class ChallengeCallbackHandler implements ChallengeCallbacks {
-  private challengeState: ChallengeState;
-  constructor() {
-    this.challengeState = { firstRequestState: "none" };
-  }
+export function createChallengeCallbacks(): ChallengeCallbacks {
+  let challengeState: ChallengeState = { status: "none" };
 
-  async authorizeRequest(options: AuthorizeRequestOptions) {
-    const { scopes, request } = options;
-    const requestOptions: GetTokenOptions = {
+  function requestToOptions(request: PipelineRequest): GetTokenOptions {
+    return {
       abortSignal: request.abortSignal,
       requestOptions: {
         timeout: request.timeout
       },
       tracingOptions: request.tracingOptions
     };
+  }
 
-    if (this.challengeState.firstRequestState === "complete") {
-      const token = await options.getAccessToken(scopes, requestOptions);
-      if (token) {
-        options.request.headers.set("authorization", `Bearer ${token.token}`);
-      }
-    } else {
-      this.challengeState = {
-        firstRequestState: "started",
-        originalBody: request.body
-      };
+  async function authorizeRequest(options: AuthorizeRequestOptions) {
+    console.count("authorizeRequest");
+    const { scopes, request } = options;
+    const requestOptions: GetTokenOptions = requestToOptions(request);
+
+    switch (challengeState.status) {
+      case "none":
+        challengeState = {
+          status: "started",
+          originalBody: request.body
+        };
+        request.body = null;
+        break;
+      case "started":
+        break; // Retry, we should not overwrite the original body
+      case "complete":
+        const token = await options.getAccessToken(scopes, requestOptions);
+        if (token) {
+          request.headers.set("authorization", `Bearer ${token.token}`);
+        }
+        break;
     }
     return Promise.resolve();
   }
 
-  async authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
-    const { scopes, request } = options;
+  async function authorizeRequestOnChallenge(
+    options: AuthorizeRequestOnChallengeOptions
+  ): Promise<boolean> {
+    console.count("authorizeRequestOnChallenge");
+    const { scopes, request, response } = options;
 
-    const getTokenOptions: GetTokenOptions = {
-      abortSignal: request.abortSignal,
-      requestOptions: {
-        timeout: request.timeout
-      },
-      tracingOptions: request.tracingOptions
-    };
-    const challenge = options.response.headers.get("WWW-Authenticate");
+    if (request.body === null && challengeState.status === "started") {
+      // Reset the original body before doing anything else.
+      // Note: If successful status will be "complete", otherwise "none" will
+      // restart the process.
+      request.body = challengeState.originalBody;
+    }
+
+    const getTokenOptions = requestToOptions(request);
+
+    const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
       throw new Error("Missing challenge");
     }
@@ -134,13 +152,16 @@ export class ChallengeCallbackHandler implements ChallengeCallbacks {
     }
 
     options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-    options.request.body =
-      this.challengeState.firstRequestState === "started" && this.challengeState.originalBody;
 
-    this.challengeState = {
-      firstRequestState: "complete"
+    challengeState = {
+      status: "complete"
     };
 
     return true;
   }
+
+  return {
+    authorizeRequest,
+    authorizeRequestOnChallenge
+  };
 }

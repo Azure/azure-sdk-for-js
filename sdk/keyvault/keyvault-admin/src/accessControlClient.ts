@@ -34,7 +34,7 @@ import { mappings } from "./mappings";
 import { logger } from "./log";
 import { v4 as v4uuid } from "uuid";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { ChallengeCallbackHandler } from "./challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 
@@ -112,7 +112,7 @@ export class KeyVaultAccessControlClient {
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: ["https://managedhsm.azure.net/.default"],
-        challengeCallbacks: new ChallengeCallbackHandler()
+        challengeCallbacks: createChallengeCallbacks()
       })
     );
   }

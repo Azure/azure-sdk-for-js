@@ -26,7 +26,7 @@ import { KeyVaultClientOptionalParams } from "./generated/models";
 import { mappings } from "./mappings";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { ChallengeCallbackHandler } from "./challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 
 export {
   KeyVaultBackupOperationState,
@@ -109,7 +109,7 @@ export class KeyVaultBackupClient {
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: ["https://managedhsm.azure.net/.default"],
-        challengeCallbacks: new ChallengeCallbackHandler()
+        challengeCallbacks: createChallengeCallbacks()
       })
     );
   }
