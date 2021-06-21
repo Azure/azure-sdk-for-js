@@ -126,4 +126,18 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       }
     });
   });
+  describe.only("Background refresher", async function() {
+    it("should fetch new endpoints", async function () {
+      const client = new CosmosClient({ endpoint, key: masterKey });
+      const { resource: { writableLocations, readableLocations }} = await client.getDatabaseAccount();
+      console.log({ writableLocations, readableLocations })
+      // mock background refresh request to simulate removing a region
+      // assert old locations are different from new
+    });
+    it("should stop refreshing when disposed", async function() {
+      const client = new CosmosClient({ endpoint, key: masterKey })
+      client.dispose();
+      // assert( ) no network requests
+    })
+  })
 });

@@ -21,6 +21,8 @@ export interface ConnectionPolicy {
    * Default is `false`.
    */
   useMultipleWriteLocations?: boolean;
+  /** Rate at which the client will refresh the endpoints list in the background */
+  endpointRefreshRate?: number
 }
 
 /**
@@ -32,5 +34,6 @@ export const defaultConnectionPolicy = Object.freeze({
   enableEndpointDiscovery: true,
   preferredLocations: [],
   retryOptions: {},
-  useMultipleWriteLocations: true
+  useMultipleWriteLocations: true,
+  endpointRefreshRate: 300000
 });

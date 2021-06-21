@@ -236,6 +236,7 @@ export enum ConnectionMode {
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
     enableEndpointDiscovery?: boolean;
+    endpointRefreshRate?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -486,6 +487,7 @@ export class CosmosClient {
     constructor(options: CosmosClientOptions);
     database(id: string): Database;
     readonly databases: Databases;
+    dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     getReadEndpoint(): Promise<string>;
     getWriteEndpoint(): Promise<string>;
