@@ -306,15 +306,10 @@ import {
   WeatherCreateDataDeleteJob202Response,
   WeatherCreateDataDeleteJobdefaultResponse,
 } from "./responses";
-import {
-  getClient,
-  ClientOptions,
-  Client,
-  paginateResponse,
-  PathUncheckedResponse,
-} from "@azure-rest/core-client";
+import { getClient, ClientOptions, Client, PathUncheckedResponse } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { paginateResponse } from "@azure-rest/core-client-paging";
 
 export interface ApplicationDataListByFarmerId {
   /** Returns a paginated list of application data resources under a particular farm. */

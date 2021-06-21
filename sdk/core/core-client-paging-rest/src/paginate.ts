@@ -3,8 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Client, HttpResponse, PathUncheckedResponse } from "./";
-import "@azure/core-paging";
+import { Client, HttpResponse, PathUncheckedResponse } from "@azure-rest/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
@@ -21,8 +20,10 @@ export interface PaginateOptions {
    * Property name in the body where the nextLink is located
    * The default value is `nextLink`.
    * nextLink is an opaque URL for the client, in which the next set of results is located.
+   * Note: if nextLinkName is set to `null` only the first page is returned, no additional
+   * requests are made.
    */
-  nextLinkName?: string;
+  nextLinkName?: string | null;
   /**
    * Indicates the name of the property in which the set of values is found. Default: `value`
    */
@@ -76,6 +77,13 @@ async function* listPage<T = Record<string, unknown>[]>(
   let values = getElements<T>(result.body, options);
 
   yield values;
+
+  // According to x-ms-pageable is the nextLinkName is set to null we should only
+  // return the first page and skip any additional queries even if the initial response
+  // contains a nextLink.
+  if (options.nextLinkName === null) {
+    return;
+  }
 
   while (nextLink) {
     result = await client.pathUnchecked(nextLink).get();

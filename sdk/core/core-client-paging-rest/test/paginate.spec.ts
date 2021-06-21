@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Client, getClient, PathUncheckedResponse } from "../src";
+import { Client, getClient, PathUncheckedResponse } from "@azure-rest/core-client";
 import { paginateResponse } from "../src/paginate";
 import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { URL } from "../src/url";
@@ -95,6 +95,32 @@ describe("Paginate heleper", () => {
     ]);
     const response: TestResponse = await client.pathUnchecked("/paging/noitemname").get();
     const items = paginate(client, response);
+    const result = [];
+
+    for await (const item of items) {
+      result.push(item);
+    }
+
+    assert.deepEqual(result, expectedPage);
+  });
+
+  it("Paging_getNullNextLinkNamePages", async () => {
+    // A paging operation that must ignore any kind of nextLink, and stop after page 1.
+
+    const expectedPage = [{ foo: 1 }];
+    mockResponse(client, [
+      {
+        path: "/paging/nullnextlink",
+        response: { status: 200, body: { value: expectedPage, nextLink: "/paging/nullnextlink" } },
+      },
+      {
+        path: "/paging/nullnextlink",
+        response: { status: 400, body: { value: expectedPage, nextLink: "/paging/nullnextlink" } },
+      },
+    ]);
+
+    const response: TestResponse = await client.pathUnchecked("/paging/nullnextlink").get();
+    const items = paginateResponse(client, response, { nextLinkName: null });
     const result = [];
 
     for await (const item of items) {

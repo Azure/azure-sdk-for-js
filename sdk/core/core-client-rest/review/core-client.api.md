@@ -5,7 +5,6 @@
 ```ts
 
 import { KeyCredential } from '@azure/core-auth';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
@@ -64,15 +63,6 @@ export type HttpResponse = {
 
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
-
-// @public
-export interface PaginateOptions {
-    itemName?: string;
-    nextLinkName?: string;
-}
-
-// @public
-export function paginateResponse<TReturn>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[]>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
