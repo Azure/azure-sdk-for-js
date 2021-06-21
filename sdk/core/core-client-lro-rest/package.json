@@ -1,7 +1,7 @@
 {
-  "name": "@azure-rest/core-client-paging",
+  "name": "@azure-rest/core-client-lro",
   "version": "1.0.0-beta.1",
-  "description": "A helper library which implements Autorest x-ms-pageable spec for pagination.",
+  "description": "A helper library which implements Autorest x-ms-long-running-operation spec to handle long running operations.",
   "sdk-type": "core",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -61,10 +61,10 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-paging": "^1.1.1",
+    "@azure/core-lro": "^1.0.2",
     "@azure/core-rest-pipeline": "^1.0.3",
     "@azure-rest/core-client": "1.0.0-beta.4",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.13.2",

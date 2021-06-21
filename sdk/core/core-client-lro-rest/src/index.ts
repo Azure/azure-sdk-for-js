@@ -6,4 +6,4 @@
  *
  * @packageDocumentation
  */
-export { paginateResponse, PaginateOptions } from "./paginate";
+export { getLongRunningPoller} from "./getLongRunningHelper";
