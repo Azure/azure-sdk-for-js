@@ -36,13 +36,13 @@ For client-side applications running in the browser, the `InteractiveBrowserCred
 - Ensure that your application has the correct permission for the APIs it intends to use.
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
-  - Select the API you want to use. For example, if you're using any of our management/control plane packages, i.e., the ones whose name starts with `@azure/arm-`, you should select `Azure Service Management`.
+  - Select the API you want to use. For example, if you're using any of our management/control plane packages (the ones whose name starts with `@azure/arm-`), you should select **Azure Service Management**.
 - Ensure that your AAD Application has enabled public authentication flows:
   - Go to Azure Active Directory in the Azure portal and find your app registration.
   - Navigate to the **Authentication** section.
-  - Under **Advanced settings**, select `yes` on the option `Allow public client flows`.
+  - Under **Advanced settings**, select **yes** on the option **Allow public client flows**.
 
-Copy the client ID and tenant ID from the `Overview` section of your app registration in the Azure portal and use it in the below code snippet where we authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
+Copy the client ID and tenant ID from the **Overview** section of your app registration in the Azure portal and use it in the below code snippet where we authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
 ```ts
 function withInteractiveBrowserCredential() {
@@ -112,14 +112,14 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 | Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod-identity).                                                                                                                                     |
+| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                     |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Examples
 
 #### Authenticating with `DefaultAzureCredential`
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` provides sane defaults with minimal configuration and chains multiple credentials together. While your project may eventually need only a specific set of credentials, it's a sensible first choice for most scenarios in which a project in active development will be running in the Azure Cloud.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` provides sane defaults with minimal configuration and chains multiple credentials together. While your project may eventually need only a specific set of credentials, it's a sensible first choice for most scenarios in which a project in active development will be running in the Azure cloud.
 
 ```ts
 /**
@@ -217,7 +217,7 @@ To learn more about service principals, see [Application and service principal o
 
 ```ts
 /**
- *  Authenticate using the AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables.
+ *  Authenticate using the AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables.
  */
 function withEnvironmentCredential() {
   let credential = new EnvironmentCredential();
@@ -266,7 +266,7 @@ If you can't configure the device code flow option on your Active Directory, it 
 
 1. Navigate to the **Authentication** panel.
 2. Select **Accounts in any organizational directory**.
-3. Then, select _yes_ for Treat application as Public Client.
+3. Select **yes** for **Treat application as Public Client**.
 
 ```ts
 /**
@@ -792,7 +792,7 @@ Once you have a certificate, you may export the certificate with the Azure CLI f
 
 You can also export your certificate through the Azure portal. Navigate to your Key Vault resource, go to a specific certificate, then download the certificate in PFX/PEM format.
 
-Once you have a Key Vault certificate downloaded, go to Azure Active Directory. Find the Enterprise app you want to authenticate with, go to `Certificates & secrets`, and upload the certificate.
+Once you have a Key Vault certificate downloaded, go to Azure Active Directory. Find the Enterprise app you want to authenticate with, go to **Certificates & secrets**, and upload the certificate.
 
 After that, you can authenticate by pointing the `@azure/identity`'s `ClientCertificateCredential` to the PEM certificate's path, as follows:
 
