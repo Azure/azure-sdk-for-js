@@ -13,7 +13,7 @@ import {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
-import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
+import { LATEST_API_VERSION, SDK_VERSION, authenticationScopes } from "./constants";
 import { logger } from "./log";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
 import { KeyVaultRestorePoller } from "./lro/restore/poller";
@@ -104,11 +104,10 @@ export class KeyVaultBackupClient {
     };
 
     this.client = new KeyVaultClient(clientOptions);
-    // TODO: decide on the correct scope in non admin scenarios...
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: ["https://managedhsm.azure.net/.default"],
+        scopes: authenticationScopes,
         challengeCallbacks: createChallengeCallbacks()
       })
     );

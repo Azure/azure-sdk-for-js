@@ -29,7 +29,7 @@ import {
   DeleteRoleDefinitionOptions
 } from "./accessControlModels";
 
-import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
+import { SDK_VERSION, LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 import { v4 as v4uuid } from "uuid";
@@ -107,11 +107,10 @@ export class KeyVaultAccessControlClient {
 
     this.client = new KeyVaultClient(clientOptions);
 
-    // TODO: decide on the correct scope in non admin scenarios...
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: ["https://managedhsm.azure.net/.default"],
+        scopes: authenticationScopes,
         challengeCallbacks: createChallengeCallbacks()
       })
     );
