@@ -84,19 +84,18 @@ steps:
     Write-Host "${{ convertToJson(parameters.Artifacts) }}"
   displayName: convertToJson
 
-- task: PowerShell@2
-  displayName: 'Apply documentation updates'
-  inputs:
-    targetType: filePath
-    filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
-    arguments: |
-      -ArtifactInfoJson '${{ convertToJson(parameters.Artifacts) }}' `
-      -DocRepoLocation "$(DocRepoLocation)" `
-      -Language "${{parameters.Language}}" `
-      -RepoId ${{ parameters.RepoId }}
-    pwsh: true
-  env:
-    GH_TOKEN: $(azuresdk-github-pat)
+- pwsh: |
+    $artifactInfoJson = '${{ convertToJson(parameters.Artifacts) }}'
+    $artifactInfo = ConvertFrom-Json $artifactInfoJson
+    foreach($package in $artifactInfo) {
+      Write-Host "Updating docs for $($package.Name)"
+      ${{ paramters.ScriptDirectory }}/Update-DocsMsMetadata.ps1 `
+        -PackageInfoJsonLocation $package.PackageInfoPath `
+        -DocRepoLocation "$(DocRepoLocation)" `
+        -Language "${{parameters.Language}}" `
+        -RepoId '${{ parameters.RepoId }}'
+    }
+  displayName: Apply Documentation Updates
 
 - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
   parameters:

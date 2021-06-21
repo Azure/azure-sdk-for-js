@@ -13,7 +13,7 @@ and other information needed to release reference docs:
   repository. This enables the Docs CI build to onboard packages which have not
   shipped and for which there are no entries in the metadata CSV files.
 
-.PARAMETER ArtifactLocation
+.PARAMETER PackageInfoJsonLocation
 Location of the artifact information .json file. This is usually stored in build
 artifacts under packages/PackageInfo/<package-name>.json.
 
@@ -31,7 +31,7 @@ GitHub repository ID of the SDK. Typically of the form: 'Azure/azure-sdk-for-js'
 
 param(
   [Parameter(Mandatory = $true)]
-  [string]$ArtifactLocation,
+  [string]$PackageInfoJsonLocation,
   
   [Parameter(Mandatory = $true)]
   [string]$DocRepoLocation, 
@@ -86,7 +86,7 @@ ms.service: $service
   return "$header`n$ReadmeContent"
 }
 
-$packageInfoJson = Get-Content $ArtifactLocation -Raw
+$packageInfoJson = Get-Content $PackageInfoJsonLocation -Raw
 $packageInfo = ConvertFrom-Json $packageInfoJson
 
 $originalVersion = $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
@@ -136,7 +136,7 @@ $metadataMoniker = 'latest'
 if ($originalVersion.IsPrerelease) {
   $metadataMoniker = 'preview'
 }
-$packageMetadataName = Split-Path $ArtifactLocation -Leaf
+$packageMetadataName = Split-Path $PackageInfoJsonLocation -Leaf
 $packageInfoLocation = Join-Path $DocRepoLocation "metadata/$metadataMoniker"
 $packageInfoJson = ConvertTo-Json $packageInfo
 New-Item -ItemType Directory -Path $packageInfoLocation -Force
