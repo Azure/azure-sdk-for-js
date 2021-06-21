@@ -33,39 +33,21 @@ export class CloudServiceOperatingSystems {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse>
    */
-  getOSVersion(
-    location: string,
-    osVersionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse>;
+  getOSVersion(location: string, osVersionName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse>;
   /**
    * @param location Name of the location that the OS version pertains to.
    * @param osVersionName Name of the OS version.
    * @param callback The callback
    */
-  getOSVersion(
-    location: string,
-    osVersionName: string,
-    callback: msRest.ServiceCallback<Models.OSVersion>
-  ): void;
+  getOSVersion(location: string, osVersionName: string, callback: msRest.ServiceCallback<Models.OSVersion>): void;
   /**
    * @param location Name of the location that the OS version pertains to.
    * @param osVersionName Name of the OS version.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOSVersion(
-    location: string,
-    osVersionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OSVersion>
-  ): void;
-  getOSVersion(
-    location: string,
-    osVersionName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSVersion>,
-    callback?: msRest.ServiceCallback<Models.OSVersion>
-  ): Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse> {
+  getOSVersion(location: string, osVersionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OSVersion>): void;
+  getOSVersion(location: string, osVersionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSVersion>, callback?: msRest.ServiceCallback<Models.OSVersion>): Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -73,8 +55,7 @@ export class CloudServiceOperatingSystems {
         options
       },
       getOSVersionOperationSpec,
-      callback
-    ) as Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse>;
+      callback) as Promise<Models.CloudServiceOperatingSystemsGetOSVersionResponse>;
   }
 
   /**
@@ -85,41 +66,26 @@ export class CloudServiceOperatingSystems {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse>
    */
-  listOSVersions(
-    location: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse>;
+  listOSVersions(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse>;
   /**
    * @param location Name of the location that the OS versions pertain to.
    * @param callback The callback
    */
-  listOSVersions(
-    location: string,
-    callback: msRest.ServiceCallback<Models.OSVersionListResult>
-  ): void;
+  listOSVersions(location: string, callback: msRest.ServiceCallback<Models.OSVersionListResult>): void;
   /**
    * @param location Name of the location that the OS versions pertain to.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOSVersions(
-    location: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OSVersionListResult>
-  ): void;
-  listOSVersions(
-    location: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSVersionListResult>,
-    callback?: msRest.ServiceCallback<Models.OSVersionListResult>
-  ): Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse> {
+  listOSVersions(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OSVersionListResult>): void;
+  listOSVersions(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSVersionListResult>, callback?: msRest.ServiceCallback<Models.OSVersionListResult>): Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOSVersionsOperationSpec,
-      callback
-    ) as Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse>;
+      callback) as Promise<Models.CloudServiceOperatingSystemsListOSVersionsResponse>;
   }
 
   /**
@@ -130,39 +96,21 @@ export class CloudServiceOperatingSystems {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse>
    */
-  getOSFamily(
-    location: string,
-    osFamilyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse>;
+  getOSFamily(location: string, osFamilyName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse>;
   /**
    * @param location Name of the location that the OS family pertains to.
    * @param osFamilyName Name of the OS family.
    * @param callback The callback
    */
-  getOSFamily(
-    location: string,
-    osFamilyName: string,
-    callback: msRest.ServiceCallback<Models.OSFamily>
-  ): void;
+  getOSFamily(location: string, osFamilyName: string, callback: msRest.ServiceCallback<Models.OSFamily>): void;
   /**
    * @param location Name of the location that the OS family pertains to.
    * @param osFamilyName Name of the OS family.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOSFamily(
-    location: string,
-    osFamilyName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OSFamily>
-  ): void;
-  getOSFamily(
-    location: string,
-    osFamilyName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSFamily>,
-    callback?: msRest.ServiceCallback<Models.OSFamily>
-  ): Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse> {
+  getOSFamily(location: string, osFamilyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OSFamily>): void;
+  getOSFamily(location: string, osFamilyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSFamily>, callback?: msRest.ServiceCallback<Models.OSFamily>): Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -170,8 +118,7 @@ export class CloudServiceOperatingSystems {
         options
       },
       getOSFamilyOperationSpec,
-      callback
-    ) as Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse>;
+      callback) as Promise<Models.CloudServiceOperatingSystemsGetOSFamilyResponse>;
   }
 
   /**
@@ -182,41 +129,26 @@ export class CloudServiceOperatingSystems {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse>
    */
-  listOSFamilies(
-    location: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse>;
+  listOSFamilies(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse>;
   /**
    * @param location Name of the location that the OS families pertain to.
    * @param callback The callback
    */
-  listOSFamilies(
-    location: string,
-    callback: msRest.ServiceCallback<Models.OSFamilyListResult>
-  ): void;
+  listOSFamilies(location: string, callback: msRest.ServiceCallback<Models.OSFamilyListResult>): void;
   /**
    * @param location Name of the location that the OS families pertain to.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOSFamilies(
-    location: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OSFamilyListResult>
-  ): void;
-  listOSFamilies(
-    location: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSFamilyListResult>,
-    callback?: msRest.ServiceCallback<Models.OSFamilyListResult>
-  ): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse> {
+  listOSFamilies(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OSFamilyListResult>): void;
+  listOSFamilies(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSFamilyListResult>, callback?: msRest.ServiceCallback<Models.OSFamilyListResult>): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOSFamiliesOperationSpec,
-      callback
-    ) as Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse>;
+      callback) as Promise<Models.CloudServiceOperatingSystemsListOSFamiliesResponse>;
   }
 
   /**
@@ -227,41 +159,26 @@ export class CloudServiceOperatingSystems {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse>
    */
-  listOSVersionsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse>;
+  listOSVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOSVersionsNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.OSVersionListResult>
-  ): void;
+  listOSVersionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OSVersionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOSVersionsNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OSVersionListResult>
-  ): void;
-  listOSVersionsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSVersionListResult>,
-    callback?: msRest.ServiceCallback<Models.OSVersionListResult>
-  ): Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse> {
+  listOSVersionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OSVersionListResult>): void;
+  listOSVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSVersionListResult>, callback?: msRest.ServiceCallback<Models.OSVersionListResult>): Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOSVersionsNextOperationSpec,
-      callback
-    ) as Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse>;
+      callback) as Promise<Models.CloudServiceOperatingSystemsListOSVersionsNextResponse>;
   }
 
   /**
@@ -272,41 +189,26 @@ export class CloudServiceOperatingSystems {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse>
    */
-  listOSFamiliesNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse>;
+  listOSFamiliesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOSFamiliesNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.OSFamilyListResult>
-  ): void;
+  listOSFamiliesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OSFamilyListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOSFamiliesNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OSFamilyListResult>
-  ): void;
-  listOSFamiliesNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSFamilyListResult>,
-    callback?: msRest.ServiceCallback<Models.OSFamilyListResult>
-  ): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse> {
+  listOSFamiliesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OSFamilyListResult>): void;
+  listOSFamiliesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OSFamilyListResult>, callback?: msRest.ServiceCallback<Models.OSFamilyListResult>): Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOSFamiliesNextOperationSpec,
-      callback
-    ) as Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse>;
+      callback) as Promise<Models.CloudServiceOperatingSystemsListOSFamiliesNextResponse>;
   }
 }
 
@@ -314,11 +216,18 @@ export class CloudServiceOperatingSystems {
 const serializer = new msRest.Serializer(Mappers);
 const getOSVersionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
-  urlParameters: [Parameters.location0, Parameters.osVersionName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.osVersionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OSVersion
@@ -332,11 +241,17 @@ const getOSVersionOperationSpec: msRest.OperationSpec = {
 
 const listOSVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions",
-  urlParameters: [Parameters.location0, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OSVersionListResult
@@ -350,11 +265,18 @@ const listOSVersionsOperationSpec: msRest.OperationSpec = {
 
 const getOSFamilyOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
-  urlParameters: [Parameters.location0, Parameters.osFamilyName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.osFamilyName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OSFamily
@@ -368,11 +290,17 @@ const getOSFamilyOperationSpec: msRest.OperationSpec = {
 
 const listOSFamiliesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies",
-  urlParameters: [Parameters.location0, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OSFamilyListResult
@@ -388,9 +316,15 @@ const listOSVersionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OSVersionListResult
@@ -406,9 +340,15 @@ const listOSFamiliesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OSFamilyListResult
