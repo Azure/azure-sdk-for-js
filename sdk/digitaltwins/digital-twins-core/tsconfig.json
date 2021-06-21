@@ -2,7 +2,6 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "strict": true,
-    "target": "es5",
     "sourceMap": true,
     "lib": ["es6", "dom"],
     "declaration": true,

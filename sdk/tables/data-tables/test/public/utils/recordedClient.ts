@@ -8,7 +8,7 @@ import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 import "./env";
 
-const mockAccountName = "fakestorageaccount";
+const mockAccountName = "fakeaccount";
 const mockAccountKey = "fakeKey";
 const fakeSas =
   "sv=2019-12-12&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-01-31T05:16:52Z&st=2021-01-26T21:16:52Z&spr=https&sig=fakeSignature";
@@ -20,6 +20,7 @@ const replaceableVariables: { [k: string]: string } = {
   ACCOUNT_NAME: `${mockAccountName}`,
   ACCOUNT_KEY: `${mockAccountKey}`,
   ACCOUNT_SAS: `${mockAccountKey}`,
+  TABLES_URL: `https://${mockAccountName}.table.core.windows.net`,
   SAS_CONNECTION_STRING: `${mockSasConnectionString}`
 };
 

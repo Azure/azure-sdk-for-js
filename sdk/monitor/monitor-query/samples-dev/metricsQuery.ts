@@ -11,18 +11,18 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const monitorWorkspaceId = process.env.METRICS_RESOURCE_ID_TO_QUERY;
+const metricsResourceId = process.env.METRICS_RESOURCE_ID;
 
 export async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
-  if (!monitorWorkspaceId) {
-    throw new Error("METRICS_RESOURCE_ID_TO_QUERY must be set in the environment for this sample");
+  if (!metricsResourceId) {
+    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
-    monitorWorkspaceId,
+    metricsResourceId,
     Durations.lastDay,
     {
       metricNames: ["SuccessfulRequests"],

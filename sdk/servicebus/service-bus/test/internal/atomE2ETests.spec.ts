@@ -106,9 +106,10 @@ describe("getSubscriptionRuntimeProperties", () => {
   async function receiveMessagesAndAbandon(subscriptionName: string): Promise<void> {
     const receiver = serviceBusClient.createReceiver(topicName, subscriptionName);
     const receivedMessages = await receiver.receiveMessages(10);
-    receivedMessages.forEach(async (msg) => {
+
+    for (const msg of receivedMessages) {
       await receiver.abandonMessage(msg);
-    });
+    }
   }
 
   it("Active Message Count - single subscription", async () => {

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
@@ -10,6 +11,7 @@ import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
+import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -30,7 +32,19 @@ export const AllSupportedEnvironmentVariables = [
 const logger = credentialLogger("EnvironmentCredential");
 
 /**
+<<<<<<< HEAD
  * Enables authentication to Azure Active Directory depending on the available environment variables.
+=======
+ * Defines options for the EnvironmentCredential class.
+ */
+export interface EnvironmentCredentialOptions
+  extends TokenCredentialOptions,
+    CredentialPersistenceOptions {}
+
+/**
+ * Enables authentication to Azure Active Directory using client secret
+ * details configured in the following environment variables:
+>>>>>>> Azure/main
  *
  * Required environment variables:
  * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
@@ -73,7 +87,7 @@ export class EnvironmentCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: TokenCredentialOptions) {
+  constructor(options?: EnvironmentCredentialOptions) {
     // Keep track of any missing environment variables for error details
 
     const assigned = processEnvVars(AllSupportedEnvironmentVariables).assigned.join(", ");

@@ -1279,36 +1279,6 @@ export class SqlResources {
   }
 
   /**
-   * Retrieves continuous backup information for a container resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param location The name of the continuous backup restore location.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse>
-   */
-  retrieveContinuousBackupInformation(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    location: Models.ContinuousBackupRestoreLocation,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse> {
-    return this.beginRetrieveContinuousBackupInformation(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      location,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesRetrieveContinuousBackupInformationResponse
-    >;
-  }
-
-  /**
    * Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
    * @param roleDefinitionId The GUID for the Role Definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -2125,38 +2095,6 @@ export class SqlResources {
         options
       },
       beginDeleteSqlTriggerOperationSpec,
-      options
-    );
-  }
-
-  /**
-   * Retrieves continuous backup information for a container resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param containerName Cosmos DB container name.
-   * @param location The name of the continuous backup restore location.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginRetrieveContinuousBackupInformation(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    location: Models.ContinuousBackupRestoreLocation,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        location,
-        options
-      },
-      beginRetrieveContinuousBackupInformationOperationSpec,
       options
     );
   }
@@ -3073,38 +3011,6 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginRetrieveContinuousBackupInformationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.containerName
-  ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
-  requestBody: {
-    parameterPath: "location",
-    mapper: {
-      ...Mappers.ContinuousBackupRestoreLocation,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as cnst from "../../../src/constants";
+import * as cnst from "../../../src/utils/constants";
 import { readFileSync } from "fs";
 import { expect } from "chai";
 describe("constants", function() {

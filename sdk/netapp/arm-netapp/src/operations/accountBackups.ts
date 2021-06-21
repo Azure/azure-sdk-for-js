@@ -34,39 +34,21 @@ export class AccountBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountBackupsListResponse>
    */
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountBackupsListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountBackupsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.BackupsList>
-  ): void;
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BackupsList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BackupsList>
-  ): void;
-  list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupsList>,
-    callback?: msRest.ServiceCallback<Models.BackupsList>
-  ): Promise<Models.AccountBackupsListResponse> {
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupsList>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupsList>, callback?: msRest.ServiceCallback<Models.BackupsList>): Promise<Models.AccountBackupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,8 +56,7 @@ export class AccountBackups {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.AccountBackupsListResponse>;
+      callback) as Promise<Models.AccountBackupsListResponse>;
   }
 
   /**
@@ -87,24 +68,14 @@ export class AccountBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountBackupsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountBackupsGetResponse>;
+  get(resourceGroupName: string, accountName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountBackupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupName: string,
-    callback: msRest.ServiceCallback<Models.Backup>
-  ): void;
+  get(resourceGroupName: string, accountName: string, backupName: string, callback: msRest.ServiceCallback<Models.Backup>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -112,20 +83,8 @@ export class AccountBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.Backup>
-  ): void;
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    backupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Backup>,
-    callback?: msRest.ServiceCallback<Models.Backup>
-  ): Promise<Models.AccountBackupsGetResponse> {
+  get(resourceGroupName: string, accountName: string, backupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Backup>): void;
+  get(resourceGroupName: string, accountName: string, backupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Backup>, callback?: msRest.ServiceCallback<Models.Backup>): Promise<Models.AccountBackupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,8 +93,7 @@ export class AccountBackups {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.AccountBackupsGetResponse>;
+      callback) as Promise<Models.AccountBackupsGetResponse>;
   }
 
   /**
@@ -147,18 +105,9 @@ export class AccountBackups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    backupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      resourceGroupName,
-      accountName,
-      backupName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, accountName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,accountName,backupName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -170,12 +119,7 @@ export class AccountBackups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    backupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -184,8 +128,7 @@ export class AccountBackups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -193,11 +136,18 @@ export class AccountBackups {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupsList
@@ -211,16 +161,19 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups/{backupName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups/{backupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.Backup
@@ -234,16 +187,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups/{backupName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups/{backupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},

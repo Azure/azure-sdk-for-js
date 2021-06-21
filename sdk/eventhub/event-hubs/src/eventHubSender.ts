@@ -303,7 +303,7 @@ export class EventHubSender extends LinkEntity {
     );
   }
 
-  private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
+  private _createSenderOptions(newName?: boolean): AwaitableSenderOptions {
     if (newName) this.name = `${uuid()}`;
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
@@ -313,8 +313,7 @@ export class EventHubSender extends LinkEntity {
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose,
-      sendTimeoutInSeconds: timeoutInMs / 1000
+      onSessionClose: this._onSessionClose
     };
     logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -403,9 +402,10 @@ export class EventHubSender extends LinkEntity {
         throw translate(e);
       }
 
-      sender.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
       try {
-        const delivery = await sender.send(rheaMessage, undefined, 0x80013700, {
+        const delivery = await sender.send(rheaMessage, {
+          format: 0x80013700,
+          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
           abortSignal
         });
         logger.info(
@@ -454,7 +454,7 @@ export class EventHubSender extends LinkEntity {
     const retryOptions = options.retryOptions || {};
     const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     retryOptions.timeoutInMs = timeoutInMs;
-    const senderOptions = this._createSenderOptions(timeoutInMs);
+    const senderOptions = this._createSenderOptions();
 
     const startTime = Date.now();
     const createLinkPromise = async (): Promise<AwaitableSender> => {

@@ -4,23 +4,24 @@ module.exports.hash = "73515af9958108f6acd31f0ae1ac34e6";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/tableClientTestSASConnectionStringnode', {"PartitionKey":"P5_node","RowKey":"R5","testField":123,"testField@odata.type":"Edm.Int32"})
   .query(true)
-  .reply(204, "", [ 'Cache-Control',
+  .reply(204, "", [
+  'Cache-Control',
   'no-cache',
   'Content-Length',
   '0',
   'ETag',
-  'W/"datetime\'2021-06-04T21%3A59%3A51.4109869Z\'"',
+  `W/"datetime'2021-06-09T16%3A21%3A45.4624057Z'"`,
   'Location',
-  'https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey=\'P5_node\',RowKey=\'R5\')',
+  "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey='P5_node',RowKey='R5')",
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c53-c002-0024-358c-5918f1000000',
+  '654ef0e5-9002-001e-0b4b-5d5b52000000',
   'x-ms-client-request-id',
-  'b270f17c-e189-4f43-97cf-8a08fa87a90e',
+  'd7f882b9-558f-4ae6-b9b5-22c7de8d9b76',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -28,27 +29,29 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Preference-Applied',
   'return-no-content',
   'DataServiceId',
-  'https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey=\'P5_node\',RowKey=\'R5\')',
+  "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey='P5_node',RowKey='R5')",
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 16:21:45 GMT'
+]);
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get(`/tableClientTestSASConnectionStringnode(PartitionKey='P5_node',RowKey='R5')`)
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode/@Element","odata.etag":"W/\"datetime'2021-06-04T21%3A59%3A51.4109869Z'\"","PartitionKey":"P5_node","RowKey":"R5","Timestamp":"2021-06-04T21:59:51.4109869Z","testField":123}, [ 'Cache-Control',
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode/@Element","odata.etag":"W/\"datetime'2021-06-09T16%3A21%3A45.4624057Z'\"","PartitionKey":"P5_node","RowKey":"R5","Timestamp":"2021-06-09T16:21:45.4624057Z","testField":123}, [
+  'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json;odata=minimalmetadata;streaming=true;charset=utf-8',
   'ETag',
-  'W/"datetime\'2021-06-04T21%3A59%3A51.4109869Z\'"',
+  `W/"datetime'2021-06-09T16%3A21%3A45.4624057Z'"`,
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c59-c002-0024-3b8c-5918f1000000',
+  '654ef0f1-9002-001e-164b-5d5b52000000',
   'x-ms-client-request-id',
-  'c224fa31-54e4-4b8c-bf56-e70c8037b1da',
+  '5f3b13c9-53bf-46d1-a6ab-acc7aa915d03',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -58,24 +61,27 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 16:21:45 GMT'
+]);
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .delete(`/tableClientTestSASConnectionStringnode(PartitionKey='P5_node',RowKey='R5')`)
   .query(true)
-  .reply(204, "", [ 'Cache-Control',
+  .reply(204, "", [
+  'Cache-Control',
   'no-cache',
   'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c5c-c002-0024-3e8c-5918f1000000',
+  '654ef0fd-9002-001e-224b-5d5b52000000',
   'x-ms-client-request-id',
-  '0bc8d367-c089-468f-a8cc-dff34bc1165c',
+  '6992b849-0dd5-4b05-89ee-29ede33144fb',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 16:21:45 GMT'
+]);

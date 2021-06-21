@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { CbsClient, defaultLock, TokenType } from "../src";
+import { CbsClient, defaultCancellableLock, TokenType } from "../src";
 import { createConnectionStub } from "./utils/createConnectionStub";
 import { Connection } from "rhea-promise";
 import { stub } from "sinon";
@@ -38,14 +38,18 @@ describe("CbsClient", function() {
 
       // Make the existing `init` invocation wait until the abortSignal
       // is aborted before acquiring it's lock.
-      await defaultLock.acquire(lock, () => {
-        return new Promise<void>((resolve) => {
-          setTimeout(() => {
-            controller.abort();
-            resolve();
-          }, 0);
-        });
-      });
+      await defaultCancellableLock.acquire(
+        lock,
+        () => {
+          return new Promise<void>((resolve) => {
+            setTimeout(() => {
+              controller.abort();
+              resolve();
+            }, 0);
+          });
+        },
+        { abortSignal: undefined, timeoutInMs: undefined }
+      );
 
       try {
         await cbsClient.init({ abortSignal: signal });

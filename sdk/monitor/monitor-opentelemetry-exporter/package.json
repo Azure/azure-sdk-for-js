@@ -24,6 +24,7 @@
     "test:browser": "npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/unit/**/*.test.ts\"",
+    "unit-test:node:debug": "nyc mocha --inspect-brk -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/unit/**/*.test.ts\"",
     "unit-test:node:no-timeout": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "functional-test": "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/functional/**/*.test.ts\"",
@@ -59,8 +60,16 @@
   "//metadata": {
     "constantPaths": [
       {
+        "path": "src/generated/applicationInsightsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
         "path": "src/utils/constants/applicationinsights.ts",
         "prefix": "packageVersion"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
@@ -91,7 +100,7 @@
     "@opentelemetry/resources": "^0.18.2",
     "@opentelemetry/semantic-conventions": "^0.18.2",
     "@opentelemetry/tracing": "^0.18.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "sideEffects": false,
   "keywords": [

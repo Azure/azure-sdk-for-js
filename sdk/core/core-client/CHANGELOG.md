@@ -1,9 +1,15 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.3 (2021-06-17)
 
+### Key Bugs Fixed
+
+- Fix an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+- Fix an issue with appending query parameters while constructing the url. Please refer [Issue #1035](https://github.com/Azure/autorest.typescript/issues/1035) for more details.
 
 ## 1.1.2 (2021-05-20)
+
+### Fixed
 
 - Fixed an issue to check for the mandatory parameter in the header and query values. [PR 15278](https://github.com/Azure/azure-sdk-for-js/pull/15278)
 

@@ -132,7 +132,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     };
   }
 
-  private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
+  private _createSenderOptions(newName?: boolean): AwaitableSenderOptions {
     if (newName) this.name = getUniqueName(this.baseName);
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
@@ -142,8 +142,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose,
-      sendTimeoutInSeconds: timeoutInMs / 1000
+      onSessionClose: this._onSessionClose
     };
     logger.verbose(`${this.logPrefix} Creating sender with options: %O`, srOptions);
     return srOptions;
@@ -252,13 +251,11 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
 
       try {
-        this.link.sendTimeoutInSeconds =
-          (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
-        const delivery = await this.link!.send(
-          encodedMessage,
-          undefined,
-          sendBatch ? 0x80013700 : 0
-        );
+        const delivery = await this.link!.send(encodedMessage, {
+          format: sendBatch ? 0x80013700 : 0,
+          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
+          abortSignal
+        });
         logger.verbose(
           "%s Sender '%s', sent message with delivery id: %d",
           this.logPrefix,
@@ -300,7 +297,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   ): Promise<void> {
     try {
       if (!options) {
-        options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
+        options = this._createSenderOptions();
       }
       await this.initLink(options, abortSignal);
     } catch (err) {

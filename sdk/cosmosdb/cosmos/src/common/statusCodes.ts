@@ -30,6 +30,9 @@ export interface StatusCodesType {
   InternalServerError: 500;
   ServiceUnavailable: 503;
 
+  // System codes
+  ENOTFOUND: "ENOTFOUND";
+
   // Operation pause and cancel. These are FAKE status codes for QOS logging purpose only.
   OperationPaused: 1200;
   OperationCancelled: 1201;
@@ -63,6 +66,9 @@ export const StatusCodes: StatusCodesType = {
   // Server Error
   InternalServerError: 500,
   ServiceUnavailable: 503,
+
+  // System codes
+  ENOTFOUND: "ENOTFOUND",
 
   // Operation pause and cancel. These are FAKE status codes for QOS logging purpose only.
   OperationPaused: 1200,

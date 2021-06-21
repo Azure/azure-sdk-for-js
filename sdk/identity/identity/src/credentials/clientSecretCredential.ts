@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { credentialLogger } from "../util/logging";
 import { trace } from "../util/tracing";

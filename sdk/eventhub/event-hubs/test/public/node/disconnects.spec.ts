@@ -192,19 +192,18 @@ describe("disconnected", function() {
     });
 
     it("should not throw an uncaught exception", async () => {
-      const client = new EventHubProducerClient(service.connectionString, service.path);
+      const client = new EventHubProducerClient(service.connectionString, service.path, {
+        retryOptions: {
+          timeoutInMs: 0
+        }
+      });
       const clientConnectionContext = client["_context"];
 
       // Send an event to open the connection.
       await client.sendBatch([{ body: "test" }]);
       const originalConnectionId = clientConnectionContext.connectionId;
 
-      // We need to dig deep into the internals to get the awaitable sender so that .
-      const awaitableSender = client["_sendersMap"].get("")!["_sender"]!;
-
       let thirdSend: Promise<void>;
-      // Change the timeout on the awaitableSender so it forces an OperationTimeoutError
-      awaitableSender.sendTimeoutInSeconds = 0;
       // Ensure that the connection will disconnect, and another sendBatch occurs while a sendBatch is in-flight.
       setTimeout(() => {
         // Trigger a disconnect on the underlying connection while the `sendBatch` is in flight.

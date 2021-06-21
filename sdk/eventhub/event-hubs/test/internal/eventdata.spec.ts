@@ -86,8 +86,12 @@ describe("EventData", function(): void {
         testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
         testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
-        testEventData.systemProperties!["x-iot-foo-prop"] = extraAnnotations["x-iot-foo-prop"];
-        testEventData.systemProperties!["x-iot-bar-prop"] = extraAnnotations["x-iot-bar-prop"];
+        testEventData.systemProperties!["x-iot-foo-prop"].should.eql(
+          extraAnnotations["x-iot-foo-prop"]
+        );
+        testEventData.systemProperties!["x-iot-bar-prop"].should.eql(
+          extraAnnotations["x-iot-bar-prop"]
+        );
       });
 
       it("returns systemProperties for special known properties", function(): void {
@@ -104,8 +108,8 @@ describe("EventData", function(): void {
           content_encoding: "utf-8",
           content_type: "application/json",
           correlation_id: "id2",
-          absolute_expiry_time: 0,
-          creation_time: 0,
+          absolute_expiry_time: new Date(0),
+          creation_time: new Date(0),
           group_id: "groupId",
           group_sequence: 1
         });
@@ -129,6 +133,41 @@ describe("EventData", function(): void {
         testEventData.systemProperties!["creationTime"].should.equal(0);
         testEventData.systemProperties!["groupId"].should.equal("groupId");
         testEventData.systemProperties!["groupSequence"].should.equal(1);
+      });
+    });
+
+    it("deserializes Dates to numbers in properties and annotations", () => {
+      const timestamp = new Date();
+      const extraAnnotations = {
+        "x-date": timestamp,
+        "x-number": timestamp.getTime()
+      };
+      const testEventData = fromRheaMessage({
+        body: testBody,
+        application_properties: {
+          topLevelDate: timestamp,
+          child: {
+            nestedDate: timestamp,
+            children: [timestamp, { deepDate: timestamp }]
+          }
+        },
+        message_annotations: {
+          ...testAnnotations,
+          ...extraAnnotations
+        }
+      });
+      testEventData.enqueuedTimeUtc!.getTime().should.equal(testAnnotations["x-opt-enqueued-time"]);
+      testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
+      testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
+      testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
+      testEventData.systemProperties!["x-date"].should.eql(extraAnnotations["x-date"].getTime());
+      testEventData.systemProperties!["x-number"].should.eql(extraAnnotations["x-number"]);
+      testEventData.properties!.should.eql({
+        topLevelDate: timestamp.getTime(),
+        child: {
+          nestedDate: timestamp.getTime(),
+          children: [timestamp.getTime(), { deepDate: timestamp.getTime() }]
+        }
       });
     });
   });

@@ -5,9 +5,10 @@
 
 import Sinon from "sinon";
 import assert from "assert";
-import { env } from "@azure/test-utils-recorder";
+import { AbortController } from "@azure/abort-controller";
+import { env, delay } from "@azure/test-utils-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientSecretCredential } from "../../../src";
+import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
@@ -42,16 +43,40 @@ describe("ClientSecretCredential (internal)", function() {
       env.AZURE_CLIENT_SECRET
     );
 
-    await credential.getToken(scope);
+    const { token: firstToken } = await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
 
-    await credential.getToken(scope);
+    const { token: secondToken } = await credential.getToken(scope);
+    assert.strictEqual(firstToken, secondToken);
     assert.equal(getTokenSilentSpy.callCount, 2);
 
-    // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-    // The Client Secret flow does not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    assert.equal(doGetTokenSpy.callCount, 2);
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  it("supports specifying the regional authority", async function() {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      {
+        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+      }
+    );
+
+    // We'll abort since we only want to ensure the parameters are sent appropriately.
+    const controller = new AbortController();
+    const getTokenPromise = credential.getToken(scope, {
+      abortSignal: controller.signal
+    });
+    await delay(5);
+    controller.abort();
+    try {
+      await getTokenPromise;
+    } catch (e) {
+      // Nothing to do here.
+    }
+
+    assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
   });
 });

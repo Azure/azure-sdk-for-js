@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSerializer, OperationSpec } from "@azure/core-client";
+import { Service } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
   TableServiceProperties,
   ServiceSetPropertiesOptionalParams,
@@ -21,15 +22,14 @@ import {
 } from "../models";
 
 /** Class representing a Service. */
-/** @hidden */
-export class Service {
-  private readonly client: GeneratedClient;
+export class ServiceImpl implements Service {
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class Service class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -46,7 +46,7 @@ export class Service {
     return this.client.sendOperationRequest(
       { tableServiceProperties, options },
       setPropertiesOperationSpec
-    ) as Promise<ServiceSetPropertiesResponse>;
+    );
   }
 
   /**
@@ -57,9 +57,10 @@ export class Service {
   getProperties(
     options?: ServiceGetPropertiesOptionalParams
   ): Promise<ServiceGetPropertiesResponse> {
-    return this.client.sendOperationRequest({ options }, getPropertiesOperationSpec) as Promise<
-      ServiceGetPropertiesResponse
-    >;
+    return this.client.sendOperationRequest(
+      { options },
+      getPropertiesOperationSpec
+    );
   }
 
   /**
@@ -70,16 +71,16 @@ export class Service {
   getStatistics(
     options?: ServiceGetStatisticsOptionalParams
   ): Promise<ServiceGetStatisticsResponse> {
-    return this.client.sendOperationRequest({ options }, getStatisticsOperationSpec) as Promise<
-      ServiceGetStatisticsResponse
-    >;
+    return this.client.sendOperationRequest(
+      { options },
+      getStatisticsOperationSpec
+    );
   }
 }
 // Operation Specifications
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const xmlSerializer = createSerializer(Mappers, /* isXml */ true);
-
-const setPropertiesOperationSpec: OperationSpec = {
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "PUT",
   responses: {
@@ -105,7 +106,7 @@ const setPropertiesOperationSpec: OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -120,11 +121,15 @@ const getPropertiesOperationSpec: OperationSpec = {
   },
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp1],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept2
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
-const getStatisticsOperationSpec: OperationSpec = {
+const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -139,7 +144,11 @@ const getStatisticsOperationSpec: OperationSpec = {
   },
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp2],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept2
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
