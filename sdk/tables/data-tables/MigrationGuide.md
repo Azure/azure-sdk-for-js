@@ -56,7 +56,7 @@ tableService.createTable(tableName);
 
 ```
 
-With `@azure/data-tables` we have access to all table level operations directly from the `TableServiceClient`. Because the table service client is not affinitized to any one table, it is ideal for scenarios where you need to create, delete, or list more than one Table.
+With `@azure/data-tables` we have access to all table level operations directly from the `TableServiceClient`. Because the table service client is not affinitized to any one table, it is ideal for scenarios where you need to create, delete, or list more than one table.
 
 ```javascript
 const { TableServiceClient, AzureNamedKeyCredential } = require('@azure/data-tables');
