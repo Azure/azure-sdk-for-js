@@ -91,15 +91,10 @@ $packageInfo = ConvertFrom-Json $packageInfoJson
 
 $originalVersion = $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
 if ($packageInfo.DevVersion) {
-  # If the package is of a dev version, use the dev version. This is used in the
-  # docs title as well as written into the exported package info file in the 
-  # docs repo where it is used for onboarding configuration.
-  
-  if ($GetDocsMsVersionForPackage -and (Test-Path "Function:$GetDocsMsVersionForPackage")) {
-    $packageInfo.Version = &$GetDocsMsVersionForPackage
-  } else { 
-    $packageInfo.Version = $packageInfo.DevVersion
-  }
+  # If the package is of a dev version there may be language-specific needs to 
+  # specify the appropriate version. For example, in the case of JS, the dev 
+  # version is always 'dev' when interacting with NPM.
+  $packageInfo = &$GetDocsMsLanguageSpecificPackageInfo $packageInfo
 }
 
 $packageMetadataArray = (Get-CSVMetadata).Where({ $_.Package -eq $packageInfo.Name })
