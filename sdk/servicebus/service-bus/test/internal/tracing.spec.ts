@@ -109,7 +109,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -160,7 +160,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -209,7 +209,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -268,7 +268,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       const knownSendSpans = tracer
@@ -336,7 +336,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
