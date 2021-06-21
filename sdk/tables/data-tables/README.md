@@ -241,7 +241,7 @@ const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 ```
 
-#### `TableClient` with TokenCredential (AAD)
+#### `TableClient` with `TokenCredential` (Azure Active Directory)
 Azure Tables provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests
 to the Table service when targeting a Storage endpoint. With Azure AD, you can use role-based access control (RBAC) to
 grant access to your Azure Table resources to users, groups, or applications.
