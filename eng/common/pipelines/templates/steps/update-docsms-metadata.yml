@@ -80,31 +80,27 @@ steps:
       Write-Host "##vso[task.setvariable variable=TargetBranchName;]$(DefaultBranch)"
     displayName: Set $(TargetBranchName) as $(DefaultBranch)
 
-- pwsh: |
-    Write-Host "${{ convertToJson(parameters.Artifacts) }}"
-  displayName: convertToJson
+- ${{ each artifact in parameters.Artifacts }}:
+  - task: PowerShell@2
+    displayName: 'Apply documentation updates from artifact ${{ artifact.Name }}'
+    inputs:
+      targetType: filePath
+      filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
+      arguments: >
+        -ArtifactInfoJson ${{ convertToJson(parameters.Artifacts) }}
+        -DocRepoLocation "$(DocRepoLocation)"
+        -Language "${{parameters.Language}}"
+        -RepoId ${{ parameters.RepoId }}
+      pwsh: true
+    env:
+      GH_TOKEN: $(azuresdk-github-pat)
 
-# - ${{ each artifact in parameters.Artifacts }}:
-#   - task: PowerShell@2
-#     displayName: 'Apply documentation updates from artifact ${{ artifact.Name }}'
-#     inputs:
-#       targetType: filePath
-#       filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
-#       arguments: >
-#         -ArtifactLocation ${{ artifact.Location }}
-#         -DocRepoLocation "$(DocRepoLocation)"
-#         -Language "${{parameters.Language}}"
-#         -RepoId ${{ parameters.RepoId }}
-#       pwsh: true
-#     env:
-#       GH_TOKEN: $(azuresdk-github-pat)
-
-# - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-#   parameters:
-#     BaseRepoBranch: $(TargetBranchName)
-#     BaseRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-#     CommitMsg: "Update docs metadata"
-#     TargetRepoName: ${{ parameters.TargetDocRepoName }}
-#     TargetRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-#     WorkingDirectory: $(DocRepoLocation)
-#     ScriptDirectory: ${{ parameters.WorkingDirectory }}/${{ parameters.ScriptDirectory }}
+- template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+  parameters:
+    BaseRepoBranch: $(TargetBranchName)
+    BaseRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+    CommitMsg: "Update docs metadata"
+    TargetRepoName: ${{ parameters.TargetDocRepoName }}
+    TargetRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+    WorkingDirectory: $(DocRepoLocation)
+    ScriptDirectory: ${{ parameters.WorkingDirectory }}/${{ parameters.ScriptDirectory }}

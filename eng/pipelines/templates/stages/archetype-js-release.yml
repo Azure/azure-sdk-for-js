@@ -120,7 +120,7 @@ stages:
                         parameters:
                           Artifacts: 
                             - Name: ${{ artifact.name }}
-                              Location: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
+                              PackageInfoPath: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
                           TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
@@ -251,12 +251,16 @@ stages:
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
 
+        - pwsh: |
+            Write-Host "${{ convertToJson(parameters.Artifacts) }}"
+          displayName: convertToJson
+
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             Artifacts: 
               - ${{ each artifact in parameters.Artifacts }}:
                 - Name: ${{ artifact.name }}
-                  Location: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+                  PackageInfoPath: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
             RepoId: Azure/azure-sdk-for-js
             WorkingDirectory: $(System.DefaultWorkingDirectory)
             TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
