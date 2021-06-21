@@ -89,7 +89,7 @@ steps:
     $artifactInfo = ConvertFrom-Json $artifactInfoJson
     foreach($package in $artifactInfo) {
       Write-Host "Updating docs for $($package.Name)"
-      ${{ paramters.ScriptDirectory }}/Update-DocsMsMetadata.ps1 `
+      ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1 `
         -PackageInfoJsonLocation $package.PackageInfoPath `
         -DocRepoLocation "$(DocRepoLocation)" `
         -Language '${{parameters.Language}}'
