@@ -81,7 +81,7 @@ steps:
     displayName: Set $(TargetBranchName) as $(DefaultBranch)
 
 - task: PowerShell@2
-  displayName: 'Apply documentation updates from artifact ${{ artifact.Name }}'
+  displayName: 'Apply documentation updates'
   inputs:
     targetType: filePath
     filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
