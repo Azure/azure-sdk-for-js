@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import sinon from "sinon";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -16,8 +15,6 @@ import {
   createPipelineRequest,
   PipelineRequest
 } from "@azure/core-rest-pipeline";
-import { authenticate } from "../utils/authentication";
-import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 
 describe("Challenge based authentication tests", function() {
   let request: PipelineRequest;
