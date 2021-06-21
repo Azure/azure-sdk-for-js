@@ -45,7 +45,7 @@ const tableService = TableServiceClient.fromConnectionString("<connection-string
 
 ### Creating a Table
 
-Previously in `azure-storage`, we'd use a `TableService` instance to create a table. The `createTable` method would take a callback to execute once the table has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain
+Previously in `azure-storage`, you would use a `TableService` instance to create a table. The `createTable` method would take a callback to execute once the table has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain
 
 ```javascript
 const azure = require("azure-storage");
@@ -57,7 +57,7 @@ tableService.createTable(tableName, function() {
 });
 ```
 
-With `@azure/data-tables` we have access to all table level operations directly from the `TableServiceClient`. Because the table service client is not affinitized to any one table, it is ideal for scenarios where you need to create, delete, or list more than one table.
+With `@azure/data-tables` you have access to all table level operations directly from the `TableServiceClient`. Because the table service client is not affinitized to any one table, it is ideal for scenarios where you need to create, delete, or list more than one table.
 
 ```javascript
 const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
@@ -135,7 +135,7 @@ tableService.insertEntity(tableName, task1, function() {
 });
 ```
 
-Now in the new `@azure/data-tables` SDK, in order to have more idiomatic property names in our entities we have moved to `partitionKey` and `rowKey` (camel case). Also you no longer need to follow the value object structure or entityGenerator anymore.
+Now in the new `@azure/data-tables` SDK, in order to have more idiomatic property names in our entities we have moved to `partitionKey` and `rowKey` (camel case). Also you no longer need to use the value object structure or entityGenerator anymore, instead use normal JavaScript values.
 
 ```javascript
 const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
@@ -159,7 +159,7 @@ const task1 = {
 await tableClient.createEntity(task1);
 ```
 
-If you are using TypeScript, `@azure/data-tables` package provides a type that can help you build your entities providing static check to make sure the required `rowKey` and `partitionKey` properties are present.
+If you are using TypeScript, the `@azure/data-tables` package provides a type, `TableEntity`, that can help you build your entities providing static check to make sure the required `rowKey` and `partitionKey` properties are present.
 
 ```typescript
 const { TableClient, AzureNamedKeyCredential, TableEntity } = require("@azure/data-tables");
