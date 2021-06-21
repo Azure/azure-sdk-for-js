@@ -12,6 +12,837 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * The properties of the source resource that this restore point collection is created from.
+ */
+export interface RestorePointCollectionSourceProperties {
+  /**
+   * Location of the source resource used to create this restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Resource Id of the source resource used to create this restore point collection
+   */
+  id?: string;
+}
+
+/**
+ * Specifies the hardware settings for the virtual machine.
+ */
+export interface HardwareProfile {
+  /**
+   * Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated
+   * and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of
+   * available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an
+   * availability
+   * set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br>
+   * [List all available virtual machine sizes in a region](
+   * https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available
+   * virtual machine sizes for
+   * resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For
+   * more information about virtual machine sizes, see [Sizes for virtual
+   * machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM
+   * sizes depend on region and availability set. Possible values include: 'Basic_A0', 'Basic_A1',
+   * 'Basic_A2', 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2',
+   * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8',
+   * 'Standard_A9', 'Standard_A10', 'Standard_A11', 'Standard_A1_v2', 'Standard_A2_v2',
+   * 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2',
+   * 'Standard_B1s', 'Standard_B1ms', 'Standard_B2s', 'Standard_B2ms', 'Standard_B4ms',
+   * 'Standard_B8ms', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11',
+   * 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2',
+   * 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D2_v3', 'Standard_D4_v3',
+   * 'Standard_D8_v3', 'Standard_D16_v3', 'Standard_D32_v3', 'Standard_D64_v3', 'Standard_D2s_v3',
+   * 'Standard_D4s_v3', 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+   * 'Standard_D64s_v3', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2',
+   * 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
+   * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
+   * 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_DS11_v2', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
+   * 'Standard_DS15_v2', 'Standard_DS13-4_v2', 'Standard_DS13-2_v2', 'Standard_DS14-8_v2',
+   * 'Standard_DS14-4_v2', 'Standard_E2_v3', 'Standard_E4_v3', 'Standard_E8_v3', 'Standard_E16_v3',
+   * 'Standard_E32_v3', 'Standard_E64_v3', 'Standard_E2s_v3', 'Standard_E4s_v3', 'Standard_E8s_v3',
+   * 'Standard_E16s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_E32-16_v3',
+   * 'Standard_E32-8s_v3', 'Standard_E64-32s_v3', 'Standard_E64-16s_v3', 'Standard_F1',
+   * 'Standard_F2', 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s',
+   * 'Standard_F4s', 'Standard_F8s', 'Standard_F16s', 'Standard_F2s_v2', 'Standard_F4s_v2',
+   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2', 'Standard_F64s_v2',
+   * 'Standard_F72s_v2', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
+   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+   * 'Standard_GS4-8', 'Standard_GS4-4', 'Standard_GS5-16', 'Standard_GS5-8', 'Standard_H8',
+   * 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr',
+   * 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s', 'Standard_M64s',
+   * 'Standard_M64ms', 'Standard_M128s', 'Standard_M128ms', 'Standard_M64-32ms',
+   * 'Standard_M64-16ms', 'Standard_M128-64ms', 'Standard_M128-32ms', 'Standard_NC6',
+   * 'Standard_NC12', 'Standard_NC24', 'Standard_NC24r', 'Standard_NC6s_v2', 'Standard_NC12s_v2',
+   * 'Standard_NC24s_v2', 'Standard_NC24rs_v2', 'Standard_NC6s_v3', 'Standard_NC12s_v3',
+   * 'Standard_NC24s_v3', 'Standard_NC24rs_v3', 'Standard_ND6s', 'Standard_ND12s',
+   * 'Standard_ND24s', 'Standard_ND24rs', 'Standard_NV6', 'Standard_NV12', 'Standard_NV24'
+   */
+  vmSize?: VirtualMachineSizeTypes;
+}
+
+/**
+ * An interface representing SubResource.
+ */
+export interface SubResource extends BaseResource {
+  /**
+   * Resource Id
+   */
+  id?: string;
+}
+
+/**
+ * Describes a reference to Key Vault Secret
+ */
+export interface KeyVaultSecretReference {
+  /**
+   * The URL referencing a secret in a Key Vault.
+   */
+  secretUrl: string;
+  /**
+   * The relative URL of the Key Vault containing the secret.
+   */
+  sourceVault: SubResource;
+}
+
+/**
+ * Describes a reference to Key Vault Key
+ */
+export interface KeyVaultKeyReference {
+  /**
+   * The URL referencing a key encryption key in Key Vault.
+   */
+  keyUrl: string;
+  /**
+   * The relative URL of the Key Vault containing the key.
+   */
+  sourceVault: SubResource;
+}
+
+/**
+ * Describes a Encryption Settings for a Disk
+ */
+export interface DiskEncryptionSettings {
+  /**
+   * Specifies the location of the disk encryption key, which is a Key Vault Secret.
+   */
+  diskEncryptionKey?: KeyVaultSecretReference;
+  /**
+   * Specifies the location of the key encryption key in Key Vault.
+   */
+  keyEncryptionKey?: KeyVaultKeyReference;
+  /**
+   * Specifies whether disk encryption should be enabled on the virtual machine.
+   */
+  enabled?: boolean;
+}
+
+/**
+ * Describes the parameter of customer managed disk encryption set resource id that can be
+ * specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for
+ * managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
+ */
+export interface DiskEncryptionSetParameters extends SubResource {}
+
+/**
+ * The parameters of a managed disk.
+ */
+export interface ManagedDiskParameters extends SubResource {
+  /**
+   * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
+   * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
+   */
+  storageAccountType?: StorageAccountTypes;
+  /**
+   * Specifies the customer managed disk encryption set resource id for the managed disk.
+   */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+}
+
+/**
+ * The API entity reference.
+ */
+export interface ApiEntityReference {
+  /**
+   * The ARM resource id in the form of
+   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
+   */
+  id?: string;
+}
+
+/**
+ * Describes an Operating System disk.
+ */
+export interface RestorePointSourceVMOSDisk {
+  /**
+   * Gets the Operating System type. Possible values include: 'Windows', 'Linux'
+   */
+  osType?: OperatingSystemType;
+  /**
+   * Gets the disk encryption settings.
+   */
+  encryptionSettings?: DiskEncryptionSettings;
+  /**
+   * Gets the disk name.
+   */
+  name?: string;
+  /**
+   * Gets the caching type. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
+   */
+  caching?: CachingTypes;
+  /**
+   * Gets the disk size in GB.
+   */
+  diskSizeGB?: number;
+  /**
+   * Gets the managed disk details
+   */
+  managedDisk?: ManagedDiskParameters;
+  /**
+   * Gets the disk restore point Id.
+   */
+  diskRestorePoint?: ApiEntityReference;
+}
+
+/**
+ * Describes a data disk.
+ */
+export interface RestorePointSourceVMDataDisk {
+  /**
+   * Gets the logical unit number.
+   */
+  lun?: number;
+  /**
+   * Gets the disk name.
+   */
+  name?: string;
+  /**
+   * Gets the caching type. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
+   */
+  caching?: CachingTypes;
+  /**
+   * Gets the initial disk size in GB for blank data disks, and the new desired size for existing
+   * OS and Data disks.
+   */
+  diskSizeGB?: number;
+  /**
+   * Gets the managed disk details
+   */
+  managedDisk?: ManagedDiskParameters;
+  /**
+   * Gets the disk restore point Id.
+   */
+  diskRestorePoint?: ApiEntityReference;
+}
+
+/**
+ * Describes the storage profile.
+ */
+export interface RestorePointSourceVMStorageProfile {
+  /**
+   * Gets the OS disk of the VM captured at the time of the restore point creation.
+   */
+  osDisk?: RestorePointSourceVMOSDisk;
+  /**
+   * Gets the data disks of the VM captured at the time of the restore point creation.
+   */
+  dataDisks?: RestorePointSourceVMDataDisk[];
+}
+
+/**
+ * Specifies additional XML formatted information that can be included in the Unattend.xml file,
+ * which is used by Windows Setup. Contents are defined by setting name, component name, and the
+ * pass in which the content is applied.
+ */
+export interface AdditionalUnattendContent {
+  /**
+   * The pass name. Currently, the only allowable value is OobeSystem. Possible values include:
+   * 'OobeSystem'
+   */
+  passName?: PassNames;
+  /**
+   * The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
+   * Possible values include: 'Microsoft-Windows-Shell-Setup'
+   */
+  componentName?: ComponentNames;
+  /**
+   * Specifies the name of the setting to which the content applies. Possible values are:
+   * FirstLogonCommands and AutoLogon. Possible values include: 'AutoLogon', 'FirstLogonCommands'
+   */
+  settingName?: SettingNames;
+  /**
+   * Specifies the XML formatted content that is added to the unattend.xml file for the specified
+   * path and component. The XML must be less than 4KB and must include the root element for the
+   * setting or feature that is being inserted.
+   */
+  content?: string;
+}
+
+/**
+ * Specifies settings related to VM Guest Patching on Windows.
+ */
+export interface PatchSettings {
+  /**
+   * Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated
+   * to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values
+   * are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine.
+   * You do this by applying patches manually inside the VM. In this mode, automatic updates are
+   * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
+   * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
+   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform**
+   * - the virtual machine will automatically updated by the platform. The properties
+   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true. Possible values
+   * include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+   */
+  patchMode?: WindowsVMGuestPatchMode;
+  /**
+   * Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching,
+   * the 'provisionVMAgent' must be set to true and 'patchMode' must be set to
+   * 'AutomaticByPlatform'.
+   */
+  enableHotpatching?: boolean;
+  /**
+   * Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br />
+   * Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch
+   * assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will
+   * trigger periodic patch assessments. The property provisionVMAgent must be true. Possible
+   * values include: 'ImageDefault', 'AutomaticByPlatform'
+   */
+  assessmentMode?: WindowsPatchAssessmentMode;
+}
+
+/**
+ * Describes Protocol and thumbprint of Windows Remote Management listener
+ */
+export interface WinRMListener {
+  /**
+   * Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br>
+   * **https**. Possible values include: 'Http', 'Https'
+   */
+  protocol?: ProtocolTypes;
+  /**
+   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
+   * secret to the Key Vault, see [Add a key or secret to the key
+   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
+   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
+   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
+   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
+   */
+  certificateUrl?: string;
+}
+
+/**
+ * Describes Windows Remote Management configuration of the VM
+ */
+export interface WinRMConfiguration {
+  /**
+   * The list of Windows Remote Management listeners
+   */
+  listeners?: WinRMListener[];
+}
+
+/**
+ * Specifies Windows operating system settings on the virtual machine.
+ */
+export interface WindowsConfiguration {
+  /**
+   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
+   * When this property is not specified in the request body, default behavior is to set it to
+   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
+   * to the VM later.
+   */
+  provisionVMAgent?: boolean;
+  /**
+   * Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value
+   * is true. <br><br> For virtual machine scale sets, this property can be updated and updates
+   * will take effect on OS reprovisioning.
+   */
+  enableAutomaticUpdates?: boolean;
+  /**
+   * Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br>
+   * Possible values can be
+   * [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id)
+   * value from time zones returned by
+   * [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
+   */
+  timeZone?: string;
+  /**
+   * Specifies additional base-64 encoded XML formatted information that can be included in the
+   * Unattend.xml file, which is used by Windows Setup.
+   */
+  additionalUnattendContent?: AdditionalUnattendContent[];
+  /**
+   * [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
+   */
+  patchSettings?: PatchSettings;
+  /**
+   * Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
+   */
+  winRM?: WinRMConfiguration;
+}
+
+/**
+ * Contains information about SSH certificate public key and the path on the Linux VM where the
+ * public key is placed.
+ */
+export interface SshPublicKey {
+  /**
+   * Specifies the full path on the created VM where ssh public key is stored. If the file already
+   * exists, the specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
+   */
+  path?: string;
+  /**
+   * SSH public key certificate used to authenticate with the VM through ssh. The key needs to be
+   * at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys
+   * on Linux and Mac for Linux VMs in
+   * Azure]https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed).
+   */
+  keyData?: string;
+}
+
+/**
+ * SSH configuration for Linux based VMs running on Azure
+ */
+export interface SshConfiguration {
+  /**
+   * The list of SSH public keys used to authenticate with linux based VMs.
+   */
+  publicKeys?: SshPublicKey[];
+}
+
+/**
+ * Specifies settings related to VM Guest Patching on Linux.
+ */
+export interface LinuxPatchSettings {
+  /**
+   * Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated
+   * to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values
+   * are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is
+   * used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated
+   * by the platform. The property provisionVMAgent must be true. Possible values include:
+   * 'ImageDefault', 'AutomaticByPlatform'
+   */
+  patchMode?: LinuxVMGuestPatchMode;
+  /**
+   * Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br />
+   * Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch
+   * assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will
+   * trigger periodic patch assessments. The property provisionVMAgent must be true. Possible
+   * values include: 'ImageDefault', 'AutomaticByPlatform'
+   */
+  assessmentMode?: LinuxPatchAssessmentMode;
+}
+
+/**
+ * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
+ * supported Linux distributions, see [Linux on Azure-Endorsed
+ * Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
+ */
+export interface LinuxConfiguration {
+  /**
+   * Specifies whether password authentication should be disabled.
+   */
+  disablePasswordAuthentication?: boolean;
+  /**
+   * Specifies the ssh key configuration for a Linux OS.
+   */
+  ssh?: SshConfiguration;
+  /**
+   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
+   * When this property is not specified in the request body, default behavior is to set it to
+   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
+   * to the VM later.
+   */
+  provisionVMAgent?: boolean;
+  /**
+   * [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
+   */
+  patchSettings?: LinuxPatchSettings;
+}
+
+/**
+ * Describes a single certificate reference in a Key Vault, and where the certificate should reside
+ * on the VM.
+ */
+export interface VaultCertificate {
+  /**
+   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
+   * secret to the Key Vault, see [Add a key or secret to the key
+   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
+   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
+   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
+   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
+   */
+  certificateUrl?: string;
+  /**
+   * For Windows VMs, specifies the certificate store on the Virtual Machine to which the
+   * certificate should be added. The specified certificate store is implicitly in the LocalMachine
+   * account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent
+   * directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file
+   * and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
+   */
+  certificateStore?: string;
+}
+
+/**
+ * Describes a set of certificates which are all in the same Key Vault.
+ */
+export interface VaultSecretGroup {
+  /**
+   * The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
+   */
+  sourceVault?: SubResource;
+  /**
+   * The list of key vault references in SourceVault which contain certificates.
+   */
+  vaultCertificates?: VaultCertificate[];
+}
+
+/**
+ * Specifies the operating system settings for the virtual machine. Some of the settings cannot be
+ * changed once VM is provisioned.
+ */
+export interface OSProfile {
+  /**
+   * Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after
+   * the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length
+   * (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure
+   * infrastructure services implementation
+   * guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules).
+   */
+  computerName?: string;
+  /**
+   * Specifies the name of the administrator account. <br><br> This property cannot be updated
+   * after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br>
+   * **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1",
+   * "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
+   * "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
+   * "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character
+   * <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20
+   * characters.
+   */
+  adminUsername?: string;
+  /**
+   * Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8
+   * characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length
+   * (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br>
+   * **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower
+   * characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match
+   * [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123",
+   * "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For
+   * resetting the password, see [How to reset the Remote Desktop service or its login password in
+   * a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp)
+   * <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on
+   * Azure Linux VMs using the VMAccess
+   * Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
+   */
+  adminPassword?: string;
+  /**
+   * Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a
+   * binary array that is saved as a file on the Virtual Machine. The maximum length of the binary
+   * array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData
+   * property** <br><br> This property cannot be updated after the VM is created. <br><br>
+   * customData is passed to the VM to be saved as a file, for more information see [Custom Data on
+   * Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/)
+   * <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM
+   * during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)
+   */
+  customData?: string;
+  /**
+   * Specifies Windows operating system settings on the virtual machine.
+   */
+  windowsConfiguration?: WindowsConfiguration;
+  /**
+   * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
+   * supported Linux distributions, see [Linux on Azure-Endorsed
+   * Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
+   */
+  linuxConfiguration?: LinuxConfiguration;
+  /**
+   * Specifies set of certificates that should be installed onto the virtual machine.
+   */
+  secrets?: VaultSecretGroup[];
+  /**
+   * Specifies whether extension operations should be allowed on the virtual machine. <br><br>This
+   * may only be set to False when no extensions are present on the virtual machine.
+   */
+  allowExtensionOperations?: boolean;
+  /**
+   * Specifies whether the guest provision signal is required to infer provision success of the
+   * virtual machine.  **Note: This property is for private testing only, and all customers must
+   * not set the property to false.**
+   */
+  requireGuestProvisionSignal?: boolean;
+}
+
+/**
+ * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
+ * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
+ * Azure also enables you to see a screenshot of the VM from the hypervisor.
+ */
+export interface BootDiagnostics {
+  /**
+   * Whether boot diagnostics should be enabled on the Virtual Machine.
+   */
+  enabled?: boolean;
+  /**
+   * Uri of the storage account to use for placing the console output and screenshot. <br><br>If
+   * storageUri is not specified while enabling boot diagnostics, managed storage will be used.
+   */
+  storageUri?: string;
+}
+
+/**
+ * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
+ */
+export interface DiagnosticsProfile {
+  /**
+   * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
+   * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
+   * Azure also enables you to see a screenshot of the VM from the hypervisor.
+   */
+  bootDiagnostics?: BootDiagnostics;
+}
+
+/**
+ * Specifies the security settings like secure boot and vTPM used while creating the virtual
+ * machine. <br><br>Minimum api-version: 2020-12-01
+ */
+export interface UefiSettings {
+  /**
+   * Specifies whether secure boot should be enabled on the virtual machine. <br><br>Minimum
+   * api-version: 2020-12-01
+   */
+  secureBootEnabled?: boolean;
+  /**
+   * Specifies whether vTPM should be enabled on the virtual machine. <br><br>Minimum api-version:
+   * 2020-12-01
+   */
+  vTpmEnabled?: boolean;
+}
+
+/**
+ * Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+ */
+export interface SecurityProfile {
+  /**
+   * Specifies the security settings like secure boot and vTPM used while creating the virtual
+   * machine. <br><br>Minimum api-version: 2020-12-01
+   */
+  uefiSettings?: UefiSettings;
+  /**
+   * This property can be used by user in the request to enable or disable the Host Encryption for
+   * the virtual machine or virtual machine scale set. This will enable the encryption for all the
+   * disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host
+   * will be disabled unless this property is set to true for the resource.
+   */
+  encryptionAtHost?: boolean;
+  /**
+   * Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable
+   * UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set
+   * as TrustedLaunch. Possible values include: 'TrustedLaunch'
+   */
+  securityType?: SecurityTypes;
+}
+
+/**
+ * Describes the properties of the Virtual Machine for which the restore point was created. The
+ * properties provided are a subset and the snapshot of the overall Virtual Machine properties
+ * captured at the time of the restore point creation.
+ */
+export interface RestorePointSourceMetadata {
+  /**
+   * Gets the hardware profile.
+   */
+  hardwareProfile?: HardwareProfile;
+  /**
+   * Gets the storage profile.
+   */
+  storageProfile?: RestorePointSourceVMStorageProfile;
+  /**
+   * Gets the OS profile.
+   */
+  osProfile?: OSProfile;
+  /**
+   * Gets the diagnostics profile.
+   */
+  diagnosticsProfile?: DiagnosticsProfile;
+  /**
+   * Gets the license type, which is for bring your own license scenario.
+   */
+  licenseType?: string;
+  /**
+   * Gets the virtual machine unique id.
+   */
+  vmId?: string;
+  /**
+   * Gets the security profile.
+   */
+  securityProfile?: SecurityProfile;
+}
+
+/**
+ * Restore Point Provisioning details.
+ */
+export interface RestorePointProvisioningDetails {
+  /**
+   * Gets the creation time of the restore point.
+   */
+  creationTime?: Date;
+  /**
+   * Gets the total size of the data in all the disks which are part of the restore point.
+   */
+  totalUsedSizeInBytes?: number;
+  /**
+   * Gets the status of the Create restore point operation.
+   */
+  statusCode?: number;
+  /**
+   * Gets the status message of the Create restore point operation.
+   */
+  statusMessage?: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager proxy resource. It will not have
+ * tags and a location
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Restore Point details.
+ */
+export interface RestorePoint extends ProxyResource {
+  /**
+   * Gets the details of the VM captured at the time of the restore point creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMetadata?: RestorePointSourceMetadata;
+  /**
+   * Gets the provisioning state of the restore point.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints
+   * for more details. Possible values include: 'CrashConsistent', 'FileSystemConsistent',
+   * 'ApplicationConsistent'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly consistencyMode?: ConsistencyModeTypes;
+  /**
+   * Gets the provisioning details set by the server during Create restore point operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningDetails?: RestorePointProvisioningDetails;
+  /**
+   * List of disk resource ids that the customer wishes to exclude from the restore point. If no
+   * disks are specified, all disks will be included.
+   */
+  excludeDisks?: ApiEntityReference[];
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Create or update Restore Point collection parameters.
+ */
+export interface RestorePointCollection extends Resource {
+  source?: RestorePointCollectionSourceProperties;
+  /**
+   * The provisioning state of the restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique id of the restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePointCollectionId?: string;
+  /**
+   * A list containing all restore points created under this restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePoints?: RestorePoint[];
+}
+
+/**
+ * The Update Resource model definition.
+ */
+export interface UpdateResource {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Update Restore Point collection parameters.
+ */
+export interface RestorePointCollectionUpdate extends UpdateResource {
+  source?: RestorePointCollectionSourceProperties;
+  /**
+   * The provisioning state of the restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique id of the restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePointCollectionId?: string;
+  /**
+   * A list containing all restore points created under this restore point collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePoints?: RestorePoint[];
+}
+
+/**
  * Describes the properties of a Compute Operation value.
  */
 export interface ComputeOperationValue {
@@ -100,16 +931,6 @@ export interface InstanceViewStatus {
 }
 
 /**
- * An interface representing SubResource.
- */
-export interface SubResource extends BaseResource {
-  /**
-   * Resource Id
-   */
-  id?: string;
-}
-
-/**
  * Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the
  * hardware the scale set is currently on, you need to deallocate the VMs in the scale set before
  * you modify the SKU name.
@@ -131,43 +952,12 @@ export interface Sku {
 }
 
 /**
- * The Resource model definition.
- */
-export interface Resource extends BaseResource {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location
-   */
-  location: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
  * Specifies information about the availability set that the virtual machine should be assigned to.
  * Virtual machines specified in the same availability set are allocated to different nodes to
- * maximize availability. For more information about availability sets, see [Manage the
- * availability of virtual
- * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
- * <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual
- * machines in
- * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+ * maximize availability. For more information about availability sets, see [Availability sets
+ * overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br>
+ * For more information on Azure planned maintenance, see [Maintenance and updates for Virtual
+ * Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates)
  * <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM
  * cannot be added to an availability set.
  */
@@ -200,16 +990,6 @@ export interface AvailabilitySet extends Resource {
    * for virtual machines with unmanaged disks. Default value is 'Classic'.
    */
   sku?: Sku;
-}
-
-/**
- * The Update Resource model definition.
- */
-export interface UpdateResource {
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -289,8 +1069,7 @@ export interface ProximityPlacementGroup extends Resource {
 /**
  * Specifies information about the proximity placement group.
  */
-export interface ProximityPlacementGroupUpdate extends UpdateResource {
-}
+export interface ProximityPlacementGroupUpdate extends UpdateResource {}
 
 /**
  * The instance view of a dedicated host.
@@ -598,7 +1377,10 @@ export interface VirtualMachineSize {
    */
   name?: string;
   /**
-   * The number of cores supported by the virtual machine size.
+   * The number of cores supported by the virtual machine size. For Constrained vCPU capable VM
+   * sizes, this number represents the total vCPUs of quota that the VM uses. For accurate vCPU
+   * count, please refer to https://docs.microsoft.com/azure/virtual-machines/constrained-vcpu or
+   * https://docs.microsoft.com/rest/api/compute/resourceskus/list
    */
   numberOfCores?: number;
   /**
@@ -1500,61 +2282,6 @@ export interface Plan {
 }
 
 /**
- * Specifies the hardware settings for the virtual machine.
- */
-export interface HardwareProfile {
-  /**
-   * Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated
-   * and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of
-   * available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an
-   * availability
-   * set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br>
-   * [List all available virtual machine sizes in a region](
-   * https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list) <br><br> [List all
-   * available virtual machine sizes for
-   * resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For
-   * more information about virtual machine sizes, see [Sizes for virtual
-   * machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes). <br><br> The
-   * available VM sizes depend on region and availability set. Possible values include: 'Basic_A0',
-   * 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2',
-   * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8',
-   * 'Standard_A9', 'Standard_A10', 'Standard_A11', 'Standard_A1_v2', 'Standard_A2_v2',
-   * 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2',
-   * 'Standard_B1s', 'Standard_B1ms', 'Standard_B2s', 'Standard_B2ms', 'Standard_B4ms',
-   * 'Standard_B8ms', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11',
-   * 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2',
-   * 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D2_v3', 'Standard_D4_v3',
-   * 'Standard_D8_v3', 'Standard_D16_v3', 'Standard_D32_v3', 'Standard_D64_v3', 'Standard_D2s_v3',
-   * 'Standard_D4s_v3', 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
-   * 'Standard_D64s_v3', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2',
-   * 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
-   * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
-   * 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2',
-   * 'Standard_DS11_v2', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
-   * 'Standard_DS15_v2', 'Standard_DS13-4_v2', 'Standard_DS13-2_v2', 'Standard_DS14-8_v2',
-   * 'Standard_DS14-4_v2', 'Standard_E2_v3', 'Standard_E4_v3', 'Standard_E8_v3', 'Standard_E16_v3',
-   * 'Standard_E32_v3', 'Standard_E64_v3', 'Standard_E2s_v3', 'Standard_E4s_v3', 'Standard_E8s_v3',
-   * 'Standard_E16s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_E32-16_v3',
-   * 'Standard_E32-8s_v3', 'Standard_E64-32s_v3', 'Standard_E64-16s_v3', 'Standard_F1',
-   * 'Standard_F2', 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s',
-   * 'Standard_F4s', 'Standard_F8s', 'Standard_F16s', 'Standard_F2s_v2', 'Standard_F4s_v2',
-   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2', 'Standard_F64s_v2',
-   * 'Standard_F72s_v2', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
-   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
-   * 'Standard_GS4-8', 'Standard_GS4-4', 'Standard_GS5-16', 'Standard_GS5-8', 'Standard_H8',
-   * 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr',
-   * 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s', 'Standard_M64s',
-   * 'Standard_M64ms', 'Standard_M128s', 'Standard_M128ms', 'Standard_M64-32ms',
-   * 'Standard_M64-16ms', 'Standard_M128-64ms', 'Standard_M128-32ms', 'Standard_NC6',
-   * 'Standard_NC12', 'Standard_NC24', 'Standard_NC24r', 'Standard_NC6s_v2', 'Standard_NC12s_v2',
-   * 'Standard_NC24s_v2', 'Standard_NC24rs_v2', 'Standard_NC6s_v3', 'Standard_NC12s_v3',
-   * 'Standard_NC24s_v3', 'Standard_NC24rs_v3', 'Standard_ND6s', 'Standard_ND12s',
-   * 'Standard_ND24s', 'Standard_ND24rs', 'Standard_NV6', 'Standard_NV12', 'Standard_NV24'
-   */
-  vmSize?: VirtualMachineSizeTypes;
-}
-
-/**
  * Specifies information about the image to use. You can specify information about platform images,
  * marketplace images, or virtual machine images. This element is required when you want to use a
  * platform image, marketplace image, or virtual machine image, but is not used in other creation
@@ -1593,60 +2320,6 @@ export interface ImageReference extends SubResource {
 }
 
 /**
- * Describes a reference to Key Vault Secret
- */
-export interface KeyVaultSecretReference {
-  /**
-   * The URL referencing a secret in a Key Vault.
-   */
-  secretUrl: string;
-  /**
-   * The relative URL of the Key Vault containing the secret.
-   */
-  sourceVault: SubResource;
-}
-
-/**
- * Describes the parameter of customer managed disk encryption set resource id that can be
- * specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for
- * managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
- */
-export interface DiskEncryptionSetParameters extends SubResource {
-}
-
-/**
- * Describes a reference to Key Vault Key
- */
-export interface KeyVaultKeyReference {
-  /**
-   * The URL referencing a key encryption key in Key Vault.
-   */
-  keyUrl: string;
-  /**
-   * The relative URL of the Key Vault containing the key.
-   */
-  sourceVault: SubResource;
-}
-
-/**
- * Describes a Encryption Settings for a Disk
- */
-export interface DiskEncryptionSettings {
-  /**
-   * Specifies the location of the disk encryption key, which is a Key Vault Secret.
-   */
-  diskEncryptionKey?: KeyVaultSecretReference;
-  /**
-   * Specifies the location of the key encryption key in Key Vault.
-   */
-  keyEncryptionKey?: KeyVaultKeyReference;
-  /**
-   * Specifies whether disk encryption should be enabled on the virtual machine.
-   */
-  enabled?: boolean;
-}
-
-/**
  * Describes the uri of a disk.
  */
 export interface VirtualHardDisk {
@@ -1671,33 +2344,17 @@ export interface DiffDiskSettings {
    * <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is
    * configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size
    * documentation for Windows VM at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux VM at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes
-   * exposes a cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'
+   * https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at
+   * https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes
+   * a cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'
    */
   placement?: DiffDiskPlacement;
 }
 
 /**
- * The parameters of a managed disk.
- */
-export interface ManagedDiskParameters extends SubResource {
-  /**
-   * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
-   * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
-   */
-  storageAccountType?: StorageAccountTypes;
-  /**
-   * Specifies the customer managed disk encryption set resource id for the managed disk.
-   */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
-}
-
-/**
  * Specifies information about the operating system disk used by the virtual machine. <br><br> For
  * more information about disks, see [About disks and VHDs for Azure virtual
- * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+ * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
  */
 export interface OSDisk {
   /**
@@ -1758,6 +2415,15 @@ export interface OSDisk {
    * The managed disk parameters.
    */
   managedDisk?: ManagedDiskParameters;
+  /**
+   * Specifies whether OS Disk should be deleted or detached upon VM deletion. <br><br> Possible
+   * values: <br><br> **Delete** If this value is used, the OS disk is deleted when VM is
+   * deleted.<br><br> **Detach** If this value is used, the os disk is retained after VM is
+   * deleted. <br><br> The default value is set to **detach**. For an ephemeral OS Disk, the
+   * default value is set to **Delete**. User cannot change the delete option for ephemeral OS
+   * Disk. Possible values include: 'Delete', 'Detach'
+   */
+  deleteOption?: DiskDeleteOptionTypes;
 }
 
 /**
@@ -1843,6 +2509,14 @@ export interface DataDisk {
    * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
    */
   detachOption?: DiskDetachOptionTypes;
+  /**
+   * Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible
+   * values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is
+   * deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is
+   * deleted.<br><br> The default value is set to **detach**. Possible values include: 'Delete',
+   * 'Detach'
+   */
+  deleteOption?: DiskDeleteOptionTypes;
 }
 
 /**
@@ -1859,56 +2533,15 @@ export interface StorageProfile {
   /**
    * Specifies information about the operating system disk used by the virtual machine. <br><br>
    * For more information about disks, see [About disks and VHDs for Azure virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+   * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   osDisk?: OSDisk;
   /**
    * Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For
    * more information about disks, see [About disks and VHDs for Azure virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+   * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   dataDisks?: DataDisk[];
-}
-
-/**
- * Specifies the security settings like secure boot and vTPM used while creating the virtual
- * machine. <br><br>Minimum api-version: 2020-12-01
- */
-export interface UefiSettings {
-  /**
-   * Specifies whether secure boot should be enabled on the virtual machine. <br><br>Minimum
-   * api-version: 2020-12-01
-   */
-  secureBootEnabled?: boolean;
-  /**
-   * Specifies whether vTPM should be enabled on the virtual machine. <br><br>Minimum api-version:
-   * 2020-12-01
-   */
-  vTpmEnabled?: boolean;
-}
-
-/**
- * Specifies the Security profile settings for the virtual machine or virtual machine scale set.
- */
-export interface SecurityProfile {
-  /**
-   * Specifies the security settings like secure boot and vTPM used while creating the virtual
-   * machine. <br><br>Minimum api-version: 2020-12-01
-   */
-  uefiSettings?: UefiSettings;
-  /**
-   * This property can be used by user in the request to enable or disable the Host Encryption for
-   * the virtual machine or virtual machine scale set. This will enable the encryption for all the
-   * disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host
-   * will be disabled unless this property is set to true for the resource.
-   */
-  encryptionAtHost?: boolean;
-  /**
-   * Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable
-   * UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set
-   * as TrustedLaunch. Possible values include: 'TrustedLaunch'
-   */
-  securityType?: SecurityTypes;
 }
 
 /**
@@ -1922,326 +2555,6 @@ export interface AdditionalCapabilities {
    * property is enabled.
    */
   ultraSSDEnabled?: boolean;
-}
-
-/**
- * Specifies additional XML formatted information that can be included in the Unattend.xml file,
- * which is used by Windows Setup. Contents are defined by setting name, component name, and the
- * pass in which the content is applied.
- */
-export interface AdditionalUnattendContent {
-  /**
-   * The pass name. Currently, the only allowable value is OobeSystem. Possible values include:
-   * 'OobeSystem'
-   */
-  passName?: PassNames;
-  /**
-   * The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-   * Possible values include: 'Microsoft-Windows-Shell-Setup'
-   */
-  componentName?: ComponentNames;
-  /**
-   * Specifies the name of the setting to which the content applies. Possible values are:
-   * FirstLogonCommands and AutoLogon. Possible values include: 'AutoLogon', 'FirstLogonCommands'
-   */
-  settingName?: SettingNames;
-  /**
-   * Specifies the XML formatted content that is added to the unattend.xml file for the specified
-   * path and component. The XML must be less than 4KB and must include the root element for the
-   * setting or feature that is being inserted.
-   */
-  content?: string;
-}
-
-/**
- * Describes Protocol and thumbprint of Windows Remote Management listener
- */
-export interface WinRMListener {
-  /**
-   * Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br>
-   * **https**. Possible values include: 'Http', 'Https'
-   */
-  protocol?: ProtocolTypes;
-  /**
-   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
-   * secret to the Key Vault, see [Add a key or secret to the key
-   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
-   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
-   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
-   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
-   */
-  certificateUrl?: string;
-}
-
-/**
- * Describes Windows Remote Management configuration of the VM
- */
-export interface WinRMConfiguration {
-  /**
-   * The list of Windows Remote Management listeners
-   */
-  listeners?: WinRMListener[];
-}
-
-/**
- * Specifies settings related to VM Guest Patching on Windows.
- */
-export interface PatchSettings {
-  /**
-   * Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values
-   * are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine.
-   * You do this by applying patches manually inside the VM. In this mode, automatic updates are
-   * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
-   * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
-   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform**
-   * - the virtual machine will automatically updated by the platform. The properties
-   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true. Possible values
-   * include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
-   */
-  patchMode?: WindowsVMGuestPatchMode;
-  /**
-   * Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching,
-   * the 'provisionVMAgent' must be set to true and 'patchMode' must be set to
-   * 'AutomaticByPlatform'.
-   */
-  enableHotpatching?: boolean;
-}
-
-/**
- * Specifies Windows operating system settings on the virtual machine.
- */
-export interface WindowsConfiguration {
-  /**
-   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
-   * When this property is not specified in the request body, default behavior is to set it to
-   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
-   * to the VM later.
-   */
-  provisionVMAgent?: boolean;
-  /**
-   * Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value
-   * is true. <br><br> For virtual machine scale sets, this property can be updated and updates
-   * will take effect on OS reprovisioning.
-   */
-  enableAutomaticUpdates?: boolean;
-  /**
-   * Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br>
-   * Possible values can be
-   * [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id)
-   * value from time zones returned by
-   * [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
-   */
-  timeZone?: string;
-  /**
-   * Specifies additional base-64 encoded XML formatted information that can be included in the
-   * Unattend.xml file, which is used by Windows Setup.
-   */
-  additionalUnattendContent?: AdditionalUnattendContent[];
-  /**
-   * [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
-   */
-  patchSettings?: PatchSettings;
-  /**
-   * Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
-   */
-  winRM?: WinRMConfiguration;
-}
-
-/**
- * Contains information about SSH certificate public key and the path on the Linux VM where the
- * public key is placed.
- */
-export interface SshPublicKey {
-  /**
-   * Specifies the full path on the created VM where ssh public key is stored. If the file already
-   * exists, the specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
-   */
-  path?: string;
-  /**
-   * SSH public key certificate used to authenticate with the VM through ssh. The key needs to be
-   * at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys
-   * on Linux and Mac for Linux VMs in
-   * Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-   */
-  keyData?: string;
-}
-
-/**
- * SSH configuration for Linux based VMs running on Azure
- */
-export interface SshConfiguration {
-  /**
-   * The list of SSH public keys used to authenticate with linux based VMs.
-   */
-  publicKeys?: SshPublicKey[];
-}
-
-/**
- * Specifies settings related to VM Guest Patching on Linux.
- */
-export interface LinuxPatchSettings {
-  /**
-   * Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values
-   * are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is
-   * used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated
-   * by the platform. The property provisionVMAgent must be true. Possible values include:
-   * 'ImageDefault', 'AutomaticByPlatform'
-   */
-  patchMode?: LinuxVMGuestPatchMode;
-}
-
-/**
- * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
- * supported Linux distributions, see [Linux on Azure-Endorsed
- * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
- * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
- * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
- */
-export interface LinuxConfiguration {
-  /**
-   * Specifies whether password authentication should be disabled.
-   */
-  disablePasswordAuthentication?: boolean;
-  /**
-   * Specifies the ssh key configuration for a Linux OS.
-   */
-  ssh?: SshConfiguration;
-  /**
-   * Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br>
-   * When this property is not specified in the request body, default behavior is to set it to
-   * true.  This will ensure that VM Agent is installed on the VM so that extensions can be added
-   * to the VM later.
-   */
-  provisionVMAgent?: boolean;
-  /**
-   * [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
-   */
-  patchSettings?: LinuxPatchSettings;
-}
-
-/**
- * Describes a single certificate reference in a Key Vault, and where the certificate should reside
- * on the VM.
- */
-export interface VaultCertificate {
-  /**
-   * This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a
-   * secret to the Key Vault, see [Add a key or secret to the key
-   * vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case,
-   * your certificate needs to be It is the Base64 encoding of the following JSON Object which is
-   * encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>
-   * "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}
-   */
-  certificateUrl?: string;
-  /**
-   * For Windows VMs, specifies the certificate store on the Virtual Machine to which the
-   * certificate should be added. The specified certificate store is implicitly in the LocalMachine
-   * account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent
-   * directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file
-   * and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
-   */
-  certificateStore?: string;
-}
-
-/**
- * Describes a set of certificates which are all in the same Key Vault.
- */
-export interface VaultSecretGroup {
-  /**
-   * The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
-   */
-  sourceVault?: SubResource;
-  /**
-   * The list of key vault references in SourceVault which contain certificates.
-   */
-  vaultCertificates?: VaultCertificate[];
-}
-
-/**
- * Specifies the operating system settings for the virtual machine. Some of the settings cannot be
- * changed once VM is provisioned.
- */
-export interface OSProfile {
-  /**
-   * Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after
-   * the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length
-   * (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure
-   * infrastructure services implementation
-   * guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
-   */
-  computerName?: string;
-  /**
-   * Specifies the name of the administrator account. <br><br> This property cannot be updated
-   * after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br>
-   * **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1",
-   * "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
-   * "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
-   * "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character
-   * <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20
-   * characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux
-   * virtual machines in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li>
-   * For a list of built-in system users on Linux that should not be used in this field, see
-   * [Selecting User Names for Linux on
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   */
-  adminUsername?: string;
-  /**
-   * Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8
-   * characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length
-   * (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br>
-   * **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower
-   * characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match
-   * [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123",
-   * "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For
-   * resetting the password, see [How to reset the Remote Desktop service or its login password in
-   * a Windows
-   * VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on
-   * Azure Linux VMs using the VMAccess
-   * Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-   */
-  adminPassword?: string;
-  /**
-   * Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a
-   * binary array that is saved as a file on the Virtual Machine. The maximum length of the binary
-   * array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData
-   * property** <br><br> This property cannot be updated after the VM is created. <br><br>
-   * customData is passed to the VM to be saved as a file, for more information see [Custom Data on
-   * Azure
-   * VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/)
-   * <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM
-   * during
-   * creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   */
-  customData?: string;
-  /**
-   * Specifies Windows operating system settings on the virtual machine.
-   */
-  windowsConfiguration?: WindowsConfiguration;
-  /**
-   * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
-   * supported Linux distributions, see [Linux on Azure-Endorsed
-   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
-   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-   */
-  linuxConfiguration?: LinuxConfiguration;
-  /**
-   * Specifies set of certificates that should be installed onto the virtual machine.
-   */
-  secrets?: VaultSecretGroup[];
-  /**
-   * Specifies whether extension operations should be allowed on the virtual machine. <br><br>This
-   * may only be set to False when no extensions are present on the virtual machine.
-   */
-  allowExtensionOperations?: boolean;
-  /**
-   * Specifies whether the guest provision signal is required to infer provision success of the
-   * virtual machine.  **Note: This property is for private testing only, and all customers must
-   * not set the property to false.**
-   */
-  requireGuestProvisionSignal?: boolean;
 }
 
 /**
@@ -2272,10 +2585,197 @@ export interface NetworkInterfaceReference extends SubResource {
    * interface.
    */
   primary?: boolean;
+  /**
+   * Specify what happens to the network interface when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
 }
 
 /**
- * Specifies the network interfaces of the virtual machine.
+ * Contains the IP tag associated with the public IP address.
+ */
+export interface VirtualMachineIpTag {
+  /**
+   * IP tag type. Example: FirstPartyUsage.
+   */
+  ipTagType?: string;
+  /**
+   * IP tag associated with the public IP. Example: SQL, Storage etc.
+   */
+  tag?: string;
+}
+
+/**
+ * Describes a virtual machines network configuration's DNS settings.
+ */
+export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
+  /**
+   * The Domain name label prefix of the PublicIPAddress resources that will be created. The
+   * generated name label is the concatenation of the domain name label and vm network profile
+   * unique ID.
+   */
+  domainNameLabel: string;
+}
+
+/**
+ * Describes the public IP Sku
+ */
+export interface PublicIPAddressSku {
+  /**
+   * Specify public IP sku name. Possible values include: 'Basic', 'Standard'
+   */
+  publicIPAddressSkuName: PublicIPAddressSkuName;
+  /**
+   * Specify public IP sku tier. Possible values include: 'Regional', 'Global'
+   */
+  publicIPAddressSkuTier?: PublicIPAddressSkuTier;
+}
+
+/**
+ * Describes a virtual machines IP Configuration's PublicIPAddress configuration
+ */
+export interface VirtualMachinePublicIPAddressConfiguration {
+  /**
+   * The publicIP address configuration name.
+   */
+  name: string;
+  /**
+   * The idle timeout of the public IP address.
+   */
+  idleTimeoutInMinutes?: number;
+  /**
+   * Specify what happens to the public IP address when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
+  /**
+   * The dns settings to be applied on the publicIP addresses .
+   */
+  dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfiguration;
+  /**
+   * The list of IP tags associated with the public IP address.
+   */
+  ipTags?: VirtualMachineIpTag[];
+  /**
+   * The PublicIPPrefix from which to allocate publicIP addresses.
+   */
+  publicIPPrefix?: SubResource;
+  /**
+   * Available from Api-Version 2019-07-01 onwards, it represents whether the specific
+   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and
+   * 'IPv6'. Possible values include: 'IPv4', 'IPv6'
+   */
+  publicIPAddressVersion?: IPVersions;
+  /**
+   * Specify the public IP allocation type. Possible values include: 'Dynamic', 'Static'
+   */
+  publicIPAllocationMethod?: PublicIPAllocationMethod;
+  sku?: PublicIPAddressSku;
+}
+
+/**
+ * Describes a virtual machine network profile's IP configuration.
+ */
+export interface VirtualMachineNetworkInterfaceIPConfiguration {
+  /**
+   * The IP configuration name.
+   */
+  name: string;
+  /**
+   * Specifies the identifier of the subnet.
+   */
+  subnet?: SubResource;
+  /**
+   * Specifies the primary network interface in case the virtual machine has more than 1 network
+   * interface.
+   */
+  primary?: boolean;
+  /**
+   * The publicIPAddressConfiguration.
+   */
+  publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
+  /**
+   * Available from Api-Version 2017-03-30 onwards, it represents whether the specific
+   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and
+   * 'IPv6'. Possible values include: 'IPv4', 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersions;
+  /**
+   * Specifies an array of references to application security group.
+   */
+  applicationSecurityGroups?: SubResource[];
+  /**
+   * Specifies an array of references to backend address pools of application gateways. A virtual
+   * machine can reference backend address pools of multiple application gateways. Multiple virtual
+   * machines cannot use the same application gateway.
+   */
+  applicationGatewayBackendAddressPools?: SubResource[];
+  /**
+   * Specifies an array of references to backend address pools of load balancers. A virtual machine
+   * can reference backend address pools of one public and one internal load balancer. [Multiple
+   * virtual machines cannot use the same basic sku load balancer].
+   */
+  loadBalancerBackendAddressPools?: SubResource[];
+}
+
+/**
+ * Describes a virtual machines network configuration's DNS settings.
+ */
+export interface VirtualMachineNetworkInterfaceDnsSettingsConfiguration {
+  /**
+   * List of DNS servers IP addresses
+   */
+  dnsServers?: string[];
+}
+
+/**
+ * Describes a virtual machine network interface configurations.
+ */
+export interface VirtualMachineNetworkInterfaceConfiguration {
+  /**
+   * The network interface configuration name.
+   */
+  name: string;
+  /**
+   * Specifies the primary network interface in case the virtual machine has more than 1 network
+   * interface.
+   */
+  primary?: boolean;
+  /**
+   * Specify what happens to the network interface when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
+  /**
+   * Specifies whether the network interface is accelerated networking-enabled.
+   */
+  enableAcceleratedNetworking?: boolean;
+  /**
+   * Specifies whether the network interface is FPGA networking-enabled.
+   */
+  enableFpga?: boolean;
+  /**
+   * Whether IP forwarding enabled on this NIC.
+   */
+  enableIPForwarding?: boolean;
+  /**
+   * The network security group.
+   */
+  networkSecurityGroup?: SubResource;
+  /**
+   * The dns settings to be applied on the network interfaces.
+   */
+  dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
+  /**
+   * Specifies the IP configurations of the network interface.
+   */
+  ipConfigurations: VirtualMachineNetworkInterfaceIPConfiguration[];
+  dscpConfiguration?: SubResource;
+}
+
+/**
+ * Specifies the network interfaces or the networking configuration of the virtual machine.
  */
 export interface NetworkProfile {
   /**
@@ -2283,35 +2783,16 @@ export interface NetworkProfile {
    * machine.
    */
   networkInterfaces?: NetworkInterfaceReference[];
-}
-
-/**
- * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
- * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
- * Azure also enables you to see a screenshot of the VM from the hypervisor.
- */
-export interface BootDiagnostics {
   /**
-   * Whether boot diagnostics should be enabled on the Virtual Machine.
+   * specifies the Microsoft.Network API version used when creating networking resources in the
+   * Network Interface Configurations. Possible values include: '2020-11-01'
    */
-  enabled?: boolean;
+  networkApiVersion?: NetworkApiVersion;
   /**
-   * Uri of the storage account to use for placing the console output and screenshot. <br><br>If
-   * storageUri is not specified while enabling boot diagnostics, managed storage will be used.
+   * Specifies the networking configurations that will be used to create the virtual machine
+   * networking resources.
    */
-  storageUri?: string;
-}
-
-/**
- * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
- */
-export interface DiagnosticsProfile {
-  /**
-   * Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot
-   * to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br>
-   * Azure also enables you to see a screenshot of the VM from the hypervisor.
-   */
-  bootDiagnostics?: BootDiagnostics;
+  networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
 }
 
 /**
@@ -2456,7 +2937,9 @@ export interface VirtualMachineIdentity {
    * key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: { [propertyName: string]: VirtualMachineIdentityUserAssignedIdentitiesValue };
+  userAssignedIdentities?: {
+    [propertyName: string]: VirtualMachineIdentityUserAssignedIdentitiesValue;
+  };
 }
 
 /**
@@ -2724,6 +3207,32 @@ export interface VirtualMachineInstanceView {
 }
 
 /**
+ * An interface representing TerminateNotificationProfile.
+ */
+export interface TerminateNotificationProfile {
+  /**
+   * Configurable length of time a Virtual Machine being deleted will have to potentially approve
+   * the Terminate Scheduled Event before the event is auto approved (timed out). The configuration
+   * must be specified in ISO 8601 format, the default value is 5 minutes (PT5M)
+   */
+  notBeforeTimeout?: string;
+  /**
+   * Specifies whether the Terminate Scheduled event is enabled or disabled.
+   */
+  enable?: boolean;
+}
+
+/**
+ * An interface representing ScheduledEventsProfile.
+ */
+export interface ScheduledEventsProfile {
+  /**
+   * Specifies Terminate Scheduled Event related configurations.
+   */
+  terminateNotificationProfile?: TerminateNotificationProfile;
+}
+
+/**
  * Describes a Virtual Machine.
  */
 export interface VirtualMachine extends Resource {
@@ -2767,16 +3276,15 @@ export interface VirtualMachine extends Resource {
   /**
    * Specifies information about the availability set that the virtual machine should be assigned
    * to. Virtual machines specified in the same availability set are allocated to different nodes
-   * to maximize availability. For more information about availability sets, see [Manage the
-   * availability of virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintenance, see [Planned maintenance for
-   * virtual machines in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> Currently, a VM can only be added to availability set at creation time. The
-   * availability set to which the VM is being added should be under the same resource group as the
-   * availability set resource. An existing VM cannot be added to an availability set. <br><br>This
-   * property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+   * to maximize availability. For more information about availability sets, see [Availability sets
+   * overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview).
+   * <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for
+   * Virtual Machines in
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br>
+   * Currently, a VM can only be added to availability set at creation time. The availability set
+   * to which the VM is being added should be under the same resource group as the availability set
+   * resource. An existing VM cannot be added to an availability set. <br><br>This property cannot
+   * exist along with a non-null properties.virtualMachineScaleSet reference.
    */
   availabilitySet?: SubResource;
   /**
@@ -2866,6 +3374,15 @@ export interface VirtualMachine extends Resource {
    * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
    */
   platformFaultDomain?: number;
+  /**
+   * Specifies Scheduled Event related configurations.
+   */
+  scheduledEventsProfile?: ScheduledEventsProfile;
+  /**
+   * UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in
+   * here. <br><br>Minimum api-version: 2021-03-01
+   */
+  userData?: string;
   /**
    * The virtual machine child extension resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2929,16 +3446,15 @@ export interface VirtualMachineUpdate extends UpdateResource {
   /**
    * Specifies information about the availability set that the virtual machine should be assigned
    * to. Virtual machines specified in the same availability set are allocated to different nodes
-   * to maximize availability. For more information about availability sets, see [Manage the
-   * availability of virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintenance, see [Planned maintenance for
-   * virtual machines in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> Currently, a VM can only be added to availability set at creation time. The
-   * availability set to which the VM is being added should be under the same resource group as the
-   * availability set resource. An existing VM cannot be added to an availability set. <br><br>This
-   * property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+   * to maximize availability. For more information about availability sets, see [Availability sets
+   * overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview).
+   * <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for
+   * Virtual Machines in
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br>
+   * Currently, a VM can only be added to availability set at creation time. The availability set
+   * to which the VM is being added should be under the same resource group as the availability set
+   * resource. An existing VM cannot be added to an availability set. <br><br>This property cannot
+   * exist along with a non-null properties.virtualMachineScaleSet reference.
    */
   availabilitySet?: SubResource;
   /**
@@ -3028,6 +3544,15 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
    */
   platformFaultDomain?: number;
+  /**
+   * Specifies Scheduled Event related configurations.
+   */
+  scheduledEventsProfile?: ScheduledEventsProfile;
+  /**
+   * UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in
+   * here. <br><br>Minimum api-version: 2021-03-01
+   */
+  userData?: string;
   /**
    * The identity of the virtual machine, if configured.
    */
@@ -3215,13 +3740,13 @@ export interface ImageStorageProfile {
   /**
    * Specifies information about the operating system disk used by the virtual machine. <br><br>
    * For more information about disks, see [About disks and VHDs for Azure virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+   * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   osDisk?: ImageOSDisk;
   /**
    * Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For
    * more information about disks, see [About disks and VHDs for Azure virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+   * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   dataDisks?: ImageDataDisk[];
   /**
@@ -3336,7 +3861,9 @@ export interface VirtualMachineScaleSetIdentity {
    * dictionary key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: { [propertyName: string]: VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue };
+  userAssignedIdentities?: {
+    [propertyName: string]: VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
+  };
 }
 
 /**
@@ -3355,12 +3882,7 @@ export interface VirtualMachineScaleSetOSProfile {
    * "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support",
    * "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length
    * (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length
-   * (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root
-   * privileges on Linux virtual machines in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li>
-   * For a list of built-in system users on Linux that should not be used in this field, see
-   * [Selecting User Names for Linux on
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+   * (Windows):** 20 characters
    */
   adminUsername?: string;
   /**
@@ -3372,11 +3894,10 @@ export interface VirtualMachineScaleSetOSProfile {
    * [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123",
    * "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For
    * resetting the password, see [How to reset the Remote Desktop service or its login password in
-   * a Windows
-   * VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+   * a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp)
    * <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on
    * Azure Linux VMs using the VMAccess
-   * Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+   * Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
    */
   adminPassword?: string;
   /**
@@ -3384,7 +3905,7 @@ export interface VirtualMachineScaleSetOSProfile {
    * binary array that is saved as a file on the Virtual Machine. The maximum length of the binary
    * array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to
    * customize a Linux VM during
-   * creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+   * creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)
    */
   customData?: string;
   /**
@@ -3394,9 +3915,7 @@ export interface VirtualMachineScaleSetOSProfile {
   /**
    * Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of
    * supported Linux distributions, see [Linux on Azure-Endorsed
-   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-   * <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed
-   * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+   * Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
    */
   linuxConfiguration?: LinuxConfiguration;
   /**
@@ -3601,14 +4120,13 @@ export interface VirtualMachineScaleSetStorageProfile {
   /**
    * Specifies information about the operating system disk used by the virtual machines in the
    * scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure
-   * virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+   * virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   osDisk?: VirtualMachineScaleSetOSDisk;
   /**
    * Specifies the parameters that are used to add data disks to the virtual machines in the scale
    * set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+   * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   dataDisks?: VirtualMachineScaleSetDataDisk[];
 }
@@ -3629,17 +4147,6 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
    * The data disks.
    */
   dataDisks?: VirtualMachineScaleSetDataDisk[];
-}
-
-/**
- * The API entity reference.
- */
-export interface ApiEntityReference {
-  /**
-   * The ARM resource id in the form of
-   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
-   */
-  id?: string;
 }
 
 /**
@@ -3697,6 +4204,12 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
    * 'IPv6'. Possible values include: 'IPv4', 'IPv6'
    */
   publicIPAddressVersion?: IPVersion;
+  /**
+   * Specify what happens to the public IP when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
+  sku?: PublicIPAddressSku;
 }
 
 /**
@@ -3715,6 +4228,11 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
    * The dns settings to be applied on the publicIP addresses .
    */
   dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
+  /**
+   * Specify what happens to the public IP when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
 }
 
 /**
@@ -3862,6 +4380,11 @@ export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource 
    * Whether IP forwarding enabled on this NIC.
    */
   enableIPForwarding?: boolean;
+  /**
+   * Specify what happens to the network interface when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
 }
 
 /**
@@ -3900,6 +4423,11 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration extends SubRes
    * Whether IP forwarding enabled on this NIC.
    */
   enableIPForwarding?: boolean;
+  /**
+   * Specify what happens to the network interface when the VM is deleted. Possible values include:
+   * 'Delete', 'Detach'
+   */
+  deleteOption?: DeleteOptions;
 }
 
 /**
@@ -3916,6 +4444,12 @@ export interface VirtualMachineScaleSetNetworkProfile {
    * The list of network configurations.
    */
   networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+  /**
+   * specifies the Microsoft.Network API version used when creating networking resources in the
+   * Network Interface Configurations for Virtual Machine Scale Set with orchestration mode
+   * 'Flexible'. Possible values include: '2020-11-01'
+   */
+  networkApiVersion?: NetworkApiVersion;
 }
 
 /**
@@ -3932,6 +4466,12 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
    * The list of network configurations.
    */
   networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
+  /**
+   * specifies the Microsoft.Network API version used when creating networking resources in the
+   * Network Interface Configurations for Virtual Machine Scale Set with orchestration mode
+   * 'Flexible'. Possible values include: '2020-11-01'
+   */
+  networkApiVersion?: NetworkApiVersion;
 }
 
 /**
@@ -4074,32 +4614,6 @@ export interface VirtualMachineScaleSetExtensionProfile {
 }
 
 /**
- * An interface representing TerminateNotificationProfile.
- */
-export interface TerminateNotificationProfile {
-  /**
-   * Configurable length of time a Virtual Machine being deleted will have to potentially approve
-   * the Terminate Scheduled Event before the event is auto approved (timed out). The configuration
-   * must be specified in ISO 8601 format, the default value is 5 minutes (PT5M)
-   */
-  notBeforeTimeout?: string;
-  /**
-   * Specifies whether the Terminate Scheduled event is enabled or disabled.
-   */
-  enable?: boolean;
-}
-
-/**
- * An interface representing ScheduledEventsProfile.
- */
-export interface ScheduledEventsProfile {
-  /**
-   * Specifies Terminate Scheduled Event related configurations.
-   */
-  terminateNotificationProfile?: TerminateNotificationProfile;
-}
-
-/**
  * Describes a virtual machine scale set virtual machine profile.
  */
 export interface VirtualMachineScaleSetVMProfile {
@@ -4162,6 +4676,11 @@ export interface VirtualMachineScaleSetVMProfile {
    * Specifies Scheduled Event related configurations.
    */
   scheduledEventsProfile?: ScheduledEventsProfile;
+  /**
+   * UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer
+   * should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01
+   */
+  userData?: string;
 }
 
 /**
@@ -4205,6 +4724,11 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
    * Specifies Scheduled Event related configurations.
    */
   scheduledEventsProfile?: ScheduledEventsProfile;
+  /**
+   * UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in
+   * here. <br><br>Minimum api-version: 2021-03-01
+   */
+  userData?: string;
 }
 
 /**
@@ -4314,13 +4838,14 @@ export interface VirtualMachineScaleSet extends Resource {
 /**
  * Describes a Virtual Machine Scale Set VM Reimage Parameters.
  */
-export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachineReimageParameters {
-}
+export interface VirtualMachineScaleSetVMReimageParameters
+  extends VirtualMachineReimageParameters {}
 
 /**
  * Describes a Virtual Machine Scale Set VM Reimage Parameters.
  */
-export interface VirtualMachineScaleSetReimageParameters extends VirtualMachineScaleSetVMReimageParameters {
+export interface VirtualMachineScaleSetReimageParameters
+  extends VirtualMachineScaleSetVMReimageParameters {
   /**
    * The virtual machine scale set instance ids. Omitting the virtual machine scale set instance
    * ids will result in the operation being performed on all virtual machines in the virtual
@@ -4825,14 +5350,13 @@ export interface VirtualMachineScaleSetVM extends Resource {
   /**
    * Specifies information about the availability set that the virtual machine should be assigned
    * to. Virtual machines specified in the same availability set are allocated to different nodes
-   * to maximize availability. For more information about availability sets, see [Manage the
-   * availability of virtual
-   * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintenance, see [Planned maintenance for
-   * virtual machines in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> Currently, a VM can only be added to availability set at creation time. An existing
-   * VM cannot be added to an availability set.
+   * to maximize availability. For more information about availability sets, see [Availability sets
+   * overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview).
+   * <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for
+   * Virtual Machines in
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br>
+   * Currently, a VM can only be added to availability set at creation time. An existing VM cannot
+   * be added to an availability set.
    */
   availabilitySet?: SubResource;
   /**
@@ -4862,6 +5386,11 @@ export interface VirtualMachineScaleSetVM extends Resource {
    * Specifies the protection policy of the virtual machine.
    */
   protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
+  /**
+   * UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in
+   * here. <br><br>Minimum api-version: 2021-03-01
+   */
+  userData?: string;
   /**
    * Specifies information about the marketplace image used to create the virtual machine. This
    * element is only used for marketplace images. Before you can use a marketplace image from an
@@ -5004,8 +5533,7 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 /**
  * Api request input for LogAnalytics getThrottledRequests Api.
  */
-export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
-}
+export interface ThrottledRequestsInput extends LogAnalyticsInputBase {}
 
 /**
  * LogAnalytics output properties
@@ -6496,6 +7024,39 @@ export interface GalleryIdentifier {
 }
 
 /**
+ * Group of the gallery sharing profile
+ */
+export interface SharingProfileGroup {
+  /**
+   * This property allows you to specify the type of sharing group. <br><br> Possible values are:
+   * <br><br> **Subscriptions** <br><br> **AADTenants**. Possible values include: 'Subscriptions',
+   * 'AADTenants'
+   */
+  type?: SharingProfileGroupTypes;
+  /**
+   * A list of subscription/tenant ids the gallery is aimed to be shared to.
+   */
+  ids?: string[];
+}
+
+/**
+ * Profile for gallery sharing to subscription or tenant
+ */
+export interface SharingProfile {
+  /**
+   * This property allows you to specify the permission of sharing gallery. <br><br> Possible
+   * values are: <br><br> **Private** <br><br> **Groups**. Possible values include: 'Private',
+   * 'Groups'
+   */
+  permissions?: GallerySharingPermissionTypes;
+  /**
+   * A list of sharing profile groups.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groups?: SharingProfileGroup[];
+}
+
+/**
  * Specifies information about the Shared Image Gallery that you want to create or update.
  */
 export interface Gallery extends Resource {
@@ -6511,6 +7072,7 @@ export interface Gallery extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  sharingProfile?: SharingProfile;
 }
 
 /**
@@ -6554,6 +7116,7 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  sharingProfile?: SharingProfile;
 }
 
 /**
@@ -6679,12 +7242,12 @@ export interface GalleryArtifactPublishingProfileBase {
    */
   excludeFromLatest?: boolean;
   /**
-   * The timestamp for when the gallery Image Version is published.
+   * The timestamp for when the gallery image version is published.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly publishedDate?: Date;
   /**
-   * The end of life date of the gallery Image Version. This property can be used for
+   * The end of life date of the gallery image version. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6698,7 +7261,8 @@ export interface GalleryArtifactPublishingProfileBase {
 /**
  * The publishing profile of a gallery image version.
  */
-export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+export interface GalleryApplicationVersionPublishingProfile
+  extends GalleryArtifactPublishingProfileBase {
   source: UserArtifactSource;
   manageActions?: UserArtifactManage;
   /**
@@ -6712,7 +7276,7 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
  */
 export interface RegionalReplicationStatus {
   /**
-   * The region to which the gallery Image Version is being replicated to.
+   * The region to which the gallery image version is being replicated to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly region?: string;
@@ -6735,7 +7299,7 @@ export interface RegionalReplicationStatus {
 }
 
 /**
- * This is the replication status of the gallery Image Version.
+ * This is the replication status of the gallery image version.
  */
 export interface ReplicationStatus {
   /**
@@ -6788,19 +7352,19 @@ export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinitio
 }
 
 /**
- * This is the gallery Image Definition identifier.
+ * This is the gallery image definition identifier.
  */
 export interface GalleryImageIdentifier {
   /**
-   * The name of the gallery Image Definition publisher.
+   * The name of the gallery image definition publisher.
    */
   publisher: string;
   /**
-   * The name of the gallery Image Definition offer.
+   * The name of the gallery image definition offer.
    */
   offer: string;
   /**
-   * The name of the gallery Image Definition SKU.
+   * The name of the gallery image definition SKU.
    */
   sku: string;
 }
@@ -6839,7 +7403,7 @@ export interface Disallowed {
 }
 
 /**
- * Describes the gallery Image Definition purchase plan. This is used by marketplace images.
+ * Describes the gallery image definition purchase plan. This is used by marketplace images.
  */
 export interface ImagePurchasePlan {
   /**
@@ -6857,15 +7421,29 @@ export interface ImagePurchasePlan {
 }
 
 /**
- * Specifies information about the gallery Image Definition that you want to create or update.
+ * A feature for gallery image.
+ */
+export interface GalleryImageFeature {
+  /**
+   * The name of the gallery image feature.
+   */
+  name?: string;
+  /**
+   * The value of the gallery image feature.
+   */
+  value?: string;
+}
+
+/**
+ * Specifies information about the gallery image definition that you want to create or update.
  */
 export interface GalleryImage extends Resource {
   /**
-   * The description of this gallery Image Definition resource. This property is updatable.
+   * The description of this gallery image definition resource. This property is updatable.
    */
   description?: string;
   /**
-   * The Eula agreement for the gallery Image Definition.
+   * The Eula agreement for the gallery image definition.
    */
   eula?: string;
   /**
@@ -6893,7 +7471,7 @@ export interface GalleryImage extends Resource {
    */
   hyperVGeneration?: HyperVGeneration;
   /**
-   * The end of life date of the gallery Image Definition. This property can be used for
+   * The end of life date of the gallery image definition. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6902,24 +7480,28 @@ export interface GalleryImage extends Resource {
   disallowed?: Disallowed;
   purchasePlan?: ImagePurchasePlan;
   /**
-   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * The current state of the gallery image definition. The provisioning state, which only appears
    * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState2;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
 }
 
 /**
- * Specifies information about the gallery Image Definition that you want to update.
+ * Specifies information about the gallery image definition that you want to update.
  */
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
   /**
-   * The description of this gallery Image Definition resource. This property is updatable.
+   * The description of this gallery image definition resource. This property is updatable.
    */
   description?: string;
   /**
-   * The Eula agreement for the gallery Image Definition.
+   * The Eula agreement for the gallery image definition.
    */
   eula?: string;
   /**
@@ -6947,7 +7529,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
    */
   hyperVGeneration?: HyperVGeneration;
   /**
-   * The end of life date of the gallery Image Definition. This property can be used for
+   * The end of life date of the gallery image definition. This property can be used for
    * decommissioning purposes. This property is updatable.
    */
   endOfLifeDate?: Date;
@@ -6956,29 +7538,37 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   disallowed?: Disallowed;
   purchasePlan?: ImagePurchasePlan;
   /**
-   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * The current state of the gallery image definition. The provisioning state, which only appears
    * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState2;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
 }
 
 /**
- * The publishing profile of a gallery Image Version.
+ * The publishing profile of a gallery image Version.
  */
-export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
-}
+export interface GalleryImageVersionPublishingProfile
+  extends GalleryArtifactPublishingProfileBase {}
 
 /**
  * The gallery artifact version source.
  */
 export interface GalleryArtifactVersionSource {
   /**
-   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user
-   * image.
+   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user
+   * image or storage account resource.
    */
   id?: string;
+  /**
+   * The uri of the gallery artifact version source. Currently used to specify vhd/blob source.
+   */
+  uri?: string;
 }
 
 /**
@@ -7001,8 +7591,7 @@ export interface GalleryDiskImage {
 /**
  * This is the OS disk image.
  */
-export interface GalleryOSDiskImage extends GalleryDiskImage {
-}
+export interface GalleryOSDiskImage extends GalleryDiskImage {}
 
 /**
  * This is the data disk image.
@@ -7029,12 +7618,12 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 /**
- * Specifies information about the gallery Image Version that you want to create or update.
+ * Specifies information about the gallery image version that you want to create or update.
  */
 export interface GalleryImageVersion extends Resource {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
-   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * The current state of the gallery image version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -7048,12 +7637,12 @@ export interface GalleryImageVersion extends Resource {
 }
 
 /**
- * Specifies information about the gallery Image Version that you want to update.
+ * Specifies information about the gallery image version that you want to update.
  */
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
-   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * The current state of the gallery image version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
    * 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -7079,8 +7668,7 @@ export interface DiskImageEncryption {
 /**
  * Contains encryption settings for an OS disk image.
  */
-export interface OSDiskImageEncryption extends DiskImageEncryption {
-}
+export interface OSDiskImageEncryption extends DiskImageEncryption {}
 
 /**
  * Contains encryption settings for a data disk image.
@@ -7142,6 +7730,104 @@ export interface ManagedArtifact {
  */
 export interface GalleryArtifactSource {
   managedImage: ManagedArtifact;
+}
+
+/**
+ * Specifies information about the gallery sharing profile update.
+ */
+export interface SharingUpdate extends BaseResource {
+  /**
+   * This property allows you to specify the operation type of gallery sharing update. <br><br>
+   * Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset**. Possible values
+   * include: 'Add', 'Remove', 'Reset'
+   */
+  operationType: SharingUpdateOperationTypes;
+  /**
+   * A list of sharing profile groups.
+   */
+  groups?: SharingProfileGroup[];
+}
+
+/**
+ * The Resource model definition.
+ */
+export interface PirResource {
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource location
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+}
+
+/**
+ * Base information about the shared gallery resource in pir.
+ */
+export interface PirSharedGalleryResource extends PirResource {
+  /**
+   * The unique id of this shared gallery.
+   */
+  uniqueId?: string;
+}
+
+/**
+ * Specifies information about the Shared Gallery that you want to create or update.
+ */
+export interface SharedGallery extends PirSharedGalleryResource {}
+
+/**
+ * Specifies information about the gallery image definition that you want to create or update.
+ */
+export interface SharedGalleryImage extends PirSharedGalleryResource {
+  /**
+   * This property allows you to specify the type of the OS that is included in the disk when
+   * creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows**
+   * <br><br> **Linux**. Possible values include: 'Windows', 'Linux'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
+   */
+  osState: OperatingSystemStateTypes;
+  /**
+   * The end of life date of the gallery image definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+  identifier: GalleryImageIdentifier;
+  recommended?: RecommendedMachineConfiguration;
+  disallowed?: Disallowed;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
+  purchasePlan?: ImagePurchasePlan;
+}
+
+/**
+ * Specifies information about the gallery image version that you want to create or update.
+ */
+export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+  /**
+   * The published date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  publishedDate?: Date;
+  /**
+   * The end of life date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
 }
 
 /**
@@ -7864,7 +8550,8 @@ export interface OSFamily {
 /**
  * Optional Parameters.
  */
-export interface AvailabilitySetsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface AvailabilitySetsListBySubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply to the operation. Allowed values are 'instanceView'.
    */
@@ -7874,7 +8561,8 @@ export interface AvailabilitySetsListBySubscriptionOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface AvailabilitySetsListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
+export interface AvailabilitySetsListBySubscriptionNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply to the operation. Allowed values are 'instanceView'.
    */
@@ -7897,8 +8585,9 @@ export interface ProximityPlacementGroupsGetOptionalParams extends msRest.Reques
  */
 export interface DedicatedHostGroupsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply on the operation. The response shows the list of instance view
-   * of the dedicated hosts under the dedicated host group. Possible values include: 'instanceView'
+   * The expand expression to apply on the operation. 'InstanceView' will retrieve the list of
+   * instance views of the dedicated hosts under the dedicated host group. 'UserData' is not
+   * supported for dedicated host group. Possible values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -7908,7 +8597,9 @@ export interface DedicatedHostGroupsGetOptionalParams extends msRest.RequestOpti
  */
 export interface DedicatedHostsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply on the operation. Possible values include: 'instanceView'
+   * The expand expression to apply on the operation. 'InstanceView' will retrieve the list of
+   * instance views of the dedicated host. 'UserData' is not supported for dedicated host. Possible
+   * values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -7916,7 +8607,8 @@ export interface DedicatedHostsGetOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineExtensionImagesListVersionsOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -7990,7 +8682,11 @@ export interface VirtualMachinesDeleteMethodOptionalParams extends msRest.Reques
  */
 export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply on the operation. Possible values include: 'instanceView'
+   * The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the
+   * runtime properties of the virtual machine that is managed by the platform and can change
+   * outside of control plane operations. 'UserData' retrieves the UserData property as part of the
+   * VM model view that was provided by the user during the VM Create/Update operation. Possible
+   * values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -8030,7 +8726,8 @@ export interface VirtualMachinesReimageOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes.
    * <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration
@@ -8084,11 +8781,24 @@ export interface VirtualMachinesListAllNextOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to force delete a VM scale set. (Feature in Preview)
    */
   forceDeletion?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. 'UserData' retrieves the UserData property of
+   * the VM scale set that was provided by the user during the VM scale set Create/Update
+   * operation. Possible values include: 'userData'
+   */
+  expand?: ExpandTypesForGetVMScaleSets;
 }
 
 /**
@@ -8104,7 +8814,8 @@ export interface VirtualMachineScaleSetsDeallocateOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsDeleteInstancesOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsDeleteInstancesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to force delete virtual machines from the VM scale set. (Feature in
    * Preview)
@@ -8161,7 +8872,8 @@ export interface VirtualMachineScaleSetsRedeployOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8191,7 +8903,8 @@ export interface VirtualMachineScaleSetsReimageAllOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to force delete a VM scale set. (Feature in Preview)
    */
@@ -8201,7 +8914,8 @@ export interface VirtualMachineScaleSetsBeginDeleteMethodOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8211,7 +8925,8 @@ export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginDeleteInstancesOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginDeleteInstancesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to force delete virtual machines from the VM scale set. (Feature in
    * Preview)
@@ -8222,7 +8937,8 @@ export interface VirtualMachineScaleSetsBeginDeleteInstancesOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8238,7 +8954,8 @@ export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginRestartOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginRestartOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8258,7 +8975,8 @@ export interface VirtualMachineScaleSetsBeginStartOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginRedeployOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginRedeployOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8268,7 +8986,8 @@ export interface VirtualMachineScaleSetsBeginRedeployOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8278,7 +8997,8 @@ export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginReimageOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Parameters for Reimaging VM ScaleSet.
    */
@@ -8288,7 +9008,8 @@ export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -8308,7 +9029,20 @@ export interface ImagesGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface RestorePointCollectionsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. If expand=restorePoints, server will return
+   * all contained restore points in the restorePointCollection. Possible values include:
+   * 'restorePoints'
+   */
+  expand?: RestorePointCollectionExpandOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetExtensionsGetOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8318,7 +9052,8 @@ export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8328,7 +9063,8 @@ export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMExtensionsListOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMExtensionsListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8348,7 +9084,8 @@ export interface VirtualMachineScaleSetVMsReimageOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to force delete a virtual machine from a VM scale set. (Feature in Preview)
    */
@@ -8360,7 +9097,9 @@ export interface VirtualMachineScaleSetVMsDeleteMethodOptionalParams extends msR
  */
 export interface VirtualMachineScaleSetVMsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply on the operation. Possible values include: 'instanceView'
+   * The expand expression to apply on the operation. 'InstanceView' will retrieve the instance
+   * view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine.
+   * Possible values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -8400,7 +9139,8 @@ export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes.
    * <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration
@@ -8412,7 +9152,8 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalPar
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Parameters for the Reimaging Virtual machine in ScaleSet.
    */
@@ -8422,7 +9163,8 @@ export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsBeginDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to force delete a virtual machine from a VM scale set. (Feature in Preview)
    */
@@ -8432,7 +9174,8 @@ export interface VirtualMachineScaleSetVMsBeginDeleteMethodOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The parameter to request non-graceful VM shutdown. True value for this flag indicates
    * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
@@ -8464,7 +9207,8 @@ export interface VirtualMachineScaleSetVMsListNextOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8474,7 +9218,8 @@ export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8484,7 +9229,8 @@ export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8494,7 +9240,8 @@ export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8504,7 +9251,8 @@ export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8514,7 +9262,8 @@ export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -8544,6 +9293,16 @@ export interface ResourceSkusListNextOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
+export interface GalleriesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The select expression to apply on the operation. Possible values include: 'Permissions'
+   */
+  select?: SelectPermissions;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface GalleryImageVersionsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
@@ -8564,9 +9323,77 @@ export interface GalleryApplicationVersionsGetOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
+export interface SharedGalleriesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleriesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImagesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImagesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImageVersionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SharedGalleryImageVersionsListNextOptionalParams
+  extends msRest.RequestOptionsBase {
+  /**
+   * The query parameter to decide what shared galleries to fetch when doing listing operations.
+   * Possible values include: 'tenant'
+   */
+  sharedTo?: SharedToValues;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface CloudServiceRoleInstancesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply to the operation. Possible values include: 'instanceView'
+   * The expand expression to apply to the operation. 'UserData' is not supported for cloud
+   * services. Possible values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -8576,7 +9403,8 @@ export interface CloudServiceRoleInstancesGetOptionalParams extends msRest.Reque
  */
 export interface CloudServiceRoleInstancesListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply to the operation. Possible values include: 'instanceView'
+   * The expand expression to apply to the operation. 'UserData' is not supported for cloud
+   * services. Possible values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -8586,7 +9414,8 @@ export interface CloudServiceRoleInstancesListOptionalParams extends msRest.Requ
  */
 export interface CloudServiceRoleInstancesListNextOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply to the operation. Possible values include: 'instanceView'
+   * The expand expression to apply to the operation. 'UserData' is not supported for cloud
+   * services. Possible values include: 'instanceView', 'userData'
    */
   expand?: InstanceViewTypes;
 }
@@ -8723,8 +9552,7 @@ export interface ComputeManagementClientOptions extends AzureServiceClientOption
  * The List Compute Operation operation response.
  * @extends Array<ComputeOperationValue>
  */
-export interface ComputeOperationListResult extends Array<ComputeOperationValue> {
-}
+export interface ComputeOperationListResult extends Array<ComputeOperationValue> {}
 
 /**
  * @interface
@@ -8744,8 +9572,7 @@ export interface AvailabilitySetListResult extends Array<AvailabilitySet> {
  * The List Virtual Machine operation response.
  * @extends Array<VirtualMachineSize>
  */
-export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {
-}
+export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {}
 
 /**
  * @interface
@@ -8868,7 +9695,8 @@ export interface VirtualMachineScaleSetListSkusResult extends Array<VirtualMachi
  * List of Virtual Machine Scale Set OS Upgrade History operation response.
  * @extends Array<UpgradeOperationHistoricalStatusInfo>
  */
-export interface VirtualMachineScaleSetListOSUpgradeHistory extends Array<UpgradeOperationHistoricalStatusInfo> {
+export interface VirtualMachineScaleSetListOSUpgradeHistory
+  extends Array<UpgradeOperationHistoricalStatusInfo> {
   /**
    * The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the
    * next page of history of upgrades.
@@ -8891,10 +9719,24 @@ export interface ImageListResult extends Array<Image> {
 
 /**
  * @interface
+ * The List restore point collection operation response.
+ * @extends Array<RestorePointCollection>
+ */
+export interface RestorePointCollectionListResult extends Array<RestorePointCollection> {
+  /**
+   * The uri to fetch the next page of RestorePointCollections. Call ListNext() with this to fetch
+   * the next page of RestorePointCollections
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The List VM scale set extension operation response.
  * @extends Array<VirtualMachineScaleSetExtension>
  */
-export interface VirtualMachineScaleSetExtensionListResult extends Array<VirtualMachineScaleSetExtension> {
+export interface VirtualMachineScaleSetExtensionListResult
+  extends Array<VirtualMachineScaleSetExtension> {
   /**
    * The uri to fetch the next page of VM scale set extensions. Call ListNext() with this to fetch
    * the next page of VM scale set extensions.
@@ -9065,7 +9907,7 @@ export interface GalleryList extends Array<Gallery> {
 export interface GalleryImageList extends Array<GalleryImage> {
   /**
    * The uri to fetch the next page of Image Definitions in the Shared Image Gallery. Call
-   * ListNext() with this to fetch the next page of gallery Image Definitions.
+   * ListNext() with this to fetch the next page of gallery image definitions.
    */
   nextLink?: string;
 }
@@ -9077,8 +9919,8 @@ export interface GalleryImageList extends Array<GalleryImage> {
  */
 export interface GalleryImageVersionList extends Array<GalleryImageVersion> {
   /**
-   * The uri to fetch the next page of gallery Image Versions. Call ListNext() with this to fetch
-   * the next page of gallery Image Versions.
+   * The uri to fetch the next page of gallery image versions. Call ListNext() with this to fetch
+   * the next page of gallery image versions.
    */
   nextLink?: string;
 }
@@ -9105,6 +9947,45 @@ export interface GalleryApplicationVersionList extends Array<GalleryApplicationV
   /**
    * The uri to fetch the next page of gallery Application Versions. Call ListNext() with this to
    * fetch the next page of gallery Application Versions.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Galleries operation response.
+ * @extends Array<SharedGallery>
+ */
+export interface SharedGalleryList extends Array<SharedGallery> {
+  /**
+   * The uri to fetch the next page of shared galleries. Call ListNext() with this to fetch the
+   * next page of shared galleries.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Gallery Images operation response.
+ * @extends Array<SharedGalleryImage>
+ */
+export interface SharedGalleryImageList extends Array<SharedGalleryImage> {
+  /**
+   * The uri to fetch the next page of shared gallery images. Call ListNext() with this to fetch
+   * the next page of shared gallery images.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Shared Gallery Image versions operation response.
+ * @extends Array<SharedGalleryImageVersion>
+ */
+export interface SharedGalleryImageVersionList extends Array<SharedGalleryImageVersion> {
+  /**
+   * The uri to fetch the next page of shared gallery image versions. Call ListNext() with this to
+   * fetch the next page of shared gallery image versions.
    */
   nextLink?: string;
 }
@@ -9164,135 +10045,6 @@ export interface OSFamilyListResult extends Array<OSFamily> {
 }
 
 /**
- * Defines values for VmDiskTypes.
- * Possible values include: 'None', 'Unmanaged'
- * @readonly
- * @enum {string}
- */
-export type VmDiskTypes = 'None' | 'Unmanaged';
-
-/**
- * Defines values for HyperVGenerationTypes.
- * Possible values include: 'V1', 'V2'
- * @readonly
- * @enum {string}
- */
-export type HyperVGenerationTypes = 'V1' | 'V2';
-
-/**
- * Defines values for StatusLevelTypes.
- * Possible values include: 'Info', 'Warning', 'Error'
- * @readonly
- * @enum {string}
- */
-export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
-
-/**
- * Defines values for AvailabilitySetSkuTypes.
- * Possible values include: 'Classic', 'Aligned'
- * @readonly
- * @enum {string}
- */
-export type AvailabilitySetSkuTypes = 'Classic' | 'Aligned';
-
-/**
- * Defines values for ProximityPlacementGroupType.
- * Possible values include: 'Standard', 'Ultra'
- * @readonly
- * @enum {string}
- */
-export type ProximityPlacementGroupType = 'Standard' | 'Ultra';
-
-/**
- * Defines values for DedicatedHostLicenseTypes.
- * Possible values include: 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
- * @readonly
- * @enum {string}
- */
-export type DedicatedHostLicenseTypes = 'None' | 'Windows_Server_Hybrid' | 'Windows_Server_Perpetual';
-
-/**
- * Defines values for ExtendedLocationTypes.
- * Possible values include: 'EdgeZone'
- * @readonly
- * @enum {string}
- */
-export type ExtendedLocationTypes = 'EdgeZone';
-
-/**
- * Defines values for VMGuestPatchRebootBehavior.
- * Possible values include: 'Unknown', 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'
- * @readonly
- * @enum {string}
- */
-export type VMGuestPatchRebootBehavior = 'Unknown' | 'NeverReboots' | 'AlwaysRequiresReboot' | 'CanRequestReboot';
-
-/**
- * Defines values for PatchAssessmentState.
- * Possible values include: 'Unknown', 'Available'
- * @readonly
- * @enum {string}
- */
-export type PatchAssessmentState = 'Unknown' | 'Available';
-
-/**
- * Defines values for PatchOperationStatus.
- * Possible values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'
- * @readonly
- * @enum {string}
- */
-export type PatchOperationStatus = 'Unknown' | 'InProgress' | 'Failed' | 'Succeeded' | 'CompletedWithWarnings';
-
-/**
- * Defines values for VMGuestPatchRebootSetting.
- * Possible values include: 'IfRequired', 'Never', 'Always'
- * @readonly
- * @enum {string}
- */
-export type VMGuestPatchRebootSetting = 'IfRequired' | 'Never' | 'Always';
-
-/**
- * Defines values for VMGuestPatchClassificationWindows.
- * Possible values include: 'Critical', 'Security', 'UpdateRollUp', 'FeaturePack', 'ServicePack',
- * 'Definition', 'Tools', 'Updates'
- * @readonly
- * @enum {string}
- */
-export type VMGuestPatchClassificationWindows = 'Critical' | 'Security' | 'UpdateRollUp' | 'FeaturePack' | 'ServicePack' | 'Definition' | 'Tools' | 'Updates';
-
-/**
- * Defines values for VMGuestPatchClassificationLinux.
- * Possible values include: 'Critical', 'Security', 'Other'
- * @readonly
- * @enum {string}
- */
-export type VMGuestPatchClassificationLinux = 'Critical' | 'Security' | 'Other';
-
-/**
- * Defines values for VMGuestPatchRebootStatus.
- * Possible values include: 'Unknown', 'NotNeeded', 'Required', 'Started', 'Failed', 'Completed'
- * @readonly
- * @enum {string}
- */
-export type VMGuestPatchRebootStatus = 'Unknown' | 'NotNeeded' | 'Required' | 'Started' | 'Failed' | 'Completed';
-
-/**
- * Defines values for PatchInstallationState.
- * Possible values include: 'Unknown', 'Installed', 'Failed', 'Excluded', 'NotSelected', 'Pending'
- * @readonly
- * @enum {string}
- */
-export type PatchInstallationState = 'Unknown' | 'Installed' | 'Failed' | 'Excluded' | 'NotSelected' | 'Pending';
-
-/**
- * Defines values for OperatingSystemTypes.
- * Possible values include: 'Windows', 'Linux'
- * @readonly
- * @enum {string}
- */
-export type OperatingSystemTypes = 'Windows' | 'Linux';
-
-/**
  * Defines values for VirtualMachineSizeTypes.
  * Possible values include: 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4',
  * 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3', 'Standard_A4', 'Standard_A5',
@@ -9331,7 +10083,181 @@ export type OperatingSystemTypes = 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineSizeTypes = 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_B1s' | 'Standard_B1ms' | 'Standard_B2s' | 'Standard_B2ms' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D64_v3' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13-2_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14-4_v2' | 'Standard_E2_v3' | 'Standard_E4_v3' | 'Standard_E8_v3' | 'Standard_E16_v3' | 'Standard_E32_v3' | 'Standard_E64_v3' | 'Standard_E2s_v3' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_E32-16_v3' | 'Standard_E32-8s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64-16s_v3' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_F2s_v2' | 'Standard_F4s_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_GS4-8' | 'Standard_GS4-4' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_M64s' | 'Standard_M64ms' | 'Standard_M128s' | 'Standard_M128ms' | 'Standard_M64-32ms' | 'Standard_M64-16ms' | 'Standard_M128-64ms' | 'Standard_M128-32ms' | 'Standard_NC6' | 'Standard_NC12' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC6s_v2' | 'Standard_NC12s_v2' | 'Standard_NC24s_v2' | 'Standard_NC24rs_v2' | 'Standard_NC6s_v3' | 'Standard_NC12s_v3' | 'Standard_NC24s_v3' | 'Standard_NC24rs_v3' | 'Standard_ND6s' | 'Standard_ND12s' | 'Standard_ND24s' | 'Standard_ND24rs' | 'Standard_NV6' | 'Standard_NV12' | 'Standard_NV24';
+export type VirtualMachineSizeTypes =
+  | "Basic_A0"
+  | "Basic_A1"
+  | "Basic_A2"
+  | "Basic_A3"
+  | "Basic_A4"
+  | "Standard_A0"
+  | "Standard_A1"
+  | "Standard_A2"
+  | "Standard_A3"
+  | "Standard_A4"
+  | "Standard_A5"
+  | "Standard_A6"
+  | "Standard_A7"
+  | "Standard_A8"
+  | "Standard_A9"
+  | "Standard_A10"
+  | "Standard_A11"
+  | "Standard_A1_v2"
+  | "Standard_A2_v2"
+  | "Standard_A4_v2"
+  | "Standard_A8_v2"
+  | "Standard_A2m_v2"
+  | "Standard_A4m_v2"
+  | "Standard_A8m_v2"
+  | "Standard_B1s"
+  | "Standard_B1ms"
+  | "Standard_B2s"
+  | "Standard_B2ms"
+  | "Standard_B4ms"
+  | "Standard_B8ms"
+  | "Standard_D1"
+  | "Standard_D2"
+  | "Standard_D3"
+  | "Standard_D4"
+  | "Standard_D11"
+  | "Standard_D12"
+  | "Standard_D13"
+  | "Standard_D14"
+  | "Standard_D1_v2"
+  | "Standard_D2_v2"
+  | "Standard_D3_v2"
+  | "Standard_D4_v2"
+  | "Standard_D5_v2"
+  | "Standard_D2_v3"
+  | "Standard_D4_v3"
+  | "Standard_D8_v3"
+  | "Standard_D16_v3"
+  | "Standard_D32_v3"
+  | "Standard_D64_v3"
+  | "Standard_D2s_v3"
+  | "Standard_D4s_v3"
+  | "Standard_D8s_v3"
+  | "Standard_D16s_v3"
+  | "Standard_D32s_v3"
+  | "Standard_D64s_v3"
+  | "Standard_D11_v2"
+  | "Standard_D12_v2"
+  | "Standard_D13_v2"
+  | "Standard_D14_v2"
+  | "Standard_D15_v2"
+  | "Standard_DS1"
+  | "Standard_DS2"
+  | "Standard_DS3"
+  | "Standard_DS4"
+  | "Standard_DS11"
+  | "Standard_DS12"
+  | "Standard_DS13"
+  | "Standard_DS14"
+  | "Standard_DS1_v2"
+  | "Standard_DS2_v2"
+  | "Standard_DS3_v2"
+  | "Standard_DS4_v2"
+  | "Standard_DS5_v2"
+  | "Standard_DS11_v2"
+  | "Standard_DS12_v2"
+  | "Standard_DS13_v2"
+  | "Standard_DS14_v2"
+  | "Standard_DS15_v2"
+  | "Standard_DS13-4_v2"
+  | "Standard_DS13-2_v2"
+  | "Standard_DS14-8_v2"
+  | "Standard_DS14-4_v2"
+  | "Standard_E2_v3"
+  | "Standard_E4_v3"
+  | "Standard_E8_v3"
+  | "Standard_E16_v3"
+  | "Standard_E32_v3"
+  | "Standard_E64_v3"
+  | "Standard_E2s_v3"
+  | "Standard_E4s_v3"
+  | "Standard_E8s_v3"
+  | "Standard_E16s_v3"
+  | "Standard_E32s_v3"
+  | "Standard_E64s_v3"
+  | "Standard_E32-16_v3"
+  | "Standard_E32-8s_v3"
+  | "Standard_E64-32s_v3"
+  | "Standard_E64-16s_v3"
+  | "Standard_F1"
+  | "Standard_F2"
+  | "Standard_F4"
+  | "Standard_F8"
+  | "Standard_F16"
+  | "Standard_F1s"
+  | "Standard_F2s"
+  | "Standard_F4s"
+  | "Standard_F8s"
+  | "Standard_F16s"
+  | "Standard_F2s_v2"
+  | "Standard_F4s_v2"
+  | "Standard_F8s_v2"
+  | "Standard_F16s_v2"
+  | "Standard_F32s_v2"
+  | "Standard_F64s_v2"
+  | "Standard_F72s_v2"
+  | "Standard_G1"
+  | "Standard_G2"
+  | "Standard_G3"
+  | "Standard_G4"
+  | "Standard_G5"
+  | "Standard_GS1"
+  | "Standard_GS2"
+  | "Standard_GS3"
+  | "Standard_GS4"
+  | "Standard_GS5"
+  | "Standard_GS4-8"
+  | "Standard_GS4-4"
+  | "Standard_GS5-16"
+  | "Standard_GS5-8"
+  | "Standard_H8"
+  | "Standard_H16"
+  | "Standard_H8m"
+  | "Standard_H16m"
+  | "Standard_H16r"
+  | "Standard_H16mr"
+  | "Standard_L4s"
+  | "Standard_L8s"
+  | "Standard_L16s"
+  | "Standard_L32s"
+  | "Standard_M64s"
+  | "Standard_M64ms"
+  | "Standard_M128s"
+  | "Standard_M128ms"
+  | "Standard_M64-32ms"
+  | "Standard_M64-16ms"
+  | "Standard_M128-64ms"
+  | "Standard_M128-32ms"
+  | "Standard_NC6"
+  | "Standard_NC12"
+  | "Standard_NC24"
+  | "Standard_NC24r"
+  | "Standard_NC6s_v2"
+  | "Standard_NC12s_v2"
+  | "Standard_NC24s_v2"
+  | "Standard_NC24rs_v2"
+  | "Standard_NC6s_v3"
+  | "Standard_NC12s_v3"
+  | "Standard_NC24s_v3"
+  | "Standard_NC24rs_v3"
+  | "Standard_ND6s"
+  | "Standard_ND12s"
+  | "Standard_ND24s"
+  | "Standard_ND24rs"
+  | "Standard_NV6"
+  | "Standard_NV12"
+  | "Standard_NV24";
+
+/**
+ * Defines values for OperatingSystemType.
+ * Possible values include: 'Windows', 'Linux'
+ * @readonly
+ * @enum {string}
+ */
+export type OperatingSystemType = "Windows" | "Linux";
 
 /**
  * Defines values for CachingTypes.
@@ -9339,23 +10265,7 @@ export type VirtualMachineSizeTypes = 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Ba
  * @readonly
  * @enum {string}
  */
-export type CachingTypes = 'None' | 'ReadOnly' | 'ReadWrite';
-
-/**
- * Defines values for DiskCreateOptionTypes.
- * Possible values include: 'FromImage', 'Empty', 'Attach'
- * @readonly
- * @enum {string}
- */
-export type DiskCreateOptionTypes = 'FromImage' | 'Empty' | 'Attach';
-
-/**
- * Defines values for DiskDetachOptionTypes.
- * Possible values include: 'ForceDetach'
- * @readonly
- * @enum {string}
- */
-export type DiskDetachOptionTypes = 'ForceDetach';
+export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 
 /**
  * Defines values for StorageAccountTypes.
@@ -9364,31 +10274,13 @@ export type DiskDetachOptionTypes = 'ForceDetach';
  * @readonly
  * @enum {string}
  */
-export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS' | 'Premium_ZRS' | 'StandardSSD_ZRS';
-
-/**
- * Defines values for DiffDiskOptions.
- * Possible values include: 'Local'
- * @readonly
- * @enum {string}
- */
-export type DiffDiskOptions = 'Local';
-
-/**
- * Defines values for DiffDiskPlacement.
- * Possible values include: 'CacheDisk', 'ResourceDisk'
- * @readonly
- * @enum {string}
- */
-export type DiffDiskPlacement = 'CacheDisk' | 'ResourceDisk';
-
-/**
- * Defines values for SecurityTypes.
- * Possible values include: 'TrustedLaunch'
- * @readonly
- * @enum {string}
- */
-export type SecurityTypes = 'TrustedLaunch';
+export type StorageAccountTypes =
+  | "Standard_LRS"
+  | "Premium_LRS"
+  | "StandardSSD_LRS"
+  | "UltraSSD_LRS"
+  | "Premium_ZRS"
+  | "StandardSSD_ZRS";
 
 /**
  * Defines values for PassNames.
@@ -9396,7 +10288,7 @@ export type SecurityTypes = 'TrustedLaunch';
  * @readonly
  * @enum {string}
  */
-export type PassNames = 'OobeSystem';
+export type PassNames = "OobeSystem";
 
 /**
  * Defines values for ComponentNames.
@@ -9404,7 +10296,7 @@ export type PassNames = 'OobeSystem';
  * @readonly
  * @enum {string}
  */
-export type ComponentNames = 'Microsoft-Windows-Shell-Setup';
+export type ComponentNames = "Microsoft-Windows-Shell-Setup";
 
 /**
  * Defines values for SettingNames.
@@ -9412,15 +10304,7 @@ export type ComponentNames = 'Microsoft-Windows-Shell-Setup';
  * @readonly
  * @enum {string}
  */
-export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
-
-/**
- * Defines values for ProtocolTypes.
- * Possible values include: 'Http', 'Https'
- * @readonly
- * @enum {string}
- */
-export type ProtocolTypes = 'Http' | 'Https';
+export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 
 /**
  * Defines values for WindowsVMGuestPatchMode.
@@ -9428,7 +10312,23 @@ export type ProtocolTypes = 'Http' | 'Https';
  * @readonly
  * @enum {string}
  */
-export type WindowsVMGuestPatchMode = 'Manual' | 'AutomaticByOS' | 'AutomaticByPlatform';
+export type WindowsVMGuestPatchMode = "Manual" | "AutomaticByOS" | "AutomaticByPlatform";
+
+/**
+ * Defines values for WindowsPatchAssessmentMode.
+ * Possible values include: 'ImageDefault', 'AutomaticByPlatform'
+ * @readonly
+ * @enum {string}
+ */
+export type WindowsPatchAssessmentMode = "ImageDefault" | "AutomaticByPlatform";
+
+/**
+ * Defines values for ProtocolTypes.
+ * Possible values include: 'Http', 'Https'
+ * @readonly
+ * @enum {string}
+ */
+export type ProtocolTypes = "Http" | "Https";
 
 /**
  * Defines values for LinuxVMGuestPatchMode.
@@ -9436,7 +10336,283 @@ export type WindowsVMGuestPatchMode = 'Manual' | 'AutomaticByOS' | 'AutomaticByP
  * @readonly
  * @enum {string}
  */
-export type LinuxVMGuestPatchMode = 'ImageDefault' | 'AutomaticByPlatform';
+export type LinuxVMGuestPatchMode = "ImageDefault" | "AutomaticByPlatform";
+
+/**
+ * Defines values for LinuxPatchAssessmentMode.
+ * Possible values include: 'ImageDefault', 'AutomaticByPlatform'
+ * @readonly
+ * @enum {string}
+ */
+export type LinuxPatchAssessmentMode = "ImageDefault" | "AutomaticByPlatform";
+
+/**
+ * Defines values for SecurityTypes.
+ * Possible values include: 'TrustedLaunch'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityTypes = "TrustedLaunch";
+
+/**
+ * Defines values for ConsistencyModeTypes.
+ * Possible values include: 'CrashConsistent', 'FileSystemConsistent', 'ApplicationConsistent'
+ * @readonly
+ * @enum {string}
+ */
+export type ConsistencyModeTypes =
+  | "CrashConsistent"
+  | "FileSystemConsistent"
+  | "ApplicationConsistent";
+
+/**
+ * Defines values for VmDiskTypes.
+ * Possible values include: 'None', 'Unmanaged'
+ * @readonly
+ * @enum {string}
+ */
+export type VmDiskTypes = "None" | "Unmanaged";
+
+/**
+ * Defines values for HyperVGenerationTypes.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationTypes = "V1" | "V2";
+
+/**
+ * Defines values for StatusLevelTypes.
+ * Possible values include: 'Info', 'Warning', 'Error'
+ * @readonly
+ * @enum {string}
+ */
+export type StatusLevelTypes = "Info" | "Warning" | "Error";
+
+/**
+ * Defines values for AvailabilitySetSkuTypes.
+ * Possible values include: 'Classic', 'Aligned'
+ * @readonly
+ * @enum {string}
+ */
+export type AvailabilitySetSkuTypes = "Classic" | "Aligned";
+
+/**
+ * Defines values for ProximityPlacementGroupType.
+ * Possible values include: 'Standard', 'Ultra'
+ * @readonly
+ * @enum {string}
+ */
+export type ProximityPlacementGroupType = "Standard" | "Ultra";
+
+/**
+ * Defines values for DedicatedHostLicenseTypes.
+ * Possible values include: 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+ * @readonly
+ * @enum {string}
+ */
+export type DedicatedHostLicenseTypes =
+  | "None"
+  | "Windows_Server_Hybrid"
+  | "Windows_Server_Perpetual";
+
+/**
+ * Defines values for ExtendedLocationTypes.
+ * Possible values include: 'EdgeZone'
+ * @readonly
+ * @enum {string}
+ */
+export type ExtendedLocationTypes = "EdgeZone";
+
+/**
+ * Defines values for VMGuestPatchRebootBehavior.
+ * Possible values include: 'Unknown', 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'
+ * @readonly
+ * @enum {string}
+ */
+export type VMGuestPatchRebootBehavior =
+  | "Unknown"
+  | "NeverReboots"
+  | "AlwaysRequiresReboot"
+  | "CanRequestReboot";
+
+/**
+ * Defines values for PatchAssessmentState.
+ * Possible values include: 'Unknown', 'Available'
+ * @readonly
+ * @enum {string}
+ */
+export type PatchAssessmentState = "Unknown" | "Available";
+
+/**
+ * Defines values for PatchOperationStatus.
+ * Possible values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'
+ * @readonly
+ * @enum {string}
+ */
+export type PatchOperationStatus =
+  | "Unknown"
+  | "InProgress"
+  | "Failed"
+  | "Succeeded"
+  | "CompletedWithWarnings";
+
+/**
+ * Defines values for VMGuestPatchRebootSetting.
+ * Possible values include: 'IfRequired', 'Never', 'Always'
+ * @readonly
+ * @enum {string}
+ */
+export type VMGuestPatchRebootSetting = "IfRequired" | "Never" | "Always";
+
+/**
+ * Defines values for VMGuestPatchClassificationWindows.
+ * Possible values include: 'Critical', 'Security', 'UpdateRollUp', 'FeaturePack', 'ServicePack',
+ * 'Definition', 'Tools', 'Updates'
+ * @readonly
+ * @enum {string}
+ */
+export type VMGuestPatchClassificationWindows =
+  | "Critical"
+  | "Security"
+  | "UpdateRollUp"
+  | "FeaturePack"
+  | "ServicePack"
+  | "Definition"
+  | "Tools"
+  | "Updates";
+
+/**
+ * Defines values for VMGuestPatchClassificationLinux.
+ * Possible values include: 'Critical', 'Security', 'Other'
+ * @readonly
+ * @enum {string}
+ */
+export type VMGuestPatchClassificationLinux = "Critical" | "Security" | "Other";
+
+/**
+ * Defines values for VMGuestPatchRebootStatus.
+ * Possible values include: 'Unknown', 'NotNeeded', 'Required', 'Started', 'Failed', 'Completed'
+ * @readonly
+ * @enum {string}
+ */
+export type VMGuestPatchRebootStatus =
+  | "Unknown"
+  | "NotNeeded"
+  | "Required"
+  | "Started"
+  | "Failed"
+  | "Completed";
+
+/**
+ * Defines values for PatchInstallationState.
+ * Possible values include: 'Unknown', 'Installed', 'Failed', 'Excluded', 'NotSelected', 'Pending'
+ * @readonly
+ * @enum {string}
+ */
+export type PatchInstallationState =
+  | "Unknown"
+  | "Installed"
+  | "Failed"
+  | "Excluded"
+  | "NotSelected"
+  | "Pending";
+
+/**
+ * Defines values for OperatingSystemTypes.
+ * Possible values include: 'Windows', 'Linux'
+ * @readonly
+ * @enum {string}
+ */
+export type OperatingSystemTypes = "Windows" | "Linux";
+
+/**
+ * Defines values for DiskCreateOptionTypes.
+ * Possible values include: 'FromImage', 'Empty', 'Attach'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskCreateOptionTypes = "FromImage" | "Empty" | "Attach";
+
+/**
+ * Defines values for DiskDetachOptionTypes.
+ * Possible values include: 'ForceDetach'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskDetachOptionTypes = "ForceDetach";
+
+/**
+ * Defines values for DiskDeleteOptionTypes.
+ * Possible values include: 'Delete', 'Detach'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskDeleteOptionTypes = "Delete" | "Detach";
+
+/**
+ * Defines values for DiffDiskOptions.
+ * Possible values include: 'Local'
+ * @readonly
+ * @enum {string}
+ */
+export type DiffDiskOptions = "Local";
+
+/**
+ * Defines values for DiffDiskPlacement.
+ * Possible values include: 'CacheDisk', 'ResourceDisk'
+ * @readonly
+ * @enum {string}
+ */
+export type DiffDiskPlacement = "CacheDisk" | "ResourceDisk";
+
+/**
+ * Defines values for DeleteOptions.
+ * Possible values include: 'Delete', 'Detach'
+ * @readonly
+ * @enum {string}
+ */
+export type DeleteOptions = "Delete" | "Detach";
+
+/**
+ * Defines values for IPVersions.
+ * Possible values include: 'IPv4', 'IPv6'
+ * @readonly
+ * @enum {string}
+ */
+export type IPVersions = "IPv4" | "IPv6";
+
+/**
+ * Defines values for PublicIPAllocationMethod.
+ * Possible values include: 'Dynamic', 'Static'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicIPAllocationMethod = "Dynamic" | "Static";
+
+/**
+ * Defines values for PublicIPAddressSkuName.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicIPAddressSkuName = "Basic" | "Standard";
+
+/**
+ * Defines values for PublicIPAddressSkuTier.
+ * Possible values include: 'Regional', 'Global'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicIPAddressSkuTier = "Regional" | "Global";
+
+/**
+ * Defines values for NetworkApiVersion.
+ * Possible values include: '2020-11-01'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkApiVersion = "2020-11-01";
 
 /**
  * Defines values for VirtualMachinePriorityTypes.
@@ -9444,7 +10620,7 @@ export type LinuxVMGuestPatchMode = 'ImageDefault' | 'AutomaticByPlatform';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachinePriorityTypes = 'Regular' | 'Low' | 'Spot';
+export type VirtualMachinePriorityTypes = "Regular" | "Low" | "Spot";
 
 /**
  * Defines values for VirtualMachineEvictionPolicyTypes.
@@ -9452,7 +10628,7 @@ export type VirtualMachinePriorityTypes = 'Regular' | 'Low' | 'Spot';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
+export type VirtualMachineEvictionPolicyTypes = "Deallocate" | "Delete";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -9461,7 +10637,11 @@ export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for MaintenanceOperationResultCodeTypes.
@@ -9469,7 +10649,11 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @readonly
  * @enum {string}
  */
-export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'MaintenanceAborted' | 'MaintenanceCompleted';
+export type MaintenanceOperationResultCodeTypes =
+  | "None"
+  | "RetryLater"
+  | "MaintenanceAborted"
+  | "MaintenanceCompleted";
 
 /**
  * Defines values for HyperVGenerationType.
@@ -9477,7 +10661,7 @@ export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'Maint
  * @readonly
  * @enum {string}
  */
-export type HyperVGenerationType = 'V1' | 'V2';
+export type HyperVGenerationType = "V1" | "V2";
 
 /**
  * Defines values for UpgradeMode.
@@ -9485,7 +10669,7 @@ export type HyperVGenerationType = 'V1' | 'V2';
  * @readonly
  * @enum {string}
  */
-export type UpgradeMode = 'Automatic' | 'Manual' | 'Rolling';
+export type UpgradeMode = "Automatic" | "Manual" | "Rolling";
 
 /**
  * Defines values for VirtualMachineScaleSetScaleInRules.
@@ -9493,7 +10677,7 @@ export type UpgradeMode = 'Automatic' | 'Manual' | 'Rolling';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineScaleSetScaleInRules = 'Default' | 'OldestVM' | 'NewestVM';
+export type VirtualMachineScaleSetScaleInRules = "Default" | "OldestVM" | "NewestVM";
 
 /**
  * Defines values for OrchestrationMode.
@@ -9501,7 +10685,7 @@ export type VirtualMachineScaleSetScaleInRules = 'Default' | 'OldestVM' | 'Newes
  * @readonly
  * @enum {string}
  */
-export type OrchestrationMode = 'Uniform' | 'Flexible';
+export type OrchestrationMode = "Uniform" | "Flexible";
 
 /**
  * Defines values for OperatingSystemStateTypes.
@@ -9509,7 +10693,7 @@ export type OrchestrationMode = 'Uniform' | 'Flexible';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemStateTypes = 'Generalized' | 'Specialized';
+export type OperatingSystemStateTypes = "Generalized" | "Specialized";
 
 /**
  * Defines values for IPVersion.
@@ -9517,7 +10701,7 @@ export type OperatingSystemStateTypes = 'Generalized' | 'Specialized';
  * @readonly
  * @enum {string}
  */
-export type IPVersion = 'IPv4' | 'IPv6';
+export type IPVersion = "IPv4" | "IPv6";
 
 /**
  * Defines values for OrchestrationServiceNames.
@@ -9525,7 +10709,7 @@ export type IPVersion = 'IPv4' | 'IPv6';
  * @readonly
  * @enum {string}
  */
-export type OrchestrationServiceNames = 'AutomaticRepairs' ;
+export type OrchestrationServiceNames = "AutomaticRepairs";
 
 /**
  * Defines values for OrchestrationServiceState.
@@ -9533,7 +10717,7 @@ export type OrchestrationServiceNames = 'AutomaticRepairs' ;
  * @readonly
  * @enum {string}
  */
-export type OrchestrationServiceState = 'NotRunning' | 'Running' | 'Suspended';
+export type OrchestrationServiceState = "NotRunning" | "Running" | "Suspended";
 
 /**
  * Defines values for VirtualMachineScaleSetSkuScaleType.
@@ -9541,7 +10725,7 @@ export type OrchestrationServiceState = 'NotRunning' | 'Running' | 'Suspended';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineScaleSetSkuScaleType = 'Automatic' | 'None';
+export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 
 /**
  * Defines values for UpgradeState.
@@ -9549,7 +10733,7 @@ export type VirtualMachineScaleSetSkuScaleType = 'Automatic' | 'None';
  * @readonly
  * @enum {string}
  */
-export type UpgradeState = 'RollingForward' | 'Cancelled' | 'Completed' | 'Faulted';
+export type UpgradeState = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
 
 /**
  * Defines values for UpgradeOperationInvoker.
@@ -9557,7 +10741,7 @@ export type UpgradeState = 'RollingForward' | 'Cancelled' | 'Completed' | 'Fault
  * @readonly
  * @enum {string}
  */
-export type UpgradeOperationInvoker = 'Unknown' | 'User' | 'Platform';
+export type UpgradeOperationInvoker = "Unknown" | "User" | "Platform";
 
 /**
  * Defines values for RollingUpgradeStatusCode.
@@ -9565,7 +10749,7 @@ export type UpgradeOperationInvoker = 'Unknown' | 'User' | 'Platform';
  * @readonly
  * @enum {string}
  */
-export type RollingUpgradeStatusCode = 'RollingForward' | 'Cancelled' | 'Completed' | 'Faulted';
+export type RollingUpgradeStatusCode = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
 
 /**
  * Defines values for RollingUpgradeActionType.
@@ -9573,7 +10757,7 @@ export type RollingUpgradeStatusCode = 'RollingForward' | 'Cancelled' | 'Complet
  * @readonly
  * @enum {string}
  */
-export type RollingUpgradeActionType = 'Start' | 'Cancel';
+export type RollingUpgradeActionType = "Start" | "Cancel";
 
 /**
  * Defines values for IntervalInMins.
@@ -9581,7 +10765,7 @@ export type RollingUpgradeActionType = 'Start' | 'Cancel';
  * @readonly
  * @enum {string}
  */
-export type IntervalInMins = 'ThreeMins' | 'FiveMins' | 'ThirtyMins' | 'SixtyMins';
+export type IntervalInMins = "ThreeMins" | "FiveMins" | "ThirtyMins" | "SixtyMins";
 
 /**
  * Defines values for OrchestrationServiceStateAction.
@@ -9589,7 +10773,7 @@ export type IntervalInMins = 'ThreeMins' | 'FiveMins' | 'ThirtyMins' | 'SixtyMin
  * @readonly
  * @enum {string}
  */
-export type OrchestrationServiceStateAction = 'Resume' | 'Suspend';
+export type OrchestrationServiceStateAction = "Resume" | "Suspend";
 
 /**
  * Defines values for ExecutionState.
@@ -9598,7 +10782,14 @@ export type OrchestrationServiceStateAction = 'Resume' | 'Suspend';
  * @readonly
  * @enum {string}
  */
-export type ExecutionState = 'Unknown' | 'Pending' | 'Running' | 'Failed' | 'Succeeded' | 'TimedOut' | 'Canceled';
+export type ExecutionState =
+  | "Unknown"
+  | "Pending"
+  | "Running"
+  | "Failed"
+  | "Succeeded"
+  | "TimedOut"
+  | "Canceled";
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
@@ -9606,7 +10797,7 @@ export type ExecutionState = 'Unknown' | 'Pending' | 'Running' | 'Failed' | 'Suc
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
+export type ResourceSkuCapacityScaleType = "Automatic" | "Manual" | "None";
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -9614,7 +10805,7 @@ export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
+export type ResourceSkuRestrictionsType = "Location" | "Zone";
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
@@ -9622,7 +10813,7 @@ export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 
 /**
  * Defines values for DiskStorageAccountTypes.
@@ -9631,7 +10822,13 @@ export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubs
  * @readonly
  * @enum {string}
  */
-export type DiskStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS' | 'Premium_ZRS' | 'StandardSSD_ZRS';
+export type DiskStorageAccountTypes =
+  | "Standard_LRS"
+  | "Premium_LRS"
+  | "StandardSSD_LRS"
+  | "UltraSSD_LRS"
+  | "Premium_ZRS"
+  | "StandardSSD_ZRS";
 
 /**
  * Defines values for HyperVGeneration.
@@ -9639,7 +10836,7 @@ export type DiskStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Standard
  * @readonly
  * @enum {string}
  */
-export type HyperVGeneration = 'V1' | 'V2';
+export type HyperVGeneration = "V1" | "V2";
 
 /**
  * Defines values for DiskCreateOption.
@@ -9647,7 +10844,14 @@ export type HyperVGeneration = 'V1' | 'V2';
  * @readonly
  * @enum {string}
  */
-export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore' | 'Upload';
+export type DiskCreateOption =
+  | "Empty"
+  | "Attach"
+  | "FromImage"
+  | "Import"
+  | "Copy"
+  | "Restore"
+  | "Upload";
 
 /**
  * Defines values for DiskState.
@@ -9656,7 +10860,13 @@ export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Co
  * @readonly
  * @enum {string}
  */
-export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'ActiveSAS' | 'ReadyToUpload' | 'ActiveUpload';
+export type DiskState =
+  | "Unattached"
+  | "Attached"
+  | "Reserved"
+  | "ActiveSAS"
+  | "ReadyToUpload"
+  | "ActiveUpload";
 
 /**
  * Defines values for EncryptionType.
@@ -9665,7 +10875,10 @@ export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'ActiveSAS' | '
  * @readonly
  * @enum {string}
  */
-export type EncryptionType = 'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRestWithCustomerKey' | 'EncryptionAtRestWithPlatformAndCustomerKeys';
+export type EncryptionType =
+  | "EncryptionAtRestWithPlatformKey"
+  | "EncryptionAtRestWithCustomerKey"
+  | "EncryptionAtRestWithPlatformAndCustomerKeys";
 
 /**
  * Defines values for NetworkAccessPolicy.
@@ -9673,7 +10886,7 @@ export type EncryptionType = 'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRe
  * @readonly
  * @enum {string}
  */
-export type NetworkAccessPolicy = 'AllowAll' | 'AllowPrivate' | 'DenyAll';
+export type NetworkAccessPolicy = "AllowAll" | "AllowPrivate" | "DenyAll";
 
 /**
  * Defines values for DiskSecurityTypes.
@@ -9681,7 +10894,7 @@ export type NetworkAccessPolicy = 'AllowAll' | 'AllowPrivate' | 'DenyAll';
  * @readonly
  * @enum {string}
  */
-export type DiskSecurityTypes = 'TrustedLaunch';
+export type DiskSecurityTypes = "TrustedLaunch";
 
 /**
  * Defines values for SnapshotStorageAccountTypes.
@@ -9689,7 +10902,7 @@ export type DiskSecurityTypes = 'TrustedLaunch';
  * @readonly
  * @enum {string}
  */
-export type SnapshotStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Standard_ZRS';
+export type SnapshotStorageAccountTypes = "Standard_LRS" | "Premium_LRS" | "Standard_ZRS";
 
 /**
  * Defines values for DiskEncryptionSetType.
@@ -9698,7 +10911,9 @@ export type SnapshotStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Stan
  * @readonly
  * @enum {string}
  */
-export type DiskEncryptionSetType = 'EncryptionAtRestWithCustomerKey' | 'EncryptionAtRestWithPlatformAndCustomerKeys';
+export type DiskEncryptionSetType =
+  | "EncryptionAtRestWithCustomerKey"
+  | "EncryptionAtRestWithPlatformAndCustomerKeys";
 
 /**
  * Defines values for AccessLevel.
@@ -9706,7 +10921,7 @@ export type DiskEncryptionSetType = 'EncryptionAtRestWithCustomerKey' | 'Encrypt
  * @readonly
  * @enum {string}
  */
-export type AccessLevel = 'None' | 'Read' | 'Write';
+export type AccessLevel = "None" | "Read" | "Write";
 
 /**
  * Defines values for DiskEncryptionSetIdentityType.
@@ -9714,7 +10929,7 @@ export type AccessLevel = 'None' | 'Read' | 'Write';
  * @readonly
  * @enum {string}
  */
-export type DiskEncryptionSetIdentityType = 'SystemAssigned' | 'None';
+export type DiskEncryptionSetIdentityType = "SystemAssigned" | "None";
 
 /**
  * Defines values for PrivateEndpointServiceConnectionStatus.
@@ -9722,7 +10937,7 @@ export type DiskEncryptionSetIdentityType = 'SystemAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -9730,7 +10945,27 @@ export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'R
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+export type PrivateEndpointConnectionProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Failed";
+
+/**
+ * Defines values for GallerySharingPermissionTypes.
+ * Possible values include: 'Private', 'Groups'
+ * @readonly
+ * @enum {string}
+ */
+export type GallerySharingPermissionTypes = "Private" | "Groups";
+
+/**
+ * Defines values for SharingProfileGroupTypes.
+ * Possible values include: 'Subscriptions', 'AADTenants'
+ * @readonly
+ * @enum {string}
+ */
+export type SharingProfileGroupTypes = "Subscriptions" | "AADTenants";
 
 /**
  * Defines values for AggregatedReplicationState.
@@ -9738,7 +10973,7 @@ export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating
  * @readonly
  * @enum {string}
  */
-export type AggregatedReplicationState = 'Unknown' | 'InProgress' | 'Completed' | 'Failed';
+export type AggregatedReplicationState = "Unknown" | "InProgress" | "Completed" | "Failed";
 
 /**
  * Defines values for ReplicationState.
@@ -9746,7 +10981,7 @@ export type AggregatedReplicationState = 'Unknown' | 'InProgress' | 'Completed' 
  * @readonly
  * @enum {string}
  */
-export type ReplicationState = 'Unknown' | 'Replicating' | 'Completed' | 'Failed';
+export type ReplicationState = "Unknown" | "Replicating" | "Completed" | "Failed";
 
 /**
  * Defines values for StorageAccountType.
@@ -9754,7 +10989,7 @@ export type ReplicationState = 'Unknown' | 'Replicating' | 'Completed' | 'Failed
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS';
+export type StorageAccountType = "Standard_LRS" | "Standard_ZRS" | "Premium_LRS";
 
 /**
  * Defines values for HostCaching.
@@ -9762,7 +10997,15 @@ export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS'
  * @readonly
  * @enum {string}
  */
-export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
+export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
+
+/**
+ * Defines values for SharingUpdateOperationTypes.
+ * Possible values include: 'Add', 'Remove', 'Reset'
+ * @readonly
+ * @enum {string}
+ */
+export type SharingUpdateOperationTypes = "Add" | "Remove" | "Reset";
 
 /**
  * Defines values for CloudServiceUpgradeMode.
@@ -9770,15 +11013,39 @@ export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
  * @readonly
  * @enum {string}
  */
-export type CloudServiceUpgradeMode = 'Auto' | 'Manual' | 'Simultaneous';
+export type CloudServiceUpgradeMode = "Auto" | "Manual" | "Simultaneous";
 
 /**
  * Defines values for InstanceViewTypes.
- * Possible values include: 'instanceView'
+ * Possible values include: 'instanceView', 'userData'
  * @readonly
  * @enum {string}
  */
-export type InstanceViewTypes = 'instanceView';
+export type InstanceViewTypes = "instanceView" | "userData";
+
+/**
+ * Defines values for RestorePointCollectionExpandOptions.
+ * Possible values include: 'restorePoints'
+ * @readonly
+ * @enum {string}
+ */
+export type RestorePointCollectionExpandOptions = "restorePoints";
+
+/**
+ * Defines values for ExpandTypesForGetVMScaleSets.
+ * Possible values include: 'userData'
+ * @readonly
+ * @enum {string}
+ */
+export type ExpandTypesForGetVMScaleSets = "userData";
+
+/**
+ * Defines values for SelectPermissions.
+ * Possible values include: 'Permissions'
+ * @readonly
+ * @enum {string}
+ */
+export type SelectPermissions = "Permissions";
 
 /**
  * Defines values for ReplicationStatusTypes.
@@ -9786,7 +11053,15 @@ export type InstanceViewTypes = 'instanceView';
  * @readonly
  * @enum {string}
  */
-export type ReplicationStatusTypes = 'ReplicationStatus';
+export type ReplicationStatusTypes = "ReplicationStatus";
+
+/**
+ * Defines values for SharedToValues.
+ * Possible values include: 'tenant'
+ * @readonly
+ * @enum {string}
+ */
+export type SharedToValues = "tenant";
 
 /**
  * Defines values for ProvisioningState.
@@ -9794,7 +11069,13 @@ export type ReplicationStatusTypes = 'ReplicationStatus';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Updating' | 'Failed' | 'Succeeded' | 'Deleting' | 'Migrating';
+export type ProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Failed"
+  | "Succeeded"
+  | "Deleting"
+  | "Migrating";
 
 /**
  * Defines values for ProvisioningState1.
@@ -9802,7 +11083,13 @@ export type ProvisioningState = 'Creating' | 'Updating' | 'Failed' | 'Succeeded'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState1 = 'Creating' | 'Updating' | 'Failed' | 'Succeeded' | 'Deleting' | 'Migrating';
+export type ProvisioningState1 =
+  | "Creating"
+  | "Updating"
+  | "Failed"
+  | "Succeeded"
+  | "Deleting"
+  | "Migrating";
 
 /**
  * Defines values for ProvisioningState2.
@@ -9810,7 +11097,13 @@ export type ProvisioningState1 = 'Creating' | 'Updating' | 'Failed' | 'Succeeded
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState2 = 'Creating' | 'Updating' | 'Failed' | 'Succeeded' | 'Deleting' | 'Migrating';
+export type ProvisioningState2 =
+  | "Creating"
+  | "Updating"
+  | "Failed"
+  | "Succeeded"
+  | "Deleting"
+  | "Migrating";
 
 /**
  * Defines values for ProvisioningState3.
@@ -9818,7 +11111,13 @@ export type ProvisioningState2 = 'Creating' | 'Updating' | 'Failed' | 'Succeeded
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState3 = 'Creating' | 'Updating' | 'Failed' | 'Succeeded' | 'Deleting' | 'Migrating';
+export type ProvisioningState3 =
+  | "Creating"
+  | "Updating"
+  | "Failed"
+  | "Succeeded"
+  | "Deleting"
+  | "Migrating";
 
 /**
  * Contains response data for the list operation.
@@ -9828,16 +11127,16 @@ export type OperationsListResponse = ComputeOperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComputeOperationListResult;
+  };
 };
 
 /**
@@ -9848,16 +11147,16 @@ export type AvailabilitySetsCreateOrUpdateResponse = AvailabilitySet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySet;
+  };
 };
 
 /**
@@ -9868,16 +11167,16 @@ export type AvailabilitySetsUpdateResponse = AvailabilitySet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySet;
+  };
 };
 
 /**
@@ -9888,16 +11187,16 @@ export type AvailabilitySetsGetResponse = AvailabilitySet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySet;
+  };
 };
 
 /**
@@ -9908,16 +11207,16 @@ export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -9928,16 +11227,16 @@ export type AvailabilitySetsListResponse = AvailabilitySetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -9948,16 +11247,16 @@ export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -9968,16 +11267,16 @@ export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -9988,16 +11287,16 @@ export type AvailabilitySetsListNextResponse = AvailabilitySetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -10008,16 +11307,16 @@ export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementG
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroup;
+  };
 };
 
 /**
@@ -10028,16 +11327,16 @@ export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroup;
+  };
 };
 
 /**
@@ -10048,16 +11347,16 @@ export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroup;
+  };
 };
 
 /**
@@ -10068,16 +11367,16 @@ export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacem
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroupListResult;
+  };
 };
 
 /**
@@ -10088,16 +11387,16 @@ export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlace
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroupListResult;
+  };
 };
 
 /**
@@ -10108,16 +11407,16 @@ export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroupListResult;
+  };
 };
 
 /**
@@ -10128,16 +11427,16 @@ export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProximityPlacementGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProximityPlacementGroupListResult;
+  };
 };
 
 /**
@@ -10148,16 +11447,16 @@ export type DedicatedHostGroupsCreateOrUpdateResponse = DedicatedHostGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroup;
+  };
 };
 
 /**
@@ -10168,16 +11467,16 @@ export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroup;
+  };
 };
 
 /**
@@ -10188,16 +11487,16 @@ export type DedicatedHostGroupsGetResponse = DedicatedHostGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroup;
+  };
 };
 
 /**
@@ -10208,16 +11507,16 @@ export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroupListResult;
+  };
 };
 
 /**
@@ -10228,16 +11527,16 @@ export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroupListResult;
+  };
 };
 
 /**
@@ -10248,16 +11547,16 @@ export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroupListResult;
+  };
 };
 
 /**
@@ -10268,16 +11567,16 @@ export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostGroupListResult;
+  };
 };
 
 /**
@@ -10288,16 +11587,16 @@ export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHost;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHost;
+  };
 };
 
 /**
@@ -10308,16 +11607,16 @@ export type DedicatedHostsUpdateResponse = DedicatedHost & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHost;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHost;
+  };
 };
 
 /**
@@ -10328,16 +11627,16 @@ export type DedicatedHostsGetResponse = DedicatedHost & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHost;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHost;
+  };
 };
 
 /**
@@ -10348,16 +11647,16 @@ export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostListResult;
+  };
 };
 
 /**
@@ -10368,16 +11667,16 @@ export type DedicatedHostsBeginCreateOrUpdateResponse = DedicatedHost & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHost;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHost;
+  };
 };
 
 /**
@@ -10388,16 +11687,16 @@ export type DedicatedHostsBeginUpdateResponse = DedicatedHost & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHost;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHost;
+  };
 };
 
 /**
@@ -10408,16 +11707,16 @@ export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedHostListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedHostListResult;
+  };
 };
 
 /**
@@ -10428,16 +11727,16 @@ export type SshPublicKeysListBySubscriptionResponse = SshPublicKeysGroupListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeysGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeysGroupListResult;
+  };
 };
 
 /**
@@ -10448,16 +11747,16 @@ export type SshPublicKeysListByResourceGroupResponse = SshPublicKeysGroupListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeysGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeysGroupListResult;
+  };
 };
 
 /**
@@ -10468,16 +11767,16 @@ export type SshPublicKeysCreateResponse = SshPublicKeyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeyResource;
+  };
 };
 
 /**
@@ -10488,16 +11787,16 @@ export type SshPublicKeysUpdateResponse = SshPublicKeyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeyResource;
+  };
 };
 
 /**
@@ -10508,16 +11807,16 @@ export type SshPublicKeysGetResponse = SshPublicKeyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeyResource;
+  };
 };
 
 /**
@@ -10528,16 +11827,16 @@ export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeyGenerateKeyPairResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeyGenerateKeyPairResult;
+  };
 };
 
 /**
@@ -10548,16 +11847,16 @@ export type SshPublicKeysListBySubscriptionNextResponse = SshPublicKeysGroupList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeysGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeysGroupListResult;
+  };
 };
 
 /**
@@ -10568,16 +11867,16 @@ export type SshPublicKeysListByResourceGroupNextResponse = SshPublicKeysGroupLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SshPublicKeysGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SshPublicKeysGroupListResult;
+  };
 };
 
 /**
@@ -10588,16 +11887,16 @@ export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionIm
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionImage;
+  };
 };
 
 /**
@@ -10608,36 +11907,38 @@ export type VirtualMachineExtensionImagesListTypesResponse = Array<VirtualMachin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionImage[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionImage[];
+  };
 };
 
 /**
  * Contains response data for the listVersions operation.
  */
-export type VirtualMachineExtensionImagesListVersionsResponse = Array<VirtualMachineExtensionImage> & {
+export type VirtualMachineExtensionImagesListVersionsResponse = Array<
+  VirtualMachineExtensionImage
+> & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionImage[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionImage[];
+  };
 };
 
 /**
@@ -10648,16 +11949,16 @@ export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExten
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -10668,16 +11969,16 @@ export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtension & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -10688,16 +11989,16 @@ export type VirtualMachineExtensionsGetResponse = VirtualMachineExtension & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -10708,16 +12009,16 @@ export type VirtualMachineExtensionsListResponse = VirtualMachineExtensionsListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionsListResult;
+  };
 };
 
 /**
@@ -10728,16 +12029,16 @@ export type VirtualMachineExtensionsBeginCreateOrUpdateResponse = VirtualMachine
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -10748,16 +12049,16 @@ export type VirtualMachineExtensionsBeginUpdateResponse = VirtualMachineExtensio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -10768,16 +12069,16 @@ export type VirtualMachineImagesGetResponse = VirtualMachineImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImage;
+  };
 };
 
 /**
@@ -10788,16 +12089,16 @@ export type VirtualMachineImagesListResponse = Array<VirtualMachineImageResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10808,16 +12109,16 @@ export type VirtualMachineImagesListOffersResponse = Array<VirtualMachineImageRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10828,16 +12129,16 @@ export type VirtualMachineImagesListPublishersResponse = Array<VirtualMachineIma
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10848,16 +12149,16 @@ export type VirtualMachineImagesListSkusResponse = Array<VirtualMachineImageReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10868,16 +12169,16 @@ export type VirtualMachineImagesEdgeZoneGetResponse = VirtualMachineImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImage;
+  };
 };
 
 /**
@@ -10888,16 +12189,16 @@ export type VirtualMachineImagesEdgeZoneListResponse = Array<VirtualMachineImage
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10908,36 +12209,38 @@ export type VirtualMachineImagesEdgeZoneListOffersResponse = Array<VirtualMachin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
  * Contains response data for the listPublishers operation.
  */
-export type VirtualMachineImagesEdgeZoneListPublishersResponse = Array<VirtualMachineImageResource> & {
+export type VirtualMachineImagesEdgeZoneListPublishersResponse = Array<
+  VirtualMachineImageResource
+> & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10948,16 +12251,16 @@ export type VirtualMachineImagesEdgeZoneListSkusResponse = Array<VirtualMachineI
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -10968,16 +12271,16 @@ export type UsageListResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -10988,16 +12291,16 @@ export type UsageListNextResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -11008,16 +12311,16 @@ export type VirtualMachinesListByLocationResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -11028,16 +12331,16 @@ export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineCaptureResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineCaptureResult;
+  };
 };
 
 /**
@@ -11048,16 +12351,16 @@ export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -11068,16 +12371,16 @@ export type VirtualMachinesUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -11088,16 +12391,16 @@ export type VirtualMachinesGetResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -11108,16 +12411,16 @@ export type VirtualMachinesInstanceViewResponse = VirtualMachineInstanceView & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineInstanceView;
+  };
 };
 
 /**
@@ -11128,16 +12431,16 @@ export type VirtualMachinesListResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -11148,16 +12451,16 @@ export type VirtualMachinesListAllResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -11168,16 +12471,16 @@ export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -11188,16 +12491,16 @@ export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDia
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RetrieveBootDiagnosticsDataResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RetrieveBootDiagnosticsDataResult;
+  };
 };
 
 /**
@@ -11208,16 +12511,16 @@ export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineAssessPatchesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineAssessPatchesResult;
+  };
 };
 
 /**
@@ -11228,16 +12531,16 @@ export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatches
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineInstallPatchesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineInstallPatchesResult;
+  };
 };
 
 /**
@@ -11248,16 +12551,16 @@ export type VirtualMachinesRunCommandResponse = RunCommandResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandResult;
+  };
 };
 
 /**
@@ -11268,16 +12571,16 @@ export type VirtualMachinesBeginCaptureResponse = VirtualMachineCaptureResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineCaptureResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineCaptureResult;
+  };
 };
 
 /**
@@ -11288,16 +12591,16 @@ export type VirtualMachinesBeginCreateOrUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -11308,16 +12611,16 @@ export type VirtualMachinesBeginUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -11328,16 +12631,16 @@ export type VirtualMachinesBeginAssessPatchesResponse = VirtualMachineAssessPatc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineAssessPatchesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineAssessPatchesResult;
+  };
 };
 
 /**
@@ -11348,16 +12651,16 @@ export type VirtualMachinesBeginInstallPatchesResponse = VirtualMachineInstallPa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineInstallPatchesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineInstallPatchesResult;
+  };
 };
 
 /**
@@ -11368,16 +12671,16 @@ export type VirtualMachinesBeginRunCommandResponse = RunCommandResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandResult;
+  };
 };
 
 /**
@@ -11388,16 +12691,16 @@ export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -11408,16 +12711,16 @@ export type VirtualMachinesListNextResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -11428,16 +12731,16 @@ export type VirtualMachinesListAllNextResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -11448,16 +12751,16 @@ export type VirtualMachineScaleSetsListByLocationResponse = VirtualMachineScaleS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListResult;
+  };
 };
 
 /**
@@ -11468,16 +12771,16 @@ export type VirtualMachineScaleSetsCreateOrUpdateResponse = VirtualMachineScaleS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -11488,16 +12791,16 @@ export type VirtualMachineScaleSetsUpdateResponse = VirtualMachineScaleSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -11508,16 +12811,16 @@ export type VirtualMachineScaleSetsGetResponse = VirtualMachineScaleSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -11528,16 +12831,16 @@ export type VirtualMachineScaleSetsGetInstanceViewResponse = VirtualMachineScale
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetInstanceView;
+  };
 };
 
 /**
@@ -11548,16 +12851,16 @@ export type VirtualMachineScaleSetsListResponse = VirtualMachineScaleSetListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListResult;
+  };
 };
 
 /**
@@ -11568,16 +12871,16 @@ export type VirtualMachineScaleSetsListAllResponse = VirtualMachineScaleSetListW
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListWithLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListWithLinkResult;
+  };
 };
 
 /**
@@ -11588,16 +12891,16 @@ export type VirtualMachineScaleSetsListSkusResponse = VirtualMachineScaleSetList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListSkusResult;
+  };
 };
 
 /**
@@ -11608,16 +12911,16 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
+  };
 };
 
 /**
@@ -11628,16 +12931,16 @@ export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryWalkResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryWalkResponse;
+  };
 };
 
 /**
@@ -11648,16 +12951,16 @@ export type VirtualMachineScaleSetsBeginCreateOrUpdateResponse = VirtualMachineS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -11668,16 +12971,16 @@ export type VirtualMachineScaleSetsBeginUpdateResponse = VirtualMachineScaleSet 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -11688,16 +12991,16 @@ export type VirtualMachineScaleSetsListByLocationNextResponse = VirtualMachineSc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListResult;
+  };
 };
 
 /**
@@ -11708,16 +13011,16 @@ export type VirtualMachineScaleSetsListNextResponse = VirtualMachineScaleSetList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListResult;
+  };
 };
 
 /**
@@ -11728,16 +13031,16 @@ export type VirtualMachineScaleSetsListAllNextResponse = VirtualMachineScaleSetL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListWithLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListWithLinkResult;
+  };
 };
 
 /**
@@ -11748,16 +13051,16 @@ export type VirtualMachineScaleSetsListSkusNextResponse = VirtualMachineScaleSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListSkusResult;
+  };
 };
 
 /**
@@ -11768,16 +13071,16 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse = VirtualMach
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
+  };
 };
 
 /**
@@ -11788,16 +13091,16 @@ export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -11808,16 +13111,16 @@ export type ImagesCreateOrUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -11828,16 +13131,16 @@ export type ImagesUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -11848,16 +13151,16 @@ export type ImagesGetResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -11868,16 +13171,16 @@ export type ImagesListByResourceGroupResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -11888,16 +13191,16 @@ export type ImagesListResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -11908,16 +13211,16 @@ export type ImagesBeginCreateOrUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -11928,16 +13231,16 @@ export type ImagesBeginUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -11948,16 +13251,16 @@ export type ImagesListByResourceGroupNextResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -11968,16 +13271,216 @@ export type ImagesListNextResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollection;
+  };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type RestorePointCollectionsUpdateResponse = RestorePointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollection;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorePointCollectionsGetResponse = RestorePointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollection;
+  };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorePointCollectionsListResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollectionListResult;
+  };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type RestorePointCollectionsListAllResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollectionListResult;
+  };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RestorePointCollectionsListNextResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollectionListResult;
+  };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type RestorePointCollectionsListAllNextResponse = RestorePointCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointCollectionListResult;
+  };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type RestorePointsCreateResponse = RestorePoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePoint;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorePointsGetResponse = RestorePoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePoint;
+  };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type RestorePointsBeginCreateResponse = RestorePoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePoint;
+  };
 };
 
 /**
@@ -11988,16 +13491,16 @@ export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMach
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -12008,16 +13511,16 @@ export type VirtualMachineScaleSetExtensionsUpdateResponse = VirtualMachineScale
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -12028,16 +13531,16 @@ export type VirtualMachineScaleSetExtensionsGetResponse = VirtualMachineScaleSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -12048,16 +13551,16 @@ export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtensionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtensionListResult;
+  };
 };
 
 /**
@@ -12068,16 +13571,16 @@ export type VirtualMachineScaleSetExtensionsBeginCreateOrUpdateResponse = Virtua
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -12088,16 +13591,16 @@ export type VirtualMachineScaleSetExtensionsBeginUpdateResponse = VirtualMachine
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -12108,16 +13611,16 @@ export type VirtualMachineScaleSetExtensionsListNextResponse = VirtualMachineSca
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtensionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtensionListResult;
+  };
 };
 
 /**
@@ -12128,16 +13631,16 @@ export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RollingUpgradeStatusInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RollingUpgradeStatusInfo;
+  };
 };
 
 /**
@@ -12148,16 +13651,16 @@ export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMExtension;
+  };
 };
 
 /**
@@ -12168,16 +13671,16 @@ export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineSca
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMExtension;
+  };
 };
 
 /**
@@ -12188,16 +13691,16 @@ export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineScaleS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMExtension;
+  };
 };
 
 /**
@@ -12208,16 +13711,16 @@ export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineScale
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMExtensionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMExtensionsListResult;
+  };
 };
 
 /**
@@ -12228,16 +13731,16 @@ export type VirtualMachineScaleSetVMExtensionsBeginCreateOrUpdateResponse = Virt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMExtension;
+  };
 };
 
 /**
@@ -12248,16 +13751,16 @@ export type VirtualMachineScaleSetVMExtensionsBeginUpdateResponse = VirtualMachi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMExtension;
+  };
 };
 
 /**
@@ -12268,16 +13771,16 @@ export type VirtualMachineScaleSetVMsUpdateResponse = VirtualMachineScaleSetVM &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVM;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVM;
+  };
 };
 
 /**
@@ -12288,16 +13791,16 @@ export type VirtualMachineScaleSetVMsGetResponse = VirtualMachineScaleSetVM & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVM;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVM;
+  };
 };
 
 /**
@@ -12308,16 +13811,16 @@ export type VirtualMachineScaleSetVMsGetInstanceViewResponse = VirtualMachineSca
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMInstanceView;
+  };
 };
 
 /**
@@ -12328,16 +13831,16 @@ export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMListResult;
+  };
 };
 
 /**
@@ -12348,16 +13851,16 @@ export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse = Retri
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RetrieveBootDiagnosticsDataResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RetrieveBootDiagnosticsDataResult;
+  };
 };
 
 /**
@@ -12368,16 +13871,16 @@ export type VirtualMachineScaleSetVMsRunCommandResponse = RunCommandResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandResult;
+  };
 };
 
 /**
@@ -12388,16 +13891,16 @@ export type VirtualMachineScaleSetVMsBeginUpdateResponse = VirtualMachineScaleSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVM;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVM;
+  };
 };
 
 /**
@@ -12408,16 +13911,16 @@ export type VirtualMachineScaleSetVMsBeginRunCommandResponse = RunCommandResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandResult;
+  };
 };
 
 /**
@@ -12428,16 +13931,16 @@ export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVM
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMListResult;
+  };
 };
 
 /**
@@ -12448,16 +13951,16 @@ export type LogAnalyticsExportRequestRateByIntervalResponse = LogAnalyticsOperat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -12468,16 +13971,16 @@ export type LogAnalyticsExportThrottledRequestsResponse = LogAnalyticsOperationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -12488,16 +13991,16 @@ export type LogAnalyticsBeginExportRequestRateByIntervalResponse = LogAnalyticsO
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -12508,16 +14011,16 @@ export type LogAnalyticsBeginExportThrottledRequestsResponse = LogAnalyticsOpera
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -12528,16 +14031,16 @@ export type VirtualMachineRunCommandsListResponse = RunCommandListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandListResult;
+  };
 };
 
 /**
@@ -12548,16 +14051,16 @@ export type VirtualMachineRunCommandsGetResponse = RunCommandDocument & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandDocument;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandDocument;
+  };
 };
 
 /**
@@ -12568,16 +14071,16 @@ export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12588,16 +14091,16 @@ export type VirtualMachineRunCommandsUpdateResponse = VirtualMachineRunCommand &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12608,16 +14111,16 @@ export type VirtualMachineRunCommandsGetByVirtualMachineResponse = VirtualMachin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12628,16 +14131,16 @@ export type VirtualMachineRunCommandsListByVirtualMachineResponse = VirtualMachi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommandsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommandsListResult;
+  };
 };
 
 /**
@@ -12648,16 +14151,16 @@ export type VirtualMachineRunCommandsBeginCreateOrUpdateResponse = VirtualMachin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12668,16 +14171,16 @@ export type VirtualMachineRunCommandsBeginUpdateResponse = VirtualMachineRunComm
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12688,16 +14191,16 @@ export type VirtualMachineRunCommandsListNextResponse = RunCommandListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunCommandListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunCommandListResult;
+  };
 };
 
 /**
@@ -12708,16 +14211,16 @@ export type VirtualMachineRunCommandsListByVirtualMachineNextResponse = VirtualM
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommandsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommandsListResult;
+  };
 };
 
 /**
@@ -12728,16 +14231,16 @@ export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse = VirtualM
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12748,16 +14251,16 @@ export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12768,16 +14271,16 @@ export type VirtualMachineScaleSetVMRunCommandsGetResponse = VirtualMachineRunCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12788,16 +14291,16 @@ export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommandsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommandsListResult;
+  };
 };
 
 /**
@@ -12808,16 +14311,16 @@ export type VirtualMachineScaleSetVMRunCommandsBeginCreateOrUpdateResponse = Vir
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12828,16 +14331,16 @@ export type VirtualMachineScaleSetVMRunCommandsBeginUpdateResponse = VirtualMach
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommand;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommand;
+  };
 };
 
 /**
@@ -12848,16 +14351,16 @@ export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachine
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineRunCommandsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineRunCommandsListResult;
+  };
 };
 
 /**
@@ -12868,16 +14371,16 @@ export type ResourceSkusListResponse = ResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkusResult;
+  };
 };
 
 /**
@@ -12888,16 +14391,16 @@ export type ResourceSkusListNextResponse = ResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkusResult;
+  };
 };
 
 /**
@@ -12908,16 +14411,16 @@ export type DisksCreateOrUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -12928,16 +14431,16 @@ export type DisksUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -12948,16 +14451,16 @@ export type DisksGetResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -12968,16 +14471,16 @@ export type DisksListByResourceGroupResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -12988,16 +14491,16 @@ export type DisksListResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -13008,16 +14511,16 @@ export type DisksGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -13028,16 +14531,16 @@ export type DisksBeginCreateOrUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -13048,16 +14551,16 @@ export type DisksBeginUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -13068,16 +14571,16 @@ export type DisksBeginGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -13088,16 +14591,16 @@ export type DisksListByResourceGroupNextResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -13108,16 +14611,16 @@ export type DisksListNextResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -13128,16 +14631,16 @@ export type SnapshotsCreateOrUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -13148,16 +14651,16 @@ export type SnapshotsUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -13168,16 +14671,16 @@ export type SnapshotsGetResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -13188,16 +14691,16 @@ export type SnapshotsListByResourceGroupResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -13208,16 +14711,16 @@ export type SnapshotsListResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -13228,16 +14731,16 @@ export type SnapshotsGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -13248,16 +14751,16 @@ export type SnapshotsBeginCreateOrUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -13268,16 +14771,16 @@ export type SnapshotsBeginUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -13288,16 +14791,16 @@ export type SnapshotsBeginGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -13308,16 +14811,16 @@ export type SnapshotsListByResourceGroupNextResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -13328,16 +14831,16 @@ export type SnapshotsListNextResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -13348,16 +14851,16 @@ export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSet;
+  };
 };
 
 /**
@@ -13368,16 +14871,16 @@ export type DiskEncryptionSetsUpdateResponse = DiskEncryptionSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSet;
+  };
 };
 
 /**
@@ -13388,16 +14891,16 @@ export type DiskEncryptionSetsGetResponse = DiskEncryptionSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSet;
+  };
 };
 
 /**
@@ -13408,16 +14911,16 @@ export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSetList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSetList;
+  };
 };
 
 /**
@@ -13428,16 +14931,16 @@ export type DiskEncryptionSetsListResponse = DiskEncryptionSetList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSetList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSetList;
+  };
 };
 
 /**
@@ -13448,16 +14951,16 @@ export type DiskEncryptionSetsListAssociatedResourcesResponse = ResourceUriList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceUriList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceUriList;
+  };
 };
 
 /**
@@ -13468,16 +14971,16 @@ export type DiskEncryptionSetsBeginCreateOrUpdateResponse = DiskEncryptionSet & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSet;
+  };
 };
 
 /**
@@ -13488,16 +14991,16 @@ export type DiskEncryptionSetsBeginUpdateResponse = DiskEncryptionSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSet;
+  };
 };
 
 /**
@@ -13508,16 +15011,16 @@ export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSetList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSetList;
+  };
 };
 
 /**
@@ -13528,16 +15031,16 @@ export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskEncryptionSetList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskEncryptionSetList;
+  };
 };
 
 /**
@@ -13548,16 +15051,16 @@ export type DiskEncryptionSetsListAssociatedResourcesNextResponse = ResourceUriL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceUriList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceUriList;
+  };
 };
 
 /**
@@ -13568,16 +15071,16 @@ export type DiskAccessesCreateOrUpdateResponse = DiskAccess & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccess;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccess;
+  };
 };
 
 /**
@@ -13588,16 +15091,16 @@ export type DiskAccessesUpdateResponse = DiskAccess & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccess;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccess;
+  };
 };
 
 /**
@@ -13608,16 +15111,16 @@ export type DiskAccessesGetResponse = DiskAccess & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccess;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccess;
+  };
 };
 
 /**
@@ -13628,16 +15131,16 @@ export type DiskAccessesListByResourceGroupResponse = DiskAccessList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccessList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccessList;
+  };
 };
 
 /**
@@ -13648,16 +15151,16 @@ export type DiskAccessesListResponse = DiskAccessList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccessList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccessList;
+  };
 };
 
 /**
@@ -13668,16 +15171,16 @@ export type DiskAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -13688,16 +15191,16 @@ export type DiskAccessesUpdateAPrivateEndpointConnectionResponse = PrivateEndpoi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -13708,16 +15211,16 @@ export type DiskAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -13728,16 +15231,16 @@ export type DiskAccessesListPrivateEndpointConnectionsResponse = PrivateEndpoint
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -13748,16 +15251,16 @@ export type DiskAccessesBeginCreateOrUpdateResponse = DiskAccess & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccess;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccess;
+  };
 };
 
 /**
@@ -13768,16 +15271,16 @@ export type DiskAccessesBeginUpdateResponse = DiskAccess & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccess;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccess;
+  };
 };
 
 /**
@@ -13788,16 +15291,16 @@ export type DiskAccessesBeginUpdateAPrivateEndpointConnectionResponse = PrivateE
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -13808,16 +15311,16 @@ export type DiskAccessesListByResourceGroupNextResponse = DiskAccessList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccessList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccessList;
+  };
 };
 
 /**
@@ -13828,16 +15331,16 @@ export type DiskAccessesListNextResponse = DiskAccessList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskAccessList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskAccessList;
+  };
 };
 
 /**
@@ -13848,16 +15351,16 @@ export type DiskAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -13868,16 +15371,16 @@ export type DiskRestorePointGetResponse = DiskRestorePoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskRestorePoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskRestorePoint;
+  };
 };
 
 /**
@@ -13888,16 +15391,16 @@ export type DiskRestorePointListByRestorePointResponse = DiskRestorePointList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskRestorePointList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskRestorePointList;
+  };
 };
 
 /**
@@ -13908,16 +15411,16 @@ export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskRestorePointList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskRestorePointList;
+  };
 };
 
 /**
@@ -13928,16 +15431,16 @@ export type GalleriesCreateOrUpdateResponse = Gallery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Gallery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Gallery;
+  };
 };
 
 /**
@@ -13948,16 +15451,16 @@ export type GalleriesUpdateResponse = Gallery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Gallery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Gallery;
+  };
 };
 
 /**
@@ -13968,16 +15471,16 @@ export type GalleriesGetResponse = Gallery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Gallery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Gallery;
+  };
 };
 
 /**
@@ -13988,16 +15491,16 @@ export type GalleriesListByResourceGroupResponse = GalleryList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryList;
+  };
 };
 
 /**
@@ -14008,16 +15511,16 @@ export type GalleriesListResponse = GalleryList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryList;
+  };
 };
 
 /**
@@ -14028,16 +15531,16 @@ export type GalleriesBeginCreateOrUpdateResponse = Gallery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Gallery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Gallery;
+  };
 };
 
 /**
@@ -14048,16 +15551,16 @@ export type GalleriesBeginUpdateResponse = Gallery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Gallery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Gallery;
+  };
 };
 
 /**
@@ -14068,16 +15571,16 @@ export type GalleriesListByResourceGroupNextResponse = GalleryList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryList;
+  };
 };
 
 /**
@@ -14088,16 +15591,16 @@ export type GalleriesListNextResponse = GalleryList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryList;
+  };
 };
 
 /**
@@ -14108,16 +15611,16 @@ export type GalleryImagesCreateOrUpdateResponse = GalleryImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImage;
+  };
 };
 
 /**
@@ -14128,16 +15631,16 @@ export type GalleryImagesUpdateResponse = GalleryImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImage;
+  };
 };
 
 /**
@@ -14148,16 +15651,16 @@ export type GalleryImagesGetResponse = GalleryImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImage;
+  };
 };
 
 /**
@@ -14168,16 +15671,16 @@ export type GalleryImagesListByGalleryResponse = GalleryImageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageList;
+  };
 };
 
 /**
@@ -14188,16 +15691,16 @@ export type GalleryImagesBeginCreateOrUpdateResponse = GalleryImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImage;
+  };
 };
 
 /**
@@ -14208,16 +15711,16 @@ export type GalleryImagesBeginUpdateResponse = GalleryImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImage;
+  };
 };
 
 /**
@@ -14228,16 +15731,16 @@ export type GalleryImagesListByGalleryNextResponse = GalleryImageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageList;
+  };
 };
 
 /**
@@ -14248,16 +15751,16 @@ export type GalleryImageVersionsCreateOrUpdateResponse = GalleryImageVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersion;
+  };
 };
 
 /**
@@ -14268,16 +15771,16 @@ export type GalleryImageVersionsUpdateResponse = GalleryImageVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersion;
+  };
 };
 
 /**
@@ -14288,16 +15791,16 @@ export type GalleryImageVersionsGetResponse = GalleryImageVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersion;
+  };
 };
 
 /**
@@ -14308,16 +15811,16 @@ export type GalleryImageVersionsListByGalleryImageResponse = GalleryImageVersion
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersionList;
+  };
 };
 
 /**
@@ -14328,16 +15831,16 @@ export type GalleryImageVersionsBeginCreateOrUpdateResponse = GalleryImageVersio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersion;
+  };
 };
 
 /**
@@ -14348,16 +15851,16 @@ export type GalleryImageVersionsBeginUpdateResponse = GalleryImageVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersion;
+  };
 };
 
 /**
@@ -14368,16 +15871,16 @@ export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVer
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryImageVersionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryImageVersionList;
+  };
 };
 
 /**
@@ -14388,16 +15891,16 @@ export type GalleryApplicationsCreateOrUpdateResponse = GalleryApplication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplication;
+  };
 };
 
 /**
@@ -14408,16 +15911,16 @@ export type GalleryApplicationsUpdateResponse = GalleryApplication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplication;
+  };
 };
 
 /**
@@ -14428,16 +15931,16 @@ export type GalleryApplicationsGetResponse = GalleryApplication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplication;
+  };
 };
 
 /**
@@ -14448,16 +15951,16 @@ export type GalleryApplicationsListByGalleryResponse = GalleryApplicationList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationList;
+  };
 };
 
 /**
@@ -14468,16 +15971,16 @@ export type GalleryApplicationsBeginCreateOrUpdateResponse = GalleryApplication 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplication;
+  };
 };
 
 /**
@@ -14488,16 +15991,16 @@ export type GalleryApplicationsBeginUpdateResponse = GalleryApplication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplication;
+  };
 };
 
 /**
@@ -14508,16 +16011,16 @@ export type GalleryApplicationsListByGalleryNextResponse = GalleryApplicationLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationList;
+  };
 };
 
 /**
@@ -14528,16 +16031,16 @@ export type GalleryApplicationVersionsCreateOrUpdateResponse = GalleryApplicatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersion;
+  };
 };
 
 /**
@@ -14548,16 +16051,16 @@ export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersion
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersion;
+  };
 };
 
 /**
@@ -14568,16 +16071,16 @@ export type GalleryApplicationVersionsGetResponse = GalleryApplicationVersion & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersion;
+  };
 };
 
 /**
@@ -14588,16 +16091,16 @@ export type GalleryApplicationVersionsListByGalleryApplicationResponse = Gallery
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersionList;
+  };
 };
 
 /**
@@ -14608,16 +16111,16 @@ export type GalleryApplicationVersionsBeginCreateOrUpdateResponse = GalleryAppli
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersion;
+  };
 };
 
 /**
@@ -14628,16 +16131,16 @@ export type GalleryApplicationVersionsBeginUpdateResponse = GalleryApplicationVe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersion;
+  };
 };
 
 /**
@@ -14648,16 +16151,236 @@ export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = Gal
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GalleryApplicationVersionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GalleryApplicationVersionList;
+  };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GallerySharingProfileUpdateResponse = SharingUpdate & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharingUpdate;
+  };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GallerySharingProfileBeginUpdateResponse = SharingUpdate & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharingUpdate;
+  };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleriesListResponse = SharedGalleryList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryList;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleriesGetResponse = SharedGallery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGallery;
+  };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleriesListNextResponse = SharedGalleryList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryList;
+  };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleryImagesListResponse = SharedGalleryImageList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryImageList;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleryImagesGetResponse = SharedGalleryImage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryImage;
+  };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleryImagesListNextResponse = SharedGalleryImageList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryImageList;
+  };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryImageVersionList;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryImageVersion;
+  };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedGalleryImageVersionList;
+  };
 };
 
 /**
@@ -14668,16 +16391,16 @@ export type CloudServiceRoleInstancesGetResponse = RoleInstance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleInstance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleInstance;
+  };
 };
 
 /**
@@ -14688,16 +16411,16 @@ export type CloudServiceRoleInstancesGetInstanceViewResponse = RoleInstanceInsta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleInstanceInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleInstanceInstanceView;
+  };
 };
 
 /**
@@ -14708,16 +16431,16 @@ export type CloudServiceRoleInstancesListResponse = RoleInstanceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleInstanceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleInstanceListResult;
+  };
 };
 
 /**
@@ -14754,16 +16477,16 @@ export type CloudServiceRoleInstancesListNextResponse = RoleInstanceListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleInstanceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleInstanceListResult;
+  };
 };
 
 /**
@@ -14774,16 +16497,16 @@ export type CloudServiceRolesGetResponse = CloudServiceRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceRole;
+  };
 };
 
 /**
@@ -14794,16 +16517,16 @@ export type CloudServiceRolesListResponse = CloudServiceRoleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceRoleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceRoleListResult;
+  };
 };
 
 /**
@@ -14814,16 +16537,16 @@ export type CloudServiceRolesListNextResponse = CloudServiceRoleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceRoleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceRoleListResult;
+  };
 };
 
 /**
@@ -14834,16 +16557,16 @@ export type CloudServicesCreateOrUpdateResponse = CloudService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudService;
+  };
 };
 
 /**
@@ -14854,16 +16577,16 @@ export type CloudServicesUpdateResponse = CloudService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudService;
+  };
 };
 
 /**
@@ -14874,16 +16597,16 @@ export type CloudServicesGetResponse = CloudService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudService;
+  };
 };
 
 /**
@@ -14894,16 +16617,16 @@ export type CloudServicesGetInstanceViewResponse = CloudServiceInstanceView & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceInstanceView;
+  };
 };
 
 /**
@@ -14914,16 +16637,16 @@ export type CloudServicesListAllResponse = CloudServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceListResult;
+  };
 };
 
 /**
@@ -14934,16 +16657,16 @@ export type CloudServicesListResponse = CloudServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceListResult;
+  };
 };
 
 /**
@@ -14954,16 +16677,16 @@ export type CloudServicesBeginCreateOrUpdateResponse = CloudService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudService;
+  };
 };
 
 /**
@@ -14974,16 +16697,16 @@ export type CloudServicesBeginUpdateResponse = CloudService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudService;
+  };
 };
 
 /**
@@ -14994,16 +16717,16 @@ export type CloudServicesListAllNextResponse = CloudServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceListResult;
+  };
 };
 
 /**
@@ -15014,16 +16737,16 @@ export type CloudServicesListNextResponse = CloudServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudServiceListResult;
+  };
 };
 
 /**
@@ -15034,16 +16757,16 @@ export type CloudServicesUpdateDomainGetUpdateDomainResponse = UpdateDomain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpdateDomain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UpdateDomain;
+  };
 };
 
 /**
@@ -15054,16 +16777,16 @@ export type CloudServicesUpdateDomainListUpdateDomainsResponse = UpdateDomainLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpdateDomainListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UpdateDomainListResult;
+  };
 };
 
 /**
@@ -15074,16 +16797,16 @@ export type CloudServicesUpdateDomainListUpdateDomainsNextResponse = UpdateDomai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpdateDomainListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UpdateDomainListResult;
+  };
 };
 
 /**
@@ -15094,16 +16817,16 @@ export type CloudServiceOperatingSystemsGetOSVersionResponse = OSVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OSVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OSVersion;
+  };
 };
 
 /**
@@ -15114,16 +16837,16 @@ export type CloudServiceOperatingSystemsListOSVersionsResponse = OSVersionListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OSVersionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OSVersionListResult;
+  };
 };
 
 /**
@@ -15134,16 +16857,16 @@ export type CloudServiceOperatingSystemsGetOSFamilyResponse = OSFamily & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OSFamily;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OSFamily;
+  };
 };
 
 /**
@@ -15154,16 +16877,16 @@ export type CloudServiceOperatingSystemsListOSFamiliesResponse = OSFamilyListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OSFamilyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OSFamilyListResult;
+  };
 };
 
 /**
@@ -15174,16 +16897,16 @@ export type CloudServiceOperatingSystemsListOSVersionsNextResponse = OSVersionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OSVersionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OSVersionListResult;
+  };
 };
 
 /**
@@ -15194,14 +16917,14 @@ export type CloudServiceOperatingSystemsListOSFamiliesNextResponse = OSFamilyLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OSFamilyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OSFamilyListResult;
+  };
 };

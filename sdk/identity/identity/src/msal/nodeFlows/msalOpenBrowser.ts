@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+
 import { Socket } from "net";
 import http from "http";
 import open from "open";
 import stoppable from "stoppable";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { msalToPublic } from "../utils";
