@@ -18,12 +18,12 @@ Output location (generally a package artifact directory in DevOps) for JSON
 files
 
 .PARAMETER addDevVersion
-(Requires existing JSON files in outDirectory corresponding to packages in the 
-given serviceDirectory.) Reads package properties from existing packages in the
-given serviceDirectory and updates existing package JSON files in the 
-outDirectory with a DevVersion property that reflects the version currently
-specified in the package source. Run this after updating package source with a 
-dev version.
+Reads the version out of the source and adds a DevVersion property to the 
+package properties JSON file. If the package properties JSON file already 
+exists, read the Version property from the existing package properties JSON file
+and set that as the Version property for the new output. This has the effect of
+"adding" a DevVersion property to the file which could be different from the 
+Verison property in that file.
 #>
 
 [CmdletBinding()]
@@ -41,14 +41,20 @@ function SetOutput($outputPath, $incomingPackageSpec) {
   $outputObject = $incomingPackageSpec
   
   if ($addDevVersion) {
-    # Read in the existing package specification file instead of using the
-    # passed $incomingPackageSpec.
-    $outputObject = ConvertFrom-Json (Get-Content $outputPath -Raw)
+    # Use the "Version" property which was provided by the incoming package spec
+    # as the DevVersion. This may be overridden later.
     Add-Member `
       -InputObject $outputObject `
       -NotePropertyName DevVersion `
-      -NotePropertyvalue $incomingPackageSpec.Version `
+      -NotePropertyValue $incomingPackageSpec.Version `
       -Force
+
+    # If there is an exsiting package info json file read that and set the 
+    # Version property from that JSON file.
+    if (Test-Path $outputPath) { 
+      $originalObject = ConvertFrom-Json (Get-Content $outputPath -Raw)
+      $outputObject.Version = $originalObject.Version
+    }
   }
 
   # Set file paths to relative paths
@@ -61,16 +67,10 @@ function SetOutput($outputPath, $incomingPackageSpec) {
     -Value (ConvertTo-Json -InputObject $outputObject -Depth 100)
 }
 
-function GetRelativePath($path) { 
-  $originalLocation = Get-Location 
-  # Set location to root of the repo for relative path calculation
-  Set-Location $PSScriptRoot/../../../
-
-  $resolvedPath = Resolve-Path $path -Relative
-  # Ensure paths are 
-  $relativePath = $resolvedPath -replace "\\", '/'
-  Set-Location $originalLocation
-
+function GetRelativePath($path) {
+  $relativeTo = Resolve-Path $PSScriptRoot/../../../
+  # Replace "\" with "/" so the path is valid across other platforms and tools
+  $relativePath = [IO.Path]::GetRelativePath($relativeTo, $path) -replace "\\", '/'
   return $relativePath
 }
 
