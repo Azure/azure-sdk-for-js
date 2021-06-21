@@ -8,6 +8,8 @@
 
 ### Key Bugs Fixed
 
+- Fixed the exponential retry policy to properly retry up to the number determined by `DEFAULT_CLIENT_RETRY_COUNT`, or up to 5 times by default.
+
 ### Fixed
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
