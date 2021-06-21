@@ -25,7 +25,7 @@ const replaceableVariables: { [k: string]: string } = {
   SAS_CONNECTION_STRING: `${mockSasConnectionString}`,
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
