@@ -15,7 +15,10 @@ import {
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
-import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import {
+  imdsMsi,
+  imdsMsiRetryConfig
+} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
@@ -52,6 +55,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.MSI_SECRET = env.MSI_SECRET;
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
+    process.env.AZURE_POD_IDENTITY_TOKEN_URL = env.AZURE_POD_IDENTITY_TOKEN_URL;
     sandbox.restore();
     clock.restore();
   });
@@ -246,6 +250,12 @@ describe("ManagedIdentityCredential", function() {
           `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
         ) > -1
     );
+  });
+
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_TOKEN_URL environment variable is available", async function() {
+    process.env.AZURE_POD_IDENTITY_TOKEN_URL = "token URL";
+
+    assert.ok(await imdsMsi.isAvailable());
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
