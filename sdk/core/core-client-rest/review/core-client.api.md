@@ -9,6 +9,7 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -46,6 +47,9 @@ export type ClientOptions = PipelineOptions & {
 
 // @public
 export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
+
+// @public
+export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;

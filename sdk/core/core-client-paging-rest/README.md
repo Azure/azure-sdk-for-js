@@ -46,7 +46,7 @@ type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 // This type will be generated based on the swagger information for x-ms-pageable
 // specifically on the itemName property which indicates the property of the response
 // where the page items are found. The default value is `value`.
-// This type will allow us to provide stronly typed Iterator based on the response we get as second parameter
+// This type will allow us to provide strongly  typed Iterator based on the response we get as second parameter
 export type PaginateReturn<TResult> = TResult extends {
   body: { items: infer TPage };
 }

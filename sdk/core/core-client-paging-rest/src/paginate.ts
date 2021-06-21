@@ -3,7 +3,12 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Client, HttpResponse, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  Client,
+  createRestError,
+  HttpResponse,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
@@ -99,13 +104,9 @@ async function* listPage<T = Record<string, unknown>[]>(
  */
 function checkPagingRequest(response: PathUncheckedResponse) {
   if (!Http2xxStatusCodes.includes(response.status)) {
-    throw (
-      response.body?.error ?? {
-        message: `Pagination failed`,
-        request: response.request,
-        response: response,
-        status: response.status,
-      }
+    throw createRestError(
+      `Pagination failed with unexpected statusCode ${response.status}`,
+      response
     );
   }
 }
