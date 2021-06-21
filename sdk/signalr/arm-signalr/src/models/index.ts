@@ -365,7 +365,8 @@ export interface Resource extends BaseResource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * A private endpoint connection to an azure resource
@@ -617,7 +618,7 @@ export interface SignalRCorsSettings {
 }
 
 /**
- * Feature of a SignalR resource, which controls the SignalR runtime behavior.
+ * Feature of a resource, which controls the runtime behavior.
  */
 export interface SignalRFeature {
   /**
@@ -790,6 +791,25 @@ export interface SignalRResource extends TrackedResource {
    * Network ACLs
    */
   networkACLs?: SignalRNetworkACLs;
+  /**
+   * Enable or disable public network access. Default to "Enabled".
+   * When it's Enabled, network ACLs still apply.
+   * When it's Disabled, public network access is always disabled no matter what you set in network
+   * ACLs. Default value: 'Enabled'.
+   */
+  publicNetworkAccess?: string;
+  /**
+   * DisableLocalAuth
+   * Enable or disable local auth with AccessKey
+   * When set as true, connection with AccessKey=xxx won't work. Default value: false.
+   */
+  disableLocalAuth?: boolean;
+  /**
+   * disableAadAuth
+   * Enable or disable aad auth
+   * When set as true, connection with AuthType=aad won't work. Default value: false.
+   */
+  disableAadAuth?: boolean;
   /**
    * The kind of the service - e.g. "SignalR" for "Microsoft.SignalRService/SignalR". Possible
    * values include: 'SignalR', 'RawWebSockets'
@@ -997,7 +1017,7 @@ export interface SharedPrivateLinkResourceList extends Array<SharedPrivateLinkRe
  * @readonly
  * @enum {string}
  */
-export type ACLAction = "Allow" | "Deny";
+export type ACLAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for FeatureFlags.
@@ -1006,11 +1026,7 @@ export type ACLAction = "Allow" | "Deny";
  * @readonly
  * @enum {string}
  */
-export type FeatureFlags =
-  | "ServiceMode"
-  | "EnableConnectivityLogs"
-  | "EnableMessagingLogs"
-  | "EnableLiveTrace";
+export type FeatureFlags = 'ServiceMode' | 'EnableConnectivityLogs' | 'EnableMessagingLogs' | 'EnableLiveTrace';
 
 /**
  * Defines values for KeyType.
@@ -1018,7 +1034,7 @@ export type FeatureFlags =
  * @readonly
  * @enum {string}
  */
-export type KeyType = "Primary" | "Secondary";
+export type KeyType = 'Primary' | 'Secondary';
 
 /**
  * Defines values for ManagedIdentityType.
@@ -1026,7 +1042,7 @@ export type KeyType = "Primary" | "Secondary";
  * @readonly
  * @enum {string}
  */
-export type ManagedIdentityType = "None" | "SystemAssigned" | "UserAssigned";
+export type ManagedIdentityType = 'None' | 'SystemAssigned' | 'UserAssigned';
 
 /**
  * Defines values for SignalRRequestType.
@@ -1034,7 +1050,7 @@ export type ManagedIdentityType = "None" | "SystemAssigned" | "UserAssigned";
  * @readonly
  * @enum {string}
  */
-export type SignalRRequestType = "ClientConnection" | "ServerConnection" | "RESTAPI" | "Trace";
+export type SignalRRequestType = 'ClientConnection' | 'ServerConnection' | 'RESTAPI' | 'Trace';
 
 /**
  * Defines values for CreatedByType.
@@ -1042,7 +1058,7 @@ export type SignalRRequestType = "ClientConnection" | "ServerConnection" | "REST
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ProvisioningState.
@@ -1051,16 +1067,7 @@ export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState =
-  | "Unknown"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Running"
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Moving";
+export type ProvisioningState = 'Unknown' | 'Succeeded' | 'Failed' | 'Canceled' | 'Running' | 'Creating' | 'Updating' | 'Deleting' | 'Moving';
 
 /**
  * Defines values for PrivateLinkServiceConnectionStatus.
@@ -1068,11 +1075,7 @@ export type ProvisioningState =
  * @readonly
  * @enum {string}
  */
-export type PrivateLinkServiceConnectionStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected";
+export type PrivateLinkServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
 
 /**
  * Defines values for SignalRSkuTier.
@@ -1080,7 +1083,7 @@ export type PrivateLinkServiceConnectionStatus =
  * @readonly
  * @enum {string}
  */
-export type SignalRSkuTier = "Free" | "Basic" | "Standard" | "Premium";
+export type SignalRSkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
 
 /**
  * Defines values for UpstreamAuthType.
@@ -1088,7 +1091,7 @@ export type SignalRSkuTier = "Free" | "Basic" | "Standard" | "Premium";
  * @readonly
  * @enum {string}
  */
-export type UpstreamAuthType = "None" | "ManagedIdentity";
+export type UpstreamAuthType = 'None' | 'ManagedIdentity';
 
 /**
  * Defines values for ServiceKind.
@@ -1096,7 +1099,7 @@ export type UpstreamAuthType = "None" | "ManagedIdentity";
  * @readonly
  * @enum {string}
  */
-export type ServiceKind = "SignalR" | "RawWebSockets";
+export type ServiceKind = 'SignalR' | 'RawWebSockets';
 
 /**
  * Defines values for SharedPrivateLinkResourceStatus.
@@ -1104,12 +1107,7 @@ export type ServiceKind = "SignalR" | "RawWebSockets";
  * @readonly
  * @enum {string}
  */
-export type SharedPrivateLinkResourceStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected"
-  | "Timeout";
+export type SharedPrivateLinkResourceStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected' | 'Timeout';
 
 /**
  * Contains response data for the list operation.
@@ -1119,16 +1117,16 @@ export type OperationsListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationList;
+    };
 };
 
 /**
@@ -1139,16 +1137,16 @@ export type OperationsListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationList;
+    };
 };
 
 /**
@@ -1159,16 +1157,16 @@ export type SignalRCheckNameAvailabilityResponse = NameAvailability & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NameAvailability;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NameAvailability;
+    };
 };
 
 /**
@@ -1179,16 +1177,16 @@ export type SignalRListBySubscriptionResponse = SignalRResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResourceList;
+    };
 };
 
 /**
@@ -1199,16 +1197,16 @@ export type SignalRListByResourceGroupResponse = SignalRResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResourceList;
+    };
 };
 
 /**
@@ -1219,16 +1217,16 @@ export type SignalRGetResponse = SignalRResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResource;
+    };
 };
 
 /**
@@ -1239,16 +1237,16 @@ export type SignalRCreateOrUpdateResponse = SignalRResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResource;
+    };
 };
 
 /**
@@ -1259,16 +1257,16 @@ export type SignalRUpdateResponse = SignalRResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResource;
+    };
 };
 
 /**
@@ -1279,16 +1277,16 @@ export type SignalRListKeysResponse = SignalRKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRKeys;
+    };
 };
 
 /**
@@ -1299,16 +1297,16 @@ export type SignalRRegenerateKeyResponse = SignalRKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRKeys;
+    };
 };
 
 /**
@@ -1319,16 +1317,16 @@ export type SignalRBeginCreateOrUpdateResponse = SignalRResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResource;
+    };
 };
 
 /**
@@ -1339,16 +1337,16 @@ export type SignalRBeginUpdateResponse = SignalRResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResource;
+    };
 };
 
 /**
@@ -1359,16 +1357,16 @@ export type SignalRBeginRegenerateKeyResponse = SignalRKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRKeys;
+    };
 };
 
 /**
@@ -1379,16 +1377,16 @@ export type SignalRListBySubscriptionNextResponse = SignalRResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResourceList;
+    };
 };
 
 /**
@@ -1399,16 +1397,16 @@ export type SignalRListByResourceGroupNextResponse = SignalRResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRResourceList;
+    };
 };
 
 /**
@@ -1419,16 +1417,16 @@ export type UsagesListResponse = SignalRUsageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRUsageList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRUsageList;
+    };
 };
 
 /**
@@ -1439,16 +1437,16 @@ export type UsagesListNextResponse = SignalRUsageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignalRUsageList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRUsageList;
+    };
 };
 
 /**
@@ -1459,16 +1457,16 @@ export type SignalRPrivateEndpointConnectionsListResponse = PrivateEndpointConne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionList;
+    };
 };
 
 /**
@@ -1479,16 +1477,16 @@ export type SignalRPrivateEndpointConnectionsGetResponse = PrivateEndpointConnec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -1499,16 +1497,16 @@ export type SignalRPrivateEndpointConnectionsUpdateResponse = PrivateEndpointCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -1519,16 +1517,16 @@ export type SignalRPrivateEndpointConnectionsListNextResponse = PrivateEndpointC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionList;
+    };
 };
 
 /**
@@ -1539,16 +1537,16 @@ export type SignalRPrivateLinkResourcesListResponse = PrivateLinkResourceList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceList;
+    };
 };
 
 /**
@@ -1559,16 +1557,16 @@ export type SignalRPrivateLinkResourcesListNextResponse = PrivateLinkResourceLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceList;
+    };
 };
 
 /**
@@ -1579,16 +1577,16 @@ export type SignalRSharedPrivateLinkResourcesListResponse = SharedPrivateLinkRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SharedPrivateLinkResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedPrivateLinkResourceList;
+    };
 };
 
 /**
@@ -1599,16 +1597,16 @@ export type SignalRSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SharedPrivateLinkResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedPrivateLinkResource;
+    };
 };
 
 /**
@@ -1619,16 +1617,16 @@ export type SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPriv
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SharedPrivateLinkResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedPrivateLinkResource;
+    };
 };
 
 /**
@@ -1639,16 +1637,16 @@ export type SignalRSharedPrivateLinkResourcesBeginCreateOrUpdateResponse = Share
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SharedPrivateLinkResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedPrivateLinkResource;
+    };
 };
 
 /**
@@ -1659,14 +1657,14 @@ export type SignalRSharedPrivateLinkResourcesListNextResponse = SharedPrivateLin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SharedPrivateLinkResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SharedPrivateLinkResourceList;
+    };
 };
