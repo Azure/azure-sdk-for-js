@@ -27,7 +27,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           headers: createHttpHeaders(),
           request: request,
           bodyAsText: JSON.stringify({
-            id: `${env.AZURE_MANAGEDHSM_URI}${path}`,
+            id: path,
             startTime: new Date(),
             attributes: {}
           })
