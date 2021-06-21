@@ -6,7 +6,7 @@ import * as fs from "fs";
 import { Context } from "mocha";
 import * as path from "path";
 
-const validOpenTelemetryVersions = ["0.20.0"];
+const validOpenTelemetryVersions = ["0.20.0", "^1.0.0"];
 
 describe("cache", () => {
   it("ensure current @opentelemetry/api has been validated", function(this: Context) {

@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-preview.12 (Unreleased)
+## 1.0.0 (Unreleased)
+
+- This release marks the general availability of the `@azure/core-tracing` package.
 
 ### Breaking Changes
 

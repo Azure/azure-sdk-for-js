@@ -130,7 +130,7 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.12",
+    "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
