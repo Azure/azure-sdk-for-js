@@ -23,7 +23,8 @@ import {
   SpanStatus,
   SpanStatusCode,
   SpanAttributes,
-  Tracer
+  Tracer,
+  SpanAttributeValue
 } from "@azure/core-tracing";
 
 class MockSpan implements Span {
@@ -31,7 +32,7 @@ class MockSpan implements Span {
   private _status: SpanStatus = {
     code: SpanStatusCode.UNSET
   };
-  private _attributes: { [s: string]: unknown } = {};
+  private _attributes: SpanAttributes = {};
 
   constructor(
     private traceId: string,
@@ -78,7 +79,7 @@ class MockSpan implements Span {
     return this;
   }
 
-  setAttribute(key: string, value: unknown) {
+  setAttribute(key: string, value: SpanAttributeValue) {
     this._attributes[key] = value;
     return this;
   }
