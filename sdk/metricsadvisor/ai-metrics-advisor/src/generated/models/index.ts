@@ -57,10 +57,7 @@ export type MetricFeedbackUnion =
   | CommentFeedback
   | PeriodFeedback;
 export type HookInfoUnion = HookInfo | EmailHookInfo | WebhookHookInfo;
-export type HookInfoPatchUnion =
-  | HookInfoPatch
-  | EmailHookInfoPatch
-  | WebhookHookInfoPatch;
+export type HookInfoPatchUnion = HookInfoPatch | EmailHookInfoPatch | WebhookHookInfoPatch;
 
 export interface UsageStats {
   /**
@@ -409,16 +406,19 @@ export interface WholeMetricConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
 }
 
+/** Represents Smart Condition */
 export interface SmartDetectionCondition {
   /** sensitivity, value range : (0, 100] */
   sensitivity: number;
   /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
+  /** suppress condition */
   suppressCondition: SuppressCondition;
 }
 
@@ -470,6 +470,7 @@ export interface DimensionGroupConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -483,6 +484,7 @@ export interface SeriesConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -1824,11 +1826,7 @@ export type NeedRollupEnum = "NoRollup" | "NeedRollup" | "AlreadyRollup";
 /** Defines values for RollUpMethod. */
 export type RollUpMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 /** Defines values for FillMissingPointType. */
-export type FillMissingPointType =
-  | "SmartFilling"
-  | "PreviousValue"
-  | "CustomValue"
-  | "NoFilling";
+export type FillMissingPointType = "SmartFilling" | "PreviousValue" | "CustomValue" | "NoFilling";
 /** Defines values for ViewMode. */
 export type ViewMode = "Private" | "Public";
 /** Defines values for AuthenticationTypeEnum. */
@@ -2140,8 +2138,7 @@ export type GeneratedClientCreateCredentialResponse = GeneratedClientCreateCrede
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListCredentialsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientListCredentialsOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2185,8 +2182,7 @@ export type GeneratedClientGetCredentialResponse = DataSourceCredentialUnion & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListDataFeedsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientListDataFeedsOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2291,8 +2287,7 @@ export type GeneratedClientCreateMetricFeedbackResponse = GeneratedClientCreateM
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListHooksOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientListHooksOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2392,8 +2387,7 @@ export type GeneratedClientGetMetricDataResponse = MetricDataList & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientGetMetricSeriesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetMetricSeriesOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2413,8 +2407,7 @@ export type GeneratedClientGetMetricSeriesResponse = MetricSeriesList & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientGetMetricDimensionOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetMetricDimensionOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2696,8 +2689,7 @@ export type GeneratedClientListCredentialsNextResponse = DataSourceCredentialLis
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListDataFeedsNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientListDataFeedsNextOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2727,8 +2719,7 @@ export type GeneratedClientListDataFeedsNextResponse = DataFeedList & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListHooksNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientListHooksNextOptionalParams extends coreHttp.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2771,8 +2762,7 @@ export type GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextResponse
 };
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

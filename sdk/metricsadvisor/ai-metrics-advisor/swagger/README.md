@@ -689,3 +689,37 @@ directive:
           }
       }
 ```
+
+### Add description for `SmartDetectionCondition`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SmartDetectionCondition
+    transform: >
+      $.description = "Represents Smart Condition"
+  - from: swagger-document
+    where: $.definitions.SuppressCondition
+    transform: >
+      $.description = "Represents Suppress Condition"
+  - from: swagger-document
+    where: $.definitions.AlertSnoozeCondition
+    transform: >
+      $.description = "Represents Conditions to snooze Alerts"
+  - from: swagger-document
+    where: $.definitions.SeverityFilterCondition
+    transform: >
+      $.description = "Represents Conditions to filter severity"
+  - from: swagger-document
+    where: $.definitions.DataFeedIngestionProgress
+    transform: >
+      $.description = "Track the progress for Datafeed Ingestion"
+  - from: swagger-document
+    where: $.definitions.EmailHookParameter
+    transform: >
+      $.description = "Parameters for Email Hook"
+  - from: swagger-document
+    where: $.definitions.EmailHookParameter
+    transform: >
+      $.description = "Parameters for Email Hook"
+```

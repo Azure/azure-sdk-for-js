@@ -1348,7 +1348,7 @@ export type MetricAnomalyAlertScope =
     };
 
 /**
- * Defines the
+ * Defines the Boundary Conditions for the Metric
  */
 export type MetricBoundaryCondition =
   | {
@@ -1428,6 +1428,10 @@ export type MetricBoundaryCondition =
       type?: "Value" | "Mean";
     };
 
+/**
+ * Defines conditions to decide whether the detected anomalies should be
+ * included in an alert or not.
+ */
 export interface MetricAnomalyAlertConditions {
   /**
    * severity condition to trigger alert
@@ -1439,6 +1443,10 @@ export interface MetricAnomalyAlertConditions {
   metricBoundaryCondition?: MetricBoundaryCondition;
 }
 
+/**
+ * Defines alerting settings for anomalies detected by a detection
+ * configuration.
+ */
 export interface MetricAlertConfiguration {
   /**
    * Anomaly detection configuration unique id
@@ -1934,6 +1942,9 @@ export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> 
   };
 }
 
+/**
+ * Represents Enrichment Status
+ */
 export interface EnrichmentStatus {
   /**
    * data slice timestamp.
@@ -2246,6 +2257,9 @@ export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredenti
   tenantId: string;
 }
 
+/**
+ * Data Source Credential Entity Union Type
+ */
 export type DataSourceCredentialEntityUnion =
   | DataSourceSqlConnectionString
   | DataSourceDataLakeGen2SharedKey

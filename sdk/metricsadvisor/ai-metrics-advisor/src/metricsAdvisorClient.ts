@@ -93,6 +93,7 @@ export interface ListIncidentsForAlertOptions extends OperationOptions {
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
   /** Number of items to skip */
   skip?: number;
+  /** Specify series group to filter results */
   seriesGroupKey?: DimensionKey;
 }
 
