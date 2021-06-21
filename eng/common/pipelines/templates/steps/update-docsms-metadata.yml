@@ -85,14 +85,14 @@ steps:
   displayName: convertToJson
 
 - pwsh: |
-    $artifactInfoJson = '${{ convertToJson(parameters.Artifacts) }}'
+    $artifactInfoJson = '${{ convertToJson(parameters.Artifacts) }}'.Trim('"')
     $artifactInfo = ConvertFrom-Json $artifactInfoJson
     foreach($package in $artifactInfo) {
       Write-Host "Updating docs for $($package.Name)"
       ${{ paramters.ScriptDirectory }}/Update-DocsMsMetadata.ps1 `
         -PackageInfoJsonLocation $package.PackageInfoPath `
         -DocRepoLocation "$(DocRepoLocation)" `
-        -Language "${{parameters.Language}}" `
+        -Language '${{parameters.Language}}'
         -RepoId '${{ parameters.RepoId }}'
     }
   displayName: Apply Documentation Updates
