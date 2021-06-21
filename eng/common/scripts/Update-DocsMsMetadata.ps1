@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-Updates package README.md files for publishing to docs.microsoft.com
+Updates package README.md for publishing to docs.microsoft.com
 
 .DESCRIPTION
-Given a list of PackageInfo .json files, format the package README.md file with 
-metadata and other information needed to release reference docs: 
+Given a PackageInfo .json file, format the package README.md file with metadata
+and other information needed to release reference docs: 
 
 * Adjust README.md content to include metadata
 * Insert the package verison number in the README.md title 
@@ -13,17 +13,9 @@ metadata and other information needed to release reference docs:
   repository. This enables the Docs CI build to onboard packages which have not
   shipped and for which there are no entries in the metadata CSV files.
 
-.PARAMETER ArtifactInfoJson
-JSON string of artifact information of the form: 
-
-```
-[
-  { 
-    "Name": "artifact-name",
-    "PackageInfoPath": "package-info-json-file-location"
-  }
-]
-```
+.PARAMETER ArtifactLocation
+Location of the artifact information .json file. This is usually stored in build
+artifacts under packages/PackageInfo/<package-name>.json.
 
 .PARAMETER DocRepoLocation 
 Location of the root of the docs.microsoft.com reference doc location. Further
@@ -34,11 +26,12 @@ Programming language to supply to metadata
 
 .PARAMETER RepoId
 GitHub repository ID of the SDK. Typically of the form: 'Azure/azure-sdk-for-js'
+
 #>
 
 param(
   [Parameter(Mandatory = $true)]
-  [string]$ArtifactInfoJson,
+  [string]$ArtifactLocation,
   
   [Parameter(Mandatory = $true)]
   [string]$DocRepoLocation, 
@@ -93,67 +86,60 @@ ms.service: $service
   return "$header`n$ReadmeContent"
 }
 
-function UpdateDocsRepoContent($packageInfoLocation) {
-  $packageInfoJson = Get-Content $packageInfoLocation -Raw
-  $packageInfo = ConvertFrom-Json $packageInfoJson
+$packageInfoJson = Get-Content $ArtifactLocation -Raw
+$packageInfo = ConvertFrom-Json $packageInfoJson
 
-  $originalVersion = $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
-  if ($packageInfo.DevVersion) {
-    # If the package is of a dev version, use the dev version. This is used in the
-    # docs title as well as written into the exported package info file in the 
-    # docs repo where it is used for onboarding configuration.
-    
-    if ($GetDocsMsVersionForPackage -and (Test-Path "Function:$GetDocsMsVersionForPackage")) {
-      $packageInfo.Version = &$GetDocsMsVersionForPackage
-    } else { 
-      $packageInfo.Version = $packageInfo.DevVersion
-    }
+$originalVersion = $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
+if ($packageInfo.DevVersion) {
+  # If the package is of a dev version, use the dev version. This is used in the
+  # docs title as well as written into the exported package info file in the 
+  # docs repo where it is used for onboarding configuration.
+  
+  if ($GetDocsMsVersionForPackage -and (Test-Path "Function:$GetDocsMsVersionForPackage")) {
+    $packageInfo.Version = &$GetDocsMsVersionForPackage
+  } else { 
+    $packageInfo.Version = $packageInfo.DevVersion
   }
-
-  $packageMetadataArray = (Get-CSVMetadata).Where({ $_.Package -eq $packageInfo.Name })
-  if ($packageMetadataArray.Count -eq 0) { 
-    LogError "Could not retrieve metadata for $($packageInfo.Name) from metadata CSV"
-  } elseif ($packageMetadataArray.Count -gt 1) { 
-    LogWarning "Multiple metadata entries for $($packageInfo.Name) in metadata CSV. Using first entry."
-  }
-  $packageMetadata = $packageMetadataArray[0]
-
-  $readmeContent = Get-Content $packageInfo.ReadMePath -Raw
-  $outputReadmeContent = "" 
-  if ($readmeContent) { 
-    $outputReadmeContent = GetAdjustedReadmeContent $readmeContent $packageInfo $packageMetadata
-  }
-
-  $docsMsMetadata = &$GetDocsMsMetadataForPackageFn $packageInfo
-  $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
-
-  $readMePath = $docsMsMetadata.LatestReadMeLocation
-  if ($originalVersion.IsPrerelease) { 
-    $readMePath = $docsMsMetadata.PreviewReadMeLocation
-  }
-
-  $suffix = $docsMsMetadata.Suffix
-  $readMeName = "$($docsMsMetadata.DocsMsReadMeName.ToLower())-readme${suffix}.md"
-
-  $readmeLocation = Join-Path $DocRepoLocation $readMePath $readMeName
-
-  Set-Content -Path $readmeLocation -Value $outputReadmeContent
-
-  # Copy package info file to the docs repo
-  $metadataMoniker = 'latest'
-  if ($originalVersion.IsPrerelease) {
-    $metadataMoniker = 'preview'
-  }
-  $packageMetadataName = Split-Path $packageInfoLocation -Leaf
-  $packageInfoLocation = Join-Path $DocRepoLocation "metadata/$metadataMoniker"
-  $packageInfoJson = ConvertTo-Json $packageInfo
-  New-Item -ItemType Directory -Path $packageInfoLocation -Force
-  Set-Content `
-    -Path $packageInfoLocation/$packageMetadataName `
-    -Value $packageInfoJson
 }
 
-foreach ($artifact in $ArtifactInfoJson) { 
-  Write-Host "Update package info from $($artifact.PackageInfoPath)"
-  UpdateDocsRepoContent($artifact.PackageInfoPath)
+$packageMetadataArray = (Get-CSVMetadata).Where({ $_.Package -eq $packageInfo.Name })
+if ($packageMetadataArray.Count -eq 0) { 
+  LogError "Could not retrieve metadata for $($packageInfo.Name) from metadata CSV"
+} elseif ($packageMetadataArray.Count -gt 1) { 
+  LogWarning "Multiple metadata entries for $($packageInfo.Name) in metadata CSV. Using first entry."
 }
+$packageMetadata = $packageMetadataArray[0]
+
+$readmeContent = Get-Content $packageInfo.ReadMePath -Raw
+$outputReadmeContent = "" 
+if ($readmeContent) { 
+  $outputReadmeContent = GetAdjustedReadmeContent $readmeContent $packageInfo $packageMetadata
+}
+
+$docsMsMetadata = &$GetDocsMsMetadataForPackageFn $packageInfo
+$version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
+
+$readMePath = $docsMsMetadata.LatestReadMeLocation
+if ($originalVersion.IsPrerelease) { 
+  $readMePath = $docsMsMetadata.PreviewReadMeLocation
+}
+
+$suffix = $docsMsMetadata.Suffix
+$readMeName = "$($docsMsMetadata.DocsMsReadMeName.ToLower())-readme${suffix}.md"
+
+$readmeLocation = Join-Path $DocRepoLocation $readMePath $readMeName
+
+Set-Content -Path $readmeLocation -Value $outputReadmeContent
+
+# Copy package info file to the docs repo
+$metadataMoniker = 'latest'
+if ($originalVersion.IsPrerelease) {
+  $metadataMoniker = 'preview'
+}
+$packageMetadataName = Split-Path $ArtifactLocation -Leaf
+$packageInfoLocation = Join-Path $DocRepoLocation "metadata/$metadataMoniker"
+$packageInfoJson = ConvertTo-Json $packageInfo
+New-Item -ItemType Directory -Path $packageInfoLocation -Force
+Set-Content `
+  -Path $packageInfoLocation/$packageMetadataName `
+  -Value $packageInfoJson
