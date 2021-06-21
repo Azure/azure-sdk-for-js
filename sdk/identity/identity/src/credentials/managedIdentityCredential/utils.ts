@@ -48,6 +48,13 @@ export async function msiGenericGetToken(
 }
 
 /**
+ * @internal
+ */
+export const multiTenantError = new Error(
+  "Multi-tenant authentication was attempted, but multi-tenant authentication was not enabled in this credential instance."
+);
+
+/**
  * Verifies whether locally assigned tenants are equal to tenants received through getToken.
  * @internal
  */
@@ -62,8 +69,6 @@ export function validateMultiTenantRequest(
     tenantId &&
     getTokenOptions.tenantId !== tenantId
   ) {
-    throw new Error(
-      "Multi-tenant authentication was attempted, but multi-tenant authentication was not enabled in this credential instance."
-    );
+    throw multiTenantError;
   }
 }
