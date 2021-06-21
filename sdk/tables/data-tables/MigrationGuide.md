@@ -183,7 +183,7 @@ console.log(entity);
 ```
 
 ### Querying data from the table
-Previously in `azure-storage`, querying a table looked as follows, and didn't provide a built in way to handle pagination
+Previously in `azure-storage`, querying a table didn't provide a built in way to handle pagination, looking as follows.
 
 ```javascript
 const azure = require('azure-storage');
