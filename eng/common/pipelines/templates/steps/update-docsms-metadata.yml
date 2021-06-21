@@ -80,20 +80,19 @@ steps:
       Write-Host "##vso[task.setvariable variable=TargetBranchName;]$(DefaultBranch)"
     displayName: Set $(TargetBranchName) as $(DefaultBranch)
 
-- ${{ each artifact in parameters.Artifacts }}:
-  - task: PowerShell@2
-    displayName: 'Apply documentation updates from artifact ${{ artifact.Name }}'
-    inputs:
-      targetType: filePath
-      filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
-      arguments: >
-        -ArtifactInfoJson '${{ convertToJson(parameters.Artifacts) }}'
-        -DocRepoLocation "$(DocRepoLocation)"
-        -Language "${{parameters.Language}}"
-        -RepoId ${{ parameters.RepoId }}
-      pwsh: true
-    env:
-      GH_TOKEN: $(azuresdk-github-pat)
+- task: PowerShell@2
+  displayName: 'Apply documentation updates from artifact ${{ artifact.Name }}'
+  inputs:
+    targetType: filePath
+    filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
+    arguments: >
+      -ArtifactInfoJson '${{ convertToJson(parameters.Artifacts) }}'
+      -DocRepoLocation "$(DocRepoLocation)"
+      -Language "${{parameters.Language}}"
+      -RepoId ${{ parameters.RepoId }}
+    pwsh: true
+  env:
+    GH_TOKEN: $(azuresdk-github-pat)
 
 - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
   parameters:
