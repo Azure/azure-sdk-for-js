@@ -272,12 +272,12 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = {
-      ...(isTokenCredential(this.credential) && {
-        credentialScopes: STORAGE_SCOPE,
-        credential: this.credential
-      })
-    };
+    const options: ServiceClientOptions = {};
+
+    if (isTokenCredential(this.credential)) {
+      options.credentialScopes = STORAGE_SCOPE;
+      options.credential = this.credential;
+    }
 
     const client = new ServiceClient(options);
     const headers = getTransactionHeaders(this.resetableState.transactionId);
@@ -326,7 +326,9 @@ export class InternalTableTransaction {
   }
 }
 
-function parseTransactionResponse(transactionResponse: PipelineResponse): TableTransactionResponse {
+export function parseTransactionResponse(
+  transactionResponse: PipelineResponse
+): TableTransactionResponse {
   const subResponsePrefix = `--changesetresponse_`;
   const status = transactionResponse.status;
   const rawBody = transactionResponse.bodyAsText || "";
@@ -384,18 +386,29 @@ function handleBodyError(
   request: PipelineRequest,
   response: PipelineResponse
 ) {
-  const parsedError = JSON.parse(bodyAsText);
+  let parsedError;
+
+  try {
+    parsedError = JSON.parse(bodyAsText);
+  } catch {
+    parsedError = {};
+  }
+
+  let message = "Transaction Failed";
+  let code: string | undefined;
   // Only transaction sub-responses return body
   if (parsedError && parsedError["odata.error"]) {
     const error: TableServiceErrorOdataError = parsedError["odata.error"];
-    const message = error.message?.value || "One of the transaction operations failed";
-    throw new RestError(message, {
-      code: error.code,
-      statusCode,
-      request,
-      response
-    });
+    message = error.message?.value ?? message;
+    code = error.code;
   }
+
+  throw new RestError(message, {
+    code,
+    statusCode,
+    request,
+    response
+  });
 }
 
 /**
