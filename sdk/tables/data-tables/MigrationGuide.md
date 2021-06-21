@@ -31,7 +31,7 @@ The modern client library is named `@azure/data-tables` and was released beginni
 
 ### Constructing the clients
 
-Previously in `azure-storage`, you would use `createTableService` which can be used to get an instance of the `TableService` in order to perform service level operations
+Previously in `azure-storage`, you would use `createTableService` which can be used to get an instance of the `TableService` in order to perform service level operations.
 
 ```javascript
 const azure = require('azure-storage');
