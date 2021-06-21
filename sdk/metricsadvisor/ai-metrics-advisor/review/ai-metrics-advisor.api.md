@@ -264,7 +264,7 @@ export type DataFeedGranularity = {
     customGranularityValue: number;
 };
 
-// @public (undocumented)
+// @public
 export interface DataFeedIngestionProgress {
     readonly latestActiveTimestamp?: Date;
     readonly latestSuccessTimestamp?: Date;
@@ -404,7 +404,7 @@ export interface DataSourceCredentialEntity {
     name: string;
 }
 
-// @public (undocumented)
+// @public
 export type DataSourceCredentialEntityUnion = DataSourceSqlConnectionString | DataSourceDataLakeGen2SharedKey | DataSourceServicePrincipal | DataSourceServicePrincipalInKeyVault;
 
 // @public
@@ -522,7 +522,7 @@ export interface DimensionValuesPageResponse extends Array<string> {
     };
 }
 
-// @public (undocumented)
+// @public
 export interface EmailHookParameter {
     toList: string[];
 }
@@ -539,7 +539,7 @@ export type EmailNotificationHookPatch = {
     hookParameter?: Partial<EmailHookParameter>;
 } & NotificationHookPatch;
 
-// @public (undocumented)
+// @public
 export interface EnrichmentStatus {
     readonly message?: string;
     readonly status?: string;
@@ -736,7 +736,6 @@ export interface ListAnomaliesForDetectionConfigurationOptions extends Operation
 
 // @public
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
-    // (undocumented)
     seriesGroupKey?: DimensionKey;
     skip?: number;
 }
@@ -825,7 +824,7 @@ export type LogAnalyticsAuthServicePrincipalInKeyVault = {
     credentialId: string;
 };
 
-// @public (undocumented)
+// @public
 export interface MetricAlertConfiguration {
     alertConditions?: MetricAnomalyAlertConditions;
     alertScope: MetricAnomalyAlertScope;
@@ -834,7 +833,7 @@ export interface MetricAlertConfiguration {
     snoozeCondition?: MetricAnomalyAlertSnoozeCondition;
 }
 
-// @public (undocumented)
+// @public
 export interface MetricAnomalyAlertConditions {
     metricBoundaryCondition?: MetricBoundaryCondition;
     severityCondition?: SeverityCondition;
@@ -854,7 +853,7 @@ export type MetricAnomalyAlertScope = {
     topNAnomalyScope: TopNGroupScope;
 };
 
-// @public (undocumented)
+// @public
 export interface MetricAnomalyAlertSnoozeCondition {
     autoSnooze: number;
     onlyForSuccessive: boolean;
@@ -1141,23 +1140,22 @@ export type PostgreSqlDataFeedSource = {
 // @public
 export type Severity = "Low" | "Medium" | "High";
 
-// @public (undocumented)
+// @public
 export interface SeverityCondition {
     maxAlertSeverity: Severity;
     minAlertSeverity: Severity;
 }
 
-// @public (undocumented)
+// @public
 export interface SeverityFilterCondition {
     max: Severity;
     min: Severity;
 }
 
-// @public (undocumented)
+// @public
 export interface SmartDetectionCondition {
     anomalyDetectorDirection: AnomalyDetectorDirection;
     sensitivity: number;
-    // (undocumented)
     suppressCondition: SuppressCondition;
 }
 
@@ -1205,13 +1203,13 @@ export type SqlServerDataFeedSource = {
     query: string;
 } & SqlServerAuthTypes;
 
-// @public (undocumented)
+// @public
 export interface SuppressCondition {
     minNumber: number;
     minRatio: number;
 }
 
-// @public (undocumented)
+// @public
 export interface TopNGroupScope {
     minTopCount: number;
     period: number;

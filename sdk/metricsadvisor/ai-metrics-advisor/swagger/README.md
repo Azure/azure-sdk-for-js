@@ -722,4 +722,20 @@ directive:
     where: $.definitions.EmailHookParameter
     transform: >
       $.description = "Parameters for Email Hook"
+  - from: swagger-document
+    where: $.definitions.WebHookParameter
+    transform: >
+      $.description = "Parameters for Web Hook"
+  - from: swagger-document
+    where: $.definitions.IngestionStatus
+    transform: >
+      $.description = "Ingestion Status"
+  - from: swagger-document
+    where: $.definitions.SeverityCondition
+    transform: >
+      $.description = "Alert Severity Condition"
+  - from: swagger-document
+    where: $.definitions.TopNGroupScope
+    transform: >
+      $.description = "Group Scope for Top N values"
 ```
