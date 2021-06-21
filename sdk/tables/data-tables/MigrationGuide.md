@@ -213,7 +213,7 @@ listEntities(query, null, function() {
 
 ```
 
-In the new `@azure/data-tables` we return a `PagedAsyncIterableIterator` that handles fetching all the pages internally, and can be iterated easily.
+In the new `@azure/data-tables` we return a `PagedAsyncIterableIterator` that handles the details of pagination internally, simplifying the task of iteration.
 
 ```javascript 
 const { TableClient, AzureNamedKeyCredential, odata } = require('@azure/data-tables');
