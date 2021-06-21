@@ -26,7 +26,6 @@ const noCorrelationId = "noCorrelationId";
 /**
  * An internal type used to communicate details of a token request's
  * response that should not be sent back as part of the access token.
- * @internal
  */
 export interface TokenResponse {
   /**
@@ -62,7 +61,6 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  * It allows for credentials to abort any pending request independently of the MSAL flow,
  * by calling to the `abortRequests()` method.
  *
- * @internal
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
