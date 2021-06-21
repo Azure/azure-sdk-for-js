@@ -1367,9 +1367,7 @@ export class BlobClient extends StorageClient {
    *                                                   A common header to set is `blobContentType`
    *                                                   enabling the browser to provide functionality
    *                                                   based on file type.
-   * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
-   * @returns {Promise<BlobSetHTTPHeadersResponse>}
-   * @memberof BlobClient
+   * @param options - Optional options to Blob Set HTTP Headers operation.
    */
   public async setHTTPHeaders(
     blobHTTPHeaders?: BlobHTTPHeaders,
@@ -2144,8 +2142,6 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * to set is `blobContentType`, enabling the browser to provide functionality
    * based on file type.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof AppendBlobCreateOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2183,8 +2179,6 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    * `blobContentType`, enabling the browser to provide functionality
    * based on file type.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2750,8 +2744,6 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * `blobContentType`, enabling the browser to provide functionality
    * based on file type.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobUploadOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2838,8 +2830,6 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * A common header to set is `blobContentType`, enabling the browser to provide functionality
    * based on file type.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -3145,8 +3135,6 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * A common header to set is `blobContentType`, enabling the
    * browser to provide functionality based on file type.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobUploadStreamOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -3217,8 +3205,6 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * `blobContentType`, enabling the browser to provide
    * functionality based on file type.
    *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobParallelUploadOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -3850,11 +3836,8 @@ export class BlockBlobClient extends BlobClient {
    * `blobContentType`, enabling the browser to provide
    * functionality based on file type.
    *
-   * @export
-   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
-   * @param {BlockBlobParallelUploadOptions} [options]
-   * @returns {Promise<BlobUploadCommonResponse>}
-   * @memberof BlockBlobClient
+   * @param data - Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
+   * @param options -
    */
   public async uploadData(
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
