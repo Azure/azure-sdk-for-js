@@ -80,9 +80,9 @@ steps:
       Write-Host "##vso[task.setvariable variable=TargetBranchName;]$(DefaultBranch)"
     displayName: Set $(TargetBranchName) as $(DefaultBranch)
 
-  - pwsh: |
-      Write-Host "${{ convertToJson(parameters.Artifacts) }}"
-    displayName: convertToJson
+- pwsh: |
+    Write-Host "${{ convertToJson(parameters.Artifacts) }}"
+  displayName: convertToJson
 
 # - ${{ each artifact in parameters.Artifacts }}:
 #   - task: PowerShell@2
