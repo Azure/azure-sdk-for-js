@@ -92,7 +92,7 @@ steps:
       ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1 `
         -PackageInfoJsonLocation $package.PackageInfoPath `
         -DocRepoLocation "$(DocRepoLocation)" `
-        -Language '${{parameters.Language}}'
+        -Language '${{parameters.Language}}' `
         -RepoId '${{ parameters.RepoId }}'
     }
   displayName: Apply Documentation Updates
