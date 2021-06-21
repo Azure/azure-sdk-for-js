@@ -182,7 +182,6 @@ export function bearerTokenAuthenticationPolicy(
         getChallenge(response)
       ) {
         // processes challenge
-        // TODO: What happens if this throws and we retry?
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
