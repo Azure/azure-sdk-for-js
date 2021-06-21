@@ -81,10 +81,6 @@ steps:
     displayName: Set $(TargetBranchName) as $(DefaultBranch)
 
 - pwsh: |
-    Write-Host "${{ convertToJson(parameters.Artifacts) }}"
-  displayName: convertToJson
-
-- pwsh: |
     $artifactInfoJson = '${{ convertToJson(parameters.Artifacts) }}'.Trim('"')
     $artifactInfo = ConvertFrom-Json $artifactInfoJson
     foreach($package in $artifactInfo) {
