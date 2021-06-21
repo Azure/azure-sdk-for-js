@@ -267,7 +267,10 @@ describe("ManagedIdentityCredential", function() {
     });
 
     const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
-      ...mockHttpClient.tokenCredentialOptions
+      ...mockHttpClient.tokenCredentialOptions,
+      retryOptions: {
+        maxRetries: 3
+      }
     });
 
     const promise = credential.getToken("scopes");

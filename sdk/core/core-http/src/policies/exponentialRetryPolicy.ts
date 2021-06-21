@@ -161,10 +161,7 @@ async function retry(
   );
 
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
-  const maxRetries: number = isNumber(process.env.DEFAULT_CLIENT_RETRY_COUNT)
-    ? Number(process.env.DEFAULT_CLIENT_RETRY_COUNT)
-    : 5;
-  if (!isAborted && shouldRetry(maxRetries, shouldPolicyRetry, retryData, response)) {
+  if (!isAborted && shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, response)) {
     logger.info(`Retrying request in ${retryData.retryInterval}`);
     try {
       await utils.delay(retryData.retryInterval);
