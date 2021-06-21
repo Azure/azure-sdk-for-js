@@ -89,10 +89,10 @@ steps:
   inputs:
     targetType: filePath
     filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
-    arguments: >
-      -ArtifactInfoJson '${{ convertToJson(parameters.Artifacts) }}'
-      -DocRepoLocation "$(DocRepoLocation)"
-      -Language "${{parameters.Language}}"
+    arguments: |
+      -ArtifactInfoJson '${{ convertToJson(parameters.Artifacts) }}' `
+      -DocRepoLocation "$(DocRepoLocation)" `
+      -Language "${{parameters.Language}}" `
       -RepoId ${{ parameters.RepoId }}
     pwsh: true
   env:
