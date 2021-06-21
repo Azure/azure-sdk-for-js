@@ -94,7 +94,6 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
   }
 
   async function authorizeRequest(options: AuthorizeRequestOptions) {
-    console.count("authorizeRequest");
     const { scopes, request } = options;
     const requestOptions: GetTokenOptions = requestToOptions(request);
 
@@ -121,7 +120,6 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
   async function authorizeRequestOnChallenge(
     options: AuthorizeRequestOnChallengeOptions
   ): Promise<boolean> {
-    console.count("authorizeRequestOnChallenge");
     const { scopes, request, response } = options;
 
     if (request.body === null && challengeState.status === "started") {
