@@ -248,6 +248,45 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
+  it("IMDS MSI retries also retries on 503s before counting the 404 limit", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 503 },
+        { status: 503 },
+        { status: 200 },
+        { status: 404 },
+        { status: 503 },
+        { status: 503 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const promise = credential.getToken("scopes");
+
+    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
+
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
+    // Plus four 503s: 1000 * 30 * 4
+    clock.tick(640 + 1000 * 30 * 4);
+
+    await assertRejects(
+      promise,
+      (error: AuthenticationError) =>
+        error.message.indexOf(
+          `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+        ) > -1
+    );
+  });
+
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
   // it("can extend timeout for IMDS endpoint", async function() {
   //   // Mock a timeout so that the endpoint ping fails
