@@ -58,6 +58,42 @@ export class PrivateEndpointConnectionsPrivateLinkHub {
   }
 
   /**
+   * Get all PrivateEndpointConnection in the PrivateLinkHub by name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
+   * @param privateEndpointConnectionName Name of the privateEndpointConnection
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrivateEndpointConnectionsPrivateLinkHubGetResponse>
+   */
+  get(resourceGroupName: string, privateLinkHubName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsPrivateLinkHubGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
+   * @param privateEndpointConnectionName Name of the privateEndpointConnection
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, privateLinkHubName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionForPrivateLinkHub>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
+   * @param privateEndpointConnectionName Name of the privateEndpointConnection
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, privateLinkHubName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionForPrivateLinkHub>): void;
+  get(resourceGroupName: string, privateLinkHubName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionForPrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionForPrivateLinkHub>): Promise<Models.PrivateEndpointConnectionsPrivateLinkHubGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        privateLinkHubName,
+        privateEndpointConnectionName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.PrivateEndpointConnectionsPrivateLinkHubGetResponse>;
+  }
+
+  /**
    * Get all PrivateEndpointConnections in the PrivateLinkHub
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -105,6 +141,32 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateLinkHubName,
+    Parameters.privateEndpointConnectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionForPrivateLinkHub
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -225,7 +225,7 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
   nodeSize?: NodeSize;
   /**
    * The kind of nodes that the Big Data pool provides. Possible values include: 'None',
-   * 'MemoryOptimized'
+   * 'MemoryOptimized', 'HardwareAcceleratedFPGA', 'HardwareAcceleratedGPU'
    */
   nodeSizeFamily?: NodeSizeFamily;
   /**
@@ -387,7 +387,7 @@ export interface IpFirewallRuleProperties {
 /**
  * IP firewall rule
  */
-export interface IpFirewallRuleInfo extends BaseResource {
+export interface IpFirewallRuleInfo extends ProxyResource {
   /**
    * The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to
    * startIpAddress
@@ -2264,7 +2264,7 @@ export interface SqlPoolPatchInfo {
  * Configuration for metadata sync
  * @summary Metadata sync configuration
  */
-export interface MetadataSyncConfig extends BaseResource {
+export interface MetadataSyncConfig extends ProxyResource {
   /**
    * Indicates whether the metadata sync is enabled or disabled
    */
@@ -4050,6 +4050,20 @@ export interface WorkspaceKeyDetails {
 }
 
 /**
+ * Key encryption key properties
+ */
+export interface KekIdentityProperties {
+  /**
+   * User assigned identity resource Id
+   */
+  userAssignedIdentity?: string;
+  /**
+   * Boolean specifying whether to use system assigned identity or not
+   */
+  useSystemAssignedIdentity?: any;
+}
+
+/**
  * Details of the customer managed key associated with the workspace
  */
 export interface CustomerManagedKeyDetails {
@@ -4062,6 +4076,10 @@ export interface CustomerManagedKeyDetails {
    * The key object of the workspace
    */
   key?: WorkspaceKeyDetails;
+  /**
+   * Key encryption key
+   */
+  kekIdentity?: KekIdentityProperties;
 }
 
 /**
@@ -4148,6 +4166,16 @@ export interface PurviewConfiguration {
    * Purview Resource ID
    */
   purviewResourceId?: string;
+}
+
+/**
+ * Initial workspace AAD admin properties for a CSP subscription
+ */
+export interface CspWorkspaceAdminProperties {
+  /**
+   * AAD object ID of initial workspace admin
+   */
+  initialWorkspaceAdminObjectId?: string;
 }
 
 /**
@@ -4248,10 +4276,14 @@ export interface Workspace extends TrackedResource {
    */
   readonly adlaResourceId?: string;
   /**
-   * Enable or Disable pubic network access to workspace. Possible values include: 'Enabled',
+   * Enable or Disable public network access to workspace. Possible values include: 'Enabled',
    * 'Disabled'
    */
   publicNetworkAccess?: WorkspacePublicNetworkAccess;
+  /**
+   * Initial workspace AAD admin properties for a CSP subscription
+   */
+  cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties;
   /**
    * Identity of the workspace
    */
@@ -4261,7 +4293,7 @@ export interface Workspace extends TrackedResource {
 /**
  * Workspace active directory administrator
  */
-export interface WorkspaceAadAdminInfo extends BaseResource {
+export interface WorkspaceAadAdminInfo extends ProxyResource {
   /**
    * Tenant ID of the workspace active directory administrator
    */
@@ -4318,7 +4350,7 @@ export interface WorkspacePatchInfo {
    */
   encryption?: EncryptionDetails;
   /**
-   * Enable or Disable pubic network access to workspace. Possible values include: 'Enabled',
+   * Enable or Disable public network access to workspace. Possible values include: 'Enabled',
    * 'Disabled'
    */
   publicNetworkAccess?: WorkspacePublicNetworkAccess;
@@ -5055,11 +5087,12 @@ export type NodeSize = 'None' | 'Small' | 'Medium' | 'Large' | 'XLarge' | 'XXLar
 
 /**
  * Defines values for NodeSizeFamily.
- * Possible values include: 'None', 'MemoryOptimized'
+ * Possible values include: 'None', 'MemoryOptimized', 'HardwareAcceleratedFPGA',
+ * 'HardwareAcceleratedGPU'
  * @readonly
  * @enum {string}
  */
-export type NodeSizeFamily = 'None' | 'MemoryOptimized';
+export type NodeSizeFamily = 'None' | 'MemoryOptimized' | 'HardwareAcceleratedFPGA' | 'HardwareAcceleratedGPU';
 
 /**
  * Defines values for ProvisioningState.
@@ -6814,6 +6847,26 @@ export type PrivateEndpointConnectionsPrivateLinkHubListResponse = PrivateEndpoi
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsPrivateLinkHubGetResponse = PrivateEndpointConnectionForPrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionForPrivateLinkHub;
     };
 };
 

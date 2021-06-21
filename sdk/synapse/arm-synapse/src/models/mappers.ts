@@ -592,6 +592,7 @@ export const IpFirewallRuleInfo: msRest.CompositeMapper = {
     name: "Composite",
     className: "IpFirewallRuleInfo",
     modelProperties: {
+      ...ProxyResource.type.modelProperties,
       endIpAddress: {
         serializedName: "properties.endIpAddress",
         type: {
@@ -3497,6 +3498,7 @@ export const MetadataSyncConfig: msRest.CompositeMapper = {
     name: "Composite",
     className: "MetadataSyncConfig",
     modelProperties: {
+      ...ProxyResource.type.modelProperties,
       enabled: {
         serializedName: "properties.enabled",
         type: {
@@ -5849,6 +5851,28 @@ export const WorkspaceKeyDetails: msRest.CompositeMapper = {
   }
 };
 
+export const KekIdentityProperties: msRest.CompositeMapper = {
+  serializedName: "KekIdentityProperties",
+  type: {
+    name: "Composite",
+    className: "KekIdentityProperties",
+    modelProperties: {
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
+        type: {
+          name: "String"
+        }
+      },
+      useSystemAssignedIdentity: {
+        serializedName: "useSystemAssignedIdentity",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const CustomerManagedKeyDetails: msRest.CompositeMapper = {
   serializedName: "CustomerManagedKeyDetails",
   type: {
@@ -5867,6 +5891,13 @@ export const CustomerManagedKeyDetails: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WorkspaceKeyDetails"
+        }
+      },
+      kekIdentity: {
+        serializedName: "kekIdentity",
+        type: {
+          name: "Composite",
+          className: "KekIdentityProperties"
         }
       }
     }
@@ -6002,6 +6033,22 @@ export const PurviewConfiguration: msRest.CompositeMapper = {
     modelProperties: {
       purviewResourceId: {
         serializedName: "purviewResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CspWorkspaceAdminProperties: msRest.CompositeMapper = {
+  serializedName: "CspWorkspaceAdminProperties",
+  type: {
+    name: "Composite",
+    className: "CspWorkspaceAdminProperties",
+    modelProperties: {
+      initialWorkspaceAdminObjectId: {
+        serializedName: "initialWorkspaceAdminObjectId",
         type: {
           name: "String"
         }
@@ -6179,6 +6226,13 @@ export const Workspace: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      cspWorkspaceAdminProperties: {
+        serializedName: "properties.cspWorkspaceAdminProperties",
+        type: {
+          name: "Composite",
+          className: "CspWorkspaceAdminProperties"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -6196,6 +6250,7 @@ export const WorkspaceAadAdminInfo: msRest.CompositeMapper = {
     name: "Composite",
     className: "WorkspaceAadAdminInfo",
     modelProperties: {
+      ...ProxyResource.type.modelProperties,
       tenantId: {
         serializedName: "properties.tenantId",
         type: {
