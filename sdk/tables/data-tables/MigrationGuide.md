@@ -4,6 +4,22 @@ This guide is intended to assist in the migration to `@azure/data-tables` from t
 
 We assume that you are familiar with `azure-storage`. If you are new to the Azure Tables client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v12) rather than this guide.
 
+## Table of contents
+
+- [Migration benefits](#migration-benefits)
+  - [Cross Service SDK improvements](#cross-service-sdk-improvements)
+- [Important changes](#important-changes)
+  - [Package name and structure](#package-name-and-structure)
+  - [Constructing the clients](#constructing-the-clients)
+  - [Creating a Table](#creating-a-table)
+  - [Adding data to the table](#adding-data-to-the-table)
+  - [Fetching a single entity from the table](#fetching-a-single-entity-from-the-table)
+  - [Querying data from the table](#querying-data-from-the-table)
+  - [Delete table entities](#delete-table-entities)
+  - [Batch Transactions](#batch-transactions)
+  - [Sequential Actions](#sequential-actions)
+- [Additional samples](#additional-samples)
+
 ## Migration benefits
 
 As Azure has matured and been embraced by a more diverse group of developers, we have been focused on learning the patterns and practices to best support developer productivity and to understand the gaps that the JavaScript client libraries have.
@@ -16,16 +32,17 @@ To improve the development experience across Azure services, a set of uniform [d
 
 The modern `@azure/data-tables` client library also provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as
 
-- Using the new `@azure/identity` library to share a single authentication approach between clients
 - A unified logging and diagnostics pipeline offering a common view of the activities across each of the client libraries
 - Use of promises rather than callbacks for a simplified programming experience
 - Use of async iterators in paging APIs
 
 ## Important changes
 
-### Package name
+### Package name and structure
 
 The modern client library is named `@azure/data-tables` and was released beginning with version 12. The legacy client library is named `azure-storage` with version of 2.x.x or below.
+
+The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/data-tables` is dedicated to `Tables` there are new generation packages for the other storage services `@azure/storage-blob`, `@azure/storage-queue`, `@azure/storage-files` this provides more granular control on which dependencies to take on your project.
 
 ### Constructing the clients
 
