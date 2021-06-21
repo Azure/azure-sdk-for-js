@@ -33,14 +33,24 @@ export class CloudServiceRoles {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRolesGetResponse>
    */
-  get(roleName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceRolesGetResponse>;
+  get(
+    roleName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServiceRolesGetResponse>;
   /**
    * @param roleName Name of the role.
    * @param resourceGroupName
    * @param cloudServiceName
    * @param callback The callback
    */
-  get(roleName: string, resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.CloudServiceRole>): void;
+  get(
+    roleName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.CloudServiceRole>
+  ): void;
   /**
    * @param roleName Name of the role.
    * @param resourceGroupName
@@ -48,8 +58,20 @@ export class CloudServiceRoles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(roleName: string, resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceRole>): void;
-  get(roleName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceRole>, callback?: msRest.ServiceCallback<Models.CloudServiceRole>): Promise<Models.CloudServiceRolesGetResponse> {
+  get(
+    roleName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CloudServiceRole>
+  ): void;
+  get(
+    roleName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceRole>,
+    callback?: msRest.ServiceCallback<Models.CloudServiceRole>
+  ): Promise<Models.CloudServiceRolesGetResponse> {
     return this.client.sendOperationRequest(
       {
         roleName,
@@ -58,7 +80,8 @@ export class CloudServiceRoles {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CloudServiceRolesGetResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRolesGetResponse>;
   }
 
   /**
@@ -69,21 +92,39 @@ export class CloudServiceRoles {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRolesListResponse>
    */
-  list(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceRolesListResponse>;
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServiceRolesListResponse>;
   /**
    * @param resourceGroupName
    * @param cloudServiceName
    * @param callback The callback
    */
-  list(resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>): void;
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>
+  ): void;
   /**
    * @param resourceGroupName
    * @param cloudServiceName
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>): void;
-  list(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceRoleListResult>, callback?: msRest.ServiceCallback<Models.CloudServiceRoleListResult>): Promise<Models.CloudServiceRolesListResponse> {
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceRoleListResult>,
+    callback?: msRest.ServiceCallback<Models.CloudServiceRoleListResult>
+  ): Promise<Models.CloudServiceRolesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class CloudServiceRoles {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CloudServiceRolesListResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRolesListResponse>;
   }
 
   /**
@@ -101,26 +143,41 @@ export class CloudServiceRoles {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRolesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceRolesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServiceRolesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceRoleListResult>, callback?: msRest.ServiceCallback<Models.CloudServiceRoleListResult>): Promise<Models.CloudServiceRolesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CloudServiceRoleListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceRoleListResult>,
+    callback?: msRest.ServiceCallback<Models.CloudServiceRoleListResult>
+  ): Promise<Models.CloudServiceRolesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CloudServiceRolesListNextResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRolesListNextResponse>;
   }
 }
 
@@ -128,19 +185,16 @@ export class CloudServiceRoles {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}",
   urlParameters: [
     Parameters.roleName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceRole
@@ -154,18 +208,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceRoleListResult
@@ -181,15 +232,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceRoleListResult

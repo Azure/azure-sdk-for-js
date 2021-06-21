@@ -60,7 +60,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@opentelemetry/api": "1.0.0-rc.0",
+    "@opentelemetry/api": "0.20.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

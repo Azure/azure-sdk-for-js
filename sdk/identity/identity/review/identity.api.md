@@ -4,11 +4,11 @@
 
 ```ts
 
-import { AccessToken } from '@azure/core-http';
+import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
-import { GetTokenOptions } from '@azure/core-http';
+import { GetTokenOptions } from '@azure/core-auth';
 import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -109,7 +109,8 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    regionalAuthority?: string;
     sendCertificateChain?: boolean;
 }
 
@@ -120,7 +121,13 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    regionalAuthority?: string;
+}
+
+// @public
+export interface CredentialPersistenceOptions {
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -137,7 +144,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 }
 
 // @public
-export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
     managedIdentityClientId?: string;
     tenantId?: string;
 }
@@ -153,7 +160,7 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
 // @public
-export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions {
+export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     clientId?: string;
     tenantId?: string;
     userPromptCallback?: DeviceCodePromptCallback;
@@ -171,8 +178,12 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 // @public
 export class EnvironmentCredential implements TokenCredential {
-    constructor(options?: TokenCredentialOptions);
+    constructor(options?: EnvironmentCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface EnvironmentCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
 }
 
 // @public
@@ -191,6 +202,9 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
+export type IdentityExtension = (context: unknown) => void;
+
+// @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
@@ -198,19 +212,19 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
 
 // @public
-export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
-    redirectUri?: string | (() => string);
-    tenantId?: string;
+export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveCredentialOptions {
     clientId: string;
     loginStyle?: BrowserLoginStyle;
-};
-
-// @public
-export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
     redirectUri?: string | (() => string);
     tenantId?: string;
+}
+
+// @public
+export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     clientId?: string;
-};
+    redirectUri?: string | (() => string);
+    tenantId?: string;
+}
 
 // @public
 export interface InteractiveCredentialOptions extends TokenCredentialOptions {
@@ -234,7 +248,71 @@ export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions
 }
 
 // @public
+export enum RegionalAuthority {
+    AsiaEast = "eastasia",
+    AsiaSouthEast = "southeastasia",
+    AustraliaCentral = "australiacentral",
+    AustraliaCentral2 = "australiacentral2",
+    AustraliaEast = "australiaeast",
+    AustraliaSouthEast = "australiasoutheast",
+    AutoDiscoverRegion = "AutoDiscoverRegion",
+    BrazilSouth = "brazilsouth",
+    CanadaCentral = "canadacentral",
+    CanadaEast = "canadaeast",
+    ChinaEast = "chinaeast",
+    ChinaEast2 = "chinaeast2",
+    ChinaNorth = "chinanorth",
+    ChinaNorth2 = "chinanorth2",
+    EuropeNorth = "northeurope",
+    EuropeWest = "westeurope",
+    FranceCentral = "francecentral",
+    FranceSouth = "francesouth",
+    GermanyCentral = "germanycentral",
+    GermanyNorth = "germanynorth",
+    GermanyNorthEast = "germanynortheast",
+    GermanyWestCentral = "germanywestcentral",
+    GovernmentUSArizona = "usgovarizona",
+    GovernmentUSDodCentral = "usdodcentral",
+    GovernmentUSDodEast = "usdodeast",
+    GovernmentUSIowa = "usgoviowa",
+    GovernmentUSTexas = "usgovtexas",
+    GovernmentUSVirginia = "usgovvirginia",
+    IndiaCentral = "centralindia",
+    IndiaSouth = "southindia",
+    IndiaWest = "westindia",
+    JapanEast = "japaneast",
+    JapanWest = "japanwest",
+    KoreaCentral = "koreacentral",
+    KoreaSouth = "koreasouth",
+    NorwayEast = "norwayeast",
+    NorwayWest = "norwaywest",
+    SouthAfricaNorth = "southafricanorth",
+    SouthAfricaWest = "southafricawest",
+    SwitzerlandNorth = "switzerlandnorth",
+    SwitzerlandWest = "switzerlandwest",
+    UAECentral = "uaecentral",
+    UAENorth = "uaenorth",
+    UKSouth = "uksouth",
+    UKWest = "ukwest",
+    USCentral = "centralus",
+    USEast = "eastus",
+    USEast2 = "eastus2",
+    USNorthCentral = "northcentralus",
+    USSouthCentral = "southcentralus",
+    USWest = "westus",
+    USWest2 = "westus2",
+    USWestCentral = "westcentralus"
+}
+
+// @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
+
+// @public
+export interface TokenCachePersistenceOptions {
+    allowUnencryptedStorage?: boolean;
+    enabled: boolean;
+    name?: string;
+}
 
 export { TokenCredential }
 
@@ -245,13 +323,27 @@ export interface TokenCredentialOptions extends PipelineOptions {
 }
 
 // @public
+export function useIdentityExtension(extension: IdentityExtension): void;
+
+// @public
 export class UsernamePasswordCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, username: string, password: string, options?: UsernamePasswordCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
-export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions {
+export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+}
+
+// @public
+export class VisualStudioCodeCredential implements TokenCredential {
+    constructor(options?: VisualStudioCodeCredentialOptions);
+    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface VisualStudioCodeCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
 }
 
 

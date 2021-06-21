@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+
 import { CredentialUnavailableError } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";

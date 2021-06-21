@@ -34,7 +34,7 @@ export async function supportsTracing(
 
   // Ensure top-level children are created correctly.
   // Testing the entire tree structure can be tricky as other packages might create their own spans.
-  const spanGraph = tracer.getSpanGraph(rootSpan.context().traceId);
+  const spanGraph = tracer.getSpanGraph(rootSpan.spanContext().traceId);
   const directChildren = spanGraph.roots[0].children.map((child) => child.name);
   // LROs might poll N times, so we'll make a unique array and compare that.
   assert.sameMembers(Array.from(new Set(directChildren)), children);
