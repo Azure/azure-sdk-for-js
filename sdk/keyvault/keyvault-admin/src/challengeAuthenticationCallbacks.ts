@@ -7,6 +7,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
 
+const validParsedWWWAuthenticateProperties = ["authorization", "resource", "scope"];
+
 /**
  * @internal
  *
@@ -50,23 +52,18 @@ type ChallengeState =
  * @param wwwAuthenticate - String value in the WWW-Authenticate header
  */
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-  // First we split the string by either `, ` or ` `.
-  const parts = wwwAuthenticate.split(/,* +/);
-  // Then we only keep the strings with an equal sign after a word and before a quote.
-  // also splitting these sections by their equal sign
-  const keyValues = parts.reduce<string[][]>(
-    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
-    []
-  );
-  // Then we transform these key-value pairs back into an object.
-  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
-    (result, [key, value]: string[]) => ({
-      ...result,
-      [key]: value.slice(1, -1)
-    }),
-    {}
-  );
-  return parsed;
+  const pairDelimiter = /,? +/;
+  return wwwAuthenticate.split(pairDelimiter).reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
+    if (p.match(/\w="/)) {
+      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
+      const [key, value] = p.split("=");
+      if (validParsedWWWAuthenticateProperties.includes(key)) {
+        // The values will be wrapped in quotes, which need to be stripped out.
+        return { ...kvPairs, [key]: value.slice(1, -1) };
+      }
+    }
+    return kvPairs;
+  }, {});
 }
 
 /**
@@ -138,7 +135,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
 
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
-      throw new Error("Missing challenge");
+      throw new Error("Missing challenge.");
     }
     const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticate(challenge) || [];
 

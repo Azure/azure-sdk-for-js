@@ -189,5 +189,15 @@ describe("Challenge based authentication tests", function() {
         scope: "https://some.url"
       });
     });
+
+    it("Should ignore unknown values in the WWW-Authenticate header", () => {
+      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url" scope="scope", a="a", b="b"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "some_authorization",
+        resource: "https://some.url",
+        scope: "scope"
+      });
+    });
   });
 });
