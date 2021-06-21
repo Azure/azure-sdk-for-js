@@ -251,10 +251,6 @@ stages:
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
 
-        - pwsh: |
-            Write-Host "${{ convertToJson(parameters.Artifacts) }}"
-          displayName: convertToJson
-
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             Artifacts: 
