@@ -23,7 +23,7 @@ type ValidParsedWWWAuthenticateProperties =
   | "resource"
   | "scope";
 
-export type ParsedWWWAuthenticate = {
+type ParsedWWWAuthenticate = {
   [Key in ValidParsedWWWAuthenticateProperties]?: string;
 };
 

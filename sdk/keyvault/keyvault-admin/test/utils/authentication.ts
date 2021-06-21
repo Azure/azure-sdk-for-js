@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { uniqueString } from "./recorder";
-// import { DefaultHttpClient } from "@azure/core-http";
 import { getEnvironmentVariable } from "./common";
 
 export async function authenticate(that: any): Promise<any> {
