@@ -3,7 +3,6 @@
 
 import { OperationOptions } from "@azure/core-client";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { delay } from "@azure/core-util";
 import { KeyVaultClient } from "../generated/keyVaultClient";
 
 /**
@@ -79,7 +78,7 @@ export abstract class KeyVaultAdminPoller<
    * The method used by the poller to wait before attempting to update its operation.
    */
   async delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return new Promise((resolve) => setTimeout(resolve, this.intervalInMs));
   }
 
   /**

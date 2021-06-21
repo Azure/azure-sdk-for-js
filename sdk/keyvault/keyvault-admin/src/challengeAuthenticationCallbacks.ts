@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   AuthorizeRequestOnChallengeOptions,
   AuthorizeRequestOptions,
@@ -107,12 +110,13 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
         break;
       case "started":
         break; // Retry, we should not overwrite the original body
-      case "complete":
+      case "complete": {
         const token = await options.getAccessToken(scopes, requestOptions);
         if (token) {
           request.headers.set("authorization", `Bearer ${token.token}`);
         }
         break;
+      }
     }
     return Promise.resolve();
   }

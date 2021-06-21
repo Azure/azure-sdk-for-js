@@ -11,7 +11,7 @@
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
-    // "../keyvault-common/**/*.ts",
+    "../keyvault-common/**/*.ts",
     "samples-dev/**/*.ts"
   ]
 }
