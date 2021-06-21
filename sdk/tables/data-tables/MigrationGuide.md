@@ -384,4 +384,4 @@ await tableClient.createEntity({partitionKey: "p2", rowKey: "r2", foo: "baz"});
 
 ## Additional samples
 
-More examples can be found at [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v12)
+More samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v12)
