@@ -26,7 +26,7 @@ const extensionContext: AzureExtensionContext = {
  * Example:
  *
  * ```javascript
- * import persistence from "@azure/identity-cache-persistence";
+ * import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
  *
  * import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
  * useIdentityExtension(persistence);
@@ -37,28 +37,6 @@ const extensionContext: AzureExtensionContext = {
  *   tokenCachePersistenceOptions: {
  *     enabled: true
  *   }
- * });
- * ```
- *
- * An extension can also be passed in from a module `import` asynchronously, in which
- * case it will return a Promise.
- *
- * ```javascript
- * import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
- *
- * async function main() {
- *   await useIdentityExtension(import("@azure/identity-cache-persistence"));
- *
- *   const credential = new DefaultAzureCredential({
- *     tokenCachePersistenceOptions: {
- *       enabled: true
- *     }
- *   });
- * }
- *
- * main().catch((error) => {
- *   console.error("An error occurred in the program:", error);
- *   process.exit(1);
  * });
  * ```
  *

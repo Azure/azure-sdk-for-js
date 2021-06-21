@@ -45,7 +45,8 @@ export async function main() {
   // scope for you automatically.
   const scope = process.env.AAD_TEST_SCOPE ?? "https://graph.microsoft.com/.default";
 
-  console.log(await credential.getToken(scope));
+  // Print out part of the access token
+  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 }
 
 main().catch((error) => {

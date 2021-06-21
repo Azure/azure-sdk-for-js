@@ -60,9 +60,11 @@ useIdentityExtension(vsCodeExtension);
 async function main() {
   const credential = new VisualStudioCodeCredential();
 
-  // This will print a JWT access_token and its expiration timestamp
   // The graph.microsoft.com scope is used as an example
-  console.log("Token:", await credential.getToken("https://graph.microsoft.com/.default"));
+  const scope = "https://graph.microsoft.com/.default";
+
+  // Print out part of the access token
+  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 }
 
 main().catch((error) => {

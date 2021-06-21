@@ -38,8 +38,9 @@ async function main() {
   // scope for you automatically.
   const scope = process.env.AAD_TEST_SCOPE ?? "https://graph.microsoft.com/.default";
 
-  // A little helper function to print an access_token
-  const logToken = async () => console.log((await credential.getToken(scope)).token);
+  // A little helper function to print part of an access_token
+  const logToken = async () =>
+    console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 
   // You should observe that the same token is printed twice, and that running the sample twice
   // only prompts for interactive authentication once. In the second execution, the token should

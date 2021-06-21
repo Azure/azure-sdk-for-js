@@ -57,8 +57,11 @@ async function main() {
     }
   });
 
-  // This will print a JWT access_token and its expiration timestamp
-  console.log("Token:", await credential.getToken());
+  // We'll use the Microsoft Graph scope as an example
+  const scope = "https://graph.microsoft.com/.default";
+
+  // Print out part of the access token
+  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 }
 
 main().catch((error) => {
