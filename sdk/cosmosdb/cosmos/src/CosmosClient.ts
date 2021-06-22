@@ -95,7 +95,7 @@ export class CosmosClient {
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
     if (optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery) {
-      this.backgroundRefreshEndpointList(globalEndpointManager, optionsOrConnectionString.connectionPolicy.endpointRefreshRate)
+      this.backgroundRefreshEndpointList(globalEndpointManager, optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs)
     }
 
     this.databases = new Databases(this, this.clientContext);
@@ -129,6 +129,24 @@ export class CosmosClient {
   public getReadEndpoint(): Promise<string> {
     return this.clientContext.getReadEndpoint();
   }
+
+   /**
+   * Gets the known write endpoints. Useful for troubleshooting purposes.
+   *
+   * The urls may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
+   */
+    public getWriteEndpoints(): Promise<readonly string[]> {
+      return this.clientContext.getWriteEndpoints();
+    }
+  
+    /**
+     * Gets the currently used read endpoint. Useful for troubleshooting purposes.
+     *
+     * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
+     */
+    public getReadEndpoints(): Promise<readonly string[]> {
+      return this.clientContext.getReadEndpoints();
+    }
 
   /**
    * Used for reading, updating, or deleting a existing database by id or accessing containers belonging to that database.
@@ -167,11 +185,13 @@ export class CosmosClient {
   }
 
   private async backgroundRefreshEndpointList(globalEndpointManager: GlobalEndpointManager, refreshRate: number) {
-    this.endpointRefresher = setInterval(() => {
+    await globalEndpointManager.refreshEndpointList();
+    this.endpointRefresher = setInterval(async () => {
       try {
-        globalEndpointManager.refreshEndpointList();
+        console.log('refreshing!')
+        await globalEndpointManager.refreshEndpointList();
       } catch (e) {
-        console.warn(`Failed to refresh endpoints:  ${e}`)
+        console.warn('Failed to refresh endpoints', e)
       }
     }, refreshRate)
     this.endpointRefresher.unref();

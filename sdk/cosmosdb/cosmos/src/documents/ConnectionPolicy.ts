@@ -21,19 +21,23 @@ export interface ConnectionPolicy {
    * Default is `false`.
    */
   useMultipleWriteLocations?: boolean;
-  /** Rate at which the client will refresh the endpoints list in the background */
-  endpointRefreshRate?: number
+  /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
+  endpointRefreshRateInMs?: number
 }
 
 /**
  * @hidden
  */
-export const defaultConnectionPolicy = Object.freeze({
+export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   connectionMode: ConnectionMode.Gateway,
   requestTimeout: 60000,
   enableEndpointDiscovery: true,
   preferredLocations: [],
-  retryOptions: {},
+  retryOptions: {
+    maxRetryAttemptCount: 9,
+    fixedRetryIntervalInMilliseconds: 100,
+    maxWaitTimeInSeconds: 30
+  },
   useMultipleWriteLocations: true,
-  endpointRefreshRate: 300000
+  endpointRefreshRateInMs: 300000
 });

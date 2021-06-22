@@ -544,6 +544,14 @@ export class ClientContext {
     return this.globalEndpointManager.getReadEndpoint();
   }
 
+  public getWriteEndpoints(): Promise<readonly string[]> {
+    return this.globalEndpointManager.getWriteEndpoints();
+  }
+
+  public getReadEndpoints(): Promise<readonly string[]> {
+    return this.globalEndpointManager.getReadEndpoints();
+  }
+
   public async bulk<T>({
     body,
     path,

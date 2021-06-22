@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import assert from "assert";
 import { Suite } from "mocha";
 import { Agent } from "http";
@@ -13,6 +14,7 @@ import {
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
+import { defaultConnectionPolicy } from "../../../src/documents";
 
 describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -127,17 +129,26 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
     });
   });
   describe.only("Background refresher", async function() {
+    let recorder: Recorder;
+    beforeEach(async function () {
+      recorder = record(this, {
+        replaceableVariables: env,
+        customizationsOnRecordings: [ ],
+        queryParametersToSkip: [],
+      });
+    })
+
     it("should fetch new endpoints", async function () {
-      const client = new CosmosClient({ endpoint, key: masterKey });
-      const { resource: { writableLocations, readableLocations }} = await client.getDatabaseAccount();
-      console.log({ writableLocations, readableLocations })
+      const client = new CosmosClient({ endpoint, key: masterKey, connectionPolicy: { ...defaultConnectionPolicy, endpointRefreshRateInMs: 100 } });
       // mock background refresh request to simulate removing a region
       // assert old locations are different from new
+      const readEndpoints = await client.getReadEndpoints();
+      setTimeout(async () => {
+        const newReadEndpoints = await client.getReadEndpoints();
+        console.log({ readEndpoints, newReadEndpoints })
+        assert.equal(readEndpoints, newReadEndpoints)
+      }, 1000)
     });
-    it("should stop refreshing when disposed", async function() {
-      const client = new CosmosClient({ endpoint, key: masterKey })
-      client.dispose();
-      // assert( ) no network requests
-    })
+    afterEach(() => recorder.stop())
   })
 });

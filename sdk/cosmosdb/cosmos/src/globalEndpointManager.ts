@@ -25,8 +25,8 @@ export class GlobalEndpointManager {
    * List of azure regions to be used as preferred locations for read requests.
    */
   private preferredLocations: string[];
-  private writeableLocations: Location[];
-  private readableLocations: Location[];
+  private writeableLocations: Location[] = [];
+  private readableLocations: Location[] = [];
 
   /**
    * @param options - The document client instance.
