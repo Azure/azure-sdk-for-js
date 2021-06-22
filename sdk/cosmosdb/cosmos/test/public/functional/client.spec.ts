@@ -144,9 +144,11 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
           client.getReadEndpoints().then((endpoints) => {
             assert.notEqual(firstEndpoints, endpoints);
             done();
-          });
+            return;
+          }).catch(console.warn);
         }, 1200);
-      });
+        return;
+      }).catch(console.warn);
     });
   });
 });
