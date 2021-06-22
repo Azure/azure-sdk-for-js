@@ -12,7 +12,7 @@ import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
-import { getContentTypeForMessage } from "./utils";
+import { getPayloadForMessage } from "./utils";
 
 /**
  * Options for closing a connection to a hub.
@@ -339,13 +339,13 @@ export class WebPubSubServiceClient {
       normalizedOptions
     );
 
-    const contentType = getContentTypeForMessage(message, updatedOptions);
-    const payload = contentType === "application/json" ? JSON.stringify(message) : message;
+    const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+
     try {
       return await this.client.webPubSub.sendToAll(
         this.hubName,
         contentType,
-        payload,
+        payload as any,
         updatedOptions
       );
     } finally {
@@ -398,14 +398,13 @@ export class WebPubSubServiceClient {
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-sendToUser", options);
 
-    const contentType = getContentTypeForMessage(message, updatedOptions);
-    const payload = contentType === "application/json" ? JSON.stringify(message) : message;
+    const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
     try {
       return await this.client.webPubSub.sendToUser(
         this.hubName,
         username,
         contentType,
-        payload,
+        payload as any,
         updatedOptions
       );
     } finally {
@@ -460,15 +459,14 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient-hub-sendToConnection",
       options
     );
-    const contentType = getContentTypeForMessage(message, updatedOptions);
-    const payload = contentType === "application/json" ? JSON.stringify(message) : message;
+    const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 
     try {
       return await this.client.webPubSub.sendToConnection(
         this.hubName,
         connectionId,
         contentType,
-        payload,
+        payload as any,
         updatedOptions
       );
     } finally {

@@ -6,7 +6,7 @@ import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import normalizeSendToAllOptions from "./normalizeOptions";
-import { getContentTypeForMessage } from "./utils";
+import { getPayloadForMessage } from "./utils";
 import { JSONTypes } from "./hubClient";
 
 /**
@@ -104,14 +104,6 @@ export interface WebPubSubGroup {
    * @param options Additional options
    */
   addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
-
-  /**
-   * Check if a user is in this group
-   *
-   * @param username The user name to check for
-   * @param options Additional options
-   */
-  hasUser(username: string, options?: GroupHasUserOptions): Promise<boolean>;
 
   /**
    * Remove a user from this group
@@ -274,47 +266,6 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   }
 
   /**
-   * Check if a user is in this group
-   *
-   * @param username The user name to check for
-   * @param options Additional options
-   */
-  public async hasUser(username: string, options: GroupHasUserOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-hasUser", options);
-
-    try {
-      let rawResponse: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        rawResponse = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
-      }
-      const res = await this.client.webPubSub.userExistsInGroup(
-        this.hubName,
-        this.groupName,
-        username,
-        { ...updatedOptions, onResponse }
-      );
-
-      if (res._response.status === 200) {
-        return true;
-      } else if (res._response.status === 404) {
-        return false;
-      } else {
-        // this is sad - wish this was handled by autorest.
-        throw new RestError(rawResponse?.bodyAsText!, {
-          statusCode: rawResponse?.status,
-          request: rawResponse?.request,
-          response: rawResponse
-        });
-      }
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
    * Remove a user from this group
    *
    * @param username The user name to remove
@@ -367,14 +318,14 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       normalizedOptions
     );
 
-    const contentType = getContentTypeForMessage(message, updatedOptions);
+    const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 
     try {
       return await this.client.webPubSub.sendToGroup(
         this.hubName,
         this.groupName,
         contentType,
-        contentType === "application/json" ? JSON.stringify(message) : message,
+        payload as any,
         updatedOptions
       );
     } finally {

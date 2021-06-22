@@ -11,18 +11,32 @@ function isRequestBody(obj: unknown): obj is RequestBodyType {
   );
 }
 
-export function getContentTypeForMessage(
-  message: unknown,
-  options: Record<string, any>
-): "text/plain" | "application/json" | "application/octet-stream" {
+export interface TextPlainPayload {
+  contentType: "text/plain";
+  payload: string;
+}
+
+export interface JsonPayload {
+  contentType: "application/json";
+  payload: string;
+}
+
+export interface BinaryPayload {
+  contentType: "application/octet-stream";
+  payload: RequestBodyType;
+}
+
+export type Payload = TextPlainPayload | JsonPayload | BinaryPayload;
+
+export function getPayloadForMessage(message: unknown, options: Record<string, any>): Payload {
   if (options?.contentType === "text/plain") {
     if (typeof message !== "string") {
       throw new TypeError("Message must be a string.");
     }
-    return "text/plain";
+    return { contentType: "text/plain", payload: message };
   } else if (isRequestBody(message)) {
-    return "application/octet-stream";
+    return { contentType: "application/octet-stream", payload: message };
   } else {
-    return "application/json";
+    return { contentType: "application/json", payload: JSON.stringify(message) };
   }
 }

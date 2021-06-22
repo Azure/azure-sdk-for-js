@@ -2,6 +2,7 @@
 
 ## 1.0.0-beta.3 (Unreleased)
 
+- `hasUser` has been removed from `GroupClient` as that operation is no longer supported by the service.
 
 ## 1.0.0-beta.2 (2021-05-19)
 Remove "url" dependency
