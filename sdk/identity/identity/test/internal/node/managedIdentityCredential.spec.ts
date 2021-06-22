@@ -41,6 +41,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_POD_IDENTITY_TOKEN_URL;
     sandbox = Sinon.createSandbox();
     clock = sandbox.useFakeTimers({
       now: Date.now(),
