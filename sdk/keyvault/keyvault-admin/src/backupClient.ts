@@ -87,20 +87,19 @@ export class KeyVaultBackupClient {
           : libInfo
     };
 
-    const apiVersion = options.serviceVersion || LATEST_API_VERSION
+    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 
     const clientOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
-          additionalAllowedHeaderNames: [
-            "x-ms-keyvault-region",
-            "x-ms-keyvault-network-info",
-            "x-ms-keyvault-service-version"
-          ]
-
+        additionalAllowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
-    }
+    };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
     this.client.pipeline.addPolicy(

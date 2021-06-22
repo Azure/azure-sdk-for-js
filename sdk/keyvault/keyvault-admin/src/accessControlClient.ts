@@ -7,9 +7,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { createTraceFunction } from "./tracingHelpers";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import {
-  RoleAssignmentsListForScopeOptionalParams
-} from "./generated/models";
+import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
 
 import {
   CreateRoleAssignmentOptions,
@@ -89,20 +87,19 @@ export class KeyVaultAccessControlClient {
           : libInfo
     };
 
-    const serviceVersion = options.serviceVersion || LATEST_API_VERSION
+    const serviceVersion = options.serviceVersion || LATEST_API_VERSION;
 
     const clientOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
-          additionalAllowedHeaderNames: [
-            "x-ms-keyvault-region",
-            "x-ms-keyvault-network-info",
-            "x-ms-keyvault-service-version"
-          ]
-
+        additionalAllowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
-    }
+    };
 
     this.client = new KeyVaultClient(serviceVersion, clientOptions);
 
