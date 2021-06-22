@@ -94,7 +94,7 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.0.3",
-    "@azure/core-lro": "^1.0.2",
+    "@azure/core-lro": "^1.0.6",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",

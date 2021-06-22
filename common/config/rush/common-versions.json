@@ -75,9 +75,6 @@
     "@microsoft/api-extractor": ["7.13.2"],
     "prettier": ["2.2.1"],
     // All packages should move to 1.0.0 once core-rest-pipeline 1.1.0 GAs
-    "@azure/core-tracing": ["1.0.0-preview.11"],
-    // @azure/core-lro 1.0.6 removed a dependency on @azure/core-http which allows KeyVault Admin to also remove that dependency.
-    "@azure/core-lro": ["^1.0.6"]
-
+    "@azure/core-tracing": ["1.0.0-preview.11"]
   }
 }

@@ -7,7 +7,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-artifacts/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
-    "@azure/core-lro": "^1.0.2",
+    "@azure/core-lro": "^1.0.6",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.12",
