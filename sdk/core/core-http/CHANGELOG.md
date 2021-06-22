@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+
 ### Breaking Changes
 
 ### Key Bugs Fixed

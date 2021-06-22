@@ -52,7 +52,8 @@ export const Constants = {
     },
 
     StatusCodes: {
-      TooManyRequests: 429
+      TooManyRequests: 429,
+      ServiceUnavailable: 503
     }
   },
 

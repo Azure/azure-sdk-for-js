@@ -6,6 +6,10 @@
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
 
+### Features Added
+
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+
 ## 1.1.0-beta.3 (2021-06-03)
 
 - Merged `bearerTokenChallengeAuthenticationPolicy` into `bearerTokenAuthenticationPolicy`. This will keep the functionality of `bearerTokenAuthenticationPolicy`, but also adds the `challengeCallbacks` feature.

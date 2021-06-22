@@ -23,7 +23,7 @@ export function throttlingRetryPolicy(): PipelinePolicy {
     name: throttlingRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
-      if (response.status !== 429) {
+      if (response.status !== 429 && response.status !== 503) {
         return response;
       }
 
