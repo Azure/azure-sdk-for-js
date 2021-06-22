@@ -14,6 +14,7 @@ import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { AuthenticationRequiredError } from "../errors";
 import { CredentialUnavailableError } from "../../client/errors";
+import { validateMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -139,6 +140,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     scopes: string[],
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
+    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
+
     // We ensure that redirection is handled at this point.
     await this.handleRedirect();
 
