@@ -1,6 +1,7 @@
 {
   "name": "@azure/identity-cache-persistence",
   "version": "1.0.0-beta.1",
+  "sdk-type": "client",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
   "main": "dist/index.js",
   "module": "dist-esm/identity-cache-persistence/src/index.js",

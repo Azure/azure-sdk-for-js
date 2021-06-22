@@ -30,3 +30,7 @@ extends:
     Artifacts:
       - name: azure-identity
         safeName: azureidentity
+      - name: azure-identity-cache-persistence
+        safeName: azureidentitycachepersistence
+      - name: azure-identity-vscode
+        safeName: azureidentityvscode
