@@ -82,11 +82,11 @@ npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>"
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[defaultAzureCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts
-[clientSecretCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts
-[environmentCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/environmentCredential.ts
+[defaultAzureCredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts
+[clientSecretCredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts
+[environmentCredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/typescript/src/environmentCredential.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/identity
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

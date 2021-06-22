@@ -6,7 +6,7 @@ These packages are generally not used directly by consumers, but are used as dep
 
 ## Core "v1" and Core "v2"
 
-The package `@azure/core-http` is heavily based on `@azure/ms-rest-js` and inherited legacy API surface and concepts that sometimes conflicted with our design principles. A full explanation is available here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-rest-pipeline/documentation/core2.md
+The package `@azure/core-http` is heavily based on `@azure/ms-rest-js` and inherited legacy API surface and concepts that sometimes conflicted with our design principles. A full explanation is available here: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md
 
 For the purposes of this document, understand that "core v1" refers to the package `@azure/core-http` and is considered legacy. "Core v2" refers to the packages `@azure/core-rest-pipeline`, `@azure/core-client`, and `@azure/core-xml`.
 
@@ -20,7 +20,7 @@ Many service operations require client libraries to make one or more HTTP calls 
 
 The `Pipeline` is what manages these common behaviors, which are grouped into items called `PipelinePolicy`s. Each client library configures its own `Pipeline` using a set of standard `PipelineOptions`.
 
-For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-rest-pipeline#key-concepts
+For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline#key-concepts
 
 ### ServiceClient
 
@@ -28,7 +28,7 @@ Client libraries come in two flavors: authored and generated. Generated clients 
 
 `ServiceClient` is the base class of all generated clients. It builds on top of the HTTP Pipeline in order to make requests to services.
 
-For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-client#key-concepts
+For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client#key-concepts
 
 ### Accessing raw HTTP responses
 
@@ -55,7 +55,7 @@ console.log(item._response.parsedHeaders);
 
 ### Authentication
 
-Authentication is handled by [@azure/identity](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/). In most cases this is as simple as passing `DefaultAzureCredential` to a client that takes a `TokenCredential` as a means of authentication.
+Authentication is handled by [@azure/identity](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/). In most cases this is as simple as passing `DefaultAzureCredential` to a client that takes a `TokenCredential` as a means of authentication.
 
 ```ts
 const { KeyClient } = require("@azure/keyvault-keys");
@@ -72,7 +72,7 @@ Note that `DefaultAzureCredential` does not work for applications that are runni
 
 Client libraries follow our [design guidelines for pagination](https://azure.github.io/azure-sdk/typescript_design.html#ts-pagination). This is largely hand-authored today in convenience clients, but code generation is improving to support this pattern inside generated clients as well.
 
-The standard interfaces for pagination are provided by [@azure/core-paging](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-paging).
+The standard interfaces for pagination are provided by [@azure/core-paging](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging).
 
 Basic code for iterating through all entries of a paged API looks something like:
 
@@ -96,7 +96,7 @@ for await (let page of client.listSecrets().byPage({ maxPageSize: 2 })) {
 
 Client libraries follow our [design guidelines for Long Running Operations (LROs)](https://azure.github.io/azure-sdk/typescript_design.html#ts-lro). This ensures all LROs follow a similar pattern to remain **consistent** across clients.
 
-To assist with implementing pollers correctly, primitives are provided by [@azure/core-lro](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro). These primitives help implement `Poller` objects which are used to manage `PollOperation`s that contain `PollOperationState`.
+To assist with implementing pollers correctly, primitives are provided by [@azure/core-lro](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro). These primitives help implement `Poller` objects which are used to manage `PollOperation`s that contain `PollOperationState`.
 
 In essence, a `Poller` handles the work of continously checking the server for updates to the LRO on a developer's behalf. `Poller`s are highly customizable, and consumers are able to decide when to poll manually if needed.
 
@@ -118,9 +118,9 @@ const rehydratedPoller = await client.beginDeleteKey(keyName, { resumeFrom: seri
 
 ### Tracing
 
-Client libraries have preliminary support for [OpenTelemetry](https://opentelemetry.io/). This functionality is mostly managed by [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing)
+Client libraries have preliminary support for [OpenTelemetry](https://opentelemetry.io/). This functionality is mostly managed by [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing)
 
-Each client library internally does the work to create a new OpenTelemetry `Span` for each service operation, making sure to end the `Span` after the result is returned back to the consumer. Many clients use a helper method called [createSpan](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/src/tracing.ts) to create the new `Span`.
+Each client library internally does the work to create a new OpenTelemetry `Span` for each service operation, making sure to end the `Span` after the result is returned back to the consumer. Many clients use a helper method called [createSpan](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/src/tracing.ts) to create the new `Span`.
 
 When `tracingOptions.tracingContext` is set on an operation, a default request policy will automatically create a span for each HTTP request that is issued.
 
@@ -136,7 +136,7 @@ const result = await blobClient.download(undefined, undefined, {
 
 ### Logging
 
-Logging in client libraries is provided by [@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+Logging in client libraries is provided by [@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 AzureLogger provides the ability to easily set a global log level (either programmatically or through an environment variable) and log output can be redirected by simply overriding the default `log` method:
 
@@ -161,4 +161,4 @@ A convenience client extends the shape of a generated client in ways that make i
 
 ## AMQP and Message-based Clients
 
-More information can be found in [@azure/amqp](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-amqp)
+More information can be found in [@azure/amqp](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-amqp)
