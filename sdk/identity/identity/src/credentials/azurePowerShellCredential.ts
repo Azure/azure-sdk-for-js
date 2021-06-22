@@ -9,7 +9,7 @@ import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { processUtils } from "../util/processUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { validateMultiTenantRequest } from "./managedIdentityCredential/utils";
+import { validateMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -95,7 +95,6 @@ if (isWindows) {
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
-  private allowMultiTenantAuthentication: boolean = false;
 
   /**
    * Creates an instance of the {@link AzurePowershellCredential}.
@@ -104,7 +103,6 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.allowMultiTenantAuthentication = Boolean(options?.allowMultiTenantAuthentication);
   }
 
   /**
@@ -166,7 +164,7 @@ export class AzurePowerShellCredential implements TokenCredential {
 
       logger.getToken.info(`Using the scope ${scope}`);
 
-      validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
+      validateMultiTenantRequest(options.allowMultiTenantAuthentication, this.tenantId, options);
       ensureValidScope(scope, logger);
       const resource = getScopeResource(scope);
 

@@ -10,7 +10,7 @@ import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { validateMultiTenantRequest } from "./managedIdentityCredential/utils";
+import { validateMultiTenantRequest } from "../util/validateMultiTenant";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -68,7 +68,6 @@ const logger = credentialLogger("AzureCliCredential");
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
-  private allowMultiTenantAuthentication: boolean = false;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
@@ -77,7 +76,6 @@ export class AzureCliCredential implements TokenCredential {
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.allowMultiTenantAuthentication = Boolean(options?.allowMultiTenantAuthentication);
   }
 
   /**
@@ -97,7 +95,7 @@ export class AzureCliCredential implements TokenCredential {
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
 
-    validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
+    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
     ensureValidScope(scope, logger);
     const resource = getScopeResource(scope);
 

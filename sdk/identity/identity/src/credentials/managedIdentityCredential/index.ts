@@ -8,12 +8,13 @@ import { createSpan } from "../../util/tracing";
 import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
-import { mapScopesToResource, validateMultiTenantRequest } from "./utils";
+import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
+import { validateMultiTenantRequest } from "../../util/validateMultiTenant";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -41,7 +42,6 @@ export class ManagedIdentityCredential implements TokenCredential {
   private isEndpointUnavailable: boolean | null = null;
   private clientId?: string;
   private tenantId?: string;
-  private allowMultiTenantAuthentication: boolean = false;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -72,16 +72,12 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       if (options) {
         this.tenantId = options.tenantId;
-        this.allowMultiTenantAuthentication = Boolean(options.allowMultiTenantAuthentication);
       }
     } else {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
       if (clientIdOrOptions) {
         this.tenantId = clientIdOrOptions.tenantId;
-        this.allowMultiTenantAuthentication = Boolean(
-          clientIdOrOptions.allowMultiTenantAuthentication
-        );
       }
     }
   }
@@ -152,7 +148,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
+    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
 
     let result: AccessToken | null = null;
 

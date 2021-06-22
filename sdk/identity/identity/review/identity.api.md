@@ -318,7 +318,6 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {
-    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 

@@ -13,7 +13,7 @@ import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
-import { validateMultiTenantRequest } from "./managedIdentityCredential/utils";
+import { validateMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -32,7 +32,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private authorizationCode: string;
   private redirectUri: string;
   private lastTokenResponse: TokenResponse | null = null;
-  private allowMultiTenantAuthentication: boolean = false;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -108,7 +107,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
     this.clientId = clientId;
     this.tenantId = tenantId;
-    this.allowMultiTenantAuthentication = Boolean(options?.allowMultiTenantAuthentication);
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
@@ -141,7 +139,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
+    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
 
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {

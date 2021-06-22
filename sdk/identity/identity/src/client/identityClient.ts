@@ -313,8 +313,4 @@ export interface TokenCredentialOptions extends PipelineOptions {
    * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
-  /**
-   * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
-   */
-  allowMultiTenantAuthentication?: boolean;
 }

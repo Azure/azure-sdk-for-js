@@ -2,6 +2,7 @@
 
 ## 1.3.1 (Unreleased)
 
+- Added `tenantId` and `allowMultiTenantAuthentication` to `GetTokenOptions`, which is used to enable multi-tenant authentication.
 
 ## 1.3.0 (2021-03-30)
 

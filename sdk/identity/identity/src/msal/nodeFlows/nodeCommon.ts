@@ -22,9 +22,9 @@ import {
   msalToPublic,
   publicToMsal
 } from "../utils";
-import { validateMultiTenantRequest } from "../../credentials/managedIdentityCredential/utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
+import { validateMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -77,13 +77,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected tenantId: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
-  protected allowMultiTenantAuthentication: boolean = false;
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
   constructor(options: MsalNodeOptions) {
     super(options);
-    this.allowMultiTenantAuthentication = Boolean(options.allowMultiTenantAuthentication);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.clientId = this.msalConfig.auth.clientId;
@@ -266,7 +264,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    validateMultiTenantRequest(this.allowMultiTenantAuthentication, this.tenantId, options);
+    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
 

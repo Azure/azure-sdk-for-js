@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import {
-  multiTenantError,
-  validateMultiTenantRequest
-} from "../../src/credentials/managedIdentityCredential/utils";
+import { multiTenantError, validateMultiTenantRequest } from "../../src/util/validateMultiTenant";
 
 describe("Identity utilities", function() {
   describe("validateMultiTenantRequest", function() {
