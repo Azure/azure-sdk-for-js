@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { env, record, Recorder } from "@azure/test-utils-recorder";
 import assert from "assert";
 import { Suite } from "mocha";
 import { Agent } from "http";
@@ -128,27 +127,26 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       }
     });
   });
-  describe.only("Background refresher", async function() {
-    let recorder: Recorder;
-    beforeEach(async function () {
-      recorder = record(this, {
-        replaceableVariables: env,
-        customizationsOnRecordings: [ ],
-        queryParametersToSkip: [],
+  describe("Background refresher", async function() {
+    // not async to leverage done() callback inside setTimeout
+    it("should fetch new endpoints", function(done) {
+      // set refresh rate to 700ms
+      const client = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        connectionPolicy: { ...defaultConnectionPolicy, endpointRefreshRateInMs: 700 }
       });
-    })
 
-    it("should fetch new endpoints", async function () {
-      const client = new CosmosClient({ endpoint, key: masterKey, connectionPolicy: { ...defaultConnectionPolicy, endpointRefreshRateInMs: 100 } });
-      // mock background refresh request to simulate removing a region
-      // assert old locations are different from new
-      const readEndpoints = await client.getReadEndpoints();
-      setTimeout(async () => {
-        const newReadEndpoints = await client.getReadEndpoints();
-        console.log({ readEndpoints, newReadEndpoints })
-        assert.equal(readEndpoints, newReadEndpoints)
-      }, 1000)
+      // then timeout 1.2s so that we first fetch no endpoints, then after it refreshes we see them
+      client.getReadEndpoints().then((firstEndpoints) => {
+        assert.equal(firstEndpoints.length, 0);
+        setTimeout(() => {
+          client.getReadEndpoints().then((endpoints) => {
+            assert.notEqual(firstEndpoints, endpoints);
+            done();
+          });
+        }, 1200);
+      });
     });
-    afterEach(() => recorder.stop())
-  })
+  });
 });
