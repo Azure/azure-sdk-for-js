@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 import assert from "assert";
 import sinon from "sinon";
