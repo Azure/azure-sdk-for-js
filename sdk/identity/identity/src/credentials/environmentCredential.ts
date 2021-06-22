@@ -32,9 +32,7 @@ export const AllSupportedEnvironmentVariables = [
 const logger = credentialLogger("EnvironmentCredential");
 
 /**
-<<<<<<< HEAD
  * Enables authentication to Azure Active Directory depending on the available environment variables.
-=======
  * Defines options for the EnvironmentCredential class.
  */
 export interface EnvironmentCredentialOptions
@@ -44,7 +42,6 @@ export interface EnvironmentCredentialOptions
 /**
  * Enables authentication to Azure Active Directory using client secret
  * details configured in the following environment variables:
->>>>>>> Azure/main
  *
  * Required environment variables:
  * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
