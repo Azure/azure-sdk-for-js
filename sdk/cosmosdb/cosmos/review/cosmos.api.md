@@ -112,7 +112,11 @@ export class ClientContext {
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
+    getReadEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
     getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoints(): Promise<readonly string[]>;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -236,7 +240,7 @@ export enum ConnectionMode {
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
     enableEndpointDiscovery?: boolean;
-    endpointRefreshRate?: number;
+    endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -490,7 +494,9 @@ export class CosmosClient {
     dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     getReadEndpoint(): Promise<string>;
+    getReadEndpoints(): Promise<readonly string[]>;
     getWriteEndpoint(): Promise<string>;
+    getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
 }
