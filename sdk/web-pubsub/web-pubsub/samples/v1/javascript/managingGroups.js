@@ -16,7 +16,6 @@ const adminGroup = chatHub.group("admin");
 async function main() {
   // adding and removing users
   await adminGroup.addUser("bterlson");
-  await adminGroup.hasUser("bterlson"); // true
   await adminGroup.removeUser("xirzec");
 
   // adding and removing specific connections
@@ -24,4 +23,7 @@ async function main() {
   await adminGroup.removeConnection("Tn3XcrAbHI0OE36XvbWwige4ac096c1");
 }
 
-main();
+main().catch((e) => {
+  console.error("Sample encountered an error", e);
+  process.exit(1);
+});

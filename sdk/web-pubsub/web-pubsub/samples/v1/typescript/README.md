@@ -54,7 +54,7 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/broadcasting.ts
+node dist/broadcasting.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
@@ -63,9 +63,14 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node dist/broadcasting.js
 ```
 
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
 [broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/broadcasting.ts
 [directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/directMessage.ts
 [managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/managingGroups.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
