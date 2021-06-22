@@ -5,10 +5,9 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { HttpRequestBody } from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
 
 export { AzureKeyCredential }
 
@@ -40,7 +39,7 @@ export interface GroupAddUserOptions extends OperationOptions {
 }
 
 // @public
-export interface GroupAdminClientOptions extends PipelineOptions {
+export interface GroupAdminClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -72,7 +71,7 @@ export interface HasConnectionOptions extends OperationOptions {
 }
 
 // @public
-export interface HubAdminClientOptions extends PipelineOptions {
+export interface HubAdminClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -141,18 +140,17 @@ export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 // @public (undocumented)
 export interface WebPubSubGroup {
-    addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<RestResponse>;
-    addUser(username: string, options?: GroupAddUserOptions): Promise<RestResponse>;
+    addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
+    addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
     readonly apiVersion: string;
     readonly endpoint: string;
     readonly groupName: string;
-    hasUser(username: string, options?: GroupHasUserOptions): Promise<boolean>;
     readonly hubName: string;
-    removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<RestResponse>;
-    removeUser(username: string, options?: GroupRemoveUserOptions): Promise<RestResponse>;
-    sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
-    sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
-    sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
+    removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
+    removeUser(username: string, options?: GroupRemoveUserOptions): Promise<void>;
+    sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<void>;
+    sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<void>;
+    sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
 }
 
 // @public
@@ -160,27 +158,27 @@ export class WebPubSubServiceClient {
     constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
     constructor(endpoint: string, credential: AzureKeyCredential, hubName: string, options?: HubAdminClientOptions);
     readonly apiVersion: string;
-    closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
+    closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
     endpoint: string;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
-    grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<RestResponse>;
+    grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
     group(groupName: string): WebPubSubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
-    hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<RestResponse>;
+    hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<void>;
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
-    removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
-    revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<RestResponse>;
-    sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
-    sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<RestResponse>;
-    sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
-    sendToConnection(connectionId: string, message: string, options: HubSendTextToConnectionOptions): Promise<RestResponse>;
-    sendToConnection(connectionId: string, message: JSONTypes, options?: HubSendToConnectionOptions): Promise<RestResponse>;
-    sendToConnection(connectionId: string, message: HttpRequestBody | JSONTypes, options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions): Promise<RestResponse>;
-    sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<RestResponse>;
-    sendToUser(username: string, message: JSONTypes, options?: HubSendToUserOptions): Promise<RestResponse>;
-    sendToUser(username: string, message: HttpRequestBody, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<RestResponse>;
+    removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<void>;
+    revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<void>;
+    sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;
+    sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<void>;
+    sendToAll(message: RequestBodyType, options?: HubSendToAllOptions): Promise<void>;
+    sendToConnection(connectionId: string, message: string, options: HubSendTextToConnectionOptions): Promise<void>;
+    sendToConnection(connectionId: string, message: JSONTypes, options?: HubSendToConnectionOptions): Promise<void>;
+    sendToConnection(connectionId: string, message: RequestBodyType, options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions): Promise<void>;
+    sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<void>;
+    sendToUser(username: string, message: JSONTypes, options?: HubSendToUserOptions): Promise<void>;
+    sendToUser(username: string, message: RequestBodyType, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<void>;
 }
 
 
