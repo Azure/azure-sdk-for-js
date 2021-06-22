@@ -5,7 +5,7 @@
   "version": "4.3.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",

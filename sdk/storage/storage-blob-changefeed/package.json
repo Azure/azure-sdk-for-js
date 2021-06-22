@@ -83,7 +83,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob-changefeed/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-changefeed/",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [

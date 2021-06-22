@@ -42,7 +42,7 @@
     "process": false
   },
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-lro/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
