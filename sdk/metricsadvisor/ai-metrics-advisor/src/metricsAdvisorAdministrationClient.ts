@@ -1582,7 +1582,6 @@ export class MetricsAdvisorAdministrationClient {
    * @param dataSourceCredential - the credential entity object to create
    * @param options - The options parameter
    */
-
   public async createDataSourceCredential(
     dataSourceCredential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
