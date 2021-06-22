@@ -69,7 +69,7 @@ steps:
       foreach ($artifact in $artifacts)
       {
         $artifactName = $artifact.name
-        $targetPath = $(Build.ArtifactStagingDirectory)/$artifactName
+        $targetPath =  Join-Path $(Build.ArtifactStagingDirectory) $artifactName
         Write-Host "Copying $artifactName artifacts to $targetPath"
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-*.tgz $targetPath
