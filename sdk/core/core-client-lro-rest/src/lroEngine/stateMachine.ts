@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
-import {
-  isBodyPollingDone,
-  processBodyPollingOperationResult
-} from "./bodyPolling";
+import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
 import { processLocationPollingOperationResult } from "./locationPolling";
 import {
   FinalStateVia,
@@ -14,7 +11,7 @@ import {
   LROState,
   PollerConfig,
   RawResponse,
-  ResumablePollOperationState
+  ResumablePollOperationState,
 } from "./models";
 import { processPassthroughOperationResult } from "./passthrough";
 import { getPollingURL, inferLROMode } from "./requestUtils";
@@ -53,24 +50,14 @@ export function createGetLROState<TResult>(
 export function createPollForLROState<TResult>(
   lroPrimitives: LRO<TResult>,
   config: LROConfig
-): (
-  pollingURL: string,
-  pollerConfig: PollerConfig
-) => Promise<LROState<TResult>> {
-  return async (
-    path: string,
-    pollerConfig: PollerConfig
-  ): Promise<LROState<TResult>> => {
+): (pollingURL: string, pollerConfig: PollerConfig) => Promise<LROState<TResult>> {
+  return async (path: string, pollerConfig: PollerConfig): Promise<LROState<TResult>> => {
     const response = await lroPrimitives.sendPollRequest(config, path);
-    const retryAfter: string | undefined =
-      response.rawResponse.headers["Retry-After"];
+    const retryAfter: string | undefined = response.rawResponse.headers["Retry-After"];
     if (retryAfter !== undefined) {
       const retryAfterInMs = parseInt(retryAfter);
       pollerConfig.intervalInMs = isNaN(retryAfterInMs)
-        ? calculatePollingIntervalFromDate(
-            new Date(retryAfter),
-            pollerConfig.intervalInMs
-          )
+        ? calculatePollingIntervalFromDate(new Date(retryAfter), pollerConfig.intervalInMs)
         : retryAfterInMs;
     }
     return response!;
@@ -91,9 +78,9 @@ function calculatePollingIntervalFromDate(
 
 /**
  * Creates a callback to be used to initialize the polling operation state.
- * @param state of the polling operation
- * @param operationSpec of the LRO
- * @param callback callback to be called when the operation is done
+ * @param state - of the polling operation
+ * @param operationSpec - of the LRO
+ * @param callback - callback to be called when the operation is done
  * @returns callback that initializes the state of the polling operation
  */
 export function createInitializeState<TResult>(
@@ -105,16 +92,11 @@ export function createInitializeState<TResult>(
     state.initialRawResponse = rawResponse;
     state.isStarted = true;
     state.pollingURL = getPollingURL(state.initialRawResponse, requestPath);
-    state.config = inferLROMode(
-      requestPath,
-      requestMethod,
-      state.initialRawResponse
-    );
+    state.config = inferLROMode(requestPath, requestMethod, state.initialRawResponse);
     /** short circuit polling if body polling is done in the initial request */
     if (
       state.config.mode === undefined ||
-      (state.config.mode === "Body" &&
-        isBodyPollingDone(state.initialRawResponse))
+      (state.config.mode === "Body" && isBodyPollingDone(state.initialRawResponse))
     ) {
       state.result = flatResponse as TResult;
       state.isCompleted = true;

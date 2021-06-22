@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { LROConfig, RawResponse } from "./models";
@@ -9,10 +12,7 @@ import { LROConfig, RawResponse } from "./models";
  * where both azure-asyncoperation and location could be present in the same response but
  * azure-asyncoperation should be the one to use for polling.
  */
-export function getPollingURL(
-  rawResponse: RawResponse,
-  defaultPath: string
-): string {
+export function getPollingURL(rawResponse: RawResponse, defaultPath: string): string {
   return (
     getAzureAsyncoperation(rawResponse) ??
     getLocation(rawResponse) ??
@@ -46,18 +46,18 @@ export function inferLROMode(
           ? requestPath
           : requestMethod === "POST"
           ? getLocation(rawResponse)
-          : undefined
+          : undefined,
     };
   } else if (
     getLocation(rawResponse) !== undefined ||
     getOperationLocation(rawResponse) !== undefined
   ) {
     return {
-      mode: "Location"
+      mode: "Location",
     };
   } else if (["PUT", "PATCH"].includes(requestMethod)) {
     return {
-      mode: "Body"
+      mode: "Body",
     };
   }
   return {};

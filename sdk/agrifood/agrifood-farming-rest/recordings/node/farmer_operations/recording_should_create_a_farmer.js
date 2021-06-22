@@ -1,12 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "208fb1e6e1ffe45feb70c62dc829fb1e";
+module.exports.hash = "adfa321b39054fc240bf8b1e82d8e29c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [ 'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
@@ -21,39 +22,39 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a4f33994-b8f3-4894-92eb-198f58d70400',
+  'c239eb0f-696b-4aaf-a705-0a5d00ac9b00',
   'x-ms-ests-server',
-  '2.1.11722.21 - NCUS ProdSlices',
+  '2.1.11829.8 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvdLD2y-oatMiFpwSkE7LmV4ycTJAQAAAAelQNgOAAAA; expires=Fri, 25-Jun-2021 20:22:32 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuprCnhyY41DlXA04J6n6rR4ycTJAQAAAGkJZNgOAAAA; expires=Thu, 22-Jul-2021 16:40:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 26 May 2021 20:22:31 GMT',
+  'Tue, 22 Jun 2021 16:40:09 GMT',
   'Content-Length',
-  '1321' ]);
+  '1321'
+]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .patch('/farmers/test-farmer-id-1622056799928', {"name":"Contoso Farmer","description":"Your custom farmer description here","status":"Active","properties":{"1":"numeric key","foo":"bar","numeric one":1}})
+  .patch('/farmers/tst103node', {"name":"Contoso Farmer","description":"Your custom farmer description here","status":"Active","properties":{"1":"numeric key","foo":"bar","numeric one":1}})
   .query(true)
-  .reply(201, {"id":"test-farmer-id-1622056799928","eTag":"0000c3e0-0000-0600-0000-60aeae090000","status":"Active","createdDateTime":"2021-05-26T20:22:33Z","modifiedDateTime":"2021-05-26T20:22:33Z","name":"Contoso Farmer","description":"Your custom farmer description here","properties":{"1":"numeric key","foo":"bar","numeric one":1}}, [ 'Server',
-  'nginx/1.19.1',
+  .reply(201, {"id":"tst103node","eTag":"0300d67f-0000-0600-0000-60d2126b0000","status":"Active","createdDateTime":"2021-06-22T16:40:11Z","modifiedDateTime":"2021-06-22T16:40:11Z","name":"Contoso Farmer","description":"Your custom farmer description here","properties":{"1":"numeric key","foo":"bar","numeric one":1}}, [
   'Date',
-  'Wed, 26 May 2021 20:22:33 GMT',
+  'Tue, 22 Jun 2021 16:40:11 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '321',
+  '303',
   'Connection',
   'keep-alive',
   'etag',
-  '0000c3e0-0000-0600-0000-60aeae090000',
+  '0300d67f-0000-0600-0000-60d2126b0000',
   'location',
-  'http://endpoint/farmers/test-farmer-id-1622056799928',
+  'http://endpoint/farmers/tst103node',
   'x-ms-request-id',
-  '0HM903JASEQ5E:00000001',
+  '0HM9KPQFKPIRS:00000001',
   'api-supported-versions',
   '2021-03-31-preview',
   'api-deprecated-versions',
@@ -61,4 +62,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-throttle-information',
   '5',
   'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains' ]);
+  'max-age=15724800; includeSubDomains'
+]);

@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import {
@@ -8,7 +11,7 @@ import {
   LROResult,
   LROState,
   RawResponse,
-  successStates
+  successStates,
 } from "./models";
 
 function getResponseStatus(rawResponse: RawResponse): string {
@@ -29,10 +32,7 @@ export function processAzureAsyncOperationResult<TResult>(
   resourceLocation?: string,
   finalStateVia?: FinalStateVia
 ): (rawResponse: RawResponse, flatResponse: TResult) => LROState<TResult> {
-  return (
-    rawResponse: RawResponse,
-    flatResponse: TResult
-  ): LROState<TResult> => {
+  return (rawResponse: RawResponse, flatResponse: TResult): LROState<TResult> => {
     if (isAzureAsyncPollingDone(rawResponse)) {
       if (resourceLocation === undefined) {
         return { rawResponse, flatResponse, done: true };
@@ -42,9 +42,7 @@ export function processAzureAsyncOperationResult<TResult>(
           flatResponse,
           done: false,
           next: async () => {
-            async function sendFinalRequest(): Promise<
-              LROResult<TResult> | undefined
-            > {
+            async function sendFinalRequest(): Promise<LROResult<TResult> | undefined> {
               switch (finalStateVia) {
                 case "original-uri":
                   return lro.retrieveAzureAsyncResource();
@@ -59,18 +57,18 @@ export function processAzureAsyncOperationResult<TResult>(
             return {
               ...(finalResponse ?? {
                 rawResponse,
-                flatResponse
+                flatResponse,
               }),
-              done: true
+              done: true,
             };
-          }
+          },
         };
       }
     }
     return {
       rawResponse,
       flatResponse,
-      done: false
+      done: false,
     };
   };
 }

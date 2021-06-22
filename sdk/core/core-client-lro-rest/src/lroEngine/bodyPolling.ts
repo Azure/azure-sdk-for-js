@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { failureStates, LROState, RawResponse, successStates } from "./models";
 
 function getProvisioningState(rawResponse: RawResponse): string {
   const { properties, provisioningState } = rawResponse.body ?? {};
-  const state: string | undefined =
-    properties?.provisioningState ?? provisioningState;
+  const state: string | undefined = properties?.provisioningState ?? provisioningState;
   return state?.toLowerCase() ?? "succeeded";
 }
 
-export function isBodyPollingDone(rawResponse: RawResponse) {
+export function isBodyPollingDone(rawResponse: RawResponse): boolean {
   const state = getProvisioningState(rawResponse);
   if (failureStates.includes(state)) {
     throw new Error(`Provisioning state: ${state}`);
@@ -29,6 +28,6 @@ export function processBodyPollingOperationResult<TResult>(
   return {
     rawResponse,
     flatResponse,
-    done: isBodyPollingDone(rawResponse)
+    done: isBodyPollingDone(rawResponse),
   };
 }

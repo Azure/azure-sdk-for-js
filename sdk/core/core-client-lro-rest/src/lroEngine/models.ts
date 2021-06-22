@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { PollOperationState } from "@azure/core-lro";
@@ -25,10 +28,7 @@ export const successStates = ["succeeded"];
 export const failureStates = ["failed", "canceled", "cancelled"];
 export const terminalStates = successStates.concat(failureStates);
 
-export type FinalStateVia =
-  | "azure-async-operation"
-  | "location"
-  | "original-uri";
+export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
 
 export interface LROBody extends Record<string, unknown> {
   status?: string;
@@ -97,10 +97,7 @@ interface LROInProgressState<T> extends LROResult<T> {
  */
 export type LROState<T> = LROTerminalState<T> | LROInProgressState<T>;
 
-export type GetLROState<T> = (
-  rawResponse: RawResponse,
-  flatResponse: T
-) => LROState<T>;
+export type GetLROState<T> = (rawResponse: RawResponse, flatResponse: T) => LROState<T>;
 
 /**
  * Description of a long running operation
@@ -118,10 +115,7 @@ export interface LRO<T> {
    * A function that can be used to send initial request to the service.
    */
   sendInitialRequest: (
-    initializeState: (
-      rawResponse: RawResponse,
-      flatResponse: unknown
-    ) => boolean
+    initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean
   ) => Promise<LROResult<T>>;
   /**
    * A function that can be used to poll for the current state of a long running operation.

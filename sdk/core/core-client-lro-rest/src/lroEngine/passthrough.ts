@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { LROState, RawResponse } from "./models";
@@ -10,6 +13,6 @@ export function processPassthroughOperationResult<TResult>(
   return {
     rawResponse,
     flatResponse,
-    done: true
+    done: true,
   };
 }

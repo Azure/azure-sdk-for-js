@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperation, PollOperationState } from "@azure/core-lro";
-import {
-  PollerConfig,
-  ResumablePollOperationState,
-  LRO,
-  LROState
-} from "./models";
+import { PollerConfig, ResumablePollOperationState, LRO, LROState } from "./models";
 import { getPollingURL } from "./requestUtils";
 import { createInitializeState, createPollForLROState } from "./stateMachine";
 
@@ -19,12 +17,9 @@ export class GenericPollOperation<TResult>
     pollerConfig: PollerConfig
   ) => Promise<LROState<TResult>>;
   private pollerConfig?: PollerConfig;
-  constructor(
-    public state: ResumablePollOperationState<TResult>,
-    private lro: LRO<TResult>
-  ) {}
+  constructor(public state: ResumablePollOperationState<TResult>, private lro: LRO<TResult>) {}
 
-  public setPollerConfig(pollerConfig: PollerConfig) {
+  public setPollerConfig(pollerConfig: PollerConfig): void {
     this.pollerConfig = pollerConfig;
   }
 
@@ -67,19 +62,13 @@ export class GenericPollOperation<TResult>
       if (state.pollingURL === undefined) {
         throw new Error("Bad state: polling URL is undefined");
       }
-      const currentState = await this.getLROState(
-        state.pollingURL,
-        this.pollerConfig!
-      );
+      const currentState = await this.getLROState(state.pollingURL, this.pollerConfig!);
       if (currentState.done) {
         state.result = currentState.flatResponse;
         state.isCompleted = true;
       } else {
         this.getLROState = currentState.next ?? this.getLROState;
-        state.pollingURL = getPollingURL(
-          currentState.rawResponse,
-          state.pollingURL
-        );
+        state.pollingURL = getPollingURL(currentState.rawResponse, state.pollingURL);
       }
     }
     if (options?.fireProgress !== undefined) {
@@ -98,7 +87,7 @@ export class GenericPollOperation<TResult>
    */
   public toString(): string {
     return JSON.stringify({
-      state: this.state
+      state: this.state,
     });
   }
 }

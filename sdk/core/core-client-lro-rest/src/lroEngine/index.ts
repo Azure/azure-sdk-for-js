@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export { LROPoller } from "./lroPoller";
 export { createGetLROState } from "./stateMachine";
 export {
@@ -12,5 +15,5 @@ export {
   LROResult,
   LROState,
   LROPollerOptions,
-  terminalStates
+  terminalStates,
 } from "./models";

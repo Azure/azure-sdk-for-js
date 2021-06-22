@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { LROState, RawResponse } from "./models";
@@ -18,6 +21,6 @@ export function processLocationPollingOperationResult<TResult>(
   return {
     rawResponse,
     flatResponse,
-    done: isLocationPollingDone(rawResponse)
+    done: isLocationPollingDone(rawResponse),
   };
 }
