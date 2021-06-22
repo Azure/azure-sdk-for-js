@@ -8,6 +8,7 @@
 
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
+  ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
   WebPubSubConnectionExistsOptionalParams,
@@ -41,19 +42,11 @@ export interface WebPubSub {
     ...args:
       | [
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToAll$binaryOptionalParams?
         ]
       | [string, "text/plain", string, WebPubSubSendToAll$textOptionalParams?]
-      | [
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToAll$binaryOptionalParams?
-        ]
   ): Promise<void>;
   /**
    * Check if the connection with the given connectionId exists.
@@ -88,9 +81,8 @@ export interface WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToConnection$binaryOptionalParams?
         ]
       | [
@@ -99,14 +91,6 @@ export interface WebPubSub {
           "text/plain",
           string,
           WebPubSubSendToConnection$textOptionalParams?
-        ]
-      | [
-          string,
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToConnection$binaryOptionalParams?
         ]
   ): Promise<void>;
   /**
@@ -130,9 +114,8 @@ export interface WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToGroup$binaryOptionalParams?
         ]
       | [
@@ -141,14 +124,6 @@ export interface WebPubSub {
           "text/plain",
           string,
           WebPubSubSendToGroup$textOptionalParams?
-        ]
-      | [
-          string,
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToGroup$binaryOptionalParams?
         ]
   ): Promise<void>;
   /**
@@ -200,9 +175,8 @@ export interface WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToUser$binaryOptionalParams?
         ]
       | [
@@ -211,14 +185,6 @@ export interface WebPubSub {
           "text/plain",
           string,
           WebPubSubSendToUser$textOptionalParams?
-        ]
-      | [
-          string,
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToUser$binaryOptionalParams?
         ]
   ): Promise<void>;
   /**

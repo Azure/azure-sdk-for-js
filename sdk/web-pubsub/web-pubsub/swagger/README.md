@@ -18,6 +18,8 @@ package-version: 1.0.0-beta.3
 v3: true
 hide-clients: true
 use-core-v2: true
+use-extension:
+  "@autorest/modelerfour": "4.19.3"
 ```
 
 ## Customizations for Track 2 Generator

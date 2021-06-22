@@ -12,6 +12,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import {
+  ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
   WebPubSubConnectionExistsOptionalParams,
@@ -53,14 +54,12 @@ export class WebPubSubImpl implements WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param contentType Upload file type
    * @param message The payload body.
-   * @param contentType Upload file type
    * @param options The options parameters.
    */
   sendToAll(
     hub: string,
-    contentType: "application/octet-stream",
+    contentType: ContentType,
     message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
     options?: WebPubSubSendToAll$binaryOptionalParams
   ): Promise<void>;
   /**
@@ -79,55 +78,33 @@ export class WebPubSubImpl implements WebPubSub {
   ): Promise<void>;
   /**
    * Broadcast content inside request body to all the connected client connections.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param contentType Upload file type
-   * @param message The payload body.
-   * @param contentType Upload file type
-   * @param options The options parameters.
-   */
-  sendToAll(
-    hub: string,
-    contentType: "application/octet-stream",
-    message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
-    options?: WebPubSubSendToAll$binaryOptionalParams
-  ): Promise<void>;
-  /**
-   * Broadcast content inside request body to all the connected client connections.
    * @param args Includes all the parameters for this operation.
    */
   sendToAll(
     ...args:
       | [
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToAll$binaryOptionalParams?
         ]
       | [string, "text/plain", string, WebPubSubSendToAll$textOptionalParams?]
-      | [
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToAll$binaryOptionalParams?
-        ]
   ): Promise<void> {
     let operationSpec: coreClient.OperationSpec;
     let operationArguments: coreClient.OperationArguments;
     let options;
-    if (args[1] === "application/octet-stream") {
+    if (
+      args[1] === "application/json" ||
+      args[1] === "application/octet-stream"
+    ) {
       operationSpec = sendToAll$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         contentType: args[1],
         message: args[2],
-        contentType: args[3],
-        options: args[4]
+        options: args[3]
       };
-      options = args[4];
+      options = args[3];
     } else if (args[1] === "text/plain") {
       operationSpec = sendToAll$textOperationSpec;
       operationArguments = {
@@ -137,16 +114,6 @@ export class WebPubSubImpl implements WebPubSub {
         options: args[3]
       };
       options = args[3];
-    } else if (args[1] === "application/json") {
-      operationSpec = sendToAll$binaryOperationSpec;
-      operationArguments = {
-        hub: args[0],
-        contentType: args[1],
-        message: args[2],
-        contentType: args[3],
-        options: args[4]
-      };
-      options = args[4];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[1]}".`
@@ -199,15 +166,13 @@ export class WebPubSubImpl implements WebPubSub {
    * @param connectionId The connection Id.
    * @param contentType Upload file type
    * @param message The payload body.
-   * @param contentType Upload file type
    * @param options The options parameters.
    */
   sendToConnection(
     hub: string,
     connectionId: string,
-    contentType: "application/octet-stream",
+    contentType: ContentType,
     message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
     options?: WebPubSubSendToConnection$binaryOptionalParams
   ): Promise<void>;
   /**
@@ -228,24 +193,6 @@ export class WebPubSubImpl implements WebPubSub {
   ): Promise<void>;
   /**
    * Send content inside request body to the specific connection.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param connectionId The connection Id.
-   * @param contentType Upload file type
-   * @param message The payload body.
-   * @param contentType Upload file type
-   * @param options The options parameters.
-   */
-  sendToConnection(
-    hub: string,
-    connectionId: string,
-    contentType: "application/octet-stream",
-    message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
-    options?: WebPubSubSendToConnection$binaryOptionalParams
-  ): Promise<void>;
-  /**
-   * Send content inside request body to the specific connection.
    * @param args Includes all the parameters for this operation.
    */
   sendToConnection(
@@ -253,9 +200,8 @@ export class WebPubSubImpl implements WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToConnection$binaryOptionalParams?
         ]
       | [
@@ -265,29 +211,23 @@ export class WebPubSubImpl implements WebPubSub {
           string,
           WebPubSubSendToConnection$textOptionalParams?
         ]
-      | [
-          string,
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToConnection$binaryOptionalParams?
-        ]
   ): Promise<void> {
     let operationSpec: coreClient.OperationSpec;
     let operationArguments: coreClient.OperationArguments;
     let options;
-    if (args[2] === "application/octet-stream") {
+    if (
+      args[2] === "application/json" ||
+      args[2] === "application/octet-stream"
+    ) {
       operationSpec = sendToConnection$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         connectionId: args[1],
         contentType: args[2],
         message: args[3],
-        contentType: args[4],
-        options: args[5]
+        options: args[4]
       };
-      options = args[5];
+      options = args[4];
     } else if (args[2] === "text/plain") {
       operationSpec = sendToConnection$textOperationSpec;
       operationArguments = {
@@ -298,17 +238,6 @@ export class WebPubSubImpl implements WebPubSub {
         options: args[4]
       };
       options = args[4];
-    } else if (args[2] === "application/json") {
-      operationSpec = sendToConnection$binaryOperationSpec;
-      operationArguments = {
-        hub: args[0],
-        connectionId: args[1],
-        contentType: args[2],
-        message: args[3],
-        contentType: args[4],
-        options: args[5]
-      };
-      options = args[5];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[2]}".`
@@ -343,15 +272,13 @@ export class WebPubSubImpl implements WebPubSub {
    * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param contentType Upload file type
    * @param message The payload body.
-   * @param contentType Upload file type
    * @param options The options parameters.
    */
   sendToGroup(
     hub: string,
     group: string,
-    contentType: "application/octet-stream",
+    contentType: ContentType,
     message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
     options?: WebPubSubSendToGroup$binaryOptionalParams
   ): Promise<void>;
   /**
@@ -372,24 +299,6 @@ export class WebPubSubImpl implements WebPubSub {
   ): Promise<void>;
   /**
    * Send content inside request body to a group of connections.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param group Target group name, which length should be greater than 0 and less than 1025.
-   * @param contentType Upload file type
-   * @param message The payload body.
-   * @param contentType Upload file type
-   * @param options The options parameters.
-   */
-  sendToGroup(
-    hub: string,
-    group: string,
-    contentType: "application/octet-stream",
-    message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
-    options?: WebPubSubSendToGroup$binaryOptionalParams
-  ): Promise<void>;
-  /**
-   * Send content inside request body to a group of connections.
    * @param args Includes all the parameters for this operation.
    */
   sendToGroup(
@@ -397,9 +306,8 @@ export class WebPubSubImpl implements WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToGroup$binaryOptionalParams?
         ]
       | [
@@ -409,29 +317,23 @@ export class WebPubSubImpl implements WebPubSub {
           string,
           WebPubSubSendToGroup$textOptionalParams?
         ]
-      | [
-          string,
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToGroup$binaryOptionalParams?
-        ]
   ): Promise<void> {
     let operationSpec: coreClient.OperationSpec;
     let operationArguments: coreClient.OperationArguments;
     let options;
-    if (args[2] === "application/octet-stream") {
+    if (
+      args[2] === "application/json" ||
+      args[2] === "application/octet-stream"
+    ) {
       operationSpec = sendToGroup$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         group: args[1],
         contentType: args[2],
         message: args[3],
-        contentType: args[4],
-        options: args[5]
+        options: args[4]
       };
-      options = args[5];
+      options = args[4];
     } else if (args[2] === "text/plain") {
       operationSpec = sendToGroup$textOperationSpec;
       operationArguments = {
@@ -442,17 +344,6 @@ export class WebPubSubImpl implements WebPubSub {
         options: args[4]
       };
       options = args[4];
-    } else if (args[2] === "application/json") {
-      operationSpec = sendToGroup$binaryOperationSpec;
-      operationArguments = {
-        hub: args[0],
-        group: args[1],
-        contentType: args[2],
-        message: args[3],
-        contentType: args[4],
-        options: args[5]
-      };
-      options = args[5];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[2]}".`
@@ -527,15 +418,13 @@ export class WebPubSubImpl implements WebPubSub {
    * @param userId The user Id.
    * @param contentType Upload file type
    * @param message The payload body.
-   * @param contentType Upload file type
    * @param options The options parameters.
    */
   sendToUser(
     hub: string,
     userId: string,
-    contentType: "application/octet-stream",
+    contentType: ContentType,
     message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
     options?: WebPubSubSendToUser$binaryOptionalParams
   ): Promise<void>;
   /**
@@ -556,24 +445,6 @@ export class WebPubSubImpl implements WebPubSub {
   ): Promise<void>;
   /**
    * Send content inside request body to the specific user.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param userId The user Id.
-   * @param contentType Upload file type
-   * @param message The payload body.
-   * @param contentType Upload file type
-   * @param options The options parameters.
-   */
-  sendToUser(
-    hub: string,
-    userId: string,
-    contentType: "application/octet-stream",
-    message: coreRestPipeline.RequestBodyType,
-    contentType: "application/json",
-    options?: WebPubSubSendToUser$binaryOptionalParams
-  ): Promise<void>;
-  /**
-   * Send content inside request body to the specific user.
    * @param args Includes all the parameters for this operation.
    */
   sendToUser(
@@ -581,9 +452,8 @@ export class WebPubSubImpl implements WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreRestPipeline.RequestBodyType,
-          "application/json",
           WebPubSubSendToUser$binaryOptionalParams?
         ]
       | [
@@ -593,29 +463,23 @@ export class WebPubSubImpl implements WebPubSub {
           string,
           WebPubSubSendToUser$textOptionalParams?
         ]
-      | [
-          string,
-          string,
-          "application/octet-stream",
-          coreRestPipeline.RequestBodyType,
-          "application/json",
-          WebPubSubSendToUser$binaryOptionalParams?
-        ]
   ): Promise<void> {
     let operationSpec: coreClient.OperationSpec;
     let operationArguments: coreClient.OperationArguments;
     let options;
-    if (args[2] === "application/octet-stream") {
+    if (
+      args[2] === "application/json" ||
+      args[2] === "application/octet-stream"
+    ) {
       operationSpec = sendToUser$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         userId: args[1],
         contentType: args[2],
         message: args[3],
-        contentType: args[4],
-        options: args[5]
+        options: args[4]
       };
-      options = args[5];
+      options = args[4];
     } else if (args[2] === "text/plain") {
       operationSpec = sendToUser$textOperationSpec;
       operationArguments = {
@@ -626,17 +490,6 @@ export class WebPubSubImpl implements WebPubSub {
         options: args[4]
       };
       options = args[4];
-    } else if (args[2] === "application/json") {
-      operationSpec = sendToUser$binaryOperationSpec;
-      operationArguments = {
-        hub: args[0],
-        userId: args[1],
-        contentType: args[2],
-        message: args[3],
-        contentType: args[4],
-        options: args[5]
-      };
-      options = args[5];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[2]}".`
@@ -774,7 +627,7 @@ const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion, Parameters.excluded],
   urlParameters: [Parameters.$host, Parameters.hub],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
+  headerParameters: [Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -787,17 +640,6 @@ const sendToAll$textOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.hub],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
-  serializer
-};
-const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/:send",
-  httpMethod: "POST",
-  responses: { 202: {}, default: {} },
-  requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.excluded],
-  urlParameters: [Parameters.$host, Parameters.hub],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
-  mediaType: "binary",
   serializer
 };
 const connectionExistsOperationSpec: coreClient.OperationSpec = {
@@ -823,7 +665,7 @@ const sendToConnection$binaryOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
+  headerParameters: [Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -836,17 +678,6 @@ const sendToConnection$textOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
-  serializer
-};
-const sendToConnection$binaryOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/connections/{connectionId}/:send",
-  httpMethod: "POST",
-  responses: { 202: {}, default: {} },
-  requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
-  mediaType: "binary",
   serializer
 };
 const groupExistsOperationSpec: coreClient.OperationSpec = {
@@ -864,7 +695,7 @@ const sendToGroup$binaryOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion, Parameters.excluded],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
+  headerParameters: [Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -877,17 +708,6 @@ const sendToGroup$textOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
-  serializer
-};
-const sendToGroup$binaryOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/groups/{group}/:send",
-  httpMethod: "POST",
-  responses: { 202: {}, default: {} },
-  requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.excluded],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
-  mediaType: "binary",
   serializer
 };
 const addConnectionToGroupOperationSpec: coreClient.OperationSpec = {
@@ -931,7 +751,7 @@ const sendToUser$binaryOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
+  headerParameters: [Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -944,17 +764,6 @@ const sendToUser$textOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
-  serializer
-};
-const sendToUser$binaryOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/users/{userId}/:send",
-  httpMethod: "POST",
-  responses: { 202: {}, default: {} },
-  requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
-  headerParameters: [Parameters.contentType, Parameters.contentType2],
-  mediaType: "binary",
   serializer
 };
 const addUserToGroupOperationSpec: coreClient.OperationSpec = {

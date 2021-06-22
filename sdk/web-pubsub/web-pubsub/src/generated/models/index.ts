@@ -23,6 +23,8 @@ export const enum KnownWebPubSubPermission {
  * **joinLeaveGroup**
  */
 export type WebPubSubPermission = string;
+/** Defines values for ContentType. */
+export type ContentType = "application/json" | "application/octet-stream";
 
 /** Optional parameters. */
 export interface HealthApiGetServiceStatusOptionalParams
