@@ -1,9 +1,8 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0-preview.12 (Unreleased)
 
-- This release marks the general availability of the `@azure/core-tracing` package.
-- Update @azure/core-tracing to version 1.0.0. This brings core-tracing up to date with @opentelemetry/api@1.0.0. [PR #15883](https://github.com/Azure/azure-sdk-for-js/pull/15883)
+- Update `@opentelemetry/api` to version 1.0.0 [PR #15883](https://github.com/Azure/azure-sdk-for-js/pull/15883)
 
 ### Breaking Changes
 
