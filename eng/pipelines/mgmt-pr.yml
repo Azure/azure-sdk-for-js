@@ -1,7 +1,6 @@
 pr:
   branches:
     include:
-    - master
     - main
     - '*-preview'
   paths:

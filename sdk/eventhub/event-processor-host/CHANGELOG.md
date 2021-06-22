@@ -10,7 +10,7 @@
 ## 2.1.0 (2019-08-06)
 
 - Added support for WebSockets. WebSockets enable Event processor Host to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
-  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/typescript/src/websockets.ts) sample to see how to use WebSockets.
+  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-processor-host/samples/typescript/src/websockets.ts) sample to see how to use WebSockets.
 - Fixed [bug 4363](https://github.com/Azure/azure-sdk-for-js/issues/4363) which stopped users from providing their own LeaseManager. If both a lease manager and the options for leaseDuration/leaseRenewInterval are provided, then the latter will be ignored in favor of the leaseDuration/leaseRenewInterval properties on the lease manager.
 
 ## 2.0.0 (2019-07-16)
@@ -18,7 +18,7 @@
 - Use the latest version of the dependency on [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.1) that has the following bug fixes
   - Added event handlers for `error` and `protocolError` events on the connection object to avoid the case of unhandled exceptions. This is related to the [bug 4136](https://github.com/Azure/azure-sdk-for-js/issues/4136)
   - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-    is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host#debug-logs).
+    is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-processor-host#debug-logs).
   - When recovering from an error that caused the underlying AMQP connection to get disconnected,
     [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
     resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.
@@ -85,7 +85,7 @@
   - `onEphError`
   - `leaseRenewInterval`
   - `leaseDuration`
-- Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/samples) for more details.
+- Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-processor-host/samples) for more details.
 
 ## 0.1.4 (2018-07-16)
 

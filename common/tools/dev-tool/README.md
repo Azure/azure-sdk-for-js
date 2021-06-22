@@ -13,14 +13,15 @@ It provides a place to centralize scripts, resources, and processes for developm
 `dev-tool` uses a command hierarchy. For example, at the time of writing, the command tree looks like this:
 
 `dev-tool`
-  - `about` (display command help and information)
-  - `package`
-    - `resolve` (display information about the project that owns a directory)
-  - `samples`
-    - `dev` (link samples to local sources for access to IntelliSense during development)
-    - `prep` (prepare samples for local source-linked execution)
-    - `run` (execute a sample or all samples within a directory)
-    - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
+
+- `about` (display command help and information)
+- `package`
+  - `resolve` (display information about the project that owns a directory)
+- `samples`
+  - `dev` (link samples to local sources for access to IntelliSense during development)
+  - `prep` (prepare samples for local source-linked execution)
+  - `run` (execute a sample or all samples within a directory)
+  - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
 
@@ -40,6 +41,7 @@ To create a new leaf command in one of the existing sub-command, create a new Ty
 As an example, we can create a new `hello-world` command under the `dev-tool package` sub-command. The command will print out a string using the many different logging functions. It will accept an argument `--echo <string here>` that specifies the string to be printed.
 
 `src/commands/package/hello-world.ts`
+
 ```typescript
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
@@ -70,16 +72,17 @@ export default leafCommand(commandInfo, async (options) => {
 });
 ```
 
-(__Note__: using the `makeCommandInfo` function is required to have strong type-checking on the `options` parameter of the handler. The `options` field of `commandInfo` must have a very strong type, and `makeCommandInfo` takes care of ensuring that the type is as strongly specified as possible.)
+(**Note**: using the `makeCommandInfo` function is required to have strong type-checking on the `options` parameter of the handler. The `options` field of `commandInfo` must have a very strong type, and `makeCommandInfo` takes care of ensuring that the type is as strongly specified as possible.)
 
 As a last step, add a mapping for the `"hello-world"` command to the sub-command map in `src/commands/package/index.ts`. This will allow the command to resolve:
 
 `src/commands/package/index.ts`
+
 ```typescript
 // ...
 
 export default subCommand(commandInfo, {
-  "hello-world": () => import("./hello-world"),
+  "hello-world": () => import("./hello-world")
   // ... rest of the sub-commands still here
 });
 ```
@@ -101,6 +104,7 @@ As an example, we can convert the `hello-world` example above into a branching c
 Instead of creating a single file `hello-world.ts`, we will instead create a folder `src/commands/hello` and two ts files: `src/commands/hello/index.ts` and `src/commands/hello/world.ts`. In `src/commands/hello/index.ts`, we can define our new sub-command:
 
 `src/commands/hello/index.ts`
+
 ```typescript
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
@@ -114,11 +118,12 @@ export default subCommand(commandInfo, {
 });
 ```
 
-(__Note__: Since we don't have any arguments or options to add to the sub-command, the `options` argument to `makeCommandInfo` is omitted (since the sub-command just delegates to its child commands, we wouldn't be able to use any options in this parent command anyway).)
+(**Note**: Since we don't have any arguments or options to add to the sub-command, the `options` argument to `makeCommandInfo` is omitted (since the sub-command just delegates to its child commands, we wouldn't be able to use any options in this parent command anyway).)
 
 This simple file establishes the mapping from the command name `"world"` to our new command module `src/commands/hello/world.ts`. The contents of `world.ts` are very similar to the previous `hello-world.ts` module, but we will change the `name` field of `commandInfo` and the argument to `createPrinter`:
 
 `src/commands/hello/world.ts`
+
 ```typescript
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
@@ -130,27 +135,29 @@ const log = createPrinter("world");
 
 export const commandInfo = makeCommandInfo("world", "print a lovely message", {
   echo: {
-      kind: "string",
-      description: "override the message to be printed",
-      default: "Hello world!"
-  }});
+    kind: "string",
+    description: "override the message to be printed",
+    default: "Hello world!"
+  }
+});
 
 export default leafCommand(commandInfo, async (options) => {
-    // Demonstrate the colorized command output.
-    log("Normal:", options.echo);
-    log.success("Success:", options.echo);
-    log.info("Info:", options.echo);
-    log.warn("Warn:", options.echo);
-    log.error("Error:", options.echo);
-    log.debug("Debug:", options.echo);
+  // Demonstrate the colorized command output.
+  log("Normal:", options.echo);
+  log.success("Success:", options.echo);
+  log.info("Info:", options.echo);
+  log.warn("Warn:", options.echo);
+  log.error("Error:", options.echo);
+  log.debug("Debug:", options.echo);
 
-    return true;
+  return true;
 });
 ```
 
 The final step is to add a mapping to our new subcommand to the`baseCommands` map root `src/commands/index.ts` file:
 
 `src/commands/index.ts`
+
 ```typescript
 // ...
 
@@ -158,14 +165,14 @@ The final step is to add a mapping to our new subcommand to the`baseCommands` ma
  * All of dev-tool's base commands and the modules that define them
  */
 export const baseCommands = {
-  "hello": () => import("./hello")
+  hello: () => import("./hello")
   // ... all other sub-commands still here
 } as const;
 
 // ...
 ```
 
-(__Note__: If we were adding our `hello` command to another sub-command rather than the root, we would just add it to that sub-command's `index.ts` instead of the root `src/commands/index.ts`, similar to how we added `hello-world` to `src/commands/package/index.ts` in the previous example.)
+(**Note**: If we were adding our `hello` command to another sub-command rather than the root, we would just add it to that sub-command's `index.ts` instead of the root `src/commands/index.ts`, similar to how we added `hello-world` to `src/commands/package/index.ts` in the previous example.)
 
 ### Understanding the Options Type
 
@@ -181,7 +188,7 @@ Each variant supports an optional `shortName` field that specifies a one-letter 
 
 ### Final Developer Notes
 
-- Using the `subCommand` and `leafCommand` helpers is not required. If a command module exports any function with the signature `(...args: string[]) => Promise<boolean>` as its default export, it will run when the command is invoked and will be given the arguments passed in the parameters. __However__, only `subCommand` and `leafCommand` provide automatic argument parsing and handling of `--help`. The functions used to provide this behavior are located in the `src/util/commandBuilder.ts` module.
+- Using the `subCommand` and `leafCommand` helpers is not required. If a command module exports any function with the signature `(...args: string[]) => Promise<boolean>` as its default export, it will run when the command is invoked and will be given the arguments passed in the parameters. **However**, only `subCommand` and `leafCommand` provide automatic argument parsing and handling of `--help`. The functions used to provide this behavior are located in the `src/util/commandBuilder.ts` module.
 - Some additional helper modules can be found in `src/util` such as `resolveProject.ts` which walks up the directory hierarchy and finds the absolute path of the nearest SDK package directory (useful for commands like `samples` which always operate relative to the package directory)
 - The tool runs using the `transpileOnly` option in the `ts-node` configuration, meaning it does not perform run-time type-checking. The build step of the package will run type-checking using `tsc`, so to check the tool's code for type errors, simply use `rushx build`.
 
@@ -199,4 +206,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
