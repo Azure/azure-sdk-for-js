@@ -69,15 +69,16 @@ steps:
       foreach ($artifact in $artifacts)
       {
         $artifactName = $artifact.name
-        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
+        $targetPath = $(Build.ArtifactStagingDirectory)/$artifactName
+        Write-Host "Copying $artifactName artifacts to $targetPath"
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-*.tgz $targetPath
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-*.zip $targetPath
         $docPath = $(Build.SourcesDirectory)/docGen/$artifactName.zip
         if (Test-Path -Path $docPath)
         {
-          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
-          Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+          New-Item -Type Directory -Name documentation -Path $targetPath > $null
+          Copy-Item $docPath $targetPath/documentation
         }
       }
     displayName: 'Copy Packages'
