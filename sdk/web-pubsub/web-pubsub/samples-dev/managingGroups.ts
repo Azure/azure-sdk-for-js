@@ -23,4 +23,7 @@ async function main() {
   await adminGroup.removeConnection("Tn3XcrAbHI0OE36XvbWwige4ac096c1");
 }
 
-main();
+main().catch((e) => {
+  console.error("Sample encountered an error", e);
+  process.exit(1);
+});
