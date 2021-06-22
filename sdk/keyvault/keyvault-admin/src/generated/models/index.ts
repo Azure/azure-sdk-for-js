@@ -265,6 +265,21 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Known values of {@link ApiVersion72} that the service accepts. */
+export const enum KnownApiVersion72 {
+  /** Api Version '7.2' */
+  Seven2 = "7.2"
+}
+
+/**
+ * Defines values for ApiVersion72. \
+ * {@link KnownApiVersion72} can be used interchangeably with ApiVersion72,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **7.2**: Api Version '7.2'
+ */
+export type ApiVersion72 = string;
+
 /** Known values of {@link RoleType} that the service accepts. */
 export const enum KnownRoleType {
   /** Built in role. */
@@ -540,8 +555,6 @@ export type KeyVaultClientSelectiveKeyRestoreOperationResponse = KeyVaultClientS
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
   extends coreClient.ServiceClientOptions {
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

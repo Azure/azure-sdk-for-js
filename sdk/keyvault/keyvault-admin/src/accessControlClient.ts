@@ -8,7 +8,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createTraceFunction } from "./tracingHelpers";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
-  KeyVaultClientOptionalParams,
   RoleAssignmentsListForScopeOptionalParams
 } from "./generated/models";
 
@@ -90,22 +89,22 @@ export class KeyVaultAccessControlClient {
           : libInfo
     };
 
-    const clientOptions: KeyVaultClientOptionalParams = {
+    const serviceVersion = options.serviceVersion || LATEST_API_VERSION
+
+    const clientOptions = {
       ...options,
-      apiVersion: options.serviceVersion || LATEST_API_VERSION,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
+      loggingOptions: {
+        logger: logger.info,
           additionalAllowedHeaderNames: [
             "x-ms-keyvault-region",
             "x-ms-keyvault-network-info",
             "x-ms-keyvault-service-version"
           ]
-        }
-      }
-    };
 
-    this.client = new KeyVaultClient(clientOptions);
+      }
+    }
+
+    this.client = new KeyVaultClient(serviceVersion, clientOptions);
 
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({

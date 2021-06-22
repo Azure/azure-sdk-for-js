@@ -7,18 +7,26 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { KeyVaultClientOptionalParams } from "./models";
+import { ApiVersion72, KeyVaultClientOptionalParams } from "./models";
 
 export const packageVersion = "4.1.0-beta.1";
 
 export class KeyVaultClientContext extends coreClient.ServiceClient {
-  apiVersion: string;
+  apiVersion: ApiVersion72;
 
   /**
    * Initializes a new instance of the KeyVaultClientContext class.
+   * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(options?: KeyVaultClientOptionalParams) {
+  constructor(
+    apiVersion: ApiVersion72,
+    options?: KeyVaultClientOptionalParams
+  ) {
+    if (apiVersion === undefined) {
+      throw new Error("'apiVersion' cannot be null");
+    }
+
     // Initializing default values for options
     if (!options) {
       options = {};
@@ -27,14 +35,22 @@ export class KeyVaultClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
+    const packageDetails = `azsdk-js-keyvault-admin/4.1.0-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
       baseUri: options.endpoint || "{vaultBaseUrl}"
     };
     super(optionsWithDefaults);
-
-    // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "7.2";
+    // Parameter assignments
+    this.apiVersion = apiVersion;
   }
 }

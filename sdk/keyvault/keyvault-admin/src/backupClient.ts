@@ -22,7 +22,6 @@ import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
-import { KeyVaultClientOptionalParams } from "./generated/models";
 import { mappings } from "./mappings";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
@@ -88,22 +87,22 @@ export class KeyVaultBackupClient {
           : libInfo
     };
 
-    const clientOptions: KeyVaultClientOptionalParams = {
+    const apiVersion = options.serviceVersion || LATEST_API_VERSION
+
+    const clientOptions = {
       ...options,
-      apiVersion: options.serviceVersion || LATEST_API_VERSION,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: [
+      loggingOptions: {
+        logger: logger.info,
+          additionalAllowedHeaderNames: [
             "x-ms-keyvault-region",
             "x-ms-keyvault-network-info",
             "x-ms-keyvault-service-version"
           ]
-        }
-      }
-    };
 
-    this.client = new KeyVaultClient(clientOptions);
+      }
+    }
+
+    this.client = new KeyVaultClient(apiVersion, clientOptions);
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,

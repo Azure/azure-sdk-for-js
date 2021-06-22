@@ -6,6 +6,7 @@
 package-name: "@azure/keyvault-admin"
 azure-arm: false
 disable-async-iterators: true
+api-version-parameter: choice
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
