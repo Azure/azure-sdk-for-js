@@ -75,7 +75,6 @@ export async function getYearsPaths(
       tracingOptions: updatedOptions.tracingOptions,
       prefix: CHANGE_FEED_SEGMENT_PREFIX
     })) {
-      // TODO: add String.prototype.includes polyfill for IE11
       if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
         const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
         years.push(parseInt(yearStr));

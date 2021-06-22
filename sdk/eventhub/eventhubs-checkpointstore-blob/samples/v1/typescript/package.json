@@ -1,0 +1,40 @@
+{
+  "name": "azure-eventhubs-checkpointstore-blob-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Event Hubs - Checkpoint Store client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/eventhub/eventhubs-checkpointstore-blob"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "event hubs",
+    "events"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob",
+  "dependencies": {
+    "@azure/eventhubs-checkpointstore-blob": "latest",
+    "dotenv": "latest",
+    "@azure/storage-blob": "^12.4.1",
+    "@azure/event-hubs": "^5.5.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
+  }
+}

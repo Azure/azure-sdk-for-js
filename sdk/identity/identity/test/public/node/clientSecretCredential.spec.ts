@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
-import { env, delay } from "@azure/test-utils-recorder";
+import { env, delay, isLiveMode } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
-import { ClientSecretCredential } from "../../../src";
+import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential", function() {
@@ -81,4 +81,23 @@ describe("ClientSecretCredential", function() {
       ]
     })
   );
+
+  it("supports specifying the regional authority", async function(this: Context) {
+    if (isLiveMode()) {
+      this.skip();
+    }
+
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      {
+        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+      }
+    );
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
 });

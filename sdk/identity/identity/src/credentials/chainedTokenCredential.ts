@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+
 import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";

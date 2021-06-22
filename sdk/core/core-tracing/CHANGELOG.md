@@ -2,6 +2,11 @@
 
 ## 1.0.0-preview.12 (Unreleased)
 
+- Update `@opentelemetry/api` to version 1.0.0 [PR #15883](https://github.com/Azure/azure-sdk-for-js/pull/15883)
+
+### Breaking Changes
+
+- Removed `OpenCensusSpanWrapper` and `OpenCensusTracerWrapper` from the public API. Customers using these wrappers should migrate to using `OpenTelemetry` directly. [PR #15770](https://github.com/Azure/azure-sdk-for-js/pull/15770)
 
 ## 1.0.0-preview.11 (2021-03-30)
 

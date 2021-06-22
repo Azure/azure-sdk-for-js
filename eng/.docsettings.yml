@@ -36,12 +36,8 @@ required_readme_sections:
   - ^Contributing$
 
 known_content_issues:
-  - ["sdk/core/core-tracing/README.md",  "#14725"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
-
-known_presence_issues:
-  - ["sdk/keyvault/keyvault-common/README.md",  "#15587"]
 
 package_indexing_exclusion_list:
   - "@azure/template"

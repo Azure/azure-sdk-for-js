@@ -6,8 +6,9 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js",
-    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
+    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/base64.js": "./dist-esm/src/utils/base64.browser.js",
+    "./dist-esm/test/utils/isNode.js": "./dist-esm/src/test/isNode.browser.js"
   },
   "types": "types/container-registry.d.ts",
   "//metadata": {
@@ -80,7 +81,6 @@
     "@azure/core-rest-pipeline": "1.1.0-beta.4",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.11",
-    "@azure/core-util": "^1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
