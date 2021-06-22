@@ -7,6 +7,8 @@
 ### Breaking Changes
 
 - Removed `OpenCensusSpanWrapper` and `OpenCensusTracerWrapper` from the public API. Customers using these wrappers should migrate to using `OpenTelemetry` directly. [PR #15770](https://github.com/Azure/azure-sdk-for-js/pull/15770)
+- Update `@azure/core-tracing` to version 1.0.0-preview.12. This brings core-tracing up to date with `@opentelemetry/api@1.0.0`.
+  - `Span#context` was renamed to `Span#spanContext`. This change is supported in `@azure/core-http@1.2.7`.
 
 ## 1.0.0-preview.11 (2021-03-30)
 
