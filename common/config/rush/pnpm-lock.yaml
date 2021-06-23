@@ -21,6 +21,7 @@ dependencies:
   '@rush-temp/core-auth': file:projects/core-auth.tgz
   '@rush-temp/core-client': file:projects/core-client.tgz
   '@rush-temp/core-client-1': file:projects/core-client-1.tgz
+  '@rush-temp/core-client-paging': file:projects/core-client-paging.tgz
   '@rush-temp/core-crypto': file:projects/core-crypto.tgz
   '@rush-temp/core-http': file:projects/core-http.tgz
   '@rush-temp/core-lro': file:projects/core-lro.tgz
@@ -8154,7 +8155,7 @@ packages:
     dev: false
     name: '@rush-temp/agrifood-farming'
     resolution:
-      integrity: sha512-F6n2fF7nYjo1puQJoehl5wZ2ETNbVOh5R24BoZf1DpjBylMBLYK9XUk/V4ffDHUFaSl1G+CRuO5d6zPMmqLI2Q==
+      integrity: sha512-1TBfH8mrt2ib3U1qef5slQiSujNaeVSuPS4ISdNcq6Vu2vUIjiJ1oxuXA6rfaaeSG1mGHp9wJDJ7Li0h5wsF1Q==
       tarball: file:projects/agrifood-farming.tgz
     version: 0.0.0
   file:projects/ai-anomaly-detector.tgz:
@@ -9046,6 +9047,44 @@ packages:
       integrity: sha512-SG/UNSQX+LFioBKFma6ZxRnA/Z5bzBG+UUyTKgfFLuFFMLHGeKSYfH8yrepW+iivLnbClPQfcVes07ZljoR6vQ==
       tarball: file:projects/core-client-1.tgz
     version: 0.0.0
+  file:projects/core-client-paging.tgz:
+    dependencies:
+      '@azure/core-rest-pipeline': 1.0.4
+      '@microsoft/api-extractor': 7.13.2
+      '@types/chai': 4.2.19
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.4
+      cross-env: 7.0.3
+      eslint: 7.29.0
+      inherits: 2.0.4
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      tslib: 2.3.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.4
+    dev: false
+    name: '@rush-temp/core-client-paging'
+    resolution:
+      integrity: sha512-MWsd9fmRdJ/ArkZHl867uBk7W5lA+voMiDFivxzcJSuFVG85nOEPNnoZz8AFlqbnLrhV2r3EOwbsp2M+s3iFHg==
+      tarball: file:projects/core-client-paging.tgz
+    version: 0.0.0
   file:projects/core-client.tgz:
     dependencies:
       '@azure/core-rest-pipeline': 1.0.4
@@ -9081,7 +9120,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-KnWCuWw5xZmHZQX21uqtlzRlZe1LZQVtuavo4FBOjiivGamirzND/+QxMOfW7m4DlV/htMeT1bg1CNSxOTVKmA==
+      integrity: sha512-7b3K4L1f+at6Zz1whbFBdVfAgZlrvpPudcOgwbBeXPyJumHKk4pi5t4LVsKGfTOWxzFv31rPICyaJZ5IncvLhg==
       tarball: file:projects/core-client.tgz
     version: 0.0.0
   file:projects/core-crypto.tgz:
@@ -11919,6 +11958,7 @@ specifiers:
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
   '@rush-temp/core-client': file:./projects/core-client.tgz
   '@rush-temp/core-client-1': file:./projects/core-client-1.tgz
+  '@rush-temp/core-client-paging': file:./projects/core-client-paging.tgz
   '@rush-temp/core-crypto': file:./projects/core-crypto.tgz
   '@rush-temp/core-http': file:./projects/core-http.tgz
   '@rush-temp/core-lro': file:./projects/core-lro.tgz
