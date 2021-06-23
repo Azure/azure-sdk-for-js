@@ -88,7 +88,7 @@ class MockSpan implements Span {
     return this._attributes[key];
   }
 
-  context(): SpanContext {
+  spanContext(): SpanContext {
     const state = this.state;
 
     const traceState = {
