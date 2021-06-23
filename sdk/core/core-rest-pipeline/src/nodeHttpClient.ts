@@ -142,7 +142,11 @@ class NodeHttpClient implements HttpClient {
           if (request.streamResponseStatusCodes?.has(response.status)) {
             response.readableStreamBody = responseStream;
           } else {
-            response.bodyAsText = await streamToText(responseStream);
+            try {
+              response.bodyAsText = await streamToText(responseStream);
+            } catch (e) {
+              reject(e);
+            }
           }
 
           resolve(response);
