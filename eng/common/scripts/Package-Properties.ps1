@@ -13,6 +13,7 @@ class PackageProps
     [string]$SdkType
     [boolean]$IsNewSdk
     [string]$ArtifactName
+    [string]$ReleaseDate
 
     PackageProps([string]$name, [string]$version, [string]$directoryPath, [string]$serviceDirectory)
     {
@@ -52,7 +53,7 @@ class PackageProps
             $changeLogEntry = Get-ChangeLogEntry -ChangeLogLocation $this.ChangeLogPath -VersionString $this.Version
             if ($changeLogEntry -and ![System.String]::IsNullOrEmpty($changeLogEntry.ReleaseStatus))
             {
-                $this.ReleaseDate = $changeLogEntry.ReleaseStatus.Trim().Trim("()")
+              $this.ReleaseDate = $changeLogEntry.ReleaseStatus.Trim().Trim("()")
             } 
         }
         else
