@@ -37,7 +37,6 @@ export class BasicScenario implements Scenario {
         foo: "bar"
       }
     });
-    const ctx = opentelemetry.setSpan(opentelemetry.context.active(), root);
     const child1 = tracer.startSpan(
       `${this.constructor.name}.Child.1`,
       {
@@ -46,8 +45,7 @@ export class BasicScenario implements Scenario {
         attributes: {
           numbers: "123"
         }
-      },
-      ctx
+      }
     );
     const child2 = tracer.startSpan(
       `${this.constructor.name}.Child.2`,
@@ -57,8 +55,7 @@ export class BasicScenario implements Scenario {
         attributes: {
           numbers: "1234"
         }
-      },
-      ctx
+      }
     );
     child1.setStatus({ code: SpanStatusCode.OK });
     child1.end(100);

@@ -5,7 +5,8 @@ import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing"
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { Resource, SERVICE_RESOURCE } from "@opentelemetry/resources";
+import { Resource } from "@opentelemetry/resources";
+import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, Measurements } from "../../../src/types";
 import {
@@ -25,9 +26,9 @@ const context = getInstance(undefined, "./");
 
 const tracerProviderConfig: TracerConfig = {
   resource: new Resource({
-    [SERVICE_RESOURCE.INSTANCE_ID]: "testServiceInstanceID",
-    [SERVICE_RESOURCE.NAME]: "testServiceName",
-    [SERVICE_RESOURCE.NAMESPACE]: "testServiceNamespace"
+    [ResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+    [ResourceAttributes.SERVICE_NAME]: "testServiceName",
+    [ResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace"
   })
 };
 
@@ -94,10 +95,7 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
-          [grpc.GRPC_KIND]: SpanKind.SERVER,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
-          [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
           code: SpanStatusCode.OK
@@ -110,14 +108,12 @@ describe("spanUtils.ts", () => {
         };
         const expectedProperties = {
           "extra.attribute": "foo",
-          [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name"
         };
 
         const expectedBaseData: Partial<RequestData> = {
           source: undefined,
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
           responseCode: "1",
           url: "/foo.Example/Foo",
@@ -150,10 +146,7 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
-          [grpc.GRPC_KIND]: SpanKind.CLIENT,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
-          [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
           code: SpanStatusCode.OK
@@ -165,13 +158,11 @@ describe("spanUtils.ts", () => {
         };
         const expectedProperties = {
           "extra.attribute": "foo",
-          [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name"
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
           resultCode: "1",
           target: "/foo.Example/Foo",
@@ -223,7 +214,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RequestData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
           responseCode: "1",
           name: `parent span`,
@@ -272,7 +263,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
           resultCode: "1",
           target: undefined,
@@ -330,7 +321,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: RequestData = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
           responseCode: "200",
           url: "https://example.com/api/example",
@@ -372,7 +363,7 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: span.spanContext.traceId,
+          [ai.AI_OPERATION_ID]: span.spanContext().traceId,
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
         const expectedProperties = {
