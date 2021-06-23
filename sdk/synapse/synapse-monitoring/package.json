@@ -2,7 +2,7 @@
   "name": "@azure/synapse-monitoring",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for MonitoringClient.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-monitoring/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-monitoring/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "sdk-type": "client",
   "version": "1.0.0-beta.3",

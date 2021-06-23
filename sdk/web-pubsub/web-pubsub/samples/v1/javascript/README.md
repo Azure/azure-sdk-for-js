@@ -51,8 +51,8 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node broadcasting.js
 ```
 
-[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/broadcasting.js
-[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/directMessage.js
-[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
+[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/broadcasting.js
+[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/directMessage.js
+[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md

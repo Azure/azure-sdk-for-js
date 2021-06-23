@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   FullBackupOperation,
@@ -15,7 +14,7 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
+import { createTraceFunction } from "../../tracingHelpers";
 
 /**
  * @internal
@@ -53,7 +52,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
     public state: KeyVaultBackupPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private requestOptions: KeyVaultBeginBackupOptions = {}
   ) {
     super(state, { cancelMessage: "Cancelling a full Key Vault backup is not supported." });
   }

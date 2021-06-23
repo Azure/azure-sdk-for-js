@@ -66,18 +66,18 @@ npx cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KE
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[workingwithint64]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/workingWithInt64.js
-[workingwithbigint]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/workingWithBigInt.js
-[transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/transactionWithHelper.js
-[transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/transactionOperations.js
-[queryentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/queryEntities.js
-[createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteEntities.js
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/authenticationMethods.js
-[createanddeletetable]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteTable.js
-[updateandupsertentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/updateAndUpsertEntities.js
-[generatetablesas]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/generateTableSAS.js
-[querytables]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/queryTables.js
+[workingwithint64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/workingWithInt64.js
+[workingwithbigint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/workingWithBigInt.js
+[transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/transactionWithHelper.js
+[transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/transactionOperations.js
+[queryentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/queryEntities.js
+[createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteEntities.js
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/authenticationMethods.js
+[createanddeletetable]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteTable.js
+[updateandupsertentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/updateAndUpsertEntities.js
+[generatetablesas]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/generateTableSAS.js
+[querytables]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/queryTables.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/data-tables
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurestorageinstance]: https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/tables/data-tables/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/README.md

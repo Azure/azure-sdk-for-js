@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/signalr/arm-signalr",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/signalr/arm-signalr",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"

@@ -84,7 +84,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [

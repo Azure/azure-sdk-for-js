@@ -8,13 +8,13 @@ Requires `homepage` in `package.json` to be set to the library's readme.
 
 ```json
 {
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/README.md"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"
 }
 ```
 
 ```json
 {
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/"
 }
 ```
 
@@ -22,7 +22,7 @@ Requires `homepage` in `package.json` to be set to the library's readme.
 
 ```json
 {
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/README.md"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/README.md"
 }
 ```
 
@@ -34,7 +34,7 @@ Requires `homepage` in `package.json` to be set to the library's readme.
 
 ```json
 {
-  "homepage": "https://github.com/Azure/azure-sdk-for-java/blob/master/sdk/servicebus/service-bus/README.md"
+  "homepage": "https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/servicebus/service-bus/README.md"
 }
 ```
 

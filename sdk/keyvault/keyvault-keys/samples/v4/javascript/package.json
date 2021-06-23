@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys",
   "dependencies": {
     "@azure/keyvault-keys": "next",
     "dotenv": "latest",

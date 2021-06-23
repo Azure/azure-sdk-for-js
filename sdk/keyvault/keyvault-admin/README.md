@@ -6,7 +6,7 @@ The package `@azure/keyvault-admin` provides support for administrative Key Vaul
 
 > Note: The Administration library only works with [Azure Key Vault Managed HSM][managedhsm] - functions targeting a Key Vault will fail.
 >
-> Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
 [Source code][package-gh] | [Package (npm)][package-npm] | [API Reference Documentation][docs] | [Product documentation][docs-service] | [Samples][samples]
 
@@ -207,8 +207,8 @@ The methods that begin long running operations return a poller that allows you t
 
 We have samples both in JavaScript and TypeScript that show the access control and backup/restore features in this package. Please follow the corresponding readmes for detailed steps to run the samples.
 
-- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/README.md)
-- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/README.md)
+- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/README.md)
+- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/README.md)
 
 ## Troubleshooting
 
@@ -224,31 +224,31 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/v4/javascript)
-- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/v4/typescript)
-- [KeyVault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
+- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/javascript)
+- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/typescript)
+- [KeyVault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-admin%2FREADME.png)
 
 <!-- LINKS -->
 
-[dac]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
+[dac]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/README.md
 [jwk]: https://tools.ietf.org/html/rfc7517
 [access_control]: https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control
 [api-rest]: https://docs.microsoft.com/rest/api/keyvault/
 [azure-cli]: https://docs.microsoft.com/cli/azure
-[azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure-sub]: https://azure.microsoft.com/free/
 [backup_client]: ./src/KeyVaultBackupClient.cs
 [best_practices]: https://docs.microsoft.com/azure/key-vault/managed-hsm/best-practices
 [built_in_roles]: https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
-[core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
+[core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro
 [docs-overview]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
 [docs-service]: https://azure.microsoft.com/services/key-vault/
 [docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
@@ -256,12 +256,12 @@ If you'd like to contribute to this library, please read the [contributing guide
 [dotenv]: https://www.npmjs.com/package/dotenv]
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
-[logging]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
+[logging]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
 [managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [npm]: https://www.npmjs.com/
-[package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin
+[package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
 [storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
