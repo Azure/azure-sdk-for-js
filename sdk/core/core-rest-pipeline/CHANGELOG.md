@@ -10,6 +10,7 @@
 
 - Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
 - The `ExponentialRetryPolicy` will now ignore `503` responses if they have the `Retry-After` header.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
 
 ## 1.1.0-beta.3 (2021-06-03)
 

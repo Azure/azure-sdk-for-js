@@ -74,7 +74,8 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       if (delayInMs) {
         this.numberOfRetries += 1;
         await delay(delayInMs);
-        if (this.numberOfRetries < DEFAULT_CLIENT_MAX_RETRY_COUNT) {
+        // The original request and up to DEFAULT_CLIENT_MAX_RETRY_COUNT retries
+        if (this.numberOfRetries <= DEFAULT_CLIENT_MAX_RETRY_COUNT) {
           return this.sendRequest(httpRequest);
         } else {
           return this._nextPolicy.sendRequest(httpRequest);

@@ -28,7 +28,6 @@ interface AuthRequestDetails {
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
-  let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
     envCopy = JSON.stringify(process.env);
@@ -39,10 +38,6 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
     sandbox = Sinon.createSandbox();
-    clock = sandbox.useFakeTimers({
-      now: Date.now(),
-      shouldAdvanceTime: true
-    });
   });
   afterEach(() => {
     const env = JSON.parse(envCopy);
@@ -53,7 +48,6 @@ describe("ManagedIdentityCredential", function() {
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
     sandbox.restore();
-    clock.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -232,12 +226,11 @@ describe("ManagedIdentityCredential", function() {
       ...mockHttpClient.tokenCredentialOptions
     });
 
+    const clock = sandbox.useFakeTimers();
     const promise = credential.getToken("scopes");
 
-    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
-
-    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
-    clock.tick(640);
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    await clock.tickAsync(6400);
 
     await assertRejects(
       promise,
@@ -246,9 +239,10 @@ describe("ManagedIdentityCredential", function() {
           `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
         ) > -1
     );
+    clock.restore();
   });
 
-  it.only("IMDS MSI retries also retries on 503s", async function() {
+  it("IMDS MSI retries also retries on 503s", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const mockHttpClient = new MockAuthHttpClient({
@@ -257,7 +251,11 @@ describe("ManagedIdentityCredential", function() {
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
+        // { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 200 },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
@@ -270,22 +268,20 @@ describe("ManagedIdentityCredential", function() {
       ]
     });
 
-    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
-      ...mockHttpClient.tokenCredentialOptions,
-      retryOptions: {
-        maxRetries: 3
-      }
-    });
+    const credential = new ManagedIdentityCredential(
+      process.env.AZURE_CLIENT_ID,
+      mockHttpClient.tokenCredentialOptions
+    );
 
+    const clock = sandbox.useFakeTimers();
     const promise = credential.getToken("scopes");
 
-    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
-
-    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
-    // Plus four 503s: 20s * 6
-    clock.tick(640 + 2000 * 6);
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    // Plus four 503s: 20s * 8
+    await clock.tickAsync(6400 + 2000 * 8);
 
     assert.equal((await promise).token, "token");
+    clock.restore();
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.

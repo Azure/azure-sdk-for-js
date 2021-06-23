@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import * as sinon from "sinon";
 import {
   createPipelineRequest,
@@ -173,6 +174,53 @@ describe("throttlingRetryPolicy", function() {
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
+    clock.restore();
+  });
+
+  it("It should retry up to three times", async function(this: Context) {
+    const clock = sinon.useFakeTimers();
+
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const retryResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "Retry-After": "1"
+      }),
+      request,
+      status: 503
+    };
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200
+    };
+
+    let policy = throttlingRetryPolicy();
+    let next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onCall(0).resolves(retryResponse);
+    next.onCall(1).resolves(retryResponse);
+    next.onCall(2).resolves(retryResponse);
+    next.onCall(3).resolves(successResponse);
+
+    let promise = policy.sendRequest(request, next);
+    await clock.tickAsync(4000);
+    let response = await promise;
+    assert.equal(response.status, 200);
+
+    policy = throttlingRetryPolicy();
+    next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onCall(0).resolves(retryResponse);
+    next.onCall(1).resolves(retryResponse);
+    next.onCall(2).resolves(retryResponse);
+    next.onCall(3).resolves(retryResponse);
+    next.onCall(4).resolves(retryResponse);
+
+    promise = policy.sendRequest(request, next);
+    await clock.tickAsync(5000);
+    response = await promise;
+    assert.equal(response.status, 503);
+
     clock.restore();
   });
 });

@@ -82,7 +82,8 @@ describe("ClientSecretCredential", function() {
     })
   );
 
-  it("supports specifying the regional authority", async function(this: Context) {
+  // This test is extremely slow. Let's skip it for now.
+  it.skip("supports specifying the regional authority", async function(this: Context) {
     if (isLiveMode()) {
       this.skip();
     }
