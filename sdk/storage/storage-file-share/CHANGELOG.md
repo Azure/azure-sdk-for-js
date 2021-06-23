@@ -1,5 +1,7 @@
 # Release History
 
+## 12.7.0 (Unreleased)
+
 ## 12.6.0 (2021-06-09)
 
 - Updated Azure Storage Service API version to 2020-08-04.
@@ -229,8 +231,8 @@
 - Async iterators with pagination support are added for listing methods
   - `listFilesAndDirectories()` and `listShares()`
   - Please refer to the samples for async iterators in the `samples` folder.
-- [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
-- [Breaking] High level convenience functions are moved into clients as their instance member function.
+- [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
+- [Breaking] High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToAzureFile()`, `uploadStreamToAzureFile()`, `downloadAzureFileToBuffer()` and `uploadBrowserDataToAzureFile()` -> `FileClient.uploadFile()`,
     `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.

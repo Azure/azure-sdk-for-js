@@ -1,5 +1,7 @@
 # Release History
 
+## 12.6.0 (Unreleased)
+
 ## 12.5.0 (2021-06-09)
 
 - Updated Azure Storage Service API version to 2020-08-04.
