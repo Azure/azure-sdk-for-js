@@ -10,7 +10,11 @@ Use FarmBeats client library for JavaScript to do the following.
 
 **Please rely heavily on the [service's documentation][product_documentation] and our [REST client docs][rest_client] to use this library**
 
-[Source code][source_code] | [Package (NPM)][npm] | [API reference documentation][ref_docs]| [Product documentation][product_documentation]
+Key links:
+- [Source code][source_code]
+- [Package (NPM)][npm]
+- [API reference documentation][ref_docs]
+- [Product documentation][product_documentation]
 
 ## Getting started
 
