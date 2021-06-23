@@ -22,6 +22,7 @@ import {
 } from "../util/exponentialBackoffStrategy";
 import { RestError } from "../restError";
 import { logger } from "../log";
+import { Constants } from "../util/constants";
 
 export function exponentialRetryPolicy(
   retryCount?: number,
@@ -139,6 +140,15 @@ async function retry(
 ): Promise<HttpOperationResponse> {
   function shouldPolicyRetry(responseParam?: HttpOperationResponse): boolean {
     const statusCode = responseParam?.status;
+    if (
+      statusCode &&
+      statusCode === 503 &&
+      response &&
+      response.headers.get(Constants.HeaderConstants.RETRY_AFTER)
+    ) {
+      return false;
+    }
+
     if (
       statusCode === undefined ||
       (statusCode < 500 && statusCode !== 408) ||

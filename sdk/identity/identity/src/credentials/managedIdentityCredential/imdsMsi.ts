@@ -93,7 +93,6 @@ export const imdsMsi: MSI = {
       webResource.timeout = updatedOptions?.requestOptions?.timeout || 500;
 
       try {
-        logger.info(`Pinging IMDS endpoint`);
         await identityClient.sendRequest(webResource);
       } catch (err) {
         if (

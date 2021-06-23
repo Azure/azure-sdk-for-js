@@ -70,7 +70,12 @@ export function exponentialRetryPolicy(
    * @param retryData -  The retry data.
    * @returns True if the operation qualifies for a retry; false otherwise.
    */
-  function shouldRetry(statusCode: number | undefined, retryData: RetryData): boolean {
+  function shouldRetry(response: PipelineResponse | undefined, retryData: RetryData): boolean {
+    const statusCode = response?.status;
+    if (statusCode && statusCode === 503 && response && response.headers.get("Retry-After")) {
+      return false;
+    }
+
     if (
       statusCode === undefined ||
       (statusCode < 500 && statusCode !== 408) ||
@@ -126,7 +131,7 @@ export function exponentialRetryPolicy(
   ): Promise<PipelineResponse> {
     retryData = updateRetryData(retryData, requestError);
     const isAborted = request.abortSignal?.aborted;
-    if (!isAborted && shouldRetry(response?.status, retryData)) {
+    if (!isAborted && shouldRetry(response, retryData)) {
       logger.info(`Retrying request in ${retryData.retryInterval}`);
       try {
         await delay(retryData.retryInterval);

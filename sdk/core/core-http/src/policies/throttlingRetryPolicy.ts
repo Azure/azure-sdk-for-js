@@ -11,6 +11,7 @@ import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { delay } from "../util/utils";
+import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
@@ -34,6 +35,7 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
  */
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   private _handleResponse: ResponseHandler;
+  private numberOfRetries = 0;
 
   constructor(
     nextPolicy: RequestPolicy,
@@ -70,7 +72,13 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         retryAfterHeader
       );
       if (delayInMs) {
-        return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
+        this.numberOfRetries += 1;
+        await delay(delayInMs);
+        if (this.numberOfRetries < DEFAULT_CLIENT_MAX_RETRY_COUNT) {
+          return this.sendRequest(httpRequest);
+        } else {
+          return this._nextPolicy.sendRequest(httpRequest);
+        }
       }
     }
 

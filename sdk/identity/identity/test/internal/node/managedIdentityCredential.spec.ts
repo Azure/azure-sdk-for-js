@@ -248,6 +248,46 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
+  it.only("IMDS MSI retries also retries on 503s", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 200 },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions,
+      retryOptions: {
+        maxRetries: 3
+      }
+    });
+
+    const promise = credential.getToken("scopes");
+
+    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
+
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
+    // Plus four 503s: 20s * 6
+    clock.tick(640 + 2000 * 6);
+
+    assert.equal((await promise).token, "token");
+  });
+
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
   // it("can extend timeout for IMDS endpoint", async function() {
   //   // Mock a timeout so that the endpoint ping fails
