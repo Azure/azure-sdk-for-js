@@ -74,7 +74,7 @@ function DefaultImplementation() {
 
 # Functions with default implementations
 $GetDocsMsLanguageSpecificPackageInfo = DefaultImplementation `
-  -FunctionName "Get-${Language}-DocsMsVersionForPackage" `
+  -FunctionName "Get-${Language}-DocsMsLanguageSpecificPackageInfo" `
   -DefaultImplementation { param($packageInfo) $packageInfo }
 
 # Transformed Functions
