@@ -12,7 +12,7 @@ import {
   Constants,
   RestError
 } from "@azure/core-http";
-import { delay } from "@azure/core-util";
+import { delay } from "@azure/core-http";
 
 /**
  * @internal

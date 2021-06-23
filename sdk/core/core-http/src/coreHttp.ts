@@ -112,7 +112,7 @@ export {
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
-export { delay } from "@azure/core-util";
+export { delay } from "./util/delay";
 // legacy exports. Use core-tracing instead (and remove on next major version update of core-http).
 export { createSpanFunction, SpanConfig } from "./createSpanLegacy";
 

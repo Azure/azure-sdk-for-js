@@ -31,12 +31,12 @@ export {
   StandardAbortMessage
 } from "./errors";
 export {
+  delay,
   parseConnectionString,
   defaultCancellableLock,
   ParsedOutput,
   WebSocketOptions
 } from "./util/utils";
-export { delay } from "@azure/core-util";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";
 export * from "./internals";
