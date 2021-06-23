@@ -51,8 +51,8 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node bas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
-[resume]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
+[resume]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/

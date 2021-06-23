@@ -5,7 +5,12 @@ import * as assert from "assert";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/constants";
-import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  createHttpHeaders,
+  HttpClient
+} from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
 import { URL } from "url";
@@ -13,19 +18,21 @@ import { URL } from "url";
 // Adding this to the source would change the public API.
 type ApIVersions = "7.2";
 
+const baseUrl = "https://managed_hsm.managedhsm.azure.net/";
+
 describe("The keyvault-admin clients should set the serviceVersion", () => {
   function makeHTTPMock(path: string, status = 200): HttpClient {
     return {
-      async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+      async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
         return {
           status,
-          headers: new HttpHeaders(),
-          request: httpRequest,
-          parsedBody: {
-            id: `${env.AZURE_MANAGEDHSM_URI}${path}`,
+          headers: createHttpHeaders(),
+          request: request,
+          bodyAsText: JSON.stringify({
+            id: `${baseUrl}${path}`,
             startTime: new Date(),
             attributes: {}
-          }
+          })
         };
       }
     };
@@ -33,7 +40,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
   let mockHttpClient: HttpClient;
   let sandbox: SinonSandbox;
-  let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
+  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
   let credential: ClientSecretCredential;
 
   beforeEach(async () => {
@@ -56,7 +63,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should default to the latest API version", async function() {
-      const client = new KeyVaultAccessControlClient(env.AZURE_MANAGEDHSM_URI, credential, {
+      const client = new KeyVaultAccessControlClient(baseUrl, credential, {
         httpClient: mockHttpClient
       });
       await client.listRoleDefinitions("/").next();
@@ -69,7 +76,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2";
-      const client = new KeyVaultAccessControlClient(env.AZURE_MANAGEDHSM_URI, credential, {
+      const client = new KeyVaultAccessControlClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
@@ -89,7 +96,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should default to the latest API version", async function() {
-      const client = new KeyVaultBackupClient(env.AZURE_MANAGEDHSM_URI, credential, {
+      const client = new KeyVaultBackupClient(baseUrl, credential, {
         httpClient: mockHttpClient
       });
       await client.beginBackup("secretName", "value");
@@ -102,7 +109,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2";
-      const client = new KeyVaultBackupClient(env.AZURE_MANAGEDHSM_URI, credential, {
+      const client = new KeyVaultBackupClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });

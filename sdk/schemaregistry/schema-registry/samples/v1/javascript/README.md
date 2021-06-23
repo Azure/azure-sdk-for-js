@@ -46,8 +46,8 @@ npx cross-env SCHEMA_REGISTRY_ENDPOINT="<schema registry endpoint>" SCHEMA_REGIS
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/samples/v1/javascript/schemaRegistrySample.js
+[schemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry/samples/v1/javascript/schemaRegistrySample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry/README.md

@@ -27,6 +27,7 @@ const banner = [
 ].join("\n");
 
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
@@ -59,6 +60,9 @@ export function nodeConfig(test = false) {
     baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
+    // mark devdeps as external
+    baseConfig.external.push(...devDepNames);
+
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
@@ -85,9 +89,6 @@ export function browserConfig(test = false) {
       banner: banner,
       format: "umd",
       name: "azurecorelro",
-      globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
-      },
       sourcemap: true
     },
     preserveSymlinks: false,

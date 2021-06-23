@@ -99,7 +99,7 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     bugs: {
       url: "https://github.com/Azure/azure-sdk-for-js/issues"
     },
-    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}`,
+    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
     ...info.computeSampleDependencies(outputKind)
   };
 }

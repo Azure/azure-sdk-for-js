@@ -311,7 +311,7 @@ describe("Tracing tests", () => {
     };
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = new NoOpSpan().context();
+      const fakeParentSpanContext = new NoOpSpan().spanContext();
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
@@ -377,7 +377,7 @@ describe("Tracing tests", () => {
       assert.notEqual(message, originalMessage, "Instrumenting a message should copy it");
 
       assert.ok(tracer.spanOptions, "A span should be created when we instrumented the messsage");
-      const spanContextFromSender = tracer.span?.context();
+      const spanContextFromSender = tracer.span?.spanContext();
       assert.ok(spanContextFromSender);
 
       tracer.clearTracingData();

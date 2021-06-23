@@ -2,21 +2,12 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  createPipelineFromOptions,
-  InternalPipelineOptions
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { challengeBasedAuthenticationPolicy, createTraceFunction } from "../../keyvault-common/src";
+import { createTraceFunction } from "./tracingHelpers";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import {
-  KeyVaultClientOptionalParams,
-  RoleAssignmentsListForScopeOptionalParams
-} from "./generated/models";
+import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
 
 import {
   CreateRoleAssignmentOptions,
@@ -35,10 +26,12 @@ import {
   DeleteRoleDefinitionOptions
 } from "./accessControlModels";
 
-import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
+import { SDK_VERSION, LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 import { v4 as v4uuid } from "uuid";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 
@@ -94,15 +87,13 @@ export class KeyVaultAccessControlClient {
           : libInfo
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const serviceVersion = options.serviceVersion || LATEST_API_VERSION;
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const clientOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: [
+        additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
           "x-ms-keyvault-service-version"
@@ -110,12 +101,15 @@ export class KeyVaultAccessControlClient {
       }
     };
 
-    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
-      internalPipelineOptions,
-      authPolicy
+    this.client = new KeyVaultClient(serviceVersion, clientOptions);
+
+    this.client.pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: authenticationScopes,
+        challengeCallbacks: createChallengeCallbacks()
+      })
     );
-    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
-    this.client = new KeyVaultClient(params);
   }
 
   /**

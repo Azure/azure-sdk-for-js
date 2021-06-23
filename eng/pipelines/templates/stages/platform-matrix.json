@@ -4,29 +4,58 @@
   },
   "matrix": {
     "Agent": {
-      "windows-2019": { "OSVmImage": "MMS2019", "Pool": "azsdk-pool-mms-win-2019-general" },
-      "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" },
-      "macOS-10.15": { "OSVmImage": "macOS-10.15", "Pool": "Azure Pipelines" }
+      "windows-2019": {
+        "OSVmImage": "MMS2019",
+        "Pool": "azsdk-pool-mms-win-2019-general"
+      },
+      "ubuntu-20.04": {
+        "OSVmImage": "MMSUbuntu20.04",
+        "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+      },
+      "macOS-10.15": {
+        "OSVmImage": "macOS-10.15",
+        "Pool": "Azure Pipelines"
+      }
     },
-    "NodeTestVersion": [ "10.x", "12.x", "14.x", "16.x" ],
+    "NodeTestVersion": ["10.x", "12.x", "14.x", "16.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
   "include": [
     {
-      "Agent": { "windows-2019": { "OSVmImage": "MMS2019", "Pool": "azsdk-pool-mms-win-2019-general" } },
+      "Agent": {
+        "windows-2019": {
+          "OSVmImage": "MMS2019",
+          "Pool": "azsdk-pool-mms-win-2019-general"
+        }
+      },
       "Scenario": {
-        "coverage": { "TestType": "node", "TestResultsFiles": "**/test-results.xml", "PublishCodeCoverage": "true" },
-        "sample": { "TestType": "sample", "TestResultsFiles": "**/test-results.xml" },
-        "browser": { "TestType": "browser", "TestResultsFiles": "**/test-results.browser.xml" }
+        "coverage": {
+          "TestType": "node",
+          "TestResultsFiles": "**/test-results.xml",
+          "PublishCodeCoverage": "true"
+        },
+        "sample": {
+          "TestType": "sample",
+          "TestResultsFiles": "**/test-results.xml"
+        },
+        "browser": {
+          "TestType": "browser",
+          "TestResultsFiles": "**/test-results.browser.xml"
+        }
       },
       "NodeTestVersion": "12.x"
     },
     {
-      "Agent": { "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" } },
+      "Agent": {
+        "ubuntu-20.04": {
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+        }
+      },
       "TestType": "node",
       "NodeTestVersion": "12.x",
-      "DependencyVersion": [ "max", "min" ],
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

@@ -21,7 +21,7 @@ The Azure SDK repository is organized in the following folder structure, with th
 
 ## Getting Started Samples
 
-Each package folder contains a package-specific `README.md` file. Most of these `README` files contain samples illustrating basic usage of the the APIs contained in the package. For example, you can find the Getting Started samples for the `@azure/storage-blob` package [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#examples).
+Each package folder contains a package-specific `README.md` file. Most of these `README` files contain samples illustrating basic usage of the the APIs contained in the package. For example, you can find the Getting Started samples for the `@azure/storage-blob` package [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob#examples).
 
 ## Package Samples and How-To Guides
 
@@ -29,7 +29,7 @@ Each package folder contains a subfolder called `samples` with additional code s
 
 ## Global Samples
 
-Samples that apply to every package or to no package in particular are located in subdirectories within the root `/samples` directory. For example, the [`/samples/Bundling`](https://github.com/Azure/azure-sdk-for-js/tree/master/samples/Bundling) directory contains sample code illustrating how to configure package bundling tools to work with the Azure SDK for JS packages:
+Samples that apply to every package or to no package in particular are located in subdirectories within the root `/samples` directory. For example, the [`/samples/Bundling`](https://github.com/Azure/azure-sdk-for-js/tree/main/samples/Bundling) directory contains sample code illustrating how to configure package bundling tools to work with the Azure SDK for JS packages:
 
 - `/samples/Bundling`
   - `/parcel` (samples for using the SDK packages with parcel)
@@ -40,7 +40,7 @@ Samples that apply to every package or to no package in particular are located i
 
 (The `rollup` and `webpack` directories also have `js` and `ts` subdirectories for JavaScript and TypeScript respectively.)
 
-For more information on package bundling, see [`/documentation/Bundling.md`](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+For more information on package bundling, see [`/documentation/Bundling.md`](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 
 ## Sample Applications
 

@@ -16,7 +16,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/purview-catalog-rest.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-catalog/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

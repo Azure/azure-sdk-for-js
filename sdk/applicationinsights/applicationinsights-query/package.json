@@ -24,7 +24,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/applicationinsights/applicationinsights-query",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/sdk/applicationinsights/applicationinsights-query",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

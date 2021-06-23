@@ -60,4 +60,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md

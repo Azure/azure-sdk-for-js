@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-rest-pipeline",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline",
   "dependencies": {
     "@azure/core-rest-pipeline": "next",
     "dotenv": "latest"

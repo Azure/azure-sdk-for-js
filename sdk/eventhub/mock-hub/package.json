@@ -48,7 +48,7 @@
     "README.md",
     "License"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/mock-hub/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/README.md",
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

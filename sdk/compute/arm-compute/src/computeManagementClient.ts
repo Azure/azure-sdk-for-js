@@ -8,11 +8,11 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ComputeManagementClientContext } from "./computeManagementClientContext";
-
 
 class ComputeManagementClient extends ComputeManagementClientContext {
   // Operation groups
@@ -31,6 +31,8 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSets: operations.VirtualMachineScaleSets;
   virtualMachineSizes: operations.VirtualMachineSizes;
   images: operations.Images;
+  restorePointCollections: operations.RestorePointCollections;
+  restorePoints: operations.RestorePoints;
   virtualMachineScaleSetExtensions: operations.VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetRollingUpgrades: operations.VirtualMachineScaleSetRollingUpgrades;
   virtualMachineScaleSetVMExtensions: operations.VirtualMachineScaleSetVMExtensions;
@@ -49,6 +51,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   galleryImageVersions: operations.GalleryImageVersions;
   galleryApplications: operations.GalleryApplications;
   galleryApplicationVersions: operations.GalleryApplicationVersions;
+  gallerySharingProfile: operations.GallerySharingProfile;
+  sharedGalleries: operations.SharedGalleries;
+  sharedGalleryImages: operations.SharedGalleryImages;
+  sharedGalleryImageVersions: operations.SharedGalleryImageVersions;
   cloudServiceRoleInstances: operations.CloudServiceRoleInstances;
   cloudServiceRoles: operations.CloudServiceRoles;
   cloudServices: operations.CloudServices;
@@ -57,12 +63,21 @@ class ComputeManagementClient extends ComputeManagementClientContext {
 
   /**
    * Initializes a new instance of the ComputeManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ComputeManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.ComputeManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.availabilitySets = new operations.AvailabilitySets(this);
@@ -79,13 +94,21 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSets = new operations.VirtualMachineScaleSets(this);
     this.virtualMachineSizes = new operations.VirtualMachineSizes(this);
     this.images = new operations.Images(this);
+    this.restorePointCollections = new operations.RestorePointCollections(this);
+    this.restorePoints = new operations.RestorePoints(this);
     this.virtualMachineScaleSetExtensions = new operations.VirtualMachineScaleSetExtensions(this);
-    this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(this);
-    this.virtualMachineScaleSetVMExtensions = new operations.VirtualMachineScaleSetVMExtensions(this);
+    this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(
+      this
+    );
+    this.virtualMachineScaleSetVMExtensions = new operations.VirtualMachineScaleSetVMExtensions(
+      this
+    );
     this.virtualMachineScaleSetVMs = new operations.VirtualMachineScaleSetVMs(this);
     this.logAnalytics = new operations.LogAnalytics(this);
     this.virtualMachineRunCommands = new operations.VirtualMachineRunCommands(this);
-    this.virtualMachineScaleSetVMRunCommands = new operations.VirtualMachineScaleSetVMRunCommands(this);
+    this.virtualMachineScaleSetVMRunCommands = new operations.VirtualMachineScaleSetVMRunCommands(
+      this
+    );
     this.resourceSkus = new operations.ResourceSkus(this);
     this.disks = new operations.Disks(this);
     this.snapshots = new operations.Snapshots(this);
@@ -97,6 +120,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.galleryImageVersions = new operations.GalleryImageVersions(this);
     this.galleryApplications = new operations.GalleryApplications(this);
     this.galleryApplicationVersions = new operations.GalleryApplicationVersions(this);
+    this.gallerySharingProfile = new operations.GallerySharingProfile(this);
+    this.sharedGalleries = new operations.SharedGalleries(this);
+    this.sharedGalleryImages = new operations.SharedGalleryImages(this);
+    this.sharedGalleryImageVersions = new operations.SharedGalleryImageVersions(this);
     this.cloudServiceRoleInstances = new operations.CloudServiceRoleInstances(this);
     this.cloudServiceRoles = new operations.CloudServiceRoles(this);
     this.cloudServices = new operations.CloudServices(this);

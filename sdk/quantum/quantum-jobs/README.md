@@ -7,7 +7,7 @@ Azure Quantum is a Microsoft Azure service that you can use to run quantum compu
 - Create, enumerate, and cancel quantum jobs
 - Enumerate provider status and quotas
 
-  [Source code][source] | [API reference documentation](https://docs.microsoft.com/qsharp/api/) | [Product documentation](https://docs.microsoft.com/azure/quantum/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/quantum/quantum-jobs/samples)
+  [Source code][source] | [API reference documentation](https://docs.microsoft.com/qsharp/api/) | [Product documentation](https://docs.microsoft.com/azure/quantum/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
 
 ## Getting started
 
@@ -29,9 +29,9 @@ npm install @azure/quantum-jobs
 
 ### Authenticate the client
 
-To authenticate with the service, you can use [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library. This will try different authentication mechanisms based on the environment (e.g. Environment Variables, ManagedIdentity, CachedTokens) and finally, it will fallback to InteractiveBrowserCredential.
+To authenticate with the service, you can use [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library. This will try different authentication mechanisms based on the environment (e.g. Environment Variables, ManagedIdentity, CachedTokens) and finally, it will fallback to InteractiveBrowserCredential.
 
-The client also allows the user to override the above behavior by passing their own implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-auth/src/tokenCredential.ts).
+The client also allows the user to override the above behavior by passing their own implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts).
 
 `TokenCredential` is the default Authentication mechanism used by Azure SDKs.
 
@@ -195,12 +195,12 @@ All Quantum Jobs service operations will throw a RequestFailedException on failu
 
 <!-- LINKS -->
 
-[source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/quantum/quantum-jobs/src
+[source]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/src
 [resource-groups]: https://docs.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
 [workspaces]: https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
 [location]: https://azure.microsoft.com/global-infrastructure/services/?products=quantum
 [blob-storage]: https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction
-[contributing]: https://github.com/Azure/azure-sdk-for-js/tree/master/CONTRIBUTING.md
+[contributing]: https://github.com/Azure/azure-sdk-for-js/tree/main/CONTRIBUTING.md
 [subscriptions]: https://ms.portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade
 [credentials]: https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
 [style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization

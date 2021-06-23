@@ -18,7 +18,7 @@ Link to the wiki - [Writing-Performance-Tests](https://github.com/Azure/azure-sd
 
 ## Examples
 
-Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/perfstress/test/).
+Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perfstress/test/).
 
 ## Troubleshooting
 
@@ -26,12 +26,12 @@ TODO
 
 ## Next steps
 
-Check the [source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/perfstress/src/) folder and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/perfstress/test/).
+Check the [source](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perfstress/src/) folder and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perfstress/test/).
 
 Also check the PerfStress EPIC, here: https://github.com/Azure/azure-sdk-for-js/issues/8057
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Fperfstress%2FREADME.png)

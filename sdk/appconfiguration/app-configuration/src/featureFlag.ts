@@ -41,6 +41,10 @@ export interface FeatureFlagValue {
    * Boolean flag to say if the feature flag is enabled.
    */
   enabled: boolean;
+  /**
+   * Display name for the feature to use for display rather than the ID.
+   */
+  displayName?: string;
 }
 
 /**
@@ -62,10 +66,12 @@ export const FeatureFlagHelper = {
     }
     const jsonFeatureFlagValue: JsonFeatureFlagValue = {
       id: featureFlag.value.id ?? key.replace(featureFlagPrefix, ""),
-      ...featureFlag.value,
+      enabled: featureFlag.value.enabled,
+      description: featureFlag.value.description,
       conditions: {
         client_filters: featureFlag.value.conditions.clientFilters
-      }
+      },
+      display_name: featureFlag.value.displayName
     };
 
     const configSetting = {
@@ -96,7 +102,10 @@ export function parseFeatureFlag(
   const featureflag: ConfigurationSetting<FeatureFlagValue> = {
     ...setting,
     value: {
-      ...jsonFeatureFlagValue,
+      id: jsonFeatureFlagValue.id,
+      enabled: jsonFeatureFlagValue.enabled,
+      description: jsonFeatureFlagValue.description,
+      displayName: jsonFeatureFlagValue.display_name,
       conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
     },
     key,

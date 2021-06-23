@@ -23,8 +23,8 @@ describe("#createMessageSpan()", () => {
     const { span } = createMessageSpan({}, "entity path", "host address");
 
     should.exist(span);
-    should.exist(span.context().spanId);
-    should.exist(span.context().traceId);
+    should.exist(span.spanContext().spanId);
+    should.exist(span.spanContext().traceId);
 
     should.equal((span as any).name, "Azure.ServiceBus.message");
     assert.deepStrictEqual((span as any).attributes, {
