@@ -1,7 +1,10 @@
 # Release History
 
-## 1.0.6 (Unreleased)
+## 2.0.0 (Unreleased)
 
+### New Features
+
+- compiled to target ES2017
 
 ## 1.0.5 (2021-04-12)
 
