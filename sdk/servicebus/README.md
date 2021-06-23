@@ -17,6 +17,6 @@ This also allows to manage your Azure Service Bus resources like queues, topics,
 
 | NPM Package                                                        | Reference                                                                                            | Samples                                                                                                                              |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| [@azure/service-bus](https://npmjs.com/package/@azure/service-bus) | [API Reference for @azure/service-bus](https://docs.microsoft.com/javascript/api/@azure/service-bus) | [Samples for sending & receiving messages](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples) |
+| [@azure/service-bus](https://npmjs.com/package/@azure/service-bus) | [API Reference for @azure/service-bus](https://docs.microsoft.com/javascript/api/@azure/service-bus) | [Samples for sending & receiving messages](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples) |
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2FREADME.png)

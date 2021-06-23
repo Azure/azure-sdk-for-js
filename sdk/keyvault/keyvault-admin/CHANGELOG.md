@@ -58,7 +58,7 @@ This release marks the general availability of the `@azure/keyvault-admin` packa
 
 ## 4.0.0-beta.2 (2021-02-09)
 
-- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 - Updated the Key Vault Admin Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
 - [Breaking] Return `BackupResult` and `RestoreResult` from backup/restore long running operations which will contain additional information about the operation as well any relevant data.

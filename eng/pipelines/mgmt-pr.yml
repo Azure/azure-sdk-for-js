@@ -1,7 +1,6 @@
 pr:
   branches:
     include:
-    - master
     - main
     - '*-preview'
   paths:
@@ -206,7 +205,7 @@ jobs:
 - job: Build
   displayName: Build auto-generated projects
   pool:
-    vmImage: Ubuntu 16.04
+    vmImage: Ubuntu 20.04
   steps:
   - task: NodeTool@0
     inputs:

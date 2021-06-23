@@ -1,7 +1,6 @@
 pr:
   branches:
     include:
-      - master
       - main
       
   paths:
@@ -16,7 +15,7 @@ jobs:
       - template: /eng/pipelines/templates/variables/globals.yml
 
     pool:
-      vmImage: 'Ubuntu 18.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml

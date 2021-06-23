@@ -77,13 +77,13 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

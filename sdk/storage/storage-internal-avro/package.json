@@ -7,7 +7,7 @@
   "description": "internal avro parser",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-internal-avro/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-internal-avro/",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

@@ -4,11 +4,9 @@
 
 ```yaml
 package-name: "@azure/keyvault-admin"
-use-extension:
-  "@autorest/typescript": "6.0.0-alpha.20210527.9"
 azure-arm: false
 disable-async-iterators: true
-use-core-v2: false
+api-version-parameter: choice
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION

@@ -2,7 +2,7 @@
 
 This guide is intended to assist in the migration to `@azure/eventgrid@4` from `@azure/eventgrid@2`. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-We assume that you are familiar with `@azure/eventgrid@2`. If not, please refer to the [README for name of new package here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/README.md) rather than this guide.
+We assume that you are familiar with `@azure/eventgrid@2`. If not, please refer to the [README for name of new package here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/README.md) rather than this guide.
 
 ## Table of contents
 
@@ -90,4 +90,4 @@ Note that the `id` and `eventTime` properties are no longer required, they defau
 
 ## Additional samples
 
-More examples can be found at [Samples for add @azure/eventgrid](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/samples)
+More examples can be found at [Samples for add @azure/eventgrid](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)

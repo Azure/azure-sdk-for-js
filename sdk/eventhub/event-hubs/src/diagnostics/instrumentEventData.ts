@@ -25,7 +25,7 @@ export function instrumentEventData(eventData: EventData, span: Span): EventData
   // create a copy so the original isn't modified
   eventData = { ...eventData, properties: { ...eventData.properties } };
 
-  const traceParent = getTraceParentHeader(span.context());
+  const traceParent = getTraceParentHeader(span.spanContext());
   if (traceParent) {
     eventData.properties![TRACEPARENT_PROPERTY] = traceParent;
   }

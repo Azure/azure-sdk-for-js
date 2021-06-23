@@ -6,27 +6,38 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { ContainerRegistryBlob } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreHttps from "@azure/core-rest-pipeline";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import {
+  ContainerRegistryBlobGetBlobOptionalParams,
   ContainerRegistryBlobGetBlobResponse,
+  ContainerRegistryBlobCheckBlobExistsOptionalParams,
   ContainerRegistryBlobCheckBlobExistsResponse,
+  ContainerRegistryBlobDeleteBlobOptionalParams,
   ContainerRegistryBlobDeleteBlobResponse,
+  ContainerRegistryBlobMountBlobOptionalParams,
   ContainerRegistryBlobMountBlobResponse,
+  ContainerRegistryBlobGetUploadStatusOptionalParams,
   ContainerRegistryBlobGetUploadStatusResponse,
+  ContainerRegistryBlobUploadChunkOptionalParams,
   ContainerRegistryBlobUploadChunkResponse,
   ContainerRegistryBlobCompleteUploadOptionalParams,
   ContainerRegistryBlobCompleteUploadResponse,
+  ContainerRegistryBlobCancelUploadOptionalParams,
+  ContainerRegistryBlobStartUploadOptionalParams,
   ContainerRegistryBlobStartUploadResponse,
+  ContainerRegistryBlobGetChunkOptionalParams,
   ContainerRegistryBlobGetChunkResponse,
+  ContainerRegistryBlobCheckChunkExistsOptionalParams,
   ContainerRegistryBlobCheckChunkExistsResponse
 } from "../models";
 
 /** Class representing a ContainerRegistryBlob. */
-export class ContainerRegistryBlob {
+export class ContainerRegistryBlobImpl implements ContainerRegistryBlob {
   private readonly client: GeneratedClientContext;
 
   /**
@@ -46,7 +57,7 @@ export class ContainerRegistryBlob {
   getBlob(
     name: string,
     digest: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobGetBlobOptionalParams
   ): Promise<ContainerRegistryBlobGetBlobResponse> {
     return this.client.sendOperationRequest(
       { name, digest, options },
@@ -63,7 +74,7 @@ export class ContainerRegistryBlob {
   checkBlobExists(
     name: string,
     digest: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobCheckBlobExistsOptionalParams
   ): Promise<ContainerRegistryBlobCheckBlobExistsResponse> {
     return this.client.sendOperationRequest(
       { name, digest, options },
@@ -80,7 +91,7 @@ export class ContainerRegistryBlob {
   deleteBlob(
     name: string,
     digest: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobDeleteBlobOptionalParams
   ): Promise<ContainerRegistryBlobDeleteBlobResponse> {
     return this.client.sendOperationRequest(
       { name, digest, options },
@@ -99,7 +110,7 @@ export class ContainerRegistryBlob {
     name: string,
     mount: string,
     fromParam: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobMountBlobOptionalParams
   ): Promise<ContainerRegistryBlobMountBlobResponse> {
     return this.client.sendOperationRequest(
       { name, mount, fromParam, options },
@@ -116,7 +127,7 @@ export class ContainerRegistryBlob {
    */
   getUploadStatus(
     location: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobGetUploadStatusOptionalParams
   ): Promise<ContainerRegistryBlobGetUploadStatusResponse> {
     return this.client.sendOperationRequest(
       { location, options },
@@ -133,8 +144,8 @@ export class ContainerRegistryBlob {
    */
   uploadChunk(
     location: string,
-    value: coreHttps.RequestBodyType,
-    options?: coreClient.OperationOptions
+    value: coreRestPipeline.RequestBodyType,
+    options?: ContainerRegistryBlobUploadChunkOptionalParams
   ): Promise<ContainerRegistryBlobUploadChunkResponse> {
     return this.client.sendOperationRequest(
       { location, value, options },
@@ -170,7 +181,7 @@ export class ContainerRegistryBlob {
    */
   cancelUpload(
     location: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobCancelUploadOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { location, options },
@@ -185,7 +196,7 @@ export class ContainerRegistryBlob {
    */
   startUpload(
     name: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobStartUploadOptionalParams
   ): Promise<ContainerRegistryBlobStartUploadResponse> {
     return this.client.sendOperationRequest(
       { name, options },
@@ -206,7 +217,7 @@ export class ContainerRegistryBlob {
     name: string,
     digest: string,
     range: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobGetChunkOptionalParams
   ): Promise<ContainerRegistryBlobGetChunkResponse> {
     return this.client.sendOperationRequest(
       { name, digest, range, options },
@@ -225,7 +236,7 @@ export class ContainerRegistryBlob {
     name: string,
     digest: string,
     range: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryBlobCheckChunkExistsOptionalParams
   ): Promise<ContainerRegistryBlobCheckChunkExistsResponse> {
     return this.client.sendOperationRequest(
       { name, digest, range, options },

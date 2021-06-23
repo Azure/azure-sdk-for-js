@@ -64,15 +64,15 @@ npx cross-env EVENTHUB_NAME="<hub name>" EVENTHUB_CONNECTION_STRING="<connection
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/sendEvents.js
-[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/useWithIotHub.js
-[websockets]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/websockets.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/usingAadAuth.js
-[receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/receiveEvents.js
+[sendevents]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/javascript/sendEvents.js
+[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/javascript/useWithIotHub.js
+[websockets]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/javascript/websockets.js
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/javascript/usingAadAuth.js
+[receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/javascript/receiveEvents.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
-[checkpointing]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/javascript/receiveEventsUsingCheckpointStore.js
+[checkpointing]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/javascript/receiveEventsUsingCheckpointStore.js
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
 [aziothub]: https://docs.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

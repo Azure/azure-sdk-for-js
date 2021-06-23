@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-catalog-rest",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest",
   "dependencies": {
     "@azure-rest/purview-catalog": "next",
     "dotenv": "latest",

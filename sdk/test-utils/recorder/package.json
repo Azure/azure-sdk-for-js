@@ -59,12 +59,12 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/",
   "sideEffects": false,
   "private": true,
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "fs-extra": "^8.1.0",
     "nise": "^4.0.3",
     "nock": "^12.0.3",

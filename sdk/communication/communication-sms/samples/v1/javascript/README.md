@@ -58,10 +58,10 @@ npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples co
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/javascript/sendSms.js
-[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithOptions.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/javascript/usingAadAuth.js
+[sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSms.js
+[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithOptions.js
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/usingAadAuth.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-sms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-sms/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-sms/README.md

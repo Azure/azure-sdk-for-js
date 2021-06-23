@@ -1,7 +1,6 @@
 trigger:
   branches:
     include:
-      - master
       - main
   paths:
     include:
@@ -208,7 +207,7 @@ jobs:
   - job: 'Build'
 
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - task: NodeTool@0
@@ -237,7 +236,7 @@ jobs:
   - job: 'Analyze'
 
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - task: NodeTool@0
