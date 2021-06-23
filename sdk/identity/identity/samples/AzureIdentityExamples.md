@@ -90,7 +90,7 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 
 ### Authenticating Service Principals
 
-An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. The roles assigned by the service principal will determine what resources are accessible. For security reasons, we recommended using service principals through automation rather than allowing them to log in with a user identity.
+An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. The roles assigned by the service principal will determine what resources are accessible. For security reasons, use service principals through automation rather than allowing them to log in with a user identity.
 
 To learn more, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
 
