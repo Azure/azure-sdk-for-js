@@ -11,17 +11,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/locationBasedCapabilitiesMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
 /** Class representing a LocationBasedCapabilities. */
 export class LocationBasedCapabilities {
-  private readonly client: PostgreSQLFlexibleManagementClientContext;
+  private readonly client: PostgreSQLManagementClientContext;
 
   /**
    * Create a LocationBasedCapabilities.
-   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
+   * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLFlexibleManagementClientContext) {
+  constructor(client: PostgreSQLManagementClientContext) {
     this.client = client;
   }
 
@@ -92,7 +92,7 @@ const executeOperationSpec: msRest.OperationSpec = {
     Parameters.locationName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -116,7 +116,7 @@ const executeNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

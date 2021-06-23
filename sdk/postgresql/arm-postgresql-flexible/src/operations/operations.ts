@@ -11,17 +11,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
 /** Class representing a Operations. */
 export class Operations {
-  private readonly client: PostgreSQLFlexibleManagementClientContext;
+  private readonly client: PostgreSQLManagementClientContext;
 
   /**
    * Create a Operations.
-   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
+   * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLFlexibleManagementClientContext) {
+  constructor(client: PostgreSQLManagementClientContext) {
     this.client = client;
   }
 
@@ -56,7 +56,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.DBForPostgreSql/operations",
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

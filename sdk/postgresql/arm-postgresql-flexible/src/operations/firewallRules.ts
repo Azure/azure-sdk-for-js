@@ -12,17 +12,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/firewallRulesMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
 /** Class representing a FirewallRules. */
 export class FirewallRules {
-  private readonly client: PostgreSQLFlexibleManagementClientContext;
+  private readonly client: PostgreSQLManagementClientContext;
 
   /**
    * Create a FirewallRules.
-   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
+   * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLFlexibleManagementClientContext) {
+  constructor(client: PostgreSQLManagementClientContext) {
     this.client = client;
   }
 
@@ -204,7 +204,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.firewallRuleName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -229,7 +229,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -255,7 +255,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.firewallRuleName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -292,7 +292,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.firewallRuleName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -316,7 +316,7 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -1,11 +1,11 @@
-## Azure PostgreSQLFlexibleManagementClient SDK for JavaScript
+## Azure PostgreSQLManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for PostgreSQLFlexibleManagementClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for PostgreSQLManagementClient.
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
@@ -36,23 +36,22 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
 Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
-#### nodejs - Authentication, client creation, and get databases as an example written in JavaScript.
+#### nodejs - Authentication, client creation, and get servers as an example written in JavaScript.
 
 ##### Sample code
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { PostgreSQLFlexibleManagementClient } = require("@azure/arm-postgresql-flexible");
+const { PostgreSQLManagementClient } = require("@azure/arm-postgresql-flexible");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 // Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
-const client = new PostgreSQLFlexibleManagementClient(creds, subscriptionId);
+const client = new PostgreSQLManagementClient(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const serverName = "testserverName";
-const databaseName = "testdatabaseName";
-client.databases.get(resourceGroupName, serverName, databaseName).then((result) => {
+client.servers.get(resourceGroupName, serverName).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -61,7 +60,7 @@ client.databases.get(resourceGroupName, serverName, databaseName).then((result) 
 });
 ```
 
-#### browser - Authentication, client creation, and get databases as an example written in JavaScript.
+#### browser - Authentication, client creation, and get servers as an example written in JavaScript.
 
 In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
   - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
@@ -88,11 +87,10 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmPostgresql.PostgreSQLFlexibleManagementClient(creds, subscriptionId);
+      const client = new Azure.ArmPostgresqlFlexible.PostgreSQLManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const serverName = "testserverName";
-      const databaseName = "testdatabaseName";
-      client.databases.get(resourceGroupName, serverName, databaseName).then((result) => {
+      client.servers.get(resourceGroupName, serverName).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
@@ -109,4 +107,4 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/postgresql/arm-postgresql-flexible//README.png)
