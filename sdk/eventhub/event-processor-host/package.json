@@ -5,7 +5,7 @@
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-processor-host/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -82,7 +82,7 @@
     "azure-storage": "^2.10.2",
     "debug": "^4.1.1",
     "path-browserify": "^1.0.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

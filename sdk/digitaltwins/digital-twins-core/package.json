@@ -61,16 +61,16 @@
     "isomorphic"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -123,6 +123,22 @@
     "@types/uuid": "^8.0.0"
   },
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/azureDigitalTwinsAPIContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/digitalTwinsClient.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "productName": "Azure Digital Twins",
     "productSlugs": [

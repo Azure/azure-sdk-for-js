@@ -71,11 +71,11 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-xml/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-xml/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {

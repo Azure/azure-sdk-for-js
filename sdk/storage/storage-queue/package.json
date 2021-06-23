@@ -25,7 +25,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.5.0",
+    "build:autorest": "autorest ./swagger/README.md --typescript",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -80,7 +80,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
@@ -91,6 +91,10 @@
       {
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
@@ -108,14 +112,14 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.3",
+    "@azure/identity": "2.0.0-beta.4",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

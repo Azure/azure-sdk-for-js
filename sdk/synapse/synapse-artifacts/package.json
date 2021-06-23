@@ -4,14 +4,14 @@
   "description": "A generated SDK for ArtifactsClient.",
   "sdk-type": "client",
   "version": "1.0.0-beta.5",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-artifacts/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-artifacts/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
-    "@azure/core-lro": "^1.0.2",
+    "@azure/core-lro": "^1.0.6",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
-    "tslib": "^2.0.0"
+    "@azure/core-tracing": "1.0.0-preview.12",
+    "tslib": "^2.2.0"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.4",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

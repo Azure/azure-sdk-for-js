@@ -52,6 +52,8 @@ export function msalNodeTestSetup(
       (recording: string): string =>
         recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
       (recording: string): string =>
+        recording.replace(/refresh_token=[^&]*/g, `refresh_token=refresh_token`),
+      (recording: string): string =>
         recording.replace(
           /client-request-id=[a-z0-9-]*/g,
           `client-request-id=${playbackValues.correlationId}`
@@ -72,7 +74,7 @@ export function msalNodeTestSetup(
         recording.replace(/device_code":"[^"]*/g, `device_code":"DEVICE_CODE`),
       (recording: string): string =>
         recording.replace(/device_code=[^&]*/g, `device_code=DEVICE_CODE`),
-      (recording: string): string => recording.replace(/"interval": *[0-9]*/g, `"interval": 1`),
+      (recording: string): string => recording.replace(/"interval": *[0-9]*/g, `"interval": 0`),
       // This last part is a JWT token that comes from the service, that has three parts joined by a dot.
       // Our fake id_token has the following parts encoded in base64 and joined by a dot:
       // - {"typ":"JWT","alg":"RS256","kid":"kid"}
@@ -82,6 +84,13 @@ export function msalNodeTestSetup(
         recording.replace(
           /id_token":"[^"]*/g,
           `id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz`
+        ),
+      // client_info is base64-encoded JSON that contains information about the user and tenant IDs
+      // The following replaces it with some dummy JSON that uses a UID/UTID of 12345678-1234-1234-1234-123456789012
+      (recording) =>
+        recording.replace(
+          /client_info":"[^"]*/g,
+          'client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K'
         )
     ],
     queryParametersToSkip: [],
@@ -136,7 +145,7 @@ export function testTracing(options: TestTracingOptions): () => Promise<void> {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   };
 }

@@ -208,7 +208,7 @@ export interface RegistryArtifact {
     listTagProperties(options?: ListTagPropertiesOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
     readonly registryEndpoint: string;
     readonly repositoryName: string;
-    updateManifestProperties(options?: UpdateManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
+    updateManifestProperties(options: UpdateManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     updateTagProperties(tag: string, options: UpdateTagPropertiesOptions): Promise<ArtifactTagProperties>;
 }
 

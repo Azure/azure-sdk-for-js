@@ -154,10 +154,10 @@ export class InternalTableTransaction {
       const urlParts = url.split("?");
       this.url = urlParts[0];
       const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
-      this.url = `${this.url}/$batch${sas}`;
+      this.url = `${this.getUrlWithSlash()}$batch${sas}`;
     } else {
       // When using a SharedKey credential no SAS token is needed
-      this.url = `${this.url}/$batch`;
+      this.url = `${this.getUrlWithSlash()}$batch`;
     }
   }
 
@@ -306,6 +306,10 @@ export class InternalTableTransaction {
     if (this.resetableState.partitionKey !== partitionKey) {
       throw new Error("All operations in a transaction must target the same partitionKey");
     }
+  }
+
+  private getUrlWithSlash(): string {
+    return this.url.endsWith("/") ? this.url : `${this.url}/`;
   }
 }
 

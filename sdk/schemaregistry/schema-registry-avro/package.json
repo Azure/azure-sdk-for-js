@@ -55,7 +55,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry-avro/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
@@ -72,17 +72,17 @@
   "dependencies": {
     "@azure/schema-registry": "1.0.0-beta.2",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
     "avsc": "^5.5.1",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "buffer": "^5.2.1",
     "process": "^0.11.10"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.3",
+    "@azure/identity": "2.0.0-beta.4",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

@@ -51,7 +51,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
             ]
           },
           enabled: false,
-          description: "I'm a description"
+          description: "I'm a description",
+          displayName: "for display"
         },
         isReadOnly: false,
         key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,

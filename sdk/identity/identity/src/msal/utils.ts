@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { isNode } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
+
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { CredentialUnavailableError } from "../client/errors";
@@ -10,7 +14,6 @@ import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
-import { AbortError } from "@azure/abort-controller";
 
 /**
  * Latest AuthenticationRecord version
@@ -77,24 +80,28 @@ export function getKnownAuthorities(tenantId: string, authorityHost: string): st
  * @param logger - The logger of the credential.
  * @internal
  */
-export const defaultLoggerCallback: (logger: CredentialLogger) => msalCommon.ILoggerCallback = (
-  logger: CredentialLogger
+export const defaultLoggerCallback: (
+  logger: CredentialLogger,
+  platform?: "Node" | "Browser"
+) => msalCommon.ILoggerCallback = (
+  logger: CredentialLogger,
+  platform: "Node" | "Browser" = isNode ? "Node" : "Browser"
 ) => (level, message, containsPii): void => {
   if (containsPii) {
     return;
   }
   switch (level) {
     case msalCommon.LogLevel.Error:
-      logger.info(`MSAL Browser V2 error: ${message}`);
+      logger.info(`MSAL ${platform} V2 error: ${message}`);
       return;
     case msalCommon.LogLevel.Info:
-      logger.info(`MSAL Browser V2 info message: ${message}`);
+      logger.info(`MSAL ${platform} V2 info message: ${message}`);
       return;
     case msalCommon.LogLevel.Verbose:
-      logger.info(`MSAL Browser V2 verbose message: ${message}`);
+      logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
       return;
     case msalCommon.LogLevel.Warning:
-      logger.info(`MSAL Browser V2 warning: ${message}`);
+      logger.info(`MSAL ${platform} V2 warning: ${message}`);
       return;
   }
 };

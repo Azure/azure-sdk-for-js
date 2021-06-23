@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-chat",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat",
   "dependencies": {
     "@azure/communication-chat": "next",
     "dotenv": "latest",

@@ -27,31 +27,48 @@ export class VirtualMachineSizes {
 
   /**
    * This API is deprecated. Use [Resources
-   * Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list)
+   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineSizesListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineSizesListResponse>;
+  list(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineSizesListResponse>;
   /**
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
+  list(
+    location: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>
+  ): void;
   /**
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.VirtualMachineSizesListResponse> {
+  list(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>
+  ): void;
+  list(
+    location: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualMachineSizeListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>
+  ): Promise<Models.VirtualMachineSizesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualMachineSizesListResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineSizesListResponse>;
   }
 }
 
@@ -60,16 +77,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes",
-  urlParameters: [
-    Parameters.location1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.location1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineSizeListResult

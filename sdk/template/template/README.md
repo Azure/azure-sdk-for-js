@@ -36,7 +36,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
 
-Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
+Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
 -->
 
@@ -84,15 +84,15 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

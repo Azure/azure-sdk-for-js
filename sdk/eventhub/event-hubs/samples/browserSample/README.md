@@ -77,14 +77,14 @@ as the redirect URI you added to your app registration. If you're following alon
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/src/sendEvents.js
-[receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/src/receiveEvents.js
-[configuration]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/src/configuration.js
-[app]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/src/index.js
-[htmlpage]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/index.html
+[sendevents]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/browserSample/src/sendEvents.js
+[receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/browserSample/src/receiveEvents.js
+[configuration]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/browserSample/src/configuration.js
+[app]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/browserSample/src/index.js
+[htmlpage]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/browserSample/index.html
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
 [aziothub]: https://docs.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
 [freesub]: https://azure.microsoft.com/free/
-[browsercred]: https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/using-azure-identity.md#interactivebrowsercredential
+[browsercred]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md#interactivebrowsercredential
 [implicitgrantflow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow

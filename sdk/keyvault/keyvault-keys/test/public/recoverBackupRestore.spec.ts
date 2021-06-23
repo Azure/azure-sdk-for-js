@@ -118,7 +118,10 @@ describe("Keys client - restore keys and recover backups", () => {
       // This test implementation of a restore poller only applies for backups that have been recently deleted.
       // Backups might not be ready to be restored in an unknown amount of time.
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
-      const restorePoller = await testClient.beginRestoreKeyBackup(backup as Uint8Array);
+      const restorePoller = await testClient.beginRestoreKeyBackup(
+        backup as Uint8Array,
+        testPollerProperties
+      );
       const restoredKey = await restorePoller.pollUntilDone();
 
       assert.equal(restoredKey.name, keyName);

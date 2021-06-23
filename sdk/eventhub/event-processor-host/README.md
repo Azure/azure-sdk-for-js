@@ -1,6 +1,6 @@
 # @azure/event-processor-host
 
-> Please note, a newer package [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) is available as of January, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade. See the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/migrationguide.md) for more details.
+> Please note, a newer package [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) is available as of January, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade. See the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/migrationguide.md) for more details.
 
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
 across all the partitions in the provided consumer group of an EventHub and provide you messages received across
@@ -9,10 +9,10 @@ Azure Storage Blob. This makes it easy to continue receiving messages from where
 
 #### Conceptual Overview
 
-![overview](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/eventhub/event-processor-host/eph.png)
+![overview](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/eventhub/event-processor-host/eph.png)
 
 - More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/azure/event-hubs/event-hubs-event-processor-host).
-- General overview of how the Event Processor Host SDK works internally can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/overview.md).
+- General overview of how the Event Processor Host SDK works internally can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-processor-host/overview.md).
 
 ## Pre-requisite
 
@@ -89,7 +89,7 @@ export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea
 ## Examples
 
 - Examples can be found over
-  [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/samples).
+  [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-processor-host/samples).
 
 ## Usage
 
@@ -97,8 +97,8 @@ export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea
 
 The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
 For sending messages to the EventHub, please use the `@azure/event-hubs` package from npm. More
-information about the event hub client can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs).
-You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/typescript/src/sendBatch.ts) that sends
+information about the event hub client can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs).
+You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-processor-host/samples/typescript/src/sendBatch.ts) that sends
 multiple messages batched together. You should be able to run the `send` example from one terminal window and see those messages
 being received in the `singleEph` or `multipleEph` example being run in the second terminal window.
 

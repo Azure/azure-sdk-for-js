@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientRestoreStatusResponse,
@@ -14,9 +13,17 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
-import { withTrace } from "./poller";
+import {
+  KeyVaultBeginSelectiveKeyRestoreOptions,
+  KeyVaultSelectiveKeyRestoreResult
+} from "../../backupClientModels";
+import { OperationOptions } from "@azure/core-client";
+import { createTraceFunction } from "../../tracingHelpers";
 
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultSelectiveKeyRestorePoller");
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
@@ -57,7 +64,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     public state: KeyVaultSelectiveKeyRestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private requestOptions: KeyVaultBeginSelectiveKeyRestoreOptions = {}
   ) {
     super(state, { cancelMessage: "Cancelling a selective Key Vault restore is not supported." });
   }

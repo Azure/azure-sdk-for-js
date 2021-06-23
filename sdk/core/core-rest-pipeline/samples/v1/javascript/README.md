@@ -39,6 +39,6 @@ node node-sample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[node-sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-rest-pipeline/samples/v1/javascript/node-sample.js
+[node-sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/samples/v1/javascript/node-sample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-rest-pipeline/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline/README.md

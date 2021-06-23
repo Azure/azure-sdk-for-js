@@ -83,18 +83,18 @@ npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/backupAndRestore.ts
-[contacts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/contacts.ts
-[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/deleteAndRecover.ts
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/helloWorld.ts
-[importcertificate]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/importCertificate.ts
-[issuers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/issuers.ts
-[listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/listCertificates.ts
-[mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/mergeCertificate.ts
-[operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/operations.ts
-[purgeallcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/purgeAllCertificates.ts
+[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/backupAndRestore.ts
+[contacts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/contacts.ts
+[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/deleteAndRecover.ts
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/helloWorld.ts
+[importcertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/importCertificate.ts
+[issuers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/issuers.ts
+[listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/listCertificates.ts
+[mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/mergeCertificate.ts
+[operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/operations.ts
+[purgeallcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/purgeAllCertificates.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-certificates/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
