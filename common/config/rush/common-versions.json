@@ -72,7 +72,7 @@
     // Issue #14771 tracks updating to these versions
     "@microsoft/api-extractor": ["7.13.2"],
     "prettier": ["2.2.1"],
-    // All packages should move to 1.0.0 once core-rest-pipeline 1.1.0 GAs
-    "@azure/core-tracing": ["1.0.0-preview.11"]
+    // @azure/cosmos was unable to upgrade due to test failures, Issue #15928 tracks making this upgrade
+    "@azure/core-rest-pipeline": ["^1.0.3"]
   }
 }
