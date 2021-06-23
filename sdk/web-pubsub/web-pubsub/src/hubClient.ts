@@ -490,9 +490,9 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      let rawResponse: FullOperationResponse | undefined;
+      let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        rawResponse = rawResponse;
+        response = rawResponse;
         if (updatedOptions.onResponse) {
           updatedOptions.onResponse(rawResponse, flatResponse);
         }
@@ -503,16 +503,16 @@ export class WebPubSubServiceClient {
         onResponse
       });
 
-      if (rawResponse?.status === 200) {
+      if (response?.status === 200) {
         return true;
-      } else if (rawResponse?.status === 404) {
+      } else if (response?.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(rawResponse?.bodyAsText!, {
-          statusCode: rawResponse?.status,
-          request: rawResponse?.request,
-          response: rawResponse
+        throw new RestError(response?.bodyAsText!, {
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
         });
       }
     } finally {
@@ -561,11 +561,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return await this.client.webPubSub.removeUserFromAllGroups(
-        this.hubName,
-        userId,
-        updatedOptions
-      );
+      await this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
     } finally {
       span.end();
     }
@@ -581,9 +577,9 @@ export class WebPubSubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasGroup", options);
 
     try {
-      let rawResponse: FullOperationResponse | undefined;
+      let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        rawResponse = rawResponse;
+        response = rawResponse;
         if (updatedOptions.onResponse) {
           updatedOptions.onResponse(rawResponse, flatResponse);
         }
@@ -593,15 +589,15 @@ export class WebPubSubServiceClient {
         onResponse
       });
 
-      if (rawResponse?.status === 200) {
+      if (response?.status === 200) {
         return true;
-      } else if (rawResponse?.status === 404) {
+      } else if (response?.status === 404) {
         return false;
       } else {
-        throw new RestError(rawResponse?.bodyAsText!, {
-          statusCode: rawResponse?.status,
-          request: rawResponse?.request,
-          response: rawResponse
+        throw new RestError(response?.bodyAsText!, {
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
         });
       }
     } finally {
@@ -619,9 +615,9 @@ export class WebPubSubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
 
     try {
-      let rawResponse: FullOperationResponse | undefined;
+      let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        rawResponse = rawResponse;
+        response = rawResponse;
         if (updatedOptions.onResponse) {
           updatedOptions.onResponse(rawResponse, flatResponse);
         }
@@ -631,16 +627,16 @@ export class WebPubSubServiceClient {
         onResponse
       });
 
-      if (rawResponse?.status === 200) {
+      if (response?.status === 200) {
         return true;
-      } else if (rawResponse?.status === 404) {
+      } else if (response?.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(rawResponse?.bodyAsText!, {
-          statusCode: rawResponse?.status,
-          request: rawResponse?.request,
-          response: rawResponse
+        throw new RestError(response?.bodyAsText!, {
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
         });
       }
     } finally {

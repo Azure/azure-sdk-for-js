@@ -187,29 +187,25 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     );
 
     try {
-      let rawResponse: FullOperationResponse | undefined;
+      let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        rawResponse = rawResponse;
+        response = rawResponse;
         if (updatedOptions.onResponse) {
           updatedOptions.onResponse(rawResponse, flatResponse);
         }
       }
-      const res = await this.client.webPubSub.addConnectionToGroup(
-        this.hubName,
-        this.groupName,
-        connectionId,
-        { ...updatedOptions, onResponse }
-      );
+      await this.client.webPubSub.addConnectionToGroup(this.hubName, this.groupName, connectionId, {
+        ...updatedOptions,
+        onResponse
+      });
 
-      if (rawResponse?.status === 404) {
+      if (response?.status === 404) {
         throw new RestError(`Connection id '${connectionId}' doesn't exist`, {
-          statusCode: rawResponse?.status,
-          request: rawResponse?.request,
-          response: rawResponse
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
         });
       }
-
-      return res;
     } finally {
       span.end();
     }
@@ -231,14 +227,12 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     );
 
     try {
-      const res = await this.client.webPubSub.removeConnectionFromGroup(
+      await this.client.webPubSub.removeConnectionFromGroup(
         this.hubName,
         this.groupName,
         connectionId,
         updatedOptions
       );
-
-      return res;
     } finally {
       span.end();
     }
@@ -254,7 +248,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-addUser", options);
 
     try {
-      return await this.client.webPubSub.addUserToGroup(
+      await this.client.webPubSub.addUserToGroup(
         this.hubName,
         this.groupName,
         username,
@@ -275,7 +269,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
 
     try {
-      return await this.client.webPubSub.removeUserFromGroup(
+      await this.client.webPubSub.removeUserFromGroup(
         this.hubName,
         this.groupName,
         username,
@@ -321,7 +315,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 
     try {
-      return await this.client.webPubSub.sendToGroup(
+      await this.client.webPubSub.sendToGroup(
         this.hubName,
         this.groupName,
         contentType,
