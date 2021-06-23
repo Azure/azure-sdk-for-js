@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { RoleDefinitionsImpl, RoleAssignmentsImpl } from "./operations";
 import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
+  ApiVersion72,
   KeyVaultClientFullBackupOptionalParams,
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusOptionalParams,
@@ -29,10 +30,14 @@ import {
 export class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
+   * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(options?: KeyVaultClientOptionalParams) {
-    super(options);
+  constructor(
+    apiVersion: ApiVersion72,
+    options?: KeyVaultClientOptionalParams
+  ) {
+    super(apiVersion, options);
     this.roleDefinitions = new RoleDefinitionsImpl(this);
     this.roleAssignments = new RoleAssignmentsImpl(this);
   }
@@ -46,14 +51,10 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     options?: KeyVaultClientFullBackupOptionalParams
   ): Promise<KeyVaultClientFullBackupResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, options },
       fullBackupOperationSpec
-    ) as Promise<KeyVaultClientFullBackupResponse>;
+    );
   }
 
   /**
@@ -67,15 +68,10 @@ export class KeyVaultClient extends KeyVaultClientContext {
     jobId: string,
     options?: KeyVaultClientFullBackupStatusOptionalParams
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, jobId, options },
       fullBackupStatusOperationSpec
-    ) as Promise<KeyVaultClientFullBackupStatusResponse>;
+    );
   }
 
   /**
@@ -88,14 +84,10 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     options?: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, options },
       fullRestoreOperationOperationSpec
-    ) as Promise<KeyVaultClientFullRestoreOperationResponse>;
+    );
   }
 
   /**
@@ -109,15 +101,10 @@ export class KeyVaultClient extends KeyVaultClientContext {
     jobId: string,
     options?: KeyVaultClientRestoreStatusOptionalParams
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, jobId, options },
       restoreStatusOperationSpec
-    ) as Promise<KeyVaultClientRestoreStatusResponse>;
+    );
   }
 
   /**
@@ -132,24 +119,19 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyName: string,
     options?: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      keyName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, keyName, options },
       selectiveKeyRestoreOperationOperationSpec
-    ) as Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse>;
+    );
   }
 
   roleDefinitions: RoleDefinitions;
   roleAssignments: RoleAssignments;
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const fullBackupOperationSpec: coreHttp.OperationSpec = {
+const fullBackupOperationSpec: coreClient.OperationSpec = {
   path: "/backup",
   httpMethod: "POST",
   responses: {
@@ -168,7 +150,7 @@ const fullBackupOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const fullBackupStatusOperationSpec: coreHttp.OperationSpec = {
+const fullBackupStatusOperationSpec: coreClient.OperationSpec = {
   path: "/backup/{jobId}/pending",
   httpMethod: "GET",
   responses: {
@@ -184,7 +166,7 @@ const fullBackupStatusOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const fullRestoreOperationOperationSpec: coreHttp.OperationSpec = {
+const fullRestoreOperationOperationSpec: coreClient.OperationSpec = {
   path: "/restore",
   httpMethod: "PUT",
   responses: {
@@ -203,7 +185,7 @@ const fullRestoreOperationOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const restoreStatusOperationSpec: coreHttp.OperationSpec = {
+const restoreStatusOperationSpec: coreClient.OperationSpec = {
   path: "/restore/{jobId}/pending",
   httpMethod: "GET",
   responses: {
@@ -219,7 +201,7 @@ const restoreStatusOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const selectiveKeyRestoreOperationOperationSpec: coreHttp.OperationSpec = {
+const selectiveKeyRestoreOperationOperationSpec: coreClient.OperationSpec = {
   path: "/keys/{keyName}/restore",
   httpMethod: "PUT",
   responses: {
