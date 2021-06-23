@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PathUncheckedResponse } from "./getClient";
 import { RestError, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 /**
  * Creates a rest error from a PathUnchecked response
  */
-export function createRestError(message: string, response: PathUncheckedResponse) {
+export function createRestError(message: string, response: PathUncheckedResponse): RestError {
   return new RestError(message, {
     statusCode: statusCodeToNumber(response.status),
     request: response.request,
