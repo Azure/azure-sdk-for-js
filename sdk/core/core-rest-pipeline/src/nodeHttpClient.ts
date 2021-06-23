@@ -129,6 +129,13 @@ class NodeHttpClient implements HttpClient {
             request
           };
 
+          // Responses to HEAD must not have a body.
+          // If they do return a body, that body must be ignored.
+          if (request.method === "HEAD") {
+            resolve(response);
+            return;
+          }
+
           responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
