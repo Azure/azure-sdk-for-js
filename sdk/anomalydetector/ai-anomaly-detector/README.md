@@ -2,11 +2,13 @@
 
 [Azure AnomalyDetector](https://azure.microsoft.com/services/cognitive-services/anomaly-detector/) API enables you to monitor and detect abnormalities in your time series data with machine learning.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector) 
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/) 
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Key concepts
 
