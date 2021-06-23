@@ -8,7 +8,6 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
-import { delay } from '@azure/core-util';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -181,7 +180,8 @@ export class DefaultHttpClient extends FetchHttpClient {
     processRequest(operationResponse: HttpOperationResponse): Promise<void>;
     }
 
-export { delay }
+// @public
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export interface DeserializationContentTypes {

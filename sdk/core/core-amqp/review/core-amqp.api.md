@@ -8,7 +8,6 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import { Connection } from 'rhea-promise';
-import { delay } from '@azure/core-util';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
@@ -366,7 +365,8 @@ export function createSasTokenProvider(data: {
 // @public
 export const defaultCancellableLock: CancellableAsyncLock;
 
-export { delay }
+// @public
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export enum ErrorNameConditionMapper {
