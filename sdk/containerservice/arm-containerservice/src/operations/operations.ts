@@ -26,7 +26,7 @@ export class Operations {
   }
 
   /**
-   * Gets a list of compute operations.
+   * @summary Gets a list of operations.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */

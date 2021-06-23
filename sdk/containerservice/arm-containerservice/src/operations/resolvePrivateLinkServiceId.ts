@@ -26,12 +26,10 @@ export class ResolvePrivateLinkServiceId {
   }
 
   /**
-   * Gets the private link service ID the specified managed cluster.
    * @summary Gets the private link service ID for the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters (name, groupId) supplied in order to resolve a private link service
-   * ID.
+   * @param parameters Parameters required in order to resolve a private link service ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResolvePrivateLinkServiceIdPOSTResponse>
    */
@@ -39,16 +37,14 @@ export class ResolvePrivateLinkServiceId {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters (name, groupId) supplied in order to resolve a private link service
-   * ID.
+   * @param parameters Parameters required in order to resolve a private link service ID.
    * @param callback The callback
    */
   pOST(resourceGroupName: string, resourceName: string, parameters: Models.PrivateLinkResource, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters (name, groupId) supplied in order to resolve a private link service
-   * ID.
+   * @param parameters Parameters required in order to resolve a private link service ID.
    * @param options The optional parameters
    * @param callback The callback
    */

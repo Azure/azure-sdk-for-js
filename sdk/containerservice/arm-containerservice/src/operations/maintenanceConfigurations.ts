@@ -26,8 +26,6 @@ export class MaintenanceConfigurations {
   }
 
   /**
-   * Gets a list of maintenance configurations in the specified managed cluster. The operation
-   * returns properties of each maintenance configuration.
    * @summary Gets a list of maintenance configurations in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -60,8 +58,7 @@ export class MaintenanceConfigurations {
   }
 
   /**
-   * Gets the details of maintenance configurations by managed cluster and resource group.
-   * @summary Gets the maintenance configuration.
+   * @summary Gets the specified maintenance configuration of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
@@ -97,13 +94,11 @@ export class MaintenanceConfigurations {
   }
 
   /**
-   * Creates or updates a maintenance configuration in the specified managed cluster.
-   * @summary Creates or updates a maintenance configurations.
+   * @summary Creates or updates a maintenance configuration in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
-   * @param parameters Parameters supplied to the Create or Update a default maintenance
-   * configuration.
+   * @param parameters The maintenance configuration to create or update.
    * @param [options] The optional parameters
    * @returns Promise<Models.MaintenanceConfigurationsCreateOrUpdateResponse>
    */
@@ -112,8 +107,7 @@ export class MaintenanceConfigurations {
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
-   * @param parameters Parameters supplied to the Create or Update a default maintenance
-   * configuration.
+   * @param parameters The maintenance configuration to create or update.
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, resourceName: string, configName: string, parameters: Models.MaintenanceConfiguration, callback: msRest.ServiceCallback<Models.MaintenanceConfiguration>): void;
@@ -121,8 +115,7 @@ export class MaintenanceConfigurations {
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
-   * @param parameters Parameters supplied to the Create or Update a default maintenance
-   * configuration.
+   * @param parameters The maintenance configuration to create or update.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -141,7 +134,6 @@ export class MaintenanceConfigurations {
   }
 
   /**
-   * Deletes the maintenance configuration in the specified managed cluster.
    * @summary Deletes a maintenance configuration.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -178,8 +170,6 @@ export class MaintenanceConfigurations {
   }
 
   /**
-   * Gets a list of maintenance configurations in the specified managed cluster. The operation
-   * returns properties of each maintenance configuration.
    * @summary Gets a list of maintenance configurations in the specified managed cluster.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
