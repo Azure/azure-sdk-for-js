@@ -11,7 +11,7 @@ import {
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "@azure/core-util";
+import { delay } from "../util/delay";
 
 // #region Access Token Cycler
 

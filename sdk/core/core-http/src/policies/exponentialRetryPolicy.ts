@@ -21,7 +21,7 @@ import {
 } from "../util/exponentialBackoffStrategy";
 import { RestError } from "../restError";
 import { logger } from "../log";
-import { delay } from "@azure/core-util";
+import { delay } from "../util/delay";
 
 export function exponentialRetryPolicy(
   retryCount?: number,
