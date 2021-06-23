@@ -94,10 +94,10 @@ export class CosmosClient {
       async (opts: RequestOptions) => this.getDatabaseAccount(opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
-    if (optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery) {
+    if (optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery && optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing) {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
-        optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs
+        optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs || defaultConnectionPolicy.endpointRefreshRateInMs
       );
     }
 
@@ -197,8 +197,7 @@ export class CosmosClient {
         console.warn("Failed to refresh endpoints", e);
       }
     }, refreshRate);
-    const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-    if (!isBrowser) {
+    if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
       this.endpointRefresher.unref();
     }
   }

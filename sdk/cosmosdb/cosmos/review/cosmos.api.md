@@ -239,6 +239,7 @@ export enum ConnectionMode {
 // @public
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
+    enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
     endpointRefreshRateInMs?: number;
     preferredLocations?: string[];

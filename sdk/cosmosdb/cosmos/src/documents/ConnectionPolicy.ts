@@ -11,7 +11,7 @@ export interface ConnectionPolicy {
   /** Request timeout (time to wait for response from network peer). Represented in milliseconds. */
   requestTimeout?: number;
   /**
-   * Flag to enable/disable automatic redirecting of requests based on read/write operations.
+   * Flag to enable/disable automatic redirecting of requests based on read/write operations. Default true.
    * Required to call client.dispose() when this is set to true after destroying the CosmosClient inside another process or in the browser.
    */
   enableEndpointDiscovery?: boolean;
@@ -26,6 +26,9 @@ export interface ConnectionPolicy {
   useMultipleWriteLocations?: boolean;
   /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
   endpointRefreshRateInMs?: number;
+  /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
+   * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
+  enableBackgroundEndpointRefreshing?: boolean;
 }
 
 /**
@@ -42,5 +45,6 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
     maxWaitTimeInSeconds: 30
   },
   useMultipleWriteLocations: true,
-  endpointRefreshRateInMs: 300000
+  endpointRefreshRateInMs: 300000,
+  enableBackgroundEndpointRefreshing: false,
 });

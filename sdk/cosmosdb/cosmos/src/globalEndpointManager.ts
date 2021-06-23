@@ -175,7 +175,7 @@ export class GlobalEndpointManager {
         this.writeableLocations.push(location);
       }
     }
-    for (const location of databaseAccount.readableLocations) {
+    for (const location of databaseAccount.writableLocations) {
       const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
       if (!existingLocation) {
         this.readableLocations.push(location);
