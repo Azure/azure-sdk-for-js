@@ -1,15 +1,21 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 12.1.0 (Unreleased)
+
+### Acknowledgments
+
+Thank you to our developer community members who helped to make the Azure Tables client library better with their contributions to this release:
+
+- Eros Stein _([GitHub](https://github.com/eestein))_
 
 ### Features Added
 
-### Breaking Changes
-
-### Key Bugs Fixed
+- Support for Azure Active Directory (AAD) authorization has been added to `TableServiceClient` and `TableClient`. This enables use of `TokenCredential` credentials. Note: Only Azure Storage API endpoints currently support AAD authorization. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 
 ### Fixed
 
+- Fix [#15664](https://github.com/Azure/azure-sdk-for-js/issues/15701), adding check to make sure we always have only one forward slash (`/`) added to the end of the URL [#15698](https://github.com/Azure/azure-sdk-for-js/pull/15698) (A community contribution, courtesy of _[eestein](https://github.com/eestein))_
+- Fix [#15701](https://github.com/Azure/azure-sdk-for-js/issues/15701) by improving error handling and reporting on `submitTransaction`. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 
 ## 12.0.0 (2021-06-09)
 
