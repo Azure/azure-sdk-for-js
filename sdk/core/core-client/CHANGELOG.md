@@ -1,10 +1,11 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.3 (2021-06-17)
 
 ### Key Bugs Fixed
 
 - Fix an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+- Fix an issue with appending query parameters while constructing the url. Please refer [Issue #1035](https://github.com/Azure/autorest.typescript/issues/1035) for more details.
 
 ## 1.1.2 (2021-05-20)
 
@@ -27,7 +28,7 @@
 ### Breaking Changes
 
 - If the response body is empty and the mapper for it says it is nullable, then a null is returned.
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.0.0 (2021-03-15)
 

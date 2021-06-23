@@ -419,7 +419,7 @@ export const ExtendedLocation: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'EdgeZone',
+        defaultValue: "EdgeZone",
         type: {
           name: "String"
         }
@@ -692,6 +692,298 @@ export const NetworkInterfaceDnsSettings: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateLinkServiceIpConfiguration: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkServiceIpConfiguration",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceIpConfiguration",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      privateIPAddress: {
+        serializedName: "properties.privateIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      privateIPAllocationMethod: {
+        serializedName: "properties.privateIPAllocationMethod",
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "Composite",
+          className: "Subnet"
+        }
+      },
+      primary: {
+        serializedName: "properties.primary",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateIPAddressVersion: {
+        serializedName: "properties.privateIPAddressVersion",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnection: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      privateEndpoint: {
+        readOnly: true,
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      linkIdentifier: {
+        readOnly: true,
+        serializedName: "properties.linkIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSet: msRest.CompositeMapper = {
+  serializedName: "ResourceSet",
+  type: {
+    name: "Composite",
+    className: "ResourceSet",
+    modelProperties: {
+      subscriptions: {
+        serializedName: "subscriptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServicePropertiesVisibility: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkServiceProperties_visibility",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServicePropertiesVisibility",
+    modelProperties: {
+      ...ResourceSet.type.modelProperties
+    }
+  }
+};
+
+export const PrivateLinkServicePropertiesAutoApproval: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkServiceProperties_autoApproval",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServicePropertiesAutoApproval",
+    modelProperties: {
+      ...ResourceSet.type.modelProperties
+    }
+  }
+};
+
+export const PrivateLinkService: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkService",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkService",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
+      loadBalancerFrontendIpConfigurations: {
+        serializedName: "properties.loadBalancerFrontendIpConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FrontendIPConfiguration"
+            }
+          }
+        }
+      },
+      ipConfigurations: {
+        serializedName: "properties.ipConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkServiceIpConfiguration"
+            }
+          }
+        }
+      },
+      networkInterfaces: {
+        readOnly: true,
+        serializedName: "properties.networkInterfaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkInterface"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        readOnly: true,
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      visibility: {
+        serializedName: "properties.visibility",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServicePropertiesVisibility"
+        }
+      },
+      autoApproval: {
+        serializedName: "properties.autoApproval",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServicePropertiesAutoApproval"
+        }
+      },
+      fqdns: {
+        serializedName: "properties.fqdns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      alias: {
+        readOnly: true,
+        serializedName: "properties.alias",
+        type: {
+          name: "String"
+        }
+      },
+      enableProxyProtocol: {
+        serializedName: "properties.enableProxyProtocol",
+        type: {
+          name: "Boolean"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NetworkInterface: msRest.CompositeMapper = {
   serializedName: "NetworkInterface",
   type: {
@@ -817,6 +1109,25 @@ export const NetworkInterface: msRest.CompositeMapper = {
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      nicType: {
+        serializedName: "properties.nicType",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkService: {
+        serializedName: "properties.privateLinkService",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkService"
+        }
+      },
+      migrationPhase: {
+        serializedName: "properties.migrationPhase",
         type: {
           name: "String"
         }
@@ -1483,6 +1794,115 @@ export const IpTag: msRest.CompositeMapper = {
   }
 };
 
+export const NatGatewaySku: msRest.CompositeMapper = {
+  serializedName: "NatGatewaySku",
+  type: {
+    name: "Composite",
+    className: "NatGatewaySku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NatGateway: msRest.CompositeMapper = {
+  serializedName: "NatGateway",
+  type: {
+    name: "Composite",
+    className: "NatGateway",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "NatGatewaySku"
+        }
+      },
+      idleTimeoutInMinutes: {
+        serializedName: "properties.idleTimeoutInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      publicIpAddresses: {
+        serializedName: "properties.publicIpAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      publicIpPrefixes: {
+        serializedName: "properties.publicIpPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      subnets: {
+        readOnly: true,
+        serializedName: "properties.subnets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      resourceGuid: {
+        readOnly: true,
+        serializedName: "properties.resourceGuid",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PublicIPAddress: msRest.CompositeMapper = {
   serializedName: "PublicIPAddress",
   type: {
@@ -1581,6 +2001,33 @@ export const PublicIPAddress: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      servicePublicIPAddress: {
+        serializedName: "properties.servicePublicIPAddress",
+        type: {
+          name: "Composite",
+          className: "PublicIPAddress"
+        }
+      },
+      natGateway: {
+        serializedName: "properties.natGateway",
+        type: {
+          name: "Composite",
+          className: "NatGateway"
+        }
+      },
+      migrationPhase: {
+        serializedName: "properties.migrationPhase",
+        type: {
+          name: "String"
+        }
+      },
+      linkedPublicIPAddress: {
+        serializedName: "properties.linkedPublicIPAddress",
+        type: {
+          name: "Composite",
+          className: "PublicIPAddress"
         }
       },
       etag: {
@@ -1868,6 +2315,57 @@ export const Delegation: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationGatewayIPConfiguration: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayIPConfiguration",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayIPConfiguration",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2047,16 +2545,28 @@ export const Subnet: msRest.CompositeMapper = {
       },
       privateEndpointNetworkPolicies: {
         serializedName: "properties.privateEndpointNetworkPolicies",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
       },
       privateLinkServiceNetworkPolicies: {
         serializedName: "properties.privateLinkServiceNetworkPolicies",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
+        }
+      },
+      applicationGatewayIpConfigurations: {
+        serializedName: "properties.applicationGatewayIpConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayIPConfiguration"
+            }
+          }
         }
       },
       name: {
@@ -2068,6 +2578,12 @@ export const Subnet: msRest.CompositeMapper = {
       etag: {
         readOnly: true,
         serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -2692,6 +3208,12 @@ export const NetworkInterfaceIPConfiguration: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3167,51 +3689,6 @@ export const ApplicationGatewayClientAuthConfiguration: msRest.CompositeMapper =
         serializedName: "verifyClientCertIssuerDN",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ApplicationGatewayIPConfiguration: msRest.CompositeMapper = {
-  serializedName: "ApplicationGatewayIPConfiguration",
-  type: {
-    name: "Composite",
-    className: "ApplicationGatewayIPConfiguration",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
         }
       }
     }
@@ -4869,12 +5346,7 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
@@ -10614,115 +11086,6 @@ export const LoadBalancer: msRest.CompositeMapper = {
   }
 };
 
-export const NatGatewaySku: msRest.CompositeMapper = {
-  serializedName: "NatGatewaySku",
-  type: {
-    name: "Composite",
-    className: "NatGatewaySku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NatGateway: msRest.CompositeMapper = {
-  serializedName: "NatGateway",
-  type: {
-    name: "Composite",
-    className: "NatGateway",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "NatGatewaySku"
-        }
-      },
-      idleTimeoutInMinutes: {
-        serializedName: "properties.idleTimeoutInMinutes",
-        type: {
-          name: "Number"
-        }
-      },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      publicIpPrefixes: {
-        serializedName: "properties.publicIpPrefixes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      subnets: {
-        readOnly: true,
-        serializedName: "properties.subnets",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      resourceGuid: {
-        readOnly: true,
-        serializedName: "properties.resourceGuid",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      zones: {
-        serializedName: "zones",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AzureAsyncOperationResult: msRest.CompositeMapper = {
   serializedName: "AzureAsyncOperationResult",
   type: {
@@ -12284,7 +12647,7 @@ export const PacketCaptureFilter: msRest.CompositeMapper = {
     modelProperties: {
       protocol: {
         serializedName: "protocol",
-        defaultValue: 'Any',
+        defaultValue: "Any",
         type: {
           name: "String"
         }
@@ -15406,295 +15769,9 @@ export const AvailablePrivateEndpointType: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServiceIpConfiguration: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceIpConfiguration",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServiceIpConfiguration",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      privateIPAddress: {
-        serializedName: "properties.privateIPAddress",
-        type: {
-          name: "String"
-        }
       },
-      privateIPAllocationMethod: {
-        serializedName: "properties.privateIPAllocationMethod",
-        type: {
-          name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "Composite",
-          className: "Subnet"
-        }
-      },
-      primary: {
-        serializedName: "properties.primary",
-        type: {
-          name: "Boolean"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      privateIPAddressVersion: {
-        serializedName: "properties.privateIPAddressVersion",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnection: msRest.CompositeMapper = {
-  serializedName: "PrivateEndpointConnection",
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnection",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      privateEndpoint: {
-        readOnly: true,
-        serializedName: "properties.privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServiceConnectionState"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      linkIdentifier: {
-        readOnly: true,
-        serializedName: "properties.linkIdentifier",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceSet: msRest.CompositeMapper = {
-  serializedName: "ResourceSet",
-  type: {
-    name: "Composite",
-    className: "ResourceSet",
-    modelProperties: {
-      subscriptions: {
-        serializedName: "subscriptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServicePropertiesVisibility: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceProperties_visibility",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServicePropertiesVisibility",
-    modelProperties: {
-      ...ResourceSet.type.modelProperties
-    }
-  }
-};
-
-export const PrivateLinkServicePropertiesAutoApproval: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceProperties_autoApproval",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServicePropertiesAutoApproval",
-    modelProperties: {
-      ...ResourceSet.type.modelProperties
-    }
-  }
-};
-
-export const PrivateLinkService: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkService",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkService",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      extendedLocation: {
-        serializedName: "extendedLocation",
-        type: {
-          name: "Composite",
-          className: "ExtendedLocation"
-        }
-      },
-      loadBalancerFrontendIpConfigurations: {
-        serializedName: "properties.loadBalancerFrontendIpConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FrontendIPConfiguration"
-            }
-          }
-        }
-      },
-      ipConfigurations: {
-        serializedName: "properties.ipConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkServiceIpConfiguration"
-            }
-          }
-        }
-      },
-      networkInterfaces: {
-        readOnly: true,
-        serializedName: "properties.networkInterfaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkInterface"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      privateEndpointConnections: {
-        readOnly: true,
-        serializedName: "properties.privateEndpointConnections",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
-      },
-      visibility: {
-        serializedName: "properties.visibility",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServicePropertiesVisibility"
-        }
-      },
-      autoApproval: {
-        serializedName: "properties.autoApproval",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServicePropertiesAutoApproval"
-        }
-      },
-      fqdns: {
-        serializedName: "properties.fqdns",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      alias: {
-        readOnly: true,
-        serializedName: "properties.alias",
-        type: {
-          name: "String"
-        }
-      },
-      enableProxyProtocol: {
-        serializedName: "properties.enableProxyProtocol",
-        type: {
-          name: "Boolean"
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
+      displayName: {
+        serializedName: "displayName",
         type: {
           name: "String"
         }
@@ -15883,6 +15960,13 @@ export const PublicIPPrefix: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      natGateway: {
+        serializedName: "properties.natGateway",
+        type: {
+          name: "Composite",
+          className: "NatGateway"
+        }
+      },
       etag: {
         readOnly: true,
         serializedName: "etag",
@@ -15923,7 +16007,7 @@ export const RouteFilterRule: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.routeFilterRuleType",
-        defaultValue: 'Community',
+        defaultValue: "Community",
         type: {
           name: "String"
         }
@@ -15988,7 +16072,7 @@ export const PatchRouteFilterRule: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.routeFilterRuleType",
-        defaultValue: 'Community',
+        defaultValue: "Community",
         type: {
           name: "String"
         }
@@ -16344,6 +16428,13 @@ export const ServiceTagInformationPropertiesFormat: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -16485,7 +16576,7 @@ export const Usage: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "unit",
-        defaultValue: 'Count',
+        defaultValue: "Count",
         type: {
           name: "String"
         }
@@ -16626,6 +16717,19 @@ export const VirtualNetworkPeering: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      doNotVerifyRemoteGateways: {
+        serializedName: "properties.doNotVerifyRemoteGateways",
+        type: {
+          name: "Boolean"
+        }
+      },
+      resourceGuid: {
+        readOnly: true,
+        serializedName: "properties.resourceGuid",
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -16635,6 +16739,12 @@ export const VirtualNetworkPeering: msRest.CompositeMapper = {
       etag: {
         readOnly: true,
         serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -16860,6 +16970,12 @@ export const IPAddressAvailabilityResult: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      isPlatformReserved: {
+        serializedName: "isPlatformReserved",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -17626,6 +17742,13 @@ export const VirtualNetworkGateway: msRest.CompositeMapper = {
     className: "VirtualNetworkGateway",
     modelProperties: {
       ...Resource.type.modelProperties,
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
       ipConfigurations: {
         serializedName: "properties.ipConfigurations",
         type: {
@@ -17740,13 +17863,6 @@ export const VirtualNetworkGateway: msRest.CompositeMapper = {
         serializedName: "properties.vNetExtendedLocationResourceId",
         type: {
           name: "String"
-        }
-      },
-      virtualNetworkExtendedLocation: {
-        serializedName: "properties.virtualNetworkExtendedLocation",
-        type: {
-          name: "Composite",
-          className: "ExtendedLocation"
         }
       },
       etag: {
@@ -24862,12 +24978,11 @@ export const WebApplicationFirewallPolicyListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'FirewallPolicyRuleCollection' : FirewallPolicyRuleCollection,
-  'FirewallPolicyRule' : FirewallPolicyRule,
-  'FirewallPolicyRuleCollection.FirewallPolicyNatRuleCollection' : FirewallPolicyNatRuleCollection,
-  'FirewallPolicyRuleCollection.FirewallPolicyFilterRuleCollection' : FirewallPolicyFilterRuleCollection,
-  'FirewallPolicyRule.ApplicationRule' : ApplicationRule,
-  'FirewallPolicyRule.NatRule' : NatRule,
-  'FirewallPolicyRule.NetworkRule' : NetworkRule
-
+  FirewallPolicyRuleCollection: FirewallPolicyRuleCollection,
+  FirewallPolicyRule: FirewallPolicyRule,
+  "FirewallPolicyRuleCollection.FirewallPolicyNatRuleCollection": FirewallPolicyNatRuleCollection,
+  "FirewallPolicyRuleCollection.FirewallPolicyFilterRuleCollection": FirewallPolicyFilterRuleCollection,
+  "FirewallPolicyRule.ApplicationRule": ApplicationRule,
+  "FirewallPolicyRule.NatRule": NatRule,
+  "FirewallPolicyRule.NetworkRule": NetworkRule
 };

@@ -78,6 +78,8 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse
 ): QueryLogsBatchResult {
+  const fixApplied = fixInvalidBatchQueryResponse(generatedResponse);
+
   const newResponse: QueryLogsBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
@@ -102,7 +104,61 @@ export function convertResponseForQueryBatch(
       }))
   };
 
+  (newResponse as any)["__fixApplied"] = fixApplied;
   return newResponse;
+}
+
+/**
+ * This is a workaround for a service bug that we're investigating. The 'body' column will occasionally come
+ * back as a JSON string, instead of being a JSON object.
+ *
+ * (examples, with excess stuff trimmed)
+ * Correct: `{"responses":[{"body":{"tables":[{"name":"PrimaryResult","columns":[{"name":"stringcolumn","type":"string"}],"rows":[["hello"]}`
+ * Broken: `{"responses":[{"body":"{\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"stringcolumn\",\"type\":\"string\"}],\"rows\":[[\"hello\"]}`
+ *
+ * Issue here: https://github.com/Azure/azure-sdk-for-js/issues/15688
+ *
+ * @internal
+ */
+export function fixInvalidBatchQueryResponse(
+  generatedResponse: GeneratedQueryBatchResponse
+): boolean {
+  if (generatedResponse.responses == null) {
+    return false;
+  }
+
+  let wholeResponse: GeneratedQueryBatchResponse | undefined;
+  let hadToFix = false;
+
+  // fix whichever responses are in this broken state (each query has it's own
+  // response, so they're not all always broken)
+  for (let i = 0; i < generatedResponse.responses.length; ++i) {
+    if (
+      generatedResponse.responses[i].body?.tables != null ||
+      generatedResponse.responses[i].body?.error != null
+    ) {
+      continue;
+    }
+
+    // the body here is incorrect, deserialize the correct one from the raw response itself.
+
+    // deserialize the raw response from the service, since we'll need index into it.
+    if (!wholeResponse) {
+      wholeResponse = JSON.parse(
+        generatedResponse["_response"].bodyAsText
+      ) as GeneratedQueryBatchResponse;
+    }
+
+    // now grab the individual batch query response and deserialize that
+    // incorrectly typed string...
+    generatedResponse.responses[i].body = JSON.parse(
+      (wholeResponse.responses![i].body as any) as string
+    );
+
+    hadToFix = true;
+  }
+
+  return hadToFix;
 }
 
 /**

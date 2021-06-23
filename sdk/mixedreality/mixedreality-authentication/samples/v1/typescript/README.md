@@ -75,11 +75,11 @@ npx cross-env MIXEDREALITY_ACCOUNT_DOMAIN="<mixedreality account domain>" MIXEDR
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[gettoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/mixedreality/mixedreality-authentication/samples/v1/typescript/src/getToken.ts
+[gettoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/mixedreality-authentication/samples/v1/typescript/src/getToken.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureobjectanchorsaccount]: https://docs.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account
 [createinstance_azureremoterenderingaccount]: https://docs.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup
 [createinstance_azurespatialanchorsaccount]: https://docs.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixedreality-authentication/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

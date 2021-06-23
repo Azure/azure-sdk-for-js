@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/containerregistry/container-registry",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/container-registry",
   "dependencies": {
     "@azure/container-registry": "next",
     "dotenv": "latest",

@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { AccessToken } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
 import { DefaultTenantId } from "../../constants";
 import { resolveTenantId } from "../../util/resolveTenantId";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";

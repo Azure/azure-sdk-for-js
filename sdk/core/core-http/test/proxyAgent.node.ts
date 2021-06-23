@@ -6,7 +6,7 @@ import { should } from "chai";
 import Tunnel from "tunnel";
 import https from "https";
 
-import { HttpHeaders } from "../src/coreHttp";
+import { HttpHeaders, ProxySettings } from "../src/coreHttp";
 import { createProxyAgent, createTunnel } from "../src/proxyAgent";
 
 describe("proxyAgent", () => {
@@ -61,6 +61,37 @@ describe("proxyAgent", () => {
       const agent = proxyAgent.agent as HttpsAgent;
       should().exist(agent.proxyOptions.headers);
       agent.proxyOptions.headers!.should.contain({ "user-agent": "Node.js" });
+      done();
+    });
+
+    it("should set agent proxyAuth correctly", function(done) {
+      const proxySettings: ProxySettings = {
+        host: "http://proxy.microsoft.com",
+        port: 8080,
+        username: "username",
+        password: "pass123"
+      };
+
+      const proxyAgent = createProxyAgent("http://example.com", proxySettings);
+
+      const agent = proxyAgent.agent as HttpsAgent;
+      should().exist(agent.options.proxy.proxyAuth);
+      agent.options.proxy.proxyAuth!.should.equal("username:pass123");
+      done();
+    });
+
+    it("should set agent proxyAuth correctly when password is not specified", function(done) {
+      const proxySettings: ProxySettings = {
+        host: "http://proxy.microsoft.com",
+        port: 8080,
+        username: "username"
+      };
+
+      const proxyAgent = createProxyAgent("http://example.com", proxySettings);
+
+      const agent = proxyAgent.agent as HttpsAgent;
+      should().exist(agent.options.proxy.proxyAuth);
+      agent.options.proxy.proxyAuth!.should.equal("username");
       done();
     });
 

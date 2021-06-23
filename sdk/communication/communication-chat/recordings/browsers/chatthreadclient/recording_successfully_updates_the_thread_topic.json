@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3A3UhaYJAgmFT9pQAXBl_Zu_rxT_KhqrS08VzfQ39UqUI1%40thread.v2",
    "query": {
     "api-version": "2021-04-05-preview6"
    },
@@ -13,13 +13,13 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3A3UhaYJAgmFT9pQAXBl_Zu_rxT_KhqrS08VzfQ39UqUI1%40thread.v2",
    "query": {
     "api-version": "2021-04-05-preview6"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"19:46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-05-11T18:24:38Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1be3-2e7c-5b3a0d000549\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1be3-2e7c-5b3a0d000549\"}}}",
+   "response": "{\"id\":\"19:3UhaYJAgmFT9pQAXBl_Zu_rxT_KhqrS08VzfQ39UqUI1@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-06-14T21:15:36Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-dc82-a175-5b3a0d000960\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-dc82-a175-5b3a0d000960\"}}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -29,5 +29,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "570d48d5089041a8cc0edd26ec4ccf4a"
+ "hash": "cdb749d3bb82f640534d2a61b146fd63"
 }

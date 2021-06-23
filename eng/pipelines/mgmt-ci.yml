@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - master
+      - main
   paths:
     include:
     - eng/pipelines/mgmt-pr.yml
@@ -207,7 +207,7 @@ jobs:
   - job: 'Build'
 
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - task: NodeTool@0
@@ -220,7 +220,7 @@ jobs:
         inputs:
           verbose: false
 
-      - script: 'gulp pack --base-reference=master --head-reference=master'
+      - script: 'gulp pack --base-reference=main --head-reference=main'
         displayName: 'gulp pack'
 
       - task: CopyFiles@2
@@ -236,7 +236,7 @@ jobs:
   - job: 'Analyze'
 
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - task: NodeTool@0

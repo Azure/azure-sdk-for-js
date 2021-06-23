@@ -34,41 +34,21 @@ export class RestorableMongodbCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorableMongodbCollectionsListResponse>
    */
-  list(
-    location: string,
-    instanceId: string,
-    options?: Models.RestorableMongodbCollectionsListOptionalParams
-  ): Promise<Models.RestorableMongodbCollectionsListResponse>;
+  list(location: string, instanceId: string, options?: Models.RestorableMongodbCollectionsListOptionalParams): Promise<Models.RestorableMongodbCollectionsListResponse>;
   /**
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param callback The callback
    */
-  list(
-    location: string,
-    instanceId: string,
-    callback: msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>
-  ): void;
+  list(location: string, instanceId: string, callback: msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>): void;
   /**
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    location: string,
-    instanceId: string,
-    options: Models.RestorableMongodbCollectionsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>
-  ): void;
-  list(
-    location: string,
-    instanceId: string,
-    options?:
-      | Models.RestorableMongodbCollectionsListOptionalParams
-      | msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>,
-    callback?: msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>
-  ): Promise<Models.RestorableMongodbCollectionsListResponse> {
+  list(location: string, instanceId: string, options: Models.RestorableMongodbCollectionsListOptionalParams, callback: msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>): void;
+  list(location: string, instanceId: string, options?: Models.RestorableMongodbCollectionsListOptionalParams | msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>, callback?: msRest.ServiceCallback<Models.RestorableMongodbCollectionsListResult>): Promise<Models.RestorableMongodbCollectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -76,8 +56,7 @@ export class RestorableMongodbCollections {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.RestorableMongodbCollectionsListResponse>;
+      callback) as Promise<Models.RestorableMongodbCollectionsListResponse>;
   }
 }
 
@@ -85,11 +64,19 @@ export class RestorableMongodbCollections {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
-  urlParameters: [Parameters.subscriptionId, Parameters.location, Parameters.instanceId],
-  queryParameters: [Parameters.apiVersion, Parameters.restorableMongodbDatabaseRid],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.instanceId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.restorableMongodbDatabaseRid
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.RestorableMongodbCollectionsListResult

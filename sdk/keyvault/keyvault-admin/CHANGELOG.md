@@ -1,8 +1,34 @@
 # Release History
 
-## 4.0.0-beta.4 (Unreleased)
+## 4.1.0-beta.1 (Unreleased)
 
-### Breaking changes:
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+## 4.0.1 (2021-06-15)
+
+### Bug Fixes
+
+- Fixed an issue where bundling could fail when importing this library due to an incorrectly set import.
+
+## 4.0.0 (2021-06-15)
+
+This release marks the general availability of the `@azure/keyvault-admin` package.
+
+### New Features
+
+- The `KeyVaultAccessControlClient` provides support for managing role-based access control (RBAC) operations.
+  - Both role assignments and custom role definitions are supported with the ability to create, read, update, and delete custom role definitions and assignments.
+- The `KeyVaultBackupClient` provides support for back up and restore operations for the entire Key Vault Managed HSM instance.
+  - Full Managed HSM backup and restore operations are supported.
+  - Selective Key Restore from a previous backup is also supported.
+
+### Changes since 4.0.0-beta.3:
 
 - Added the "KeyVault" prefix to all of the Key Vault Admin client operations.
 - Made the AesGcmDecryptParameters authenticationTag required.
@@ -32,7 +58,7 @@
 
 ## 4.0.0-beta.2 (2021-02-09)
 
-- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 - Updated the Key Vault Admin Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
 - [Breaking] Return `BackupResult` and `RestoreResult` from backup/restore long running operations which will contain additional information about the operation as well any relevant data.

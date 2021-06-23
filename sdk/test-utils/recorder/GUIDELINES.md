@@ -23,7 +23,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 ## Adding a new test/test-suite
 
-- `recorder` package assumes that the tests in the sdk are leveraging [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/) (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
+- `recorder` package assumes that the tests in the sdk are leveraging [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/) (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template) package in the repo.
 
 - `record` from `@azure/test-utils-recorder` package should be imported in the test files.
 

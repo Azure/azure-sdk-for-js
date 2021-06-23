@@ -8,16 +8,8 @@ import {
   KeyVaultCertificatePollerOptions,
   cleanState
 } from "../keyVaultCertificatePoller";
-import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
-
-/**
- * @internal
- */
-export const withTrace = createTraceFunction(
-  "Azure.KeyVault.Certificates.CertificateOperationPoller"
-);
 
 /**
  * Class that creates a poller that waits until a certificate finishes being created

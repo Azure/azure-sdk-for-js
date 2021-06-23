@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientFullRestoreOperationOptionalParams,
@@ -14,8 +13,14 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { KeyVaultRestoreResult } from "../../backupClientModels";
-import { withTrace } from "./poller";
+import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
+import { createTraceFunction } from "../../tracingHelpers";
+import { OperationOptions } from "@azure/core-client";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultRestorePoller");
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -54,7 +59,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     public state: KeyVaultRestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private requestOptions: KeyVaultBeginRestoreOptions = {}
   ) {
     super(state, {
       cancelMessage: "Cancelling the restoration full Key Vault backup is not supported."
