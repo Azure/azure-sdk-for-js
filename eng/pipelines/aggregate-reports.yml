@@ -76,30 +76,31 @@ jobs:
     displayName: 'Publish Security Analysis Logs'
     condition: succeededOrFailed()
 
-- job: 'RushUpdate'
-  variables:
-  - template: /eng/pipelines/templates/variables/globals.yml
+- ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
+  - job: 'RushUpdate'
+    variables:
+    - template: /eng/pipelines/templates/variables/globals.yml
 
-  pool:
-    name: azsdk-pool-mms-ubuntu-1804-general
-    vmImage: MMSUbuntu18.04
+    pool:
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
 
-  steps:
-  - template: /eng/pipelines/templates/steps/common.yml
+    steps:
+    - template: /eng/pipelines/templates/steps/common.yml
 
-  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+    - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
-  - script: |
-      node common/scripts/install-run-rush.js install
-      node common/scripts/install-run-rush.js update --recheck
-    displayName: "Run Rush Update"
+    - script: |
+        node common/scripts/install-run-rush.js install
+        node common/scripts/install-run-rush.js update --recheck
+      displayName: "Run Rush Update"
 
-  - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-    parameters:
-      RepoName: azure-sdk-for-js
-      BaseBranchName: $(DefaultBranch)
-      PRBranchName: automated-rush-update
-      CommitMsg: "Automatic rush update recheck"
-      PRTitle: "Automatic rush update"
-      PRBody: "Automatic rush update PR"
-      PushArgs: "-f"
+    - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+      parameters:
+        RepoName: azure-sdk-for-js
+        BaseBranchName: $(DefaultBranch)
+        PRBranchName: automated-rush-update
+        CommitMsg: "Automatic rush update recheck"
+        PRTitle: "Automatic rush update"
+        PRBody: "Automatic rush update PR"
+        PushArgs: "-f"
