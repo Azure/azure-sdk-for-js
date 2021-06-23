@@ -10,6 +10,8 @@
 
 ### Fixed
 
+- Fixing an issue where the internal link cache would not properly remove closed links.
+  [PR#TBD](TBD)
 
 ## 7.2.0 (2021-06-10)
 
