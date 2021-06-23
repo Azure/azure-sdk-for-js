@@ -46,5 +46,5 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   },
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,
-  enableBackgroundEndpointRefreshing: false,
+  enableBackgroundEndpointRefreshing: false
 });

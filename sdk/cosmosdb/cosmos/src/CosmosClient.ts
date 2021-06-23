@@ -94,10 +94,14 @@ export class CosmosClient {
       async (opts: RequestOptions) => this.getDatabaseAccount(opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
-    if (optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery && optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing) {
+    if (
+      optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
+      optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
+    ) {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
-        optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs || defaultConnectionPolicy.endpointRefreshRateInMs
+        optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
+          defaultConnectionPolicy.endpointRefreshRateInMs
       );
     }
 

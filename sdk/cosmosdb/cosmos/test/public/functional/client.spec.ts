@@ -134,7 +134,11 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       const client = new CosmosClient({
         endpoint,
         key: masterKey,
-        connectionPolicy: { ...defaultConnectionPolicy, endpointRefreshRateInMs: 700, enableBackgroundEndpointRefreshing: true }
+        connectionPolicy: {
+          ...defaultConnectionPolicy,
+          endpointRefreshRateInMs: 700,
+          enableBackgroundEndpointRefreshing: true
+        }
       });
 
       // then timeout 1.2s so that we first fetch no endpoints, then after it refreshes we see them
