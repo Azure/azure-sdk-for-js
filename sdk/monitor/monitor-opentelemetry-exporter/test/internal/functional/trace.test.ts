@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assertCount, assertExpectation } from "../common/assert";
-import { BasicScenario } from "../common/scenario/basic";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { assertCount, assertExpectation } from "../../utils/assert";
+import { BasicScenario } from "../../utils/basic";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import nock from "nock";
-import { successfulBreezeResponse } from "../unit/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../src/generated";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 
 describe("Trace Exporter Scenarios", () => {
   describe(BasicScenario.prototype.constructor.name, () => {

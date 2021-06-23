@@ -3,13 +3,13 @@
 
 import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/tracing";
-import { AzureMonitorTraceExporter } from "../../../src";
+import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
-import { msToTimeSpan } from "../../../src/utils/breezeUtils";
+import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
-import { FlushSpanProcessor } from "../flushSpanProcessor";
+import { FlushSpanProcessor } from "./flushSpanProcessor";
 import { delay } from "@azure/core-http";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+import { TelemetryItem as Envelope } from "../../src/generated";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",

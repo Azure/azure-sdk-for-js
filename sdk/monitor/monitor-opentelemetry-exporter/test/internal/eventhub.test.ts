@@ -8,14 +8,14 @@ import * as assert from "assert";
 import {
   ENQUEUED_TIME,
   TIME_SINCE_ENQUEUED
-} from "../../../src/utils/constants/applicationinsights";
+} from "../../src/utils/constants/applicationinsights";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub
-} from "../../../src/utils/constants/span/azAttributes";
-import { parseEventHubSpan } from "../../../src/utils/eventhub";
-import { RemoteDependencyData, TelemetryItem as Envelope } from "../../../src/generated";
+} from "../../src/utils/constants/span/azAttributes";
+import { parseEventHubSpan } from "../../src/utils/eventhub";
+import { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated";
 
 const tracer = new BasicTracerProvider().getTracer("default");
 
