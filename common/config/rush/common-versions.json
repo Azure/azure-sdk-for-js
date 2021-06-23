@@ -62,15 +62,6 @@
     "@azure/event-hubs": [
       "^2.1.4"
     ],
-    // Monitor-opentelemetry-exporter and monitor-query both depend on different versions of @opentelemetry and need to be updated
-    "@opentelemetry/api": [
-      "^0.18.1",
-      "0.21.0"
-    ],
-    "@opentelemetry/tracing": [
-      "^0.18.1",
-      "^0.22.0"
-    ],
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     // eslint v7.15 needs node v10.12
