@@ -7,14 +7,25 @@ import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
 import { ConnectionContext } from "../../../src/connectionContext";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver";
 import { LinkEntity } from "../../../src/core/linkEntity";
+import { ManagementClient } from "../../../src/core/managementClient";
+import { MessageSender } from "../../../src/core/messageSender";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import { receiverLogger } from "../../../src/log";
+import { MessageSession } from "../../../src/session/messageSession";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("LinkEntity unit tests", () => {
   class LinkForTests extends LinkEntity<Receiver> {
+    private _removeLinkFromContextCalled: boolean = false;
+
+    protected removeLinkFromContext(): void {
+      this._removeLinkFromContextCalled = true;
+    }
+
     async createRheaLink(options: ReceiverOptions): Promise<Receiver> {
       return createRheaReceiverForTests(options);
     }
@@ -39,6 +50,10 @@ describe("LinkEntity unit tests", () => {
 
   afterEach(async () => {
     await linkEntity.close();
+    assert.isTrue(
+      (linkEntity as LinkForTests)["_removeLinkFromContextCalled"],
+      "Every link should have a chance to remove themselves from the cache"
+    );
   });
 
   describe("initLink", () => {
@@ -325,6 +340,129 @@ describe("LinkEntity unit tests", () => {
       await linkEntity.close();
       await linkEntity.close();
     });
+  });
+
+  describe("cache cleanup", () => {
+    it("batchingreceiver", () => {
+      const batchingReceiver = new BatchingReceiver(connectionContext, "entityPath", {
+        abortSignal: undefined,
+        lockRenewer: undefined,
+        receiveMode: "receiveAndDelete",
+        tracingOptions: {}
+      });
+
+      initCachedLinks(batchingReceiver.name);
+
+      batchingReceiver["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: batchingReceiver.name,
+        clearedCache: connectionContext.messageReceivers,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageSessions,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    it("streamingreceiver", () => {
+      const streamingReceiver = new StreamingReceiver(connectionContext, "entityPath", {
+        abortSignal: undefined,
+        lockRenewer: undefined,
+        receiveMode: "receiveAndDelete",
+        tracingOptions: {}
+      });
+
+      initCachedLinks(streamingReceiver.name);
+
+      streamingReceiver["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: streamingReceiver.name,
+        clearedCache: connectionContext.messageReceivers,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageSessions,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    it("sender", () => {
+      const sender = new MessageSender(connectionContext, "entityPath", {});
+
+      initCachedLinks(sender.name);
+
+      sender["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: sender.name,
+        clearedCache: connectionContext.senders,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageReceivers,
+          connectionContext.messageSessions
+        ]
+      });
+    });
+
+    it("session", () => {
+      const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
+        abortSignal: undefined,
+        retryOptions: {}
+      });
+
+      initCachedLinks(messageSession.name);
+
+      messageSession["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: messageSession.name,
+        clearedCache: connectionContext.messageSessions,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageReceivers,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    it("managementclient", () => {
+      const mgmtClient = new ManagementClient(connectionContext, "entityPath");
+
+      initCachedLinks(mgmtClient.name);
+
+      mgmtClient["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: mgmtClient.name,
+        clearedCache: connectionContext.managementClients,
+        unchangedCaches: [
+          connectionContext.messageSessions,
+          connectionContext.messageReceivers,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    function assertLinkCaches(args: {
+      name: string;
+      clearedCache: { [name: string]: any };
+      unchangedCaches: { [name: string]: any }[];
+    }): void {
+      assert.isEmpty(
+        args.unchangedCaches.filter((cache) => cache[args.name] == null),
+        "Unrelated caches should not be changed."
+      );
+    }
+
+    function initCachedLinks(name: string) {
+      connectionContext.messageReceivers[name] = {} as any;
+      connectionContext.senders[name] = {} as any;
+      connectionContext.managementClients[name] = {} as any;
+      connectionContext.messageSessions[name] = {} as any;
+    }
   });
 
   function assertLinkEntityOpen(): void {

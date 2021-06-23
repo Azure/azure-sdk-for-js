@@ -1328,6 +1328,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       throw error;
     }
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.managementClients[this.name];
+  }
 }
 
 /**

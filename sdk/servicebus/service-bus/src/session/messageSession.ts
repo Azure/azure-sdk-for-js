@@ -925,4 +925,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     await messageSession._init(options?.abortSignal);
     return messageSession;
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.messageSessions[this.name];
+  }
 }

@@ -658,4 +658,8 @@ export class StreamingReceiver extends MessageReceiver {
       this._isDetaching = false;
     }
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.messageReceivers[this.name];
+  }
 }
