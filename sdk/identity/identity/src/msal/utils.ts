@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken, GetTokenOptions, isNode } from "@azure/core-http";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { isNode } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
+
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { CredentialUnavailableError } from "../client/errors";
@@ -10,7 +14,6 @@ import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
-import { AbortError } from "@azure/abort-controller";
 
 /**
  * Latest AuthenticationRecord version

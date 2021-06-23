@@ -344,6 +344,25 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "POST");
   });
 
+  it("makes successful sent typing notification request with sender display name", async () => {
+    const mockHttpClient = generateHttpClient(200);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const options = { senderDisplayName: "Bob Admin" };
+    const result = await chatThreadClient.sendTypingNotification(options);
+    assert.isTrue(result);
+
+    sinon.assert.calledOnce(spy);
+    const request = spy.getCall(0).args[0];
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/typing?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "POST");
+    assert.deepEqual(JSON.parse(request.body), options);
+  });
+
   it("makes successful sent read receipt request", async () => {
     const mockHttpClient = generateHttpClient(200);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);

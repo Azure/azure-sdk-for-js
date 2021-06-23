@@ -24,7 +24,7 @@ platform needs two things: a tenant and an app registration created for that
 tenant.
 
 A "tenant" is basically instance of Azure Active Directory associated with your
-Azure account.  You can follow the instructions on [this quick start guide for
+Azure account. You can follow the instructions on [this quick start guide for
 setting up a
 tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant)
 to check if you have AAD tenant already or, if not, create one.
@@ -34,7 +34,7 @@ quickstart guide for app
 registrations](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app).
 Your app registration holds the configuration for how your application will
 authenticate users and services, so it's very important to it set up correctly
-before using any of the credential types below.  The section on each credential
+before using any of the credential types below. The section on each credential
 will indicate which configuration settings it needs and how to use them.
 
 ### Should my App be Single or Multi Tenant?
@@ -58,18 +58,18 @@ personal Microsoft accounts after it's already created.
 ## Understanding the Credential Types
 
 Microsoft identity platform provides a variety of authentication flows that
-serve different use cases and application types.  A primary differentiator
+serve different use cases and application types. A primary differentiator
 between these flows is whether the "client" that initiates the flow is running
 on a user device or on a system managed by the application developer (like a web
-server).  The [Microsoft Authentication
+server). The [Microsoft Authentication
 Library](https://docs.microsoft.com/azure/active-directory/develop/msal-client-applications)
 documentation describes this distinction as _public_ versus _confidential_
 clients.
 
 Most of the credential types are strictly public or confidential as they serve a
 specific purpose, like authenticating a backend service for use with storage
-APIs.  Some credentials may be both public or confidential depending on how you
-configure them.  For example, the [authorization code
+APIs. Some credentials may be both public or confidential depending on how you
+configure them. For example, the [authorization code
 flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 can be initiated from a mobile application _or_ from within a web application
 running in a server.
@@ -88,9 +88,9 @@ credential for your application:
     - If not, use the `EnvironmentCredential`
 
   - **Do you want your application to pick the appropriate credential type based on the
-environment?**
+    environment?**
 
-    - Use the `DefaultAzureCredential`
+        - Use the `DefaultAzureCredential`
 
 - **Is the application deployed to a user device or running in the browser?**
 
@@ -109,16 +109,16 @@ The identity platform provides an authorization model for Azure services with
 permissions](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#troubleshooting-permissions-and-consent):
 
 - **Application permissions** authorize an application to access resources
-  directly.  Administrator consent must be granted to your application.
+  directly. Administrator consent must be granted to your application.
 - **Delegated permissions** authorize an application to access resources on
-  behalf of a specific user.  The user may grant permission to your application
+  behalf of a specific user. The user may grant permission to your application
   unless the permission requires administrator consent.
 
 If you are only using _confidential credentials_ you should only need to be
-concerned with application permissions.  If you will be authenticating users
+concerned with application permissions. If you will be authenticating users
 with a _public credential_, you must configure API permissions for the Azure
 service you need to access (Key Vault, Storage, etc) so that user accounts can
-be authorized to use them through your application.  The [quick start guide for
+be authorized to use them through your application. The [quick start guide for
 configuring API
 permissions](https://docs.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
 explains how to do this in detail.
@@ -128,19 +128,19 @@ explains how to do this in detail.
 When a user is being authenticated to access a service that is configured with
 delegated permissions, they may be presented with a consent screen that asks
 whether they want to grant your application permission to access resources on
-their behalf.  An example of this consent flow can be found in the [consent
+their behalf. An example of this consent flow can be found in the [consent
 framework documentation
 page](https://docs.microsoft.com/azure/active-directory/develop/consent-framework).
 
 An administrator can also grant consent for your application on behalf of all
-users.  In this case, users may never see a consent screen.  If you'd like to
+users. In this case, users may never see a consent screen. If you'd like to
 make it easy for an administrator to grant access to all users, follow the
 instructions in the [admin consent endpoint request
 documentation](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#request-the-permissions-from-a-directory-admin).
 
 There are some cases where a user may not be allowed to grant consent to an
-application.  When this occurs, the user may have to speak with an administrator
-to have the permissions granted on their behalf.  The [user consent
+application. When this occurs, the user may have to speak with an administrator
+to have the permissions granted on their behalf. The [user consent
 troubleshooting
 page](https://docs.microsoft.com/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error)
 provides more details on the consent errors a user might encounter.
@@ -175,7 +175,7 @@ on which credential you are using.
 
 The `UsernamePasswordCredential` follows the [resource owner password credential
 flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)
-to authenticate public or confidential clients.  To use this credential, you
+to authenticate public or confidential clients. To use this credential, you
 will need the `tenantId` and `clientId` of your app and a `username` and
 `password` of the user you are authenticating.
 
@@ -187,19 +187,19 @@ This credential type supports multi-tenant app registrations so you may pass
 `organizations` as the `tenantId` to enable users from any organizational tenant
 to authenticate.
 
-Generally speaking, we *do not* recommend using this credential type when other
-more secure credential types are available.  Handling the user's password
+Generally speaking, we _do not_ recommend using this credential type when other
+more secure credential types are available. Handling the user's password
 directly is a major security risk.
 
 > NOTE: This credential type does not work with personal Microsoft accounts or
-> multi-factor authentication at this time.  See the
+> multi-factor authentication at this time. See the
 > [documentation](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)
 > for more information.
 
 ### EnvironmentCredential
 
 The `EnvironmentCredential` looks for well-known environment variable names to
-determine how it should authenticate.  It effectively acts as a wrapper for the
+determine how it should authenticate. It effectively acts as a wrapper for the
 `ClientSecretCredential`, `ClientCertificateCredential` or
 `UsernamePasswordCredential` depending on which environment variables are
 present.
@@ -210,7 +210,7 @@ Containers, etc.
 
 In all cases, the `AZURE_TENANT_ID` and `AZURE_CLIENT_ID` environment variables
 are expected to be present to use this credential as they identify your
-application.  The following environment variables will then be tried in order:
+application. The following environment variables will then be tried in order:
 
 - `AZURE_CLIENT_SECRET` - A client secret to be used with
   `ClientSecretCredential`
@@ -231,7 +231,7 @@ machines, App Services, Functions, Container Services, [and
 more](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities).
 
 One important distinction of this credential compared to the others is that it
-_does not require an app registration_.  This authentication scheme relates to
+_does not require an app registration_. This authentication scheme relates to
 the actual Azure resources to which your code is deployed rather than the
 application itself.
 
@@ -251,13 +251,13 @@ to other Azure services through role assignments.
 
 If you have configured your resource to use a system-assigned identity, you can
 just create an instance of `ManagedIdentityCredential` without any
-configuration.  For user-assigned identities, you must provide the `clientId` of
+configuration. For user-assigned identities, you must provide the `clientId` of
 the managed identity you wish to use for authentication.
 
 More information on configuring and using managed identities can be found in the
 [Managed identities for Azure
 resources](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-documentation.  There is also a [list of Azure
+documentation. There is also a [list of Azure
 services](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-services-that-support-azure-ad-authentication)
 that have been tested to confirm support for managed identity authentication.
 
@@ -265,7 +265,7 @@ that have been tested to confirm support for managed identity authentication.
 
 The `InteractiveBrowserCredential` follows the [implicit grant
 flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
-which enables authentication for clients that run completely in the browser.  It
+which enables authentication for clients that run completely in the browser. It
 is primarily useful for single-page web applications (SPAs) which need to
 authenticate to access Azure resources and APIs directly.
 
@@ -274,8 +274,8 @@ configured with both the **Access tokens** and **ID tokens** options checked und
 **Implicit grant** in the **Authentication** page.
 
 You will also need to add a redirect URI in the **Redirect URIs** section of the
-**Authentication** page for your app registration.  The redirect URI must point
-to the URI of your web application.  You must also make sure to specify the same
+**Authentication** page for your app registration. The redirect URI must point
+to the URI of your web application. You must also make sure to specify the same
 URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
 creating an `InteractiveBrowserCredential`.
 
@@ -302,15 +302,14 @@ which enables server-hosted web applications, native desktop and mobile
 applications, and web APIs to access resources on the user's behalf.
 
 This credential requires that the developer have an HTTP(S) endpoint exposed
-which can receive the authentication response redirect.  The URI at which you
+which can receive the authentication response redirect. The URI at which you
 host this endpoint must be added to the **Redirect URIs** list on the
-**Authentication** page of your app registration.  If you are developing
+**Authentication** page of your app registration. If you are developing
 locally, you can also add a redirect URI for your development endpoint
 (e.g. `http://localhost:8080/authresponse`).
 
 A complete example of hosting your own authentication response endpoint can be
-found in the [`authorization code
-sample`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts).
+found in the [`authorization code sample`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts).
 
 ### DefaultAzureCredential
 

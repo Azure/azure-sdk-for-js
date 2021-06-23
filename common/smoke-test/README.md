@@ -5,7 +5,7 @@ uses package dependencies, loads all packages into a single process, and
 executes code samples to ensure basic end to end scenarios work as expected.
 
 Smoke Tests are meant to be run periodically in an Azure DevOps pipeline. See
-[`smoke-tests.yml`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/smoke-test/smoke-tests.yml) to configure Smoke Tests in an Azure
+[`smoke-tests.yml`](https://github.com/Azure/azure-sdk-for-js/blob/main/common/smoke-test/smoke-tests.yml) to configure Smoke Tests in an Azure
 DevOps pipeline. When run in an Azure DevOps pipeline specify the `-CI` flag to
 ensure environment variables are properly set and error/warning messages are
 properly surfaced during the execution.
@@ -24,7 +24,7 @@ package.
 - PowerShell 7
 - [Azure Powershell cmdlets](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-4.7.0)
 - Node 12.x
-- Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/dev-tool)
+- Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool)
 
 ## Configuring Samples
 

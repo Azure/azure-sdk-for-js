@@ -12,14 +12,12 @@ import {
 
 function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
   return {
-    // @ts-ignore Using the deprecated field for testing
-    parentSpan: rootSpan.context()
+    parentSpan: rootSpan.spanContext()
   };
 }
 
 function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
   return {
-    // @ts-ignore Using the deprecated field for testing
     parentSpan: rootSpan
   };
 }
@@ -109,7 +107,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -160,7 +158,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -209,7 +207,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -268,7 +266,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       const knownSendSpans = tracer
@@ -336,7 +334,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });

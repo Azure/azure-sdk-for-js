@@ -20,7 +20,8 @@
     "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
     "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
-    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js"
+    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
+    "./dist-esm/src/extensions/consumer.js": "./dist-esm/src/extensions/consumer.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -43,7 +44,8 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace --exclude \"test/**/browser/**/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 300000 --full-trace --exclude \"test/**/browser/**/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node:no-timeouts": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js  --no-timeouts --full-trace --exclude \"test/**/browser/**/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -74,15 +76,16 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
+    "@azure/core-auth": "^1.3.0",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
     "@azure/abort-controller": "^1.0.0",
-    "@azure/msal-common": "^4.0.0",
-    "@azure/msal-node": "^1.0.2",
+    "@azure/msal-common": "^4.3.0",
+    "@azure/msal-node": "^1.1.0",
     "@azure/msal-browser": "^2.0.0",
     "@types/stoppable": "^1.1.0",
     "events": "^3.0.0",

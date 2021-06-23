@@ -764,3 +764,18 @@ export const UpdateChatThreadRequest: coreHttp.CompositeMapper = {
     }
   }
 };
+
+export const SendTypingNotificationRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SendTypingNotificationRequest",
+    modelProperties: {
+      senderDisplayName: {
+        serializedName: "senderDisplayName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
