@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.11 (2021-06-23)
+
+- Test Release Pipeline
+
 ## 1.0.10-beta.1 (2020-11-16)
 
 - Test Release Pipeline
