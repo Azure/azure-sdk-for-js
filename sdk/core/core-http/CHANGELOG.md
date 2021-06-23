@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
 ### Key Bugs Fixed
 
 ### Fixed
@@ -35,7 +37,7 @@
 
 ### Breaking Changes
 
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.2.3 (2021-02-04)
 

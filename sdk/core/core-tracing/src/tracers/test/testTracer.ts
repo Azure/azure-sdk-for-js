@@ -88,14 +88,14 @@ export class TestTracer extends NoOpTracer {
    */
   getSpanGraph(traceId: string): SpanGraph {
     const traceSpans = this.knownSpans.filter((span) => {
-      return span.context().traceId === traceId;
+      return span.spanContext().traceId === traceId;
     });
 
     const roots: SpanGraphNode[] = [];
     const nodeMap: Map<string, SpanGraphNode> = new Map<string, SpanGraphNode>();
 
     for (const span of traceSpans) {
-      const spanId = span.context().spanId;
+      const spanId = span.spanContext().spanId;
       const node: SpanGraphNode = {
         name: span.name,
         children: []

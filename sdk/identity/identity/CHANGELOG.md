@@ -2,12 +2,20 @@
 
 ## 2.0.0-beta.4 (Unreleased)
 
+### New features
+
+- Introduced an extension API through a top-level method `useIdentityExtension`. The function accepts an "extension" as an argument, which is a function accepting a `context`. The extension context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
+  - `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it (see more below).
+  - `@azure/identity-cache-persistence`, which provides persistent token caching (same as was available in version 2.0.0-beta.2, but now provided through a secondary extension package).
+- Reintroduced a stub implementation of `VisualStudioCodeCredential`. If the `@azure/identity-vscode` extension is not used, then it will throw a `CredentialUnavailableError` (similar to how it previously behaved if the `keytar` package was not installed). The extension now provides the underlying implementation of `VisualStudioCodeCredential` through dependency injection.
+- Reintroduced the `TokenCachePersistenceOptions` property on most credential constructor options. This property must be present with an `enabled` property set to true to enable persistent token caching for a credential instance. Credentials that do not support persistent token caching do not have this property.
+
 ## Bug fixes
 
 - Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
-- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in NodeJS. 
+- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in NodeJS.
 
-### Breaking changes 
+### Breaking changes
 
 - Removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. While it will continue to be available as part of v1, we won't be supporting this method as part of v2's public API.
 
@@ -52,7 +60,7 @@
 
 ### Tracing Changes
 
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 2.0.0-beta.1 (2021-03-24)
 
@@ -61,7 +69,7 @@ This update marks the preview for the first major version update of the `@azure/
 ### Breaking changes
 
 - Changes to `InteractiveBrowserCredential`
-  - When used in browser applications, the `InteractiveBrowserCredential` has been updated to use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) by default to better support browsers with enhanced security restrictions. Please note that this credential always used the Auth Code Flow when used in Node.js applications. Read more on this in our [docs on Interactive Browser Credential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+  - When used in browser applications, the `InteractiveBrowserCredential` has been updated to use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) by default to better support browsers with enhanced security restrictions. Please note that this credential always used the Auth Code Flow when used in Node.js applications. Read more on this in our [docs on Interactive Browser Credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
   - The default client ID used for `InteractiveBrowserCredential` was viable only in Node.js and not for the browser. Therefore, client Id is now a required parameter when constructing this credential in browser applications.
   - The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now show up only when used in browser applications as these were never applicable to Node.js
   - Removed the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option was not being used since we don't have a way for users to log out yet.
@@ -104,7 +112,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.2.4-beta.1 (2021-02-12)
 
-- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
 
 ## 1.2.3 (2021-02-09)
 

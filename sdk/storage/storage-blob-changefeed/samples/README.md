@@ -23,7 +23,7 @@ npm install @azure/storage-blob-changefeed
 
 ### Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/typescript/src/azureAdAuth.ts).
 
 ## JavaScript sample
 
@@ -58,9 +58,9 @@ ts-node sample.ts
 - Iterate through the entire Change Feed between a start and end date [basic.js][basic.js], [basic.ts][basic.ts]
 - Resuming a previous iteration of a Change Feed using the continuation token [resume.js][resume.js], [resume.ts][resume.ts]
 
-[basic.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
-[resume.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
-[basic.ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/src/basic.ts
-[resume.ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/src/resume.ts
+[basic.js]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
+[resume.js]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
+[basic.ts]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript/src/basic.ts
+[resume.ts]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript/src/resume.ts
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob-changefeed%2Fsamples%2FREADME.png)

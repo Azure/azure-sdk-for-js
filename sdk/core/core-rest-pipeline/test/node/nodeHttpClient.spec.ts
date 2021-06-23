@@ -22,6 +22,23 @@ class FakeRequest extends PassThrough {
   }
 }
 
+/**
+ * Generic NodeJS streams accept typed arrays just fine,
+ * but `http.ClientRequest` objects *only* support chunks
+ * of `Buffer` and `string`, so we must convert them first.
+ *
+ * This fake asserts we have only passed the correct types.
+ */
+const httpRequestChecker = {
+  on() {
+    /* no op */
+  },
+  end(chunk: unknown) {
+    const isString = typeof chunk === "string";
+    assert(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
+  }
+};
+
 function createResponse(statusCode: number, body = ""): IncomingMessage {
   const response = new FakeResponse();
   response.headers = {};
@@ -258,5 +275,61 @@ describe("NodeHttpClient", function() {
     const response = await promise;
     assert.strictEqual(response.status, 200);
     assert.strictEqual(response.bodyAsText, inputString);
+  });
+
+  it("should handle typed array bodies correctly", async function() {
+    const client = createDefaultHttpClient();
+    stubbedHttpsRequest.returns(httpRequestChecker);
+
+    const data = new Uint8Array(10);
+    for (let i = 0; i < 10; i++) {
+      data[i] = i;
+    }
+
+    const request = createPipelineRequest({ url: "https://example.com", body: data });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
+  });
+
+  it("should handle ArrayBuffer bodies correctly", async function() {
+    const client = createDefaultHttpClient();
+    stubbedHttpsRequest.returns(httpRequestChecker);
+
+    const data = new Uint8Array(10);
+    for (let i = 0; i < 10; i++) {
+      data[i] = i;
+    }
+
+    const request = createPipelineRequest({ url: "https://example.com", body: data.buffer });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
+  });
+
+  it("should handle Buffer bodies correctly", async function() {
+    const client = createDefaultHttpClient();
+    stubbedHttpsRequest.returns(httpRequestChecker);
+
+    const data = Buffer.from("example text");
+
+    const request = createPipelineRequest({ url: "https://example.com", body: data });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
+  });
+
+  it("should handle string bodies correctly", async function() {
+    const client = createDefaultHttpClient();
+    stubbedHttpsRequest.returns(httpRequestChecker);
+
+    const request = createPipelineRequest({ url: "https://example.com", body: "test data" });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
   });
 });

@@ -258,7 +258,9 @@ export interface SendReadReceiptRequest {
 }
 
 // @public
-export type SendTypingNotificationOptions = OperationOptions;
+export interface SendTypingNotificationOptions extends OperationOptions {
+    senderDisplayName?: string;
+}
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {

@@ -27,17 +27,24 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-
     const defaults: GeneratedClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
 
+    const packageDetails = `azsdk-js-container-registry/1.0.0-beta.4`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
       baseUri: options.endpoint || "{url}"
     };
-
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;

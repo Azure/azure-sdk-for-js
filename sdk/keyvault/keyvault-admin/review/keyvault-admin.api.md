@@ -4,35 +4,36 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
+export interface AccessControlClientOptions extends CommonClientOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
 // @public
-export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
+export interface CreateRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
-export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
+export interface DeleteRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
-export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface DeleteRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
+export interface GetRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface GetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
@@ -68,7 +69,7 @@ export class KeyVaultBackupClient {
 }
 
 // @public
-export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
+export interface KeyVaultBackupClientOptions extends CommonClientOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
@@ -76,7 +77,7 @@ export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
 export type KeyVaultBackupOperationState = KeyVaultAdminPollOperationState<KeyVaultBackupResult>;
 
 // @public
-export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
+export interface KeyVaultBackupPollerOptions extends OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -204,7 +205,7 @@ export enum KnownKeyVaultRoleScope {
 export const LATEST_API_VERSION = "7.2";
 
 // @public
-export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
+export interface ListRoleAssignmentsOptions extends OperationOptions {
 }
 
 // @public
@@ -213,7 +214,7 @@ export interface ListRoleAssignmentsPageSettings {
 }
 
 // @public
-export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
+export interface ListRoleDefinitionsOptions extends OperationOptions {
 }
 
 // @public
@@ -225,7 +226,7 @@ export interface ListRoleDefinitionsPageSettings {
 export const SDK_VERSION: string;
 
 // @public
-export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface SetRoleDefinitionOptions extends OperationOptions {
     assignableScopes?: KeyVaultRoleScope[];
     description?: string;
     permissions?: KeyVaultPermission[];

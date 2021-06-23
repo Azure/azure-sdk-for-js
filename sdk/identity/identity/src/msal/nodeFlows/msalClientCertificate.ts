@@ -3,7 +3,9 @@
 
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
-import { AccessToken } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";

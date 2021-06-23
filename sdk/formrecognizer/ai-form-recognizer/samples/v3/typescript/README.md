@@ -86,26 +86,26 @@ npx cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNI
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeCustomForm.ts
-[recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeReceipt.ts
-[recognizebusinesscard]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeBusinessCard.ts
-[recognizeidentitydocument]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeIdentityDocument.ts
-[recognizeinvoice]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeInvoice.ts
-[recognizecontent]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeContent.ts
-[recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeReceiptFromUrl.ts
-[trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/trainLabeledModel.ts
-[trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/trainUnlabeledModel.ts
-[differentiatelabeledunlabeled]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/differentiateLabeledUnlabeled.ts
-[getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/getBoundingBoxes.ts
-[copymodel]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/copyModel.ts
-[createcomposedmodel]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/createComposedModel.ts
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/authenticationMethods.ts
-[custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/customModelManagement.ts
-[iteratormodels]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/iteratorModels.ts
-[stronglytypingrecognizedform]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/stronglyTypingRecognizedForm.ts
-[deleteallmodels]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/deleteAllModels.ts
+[recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeCustomForm.ts
+[recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeReceipt.ts
+[recognizebusinesscard]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeBusinessCard.ts
+[recognizeidentitydocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeIdentityDocument.ts
+[recognizeinvoice]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeInvoice.ts
+[recognizecontent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeContent.ts
+[recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/recognizeReceiptFromUrl.ts
+[trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/trainLabeledModel.ts
+[trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/trainUnlabeledModel.ts
+[differentiatelabeledunlabeled]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/differentiateLabeledUnlabeled.ts
+[getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/getBoundingBoxes.ts
+[copymodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/copyModel.ts
+[createcomposedmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/createComposedModel.ts
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/authenticationMethods.ts
+[custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/customModelManagement.ts
+[iteratormodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/iteratorModels.ts
+[stronglytypingrecognizedform]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/stronglyTypingRecognizedForm.ts
+[deleteallmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/deleteAllModels.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -60,7 +60,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/iot/iot-modelsrepository/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer",
   "dependencies": {
     "@azure/ai-form-recognizer": "latest",
     "dotenv": "latest",

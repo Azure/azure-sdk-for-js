@@ -542,6 +542,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/identity-vscode",
+      "projectFolder": "sdk/identity/identity-vscode",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-cache-persistence",
+      "projectFolder": "sdk/identity/identity-cache-persistence",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-common",
       "projectFolder": "sdk/keyvault/keyvault-common",
       "versionPolicyName": "utility"
