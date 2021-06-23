@@ -274,6 +274,12 @@ export interface UpdateChatThreadRequest {
   topic?: string;
 }
 
+/** Request payload for typing notifications. */
+export interface SendTypingNotificationRequest {
+  /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+}
+
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export const enum KnownCommunicationCloudEnvironmentModel {
   Public = "public",
@@ -409,6 +415,13 @@ export type ChatThreadGetChatThreadPropertiesResponse = ChatThreadProperties & {
     parsedBody: ChatThreadProperties;
   };
 };
+
+/** Optional parameters. */
+export interface ChatThreadSendTypingNotificationOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Details of the typing notification request. */
+  sendTypingNotificationRequest?: SendTypingNotificationRequest;
+}
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
