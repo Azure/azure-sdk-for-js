@@ -56,7 +56,8 @@
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"],
-    "@opentelemetry/api": ["^0.18.1"],
+    // Monitor-opentelemetry-exporter and monitor-query both depend on different versions of @opentelemetry and need to be updated
+    "@opentelemetry/api": ["^0.18.1", "0.21.0"],
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     // eslint v7.15 needs node v10.12
@@ -70,11 +71,10 @@
     "@azure/ms-rest-nodeauth": ["^0.9.2"],
     // Idenity is moving from v1 to v2. Moving all packages to v2 is going to take a bit of time, in the mean time we could use v2 on the perf-identity tests.
     "@azure/identity": ["^2.0.0-beta.4", "2.0.0-beta.3", "^1.1.0"],
-    // App Config uses keyvault-secrets in a sample, switch to latest once the preview becomes GA
     // Issue #14771 tracks updating to these versions
     "@microsoft/api-extractor": ["7.13.2"],
     "prettier": ["2.2.1"],
-    // All packages should move to 1.0.0-preview.12 once core-rest-pipeline 1.1.0 GAs
+    // All packages should move to 1.0.0 once core-rest-pipeline 1.1.0 GAs
     "@azure/core-tracing": ["1.0.0-preview.11"]
   }
 }

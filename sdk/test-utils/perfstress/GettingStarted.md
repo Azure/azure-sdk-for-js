@@ -109,7 +109,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     "private": true,
    ```
 
-   _Note: Track-1 packages will not be managed by `rush`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-track-1-readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/perf-tests/storage-blob-track-1/README.md) for instructions._
+   _Note: Track-1 packages will not be managed by `rush`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-track-1-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/perf-tests/storage-blob-track-1/README.md) for instructions._
 
    Make sure to add the "setup" step in package.json.
 

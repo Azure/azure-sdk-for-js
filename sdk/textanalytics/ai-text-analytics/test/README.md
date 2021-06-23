@@ -1,8 +1,8 @@
 # Testing
 
-To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
+To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#testing).
 
-You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/test-resources.json) that already has all of the the necessary configurations.
+You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/test-resources.json) that already has all of the the necessary configurations.
 
 The Azure resource that is used by the tests in this project is:
 
@@ -15,7 +15,7 @@ To run the live tests, you will also need to set the below environment variables
 - `TEXT_ANALYTICS_API_KEY_ALT` (optional): The secondary API key of the Text Analytics API in your Azure Cognitive Services account.
 - `ENDPOINT`: The endpoint of your Text Analytics API in your Azure Cognitive Services account.
 
-In addition to the environment variables above, an Azure Active Directory identity configuration is required. See the [README file for the @azure/identity package](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity) for more details on how to configure an identity for local testing. The test configuration uses the `DefaultAzureCredential` to request an authentication token, so any authentication method that is exposed by `DefaultAzureCredential` will be sufficient to run the tests. The next section will explain how to grant access to your Cognitive Services account to the user or application you wish to use for testing.
+In addition to the environment variables above, an Azure Active Directory identity configuration is required. See the [README file for the @azure/identity package](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity) for more details on how to configure an identity for local testing. The test configuration uses the `DefaultAzureCredential` to request an authentication token, so any authentication method that is exposed by `DefaultAzureCredential` will be sufficient to run the tests. The next section will explain how to grant access to your Cognitive Services account to the user or application you wish to use for testing.
 
 ## AAD-based Authentication
 

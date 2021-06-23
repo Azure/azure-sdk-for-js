@@ -57,7 +57,7 @@
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-http/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

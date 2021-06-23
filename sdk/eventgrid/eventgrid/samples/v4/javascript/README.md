@@ -60,12 +60,12 @@ npx cross-env SERVICE_BUS_CONNECTION_STRING="<service bus connection string>" SE
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[consumeeventsfromservicebusqueue]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventgrid/eventgrid/samples/v4/javascript/consumeEventsFromServiceBusQueue.js
-[sendeventgridevent]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventgrid/eventgrid/samples/v4/javascript/sendEventGridEvent.js
-[sendcloudevent]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventgrid/eventgrid/samples/v4/javascript/sendCloudEvent.js
+[consumeeventsfromservicebusqueue]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v4/javascript/consumeEventsFromServiceBusQueue.js
+[sendeventgridevent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v4/javascript/sendEventGridEvent.js
+[sendcloudevent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v4/javascript/sendCloudEvent.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/eventgrid
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
 [createinstance_azureeventgridcustomtopic,configuredtousethecloudevent1.0schema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
 [createinstance_azureservicebusqueue]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/README.md

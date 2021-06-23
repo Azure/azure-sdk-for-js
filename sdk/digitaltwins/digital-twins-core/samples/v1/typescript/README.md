@@ -85,26 +85,26 @@ npx cross-env AZURE_DIGITALTWINS_URL="<azure digitaltwins url>" node dist/dt_com
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[dt_component_lifecycle]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_component_lifecycle.ts
-[dt_create_digitaltwins_service_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_create_digitaltwins_service_client.ts
-[dt_digitaltwins_delete]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_delete.ts
-[dt_digitaltwins_get]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_get.ts
-[dt_digitaltwins_lifecycle]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_lifecycle.ts
-[dt_digitaltwins_query]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_query.ts
-[dt_event_routes_get]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_event_routes_get.ts
-[dt_event_routes_list]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_event_routes_list.ts
-[dt_incoming_relationships_list]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_incoming_relationships_list.ts
-[dt_models_delete]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_delete.ts
-[dt_models_get]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_get.ts
-[dt_models_lifecycle]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_lifecycle.ts
-[dt_models_list]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_list.ts
-[dt_publish_component_telemetry]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_publish_component_telemetry.ts
-[dt_publish_telemetry]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_publish_telemetry.ts
-[dt_relationships_get]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_relationships_get.ts
-[dt_relationships_list]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_relationships_list.ts
-[dt_scenario]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_scenario.ts
+[dt_component_lifecycle]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_component_lifecycle.ts
+[dt_create_digitaltwins_service_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_create_digitaltwins_service_client.ts
+[dt_digitaltwins_delete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_delete.ts
+[dt_digitaltwins_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_get.ts
+[dt_digitaltwins_lifecycle]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_lifecycle.ts
+[dt_digitaltwins_query]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_digitaltwins_query.ts
+[dt_event_routes_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_event_routes_get.ts
+[dt_event_routes_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_event_routes_list.ts
+[dt_incoming_relationships_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_incoming_relationships_list.ts
+[dt_models_delete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_delete.ts
+[dt_models_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_get.ts
+[dt_models_lifecycle]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_lifecycle.ts
+[dt_models_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_models_list.ts
+[dt_publish_component_telemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_publish_component_telemetry.ts
+[dt_publish_telemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_publish_telemetry.ts
+[dt_relationships_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_relationships_get.ts
+[dt_relationships_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_relationships_list.ts
+[dt_scenario]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_scenario.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/digital-twins-core
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuredigitaltwinsinstance]: https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

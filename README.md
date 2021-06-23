@@ -35,11 +35,11 @@ Libraries which enable you to provision specific resources. They are responsible
 - For detailed documentation visit our [Azure SDK for JavaScript documentation](https://aka.ms/js-docs)
 - File an issue via [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues)
 - Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
-- Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/SUPPORT.md).
+- Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
 ### Community
 
-Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/master/SUPPORT.md#community-resources).
+Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#community-resources).
 
 ### Reporting security issues and security bugs
 
@@ -47,7 +47,7 @@ Security issues and bugs should be reported privately, via email, to the Microso
 
 ## Contributing
 
-For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
+For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
 https://cla.microsoft.com.

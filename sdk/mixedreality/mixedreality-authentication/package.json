@@ -63,7 +63,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/mixedreality/mixedreality-authentication/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/mixedreality-authentication/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

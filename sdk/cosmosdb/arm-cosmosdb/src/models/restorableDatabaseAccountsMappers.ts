@@ -6,4 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export const terminalStates = ["succeeded", "failed", "canceled", "cancelled"];
+export {
+  discriminators,
+  CloudError,
+  ErrorResponse,
+  RestorableDatabaseAccountGetResult,
+  RestorableDatabaseAccountsListResult,
+  RestorableLocationResource
+} from "../models/mappers";

@@ -5,7 +5,7 @@
   "version": "4.3.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
@@ -109,7 +109,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-lro": "^1.0.2",
+    "@azure/core-lro": "^1.0.6",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
