@@ -138,17 +138,23 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       });
 
       // then timeout 1.2s so that we first fetch no endpoints, then after it refreshes we see them
-      client.getReadEndpoints().then((firstEndpoints) => {
-        assert.equal(firstEndpoints.length, 0);
-        setTimeout(() => {
-          client.getReadEndpoints().then((endpoints) => {
-            assert.notEqual(firstEndpoints, endpoints);
-            done();
-            return;
-          }).catch(console.warn);
-        }, 1200);
-        return;
-      }).catch(console.warn);
+      client
+        .getReadEndpoints()
+        .then((firstEndpoints) => {
+          assert.equal(firstEndpoints.length, 0);
+          setTimeout(() => {
+            client
+              .getReadEndpoints()
+              .then((endpoints) => {
+                assert.notEqual(firstEndpoints, endpoints);
+                done();
+                return;
+              })
+              .catch(console.warn);
+          }, 1200);
+          return;
+        })
+        .catch(console.warn);
     });
   });
 });
