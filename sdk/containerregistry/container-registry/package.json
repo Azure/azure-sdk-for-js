@@ -15,11 +15,7 @@
     "constantPaths": [
       {
         "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
+        "prefix": "const packageDetails"
       },
       {
         "path": "swagger/README.md",
