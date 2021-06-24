@@ -95,5 +95,5 @@ Take a look at our [Samples][samples] for more information about the APIs that a
 [react]: https://create-react-app.dev/
 [typescript]: https://www.typescriptlang.org/docs/home.html
 [freesub]: https://azure.microsoft.com/free
-[samples]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript
-[identity]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
+[samples]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript
+[identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md

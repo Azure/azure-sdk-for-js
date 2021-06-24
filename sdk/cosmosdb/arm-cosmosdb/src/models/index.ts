@@ -55,9 +55,7 @@ export interface ManagedServiceIdentity {
    * references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: {
-    [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
-  };
+  userAssignedIdentities?: { [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue };
 }
 
 /**
@@ -235,7 +233,8 @@ export interface Resource extends BaseResource {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * A private endpoint connection
@@ -281,12 +280,67 @@ export interface AnalyticalStorageConfiguration {
 }
 
 /**
+ * Specific Databases to restore.
+ */
+export interface DatabaseRestoreResource {
+  /**
+   * The name of the database available for restore.
+   */
+  databaseName?: string;
+  /**
+   * The names of the collections available for restore.
+   */
+  collectionNames?: string[];
+}
+
+/**
+ * Parameters to indicate the information about the restore.
+ */
+export interface RestoreParameters {
+  /**
+   * Describes the mode of the restore. Possible values include: 'PointInTime'
+   */
+  restoreMode?: RestoreMode;
+  /**
+   * The id of the restorable database account from which the restore has to be initiated. For
+   * example:
+   * /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}
+   */
+  restoreSource?: string;
+  /**
+   * Time to which the account has to be restored (ISO-8601 format).
+   */
+  restoreTimestampInUtc?: Date;
+  /**
+   * List of specific databases available for restore.
+   */
+  databasesToRestore?: DatabaseRestoreResource[];
+}
+
+/**
+ * The object representing the state of the migration between the backup policies.
+ */
+export interface BackupPolicyMigrationState {
+  /**
+   * Describes the status of migration between backup policy types. Possible values include:
+   * 'Invalid', 'InProgress', 'Completed', 'Failed'
+   */
+  status?: BackupPolicyMigrationStatus;
+  /**
+   * Describes the target backup policy type of the backup policy migration. Possible values
+   * include: 'Periodic', 'Continuous'
+   */
+  targetType?: BackupPolicyType;
+  /**
+   * Time at which the backup policy migration started (ISO-8601 format).
+   */
+  startTime?: Date;
+}
+
+/**
  * Contains the possible cases for BackupPolicy.
  */
-export type BackupPolicyUnion =
-  | BackupPolicy
-  | PeriodicModeBackupPolicy
-  | ContinuousModeBackupPolicy;
+export type BackupPolicyUnion = BackupPolicy | PeriodicModeBackupPolicy | ContinuousModeBackupPolicy;
 
 /**
  * The object representing the policy for taking backups on an account.
@@ -296,6 +350,10 @@ export interface BackupPolicy {
    * Polymorphic Discriminator
    */
   type: "BackupPolicy";
+  /**
+   * The object representing the state of the migration between the backup policies.
+   */
+  migrationState?: BackupPolicyMigrationState;
 }
 
 /**
@@ -323,6 +381,38 @@ export interface CorsPolicy {
    * The maximum amount time that a browser should cache the preflight OPTIONS request.
    */
   maxAgeInSeconds?: number;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
 }
 
 /**
@@ -475,6 +565,20 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
   /**
+   * A unique identifier assigned to the database account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceId?: string;
+  /**
+   * Enum to indicate the mode of account creation. Possible values include: 'Default', 'Restore'.
+   * Default value: 'Default'.
+   */
+  createMode?: CreateMode;
+  /**
+   * Parameters to indicate the information about the restore.
+   */
+  restoreParameters?: RestoreParameters;
+  /**
    * The object representing the policy for taking backups on an account.
    */
   backupPolicy?: BackupPolicyUnion;
@@ -491,6 +595,16 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
    */
   networkAclBypassResourceIds?: string[];
+  /**
+   * Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for
+   * authentication.
+   */
+  disableLocalAuth?: boolean;
+  /**
+   * The system meta data relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -545,7 +659,8 @@ export interface OptionsResource {
 /**
  * An interface representing SqlDatabaseGetPropertiesOptions.
  */
-export interface SqlDatabaseGetPropertiesOptions extends OptionsResource {}
+export interface SqlDatabaseGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB SQL database.
@@ -785,7 +900,8 @@ export interface SqlContainerGetPropertiesResource {
 /**
  * An interface representing SqlContainerGetPropertiesOptions.
  */
-export interface SqlContainerGetPropertiesOptions extends OptionsResource {}
+export interface SqlContainerGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB container.
@@ -944,7 +1060,8 @@ export interface MongoDBDatabaseGetPropertiesResource {
 /**
  * An interface representing MongoDBDatabaseGetPropertiesOptions.
  */
-export interface MongoDBDatabaseGetPropertiesOptions extends OptionsResource {}
+export interface MongoDBDatabaseGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB MongoDB database.
@@ -1033,7 +1150,8 @@ export interface MongoDBCollectionGetPropertiesResource {
 /**
  * An interface representing MongoDBCollectionGetPropertiesOptions.
  */
-export interface MongoDBCollectionGetPropertiesOptions extends OptionsResource {}
+export interface MongoDBCollectionGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB MongoDB collection.
@@ -1072,7 +1190,8 @@ export interface TableGetPropertiesResource {
 /**
  * An interface representing TableGetPropertiesOptions.
  */
-export interface TableGetPropertiesOptions extends OptionsResource {}
+export interface TableGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB Table.
@@ -1111,7 +1230,8 @@ export interface CassandraKeyspaceGetPropertiesResource {
 /**
  * An interface representing CassandraKeyspaceGetPropertiesOptions.
  */
-export interface CassandraKeyspaceGetPropertiesOptions extends OptionsResource {}
+export interface CassandraKeyspaceGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB Cassandra keyspace.
@@ -1218,7 +1338,8 @@ export interface CassandraTableGetPropertiesResource {
 /**
  * An interface representing CassandraTableGetPropertiesOptions.
  */
-export interface CassandraTableGetPropertiesOptions extends OptionsResource {}
+export interface CassandraTableGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB Cassandra table.
@@ -1257,7 +1378,8 @@ export interface GremlinDatabaseGetPropertiesResource {
 /**
  * An interface representing GremlinDatabaseGetPropertiesOptions.
  */
-export interface GremlinDatabaseGetPropertiesOptions extends OptionsResource {}
+export interface GremlinDatabaseGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB Gremlin database.
@@ -1319,7 +1441,8 @@ export interface GremlinGraphGetPropertiesResource {
 /**
  * An interface representing GremlinGraphGetPropertiesOptions.
  */
-export interface GremlinGraphGetPropertiesOptions extends OptionsResource {}
+export interface GremlinGraphGetPropertiesOptions extends OptionsResource {
+}
 
 /**
  * An Azure Cosmos DB Gremlin graph.
@@ -1593,6 +1716,11 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    */
   analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
   /**
+   * Enum to indicate the mode of account creation. Possible values include: 'Default', 'Restore'.
+   * Default value: 'Default'.
+   */
+  createMode?: CreateMode;
+  /**
    * The object representing the policy for taking backups on an account.
    */
   backupPolicy?: BackupPolicyUnion;
@@ -1609,6 +1737,15 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
    */
   networkAclBypassResourceIds?: string[];
+  /**
+   * Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for
+   * authentication.
+   */
+  disableLocalAuth?: boolean;
+  /**
+   * Parameters to indicate the information about the restore.
+   */
+  restoreParameters?: RestoreParameters;
 }
 
 /**
@@ -1717,6 +1854,11 @@ export interface DatabaseAccountUpdateParameters {
    * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
    */
   networkAclBypassResourceIds?: string[];
+  /**
+   * Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for
+   * authentication.
+   */
+  disableLocalAuth?: boolean;
 }
 
 /**
@@ -2580,6 +2722,10 @@ export interface PeriodicModeBackupPolicy {
    */
   type: "Periodic";
   /**
+   * The object representing the state of the migration between the backup policies.
+   */
+  migrationState?: BackupPolicyMigrationState;
+  /**
    * Configuration values for periodic mode backup
    */
   periodicModeProperties?: PeriodicModeProperties;
@@ -2593,6 +2739,10 @@ export interface ContinuousModeBackupPolicy {
    * Polymorphic Discriminator
    */
   type: "Continuous";
+  /**
+   * The object representing the state of the migration between the backup policies.
+   */
+  migrationState?: BackupPolicyMigrationState;
 }
 
 /**
@@ -2626,7 +2776,8 @@ export interface AzureEntityResource extends Resource {
 /**
  * Parameters to create a notebook workspace resource
  */
-export interface NotebookWorkspaceCreateUpdateParameters extends ARMProxyResource {}
+export interface NotebookWorkspaceCreateUpdateParameters extends ARMProxyResource {
+}
 
 /**
  * A notebook workspace resource
@@ -2659,6 +2810,27 @@ export interface NotebookWorkspaceConnectionInfoResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly notebookServerEndpoint?: string;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends ARMProxyResource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource required zone names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
 }
 
 /**
@@ -2770,24 +2942,442 @@ export interface SqlRoleAssignmentGetResults extends ARMProxyResource {
 }
 
 /**
- * A private link resource
+ * Properties of the regional restorable account.
  */
-export interface PrivateLinkResource extends ARMProxyResource {
+export interface RestorableLocationResource {
   /**
-   * The private link resource group id.
+   * The location of the regional restorable account.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly groupId?: string;
+  readonly locationName?: string;
   /**
-   * The private link resource required member names.
+   * The instance id of the regional restorable account.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly requiredMembers?: string[];
+  readonly regionalDatabaseAccountInstanceId?: string;
   /**
-   * The private link resource required zone names.
+   * The creation time of the regional restorable database account (ISO-8601 format).
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly requiredZoneNames?: string[];
+  readonly creationTime?: Date;
+  /**
+   * The time at which the regional restorable database account has been deleted (ISO-8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deletionTime?: Date;
+}
+
+/**
+ * A Azure Cosmos DB restorable database account.
+ */
+export interface RestorableDatabaseAccountGetResult {
+  /**
+   * The name of the global database account
+   */
+  accountName?: string;
+  /**
+   * The creation time of the restorable database account (ISO-8601 format).
+   */
+  creationTime?: Date;
+  /**
+   * The time at which the restorable database account has been deleted (ISO-8601 format).
+   */
+  deletionTime?: Date;
+  /**
+   * The API type of the restorable database account. Possible values include: 'MongoDB',
+   * 'Gremlin', 'Cassandra', 'Table', 'Sql', 'GremlinV2'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly apiType?: ApiType;
+  /**
+   * List of regions where the of the database account can be restored from.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorableLocations?: RestorableLocationResource[];
+  /**
+   * The unique resource identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The location of the resource group to which the resource belongs.
+   */
+  location?: string;
+}
+
+/**
+ * Cosmos DB SQL database resource object
+ */
+export interface RestorableSqlDatabasePropertiesResourceDatabase {
+  /**
+   * Name of the Cosmos DB SQL database
+   */
+  id: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: number;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+  /**
+   * A system generated property that specified the addressable path of the collections resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _colls?: string;
+  /**
+   * A system generated property that specifies the addressable path of the users resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _users?: string;
+  /**
+   * A system generated property that specifies the addressable path of the database resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _self?: string;
+}
+
+/**
+ * The resource of an Azure Cosmos DB SQL database event
+ */
+export interface RestorableSqlDatabasePropertiesResource {
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * The operation type of this database event. Possible values include: 'Create', 'Replace',
+   * 'Delete', 'SystemOperation'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationType?: OperationType;
+  /**
+   * The time when this database event happened.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventTimestamp?: string;
+  /**
+   * The name of the SQL database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerId?: string;
+  /**
+   * The resource ID of the SQL database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerResourceId?: string;
+  /**
+   * Cosmos DB SQL database resource object
+   */
+  database?: RestorableSqlDatabasePropertiesResourceDatabase;
+}
+
+/**
+ * An Azure Cosmos DB SQL database event
+ */
+export interface RestorableSqlDatabaseGetResult {
+  /**
+   * The resource of an Azure Cosmos DB SQL database event
+   */
+  resource?: RestorableSqlDatabasePropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Cosmos DB SQL container resource object
+ */
+export interface RestorableSqlContainerPropertiesResourceContainer {
+  /**
+   * Name of the Cosmos DB SQL container
+   */
+  id: string;
+  /**
+   * The configuration of the indexing policy. By default, the indexing is automatic for all
+   * document paths within the container
+   */
+  indexingPolicy?: IndexingPolicy;
+  /**
+   * The configuration of the partition key to be used for partitioning data into multiple
+   * partitions
+   */
+  partitionKey?: ContainerPartitionKey;
+  /**
+   * Default time to live
+   */
+  defaultTtl?: number;
+  /**
+   * The unique key policy configuration for specifying uniqueness constraints on documents in the
+   * collection in the Azure Cosmos DB service.
+   */
+  uniqueKeyPolicy?: UniqueKeyPolicy;
+  /**
+   * The conflict resolution policy for the container.
+   */
+  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: number;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+  /**
+   * A system generated property that specifies the addressable path of the container resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _self?: string;
+}
+
+/**
+ * The resource of an Azure Cosmos DB SQL container event
+ */
+export interface RestorableSqlContainerPropertiesResource {
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * The operation type of this container event. Possible values include: 'Create', 'Replace',
+   * 'Delete', 'SystemOperation'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationType?: OperationType;
+  /**
+   * The when this container event happened.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventTimestamp?: string;
+  /**
+   * The name of this SQL container.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerId?: string;
+  /**
+   * The resource ID of this SQL container.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerResourceId?: string;
+  /**
+   * Cosmos DB SQL container resource object
+   */
+  container?: RestorableSqlContainerPropertiesResourceContainer;
+}
+
+/**
+ * An Azure Cosmos DB SQL container event
+ */
+export interface RestorableSqlContainerGetResult {
+  /**
+   * The resource of an Azure Cosmos DB SQL container event
+   */
+  resource?: RestorableSqlContainerPropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource of an Azure Cosmos DB MongoDB database event
+ */
+export interface RestorableMongodbDatabasePropertiesResource {
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * The operation type of this database event. Possible values include: 'Create', 'Replace',
+   * 'Delete', 'SystemOperation'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationType?: OperationType;
+  /**
+   * The time when this database event happened.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventTimestamp?: string;
+  /**
+   * The name of this MongoDB database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerId?: string;
+  /**
+   * The resource ID of this MongoDB database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerResourceId?: string;
+}
+
+/**
+ * An Azure Cosmos DB MongoDB database event
+ */
+export interface RestorableMongodbDatabaseGetResult {
+  /**
+   * The resource of an Azure Cosmos DB MongoDB database event
+   */
+  resource?: RestorableMongodbDatabasePropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource of an Azure Cosmos DB MongoDB collection event
+ */
+export interface RestorableMongodbCollectionPropertiesResource {
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * The operation type of this collection event. Possible values include: 'Create', 'Replace',
+   * 'Delete', 'SystemOperation'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationType?: OperationType;
+  /**
+   * The time when this collection event happened.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventTimestamp?: string;
+  /**
+   * The name of this MongoDB collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerId?: string;
+  /**
+   * The resource ID of this MongoDB collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ownerResourceId?: string;
+}
+
+/**
+ * An Azure Cosmos DB MongoDB collection event
+ */
+export interface RestorableMongodbCollectionGetResult {
+  /**
+   * The resource of an Azure Cosmos DB MongoDB collection event
+   */
+  resource?: RestorableMongodbCollectionPropertiesResource;
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Properties of the regional restorable account.
+ */
+export interface ContinuousBackupRestoreLocation {
+  /**
+   * The name of the continuous backup restore location.
+   */
+  location?: string;
+}
+
+/**
+ * Information about the status of continuous backups.
+ */
+export interface ContinuousBackupInformation {
+  /**
+   * The latest restorable timestamp for a resource.
+   */
+  latestRestorableTimestamp?: string;
+}
+
+/**
+ * Backup information of a resource.
+ */
+export interface BackupInformation {
+  /**
+   * Information about the status of continuous backups.
+   */
+  continuousBackupInformation?: ContinuousBackupInformation;
 }
 
 /**
@@ -2835,6 +3425,62 @@ export interface CollectionPartitionListUsagesOptionalParams extends msRest.Requ
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface RestorableSqlContainersListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The resource ID of the SQL database.
+   */
+  restorableSqlDatabaseRid?: string;
+  /**
+   * The snapshot create timestamp after which snapshots need to be listed.
+   */
+  startTime?: string;
+  /**
+   * The snapshot create timestamp before which snapshots need to be listed.
+   */
+  endTime?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RestorableSqlResourcesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The location where the restorable resources are located.
+   */
+  restoreLocation?: string;
+  /**
+   * The timestamp when the restorable resources existed.
+   */
+  restoreTimestampInUtc?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RestorableMongodbCollectionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The resource ID of the MongoDB database.
+   */
+  restorableMongodbDatabaseRid?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RestorableMongodbResourcesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The location where the restorable resources are located.
+   */
+  restoreLocation?: string;
+  /**
+   * The timestamp when the restorable resources existed.
+   */
+  restoreTimestampInUtc?: string;
+}
+
+/**
  * An interface representing CosmosDBManagementClientOptions.
  */
 export interface CosmosDBManagementClientOptions extends AzureServiceClientOptions {
@@ -2846,28 +3492,32 @@ export interface CosmosDBManagementClientOptions extends AzureServiceClientOptio
  * The List operation response, that contains the database accounts and their properties.
  * @extends Array<DatabaseAccountGetResults>
  */
-export interface DatabaseAccountsListResult extends Array<DatabaseAccountGetResults> {}
+export interface DatabaseAccountsListResult extends Array<DatabaseAccountGetResults> {
+}
 
 /**
  * @interface
  * The response to a list metrics request.
  * @extends Array<Metric>
  */
-export interface MetricListResult extends Array<Metric> {}
+export interface MetricListResult extends Array<Metric> {
+}
 
 /**
  * @interface
  * The response to a list usage request.
  * @extends Array<Usage>
  */
-export interface UsagesResult extends Array<Usage> {}
+export interface UsagesResult extends Array<Usage> {
+}
 
 /**
  * @interface
  * The response to a list metric definitions request.
  * @extends Array<MetricDefinition>
  */
-export interface MetricDefinitionsListResult extends Array<MetricDefinition> {}
+export interface MetricDefinitionsListResult extends Array<MetricDefinition> {
+}
 
 /**
  * @interface
@@ -2887,140 +3537,217 @@ export interface OperationListResult extends Array<Operation> {
  * The response to a list percentile metrics request.
  * @extends Array<PercentileMetric>
  */
-export interface PercentileMetricListResult extends Array<PercentileMetric> {}
+export interface PercentileMetricListResult extends Array<PercentileMetric> {
+}
 
 /**
  * @interface
  * The response to a list partition metrics request.
  * @extends Array<PartitionMetric>
  */
-export interface PartitionMetricListResult extends Array<PartitionMetric> {}
+export interface PartitionMetricListResult extends Array<PartitionMetric> {
+}
 
 /**
  * @interface
  * The response to a list partition level usage request.
  * @extends Array<PartitionUsage>
  */
-export interface PartitionUsagesResult extends Array<PartitionUsage> {}
+export interface PartitionUsagesResult extends Array<PartitionUsage> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the SQL databases and their properties.
  * @extends Array<SqlDatabaseGetResults>
  */
-export interface SqlDatabaseListResult extends Array<SqlDatabaseGetResults> {}
+export interface SqlDatabaseListResult extends Array<SqlDatabaseGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the containers and their properties.
  * @extends Array<SqlContainerGetResults>
  */
-export interface SqlContainerListResult extends Array<SqlContainerGetResults> {}
+export interface SqlContainerListResult extends Array<SqlContainerGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the storedProcedures and their properties.
  * @extends Array<SqlStoredProcedureGetResults>
  */
-export interface SqlStoredProcedureListResult extends Array<SqlStoredProcedureGetResults> {}
+export interface SqlStoredProcedureListResult extends Array<SqlStoredProcedureGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the userDefinedFunctions and their properties.
  * @extends Array<SqlUserDefinedFunctionGetResults>
  */
-export interface SqlUserDefinedFunctionListResult extends Array<SqlUserDefinedFunctionGetResults> {}
+export interface SqlUserDefinedFunctionListResult extends Array<SqlUserDefinedFunctionGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the triggers and their properties.
  * @extends Array<SqlTriggerGetResults>
  */
-export interface SqlTriggerListResult extends Array<SqlTriggerGetResults> {}
+export interface SqlTriggerListResult extends Array<SqlTriggerGetResults> {
+}
 
 /**
  * @interface
  * The relevant Role Definitions.
  * @extends Array<SqlRoleDefinitionGetResults>
  */
-export interface SqlRoleDefinitionListResult extends Array<SqlRoleDefinitionGetResults> {}
+export interface SqlRoleDefinitionListResult extends Array<SqlRoleDefinitionGetResults> {
+}
 
 /**
  * @interface
  * The relevant Role Assignments.
  * @extends Array<SqlRoleAssignmentGetResults>
  */
-export interface SqlRoleAssignmentListResult extends Array<SqlRoleAssignmentGetResults> {}
+export interface SqlRoleAssignmentListResult extends Array<SqlRoleAssignmentGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the MongoDB databases and their properties.
  * @extends Array<MongoDBDatabaseGetResults>
  */
-export interface MongoDBDatabaseListResult extends Array<MongoDBDatabaseGetResults> {}
+export interface MongoDBDatabaseListResult extends Array<MongoDBDatabaseGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the MongoDB collections and their properties.
  * @extends Array<MongoDBCollectionGetResults>
  */
-export interface MongoDBCollectionListResult extends Array<MongoDBCollectionGetResults> {}
+export interface MongoDBCollectionListResult extends Array<MongoDBCollectionGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the Table and their properties.
  * @extends Array<TableGetResults>
  */
-export interface TableListResult extends Array<TableGetResults> {}
+export interface TableListResult extends Array<TableGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the Cassandra keyspaces and their properties.
  * @extends Array<CassandraKeyspaceGetResults>
  */
-export interface CassandraKeyspaceListResult extends Array<CassandraKeyspaceGetResults> {}
+export interface CassandraKeyspaceListResult extends Array<CassandraKeyspaceGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the Cassandra tables and their properties.
  * @extends Array<CassandraTableGetResults>
  */
-export interface CassandraTableListResult extends Array<CassandraTableGetResults> {}
+export interface CassandraTableListResult extends Array<CassandraTableGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the Gremlin databases and their properties.
  * @extends Array<GremlinDatabaseGetResults>
  */
-export interface GremlinDatabaseListResult extends Array<GremlinDatabaseGetResults> {}
+export interface GremlinDatabaseListResult extends Array<GremlinDatabaseGetResults> {
+}
 
 /**
  * @interface
  * The List operation response, that contains the graphs and their properties.
  * @extends Array<GremlinGraphGetResults>
  */
-export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {}
+export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {
+}
 
 /**
  * @interface
  * A list of notebook workspace resources
  * @extends Array<NotebookWorkspace>
  */
-export interface NotebookWorkspaceListResult extends Array<NotebookWorkspace> {}
-
-/**
- * @interface
- * A list of private link resources
- * @extends Array<PrivateLinkResource>
- */
-export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {}
+export interface NotebookWorkspaceListResult extends Array<NotebookWorkspace> {
+}
 
 /**
  * @interface
  * A list of private endpoint connections
  * @extends Array<PrivateEndpointConnection>
  */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {}
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
+
+/**
+ * @interface
+ * A list of private link resources
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the restorable database accounts and their
+ * properties.
+ * @extends Array<RestorableDatabaseAccountGetResult>
+ */
+export interface RestorableDatabaseAccountsListResult extends Array<RestorableDatabaseAccountGetResult> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the SQL database events and their properties.
+ * @extends Array<RestorableSqlDatabaseGetResult>
+ */
+export interface RestorableSqlDatabasesListResult extends Array<RestorableSqlDatabaseGetResult> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the SQL container events and their properties.
+ * @extends Array<RestorableSqlContainerGetResult>
+ */
+export interface RestorableSqlContainersListResult extends Array<RestorableSqlContainerGetResult> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the restorable SQL resources.
+ * @extends Array<DatabaseRestoreResource>
+ */
+export interface RestorableSqlResourcesListResult extends Array<DatabaseRestoreResource> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the MongoDB database events and their properties.
+ * @extends Array<RestorableMongodbDatabaseGetResult>
+ */
+export interface RestorableMongodbDatabasesListResult extends Array<RestorableMongodbDatabaseGetResult> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the MongoDB collection events and their properties.
+ * @extends Array<RestorableMongodbCollectionGetResult>
+ */
+export interface RestorableMongodbCollectionsListResult extends Array<RestorableMongodbCollectionGetResult> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the restorable MongoDB resources.
+ * @extends Array<DatabaseRestoreResource>
+ */
+export interface RestorableMongodbResourcesListResult extends Array<DatabaseRestoreResource> {
+}
 
 /**
  * Defines values for DatabaseAccountKind.
@@ -3028,7 +3755,7 @@ export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpoi
  * @readonly
  * @enum {string}
  */
-export type DatabaseAccountKind = "GlobalDocumentDB" | "MongoDB" | "Parse";
+export type DatabaseAccountKind = 'GlobalDocumentDB' | 'MongoDB' | 'Parse';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -3036,11 +3763,7 @@ export type DatabaseAccountKind = "GlobalDocumentDB" | "MongoDB" | "Parse";
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned"
-  | "None";
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned' | 'None';
 
 /**
  * Defines values for DatabaseAccountOfferType.
@@ -3048,7 +3771,7 @@ export type ResourceIdentityType =
  * @readonly
  * @enum {string}
  */
-export type DatabaseAccountOfferType = "Standard";
+export type DatabaseAccountOfferType = 'Standard';
 
 /**
  * Defines values for DefaultConsistencyLevel.
@@ -3056,12 +3779,7 @@ export type DatabaseAccountOfferType = "Standard";
  * @readonly
  * @enum {string}
  */
-export type DefaultConsistencyLevel =
-  | "Eventual"
-  | "Session"
-  | "BoundedStaleness"
-  | "Strong"
-  | "ConsistentPrefix";
+export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness' | 'Strong' | 'ConsistentPrefix';
 
 /**
  * Defines values for ConnectorOffer.
@@ -3069,7 +3787,7 @@ export type DefaultConsistencyLevel =
  * @readonly
  * @enum {string}
  */
-export type ConnectorOffer = "Small";
+export type ConnectorOffer = 'Small';
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -3077,7 +3795,7 @@ export type ConnectorOffer = "Small";
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = "Enabled" | "Disabled";
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ServerVersion.
@@ -3085,7 +3803,7 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = "3.2" | "3.6" | "4.0";
+export type ServerVersion = '3.2' | '3.6' | '4.0';
 
 /**
  * Defines values for AnalyticalStorageSchemaType.
@@ -3093,7 +3811,39 @@ export type ServerVersion = "3.2" | "3.6" | "4.0";
  * @readonly
  * @enum {string}
  */
-export type AnalyticalStorageSchemaType = "WellDefined" | "FullFidelity";
+export type AnalyticalStorageSchemaType = 'WellDefined' | 'FullFidelity';
+
+/**
+ * Defines values for CreateMode.
+ * Possible values include: 'Default', 'Restore'
+ * @readonly
+ * @enum {string}
+ */
+export type CreateMode = 'Default' | 'Restore';
+
+/**
+ * Defines values for RestoreMode.
+ * Possible values include: 'PointInTime'
+ * @readonly
+ * @enum {string}
+ */
+export type RestoreMode = 'PointInTime';
+
+/**
+ * Defines values for BackupPolicyMigrationStatus.
+ * Possible values include: 'Invalid', 'InProgress', 'Completed', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupPolicyMigrationStatus = 'Invalid' | 'InProgress' | 'Completed' | 'Failed';
+
+/**
+ * Defines values for BackupPolicyType.
+ * Possible values include: 'Periodic', 'Continuous'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupPolicyType = 'Periodic' | 'Continuous';
 
 /**
  * Defines values for NetworkAclBypass.
@@ -3101,7 +3851,15 @@ export type AnalyticalStorageSchemaType = "WellDefined" | "FullFidelity";
  * @readonly
  * @enum {string}
  */
-export type NetworkAclBypass = "None" | "AzureServices";
+export type NetworkAclBypass = 'None' | 'AzureServices';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for IndexingMode.
@@ -3109,7 +3867,7 @@ export type NetworkAclBypass = "None" | "AzureServices";
  * @readonly
  * @enum {string}
  */
-export type IndexingMode = "consistent" | "lazy" | "none";
+export type IndexingMode = 'consistent' | 'lazy' | 'none';
 
 /**
  * Defines values for DataType.
@@ -3117,7 +3875,7 @@ export type IndexingMode = "consistent" | "lazy" | "none";
  * @readonly
  * @enum {string}
  */
-export type DataType = "String" | "Number" | "Point" | "Polygon" | "LineString" | "MultiPolygon";
+export type DataType = 'String' | 'Number' | 'Point' | 'Polygon' | 'LineString' | 'MultiPolygon';
 
 /**
  * Defines values for IndexKind.
@@ -3125,7 +3883,7 @@ export type DataType = "String" | "Number" | "Point" | "Polygon" | "LineString" 
  * @readonly
  * @enum {string}
  */
-export type IndexKind = "Hash" | "Range" | "Spatial";
+export type IndexKind = 'Hash' | 'Range' | 'Spatial';
 
 /**
  * Defines values for CompositePathSortOrder.
@@ -3133,7 +3891,7 @@ export type IndexKind = "Hash" | "Range" | "Spatial";
  * @readonly
  * @enum {string}
  */
-export type CompositePathSortOrder = "ascending" | "descending";
+export type CompositePathSortOrder = 'ascending' | 'descending';
 
 /**
  * Defines values for SpatialType.
@@ -3141,7 +3899,7 @@ export type CompositePathSortOrder = "ascending" | "descending";
  * @readonly
  * @enum {string}
  */
-export type SpatialType = "Point" | "LineString" | "Polygon" | "MultiPolygon";
+export type SpatialType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
 
 /**
  * Defines values for PartitionKind.
@@ -3149,7 +3907,7 @@ export type SpatialType = "Point" | "LineString" | "Polygon" | "MultiPolygon";
  * @readonly
  * @enum {string}
  */
-export type PartitionKind = "Hash" | "Range" | "MultiHash";
+export type PartitionKind = 'Hash' | 'Range' | 'MultiHash';
 
 /**
  * Defines values for ConflictResolutionMode.
@@ -3157,7 +3915,7 @@ export type PartitionKind = "Hash" | "Range" | "MultiHash";
  * @readonly
  * @enum {string}
  */
-export type ConflictResolutionMode = "LastWriterWins" | "Custom";
+export type ConflictResolutionMode = 'LastWriterWins' | 'Custom';
 
 /**
  * Defines values for TriggerType.
@@ -3165,7 +3923,7 @@ export type ConflictResolutionMode = "LastWriterWins" | "Custom";
  * @readonly
  * @enum {string}
  */
-export type TriggerType = "Pre" | "Post";
+export type TriggerType = 'Pre' | 'Post';
 
 /**
  * Defines values for TriggerOperation.
@@ -3173,7 +3931,7 @@ export type TriggerType = "Pre" | "Post";
  * @readonly
  * @enum {string}
  */
-export type TriggerOperation = "All" | "Create" | "Update" | "Delete" | "Replace";
+export type TriggerOperation = 'All' | 'Create' | 'Update' | 'Delete' | 'Replace';
 
 /**
  * Defines values for KeyKind.
@@ -3181,7 +3939,7 @@ export type TriggerOperation = "All" | "Create" | "Update" | "Delete" | "Replace
  * @readonly
  * @enum {string}
  */
-export type KeyKind = "primary" | "secondary" | "primaryReadonly" | "secondaryReadonly";
+export type KeyKind = 'primary' | 'secondary' | 'primaryReadonly' | 'secondaryReadonly';
 
 /**
  * Defines values for UnitType.
@@ -3190,14 +3948,7 @@ export type KeyKind = "primary" | "secondary" | "primaryReadonly" | "secondaryRe
  * @readonly
  * @enum {string}
  */
-export type UnitType =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "Percent"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Milliseconds";
+export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond' | 'Milliseconds';
 
 /**
  * Defines values for PrimaryAggregationType.
@@ -3205,15 +3956,7 @@ export type UnitType =
  * @readonly
  * @enum {string}
  */
-export type PrimaryAggregationType = "None" | "Average" | "Total" | "Minimum" | "Maximum" | "Last";
-
-/**
- * Defines values for BackupPolicyType.
- * Possible values include: 'Periodic', 'Continuous'
- * @readonly
- * @enum {string}
- */
-export type BackupPolicyType = "Periodic" | "Continuous";
+export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimum' | 'Maximum' | 'Last';
 
 /**
  * Defines values for RoleDefinitionType.
@@ -3221,7 +3964,23 @@ export type BackupPolicyType = "Periodic" | "Continuous";
  * @readonly
  * @enum {string}
  */
-export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
+export type RoleDefinitionType = 'BuiltInRole' | 'CustomRole';
+
+/**
+ * Defines values for ApiType.
+ * Possible values include: 'MongoDB', 'Gremlin', 'Cassandra', 'Table', 'Sql', 'GremlinV2'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiType = 'MongoDB' | 'Gremlin' | 'Cassandra' | 'Table' | 'Sql' | 'GremlinV2';
+
+/**
+ * Defines values for OperationType.
+ * Possible values include: 'Create', 'Replace', 'Delete', 'SystemOperation'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationType = 'Create' | 'Replace' | 'Delete' | 'SystemOperation';
 
 /**
  * Contains response data for the get operation.
@@ -3231,16 +3990,16 @@ export type DatabaseAccountsGetResponse = DatabaseAccountGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountGetResults;
+    };
 };
 
 /**
@@ -3251,16 +4010,16 @@ export type DatabaseAccountsUpdateResponse = DatabaseAccountGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountGetResults;
+    };
 };
 
 /**
@@ -3271,16 +4030,16 @@ export type DatabaseAccountsCreateOrUpdateResponse = DatabaseAccountGetResults &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountGetResults;
+    };
 };
 
 /**
@@ -3291,16 +4050,16 @@ export type DatabaseAccountsListResponse = DatabaseAccountsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountsListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountsListResult;
+    };
 };
 
 /**
@@ -3311,16 +4070,16 @@ export type DatabaseAccountsListByResourceGroupResponse = DatabaseAccountsListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountsListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountsListResult;
+    };
 };
 
 /**
@@ -3331,16 +4090,16 @@ export type DatabaseAccountsListKeysResponse = DatabaseAccountListKeysResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountListKeysResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountListKeysResult;
+    };
 };
 
 /**
@@ -3351,16 +4110,16 @@ export type DatabaseAccountsListConnectionStringsResponse = DatabaseAccountListC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountListConnectionStringsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountListConnectionStringsResult;
+    };
 };
 
 /**
@@ -3371,16 +4130,16 @@ export type DatabaseAccountsGetReadOnlyKeysResponse = DatabaseAccountListReadOnl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountListReadOnlyKeysResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountListReadOnlyKeysResult;
+    };
 };
 
 /**
@@ -3391,16 +4150,16 @@ export type DatabaseAccountsListReadOnlyKeysResponse = DatabaseAccountListReadOn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountListReadOnlyKeysResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountListReadOnlyKeysResult;
+    };
 };
 
 /**
@@ -3416,16 +4175,16 @@ export type DatabaseAccountsCheckNameExistsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: boolean;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
 };
 
 /**
@@ -3436,16 +4195,16 @@ export type DatabaseAccountsListMetricsResponse = MetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricListResult;
+    };
 };
 
 /**
@@ -3456,16 +4215,16 @@ export type DatabaseAccountsListUsagesResponse = UsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsagesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsagesResult;
+    };
 };
 
 /**
@@ -3476,16 +4235,16 @@ export type DatabaseAccountsListMetricDefinitionsResponse = MetricDefinitionsLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricDefinitionsListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricDefinitionsListResult;
+    };
 };
 
 /**
@@ -3496,16 +4255,16 @@ export type DatabaseAccountsBeginUpdateResponse = DatabaseAccountGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountGetResults;
+    };
 };
 
 /**
@@ -3516,16 +4275,16 @@ export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccountGetResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseAccountGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseAccountGetResults;
+    };
 };
 
 /**
@@ -3536,16 +4295,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -3556,16 +4315,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -3576,16 +4335,16 @@ export type DatabaseListMetricsResponse = MetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricListResult;
+    };
 };
 
 /**
@@ -3596,16 +4355,16 @@ export type DatabaseListUsagesResponse = UsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsagesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsagesResult;
+    };
 };
 
 /**
@@ -3616,16 +4375,16 @@ export type DatabaseListMetricDefinitionsResponse = MetricDefinitionsListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricDefinitionsListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricDefinitionsListResult;
+    };
 };
 
 /**
@@ -3636,16 +4395,16 @@ export type CollectionListMetricsResponse = MetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricListResult;
+    };
 };
 
 /**
@@ -3656,16 +4415,16 @@ export type CollectionListUsagesResponse = UsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsagesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsagesResult;
+    };
 };
 
 /**
@@ -3676,16 +4435,16 @@ export type CollectionListMetricDefinitionsResponse = MetricDefinitionsListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricDefinitionsListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricDefinitionsListResult;
+    };
 };
 
 /**
@@ -3696,16 +4455,16 @@ export type CollectionRegionListMetricsResponse = MetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricListResult;
+    };
 };
 
 /**
@@ -3716,16 +4475,16 @@ export type DatabaseAccountRegionListMetricsResponse = MetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricListResult;
+    };
 };
 
 /**
@@ -3736,16 +4495,16 @@ export type PercentileSourceTargetListMetricsResponse = PercentileMetricListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PercentileMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PercentileMetricListResult;
+    };
 };
 
 /**
@@ -3756,16 +4515,16 @@ export type PercentileTargetListMetricsResponse = PercentileMetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PercentileMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PercentileMetricListResult;
+    };
 };
 
 /**
@@ -3776,16 +4535,16 @@ export type PercentileListMetricsResponse = PercentileMetricListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PercentileMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PercentileMetricListResult;
+    };
 };
 
 /**
@@ -3796,16 +4555,16 @@ export type CollectionPartitionRegionListMetricsResponse = PartitionMetricListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PartitionMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PartitionMetricListResult;
+    };
 };
 
 /**
@@ -3816,16 +4575,16 @@ export type CollectionPartitionListMetricsResponse = PartitionMetricListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PartitionMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PartitionMetricListResult;
+    };
 };
 
 /**
@@ -3836,16 +4595,16 @@ export type CollectionPartitionListUsagesResponse = PartitionUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PartitionUsagesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PartitionUsagesResult;
+    };
 };
 
 /**
@@ -3856,16 +4615,16 @@ export type PartitionKeyRangeIdListMetricsResponse = PartitionMetricListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PartitionMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PartitionMetricListResult;
+    };
 };
 
 /**
@@ -3876,16 +4635,16 @@ export type PartitionKeyRangeIdRegionListMetricsResponse = PartitionMetricListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PartitionMetricListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PartitionMetricListResult;
+    };
 };
 
 /**
@@ -3896,16 +4655,16 @@ export type SqlResourcesListSqlDatabasesResponse = SqlDatabaseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlDatabaseListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseListResult;
+    };
 };
 
 /**
@@ -3916,16 +4675,16 @@ export type SqlResourcesGetSqlDatabaseResponse = SqlDatabaseGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseGetResults;
+    };
 };
 
 /**
@@ -3936,16 +4695,16 @@ export type SqlResourcesCreateUpdateSqlDatabaseResponse = SqlDatabaseGetResults 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseGetResults;
+    };
 };
 
 /**
@@ -3956,16 +4715,16 @@ export type SqlResourcesGetSqlDatabaseThroughputResponse = ThroughputSettingsGet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -3976,16 +4735,16 @@ export type SqlResourcesUpdateSqlDatabaseThroughputResponse = ThroughputSettings
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -3996,16 +4755,16 @@ export type SqlResourcesMigrateSqlDatabaseToAutoscaleResponse = ThroughputSettin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4016,16 +4775,16 @@ export type SqlResourcesMigrateSqlDatabaseToManualThroughputResponse = Throughpu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4036,16 +4795,16 @@ export type SqlResourcesListSqlContainersResponse = SqlContainerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlContainerListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerListResult;
+    };
 };
 
 /**
@@ -4056,16 +4815,16 @@ export type SqlResourcesGetSqlContainerResponse = SqlContainerGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlContainerGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerGetResults;
+    };
 };
 
 /**
@@ -4076,16 +4835,16 @@ export type SqlResourcesCreateUpdateSqlContainerResponse = SqlContainerGetResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlContainerGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerGetResults;
+    };
 };
 
 /**
@@ -4096,16 +4855,16 @@ export type SqlResourcesGetSqlContainerThroughputResponse = ThroughputSettingsGe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4116,16 +4875,16 @@ export type SqlResourcesUpdateSqlContainerThroughputResponse = ThroughputSetting
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4136,16 +4895,16 @@ export type SqlResourcesMigrateSqlContainerToAutoscaleResponse = ThroughputSetti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4156,16 +4915,16 @@ export type SqlResourcesMigrateSqlContainerToManualThroughputResponse = Throughp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4176,16 +4935,16 @@ export type SqlResourcesListSqlStoredProceduresResponse = SqlStoredProcedureList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlStoredProcedureListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureListResult;
+    };
 };
 
 /**
@@ -4196,16 +4955,16 @@ export type SqlResourcesGetSqlStoredProcedureResponse = SqlStoredProcedureGetRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlStoredProcedureGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureGetResults;
+    };
 };
 
 /**
@@ -4216,16 +4975,16 @@ export type SqlResourcesCreateUpdateSqlStoredProcedureResponse = SqlStoredProced
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlStoredProcedureGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureGetResults;
+    };
 };
 
 /**
@@ -4236,16 +4995,16 @@ export type SqlResourcesListSqlUserDefinedFunctionsResponse = SqlUserDefinedFunc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlUserDefinedFunctionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionListResult;
+    };
 };
 
 /**
@@ -4256,16 +5015,16 @@ export type SqlResourcesGetSqlUserDefinedFunctionResponse = SqlUserDefinedFuncti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlUserDefinedFunctionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionGetResults;
+    };
 };
 
 /**
@@ -4276,16 +5035,16 @@ export type SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse = SqlUserDefi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlUserDefinedFunctionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionGetResults;
+    };
 };
 
 /**
@@ -4296,16 +5055,16 @@ export type SqlResourcesListSqlTriggersResponse = SqlTriggerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlTriggerListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerListResult;
+    };
 };
 
 /**
@@ -4316,16 +5075,16 @@ export type SqlResourcesGetSqlTriggerResponse = SqlTriggerGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlTriggerGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerGetResults;
+    };
 };
 
 /**
@@ -4336,16 +5095,16 @@ export type SqlResourcesCreateUpdateSqlTriggerResponse = SqlTriggerGetResults & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlTriggerGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerGetResults;
+    };
 };
 
 /**
@@ -4356,16 +5115,16 @@ export type SqlResourcesGetSqlRoleDefinitionResponse = SqlRoleDefinitionGetResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleDefinitionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleDefinitionGetResults;
+    };
 };
 
 /**
@@ -4376,16 +5135,16 @@ export type SqlResourcesCreateUpdateSqlRoleDefinitionResponse = SqlRoleDefinitio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleDefinitionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleDefinitionGetResults;
+    };
 };
 
 /**
@@ -4396,16 +5155,16 @@ export type SqlResourcesListSqlRoleDefinitionsResponse = SqlRoleDefinitionListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleDefinitionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleDefinitionListResult;
+    };
 };
 
 /**
@@ -4416,16 +5175,16 @@ export type SqlResourcesGetSqlRoleAssignmentResponse = SqlRoleAssignmentGetResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleAssignmentGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleAssignmentGetResults;
+    };
 };
 
 /**
@@ -4436,16 +5195,16 @@ export type SqlResourcesCreateUpdateSqlRoleAssignmentResponse = SqlRoleAssignmen
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleAssignmentGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleAssignmentGetResults;
+    };
 };
 
 /**
@@ -4456,16 +5215,36 @@ export type SqlResourcesListSqlRoleAssignmentsResponse = SqlRoleAssignmentListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleAssignmentListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the retrieveContinuousBackupInformation operation.
+ */
+export type SqlResourcesRetrieveContinuousBackupInformationResponse = BackupInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupInformation;
+    };
 };
 
 /**
@@ -4476,16 +5255,16 @@ export type SqlResourcesBeginCreateUpdateSqlDatabaseResponse = SqlDatabaseGetRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseGetResults;
+    };
 };
 
 /**
@@ -4496,16 +5275,16 @@ export type SqlResourcesBeginUpdateSqlDatabaseThroughputResponse = ThroughputSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4516,16 +5295,16 @@ export type SqlResourcesBeginMigrateSqlDatabaseToAutoscaleResponse = ThroughputS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4536,16 +5315,16 @@ export type SqlResourcesBeginMigrateSqlDatabaseToManualThroughputResponse = Thro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4556,16 +5335,16 @@ export type SqlResourcesBeginCreateUpdateSqlContainerResponse = SqlContainerGetR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlContainerGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerGetResults;
+    };
 };
 
 /**
@@ -4576,16 +5355,16 @@ export type SqlResourcesBeginUpdateSqlContainerThroughputResponse = ThroughputSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4596,16 +5375,16 @@ export type SqlResourcesBeginMigrateSqlContainerToAutoscaleResponse = Throughput
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4616,16 +5395,16 @@ export type SqlResourcesBeginMigrateSqlContainerToManualThroughputResponse = Thr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4636,16 +5415,16 @@ export type SqlResourcesBeginCreateUpdateSqlStoredProcedureResponse = SqlStoredP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlStoredProcedureGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureGetResults;
+    };
 };
 
 /**
@@ -4656,16 +5435,16 @@ export type SqlResourcesBeginCreateUpdateSqlUserDefinedFunctionResponse = SqlUse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlUserDefinedFunctionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionGetResults;
+    };
 };
 
 /**
@@ -4676,16 +5455,16 @@ export type SqlResourcesBeginCreateUpdateSqlTriggerResponse = SqlTriggerGetResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlTriggerGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerGetResults;
+    };
 };
 
 /**
@@ -4696,16 +5475,16 @@ export type SqlResourcesBeginCreateUpdateSqlRoleDefinitionResponse = SqlRoleDefi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleDefinitionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleDefinitionGetResults;
+    };
 };
 
 /**
@@ -4716,16 +5495,36 @@ export type SqlResourcesBeginCreateUpdateSqlRoleAssignmentResponse = SqlRoleAssi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SqlRoleAssignmentGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlRoleAssignmentGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginRetrieveContinuousBackupInformation operation.
+ */
+export type SqlResourcesBeginRetrieveContinuousBackupInformationResponse = BackupInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupInformation;
+    };
 };
 
 /**
@@ -4736,16 +5535,16 @@ export type MongoDBResourcesListMongoDBDatabasesResponse = MongoDBDatabaseListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBDatabaseListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseListResult;
+    };
 };
 
 /**
@@ -4756,16 +5555,16 @@ export type MongoDBResourcesGetMongoDBDatabaseResponse = MongoDBDatabaseGetResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseGetResults;
+    };
 };
 
 /**
@@ -4776,16 +5575,16 @@ export type MongoDBResourcesCreateUpdateMongoDBDatabaseResponse = MongoDBDatabas
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseGetResults;
+    };
 };
 
 /**
@@ -4796,16 +5595,16 @@ export type MongoDBResourcesGetMongoDBDatabaseThroughputResponse = ThroughputSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4816,16 +5615,16 @@ export type MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse = Throughput
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4836,16 +5635,16 @@ export type MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse = Throughp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4856,16 +5655,16 @@ export type MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse = T
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4876,16 +5675,16 @@ export type MongoDBResourcesListMongoDBCollectionsResponse = MongoDBCollectionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBCollectionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionListResult;
+    };
 };
 
 /**
@@ -4896,16 +5695,16 @@ export type MongoDBResourcesGetMongoDBCollectionResponse = MongoDBCollectionGetR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBCollectionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionGetResults;
+    };
 };
 
 /**
@@ -4916,16 +5715,16 @@ export type MongoDBResourcesCreateUpdateMongoDBCollectionResponse = MongoDBColle
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBCollectionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionGetResults;
+    };
 };
 
 /**
@@ -4936,16 +5735,16 @@ export type MongoDBResourcesGetMongoDBCollectionThroughputResponse = ThroughputS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4956,16 +5755,16 @@ export type MongoDBResourcesUpdateMongoDBCollectionThroughputResponse = Throughp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4976,16 +5775,16 @@ export type MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse = Throug
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -4996,16 +5795,16 @@ export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse =
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5016,16 +5815,16 @@ export type MongoDBResourcesBeginCreateUpdateMongoDBDatabaseResponse = MongoDBDa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseGetResults;
+    };
 };
 
 /**
@@ -5036,16 +5835,16 @@ export type MongoDBResourcesBeginUpdateMongoDBDatabaseThroughputResponse = Throu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5056,16 +5855,16 @@ export type MongoDBResourcesBeginMigrateMongoDBDatabaseToAutoscaleResponse = Thr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5076,16 +5875,16 @@ export type MongoDBResourcesBeginMigrateMongoDBDatabaseToManualThroughputRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5096,16 +5895,16 @@ export type MongoDBResourcesBeginCreateUpdateMongoDBCollectionResponse = MongoDB
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MongoDBCollectionGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionGetResults;
+    };
 };
 
 /**
@@ -5116,16 +5915,16 @@ export type MongoDBResourcesBeginUpdateMongoDBCollectionThroughputResponse = Thr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5136,16 +5935,16 @@ export type MongoDBResourcesBeginMigrateMongoDBCollectionToAutoscaleResponse = T
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5156,16 +5955,16 @@ export type MongoDBResourcesBeginMigrateMongoDBCollectionToManualThroughputRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5176,16 +5975,16 @@ export type TableResourcesListTablesResponse = TableListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableListResult;
+    };
 };
 
 /**
@@ -5196,16 +5995,16 @@ export type TableResourcesGetTableResponse = TableGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableGetResults;
+    };
 };
 
 /**
@@ -5216,16 +6015,16 @@ export type TableResourcesCreateUpdateTableResponse = TableGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableGetResults;
+    };
 };
 
 /**
@@ -5236,16 +6035,16 @@ export type TableResourcesGetTableThroughputResponse = ThroughputSettingsGetResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5256,16 +6055,16 @@ export type TableResourcesUpdateTableThroughputResponse = ThroughputSettingsGetR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5276,16 +6075,16 @@ export type TableResourcesMigrateTableToAutoscaleResponse = ThroughputSettingsGe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5296,16 +6095,16 @@ export type TableResourcesMigrateTableToManualThroughputResponse = ThroughputSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5316,16 +6115,16 @@ export type TableResourcesBeginCreateUpdateTableResponse = TableGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableGetResults;
+    };
 };
 
 /**
@@ -5336,16 +6135,16 @@ export type TableResourcesBeginUpdateTableThroughputResponse = ThroughputSetting
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5356,16 +6155,16 @@ export type TableResourcesBeginMigrateTableToAutoscaleResponse = ThroughputSetti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5376,16 +6175,16 @@ export type TableResourcesBeginMigrateTableToManualThroughputResponse = Throughp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5396,16 +6195,16 @@ export type CassandraResourcesListCassandraKeyspacesResponse = CassandraKeyspace
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraKeyspaceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceListResult;
+    };
 };
 
 /**
@@ -5416,16 +6215,16 @@ export type CassandraResourcesGetCassandraKeyspaceResponse = CassandraKeyspaceGe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraKeyspaceGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceGetResults;
+    };
 };
 
 /**
@@ -5436,16 +6235,16 @@ export type CassandraResourcesCreateUpdateCassandraKeyspaceResponse = CassandraK
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraKeyspaceGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceGetResults;
+    };
 };
 
 /**
@@ -5456,16 +6255,16 @@ export type CassandraResourcesGetCassandraKeyspaceThroughputResponse = Throughpu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5476,16 +6275,16 @@ export type CassandraResourcesUpdateCassandraKeyspaceThroughputResponse = Throug
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5496,16 +6295,16 @@ export type CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse = Thro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5516,16 +6315,16 @@ export type CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5536,16 +6335,16 @@ export type CassandraResourcesListCassandraTablesResponse = CassandraTableListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraTableListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableListResult;
+    };
 };
 
 /**
@@ -5556,16 +6355,16 @@ export type CassandraResourcesGetCassandraTableResponse = CassandraTableGetResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraTableGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableGetResults;
+    };
 };
 
 /**
@@ -5576,16 +6375,16 @@ export type CassandraResourcesCreateUpdateCassandraTableResponse = CassandraTabl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraTableGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableGetResults;
+    };
 };
 
 /**
@@ -5596,16 +6395,16 @@ export type CassandraResourcesGetCassandraTableThroughputResponse = ThroughputSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5616,16 +6415,16 @@ export type CassandraResourcesUpdateCassandraTableThroughputResponse = Throughpu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5636,16 +6435,16 @@ export type CassandraResourcesMigrateCassandraTableToAutoscaleResponse = Through
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5656,16 +6455,16 @@ export type CassandraResourcesMigrateCassandraTableToManualThroughputResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5676,16 +6475,16 @@ export type CassandraResourcesBeginCreateUpdateCassandraKeyspaceResponse = Cassa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraKeyspaceGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceGetResults;
+    };
 };
 
 /**
@@ -5696,16 +6495,16 @@ export type CassandraResourcesBeginUpdateCassandraKeyspaceThroughputResponse = T
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5716,16 +6515,16 @@ export type CassandraResourcesBeginMigrateCassandraKeyspaceToAutoscaleResponse =
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5736,16 +6535,16 @@ export type CassandraResourcesBeginMigrateCassandraKeyspaceToManualThroughputRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5756,16 +6555,16 @@ export type CassandraResourcesBeginCreateUpdateCassandraTableResponse = Cassandr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CassandraTableGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableGetResults;
+    };
 };
 
 /**
@@ -5776,16 +6575,16 @@ export type CassandraResourcesBeginUpdateCassandraTableThroughputResponse = Thro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5796,16 +6595,16 @@ export type CassandraResourcesBeginMigrateCassandraTableToAutoscaleResponse = Th
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5816,16 +6615,16 @@ export type CassandraResourcesBeginMigrateCassandraTableToManualThroughputRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5836,16 +6635,16 @@ export type GremlinResourcesListGremlinDatabasesResponse = GremlinDatabaseListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinDatabaseListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseListResult;
+    };
 };
 
 /**
@@ -5856,16 +6655,16 @@ export type GremlinResourcesGetGremlinDatabaseResponse = GremlinDatabaseGetResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseGetResults;
+    };
 };
 
 /**
@@ -5876,16 +6675,16 @@ export type GremlinResourcesCreateUpdateGremlinDatabaseResponse = GremlinDatabas
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseGetResults;
+    };
 };
 
 /**
@@ -5896,16 +6695,16 @@ export type GremlinResourcesGetGremlinDatabaseThroughputResponse = ThroughputSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5916,16 +6715,16 @@ export type GremlinResourcesUpdateGremlinDatabaseThroughputResponse = Throughput
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5936,16 +6735,16 @@ export type GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse = Throughp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5956,16 +6755,16 @@ export type GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse = T
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -5976,16 +6775,16 @@ export type GremlinResourcesListGremlinGraphsResponse = GremlinGraphListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinGraphListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphListResult;
+    };
 };
 
 /**
@@ -5996,16 +6795,16 @@ export type GremlinResourcesGetGremlinGraphResponse = GremlinGraphGetResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinGraphGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphGetResults;
+    };
 };
 
 /**
@@ -6016,16 +6815,16 @@ export type GremlinResourcesCreateUpdateGremlinGraphResponse = GremlinGraphGetRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinGraphGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphGetResults;
+    };
 };
 
 /**
@@ -6036,16 +6835,16 @@ export type GremlinResourcesGetGremlinGraphThroughputResponse = ThroughputSettin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6056,16 +6855,16 @@ export type GremlinResourcesUpdateGremlinGraphThroughputResponse = ThroughputSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6076,16 +6875,16 @@ export type GremlinResourcesMigrateGremlinGraphToAutoscaleResponse = ThroughputS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6096,16 +6895,16 @@ export type GremlinResourcesMigrateGremlinGraphToManualThroughputResponse = Thro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6116,16 +6915,16 @@ export type GremlinResourcesBeginCreateUpdateGremlinDatabaseResponse = GremlinDa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinDatabaseGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseGetResults;
+    };
 };
 
 /**
@@ -6136,16 +6935,16 @@ export type GremlinResourcesBeginUpdateGremlinDatabaseThroughputResponse = Throu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6156,16 +6955,16 @@ export type GremlinResourcesBeginMigrateGremlinDatabaseToAutoscaleResponse = Thr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6176,16 +6975,16 @@ export type GremlinResourcesBeginMigrateGremlinDatabaseToManualThroughputRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6196,16 +6995,16 @@ export type GremlinResourcesBeginCreateUpdateGremlinGraphResponse = GremlinGraph
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GremlinGraphGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphGetResults;
+    };
 };
 
 /**
@@ -6216,16 +7015,16 @@ export type GremlinResourcesBeginUpdateGremlinGraphThroughputResponse = Throughp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6236,16 +7035,16 @@ export type GremlinResourcesBeginMigrateGremlinGraphToAutoscaleResponse = Throug
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6256,16 +7055,16 @@ export type GremlinResourcesBeginMigrateGremlinGraphToManualThroughputResponse =
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ThroughputSettingsGetResults;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
 };
 
 /**
@@ -6276,16 +7075,16 @@ export type NotebookWorkspacesListByDatabaseAccountResponse = NotebookWorkspaceL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NotebookWorkspaceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspaceListResult;
+    };
 };
 
 /**
@@ -6296,16 +7095,16 @@ export type NotebookWorkspacesGetResponse = NotebookWorkspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NotebookWorkspace;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspace;
+    };
 };
 
 /**
@@ -6316,16 +7115,16 @@ export type NotebookWorkspacesCreateOrUpdateResponse = NotebookWorkspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NotebookWorkspace;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspace;
+    };
 };
 
 /**
@@ -6336,16 +7135,16 @@ export type NotebookWorkspacesListConnectionInfoResponse = NotebookWorkspaceConn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NotebookWorkspaceConnectionInfoResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspaceConnectionInfoResult;
+    };
 };
 
 /**
@@ -6356,56 +7155,16 @@ export type NotebookWorkspacesBeginCreateOrUpdateResponse = NotebookWorkspace & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NotebookWorkspace;
-  };
-};
-
-/**
- * Contains response data for the listByDatabaseAccount operation.
- */
-export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourceListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspace;
+    };
 };
 
 /**
@@ -6416,16 +7175,16 @@ export type PrivateEndpointConnectionsListByDatabaseAccountResponse = PrivateEnd
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
 };
 
 /**
@@ -6436,16 +7195,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -6456,16 +7215,16 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -6476,14 +7235,234 @@ export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseAccount operation.
+ */
+export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByLocation operation.
+ */
+export type RestorableDatabaseAccountsListByLocationResponse = RestorableDatabaseAccountsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDatabaseAccountsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableDatabaseAccountsListResponse = RestorableDatabaseAccountsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDatabaseAccountsListResult;
+    };
+};
+
+/**
+ * Contains response data for the getByLocation operation.
+ */
+export type RestorableDatabaseAccountsGetByLocationResponse = RestorableDatabaseAccountGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDatabaseAccountGetResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableSqlDatabasesListResponse = RestorableSqlDatabasesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableSqlDatabasesListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableSqlContainersListResponse = RestorableSqlContainersListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableSqlContainersListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableSqlResourcesListResponse = RestorableSqlResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableSqlResourcesListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableMongodbDatabasesListResponse = RestorableMongodbDatabasesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableMongodbDatabasesListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableMongodbCollectionsListResponse = RestorableMongodbCollectionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableMongodbCollectionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableMongodbResourcesListResponse = RestorableMongodbResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableMongodbResourcesListResult;
+    };
 };

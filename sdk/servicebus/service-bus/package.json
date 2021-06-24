@@ -5,7 +5,7 @@
   "version": "7.2.1",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
