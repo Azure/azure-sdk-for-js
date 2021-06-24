@@ -4,6 +4,7 @@
 import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
@@ -16,8 +17,6 @@ import nock from "nock";
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
 }
-
-const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
 
 describe("#AzureMonitorBaseExporter", () => {
   class TestExporter extends AzureMonitorTraceExporter {

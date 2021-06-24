@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/tracing";
+import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
-import { FlushSpanProcessor } from "./flushSpanProcessor";
 import { delay } from "@azure/core-http";
 import { TelemetryItem as Envelope } from "../../src/generated";
 
@@ -19,13 +18,13 @@ const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
 const exporter = new AzureMonitorTraceExporter({
   connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`
 });
-const processor = new FlushSpanProcessor(exporter);
+const processor = new SimpleSpanProcessor(exporter);
 
 export class BasicScenario implements Scenario {
   prepare(): void {
     const provider = new BasicTracerProvider();
     provider.addSpanProcessor(processor);
-    opentelemetry.trace.setGlobalTracerProvider(provider);
+    provider.register();
   }
 
   async run(): Promise<void> {
@@ -37,20 +36,22 @@ export class BasicScenario implements Scenario {
         foo: "bar"
       }
     });
+
+    const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), root);
     const child1 = tracer.startSpan(`${this.constructor.name}.Child.1`, {
       startTime: 0,
       kind: opentelemetry.SpanKind.CLIENT,
       attributes: {
         numbers: "123"
       }
-    });
+    }, ctx);
     const child2 = tracer.startSpan(`${this.constructor.name}.Child.2`, {
       startTime: 0,
       kind: opentelemetry.SpanKind.CLIENT,
       attributes: {
         numbers: "1234"
       }
-    });
+    }, ctx);
     child1.setStatus({ code: SpanStatusCode.OK });
     child1.end(100);
     await delay(0);
