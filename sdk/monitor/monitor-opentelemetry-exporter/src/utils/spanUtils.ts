@@ -22,10 +22,7 @@ import {
   MS_LINKS,
   INPROC
 } from "./constants/applicationinsights";
-import {
-  GRPC_METHOD,
-  GRPC_STATUS_CODE
-} from "./constants/span/grpcAttributes";
+import { GRPC_METHOD, GRPC_STATUS_CODE } from "./constants/span/grpcAttributes";
 import { msToTimeSpan } from "./breezeUtils";
 import { getInstance } from "../platform";
 import { DB_NAME, DB_STATEMENT } from "./constants/span/dbAttributes";
@@ -81,9 +78,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   const measurements: Measurements = {};
 
   for (const key of Object.keys(span.attributes)) {
-    if (
-      !(key.startsWith("http.") || key.startsWith("rpc.") || key.startsWith("db."))
-    ) {
+    if (!(key.startsWith("http.") || key.startsWith("rpc.") || key.startsWith("db."))) {
       properties[key] = span.attributes[key] as string;
     }
   }

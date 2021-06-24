@@ -95,7 +95,7 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
-          [grpc.GRPC_METHOD]: "/foo.Example/Foo",
+          [grpc.GRPC_METHOD]: "/foo.Example/Foo"
         });
         span.setStatus({
           code: SpanStatusCode.OK
@@ -107,7 +107,7 @@ describe("spanUtils.ts", () => {
           [ai.AI_OPERATION_NAME]: "/foo.Example/Foo"
         };
         const expectedProperties = {
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         };
 
         const expectedBaseData: Partial<RequestData> = {
@@ -146,7 +146,7 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
-          [grpc.GRPC_METHOD]: "/foo.Example/Foo",
+          [grpc.GRPC_METHOD]: "/foo.Example/Foo"
         });
         span.setStatus({
           code: SpanStatusCode.OK
@@ -157,7 +157,7 @@ describe("spanUtils.ts", () => {
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
         const expectedProperties = {
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {

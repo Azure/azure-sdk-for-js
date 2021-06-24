@@ -3,7 +3,6 @@
 
 import * as conventions from "@opentelemetry/semantic-conventions";
 
-
 /**
  * OpenTelemetry GRPC method attribute.
  * @internal
