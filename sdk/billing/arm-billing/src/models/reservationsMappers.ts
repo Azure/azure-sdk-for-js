@@ -10,7 +10,10 @@ export {
   ErrorDetails,
   ErrorResponse,
   ErrorSubDetailsItem,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  Reservation,
+  ReservationPropertyUtilization,
+  ReservationSkuProperty,
+  ReservationsListResult,
+  ReservationSummary,
+  ReservationUtilizationAggregates
 } from "../models/mappers";
