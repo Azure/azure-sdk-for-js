@@ -9,8 +9,4 @@ export abstract class AppConfigTest<TOptions> extends PerfStressTest<TOptions> {
     const connectionString = getEnvVar("APPCONFIG_CONNECTION_STRING");
     this.client = new AppConfigurationClient(connectionString);
   }
-
-  public async globalSetup() {}
-
-  public async globalCleanup() {}
 }

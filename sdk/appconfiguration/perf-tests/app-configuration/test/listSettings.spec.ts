@@ -21,7 +21,6 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
   };
 
   public async globalSetup() {
-    await super.globalSetup();
     await executeParallel(
       async (_count: number, _index: number) => {
         await this.client.addConfigurationSetting({
@@ -59,6 +58,5 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
       this.parsedOptions.count.value!,
       32
     );
-    await super.globalCleanup();
   }
 }
