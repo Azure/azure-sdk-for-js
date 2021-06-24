@@ -27,7 +27,6 @@ export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
 export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
-  allowInsecureConnection?: boolean;
 };
 
 /**
