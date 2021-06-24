@@ -31,8 +31,8 @@
   "dependencies": {
     "@azure/event-hubs": "latest",
     "dotenv": "latest",
-    "rhea-promise": "^1.2.1",
-    "@azure/identity": "^1.1.0",
+    "rhea-promise": "^2.0.0",
+    "@azure/identity": "2.0.0-beta.4",
     "ws": "^7.1.1",
     "https-proxy-agent": "^5.0.0"
   },
