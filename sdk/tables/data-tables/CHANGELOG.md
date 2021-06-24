@@ -17,6 +17,7 @@ Thank you to our developer community members who helped to make the Azure Tables
 - Fix [#15664](https://github.com/Azure/azure-sdk-for-js/issues/15701), adding check to make sure we always have only one forward slash (`/`) added to the end of the URL [#15698](https://github.com/Azure/azure-sdk-for-js/pull/15698) (A community contribution, courtesy of _[eestein](https://github.com/eestein))_
 - Fix [#15701](https://github.com/Azure/azure-sdk-for-js/issues/15701) by improving error handling and reporting on `submitTransaction`. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 - Fix [#15921](https://github.com/Azure/azure-sdk-for-js/issues/15921) incorrect `url` import and missing browser mapping for `computeHMACSHA256` [#15944](https://github.com/Azure/azure-sdk-for-js/pull/15944)
+- Fix [#15854](https://github.com/Azure/autorest.typescript/issues/892) by setting `allowInsecureConnection` to true when using the development connection string.
 
 ## 12.0.0 (2021-06-09)
 
