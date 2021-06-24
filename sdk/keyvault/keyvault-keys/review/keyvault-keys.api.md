@@ -176,6 +176,10 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
@@ -218,6 +222,7 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array | undefined>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -327,9 +332,10 @@ export const enum KnownKeyCurveNames {
 }
 
 // @public
-export const enum KnownKeyOperations {
+export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
+    Export = "export",
     Import = "import",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
