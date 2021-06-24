@@ -114,7 +114,7 @@ export class GlobalEndpointManager {
       return this.defaultEndpoint;
     }
 
-    if (!this.readableLocations || !this.writeableLocations) {
+    if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
       const { resource: databaseAccount } = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint
       });

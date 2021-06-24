@@ -15,7 +15,7 @@ import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("Client Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   describe("Validate client request timeout", function() {
