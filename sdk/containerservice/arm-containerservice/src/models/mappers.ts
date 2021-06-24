@@ -814,6 +814,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "Boolean"
         }
       },
+      enableUltraSSD: {
+        serializedName: "enableUltraSSD",
+        type: {
+          name: "Boolean"
+        }
+      },
       enableFIPS: {
         serializedName: "enableFIPS",
         type: {
@@ -1082,6 +1088,12 @@ export const AgentPool: msRest.CompositeMapper = {
       },
       enableEncryptionAtHost: {
         serializedName: "properties.enableEncryptionAtHost",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableUltraSSD: {
+        serializedName: "properties.enableUltraSSD",
         type: {
           name: "Boolean"
         }
@@ -2148,6 +2160,12 @@ export const ManagedClusterAPIServerAccessProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      enablePrivateClusterPublicFQDN: {
+        serializedName: "enablePrivateClusterPublicFQDN",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3152,6 +3170,96 @@ export const OSOptionProfile: msRest.CompositeMapper = {
   }
 };
 
+export const EndpointDetail: msRest.CompositeMapper = {
+  serializedName: "EndpointDetail",
+  type: {
+    name: "Composite",
+    className: "EndpointDetail",
+    modelProperties: {
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointDependency: msRest.CompositeMapper = {
+  serializedName: "EndpointDependency",
+  type: {
+    name: "Composite",
+    className: "EndpointDependency",
+    modelProperties: {
+      domainName: {
+        serializedName: "domainName",
+        type: {
+          name: "String"
+        }
+      },
+      endpointDetails: {
+        serializedName: "endpointDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpoint: msRest.CompositeMapper = {
+  serializedName: "OutboundEnvironmentEndpoint",
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpoint",
+    modelProperties: {
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDependency"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationListResult: msRest.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
@@ -3189,6 +3297,36 @@ export const ManagedClusterListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ManagedCluster"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpointCollection: msRest.CompositeMapper = {
+  serializedName: "OutboundEnvironmentEndpointCollection",
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OutboundEnvironmentEndpoint"
             }
           }
         }

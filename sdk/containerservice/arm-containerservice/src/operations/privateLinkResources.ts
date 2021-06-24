@@ -26,8 +26,7 @@ export class PrivateLinkResources {
   }
 
   /**
-   * Gets a list of private link resources in the specified managed cluster. The operation returns
-   * properties of each private link resource.
+   * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
    * @summary Gets a list of private link resources in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
