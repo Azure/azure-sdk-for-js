@@ -6,7 +6,5 @@ stages:
       TimeoutInMinutes: 15
       PackageName: "@azure/monitor-opentelemetry-exporter"
       ServiceDirectory: monitor
-      MatrixFilters:
-        - DependencyVersion=^$
       PostSteps:
         - template: /eng/pipelines/templates/steps/monitor-additional-steps.yml

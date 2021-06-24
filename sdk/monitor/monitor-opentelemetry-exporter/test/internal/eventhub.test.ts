@@ -5,10 +5,7 @@ import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@op
 import { timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/tracing";
 import * as assert from "assert";
-import {
-  ENQUEUED_TIME,
-  TIME_SINCE_ENQUEUED
-} from "../../src/utils/constants/applicationinsights";
+import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights";
 import {
   AzNamespace,
   MessageBusDestination,

@@ -81,7 +81,8 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as RequestData).name
         }`
       );
     }
