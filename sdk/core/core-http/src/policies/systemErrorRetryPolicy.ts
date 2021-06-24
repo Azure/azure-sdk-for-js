@@ -20,7 +20,7 @@ import {
   DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
   isNumber
 } from "../util/exponentialBackoffStrategy";
-import { delay } from "../coreHttp";
+import { delay } from "../util/delay";
 
 export function systemErrorRetryPolicy(
   retryCount?: number,

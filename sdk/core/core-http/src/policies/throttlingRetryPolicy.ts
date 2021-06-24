@@ -10,7 +10,7 @@ import {
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
-import { delay } from "../coreHttp";
+import { delay } from "../util/delay";
 import { AbortError } from "@azure/abort-controller";
 
 type ResponseHandler = (
