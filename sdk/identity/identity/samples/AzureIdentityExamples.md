@@ -580,14 +580,14 @@ Some applications already use the [@azure/msal-node][msal_node_npm] or [@azure/m
 
 #### Authenticating with the @azure/msal-node Confidential Client
 
-In this example, the [ConfidentialClientApplicationCredential](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/main/lib/msal-node/docs/initialize-confidential-client-application.md) is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
+In this example, the [ConfidentialClientApplicationCredential](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md) is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
 
 **Prerequisites**
 
 Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
 
 > For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/main/lib/msal-node/docs/initialize-confidential-client-application.md).
+> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -627,7 +627,7 @@ async function main() {
 
 #### Authenticating with the @azure/msal-node On Behalf Of Flow
 
-Currently, the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/main/lib/msal-common/docs/request.md#on-behalf-of-flow). While we may add support for this feature in the future, users currently requiring this will have to implement their own `TokenCredential` class.
+Currently, the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow). While we may add support for this feature in the future, users currently requiring this will have to implement their own `TokenCredential` class.
 
 In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token that can authenticate client requests.
 
@@ -636,8 +636,8 @@ In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, 
 Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
 
 > For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/main/lib/msal-node/docs/initialize-confidential-client-application.md).
-> For more information about working with the On Behalf Flow with MSAL, see [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/main/lib/msal-common/docs/request.md#on-behalf-of-flow).
+> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
+> For more information about working with the On Behalf Flow with MSAL, see [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow).
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-auth";
@@ -919,8 +919,8 @@ In this example, the custom credential type `RotatingCertificateCredential` agai
 [quickstart-register-app]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 [app-register-service-principal]: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
 [service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
-[msal_node_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/main/lib/msal-node
+[msal_node_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-node
 [msal_node_npm]: https://www.npmjs.com/package/@azure/msal-node
-[msal_browser_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/main/lib/msal-browser
+[msal_browser_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-browser
 [msal_browser_npm]: https://www.npmjs.com/package/@azure/msal-browser
 [core_auth]: https://www.npmjs.com/package/@azure/core-auth
