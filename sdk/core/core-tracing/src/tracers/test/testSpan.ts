@@ -96,7 +96,7 @@ export class TestSpan extends NoOpSpan {
   /**
    * Returns the SpanContext associated with this Span.
    */
-  context(): SpanContext {
+  spanContext(): SpanContext {
     return this._context;
   }
 

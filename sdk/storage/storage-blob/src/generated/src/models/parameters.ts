@@ -345,7 +345,8 @@ export const access: OperationParameter = {
     serializedName: "x-ms-blob-public-access",
     xmlName: "x-ms-blob-public-access",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["container", "blob"]
     }
   }
 };

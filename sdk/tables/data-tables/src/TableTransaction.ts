@@ -3,13 +3,19 @@
 
 import {
   createHttpHeaders,
-  PipelineRequest,
   createPipelineRequest,
   PipelineResponse,
   RestError,
-  createEmptyPipeline
+  Pipeline,
+  PipelineRequest
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
+import {
+  ServiceClient,
+  OperationOptions,
+  serializationPolicy,
+  serializationPolicyName,
+  ServiceClientOptions
+} from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -19,16 +25,34 @@ import {
   TableTransactionEntityResponse,
   TransactionAction
 } from "./models";
-import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
-import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
-import { HeaderConstants } from "./utils/constants";
-import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "./TablePolicies";
-import { InnerTransactionRequest, TableClientLike } from "./utils/internalModels";
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential,
+  NamedKeyCredential,
+  SASCredential,
+  TokenCredential
+} from "@azure/core-auth";
+import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
+import { TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
+import {
+  getTransactionHttpRequestBody,
+  getInitialTransactionBody
+} from "./utils/transactionHelpers";
+import { signURLWithSAS } from "./tablesSASTokenPolicy";
+import {
+  transactionHeaderFilterPolicy,
+  transactionRequestAssemblePolicy,
+  transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicyName
+} from "./TablePolicies";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -93,16 +117,21 @@ export class InternalTableTransaction {
    * Table Account URL
    */
   public url: string;
-  private interceptClient: TableClientLike;
-  private transactionGuid: string;
-  private transactionRequest: InnerTransactionRequest;
-  private pendingOperations: Promise<any>[];
-  private credential?: TablesSharedKeyCredentialLike;
-
   /**
-   * Partition key tagetted by the transaction
+   * This part of the state can be reset by
+   * calling the reset function. Other parts of the state
+   * such as the credentials remain the same throughout the life
+   * of the instance.
    */
-  public readonly partitionKey: string;
+  private resetableState: {
+    transactionId: string;
+    changesetId: string;
+    pendingOperations: Promise<any>[];
+    bodyParts: string[];
+    partitionKey: string;
+  };
+  private interceptClient: TableClientLike;
+  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
 
   /**
    * @param url - Tables account url
@@ -112,31 +141,51 @@ export class InternalTableTransaction {
   constructor(
     url: string,
     partitionKey: string,
+    transactionId: string,
+    changesetId: string,
     interceptClient: TableClientLike,
-    transactionGuid: string,
-    transactionRequest: InnerTransactionRequest,
-    credential?: TablesSharedKeyCredentialLike
+    credential?: NamedKeyCredential | SASCredential | TokenCredential
   ) {
     this.credential = credential;
-    this.partitionKey = partitionKey;
     this.url = url;
-    this.transactionGuid = transactionGuid;
-    this.transactionRequest = transactionRequest;
-    this.pendingOperations = [];
-
     this.interceptClient = interceptClient;
+
+    // Initialize Reset-able properties
+    this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
-      // When authenticating with SAS we need to add the SAS token after $batch
+      // When the SAS token is provided as part of the URL we need to move it after $batch
       const urlParts = url.split("?");
       this.url = urlParts[0];
       const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
-      this.url = `${this.url}/$batch${sas}`;
+      this.url = `${this.getUrlWithSlash()}$batch${sas}`;
     } else {
       // When using a SharedKey credential no SAS token is needed
-      this.url = `${this.url}/$batch`;
+      this.url = `${this.getUrlWithSlash()}$batch`;
     }
+  }
+
+  /**
+   * Resets the state of the Transaction.
+   */
+  reset(transactionId: string, changesetId: string, partitionKey: string): void {
+    this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
+  }
+
+  private initializeSharedState(transactionId: string, changesetId: string, partitionKey: string) {
+    const pendingOperations: Promise<any>[] = [];
+    const bodyParts = getInitialTransactionBody(transactionId, changesetId);
+    const isCosmos = isCosmosEndpoint(this.url);
+    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId, isCosmos);
+
+    return {
+      transactionId,
+      changesetId,
+      partitionKey,
+      pendingOperations,
+      bodyParts
+    };
   }
 
   /**
@@ -145,7 +194,7 @@ export class InternalTableTransaction {
    */
   public createEntity<T extends object>(entity: TableEntity<T>): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.pendingOperations.push(this.interceptClient.createEntity(entity));
+    this.resetableState.pendingOperations.push(this.interceptClient.createEntity(entity));
   }
 
   /**
@@ -155,7 +204,7 @@ export class InternalTableTransaction {
   public createEntities<T extends object>(entities: TableEntity<T>[]): void {
     for (const entity of entities) {
       this.checkPartitionKey(entity.partitionKey);
-      this.pendingOperations.push(this.interceptClient.createEntity(entity));
+      this.resetableState.pendingOperations.push(this.interceptClient.createEntity(entity));
     }
   }
 
@@ -171,7 +220,9 @@ export class InternalTableTransaction {
     options?: DeleteTableEntityOptions
   ): void {
     this.checkPartitionKey(partitionKey);
-    this.pendingOperations.push(this.interceptClient.deleteEntity(partitionKey, rowKey, options));
+    this.resetableState.pendingOperations.push(
+      this.interceptClient.deleteEntity(partitionKey, rowKey, options)
+    );
   }
 
   /**
@@ -186,7 +237,9 @@ export class InternalTableTransaction {
     options?: UpdateTableEntityOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.pendingOperations.push(this.interceptClient.updateEntity(entity, mode, options));
+    this.resetableState.pendingOperations.push(
+      this.interceptClient.updateEntity(entity, mode, options)
+    );
   }
 
   /**
@@ -203,17 +256,31 @@ export class InternalTableTransaction {
     options?: OperationOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));
+    this.resetableState.pendingOperations.push(
+      this.interceptClient.upsertEntity(entity, mode, options)
+    );
   }
 
   /**
    * Submits the operations in the transaction
    */
   public async submitTransaction(): Promise<TableTransactionResponse> {
-    await Promise.all(this.pendingOperations);
-    const body = this.transactionRequest.getHttpRequestBody();
-    const client = new ServiceClient();
-    const headers = getTransactionHeaders(this.transactionGuid);
+    await Promise.all(this.resetableState.pendingOperations);
+    const body = getTransactionHttpRequestBody(
+      this.resetableState.bodyParts,
+      this.resetableState.transactionId,
+      this.resetableState.changesetId
+    );
+
+    const options: ServiceClientOptions = {};
+
+    if (isTokenCredential(this.credential)) {
+      options.credentialScopes = STORAGE_SCOPE;
+      options.credential = this.credential;
+    }
+
+    const client = new ServiceClient(options);
+    const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
       "TableTransaction-submitTransaction",
@@ -227,9 +294,11 @@ export class InternalTableTransaction {
       tracingOptions: updatedOptions.tracingOptions
     });
 
-    if (this.credential) {
+    if (isNamedKeyCredential(this.credential)) {
       const authHeader = getAuthorizationHeader(request, this.credential);
       request.headers.set("Authorization", authHeader);
+    } else if (isSASCredential(this.credential)) {
+      signURLWithSAS(request, this.credential);
     }
 
     try {
@@ -247,18 +316,30 @@ export class InternalTableTransaction {
   }
 
   private checkPartitionKey(partitionKey: string): void {
-    if (this.partitionKey !== partitionKey) {
+    if (this.resetableState.partitionKey !== partitionKey) {
       throw new Error("All operations in a transaction must target the same partitionKey");
     }
   }
+
+  private getUrlWithSlash(): string {
+    return this.url.endsWith("/") ? this.url : `${this.url}/`;
+  }
 }
 
-function parseTransactionResponse(transactionResponse: PipelineResponse): TableTransactionResponse {
+export function parseTransactionResponse(
+  transactionResponse: PipelineResponse
+): TableTransactionResponse {
   const subResponsePrefix = `--changesetresponse_`;
   const status = transactionResponse.status;
   const rawBody = transactionResponse.bodyAsText || "";
   const splitBody = rawBody.split(subResponsePrefix);
-  // Droping the first and last elemets as they are the boundaries
+  const isSuccessByStatus = 200 <= status && status < 300;
+
+  if (!isSuccessByStatus) {
+    handleBodyError(rawBody, status, transactionResponse.request, transactionResponse);
+  }
+
+  // Dropping the first and last elements as they are the boundaries
   // we just care about sub request content
   const subResponses = splitBody.slice(1, splitBody.length - 1);
 
@@ -274,18 +355,12 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
 
     const bodyMatch = subResponse.match(/\{(.*)\}/);
     if (bodyMatch?.length === 2) {
-      const parsedError = JSON.parse(bodyMatch[0]);
-      // Only transaction sub-responses return body
-      if (parsedError && parsedError["odata.error"]) {
-        const error: TableServiceErrorOdataError = parsedError["odata.error"];
-        const message = error.message?.value || "One of the transaction operations failed";
-        throw new RestError(message, {
-          code: error.code,
-          statusCode: subResponseStatus,
-          request: transactionResponse.request,
-          response: transactionResponse
-        });
-      }
+      handleBodyError(
+        bodyMatch[0],
+        subResponseStatus,
+        transactionResponse.request,
+        transactionResponse
+      );
     }
 
     const etagMatch = subResponse.match(/ETag: (.*)/);
@@ -305,72 +380,66 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
   };
 }
 
-/**
- * Prepares the operation url to be added to the body, removing the SAS token if present
- * @param url - Source URL string
- */
-function getSubRequestUrl(url: string): string {
-  const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];
-  const urlParsed = new URL(url);
-  sasTokenParts.forEach((part) => urlParsed.searchParams.delete(part));
-  return urlParsed.toString();
+function handleBodyError(
+  bodyAsText: string,
+  statusCode: number,
+  request: PipelineRequest,
+  response: PipelineResponse
+) {
+  let parsedError;
+
+  try {
+    parsedError = JSON.parse(bodyAsText);
+  } catch {
+    parsedError = {};
+  }
+
+  let message = "Transaction Failed";
+  let code: string | undefined;
+  // Only transaction sub-responses return body
+  if (parsedError && parsedError["odata.error"]) {
+    const error: TableServiceErrorOdataError = parsedError["odata.error"];
+    message = error.message?.value ?? message;
+    code = error.code;
+  }
+
+  throw new RestError(message, {
+    code,
+    statusCode,
+    request,
+    response
+  });
 }
 
 /**
- * This method creates a transaction request object that provides functions to build the envelope and body for a transaction request
- * @param transactionGuid - Id of the transaction
+ * Prepares the transaction pipeline to intercept operations
+ * @param pipeline - Client pipeline
  */
-export function createInnerTransactionRequest(
-  transactionGuid: string,
-  changesetId: string
-): InnerTransactionRequest {
-  const HTTP_LINE_ENDING = "\r\n";
-  const HTTP_VERSION_1_1 = "HTTP/1.1";
-  const transactionBoundary = `batch_${transactionGuid}`;
-  const changesetBoundary = `changeset_${changesetId}`;
+export function prepateTransactionPipeline(
+  pipeline: Pipeline,
+  bodyParts: string[],
+  changesetId: string,
+  isCosmos: boolean
+): void {
+  // Fist, we need to clear all the existing policies to make sure we start
+  // with a fresh state.
+  const policies = pipeline.getOrderedPolicies();
+  for (const policy of policies) {
+    pipeline.removePolicy({
+      name: policy.name
+    });
+  }
 
-  const subRequestPrefix = `--${changesetBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
-  const changesetEnding = `--${changesetBoundary}--`;
-  const transactionEnding = `--${transactionBoundary}`;
+  // With the clear state we now initialize the pipelines required for intercepting the requests.
+  // Use transaction assemble policy to assemble request and intercept request from going to wire
 
-  return {
-    body: [
-      `--${transactionBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetId}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
-    ],
-    createPipeline() {
-      // Use transaction assemble policy to assemble request and intercept request from going to wire
-      const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
-      pipeline.addPolicy(transactionHeaderFilterPolicy());
-      pipeline.addPolicy(transactionRequestAssemblePolicy(this));
-      return pipeline;
-    },
-    appendSubRequestToBody(request: PipelineRequest) {
-      const subRequestUrl = getSubRequestUrl(request.url);
-      // Start to assemble sub request
-      const subRequest = [
-        subRequestPrefix, // sub request constant prefix
-        "", // empty line after sub request's content ID
-        `${request.method.toString()} ${subRequestUrl} ${HTTP_VERSION_1_1}` // sub request start line with method,
-      ];
-
-      // Add required headers
-      for (const [name, value] of request.headers) {
-        subRequest.push(`${name}: ${value}`);
-      }
-
-      // Append sub-request body
-      subRequest.push(`${HTTP_LINE_ENDING}`); // sub request's headers need end with an empty line
-      if (request.body) {
-        subRequest.push(String(request.body));
-      }
-
-      // Add subrequest to transaction body
-      this.body.push(subRequest.join(HTTP_LINE_ENDING));
-    },
-    getHttpRequestBody(): string {
-      const bodyContent = this.body.join(HTTP_LINE_ENDING);
-      return `${bodyContent}${HTTP_LINE_ENDING}${changesetEnding}${HTTP_LINE_ENDING}${transactionEnding}${HTTP_LINE_ENDING}`;
-    }
-  };
+  pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+  pipeline.addPolicy(transactionHeaderFilterPolicy());
+  pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
+  if (isCosmos) {
+    pipeline.addPolicy(cosmosPatchPolicy(), {
+      afterPolicies: [transactionHeaderFilterPolicyName],
+      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName]
+    });
+  }
 }

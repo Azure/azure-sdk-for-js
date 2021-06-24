@@ -8,9 +8,10 @@ import {
   createPipelineRequest,
   SendRequest,
   ProxySettings,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  createHttpHeaders
 } from "../../src";
-import { noProxyList, loadNoProxy } from "../../src/policies/proxyPolicy";
+import { noProxyList, loadNoProxy, getProxyAgentOptions } from "../../src/policies/proxyPolicy";
 
 describe("proxyPolicy (node)", function() {
   it("Sets proxy settings on the request", function() {
@@ -114,6 +115,27 @@ describe("proxyPolicy (node)", function() {
       noProxyList.splice(0, noProxyList.length);
       noProxyList.push(...loadNoProxy());
     }
+  });
+
+  it("getProxyAgentOptions from proxy settings having both username and password", function() {
+    const proxySettings: ProxySettings = {
+      host: "https://proxy.example.com",
+      port: 8080,
+      username: "user",
+      password: "pass"
+    };
+    const options = getProxyAgentOptions(proxySettings, createHttpHeaders());
+    assert.strictEqual(options.auth, "user:pass");
+  });
+
+  it("getProxyAgentOptions from proxy settings having username but no password", function() {
+    const proxySettings: ProxySettings = {
+      host: "https://proxy.example.com",
+      port: 8080,
+      username: "user"
+    };
+    const options = getProxyAgentOptions(proxySettings, createHttpHeaders());
+    assert.strictEqual(options.auth, "user");
   });
 
   describe("getDefaultProxySettings", function() {

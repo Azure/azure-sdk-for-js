@@ -6,14 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { RoleDefinitions } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultClient } from "../keyVaultClient";
+import { KeyVaultClientContext } from "../keyVaultClientContext";
 import {
-  RoleDefinitionsDeleteResponse,
+  RoleDefinitionsDeleteOptionalParams,
   RoleDefinitionCreateParameters,
+  RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsCreateOrUpdateResponse,
+  RoleDefinitionsGetOptionalParams,
   RoleDefinitionsGetResponse,
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsListResponse,
@@ -21,17 +24,15 @@ import {
   RoleDefinitionsListNextResponse
 } from "../models";
 
-/**
- * Class representing a RoleDefinitions.
- */
-export class RoleDefinitions {
-  private readonly client: KeyVaultClient;
+/** Class representing a RoleDefinitions. */
+export class RoleDefinitionsImpl implements RoleDefinitions {
+  private readonly client: KeyVaultClientContext;
 
   /**
    * Initialize a new instance of the class RoleDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultClient) {
+  constructor(client: KeyVaultClientContext) {
     this.client = client;
   }
 
@@ -46,15 +47,12 @@ export class RoleDefinitions {
     vaultBaseUrl: string,
     scope: string,
     roleDefinitionName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<RoleDefinitionsDeleteResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    options?: RoleDefinitionsDeleteOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, roleDefinitionName, options: operationOptions },
+      { vaultBaseUrl, scope, roleDefinitionName, options },
       deleteOperationSpec
-    ) as Promise<RoleDefinitionsDeleteResponse>;
+    );
   }
 
   /**
@@ -71,21 +69,12 @@ export class RoleDefinitions {
     scope: string,
     roleDefinitionName: string,
     parameters: RoleDefinitionCreateParameters,
-    options?: coreHttp.OperationOptions
+    options?: RoleDefinitionsCreateOrUpdateOptionalParams
   ): Promise<RoleDefinitionsCreateOrUpdateResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        vaultBaseUrl,
-        scope,
-        roleDefinitionName,
-        parameters,
-        options: operationOptions
-      },
+      { vaultBaseUrl, scope, roleDefinitionName, parameters, options },
       createOrUpdateOperationSpec
-    ) as Promise<RoleDefinitionsCreateOrUpdateResponse>;
+    );
   }
 
   /**
@@ -99,15 +88,12 @@ export class RoleDefinitions {
     vaultBaseUrl: string,
     scope: string,
     roleDefinitionName: string,
-    options?: coreHttp.OperationOptions
+    options?: RoleDefinitionsGetOptionalParams
   ): Promise<RoleDefinitionsGetResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, roleDefinitionName, options: operationOptions },
+      { vaultBaseUrl, scope, roleDefinitionName, options },
       getOperationSpec
-    ) as Promise<RoleDefinitionsGetResponse>;
+    );
   }
 
   /**
@@ -121,13 +107,10 @@ export class RoleDefinitions {
     scope: string,
     options?: RoleDefinitionsListOptionalParams
   ): Promise<RoleDefinitionsListResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, options: operationOptions },
+      { vaultBaseUrl, scope, options },
       listOperationSpec
-    ) as Promise<RoleDefinitionsListResponse>;
+    );
   }
 
   /**
@@ -143,27 +126,22 @@ export class RoleDefinitions {
     nextLink: string,
     options?: RoleDefinitionsListNextOptionalParams
   ): Promise<RoleDefinitionsListNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, nextLink, options: operationOptions },
+      { vaultBaseUrl, scope, nextLink, options },
       listNextOperationSpec
-    ) as Promise<RoleDefinitionsListNextResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.RoleDefinition
-    },
+    200: {},
+    404: {},
     default: {
       bodyMapper: Mappers.KeyVaultError
     }
@@ -177,7 +155,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
   httpMethod: "PUT",
@@ -196,11 +174,11 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleDefinitionName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
   httpMethod: "GET",
@@ -221,7 +199,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleDefinitions",
   httpMethod: "GET",
   responses: {
@@ -237,7 +215,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es6",
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "resolveJsonModule": true

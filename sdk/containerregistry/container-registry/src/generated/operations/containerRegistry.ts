@@ -6,28 +6,36 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { ContainerRegistry } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import {
+  ContainerRegistryCheckDockerV2SupportOptionalParams,
   ContainerRegistryGetManifestOptionalParams,
   ContainerRegistryGetManifestResponse,
   Manifest,
+  ContainerRegistryCreateManifestOptionalParams,
   ContainerRegistryCreateManifestResponse,
+  ContainerRegistryDeleteManifestOptionalParams,
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
+  ContainerRegistryGetPropertiesOptionalParams,
   ContainerRegistryGetPropertiesResponse,
-  ContainerRegistryDeleteRepositoryResponse,
-  ContainerRegistrySetPropertiesOptionalParams,
-  ContainerRegistrySetPropertiesResponse,
+  ContainerRegistryDeleteRepositoryOptionalParams,
+  ContainerRegistryUpdatePropertiesOptionalParams,
+  ContainerRegistryUpdatePropertiesResponse,
   ContainerRegistryGetTagsOptionalParams,
   ContainerRegistryGetTagsResponse,
+  ContainerRegistryGetTagPropertiesOptionalParams,
   ContainerRegistryGetTagPropertiesResponse,
   ContainerRegistryUpdateTagAttributesOptionalParams,
   ContainerRegistryUpdateTagAttributesResponse,
+  ContainerRegistryDeleteTagOptionalParams,
   ContainerRegistryGetManifestsOptionalParams,
   ContainerRegistryGetManifestsResponse,
+  ContainerRegistryGetManifestPropertiesOptionalParams,
   ContainerRegistryGetManifestPropertiesResponse,
   ContainerRegistryUpdateManifestPropertiesOptionalParams,
   ContainerRegistryUpdateManifestPropertiesResponse,
@@ -40,7 +48,7 @@ import {
 } from "../models";
 
 /** Class representing a ContainerRegistry. */
-export class ContainerRegistry {
+export class ContainerRegistryImpl implements ContainerRegistry {
   private readonly client: GeneratedClientContext;
 
   /**
@@ -55,7 +63,9 @@ export class ContainerRegistry {
    * Tells whether this Docker Registry instance supports Docker Registry HTTP API v2
    * @param options The options parameters.
    */
-  checkDockerV2Support(options?: coreClient.OperationOptions): Promise<void> {
+  checkDockerV2Support(
+    options?: ContainerRegistryCheckDockerV2SupportOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { options },
       checkDockerV2SupportOperationSpec
@@ -90,7 +100,7 @@ export class ContainerRegistry {
     name: string,
     reference: string,
     payload: Manifest,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryCreateManifestOptionalParams
   ): Promise<ContainerRegistryCreateManifestResponse> {
     return this.client.sendOperationRequest(
       { name, reference, payload, options },
@@ -108,7 +118,7 @@ export class ContainerRegistry {
   deleteManifest(
     name: string,
     reference: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryDeleteManifestOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, reference, options },
@@ -136,7 +146,7 @@ export class ContainerRegistry {
    */
   getProperties(
     name: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryGetPropertiesOptionalParams
   ): Promise<ContainerRegistryGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, options },
@@ -151,8 +161,8 @@ export class ContainerRegistry {
    */
   deleteRepository(
     name: string,
-    options?: coreClient.OperationOptions
-  ): Promise<ContainerRegistryDeleteRepositoryResponse> {
+    options?: ContainerRegistryDeleteRepositoryOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, options },
       deleteRepositoryOperationSpec
@@ -164,13 +174,13 @@ export class ContainerRegistry {
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
    */
-  setProperties(
+  updateProperties(
     name: string,
-    options?: ContainerRegistrySetPropertiesOptionalParams
-  ): Promise<ContainerRegistrySetPropertiesResponse> {
+    options?: ContainerRegistryUpdatePropertiesOptionalParams
+  ): Promise<ContainerRegistryUpdatePropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, options },
-      setPropertiesOperationSpec
+      updatePropertiesOperationSpec
     );
   }
 
@@ -198,7 +208,7 @@ export class ContainerRegistry {
   getTagProperties(
     name: string,
     reference: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryGetTagPropertiesOptionalParams
   ): Promise<ContainerRegistryGetTagPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, reference, options },
@@ -232,7 +242,7 @@ export class ContainerRegistry {
   deleteTag(
     name: string,
     reference: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryDeleteTagOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, reference, options },
@@ -264,7 +274,7 @@ export class ContainerRegistry {
   getManifestProperties(
     name: string,
     digest: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryGetManifestPropertiesOptionalParams
   ): Promise<ContainerRegistryGetManifestPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, digest, options },
@@ -392,6 +402,7 @@ const deleteManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -422,7 +433,7 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryProperties
+      bodyMapper: Mappers.ContainerRepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -436,9 +447,8 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "DELETE",
   responses: {
-    202: {
-      bodyMapper: Mappers.DeleteRepositoryResult
-    },
+    202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -447,12 +457,12 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const setPropertiesOperationSpec: coreClient.OperationSpec = {
+const updatePropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryProperties
+      bodyMapper: Mappers.ContainerRepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -512,7 +522,7 @@ const updateTagAttributesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
+  requestBody: Parameters.value1,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -523,6 +533,7 @@ const deleteTagOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -574,7 +585,7 @@ const updateManifestPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
+  requestBody: Parameters.value2,
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",

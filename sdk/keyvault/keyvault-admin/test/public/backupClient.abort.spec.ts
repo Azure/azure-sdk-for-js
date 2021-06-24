@@ -57,14 +57,14 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     });
   });
 
-  it("can abort beginSelectiveRestore", async function() {
+  it("can abort beginSelectiveKeyRestore", async function() {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
 
     const controller = new AbortController();
     controller.abort();
 
     await assertThrowsAbortError(async () => {
-      await client.beginSelectiveRestore("key-name", backupURI, blobSasToken, {
+      await client.beginSelectiveKeyRestore("key-name", backupURI, blobSasToken, {
         ...testPollerProperties,
         abortSignal: controller.signal
       });

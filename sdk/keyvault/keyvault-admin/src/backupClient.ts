@@ -1,40 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  isTokenCredential,
-  signingPolicy,
-  TokenCredential
-} from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   KeyVaultBackupClientOptions,
   KeyVaultBackupResult,
   KeyVaultBeginBackupOptions,
   KeyVaultBeginRestoreOptions,
-  KeyVaultRestoreResult
+  KeyVaultBeginSelectiveKeyRestoreOptions,
+  KeyVaultRestoreResult,
+  KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
-import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
+import { LATEST_API_VERSION, SDK_VERSION, authenticationScopes } from "./constants";
 import { logger } from "./log";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
 import { KeyVaultRestorePoller } from "./lro/restore/poller";
-import { KeyVaultSelectiveRestorePoller } from "./lro/selectiveRestore/poller";
+import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
 import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
-import { KeyVaultSelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
-import { KeyVaultClientOptionalParams } from "./generated/models";
+import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
 import { mappings } from "./mappings";
+import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 
 export {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
-  KeyVaultSelectiveRestoreOperationState,
+  KeyVaultSelectiveKeyRestoreOperationState,
   KeyVaultAdminPollOperationState
 };
 
@@ -91,15 +87,13 @@ export class KeyVaultBackupClient {
           : libInfo
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const clientOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: [
+        additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
           "x-ms-keyvault-service-version"
@@ -107,12 +101,14 @@ export class KeyVaultBackupClient {
       }
     };
 
-    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
-      internalPipelineOptions,
-      authPolicy
+    this.client = new KeyVaultClient(apiVersion, clientOptions);
+    this.client.pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: authenticationScopes,
+        challengeCallbacks: createChallengeCallbacks()
+      })
     );
-    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
-    this.client = new KeyVaultClient(params);
   }
 
   /**
@@ -233,7 +229,7 @@ export class KeyVaultBackupClient {
    * const blobStorageUri = "<blob-storage-uri>";
    * const sasToken = "<sas-token>";
    * const keyName = "<key-name>";
-   * const poller = await client.beginSelectiveRestore(keyName, blobStorageUri, sasToken);
+   * const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken);
    *
    * // Serializing the poller
    * //
@@ -241,7 +237,7 @@ export class KeyVaultBackupClient {
    * //
    * // A new poller can be created with:
    * //
-   * //   await client.beginSelectiveRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //   await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
    * //
    *
    * // Waiting until it's done
@@ -253,13 +249,15 @@ export class KeyVaultBackupClient {
    * @param sasToken - The SAS token.
    * @param options - The optional parameters.
    */
-  public async beginSelectiveRestore(
+  public async beginSelectiveKeyRestore(
     keyName: string,
     folderUri: string,
     sasToken: string,
-    options: KeyVaultBeginBackupOptions = {}
-  ): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>> {
-    const poller = new KeyVaultSelectiveRestorePoller({
+    options: KeyVaultBeginSelectiveKeyRestoreOptions = {}
+  ): Promise<
+    PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
+  > {
+    const poller = new KeyVaultSelectiveKeyRestorePoller({
       ...mappings.folderUriParts(folderUri),
       keyName,
       sasToken,

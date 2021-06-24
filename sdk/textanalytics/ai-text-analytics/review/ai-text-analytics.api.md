@@ -19,9 +19,9 @@ export interface AnalysisPollOperationState<TResult> extends PollOperationState<
 
 // @public
 export interface AnalyzeActionsOperationMetadata extends OperationMetadata {
-    actionsFailedCount?: number;
-    actionsInProgressCount?: number;
-    actionsSucceededCount?: number;
+    actionsFailedCount: number;
+    actionsInProgressCount: number;
+    actionsSucceededCount: number;
     displayName?: string;
 }
 
@@ -328,11 +328,11 @@ export interface Match {
 
 // @public
 export interface OperationMetadata {
-    createdOn?: Date;
+    createdOn: Date;
     expiresOn?: Date;
-    lastModifiedOn?: Date;
-    operationId?: string;
-    status?: TextAnalyticsOperationStatus;
+    lastModifiedOn: Date;
+    operationId: string;
+    status: TextAnalyticsOperationStatus;
 }
 
 // @public
@@ -365,7 +365,7 @@ export interface PiiEntity extends Entity {
 export type PiiEntityCategory = string;
 
 // @public
-export enum PiiEntityDomainType {
+export enum PiiEntityDomain {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
@@ -451,7 +451,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 
 // @public
 export type RecognizePiiEntitiesAction = {
-    domain?: PiiEntityDomainType;
+    domain?: PiiEntityDomain;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
     disableServiceLogs?: boolean;
@@ -474,7 +474,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
-    domainFilter?: PiiEntityDomainType;
+    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
 }
 

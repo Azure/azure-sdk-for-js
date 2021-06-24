@@ -255,6 +255,30 @@ export const ResourceNameAvailabilityRequest: msRest.CompositeMapper = {
   }
 };
 
+export const FilePathAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "FilePathAvailabilityRequest",
+  type: {
+    name: "Composite",
+    className: "FilePathAvailabilityRequest",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        required: true,
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const QuotaAvailabilityRequest: msRest.CompositeMapper = {
   serializedName: "QuotaAvailabilityRequest",
   type: {
@@ -348,7 +372,7 @@ export const ActiveDirectory: msRest.CompositeMapper = {
       },
       organizationalUnit: {
         serializedName: "organizationalUnit",
-        defaultValue: "CN=Computers",
+        defaultValue: 'CN=Computers',
         type: {
           name: "String"
         }
@@ -361,6 +385,17 @@ export const ActiveDirectory: msRest.CompositeMapper = {
       },
       backupOperators: {
         serializedName: "backupOperators",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      administrators: {
+        serializedName: "administrators",
         type: {
           name: "Sequence",
           element: {
@@ -728,7 +763,7 @@ export const CapacityPool: msRest.CompositeMapper = {
       serviceLevel: {
         required: true,
         serializedName: "properties.serviceLevel",
-        defaultValue: "Premium",
+        defaultValue: 'Premium',
         type: {
           name: "String"
         }
@@ -756,9 +791,16 @@ export const CapacityPool: msRest.CompositeMapper = {
       },
       qosType: {
         serializedName: "properties.qosType",
-        defaultValue: "Auto",
+        defaultValue: 'Auto',
         type: {
           name: "String"
+        }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -822,7 +864,7 @@ export const CapacityPoolPatch: msRest.CompositeMapper = {
       },
       qosType: {
         serializedName: "properties.qosType",
-        defaultValue: "Auto",
+        defaultValue: 'Auto',
         type: {
           name: "String"
         }
@@ -926,6 +968,13 @@ export const ExportPolicyRule: msRest.CompositeMapper = {
         defaultValue: true,
         type: {
           name: "Boolean"
+        }
+      },
+      chownMode: {
+        serializedName: "chownMode",
+        defaultValue: 'Restricted',
+        type: {
+          name: "String"
         }
       }
     }
@@ -1195,7 +1244,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: "Premium",
+        defaultValue: 'Premium',
         type: {
           name: "String"
         }
@@ -1322,7 +1371,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       securityStyle: {
         serializedName: "properties.securityStyle",
-        defaultValue: "unix",
+        defaultValue: 'unix',
         type: {
           name: "String"
         }
@@ -1363,6 +1412,34 @@ export const Volume: msRest.CompositeMapper = {
         defaultValue: false,
         type: {
           name: "Boolean"
+        }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      coolnessPeriod: {
+        serializedName: "properties.coolnessPeriod",
+        constraints: {
+          InclusiveMaximum: 63,
+          InclusiveMinimum: 7
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      unixPermissions: {
+        nullable: true,
+        serializedName: "properties.unixPermissions",
+        constraints: {
+          MaxLength: 4,
+          MinLength: 4
+        },
+        type: {
+          name: "String"
         }
       }
     }
@@ -1531,7 +1608,7 @@ export const VolumePatch: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: "Premium",
+        defaultValue: 'Premium',
         type: {
           name: "String"
         }
@@ -2856,6 +2933,79 @@ export const BackupStatus: msRest.CompositeMapper = {
         serializedName: "errorMessage",
         type: {
           name: "String"
+        }
+      },
+      lastTransferSize: {
+        readOnly: true,
+        serializedName: "lastTransferSize",
+        type: {
+          name: "Number"
+        }
+      },
+      lastTransferType: {
+        readOnly: true,
+        serializedName: "lastTransferType",
+        type: {
+          name: "String"
+        }
+      },
+      totalTransferBytes: {
+        readOnly: true,
+        serializedName: "totalTransferBytes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RestoreStatus: msRest.CompositeMapper = {
+  serializedName: "restoreStatus",
+  type: {
+    name: "Composite",
+    className: "RestoreStatus",
+    modelProperties: {
+      healthy: {
+        readOnly: true,
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      relationshipStatus: {
+        readOnly: true,
+        serializedName: "relationshipStatus",
+        type: {
+          name: "String"
+        }
+      },
+      mirrorState: {
+        readOnly: true,
+        serializedName: "mirrorState",
+        type: {
+          name: "String"
+        }
+      },
+      unhealthyReason: {
+        readOnly: true,
+        serializedName: "unhealthyReason",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      totalTransferBytes: {
+        readOnly: true,
+        serializedName: "totalTransferBytes",
+        type: {
+          name: "Number"
         }
       }
     }

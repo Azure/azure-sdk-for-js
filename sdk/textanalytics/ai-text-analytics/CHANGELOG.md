@@ -2,6 +2,9 @@
 
 ## 5.1.0-beta.7 (Unreleased)
 
+### Breaking Changes
+
+- `PiiEntityDomainType` was renamed to `PiiEntityDomain`.
 
 ## 5.1.0-beta.6 (2021-05-18)
 

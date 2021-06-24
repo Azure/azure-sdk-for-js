@@ -12,11 +12,11 @@ urlFragment: communication-sms-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - SMS in some common scenarios.
 
-| **File Name**                               | **Description**                                                                           |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients                                               |
-| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message                                              |
-| [usingAadAuth.js][usingaadauth]             | (ONLY AVAILABLE IN NODE.JS RUNTIME) Use AAD token credentials when sending a SMS message. |
+| **File Name**                               | **Description**                                       |
+| ------------------------------------------- | ----------------------------------------------------- |
+| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients           |
+| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message          |
+| [usingAadAuth.js][usingaadauth]             | Use AAD token credentials when sending a SMS message. |
 
 ## Prerequisites
 
@@ -51,17 +51,17 @@ node sendSms.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node sendSms.js
+npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" FROM_PHONE_NUMBER="<from phone number>" AZURE_PHONE_NUMBER="<azure phone number>" TO_PHONE_NUMBERS="<to phone numbers>" AZURE_PHONE_NUMBER="<azure phone number>" node sendSms.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/javascript/sendSms.js
-[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithOptions.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/javascript/usingAadAuth.js
+[sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSms.js
+[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithOptions.js
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/usingAadAuth.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-sms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-sms/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-sms/README.md

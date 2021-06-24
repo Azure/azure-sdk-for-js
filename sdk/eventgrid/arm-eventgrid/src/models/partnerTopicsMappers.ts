@@ -54,7 +54,6 @@ export {
   PartnerRegistration,
   PartnerTopic,
   PartnerTopicsListResult,
-  PartnerTopicType,
   PartnerTopicUpdateParameters,
   PrivateEndpoint,
   PrivateEndpointConnection,

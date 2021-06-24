@@ -52,3 +52,7 @@ export const createUserAndTokenHttpClient: HttpClient = createMockHttpClient<
     expiresOn: new Date("2011/11/30")
   }
 });
+
+export const exchangeTeamsTokenHttpClient: HttpClient = createMockHttpClient<
+  CommunicationAccessToken
+>(200, tokenResponse);

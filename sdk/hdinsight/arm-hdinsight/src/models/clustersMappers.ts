@@ -11,6 +11,7 @@ export {
   ApplicationGetEndpoint,
   ApplicationGetHttpsEndpoint,
   ApplicationProperties,
+  AsyncOperationResult,
   Autoscale,
   AutoscaleCapacity,
   AutoscaleConfigurationUpdateParameter,
@@ -22,6 +23,7 @@ export {
   Cluster,
   ClusterCreateParametersExtended,
   ClusterCreateProperties,
+  ClusterCreateRequestValidationParameters,
   ClusterDefinition,
   ClusterDiskEncryptionParameters,
   ClusterGetProperties,
@@ -60,6 +62,7 @@ export {
   StorageAccount,
   StorageProfile,
   TrackedResource,
+  UpdateClusterIdentityCertificateParameters,
   UpdateGatewaySettingsParameters,
   VirtualNetworkProfile
 } from "../models/mappers";

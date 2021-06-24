@@ -103,7 +103,7 @@ function getValueInConnString(
     | "SharedAccessSignature"
 ): string {
   const searchKey = argument.toLowerCase();
-  const elements = connectionString.split(";");
+  const elements = connectionString.split(";").filter((e) => Boolean(e));
   for (const element of elements) {
     const trimmedElement = element.trim();
     const [elementKey, value] = getValuePair(trimmedElement);

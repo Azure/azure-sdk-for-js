@@ -1,4 +1,4 @@
-# Azure Logger library for JavaScript
+# Azure Logger client library for JavaScript
 
 The `@azure/logger` package can be used to enable logging in the Azure SDKs for JavaScript.
 
@@ -73,8 +73,16 @@ Using `AzureLogger`, it is possible to redirect the logging output from the Azur
 overriding the `AzureLogger.log` method. This may be useful if you want to redirect logs to
 a location other than stderr.
 
+## Next steps
+
+You can build and run the tests locally by executing `rushx test`. Explore the `test` folder to see advanced usage and behavior of the public classes.
+
+## Troubleshooting
+
+If you run into issues while using this library, please feel free to [file an issue](https://github.com/Azure/azure-sdk-for-js/issues/new).
+
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Flogger%2FREADME.png)

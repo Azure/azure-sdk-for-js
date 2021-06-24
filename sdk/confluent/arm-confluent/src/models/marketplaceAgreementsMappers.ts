@@ -13,8 +13,7 @@ export {
   ErrorResponseBody,
   OfferDetail,
   OrganizationResource,
-  OrganizationResourcePropertiesOfferDetail,
-  OrganizationResourcePropertiesUserDetail,
   ResourceProviderDefaultErrorResponse,
+  SystemData,
   UserDetail
 } from "../models/mappers";

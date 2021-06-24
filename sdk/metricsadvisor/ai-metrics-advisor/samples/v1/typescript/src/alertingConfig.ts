@@ -109,7 +109,8 @@ async function updateAlertConfig(
     ]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
-  const updated = await adminClient.updateAlertConfig(alertConfigId, patch);
+  await adminClient.updateAlertConfig(alertConfigId, patch);
+  const updated = await adminClient.getAlertConfig(alertConfigId);
   return updated;
 }
 

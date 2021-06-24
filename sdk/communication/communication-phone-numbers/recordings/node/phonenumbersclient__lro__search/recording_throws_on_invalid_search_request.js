@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "ea194035e8c8171fc5cab96f8ca9719a";
+module.exports.hash = "c2062ea5f2048a6c30795f545cbe7db3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"person","capabilities":{"calling":"none","sms":"inbound+outbound"},"quantity":1})
   .query(true)
-  .reply(400, {"error":{"code":"InvalidInput","message":"We are unable to find phone plans to match your requested capabilities.","target":"areacode"}}, [
+  .reply(400, {"error":{"code":"InternalError","message":"The server encountered an internal error.","innererror":{"code":"BadRequest","message":"We are unable to find phone plans to match your requested capabilities."}}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -15,13 +15,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'Gzg5lEuNK0G+gSyKWMcGXg.0',
+  '6h62eGZKf0y3cvasS5Kvag.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1285ms',
+  '1940ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0UAZ2YAAAAAAVJYwTVXRTQqeUM4icfkb8WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '07cvMYAAAAACRMlGwBt7bTLnOHBy0AY/LWVZSMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 13 Apr 2021 21:00:01 GMT'
+  'Fri, 18 Jun 2021 16:38:07 GMT'
 ]);

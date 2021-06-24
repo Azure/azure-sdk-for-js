@@ -15,6 +15,13 @@ matrix([[true, false]], async function(useAad) {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
+    before(function(this: Context) {
+      const skipPhoneNumbersTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
+      if (skipPhoneNumbersTests) {
+        this.skip();
+      }
+    });
+
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
@@ -39,7 +46,7 @@ matrix([[true, false]], async function(useAad) {
       await updatePoller.pollUntilDone();
       assert.ok(updatePoller.getOperationState().isCompleted);
       // assert.deepEqual(phoneNumber.capabilities, update);
-    }).timeout(90000);
+    }).timeout(120000);
 
     it("update throws when phone number isn't owned", async function() {
       const fakeNumber = "+14155550100";

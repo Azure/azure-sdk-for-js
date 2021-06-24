@@ -65,7 +65,7 @@ interface HealthcareJobStatus {
    * batch of input documents.
    */
   modelVersion?: string;
-  operationMetdata?: AnalyzeHealthcareEntitiesOperationMetadata;
+  operationMetdata: Omit<AnalyzeHealthcareEntitiesOperationMetadata, "operationId">;
 }
 
 /**
@@ -122,7 +122,7 @@ export interface AnalyzeHealthcareOperationState
  */
 function getMetaInfoFromResponse(
   response: HealthcareJobState
-): AnalyzeHealthcareEntitiesOperationMetadata {
+): Omit<AnalyzeHealthcareEntitiesOperationMetadata, "operationId"> {
   return {
     createdOn: response.createdDateTime,
     lastModifiedOn: response.lastUpdateDateTime,
@@ -348,10 +348,10 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       serializerOptions: this.options.serializerOptions
     });
 
-    state.createdOn = operationStatus.operationMetdata?.createdOn;
-    state.expiresOn = operationStatus.operationMetdata?.expiresOn;
-    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
-    state.status = operationStatus.operationMetdata?.status;
+    state.createdOn = operationStatus.operationMetdata.createdOn;
+    state.expiresOn = operationStatus.operationMetdata.expiresOn;
+    state.lastModifiedOn = operationStatus.operationMetdata.lastModifiedOn;
+    state.status = operationStatus.operationMetdata.status;
 
     if (!state.isCompleted && operationStatus.done) {
       const pagedIterator = this.listHealthcareEntitiesByPage(state.operationId!, {

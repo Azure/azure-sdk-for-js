@@ -113,7 +113,7 @@ ruleTester.run("ts-config-sourcemap", rule, {
       filename: "tsconfig.json"
     },
     {
-      // a full example tsconfig.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/tsconfig.json)
+      // a full example tsconfig.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/tsconfig.json)
       code: exampleTsconfigGood,
       filename: "tsconfig.json"
     },

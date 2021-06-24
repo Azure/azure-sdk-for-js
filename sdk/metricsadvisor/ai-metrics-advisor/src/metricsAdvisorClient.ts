@@ -44,63 +44,63 @@ import { createClientPipeline } from "./createClientPipeline";
 /**
  * Client options used to configure Metrics Advisor API requests.
  */
-
 export interface MetricsAdvisorClientOptions extends PipelineOptions {}
 
 /**
  * Options for listing incidents for detection configurations
  */
-
-export type ListIncidentsForDetectionConfigurationOptions = {
+export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
+  /** Dimension Filter */
   dimensionFilter?: DimensionKey[]; // lifted
-} & OperationOptions;
+}
 
 /**
  * Options for retreiving metric enriched series data
  */
-
-export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
+export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {}
 
 /**
  * Options for listing anomalies for detection configurations
  */
-
-export type ListAnomaliesForDetectionConfigurationOptions = {
+export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
+  /** Dimension Filter */
   dimensionFilter?: DimensionKey[];
+  /** Severity Filter */
   severityFilter?: SeverityFilterCondition;
-} & OperationOptions;
+}
 
 /**
  * Options for listing anomalies for alert configurations
  */
-
-export type ListAnomaliesForAlertConfigurationOptions = {
+export interface ListAnomaliesForAlertConfigurationOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing incidents for an alert
  */
-
-export type ListIncidentsForAlertOptions = {
+export interface ListIncidentsForAlertOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing dimension values for detection configurations
  */
-
-export type ListAnomalyDimensionValuesOptions = {
+export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   dimensionFilter?: DimensionKey;
-} & OperationOptions;
+}
 
 /**
  * Options for listing feedbacks
  */
-
-export type ListFeedbackOptions = {
+export interface ListFeedbackOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * filter when listing feedbacks
@@ -124,53 +124,52 @@ export type ListFeedbackOptions = {
      */
     timeMode?: FeedbackQueryTimeMode;
   };
-} & OperationOptions;
+}
 
 /**
  * Options for listing series definitions of a metric
  */
-
-export type ListMetricSeriesDefinitionsOptions = {
+export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * filter specific dimension name and values
    */
   dimensionFilter?: Record<string, string[]>;
-} & OperationOptions;
+}
 
 /**
  * Options for retreiving metric series data
  */
-
-export type GetMetricSeriesDataOptions = OperationOptions;
+export interface GetMetricSeriesDataOptions extends OperationOptions {}
 
 /**
  * Options for listing alerts
  */
-
-export type ListAlertsOptions = {
+export interface ListAlertsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing dimension values of a metric
  */
-
-export type ListMetricDimensionValuesOptions = {
+export interface ListMetricDimensionValuesOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * dimension value to be filtered
    */
   dimensionValueFilter?: string;
-} & OperationOptions;
+}
 
 /**
  * Options for listing metric enrichment status
  */
-
-export type ListMetricEnrichmentStatusOptions = {
+export interface ListMetricEnrichmentStatusOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Client class for interacting with Azure Metrics Advisor Service to query alerts/incidents/anomalies, diagnose incidents, provide metric feedback
@@ -374,7 +373,6 @@ export class MetricsAdvisorClient {
    * @param timeMode - Query time mode - "AnomalyTime" | "CreatedTime" | "ModifiedTime"
    * @param options - The options parameter.
    */
-
   public listAlerts(
     alertConfigId: string,
     startTime: Date | string,
@@ -435,7 +433,7 @@ export class MetricsAdvisorClient {
         alertConfigId,
         alertId,
         {
-          ...options,
+          skip: options.skip,
           maxpagesize: maxPageSize
         }
       );
@@ -878,7 +876,6 @@ export class MetricsAdvisorClient {
   /**
    * listing anomalies for detection config - segments
    */
-
   private async *listSegmentsOfAnomaliesForDetectionConfig(
     detectionConfigId: string,
     startTime: Date,
@@ -968,7 +965,6 @@ export class MetricsAdvisorClient {
   /**
    * listing anomalies for detection config - items
    */
-
   private async *listItemsOfAnomaliesForDetectionConfig(
     detectionConfigId: string,
     startTime: Date,

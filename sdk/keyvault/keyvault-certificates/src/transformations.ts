@@ -30,7 +30,7 @@ import {
   JsonWebKeyType as CertificateKeyType,
   ErrorModel
 } from "./generated/models";
-import { parseKeyVaultCertificateId } from "./identifier";
+import { parseKeyVaultCertificateIdentifier } from "./identifier";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -163,7 +163,7 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
 }
 
 export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
-  const parsedId = parseKeyVaultCertificateId(issuer.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(issuer.id!);
   const attributes: IssuerAttributes = issuer.attributes || {};
 
   const publicIssuer: CertificateIssuer = {
@@ -194,7 +194,7 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 export function getCertificateFromCertificateBundle(
   certificateBundle: CertificateBundle
 ): KeyVaultCertificate {
-  const parsedId = parseKeyVaultCertificateId(certificateBundle.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
@@ -226,7 +226,7 @@ export function getCertificateFromCertificateBundle(
 export function getCertificateWithPolicyFromCertificateBundle(
   certificateBundle: CertificateBundle
 ): KeyVaultCertificateWithPolicy {
-  const parsedId = parseKeyVaultCertificateId(certificateBundle.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
   const policy = toPublicPolicy(certificateBundle.policy || {});
@@ -279,7 +279,7 @@ export function getDeletedCertificateFromDeletedCertificateBundle(
 }
 
 export function getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
-  const parsedId = parseKeyVaultCertificateId(item.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(item.id!);
 
   const attributes: any = item.attributes || {};
 
@@ -359,7 +359,7 @@ export function coreContactsToCertificateContacts(contacts: CoreContacts): Certi
 export function getPropertiesFromCertificateBundle(
   certificateBundle: CertificateBundle
 ): CertificateProperties {
-  const parsedId = parseKeyVaultCertificateId(certificateBundle.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
   const abstractProperties: CertificateProperties = {

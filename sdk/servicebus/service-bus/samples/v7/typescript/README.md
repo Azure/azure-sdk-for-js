@@ -82,23 +82,23 @@ npx cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEU
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendmessages]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/sendMessages.ts
-[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesLoop.ts
-[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesStreaming.ts
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/usingAadAuth.ts
-[browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/browseMessages.ts
-[session]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/session.ts
-[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/scheduledMessages.ts
-[useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/useProxy.ts
-[advanced_administrationclient]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/administrationClient.ts
-[advanced_sessionroundrobin]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/sessionRoundRobin.ts
-[advanced_deferral]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/deferral.ts
-[advanced_listingentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts
-[advanced_sessionstate]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/sessionState.ts
-[advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/movingMessagesToDLQ.ts
-[advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/processMessageFromDLQ.ts
+[sendmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/sendMessages.ts
+[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesLoop.ts
+[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesStreaming.ts
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/usingAadAuth.ts
+[browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/browseMessages.ts
+[session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/session.ts
+[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/scheduledMessages.ts
+[useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/useProxy.ts
+[advanced_administrationclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/administrationClient.ts
+[advanced_sessionroundrobin]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/sessionRoundRobin.ts
+[advanced_deferral]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/deferral.ts
+[advanced_listingentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts
+[advanced_sessionstate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/sessionState.ts
+[advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/movingMessagesToDLQ.ts
+[advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/processMessageFromDLQ.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

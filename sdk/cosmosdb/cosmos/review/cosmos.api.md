@@ -1546,6 +1546,8 @@ export interface StatusCodesType {
     // (undocumented)
     Created: 201;
     // (undocumented)
+    ENOTFOUND: "ENOTFOUND";
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;

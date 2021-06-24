@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-use-before-define */
 import { assert } from "chai";
 
 import {
@@ -14,7 +13,11 @@ import {
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration
 } from "../../src/generated/models";
-import { DataFeedGranularity, MetricDetectionCondition } from "../../src/models";
+import {
+  AzureBlobDataFeedSource,
+  DataFeedGranularity,
+  MetricDetectionCondition
+} from "../../src/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -99,7 +102,7 @@ describe("Transforms", () => {
     if (actual.feedbackType === "Anomaly") {
       assert.equal(actual.startTime, anomalyFeedback.startTime);
       assert.equal(actual.endTime, anomalyFeedback.endTime);
-      assert.equal(actual.value, anomalyFeedback.value.anomalyValue);
+      assert.equal(actual.value, anomalyFeedback.value?.anomalyValue);
       assert.equal(actual.metricId, anomalyFeedback.metricId);
       assert.deepStrictEqual(actual.anomalyDetectionConfigurationSnapshot, undefined);
     }
@@ -119,7 +122,7 @@ describe("Transforms", () => {
     assert.equal(actual.feedbackType, "ChangePoint");
     if (actual.feedbackType === "ChangePoint") {
       assert.equal(actual.startTime, feedback.startTime);
-      assert.equal(actual.value, feedback.value.changePointValue);
+      assert.equal(actual.value, feedback.value?.changePointValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
   });
@@ -140,7 +143,7 @@ describe("Transforms", () => {
     if (actual.feedbackType === "Comment") {
       assert.equal(actual.startTime, feedback.startTime);
       assert.equal(actual.endTime, feedback.endTime);
-      assert.equal(actual.comment, feedback.value.commentValue);
+      assert.equal(actual.comment, feedback.value?.commentValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
   });
@@ -159,8 +162,8 @@ describe("Transforms", () => {
     assert.equal(actual.id, feedbackCommon.feedbackId);
     assert.equal(actual.feedbackType, "Period");
     if (actual.feedbackType === "Period") {
-      assert.equal(actual.periodType, feedback.value.periodType);
-      assert.equal(actual.periodValue, feedback.value.periodValue);
+      assert.equal(actual.periodType, feedback.value?.periodType);
+      assert.equal(actual.periodValue, feedback.value?.periodValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
   });
@@ -168,6 +171,12 @@ describe("Transforms", () => {
   it("fromServiceDataFeedDetailUnion()", () => {
     const serviceDataFeed: ServiceDataFeedDetailUnion = {
       dataSourceType: "AzureBlob",
+      dataSourceParameter: {
+        connectionString: "https://connectionString",
+        blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json",
+        container: "thisContainer"
+      },
+      authenticationType: "ManagedIdentity",
       dataFeedName: "name",
       metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
       dimension: [{ name: "d1", displayName: "d1 display" }],
@@ -176,7 +185,14 @@ describe("Transforms", () => {
     };
 
     const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
-
+    const actualSource = actual.source as AzureBlobDataFeedSource;
+    assert.strictEqual(actualSource.authenticationType, serviceDataFeed.authenticationType);
+    assert.strictEqual(actualSource.blobTemplate, serviceDataFeed.dataSourceParameter.blobTemplate);
+    assert.strictEqual(
+      actualSource.connectionString,
+      serviceDataFeed.dataSourceParameter.connectionString
+    );
+    assert.strictEqual(actualSource.container, serviceDataFeed.dataSourceParameter.container);
     assert.strictEqual(actual.name, serviceDataFeed.dataFeedName);
     assert.deepStrictEqual(actual.schema.dimensions, serviceDataFeed.dimension);
     assert.deepStrictEqual(actual.schema.metrics, serviceDataFeed.metrics);
@@ -196,7 +212,6 @@ describe("Transforms", () => {
 
     const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
     assert.strictEqual(actual.source.dataSourceType, "Unknown");
-    assert.deepStrictEqual(actual.source.dataSourceParameter, serviceDataFeed.dataSourceParameter);
   });
 
   [
@@ -212,7 +227,13 @@ describe("Transforms", () => {
         metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
         dimension: [{ name: "d1", displayName: "d1 display" }],
         granularityName: granularity.original as ServiceGranularity,
-        dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+        dataStartFrom: new Date(Date.UTC(2020, 9, 1)),
+        dataSourceParameter: {
+          connectionString: "https://connectionString",
+          blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json",
+          container: "thisContainer"
+        },
+        authenticationType: "ManagedIdentity"
       };
 
       const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);

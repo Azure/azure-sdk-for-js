@@ -13,6 +13,10 @@ import {
   isPlaybackMode
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
+import {
+  applyRequestBodyTransformations,
+  applyRequestBodyTransformationsOnFixture
+} from "./utils/requestBodyTransform";
 
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
 // A new request object is created
@@ -29,7 +33,7 @@ import { customConsoleLog } from "./customConsoleLog";
 // Nise module does not have a native implementation of record/playback like Nock does
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
-  private recordings: any[] = [];
+  private recordings: Record<string, unknown>[] = [];
   private recordingInFlight: Promise<void>[] = [];
   private xhr: nise.FakeXMLHttpRequestStatic | undefined;
 
@@ -92,7 +96,21 @@ export class NiseRecorder extends BaseRecorder {
     return (
       recording.method === request.method &&
       recording.url === request.url &&
-      recording.requestBody === request.requestBody
+      // For backward compatibility, calling `applyRequestBodyTransformations` on
+      // - the request-body in the recording
+      //   and
+      // - the request-body of the new request
+      //
+      // Once all the browser recordings are regenerated, L.H.S can be updated to `recording.requestBody`
+      // since the `applyRequestBodyTransformations` would have been applied before saving the recording
+      applyRequestBodyTransformations(
+        recording.requestBody,
+        this.environmentSetup.requestBodyTransformations
+      ) ===
+        applyRequestBodyTransformations(
+          request.requestBody,
+          this.environmentSetup.requestBodyTransformations
+        )
     );
   }
 
@@ -224,6 +242,14 @@ export class NiseRecorder extends BaseRecorder {
       await Promise.all(this.recordingInFlight);
       // recordings at this point are in the JSON format.
       this.recordings = this.filterSecrets(this.recordings);
+
+      this.recordings = this.recordings.map((singleRecording) =>
+        applyRequestBodyTransformationsOnFixture(
+          "browser",
+          singleRecording,
+          this.environmentSetup.requestBodyTransformations
+        )
+      );
 
       // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
       console.log(

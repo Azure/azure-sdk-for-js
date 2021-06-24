@@ -76,7 +76,7 @@ export class TracingPolicy extends BaseRequestPolicy {
 
     try {
       // set headers
-      const spanContext = span.context();
+      const spanContext = span.spanContext();
       const traceParentHeader = getTraceParentHeader(spanContext);
       if (traceParentHeader) {
         request.headers.set("traceparent", traceParentHeader);

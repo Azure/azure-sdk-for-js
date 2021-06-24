@@ -1,22 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { defaultLock } from "@azure/core-amqp";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
 import { ConnectionContext } from "../../../src/connectionContext";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver";
 import { LinkEntity } from "../../../src/core/linkEntity";
+import { ManagementClient } from "../../../src/core/managementClient";
+import { MessageSender } from "../../../src/core/messageSender";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import { receiverLogger } from "../../../src/log";
-import { isLinkLocked } from "../utils/misc";
+import { MessageSession } from "../../../src/session/messageSession";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("LinkEntity unit tests", () => {
   class LinkForTests extends LinkEntity<Receiver> {
+    private _removeLinkFromContextCalled: boolean = false;
+
+    protected removeLinkFromContext(): void {
+      this._removeLinkFromContextCalled = true;
+    }
+
     async createRheaLink(options: ReceiverOptions): Promise<Receiver> {
       return createRheaReceiverForTests(options);
     }
@@ -41,6 +50,10 @@ describe("LinkEntity unit tests", () => {
 
   afterEach(async () => {
     await linkEntity.close();
+    assert.isTrue(
+      (linkEntity as LinkForTests)["_removeLinkFromContextCalled"],
+      "Every link should have a chance to remove themselves from the cache"
+    );
   });
 
   describe("initLink", () => {
@@ -80,10 +93,6 @@ describe("LinkEntity unit tests", () => {
 
       linkEntity["_negotiateClaim"] = async () => {
         ++timesCalled;
-
-        // this will just resolve immediately because
-        // we're already connecting.
-        assert.isTrue(isLinkLocked(linkEntity));
       };
 
       await linkEntity.initLink({});
@@ -113,9 +122,7 @@ describe("LinkEntity unit tests", () => {
         try {
           const old = linkEntity["checkIfConnectionReady"];
           linkEntity["checkIfConnectionReady"] = () => {
-            if (defaultLock.isBusy(linkEntity["_context"]["cbsSession"]["cbsLock"])) {
-              connectionContext["isConnectionClosing"] = () => true;
-            }
+            connectionContext["isConnectionClosing"] = () => true;
             old.apply(linkEntity);
           };
 
@@ -130,9 +137,7 @@ describe("LinkEntity unit tests", () => {
         try {
           const old = linkEntity["checkIfConnectionReady"];
           linkEntity["checkIfConnectionReady"] = () => {
-            if (defaultLock.isBusy(linkEntity["_context"]["negotiateClaimLock"])) {
-              connectionContext["isConnectionClosing"] = () => true;
-            }
+            connectionContext["isConnectionClosing"] = () => true;
             old.apply(linkEntity);
           };
 
@@ -146,8 +151,8 @@ describe("LinkEntity unit tests", () => {
       it("connection is restarting just before createRheaLink()", async () => {
         try {
           const old = linkEntity["_negotiateClaim"];
-          linkEntity["_negotiateClaim"] = async () => {
-            await old.apply(linkEntity);
+          linkEntity["_negotiateClaim"] = async (...args) => {
+            await old.apply(linkEntity, args);
             connectionContext["isConnectionClosing"] = () => true;
           };
 
@@ -242,13 +247,13 @@ describe("LinkEntity unit tests", () => {
     });
 
     it("abortSignal - if a link was actually created we clean up", async () => {
-      let isAborted = false;
+      const abortController = new AbortController();
 
       const orig = linkEntity["createRheaLink"];
       let returnedReceiver: Receiver | undefined;
 
       linkEntity["createRheaLink"] = async (options) => {
-        isAborted = true;
+        abortController.abort();
 
         returnedReceiver = await orig.call(linkEntity, options);
         assert.isTrue(
@@ -259,11 +264,7 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({}, {
-          get aborted(): boolean {
-            return isAborted;
-          }
-        } as AbortSignalLike);
+        await linkEntity.initLink({}, abortController.signal);
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.name, "AbortError");
@@ -281,6 +282,31 @@ describe("LinkEntity unit tests", () => {
         linkEntity.isOpen(),
         "Can always reopen if the reason we closed the link is because of the abortSignal"
       );
+    });
+
+    it("abortSignal - is passed through to negotiateClaim", async () => {
+      const abortController = new AbortController();
+
+      let sawAbortSignal = false;
+      try {
+        const old = linkEntity["_negotiateClaim"];
+        linkEntity["_negotiateClaim"] = async (props) => {
+          if (props.abortSignal) {
+            sawAbortSignal = true;
+          }
+          abortController.abort();
+          return old.call(linkEntity, props);
+        };
+
+        await linkEntity.initLink({}, abortController.signal);
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");
+        assert.deepNestedInclude(err, {
+          name: "AbortError",
+          message: "The operation was aborted."
+        });
+      }
     });
 
     it("can use a custom name via options", async () => {
@@ -314,6 +340,129 @@ describe("LinkEntity unit tests", () => {
       await linkEntity.close();
       await linkEntity.close();
     });
+  });
+
+  describe("cache cleanup", () => {
+    it("batchingreceiver", () => {
+      const batchingReceiver = new BatchingReceiver(connectionContext, "entityPath", {
+        abortSignal: undefined,
+        lockRenewer: undefined,
+        receiveMode: "receiveAndDelete",
+        tracingOptions: {}
+      });
+
+      initCachedLinks(batchingReceiver.name);
+
+      batchingReceiver["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: batchingReceiver.name,
+        clearedCache: connectionContext.messageReceivers,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageSessions,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    it("streamingreceiver", () => {
+      const streamingReceiver = new StreamingReceiver(connectionContext, "entityPath", {
+        abortSignal: undefined,
+        lockRenewer: undefined,
+        receiveMode: "receiveAndDelete",
+        tracingOptions: {}
+      });
+
+      initCachedLinks(streamingReceiver.name);
+
+      streamingReceiver["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: streamingReceiver.name,
+        clearedCache: connectionContext.messageReceivers,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageSessions,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    it("sender", () => {
+      const sender = new MessageSender(connectionContext, "entityPath", {});
+
+      initCachedLinks(sender.name);
+
+      sender["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: sender.name,
+        clearedCache: connectionContext.senders,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageReceivers,
+          connectionContext.messageSessions
+        ]
+      });
+    });
+
+    it("session", () => {
+      const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
+        abortSignal: undefined,
+        retryOptions: {}
+      });
+
+      initCachedLinks(messageSession.name);
+
+      messageSession["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: messageSession.name,
+        clearedCache: connectionContext.messageSessions,
+        unchangedCaches: [
+          connectionContext.managementClients,
+          connectionContext.messageReceivers,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    it("managementclient", () => {
+      const mgmtClient = new ManagementClient(connectionContext, "entityPath");
+
+      initCachedLinks(mgmtClient.name);
+
+      mgmtClient["removeLinkFromContext"]();
+
+      assertLinkCaches({
+        name: mgmtClient.name,
+        clearedCache: connectionContext.managementClients,
+        unchangedCaches: [
+          connectionContext.messageSessions,
+          connectionContext.messageReceivers,
+          connectionContext.senders
+        ]
+      });
+    });
+
+    function assertLinkCaches(args: {
+      name: string;
+      clearedCache: { [name: string]: any };
+      unchangedCaches: { [name: string]: any }[];
+    }): void {
+      assert.isEmpty(
+        args.unchangedCaches.filter((cache) => cache[args.name] == null),
+        "Unrelated caches should not be changed."
+      );
+    }
+
+    function initCachedLinks(name: string) {
+      connectionContext.messageReceivers[name] = {} as any;
+      connectionContext.senders[name] = {} as any;
+      connectionContext.managementClients[name] = {} as any;
+      connectionContext.messageSessions[name] = {} as any;
+    }
   });
 
   function assertLinkEntityOpen(): void {

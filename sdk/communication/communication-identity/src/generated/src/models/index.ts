@@ -89,6 +89,13 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
+export interface TeamsUserAccessTokenRequest {
+  /**
+   * Azure Active Directory access token to acquire a new ACS access token.
+   */
+  token: string;
+}
+
 export interface CommunicationIdentityAccessTokenRequest {
   /**
    * List of scopes attached to the token.
@@ -126,6 +133,26 @@ export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTok
      * The response body as parsed JSON or XML
      */
     parsedBody: CommunicationIdentityAccessTokenResult;
+  };
+};
+
+/**
+ * Contains response data for the exchangeTeamsUserAccessToken operation.
+ */
+export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationIdentityAccessToken;
   };
 };
 
