@@ -24,7 +24,12 @@ module.exports = function (config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["dist-test/index.browser.js"],
+    files: [
+      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
+      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
+      "dist-test/index.browser.js",
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
