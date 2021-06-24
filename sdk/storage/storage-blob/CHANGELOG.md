@@ -4,12 +4,13 @@
 
 ### Features Added
 
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+
 ### Breaking Changes
 
 ### Key Bugs Fixed
 
 ### Fixed
-
 
 ## 12.6.0 (2021-06-09)
 
@@ -355,12 +356,12 @@
 - [Breaking] The static methods to create client types are removed. The functionality is moved into new instance methods added to the parent clients.
 - [Breaking] The telemetry strings have been updated.
   - `Azure-Storage/${SDK_VERSION}` is updated to `azsdk-js-storagefile/${SDK_VERSION}`.
-- [Breaking]  withPipeline method is removed.
+- [Breaking] withPipeline method is removed.
 - Async iterators with pagination support are added for listing methods
   - `listContainers()`, `listBlobsFlat()` and `listBlobsByHierarchy()`
   - Please refer to the samples for async iterators in the `samples` folder.
-- [Breaking]  Methods that list segments(`listBlobFlatSegment()` and `listContainersSegment()`) are no longer exposed in public api.
-- [Breaking]  High level convenience functions are moved into clients as their instance member function.
+- [Breaking] Methods that list segments(`listBlobFlatSegment()` and `listContainersSegment()`) are no longer exposed in public api.
+- [Breaking] High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToBlockBlob()`, `uploadStreamToBlockBlob()` and `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and `BlockBlobClient.uploadBrowserData()` respectively
   - `downloadBlobToBuffer()` -> `BlobClient.downloadToBuffer()`
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
