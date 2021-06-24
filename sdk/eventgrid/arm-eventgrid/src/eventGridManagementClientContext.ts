@@ -10,23 +10,29 @@
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-eventgrid";
-const packageVersion = "10.0.0";
+const packageVersion = "11.0.0";
 
 export class EventGridManagementClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
    * Initializes a new instance of the EventGridManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Subscription credentials that uniquely identify a Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.EventGridManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.EventGridManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -44,7 +50,7 @@ export class EventGridManagementClientContext extends msRestAzure.AzureServiceCl
 
     super(credentials, options);
 
-    this.apiVersion = '2020-10-15-preview';
+    this.apiVersion = '2021-06-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
