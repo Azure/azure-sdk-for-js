@@ -70,7 +70,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         retryAfterHeader
       );
       if (delayInMs) {
-        await delay(delayInMs, httpRequest.abortSignal, StandardAbortMessage);
+        await delay(delayInMs, undefined, httpRequest.abortSignal, StandardAbortMessage);
         if (httpRequest.abortSignal?.aborted) {
           throw new AbortError(StandardAbortMessage);
         }

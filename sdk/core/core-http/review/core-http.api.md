@@ -181,7 +181,7 @@ export class DefaultHttpClient extends FetchHttpClient {
     }
 
 // @public
-export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
+export function delay<T>(delayInMs: number, value?: T, abortSignal?: AbortSignalLike, abortErrorMsg?: string): Promise<T | void>;
 
 // @public
 export interface DeserializationContentTypes {

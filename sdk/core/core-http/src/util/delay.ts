@@ -15,9 +15,9 @@ const StandardAbortMessage = "The operation was aborted.";
  */
 export function delay<T>(
   delayInMs: number,
+  value?: T,
   abortSignal?: AbortSignalLike,
-  abortErrorMsg?: string,
-  value?: T
+  abortErrorMsg?: string
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
