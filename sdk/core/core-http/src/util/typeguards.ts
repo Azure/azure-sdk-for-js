@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * Helper TypeGuard that checks if something is defined or not.
+ * Helper TypeGuard that checks if the value is not null or undefined.
  * @param thing - Anything
  * @internal
  */
