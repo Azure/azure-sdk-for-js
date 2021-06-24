@@ -2,6 +2,7 @@ parameters:
   Artifacts: []
   TestPipeline: false
   ServiceDirectory: not-specified
+  IncludeRelease: true
 
 steps:
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
@@ -73,7 +74,7 @@ steps:
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        if (Test-Path -Path $(Build.SourcesDirectory)/docGen/$artifactName.zip)
+        if (${{ parameters.IncludeRelease }} -eq true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
