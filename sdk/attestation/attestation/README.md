@@ -13,6 +13,7 @@ For a more complete view of Azure libraries, see the [azure sdk typescript relea
 > NOTE: This is a preview SDK for the Microsoft Azure Attestation service. It provides all the essential functionality to access the Azure Attestation service, it should be considered 'as-is" and is subject to changes in the future which may break compatibility with previous versions.
 
 Key links:
+
 - [Source code][source_code] 
 - [Package (NPM)][Attestation_npm] 
 - [API reference documentation][API_reference] 
