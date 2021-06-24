@@ -2,6 +2,9 @@
 
 ## 1.0.6 (Unreleased)
 
+### New Features
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ## 1.0.5 (2021-04-12)
 

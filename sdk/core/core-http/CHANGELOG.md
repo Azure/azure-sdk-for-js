@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+
 ### Breaking Changes
 
 - Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
