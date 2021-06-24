@@ -380,6 +380,7 @@ export class TableServiceClient {
 export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
     version?: string;
+    allowInsecureConnection?: boolean;
 };
 
 // @public
