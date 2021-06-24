@@ -52,29 +52,7 @@ export const defaultDataTransformer = {
     }
     return result;
   },
-  /**
-   * A function that takes the body property from an AMQP message
-   * (an AMQP Data type (data section in rhea terms)) and returns the decoded message body.
-   * If it cannot decode the body then it returns the body
-   * as-is.
-   *
-   * NOTE: Use this to decode a message body when you know that the entire contents are _only_ contained
-   * in the 'data' section of the message (for instance, messages from the $mgmt link). Otherwise
-   * use 'defaultDataTransformer.decodeWithType', which can handle data coming from separate sections
-   * of the AMQP mesage.
-   *
-   * @param body - The AMQP message body
-   * @return decoded body or the given body as-is.
-   */
-  decode(body: unknown): unknown {
-    let actualContent = body;
 
-    if (isRheaAmqpSection(body)) {
-      actualContent = body.content;
-    }
-
-    return tryToJsonDecode(actualContent);
-  },
   /**
    * A function that takes the body property from an AMQP message, which can come from either
    * the 'data', 'value' or 'sequence' sections of an AMQP message.
