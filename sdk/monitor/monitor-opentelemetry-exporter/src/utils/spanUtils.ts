@@ -5,7 +5,7 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
-import { SERVICE_RESOURCE } from "@opentelemetry/resources";
+import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
   HTTP_METHOD,
@@ -22,15 +22,10 @@ import {
   MS_LINKS,
   INPROC
 } from "./constants/applicationinsights";
-import {
-  GRPC_ERROR_MESSAGE,
-  GRPC_ERROR_NAME,
-  GRPC_METHOD,
-  GRPC_STATUS_CODE
-} from "./constants/span/grpcAttributes";
+import { GRPC_METHOD, GRPC_STATUS_CODE } from "./constants/span/grpcAttributes";
 import { msToTimeSpan } from "./breezeUtils";
 import { getInstance } from "../platform";
-import { DB_STATEMENT, DB_TYPE, DB_INSTANCE } from "./constants/span/dbAttributes";
+import { DB_NAME, DB_STATEMENT } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "../generated";
@@ -39,14 +34,14 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
 
-  tags[AI_OPERATION_ID] = span.spanContext.traceId;
+  tags[AI_OPERATION_ID] = span.spanContext().traceId;
   if (span.parentSpanId) {
     tags[AI_OPERATION_PARENT_ID] = span.parentSpanId;
   }
   if (span.resource && span.resource.attributes) {
-    const serviceName = span.resource.attributes[SERVICE_RESOURCE.NAME];
-    const serviceNamespace = span.resource.attributes[SERVICE_RESOURCE.NAMESPACE];
-    const serviceInstanceId = span.resource.attributes[SERVICE_RESOURCE.INSTANCE_ID];
+    const serviceName = span.resource.attributes[ResourceAttributes.SERVICE_NAME];
+    const serviceNamespace = span.resource.attributes[ResourceAttributes.SERVICE_NAMESPACE];
+    const serviceInstanceId = span.resource.attributes[ResourceAttributes.SERVICE_INSTANCE_ID];
     if (serviceName) {
       if (serviceNamespace) {
         tags[AI_CLOUD_ROLE] = `${serviceNamespace}.${serviceName}`;
@@ -83,11 +78,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   const measurements: Measurements = {};
 
   for (const key of Object.keys(span.attributes)) {
-    if (
-      key === GRPC_ERROR_MESSAGE ||
-      key === GRPC_ERROR_NAME ||
-      !(key.startsWith("http.") || key.startsWith("grpc.") || key.startsWith("db."))
-    ) {
+    if (!(key.startsWith("http.") || key.startsWith("rpc.") || key.startsWith("db."))) {
       properties[key] = span.attributes[key] as string;
     }
   }
@@ -107,7 +98,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const data: RemoteDependencyData = {
     name: span.name,
-    id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+    id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
     success: span.status.code === SpanStatusCode.OK,
     resultCode: String(span.status.code),
     target: span.attributes[HTTP_URL] as string | undefined,
@@ -144,14 +135,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   if (span.attributes[DB_STATEMENT]) {
     data.name = String(span.attributes[DB_STATEMENT]);
     data.data = String(span.attributes[DB_STATEMENT]);
-    if (span.attributes[DB_TYPE]) {
-      data.type = String(span.attributes[DB_TYPE]);
-    } else {
-      data.type = "DB";
-    }
-
-    if (span.attributes[DB_INSTANCE]) {
-      data.target = String(span.attributes[DB_INSTANCE]);
+    data.type = "DB";
+    if (span.attributes[DB_NAME]) {
+      data.target = String(span.attributes[DB_NAME]);
     }
   }
 
@@ -161,7 +147,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 function createRequestData(span: ReadableSpan): RequestData {
   const data: RequestData = {
     name: span.name,
-    id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+    id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
     success: span.status.code === SpanStatusCode.OK,
     responseCode: String(span.status.code),
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
