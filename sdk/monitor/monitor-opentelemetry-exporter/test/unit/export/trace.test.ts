@@ -152,8 +152,8 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should handle permanent redirects in Azure Monitor", async () => {
         const exporter = new TestExporter();
-        let redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        let redirectLocation = redirectHost + "/v2/track";
+        const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
         const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
@@ -161,8 +161,8 @@ describe("#AzureMonitorBaseExporter", () => {
         redirectScope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
         scope.reply(308, {}, { location: redirectLocation });
 
-        let result = await exporter.exportEnvelopesPrivate([envelope]);
-        let persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(
@@ -173,8 +173,8 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should handle temporary redirects in Azure Monitor", async () => {
         const exporter = new TestExporter();
-        let redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        let redirectLocation = redirectHost + "/v2/track";
+        const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
         const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
@@ -182,8 +182,8 @@ describe("#AzureMonitorBaseExporter", () => {
         redirectScope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
         scope.reply(307, {}, { location: redirectLocation });
 
-        let result = await exporter.exportEnvelopesPrivate([envelope]);
-        let persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(
@@ -194,8 +194,8 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should use redirect URL for following requests", async () => {
         const exporter = new TestExporter();
-        let redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        let redirectLocation = redirectHost + "/v2/track";
+        const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
         const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
@@ -218,8 +218,8 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should stop redirecting when circular redirect is triggered", async () => {
         const exporter = new TestExporter();
-        let redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        let redirectLocation = redirectHost + "/v2/track";
+        const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
         const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
@@ -234,7 +234,7 @@ describe("#AzureMonitorBaseExporter", () => {
           })
           .persist();
 
-        let result = await exporter.exportEnvelopesPrivate([envelope]);
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.FAILED);
         assert.strictEqual(result.error?.message, "Circular redirect");
       });

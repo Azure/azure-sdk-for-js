@@ -249,7 +249,7 @@ async function queryAnomaliesByAlert(client, alert) {
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  const listIterator = client.listAnomalies(alert);
+  const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`

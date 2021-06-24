@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "12.0.1",
+  "version": "12.1.0",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,6 +9,7 @@
     "./dist-esm/src/tablesNamedCredentialPolicy.js": "./dist-esm/src/tablesNamedCredentialPolicy.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/computeHMACSHA256.js": "./dist-esm/src/utils/computeHMACSHA256.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
     "./dist-esm/src/utils/transactionHeaders.js": "./dist-esm/src/utils/transactionHeaders.browser.js",
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
@@ -87,6 +88,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@azure/identity": "2.0.0-beta.3",
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

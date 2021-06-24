@@ -1,8 +1,10 @@
 # Release History
 
-## 1.2.7 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 

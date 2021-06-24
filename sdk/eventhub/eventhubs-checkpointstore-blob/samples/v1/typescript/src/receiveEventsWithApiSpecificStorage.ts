@@ -50,7 +50,7 @@ export async function main() {
 
   // The below code will set up your program to listen to events from your Event Hub instance.
   // If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" from the event-hubs project
-  // located here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts
+  // located here: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/sendEvents.ts
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {

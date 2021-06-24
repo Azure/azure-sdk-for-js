@@ -154,12 +154,12 @@ export class FileSystemPersist implements PersistentStorage {
         } else {
           files.forEach(async (file) => {
             // Check expiration
-            let fileCreationDate: Date = new Date(
+            const fileCreationDate: Date = new Date(
               parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0])
             );
-            let expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
+            const expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
             if (expired) {
-              var filePath = path.join(this._tempDirectory, file);
+              const filePath = path.join(this._tempDirectory, file);
               await unlinkAsync(filePath);
             }
           });
