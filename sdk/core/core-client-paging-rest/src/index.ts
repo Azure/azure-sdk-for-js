@@ -7,3 +7,4 @@
  * @packageDocumentation
  */
 export { paginateResponse, PaginateOptions } from "./paginate";
+export { PagedAsyncIterableIterator } from "@azure/core-paging";

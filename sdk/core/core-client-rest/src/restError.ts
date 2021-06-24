@@ -11,11 +11,11 @@ export function createRestError(message: string, response: PathUncheckedResponse
   return new RestError(message, {
     statusCode: statusCodeToNumber(response.status),
     request: response.request,
-    response: toPipelineresponse(response),
+    response: toPipelineResponse(response),
   });
 }
 
-function toPipelineresponse(response: PathUncheckedResponse): PipelineResponse {
+function toPipelineResponse(response: PathUncheckedResponse): PipelineResponse {
   return {
     headers: createHttpHeaders(response.headers),
     request: response.request,
@@ -23,10 +23,8 @@ function toPipelineresponse(response: PathUncheckedResponse): PipelineResponse {
   };
 }
 
-function statusCodeToNumber(statusCode: string) {
-  if (Number.isNaN(statusCode)) {
-    return undefined;
-  }
+function statusCodeToNumber(statusCode: string): number | undefined {
+  const status = Number.parseInt(statusCode);
 
-  return Number.parseInt(statusCode);
+  return Number.isNaN(status) ? undefined : status;
 }

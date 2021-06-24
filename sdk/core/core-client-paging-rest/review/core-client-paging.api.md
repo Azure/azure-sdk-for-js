@@ -8,6 +8,8 @@ import { Client } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
+export { PagedAsyncIterableIterator }
+
 // @public
 export interface PaginateOptions {
     itemName?: string;
