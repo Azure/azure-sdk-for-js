@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.6 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### New Features
 
