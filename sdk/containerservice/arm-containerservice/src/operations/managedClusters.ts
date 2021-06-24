@@ -27,7 +27,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets supported OS options in the specified subscription.
    * @summary Gets supported OS options in the specified subscription.
    * @param location The name of a supported Azure region.
    * @param [options] The optional parameters
@@ -56,8 +55,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets a list of managed clusters in the specified subscription. The operation returns properties
-   * of each managed cluster.
    * @summary Gets a list of managed clusters in the specified subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListResponse>
@@ -82,8 +79,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Lists managed clusters in the specified subscription and resource group. The operation returns
-   * properties of each managed cluster.
    * @summary Lists managed clusters in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
@@ -112,9 +107,7 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets the details of the upgrade profile for a managed cluster with a specified resource group
-   * and name.
-   * @summary Gets upgrade profile for a managed cluster.
+   * @summary Gets the upgrade profile of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -146,11 +139,10 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets the accessProfile for the specified role name of the managed cluster with a specified
-   * resource group and name. **WARNING**: This API will be deprecated. Instead use
-   * [ListClusterUserCredentials](https://docs.microsoft.com/en-us/rest/api/aks/managedclusters/listclusterusercredentials)
+   * **WARNING**: This API will be deprecated. Instead use
+   * [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials)
    * or
-   * [ListClusterAdminCredentials](https://docs.microsoft.com/en-us/rest/api/aks/managedclusters/listclusteradmincredentials)
+   * [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials)
    * .
    * @summary Gets an access profile of a managed cluster.
    * @param resourceGroupName The name of the resource group.
@@ -191,8 +183,7 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets cluster admin credential of the managed cluster with a specified resource group and name.
-   * @summary Gets cluster admin credential of a managed cluster.
+   * @summary Lists the admin credentials of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -224,8 +215,7 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets cluster user credential of the managed cluster with a specified resource group and name.
-   * @summary Gets cluster user credential of a managed cluster.
+   * @summary Lists the user credentials of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -257,9 +247,7 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets cluster monitoring user credential of the managed cluster with a specified resource group
-   * and name.
-   * @summary Gets cluster monitoring user credential of a managed cluster.
+   * @summary Lists the cluster monitoring user credentials of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -291,7 +279,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets the details of the managed cluster with a specified resource group and name.
    * @summary Gets a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -324,12 +311,10 @@ export class ManagedClusters {
   }
 
   /**
-   * Creates or updates a managed cluster with the specified configuration for agents and Kubernetes
-   * version.
    * @summary Creates or updates a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Create or Update a Managed Cluster operation.
+   * @param parameters The managed cluster to create or update.
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersCreateOrUpdateResponse>
    */
@@ -339,7 +324,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Updates a managed cluster with the specified tags.
    * @summary Updates tags on a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -353,7 +337,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Deletes the managed cluster with a specified resource group and name.
    * @summary Deletes a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -366,12 +349,11 @@ export class ManagedClusters {
   }
 
   /**
-   * Update the service principal Profile for a managed cluster.
-   * @summary Reset Service Principal Profile of a managed cluster.
+   * This action cannot be performed on a cluster that is not using a service principal
+   * @summary Reset the Service Principal Profile of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a
-   * Managed Cluster.
+   * @param parameters The service principal profile to set on the managed cluster.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -381,11 +363,10 @@ export class ManagedClusters {
   }
 
   /**
-   * Update the AAD Profile for a managed cluster.
-   * @summary Reset AAD Profile of a managed cluster.
+   * @summary Reset the AAD Profile of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+   * @param parameters The AAD profile to set on the Managed Cluster
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -395,8 +376,9 @@ export class ManagedClusters {
   }
 
   /**
-   * Rotate certificates of a managed cluster.
-   * @summary Rotate certificates of a managed cluster.
+   * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
+   * details about rotating managed cluster certificates.
+   * @summary Rotates the certificates of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -408,8 +390,12 @@ export class ManagedClusters {
   }
 
   /**
-   * Stops a Running Managed Cluster
-   * @summary Stop Managed Cluster
+   * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a
+   * cluster stops the control plane and agent nodes entirely, while maintaining all object and
+   * cluster state. A cluster does not accrue charges while it is stopped. See [stopping a
+   * cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about
+   * stopping a cluster.
+   * @summary Stops a Managed Cluster
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -421,8 +407,9 @@ export class ManagedClusters {
   }
 
   /**
-   * Starts a Stopped Managed Cluster
-   * @summary Start Managed Cluster
+   * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more
+   * details about starting a cluster.
+   * @summary Starts a previously stopped Managed Cluster
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -434,12 +421,13 @@ export class ManagedClusters {
   }
 
   /**
-   * Submit a command to run against managed kubernetes service, it will create a pod to run the
-   * command.
-   * @summary Run Command against Managed Kubernetes Service
+   * AKS will create a pod to run the command. This is primarily useful for private clusters. For
+   * more information see [AKS Run
+   * Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+   * @summary Submits a command to run against the Managed Cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param requestPayload Parameters supplied to the RunCommand operation.
+   * @param requestPayload The run command request
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersRunCommandResponse>
    */
@@ -449,11 +437,10 @@ export class ManagedClusters {
   }
 
   /**
-   * Get command result from previous runCommand invoke.
-   * @summary Get command result.
+   * @summary Gets the results of a command which has been run on the Managed Cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param commandId Id of the command request.
+   * @param commandId Id of the command.
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersGetCommandResultResponse>
    */
@@ -461,14 +448,14 @@ export class ManagedClusters {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param commandId Id of the command request.
+   * @param commandId Id of the command.
    * @param callback The callback
    */
   getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, callback: msRest.ServiceCallback<Models.RunCommandResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param commandId Id of the command request.
+   * @param commandId Id of the command.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -521,12 +508,10 @@ export class ManagedClusters {
   }
 
   /**
-   * Creates or updates a managed cluster with the specified configuration for agents and Kubernetes
-   * version.
    * @summary Creates or updates a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Create or Update a Managed Cluster operation.
+   * @param parameters The managed cluster to create or update.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -543,7 +528,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Updates a managed cluster with the specified tags.
    * @summary Updates tags on a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -564,7 +548,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Deletes the managed cluster with a specified resource group and name.
    * @summary Deletes a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -583,12 +566,11 @@ export class ManagedClusters {
   }
 
   /**
-   * Update the service principal Profile for a managed cluster.
-   * @summary Reset Service Principal Profile of a managed cluster.
+   * This action cannot be performed on a cluster that is not using a service principal
+   * @summary Reset the Service Principal Profile of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a
-   * Managed Cluster.
+   * @param parameters The service principal profile to set on the managed cluster.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -605,11 +587,10 @@ export class ManagedClusters {
   }
 
   /**
-   * Update the AAD Profile for a managed cluster.
-   * @summary Reset AAD Profile of a managed cluster.
+   * @summary Reset the AAD Profile of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+   * @param parameters The AAD profile to set on the Managed Cluster
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -626,8 +607,9 @@ export class ManagedClusters {
   }
 
   /**
-   * Rotate certificates of a managed cluster.
-   * @summary Rotate certificates of a managed cluster.
+   * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
+   * details about rotating managed cluster certificates.
+   * @summary Rotates the certificates of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -645,8 +627,12 @@ export class ManagedClusters {
   }
 
   /**
-   * Stops a Running Managed Cluster
-   * @summary Stop Managed Cluster
+   * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a
+   * cluster stops the control plane and agent nodes entirely, while maintaining all object and
+   * cluster state. A cluster does not accrue charges while it is stopped. See [stopping a
+   * cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about
+   * stopping a cluster.
+   * @summary Stops a Managed Cluster
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -664,8 +650,9 @@ export class ManagedClusters {
   }
 
   /**
-   * Starts a Stopped Managed Cluster
-   * @summary Start Managed Cluster
+   * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more
+   * details about starting a cluster.
+   * @summary Starts a previously stopped Managed Cluster
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -683,12 +670,13 @@ export class ManagedClusters {
   }
 
   /**
-   * Submit a command to run against managed kubernetes service, it will create a pod to run the
-   * command.
-   * @summary Run Command against Managed Kubernetes Service
+   * AKS will create a pod to run the command. This is primarily useful for private clusters. For
+   * more information see [AKS Run
+   * Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+   * @summary Submits a command to run against the Managed Cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param requestPayload Parameters supplied to the RunCommand operation.
+   * @param requestPayload The run command request
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -705,8 +693,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets a list of managed clusters in the specified subscription. The operation returns properties
-   * of each managed cluster.
    * @summary Gets a list of managed clusters in the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -735,8 +721,6 @@ export class ManagedClusters {
   }
 
   /**
-   * Lists managed clusters in the specified subscription and resource group. The operation returns
-   * properties of each managed cluster.
    * @summary Lists managed clusters in the specified subscription and resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters

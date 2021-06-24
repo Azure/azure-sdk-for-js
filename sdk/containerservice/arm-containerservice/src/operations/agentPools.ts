@@ -27,8 +27,6 @@ export class AgentPools {
   }
 
   /**
-   * Gets a list of agent pools in the specified managed cluster. The operation returns properties of
-   * each agent pool.
    * @summary Gets a list of agent pools in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -61,8 +59,7 @@ export class AgentPools {
   }
 
   /**
-   * Gets the details of the agent pool by managed cluster and resource group.
-   * @summary Gets the agent pool.
+   * @summary Gets the specified managed cluster agent pool.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -98,12 +95,11 @@ export class AgentPools {
   }
 
   /**
-   * Creates or updates an agent pool in the specified managed cluster.
-   * @summary Creates or updates an agent pool.
+   * @summary Creates or updates an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
-   * @param parameters Parameters supplied to the Create or Update an agent pool operation.
+   * @param parameters The agent pool to create or update.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsCreateOrUpdateResponse>
    */
@@ -113,8 +109,7 @@ export class AgentPools {
   }
 
   /**
-   * Deletes the agent pool in the specified managed cluster.
-   * @summary Deletes an agent pool.
+   * @summary Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -127,9 +122,7 @@ export class AgentPools {
   }
 
   /**
-   * Gets the details of the upgrade profile for an agent pool with a specified resource group and
-   * managed cluster name.
-   * @summary Gets upgrade profile for an agent pool.
+   * @summary Gets the upgrade profile for an agent pool.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -165,8 +158,10 @@ export class AgentPools {
   }
 
   /**
-   * Gets a list of supported versions for the specified agent pool.
-   * @summary Gets a list of supported versions for the specified agent pool.
+   * See [supported Kubernetes
+   * versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details
+   * about the version lifecycle.
+   * @summary Gets a list of supported Kubernetes versions for the specified agent pool.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -198,8 +193,10 @@ export class AgentPools {
   }
 
   /**
-   * Upgrade node image version of an agent pool to the latest.
-   * @summary Upgrade node image version of an agent pool to the latest.
+   * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to
+   * the nodes. AKS provides one new image per week with the latest updates. For more details on node
+   * image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
+   * @summary Upgrades the node image version of an agent pool to the latest.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -212,12 +209,11 @@ export class AgentPools {
   }
 
   /**
-   * Creates or updates an agent pool in the specified managed cluster.
-   * @summary Creates or updates an agent pool.
+   * @summary Creates or updates an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
-   * @param parameters Parameters supplied to the Create or Update an agent pool operation.
+   * @param parameters The agent pool to create or update.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -235,8 +231,7 @@ export class AgentPools {
   }
 
   /**
-   * Deletes the agent pool in the specified managed cluster.
-   * @summary Deletes an agent pool.
+   * @summary Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -256,8 +251,10 @@ export class AgentPools {
   }
 
   /**
-   * Upgrade node image version of an agent pool to the latest.
-   * @summary Upgrade node image version of an agent pool to the latest.
+   * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to
+   * the nodes. AKS provides one new image per week with the latest updates. For more details on node
+   * image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
+   * @summary Upgrades the node image version of an agent pool to the latest.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -277,8 +274,6 @@ export class AgentPools {
   }
 
   /**
-   * Gets a list of agent pools in the specified managed cluster. The operation returns properties of
-   * each agent pool.
    * @summary Gets a list of agent pools in the specified managed cluster.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
