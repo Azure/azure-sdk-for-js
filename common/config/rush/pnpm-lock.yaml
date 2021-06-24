@@ -21,6 +21,7 @@ dependencies:
   '@rush-temp/core-auth': file:projects/core-auth.tgz
   '@rush-temp/core-client': file:projects/core-client.tgz
   '@rush-temp/core-client-1': file:projects/core-client-1.tgz
+  '@rush-temp/core-client-paging': file:projects/core-client-paging.tgz
   '@rush-temp/core-crypto': file:projects/core-crypto.tgz
   '@rush-temp/core-http': file:projects/core-http.tgz
   '@rush-temp/core-lro': file:projects/core-lro.tgz
@@ -8154,7 +8155,7 @@ packages:
     dev: false
     name: '@rush-temp/agrifood-farming'
     resolution:
-      integrity: sha512-hB9uwUMq9gTndRQvyJ9F3OeBBNGxKCi5mB1IDwkIZEDTo60A/yztkDnvIz32tV3lzDFSGiaTeczTeXm8DstWfg==
+      integrity: sha512-zxH3z0da7M7HliJFRufLVPCbrJZvGYX+bkJITR0xUJf4mRfWvfkboNOxjbKwxGVawQ1quKiqTmyZsPpLw9HIEQ==
       tarball: file:projects/agrifood-farming.tgz
     version: 0.0.0
   file:projects/ai-anomaly-detector.tgz:
@@ -8245,7 +8246,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-document-translator'
     resolution:
-      integrity: sha512-yPNgSDkF09VrTQ57zRNO+rD8wMdjcc9Nh0sxGtQAVcoRub3f3DSaCVB8S5fUy5zwJtXMKkAAhOXe+QmTWrI5Kw==
+      integrity: sha512-3YHPFrjR8WULy8t7MNaoiNCoYBNkDfM9aRwRE1xbf80I5qtPfA7BD4mbo7sxMYesQdGiLSl9V1UARbbN4fy2pA==
       tarball: file:projects/ai-document-translator.tgz
     version: 0.0.0
   file:projects/ai-form-recognizer.tgz:
@@ -8846,7 +8847,7 @@ packages:
     dev: false
     name: '@rush-temp/confidential-ledger'
     resolution:
-      integrity: sha512-zvQhwVNWkg2D3n8uakwhCE6xvo+W9XbcKGq1ToOpbP7OJjQzg+BWFoYmECg6yz2GqMSRbsBpj61zz2jImxb6OQ==
+      integrity: sha512-jPiYbuPxYfVKkWJVYow1irqzxO/9Pyx68cONy0qLfzwOi4OC8TkXQVI0p23E5Wm/kvd46aWD+aaRD7nCKlPvZw==
       tarball: file:projects/confidential-ledger.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
@@ -9045,6 +9046,44 @@ packages:
     resolution:
       integrity: sha512-DrijA2NS4/XmZj1662Y6vb7WdQYW3/fyOjeAtDpkusGwA3qf0QRQoivCfvxTtRLTJH4XYH20Z5i375iAoOMYWQ==
       tarball: file:projects/core-client-1.tgz
+    version: 0.0.0
+  file:projects/core-client-paging.tgz:
+    dependencies:
+      '@azure/core-rest-pipeline': 1.0.4
+      '@microsoft/api-extractor': 7.13.2
+      '@types/chai': 4.2.19
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.4
+      cross-env: 7.0.3
+      eslint: 7.29.0
+      inherits: 2.0.4
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      tslib: 2.3.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.4
+    dev: false
+    name: '@rush-temp/core-client-paging'
+    resolution:
+      integrity: sha512-cILnMe2cNW8wClpKU+i6EyZHXtI9FyIkDCrLvd4I8utQ/Cw6x2l4T88rx/nbdN2qTm/QfY1Oi49xgNPEqoam4A==
+      tarball: file:projects/core-client-paging.tgz
     version: 0.0.0
   file:projects/core-client.tgz:
     dependencies:
@@ -9512,6 +9551,7 @@ packages:
       '@azure/core-rest-pipeline': 1.0.4
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/core-xml': 1.0.0-beta.1
+      '@azure/identity': 2.0.0-beta.3
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -9561,7 +9601,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-KZQs9rqSZFYWLHRHyvHVPTkz13BRU3zPyfy/Ev9Ei2cMnZaCbugeNcdJ9OOU2gGf7oIHeHGahd2hdyk9U3iILw==
+      integrity: sha512-JnJ5r5pu8XHpQxCvIJFi0KWwk3XECT5OCXekLOqH2kXVxFzrI0IEwX9ToJwfFvXkmIaZYmFKKRc4NAhQ14TsdA==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -10801,7 +10841,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-catalog'
     resolution:
-      integrity: sha512-xzCg+2x1QQNJwPPmiSCcFmZW9lvGrlSm4iwJ9l8qJ3Qpp0Cr+jdECA+d6ofmDZrBKHpDtNdnj2poUDbn28AKLg==
+      integrity: sha512-WPSEZTapYdZwHdzDo8F+4Tzx6W49pvnyQQFcRraQOqgeUkrCF6wfDW0JtkR2xU2GWjnuif/ilg4NoanFQcidbQ==
       tarball: file:projects/purview-catalog.tgz
     version: 0.0.0
   file:projects/purview-scanning.tgz:
@@ -10844,7 +10884,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-scanning'
     resolution:
-      integrity: sha512-v8lWS2NhUJXjaUbaInWCqOkJgkAeSyBqQEKyu0gBkOWHyyTiAyYQ5Q6YF43bEcfisxX+xB8hQ1X7hxJcirBwkA==
+      integrity: sha512-xO9TV5e8I9WEWBc9dsOEzbx9j+l2NSgyz7s1vy4b3vsFGtOJMkeAIOKK6dXOcvf+QVOp8FOSk5XwSNAggDIyqA==
       tarball: file:projects/purview-scanning.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
@@ -11920,6 +11960,7 @@ specifiers:
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
   '@rush-temp/core-client': file:./projects/core-client.tgz
   '@rush-temp/core-client-1': file:./projects/core-client-1.tgz
+  '@rush-temp/core-client-paging': file:./projects/core-client-paging.tgz
   '@rush-temp/core-crypto': file:./projects/core-crypto.tgz
   '@rush-temp/core-http': file:./projects/core-http.tgz
   '@rush-temp/core-lro': file:./projects/core-lro.tgz
