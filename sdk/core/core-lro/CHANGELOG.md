@@ -1,7 +1,10 @@
 # Release History
 
-## 1.0.6 (Unreleased)
+## 2.0.0 (Unreleased)
 
+### New Features
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ## 1.0.5 (2021-04-12)
 
@@ -13,7 +16,7 @@
 
 ### Breaking Changes
 
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.0.3 (2021-01-07)
 

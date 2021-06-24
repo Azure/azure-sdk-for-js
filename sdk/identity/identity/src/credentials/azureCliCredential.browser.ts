@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential } from "@azure/core-http";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
+
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error("AzureCliCredential is not supported in the browser.");

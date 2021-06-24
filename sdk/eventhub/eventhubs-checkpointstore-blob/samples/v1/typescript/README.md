@@ -70,11 +70,11 @@ npx cross-env EVENT_HUB_CONNECTION_STRING="<event hub connection string>" EVENT_
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsUsingCheckpointStore.ts
-[receiveeventswithapispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsWithApiSpecificStorage.ts
+[receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsUsingCheckpointStore.ts
+[receiveeventswithapispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsWithApiSpecificStorage.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
 [createinstance_azurestorageaccount]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

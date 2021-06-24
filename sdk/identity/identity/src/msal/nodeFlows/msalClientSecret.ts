@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 

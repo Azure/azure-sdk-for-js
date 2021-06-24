@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+
 import { TokenCredentialOptions } from "../client/identityClient";
 import { credentialLogger, formatError } from "../util/logging";
 import { ChainedTokenCredential } from "./chainedTokenCredential";

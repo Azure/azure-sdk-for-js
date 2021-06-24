@@ -3,8 +3,10 @@
 
 import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
+
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { resolveTenantId } from "../../util/resolveTenantId";
@@ -20,6 +22,7 @@ import {
   msalToPublic,
   publicToMsal
 } from "../utils";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
@@ -27,6 +30,7 @@ import { RegionalAuthority } from "../../regionalAuthority";
  * @internal
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
+  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
@@ -35,6 +39,24 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    */
   regionalAuthority?: string;
 }
+
+/**
+ * The current persistence provider, undefined by default.
+ * @internal
+ */
+let persistenceProvider:
+  | ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>)
+  | undefined = undefined;
+
+/**
+ * An object that allows setting the persistence provider.
+ * @internal
+ */
+export const msalNodeFlowCacheControl = {
+  setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
+    persistenceProvider = pluginProvider;
+  }
+};
 
 /**
  * MSAL partial base client for NodeJS.
@@ -54,10 +76,22 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
 
+  protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
+
+    // If persistence has been configured
+    if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
+      this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);
+    } else if (options.tokenCachePersistenceOptions?.enabled) {
+      throw new Error(
+        "Persistent token caching was requested, but no persistence provider was configured (do you need to use the `@azure/identity-cache-persistence` package?)"
+      );
+    }
+
     this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
     if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
       this.azureRegion = "AUTO_DISCOVER";
@@ -110,6 +144,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       return;
     }
 
+    if (this.createCachePlugin !== undefined) {
+      this.msalConfig.cache = {
+        cachePlugin: await this.createCachePlugin()
+      };
+    }
+
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
     // The confidential client requires either a secret, assertion or certificate.
     if (
@@ -156,7 +196,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (this.account) {
       return this.account;
     }
-    const cache = this.publicApp?.getTokenCache();
+    const cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
     const accountsByTenant = await cache?.getAllAccounts();
 
     if (!accountsByTenant) {
@@ -176,13 +216,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     }
 
     return this.account;
-  }
-
-  /**
-   * Clears MSAL's cache.
-   */
-  async logout(): Promise<void> {
-    // Intentionally empty
   }
 
   /**
@@ -206,7 +239,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     try {
       this.logger.info("Attempting to acquire token silently");
-      const response = await this.publicApp!.acquireTokenSilent(silentRequest);
+      const response =
+        (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
+        (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err) {
       throw this.handleError(scopes, err, options);

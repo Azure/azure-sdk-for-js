@@ -12,14 +12,12 @@ import {
 
 function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
   return {
-    // @ts-ignore Using the deprecated field for testing
-    parentSpan: rootSpan.context()
+    parentSpan: rootSpan.spanContext()
   };
 }
 
 function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
   return {
-    // @ts-ignore Using the deprecated field for testing
     parentSpan: rootSpan
   };
 }

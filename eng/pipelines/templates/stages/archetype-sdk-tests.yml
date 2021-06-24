@@ -13,7 +13,7 @@ parameters:
     default: 0
   - name: TimeoutInMinutes
     type: number
-    default: 0
+    default: 60
   - name: PublishCodeCoverage
     type: boolean
     default: false

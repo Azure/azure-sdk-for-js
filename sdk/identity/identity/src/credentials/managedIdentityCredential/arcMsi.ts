@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { RequestPrepareOptions } from "@azure/core-http";
+
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";

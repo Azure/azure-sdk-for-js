@@ -63,7 +63,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-auth/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",

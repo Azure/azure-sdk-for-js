@@ -73,18 +73,18 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dis
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/basic.ts
-[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts
-[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/withConnString.ts
-[iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts
-[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/sharedKeyCred.ts
-[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/anonymousCred.ts
-[iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-handles.ts
-[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/customPipeline.ts
-[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/advanced.ts
-[iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-shares.ts
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/basic.ts
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/withConnString.ts
+[iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/sharedKeyCred.ts
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/anonymousCred.ts
+[iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-handles.ts
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/customPipeline.ts
+[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/advanced.ts
+[iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-shares.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-share
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

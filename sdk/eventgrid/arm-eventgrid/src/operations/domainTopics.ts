@@ -293,6 +293,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
