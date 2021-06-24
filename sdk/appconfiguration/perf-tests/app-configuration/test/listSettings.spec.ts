@@ -6,6 +6,9 @@ import { PerfStressOptionDictionary, executeParallel } from "@azure/test-utils-p
 import { AppConfigTest } from "./appConfigBase.spec";
 
 interface ListTestOptions {
+  /**
+   * Number of settings to be created/listed in the test
+   */
   count: number;
 }
 
