@@ -24,13 +24,7 @@ export function delay<T>(
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
-    const onAborted: (() => void) | undefined = (): void => {
-      if (isDefined(timer)) {
-        clearTimeout(timer);
-      }
-      removeListeners();
-      return rejectOnAbort();
-    };
+    let onAborted: (() => void) | undefined = undefined;
 
     const rejectOnAbort = (): void => {
       return reject(
@@ -42,6 +36,14 @@ export function delay<T>(
       if (options?.abortSignal && onAborted) {
         options.abortSignal.removeEventListener("abort", onAborted);
       }
+    };
+
+    onAborted = (): void => {
+      if (isDefined(timer)) {
+        clearTimeout(timer);
+      }
+      removeListeners();
+      return rejectOnAbort();
     };
 
     if (options?.abortSignal && options.abortSignal.aborted) {
