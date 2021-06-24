@@ -164,8 +164,7 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
 
   try {
     console.log(`Updating datafeed ${dataFeedId}...`);
-    await client.updateDataFeed(dataFeedId, patch);
-    const updated = await client.getDataFeed(dataFeedId);
+    const updated = await client.updateDataFeed(dataFeedId, patch);
     console.dir(updated);
   } catch (err) {
     console.log("Error occurred when updating data feed");
