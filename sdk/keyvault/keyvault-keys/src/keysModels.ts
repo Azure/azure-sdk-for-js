@@ -495,7 +495,5 @@ export enum KnownKeyOperations {
   /** Key operation - encrypt */
   UnwrapKey = "unwrapKey",
   /** Key operation - encrypt */
-  Import = "import",
-  /** Key operation - encrypt */
-  Export = "export"
+  Import = "import"
 }

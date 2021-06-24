@@ -335,7 +335,6 @@ export const enum KnownKeyCurveNames {
 export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
-    Export = "export",
     Import = "import",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
