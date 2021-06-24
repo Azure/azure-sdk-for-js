@@ -21,7 +21,8 @@ import { RequestContext } from "../../src";
 const client = new CosmosClient({
   endpoint,
   key: masterKey,
-  consistencyLevel: ConsistencyLevel.Session
+  consistencyLevel: ConsistencyLevel.Session,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
 });
 
 function getCollection2TokenMap(
@@ -348,7 +349,8 @@ describe("Session Token", function(this: Suite) {
     const client2 = new CosmosClient({
       endpoint,
       key: masterKey,
-      consistencyLevel: ConsistencyLevel.Session
+      consistencyLevel: ConsistencyLevel.Session,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
     const database = await getTestDatabase("clientshouldnothaveanotherclienttoken");
     await database.containers.create(containerDefinition, containerOptions);
@@ -371,7 +373,8 @@ describe("Session Token", function(this: Suite) {
     const client2 = new CosmosClient({
       endpoint,
       key: masterKey,
-      consistencyLevel: ConsistencyLevel.Session
+      consistencyLevel: ConsistencyLevel.Session,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     const db = await getTestDatabase("session test", client);

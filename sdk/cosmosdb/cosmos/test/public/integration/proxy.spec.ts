@@ -39,7 +39,8 @@ if (!isBrowser()) {
             const client = new CosmosClient({
               endpoint,
               key: masterKey,
-              agent
+              agent,
+              connectionPolicy: { enableBackgroundEndpointRefreshing: false }
             });
             // create database
             await client.databases.create({
@@ -61,7 +62,8 @@ if (!isBrowser()) {
             const client = new CosmosClient({
               endpoint,
               key: masterKey,
-              agent
+              agent,
+              connectionPolicy: { enableBackgroundEndpointRefreshing: false }
             });
             // create database
             await client.databases.create({

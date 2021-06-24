@@ -25,7 +25,7 @@ describe("Client Tests", function(this: Suite) {
       const client = new CosmosClient({
         endpoint,
         key: masterKey,
-        connectionPolicy: { requestTimeout: 1 }
+        connectionPolicy: { requestTimeout: 1, enableBackgroundEndpointRefreshing: false }
       });
       // create database
       try {
@@ -41,13 +41,15 @@ describe("Client Tests", function(this: Suite) {
     it("Accepts node Agent", function() {
       const client = new CosmosClient({
         endpoint: "https://faaaaaake.com",
-        agent: new Agent()
+        agent: new Agent(),
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
     it("Accepts a connection string", function() {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
+      client.dispose();
     });
     it("throws on a bad connection string", function() {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
@@ -65,7 +67,8 @@ describe("Client Tests", function(this: Suite) {
         );
         const client = new CosmosClient({
           endpoint,
-          aadCredentials: credentials
+          aadCredentials: credentials,
+          connectionPolicy: { enableBackgroundEndpointRefreshing: false }
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
@@ -86,6 +89,7 @@ describe("Client Tests", function(this: Suite) {
         console.log(err);
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
+      client.dispose();
     });
     it("should throw exception if passed an already aborted signal", async function() {
       const client = new CosmosClient({ endpoint, key: masterKey });
@@ -98,6 +102,7 @@ describe("Client Tests", function(this: Suite) {
       } catch (err) {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
+      client.dispose();
     });
     it("should abort a query", async function() {
       const container = await getTestContainer("abort query");
@@ -125,6 +130,7 @@ describe("Client Tests", function(this: Suite) {
       } catch (err) {
         assert.fail(err);
       }
+      client.dispose();
     });
   });
   describe("Background refresher", async function() {
