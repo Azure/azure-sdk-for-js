@@ -7,6 +7,8 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { PagedAsyncIterableIterator } from '@azure-rest/core-client-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -1921,6 +1923,9 @@ export type GeoJsonObject = Polygon | MultiPolygon | Point;
 // @public (undocumented)
 export type GeoJsonObjectType = "Point" | "Polygon" | "MultiPolygon";
 
+// @public
+export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
 // @public (undocumented)
 export interface HarvestData {
     area?: Measure;
@@ -2588,6 +2593,16 @@ export interface OAuthTokensListQueryParamProperties {
     minCreatedDateTime?: Date;
     minLastModifiedDateTime?: Date;
 }
+
+// @public
+export function paginate<TReturn extends PathUncheckedResponse>(client: Client, initialResponse: TReturn): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]>;
+
+// @public
+export type PaginateReturn<TResult> = TResult extends {
+    body: {
+        value?: infer TPage;
+    };
+} ? GetArrayType<TPage> : Array<unknown>;
 
 // @public (undocumented)
 export interface Paths1LxjoxzFarmersFarmeridAttachmentsAttachmentidPatchRequestbodyContentMultipartFormDataSchema {

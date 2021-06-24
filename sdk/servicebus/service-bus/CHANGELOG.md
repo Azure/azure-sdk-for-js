@@ -10,6 +10,8 @@
 
 ### Fixed
 
+- Fixing an issue where the internal link cache would not properly remove closed links.
+  [PR#15929](https://github.com/Azure/azure-sdk-for-js/pull/15929)
 
 ## 7.2.0 (2021-06-10)
 

@@ -437,6 +437,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure-rest/core-client-paging",
+      "projectFolder": "sdk/core/core-client-paging-rest",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-asynciterator-polyfill",
       "projectFolder": "sdk/core/core-asynciterator-polyfill",
       "versionPolicyName": "core"
