@@ -9,6 +9,7 @@
     "./dist-esm/src/tablesNamedCredentialPolicy.js": "./dist-esm/src/tablesNamedCredentialPolicy.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/computeHMACSHA256.js": "./dist-esm/src/utils/computeHMACSHA256.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
     "./dist-esm/src/utils/transactionHeaders.js": "./dist-esm/src/utils/transactionHeaders.browser.js",
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
