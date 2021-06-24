@@ -123,7 +123,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         clientId,
         authority: authorityHost,
         knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
-        clientCapabilities: clientCapabilities as any // https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/3676
+        clientCapabilities
       },
       // Cache is defined in this.prepare();
       system: {
