@@ -405,7 +405,7 @@ export const Constants: {
         MaxExclusive: string;
         min: string;
     };
-    EffectiveParitionKeyConstants: {
+    EffectivePartitionKeyConstants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
