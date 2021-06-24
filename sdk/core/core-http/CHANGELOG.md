@@ -1,9 +1,10 @@
 # Release History
 
-## 1.2.7 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
 
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features.
 - Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
 - Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
 
