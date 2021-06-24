@@ -19,7 +19,7 @@ export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode()
   // are mapped to below.
   const replaceableVariables: Record<string, string> = {
     MONITOR_WORKSPACE_ID: "<workspace-id>",
-    METRICS_RESOURCE_ID_TO_QUERY: "<metrics-arm-resource-id>",
+    METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
 
     AZURE_TENANT_ID: "azure_tenant_id",
     AZURE_CLIENT_ID: "azure_client_id",
@@ -87,8 +87,16 @@ export function getMonitorWorkspaceId(mochaContext: Pick<Context, "skip">): stri
   return getRequiredEnvVar(mochaContext, "MONITOR_WORKSPACE_ID");
 }
 
-export function getMetricsArmResourceId(mochaContext: Pick<Context, "skip">): string {
-  return getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID_TO_QUERY");
+export function getMetricsArmResourceId(
+  mochaContext: Pick<Context, "skip">
+): {
+  resourceId: string;
+  resourceNamespace: string;
+} {
+  return {
+    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID"),
+    resourceNamespace: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_NAMESPACE")
+  };
 }
 
 export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip">): string {

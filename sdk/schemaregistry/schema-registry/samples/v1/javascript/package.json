@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry",
   "dependencies": {
     "@azure/schema-registry": "next",
     "dotenv": "latest",

@@ -173,6 +173,8 @@
         "name": "Standard_B1"
       },
       "properties": {
+        "publicNetworkAccess": "Enabled",
+        "networkAcls": "[variables('networkAcls')]",
         "tenantId": "[parameters('tenantId')]",
         "initialAdminObjectIds": ["[parameters('testApplicationOid')]"],
         "enablePurgeProtection": false,

@@ -19,7 +19,7 @@ const examplePackageGood = `{
   "version": "1.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -138,7 +138,7 @@ const examplePackageBad = `{
   "version": "1.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -269,7 +269,7 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json"
     },
     {
-      // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
+      // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "package.json"
     },

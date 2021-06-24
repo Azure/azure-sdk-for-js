@@ -96,6 +96,7 @@ export class LogsQueryClient {
 // @public
 export interface LogsQueryClientOptions extends PipelineOptions {
     endpoint?: string;
+    scopes?: string | string[];
 }
 
 // @public

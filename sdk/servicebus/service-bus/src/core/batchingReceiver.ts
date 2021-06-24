@@ -152,6 +152,10 @@ export class BatchingReceiver extends MessageReceiver {
     context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.messageReceivers[this.name];
+  }
 }
 
 /**
@@ -281,7 +285,7 @@ export class BatchingReceiverLite {
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)
-        return [];
+        throw new ServiceBusError("Link closed before receiving messages.", "GeneralError");
       }
 
       const messages = await new Promise<ServiceBusMessageImpl[]>((resolve, reject) =>

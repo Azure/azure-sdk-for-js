@@ -13,7 +13,7 @@ import {
   KnownKeyVaultDataAction
 } from "../../src";
 import { authenticate } from "../utils/authentication";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import { supportsTracing } from "../utils/supportsTracing";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;

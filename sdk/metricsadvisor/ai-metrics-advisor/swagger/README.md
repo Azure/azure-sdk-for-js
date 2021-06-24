@@ -21,6 +21,7 @@ use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
 disable-async-iterators: true
 hide-clients: true
+package-version: 1.0.0
 ```
 
 ## Customizations for Track 2 Generator

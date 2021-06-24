@@ -56,7 +56,8 @@ module.exports = function(config) {
     envPreprocessor: [
       "TEST_MODE",
       "MONITOR_WORKSPACE_ID",
-      "METRICS_RESOURCE_ID_TO_QUERY",
+      "METRICS_RESOURCE_ID",
+      "MONITOR_SECONDARY_WORKSPACE_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"
