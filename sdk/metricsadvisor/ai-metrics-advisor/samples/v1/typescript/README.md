@@ -79,19 +79,19 @@ npx cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVI
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[quickstart]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/quickstart.ts
-[datafeed]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/dataFeed.ts
-[datasourcecredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/dataSourceCredential.ts
-[detectionconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/detectionConfig.ts
-[incidentsandalerts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/incidentsAndAlerts.ts
-[ingestionstatus]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/ingestionStatus.ts
-[alertingconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/alertingConfig.ts
-[hooks]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/hooks.ts
-[metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricFeedback.ts
-[metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricQueries.ts
-[seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/seriesData.ts
+[quickstart]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/quickstart.ts
+[datafeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/dataFeed.ts
+[datasourcecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/dataSourceCredential.ts
+[detectionconfig]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/detectionConfig.ts
+[incidentsandalerts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/incidentsAndAlerts.ts
+[ingestionstatus]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/ingestionStatus.ts
+[alertingconfig]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/alertingConfig.ts
+[hooks]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/hooks.ts
+[metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricFeedback.ts
+[metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricQueries.ts
+[seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/seriesData.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

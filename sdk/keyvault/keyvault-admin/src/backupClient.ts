@@ -1,16 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  isTokenCredential,
-  signingPolicy,
-  TokenCredential
-} from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   KeyVaultBackupClientOptions,
@@ -21,7 +13,7 @@ import {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
-import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
+import { LATEST_API_VERSION, SDK_VERSION, authenticationScopes } from "./constants";
 import { logger } from "./log";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
 import { KeyVaultRestorePoller } from "./lro/restore/poller";
@@ -30,8 +22,10 @@ import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
-import { KeyVaultClientOptionalParams } from "./generated/models";
 import { mappings } from "./mappings";
+import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 
 export {
   KeyVaultBackupOperationState,
@@ -93,15 +87,13 @@ export class KeyVaultBackupClient {
           : libInfo
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const clientOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: [
+        additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
           "x-ms-keyvault-service-version"
@@ -109,12 +101,14 @@ export class KeyVaultBackupClient {
       }
     };
 
-    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
-      internalPipelineOptions,
-      authPolicy
+    this.client = new KeyVaultClient(apiVersion, clientOptions);
+    this.client.pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: authenticationScopes,
+        challengeCallbacks: createChallengeCallbacks()
+      })
     );
-    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
-    this.client = new KeyVaultClient(params);
   }
 
   /**
