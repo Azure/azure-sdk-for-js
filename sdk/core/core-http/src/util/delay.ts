@@ -8,32 +8,23 @@ const StandardAbortMessage = "The operation was aborted.";
 /**
  * A wrapper for setTimeout that resolves a promise after delayInMs milliseconds.
  * @param delayInMs - The number of milliseconds to be delayed.
- * @param abortSignal - The abortSignal associated with containing operation.
- * @param abortErrorMsg - The abort error message associated with containing operation.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @param options - The options for delay - currently abort options
+ *   @param abortSignal - The abortSignal associated with containing operation.
+ *   @param abortErrorMsg - The abort error message associated with containing operation.
  * @returns - Resolved promise
  */
 export function delay<T>(
   delayInMs: number,
   value?: T,
-  abortSignal?: AbortSignalLike,
-  abortErrorMsg?: string
+  options?: {
+    abortSignal?: AbortSignalLike;
+    abortErrorMsg?: string;
+  }
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
-    let onAborted: (() => void) | undefined = undefined;
-
-    const rejectOnAbort = (): void => {
-      return reject(new AbortError(abortErrorMsg ? abortErrorMsg : StandardAbortMessage));
-    };
-
-    const removeListeners = (): void => {
-      if (abortSignal && onAborted) {
-        abortSignal.removeEventListener("abort", onAborted);
-      }
-    };
-
-    onAborted = (): void => {
+    const onAborted: (() => void) | undefined = (): void => {
       if (isDefined(timer)) {
         clearTimeout(timer);
       }
@@ -41,7 +32,19 @@ export function delay<T>(
       return rejectOnAbort();
     };
 
-    if (abortSignal && abortSignal.aborted) {
+    const rejectOnAbort = (): void => {
+      return reject(
+        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage)
+      );
+    };
+
+    const removeListeners = (): void => {
+      if (options?.abortSignal && onAborted) {
+        options.abortSignal.removeEventListener("abort", onAborted);
+      }
+    };
+
+    if (options?.abortSignal && options.abortSignal.aborted) {
       return rejectOnAbort();
     }
 
@@ -50,8 +53,8 @@ export function delay<T>(
       resolve(value);
     }, delayInMs);
 
-    if (abortSignal) {
-      abortSignal.addEventListener("abort", onAborted);
+    if (options?.abortSignal) {
+      options.abortSignal.addEventListener("abort", onAborted);
     }
   });
 }
