@@ -3633,7 +3633,7 @@ export interface DscConfigurationListByAutomationAccountOptionalParams extends m
    */
   skip?: number;
   /**
-   * The the number of rows to take.
+   * The number of rows to take.
    */
   top?: number;
   /**
@@ -3963,7 +3963,7 @@ export interface DscNodeListByAutomationAccountOptionalParams extends msRest.Req
    */
   skip?: number;
   /**
-   * The the number of rows to take.
+   * The number of rows to take.
    */
   top?: number;
   /**
@@ -4005,7 +4005,7 @@ export interface DscNodeConfigurationListByAutomationAccountOptionalParams exten
    */
   skip?: number;
   /**
-   * The the number of rows to take.
+   * The number of rows to take.
    */
   top?: number;
   /**
