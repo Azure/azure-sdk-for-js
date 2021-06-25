@@ -13,7 +13,7 @@ import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
-import { validateMultiTenantRequest } from "../util/validateMultiTenant";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -137,7 +137,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
+    this.tenantId = processMultiTenantRequest(this.tenantId, options)!;
 
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {

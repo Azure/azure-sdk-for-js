@@ -24,7 +24,7 @@ import {
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
-import { validateMultiTenantRequest } from "../../util/validateMultiTenant";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -264,7 +264,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
+    this.tenantId = processMultiTenantRequest(this.tenantId, options)!;
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
 

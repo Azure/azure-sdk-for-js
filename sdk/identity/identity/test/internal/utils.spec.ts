@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { multiTenantError, validateMultiTenantRequest } from "../../src/util/validateMultiTenant";
+import { multiTenantError, processMultiTenantRequest } from "../../src/util/validateMultiTenant";
 
 describe("Identity utilities", function() {
   describe("validateMultiTenantRequest", function() {
     it("throws if multi-tenant authentication is disallowed, and the tenants don't match", async function() {
       let error: Error | undefined;
       try {
-        validateMultiTenantRequest(false, "credential-options-tenant-id", {
+        processMultiTenantRequest("credential-options-tenant-id", {
+          allowMultiTenantAuthentication: false,
           tenantId: "get-token-options-tenant-id"
         });
       } catch (e) {
@@ -24,13 +25,17 @@ describe("Identity utilities", function() {
 
     it("doesn't throw if multi-tenant authentication is allowed regardless of the value of the tenants", async function() {
       assert.equal(
-        validateMultiTenantRequest(true, "credential-options-tenant-id", {
+        processMultiTenantRequest("credential-options-tenant-id", {
+          allowMultiTenantAuthentication: true,
           tenantId: "get-token-options-tenant-id"
         }),
         undefined
       );
       assert.equal(
-        validateMultiTenantRequest(true, "same-tenant", { tenantId: "same-tenant" }),
+        processMultiTenantRequest("same-tenant", {
+          allowMultiTenantAuthentication: true,
+          tenantId: "same-tenant"
+        }),
         undefined
       );
     });

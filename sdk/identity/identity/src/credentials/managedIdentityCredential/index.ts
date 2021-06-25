@@ -14,7 +14,7 @@ import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
-import { validateMultiTenantRequest } from "../../util/validateMultiTenant";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -147,7 +147,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    validateMultiTenantRequest(options?.allowMultiTenantAuthentication, this.tenantId, options);
+    this.tenantId = processMultiTenantRequest(this.tenantId, options);
 
     let result: AccessToken | null = null;
 

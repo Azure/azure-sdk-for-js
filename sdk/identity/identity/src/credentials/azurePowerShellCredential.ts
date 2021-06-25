@@ -9,7 +9,7 @@ import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { processUtils } from "../util/processUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { validateMultiTenantRequest } from "../util/validateMultiTenant";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -158,12 +158,10 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
+      this.tenantId = processMultiTenantRequest(this.tenantId, options);
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-
-      logger.getToken.info(`Using the scope ${scope}`);
-
-      validateMultiTenantRequest(options.allowMultiTenantAuthentication, this.tenantId, options);
       ensureValidScope(scope, logger);
+      logger.getToken.info(`Using the scope ${scope}`);
       const resource = getScopeResource(scope);
 
       try {

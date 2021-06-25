@@ -12,19 +12,23 @@ export const multiTenantError = new Error(
 
 /**
  * Verifies whether locally assigned tenants are equal to tenants received through getToken.
+ * Returns the appropriate tenant.
  * @internal
  */
-export function validateMultiTenantRequest(
-  allowMultiTenantAuthentication?: boolean,
+export function processMultiTenantRequest(
   tenantId?: string,
   getTokenOptions?: GetTokenOptions
-): void {
+): string | undefined {
   if (
-    !allowMultiTenantAuthentication &&
+    !getTokenOptions?.allowMultiTenantAuthentication &&
     getTokenOptions?.tenantId &&
     tenantId &&
     getTokenOptions.tenantId !== tenantId
   ) {
     throw multiTenantError;
   }
+  if (getTokenOptions?.allowMultiTenantAuthentication && getTokenOptions?.tenantId) {
+    return getTokenOptions.tenantId;
+  }
+  return tenantId;
 }
