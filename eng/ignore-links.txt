@@ -8,5 +8,5 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-cha
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/test/
 https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/how-to-manage-routes.md
-https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-template
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/arm-template
 https://docs.microsoft.com/javascript/api/@azure/arm-template

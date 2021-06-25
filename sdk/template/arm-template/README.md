@@ -4,7 +4,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Use this API to manage the IoTSpaces service instances in your Azure subscription.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-template) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/arm-template) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-template) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-template) |
 
