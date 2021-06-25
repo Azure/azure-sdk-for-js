@@ -403,7 +403,7 @@ describe("ManagedIdentityCredential", function() {
           authDetails.token.expiresOnTimestamp,
           Date.now(),
           1000,
-          "expiresOnTimestamp is not in 1ms range from Date.now()"
+          "expiresOnTimestamp is not in 1000ms range from Date.now()"
         );
       } else {
         assert.fail("No token was returned!");
