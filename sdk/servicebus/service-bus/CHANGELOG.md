@@ -8,6 +8,9 @@
 
 ### Key Bugs Fixed
 
+- Fixed a bug that could lead to message loss  in certain conditions when using `receiver.receiveMessages()`. 
+  [PR#15989](https://github.com/Azure/azure-sdk-for-js/pull/15989)
+
 ### Fixed
 
 
