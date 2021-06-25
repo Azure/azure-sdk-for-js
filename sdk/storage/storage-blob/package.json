@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.6.1",
+  "version": "12.7.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-blob/src/index.js",
@@ -127,8 +127,8 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.2.0",
-    "@azure/core-lro": "^1.0.6",
+    "@azure/core-http": "^2.0.0",
+    "@azure/core-lro": "^2.0.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",

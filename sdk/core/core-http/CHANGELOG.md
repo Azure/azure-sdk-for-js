@@ -1,8 +1,10 @@
 # Release History
 
-## 1.2.7 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
@@ -13,6 +15,7 @@
 ### Fixed
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+- Throttling retry policy respects abort signal [#15796](https://github.com/Azure/azure-sdk-for-js/issues/15796)
 
 ## 1.2.6 (2021-06-14)
 

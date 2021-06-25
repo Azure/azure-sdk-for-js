@@ -32,12 +32,14 @@ async function main() {
     // Delete images older than the first three.
     for await (const manifest of imageManifests) {
       if (imageCount++ > imagesToKeep) {
+        const image = repository.getArtifact(manifest.digest);
         console.log(`Deleting image with digest ${manifest.digest}`);
-        console.log(`  This image has the following tags:`);
+        console.log(`  Deleting the following tags from the image:`);
         for (const tagName of manifest.tags) {
           console.log(`    ${manifest.repositoryName}:${tagName}`);
+          image.deleteTag(tagName);
         }
-        await repository.getArtifact(manifest.digest).delete();
+        await image.delete();
       }
     }
   }
