@@ -61,13 +61,13 @@ npx cross-env EVENTHUB_CONNECTION_STRING="<eventhub connection string>" EVENTHUB
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/sendEvents.js
-[receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/receiveEvents.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/usingAadAuth.js
-[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionString.js
-[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/useWithIotHub.js
-[websockets]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
+[sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/sendEvents.js
+[receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/receiveEvents.js
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/usingAadAuth.js
+[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionString.js
+[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/useWithIotHub.js
+[websockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md

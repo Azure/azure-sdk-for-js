@@ -73,14 +73,14 @@ npx cross-env EVENTHUB_CONNECTION_STRING="<eventhub connection string>" EVENTHUB
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/sendEvents.ts
-[receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/receiveEvents.ts
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/usingAadAuth.ts
-[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/iothubConnectionString.ts
-[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/useWithIotHub.ts
-[websockets]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/websockets.ts
+[sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/sendEvents.ts
+[receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/receiveEvents.ts
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/usingAadAuth.ts
+[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/iothubConnectionString.ts
+[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/useWithIotHub.ts
+[websockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/websockets.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
