@@ -108,7 +108,20 @@ export interface RegistryArtifact {
     options?: GetManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
-   * Updates manifest artifact attributes.
+   * Updates artifact manifest properties.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateManifestProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   updateManifestProperties(
@@ -122,6 +135,19 @@ export interface RegistryArtifact {
   getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
   /**
    * Updates tag properties.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateTagProperties(tag, {
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param tag - name of the tag
    * @param options -
    */
@@ -311,7 +337,20 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Updates manifest artifact attributes.
+   * Updates artifact manifest properties.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateManifestProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   public async updateManifestProperties(
@@ -372,6 +411,19 @@ export class RegistryArtifactImpl {
 
   /**
    * Updates tag properties.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateTagProperties(tag, {
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param tag - name of the tag
    * @param options -
    */

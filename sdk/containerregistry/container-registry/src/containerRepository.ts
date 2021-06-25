@@ -81,6 +81,19 @@ export interface ContainerRepository {
   getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
   /**
    * Updates repository attributes.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const repository = client.getRepository(repositoryName)
+   * const updated = await repository.updateProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   updateProperties(
@@ -211,6 +224,19 @@ export class ContainerRepositoryImpl {
 
   /**
    * Updates repository attributes.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const repository = client.getRepository(repositoryName)
+   * const updated = await repository.updateProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   public async updateProperties(
