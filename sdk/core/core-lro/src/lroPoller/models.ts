@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState } from "../";
+import { PollOperationState } from "../pollOperation";
 
 /**
  * Options for the LRO poller.

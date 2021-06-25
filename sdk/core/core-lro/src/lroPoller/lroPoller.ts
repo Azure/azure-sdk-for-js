@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Poller, PollOperationState } from "../";
+import { PollOperationState } from "../pollOperation";
+import { Poller } from "../poller";
 import { LongRunningOperation, LroPollerOptions, ResumablePollOperationState } from "./models";
 import { GenericPollOperation } from "./operation";
 

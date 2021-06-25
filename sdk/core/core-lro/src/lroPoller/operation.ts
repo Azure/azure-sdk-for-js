@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperation, PollOperationState } from "../";
+import { PollOperationState, PollOperation } from "../pollOperation";
 import {
   PollerConfig,
   ResumablePollOperationState,
