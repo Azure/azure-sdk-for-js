@@ -95,6 +95,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
+    let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
@@ -105,17 +106,23 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // clientId only
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;
+      clientSecret = undefined;
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
     this.msalFlow = new MsalAuthorizationCode({
       ...options,
+      clientSecret,
       clientId,
       tokenCredentialOptions: options || {},
       logger,
       redirectUri: this.redirectUri,
       authorizationCode: this.authorizationCode
     });
+  }
+
+  async getAuthCodeUrl(options: { scopes: string[], redirectUri: string }): Promise<string> {
+    return await (this.msalFlow as MsalAuthorizationCode).getAuthCodeUrl(options);
   }
 
   /**

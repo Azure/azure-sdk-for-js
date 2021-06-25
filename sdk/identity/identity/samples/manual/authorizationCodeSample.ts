@@ -4,12 +4,15 @@
 import { Server } from "http";
 
 // NOTE: When using this code, you must change the module below to "@azure/identity"
-import { AuthorizationCodeCredential } from "../src/credentials/authorizationCodeCredential";
+import { AuthorizationCodeCredential } from "../../src/credentials/authorizationCodeCredential";
 
 // You will need to install these external dependencies with NPM:
 import qs from "qs";
 import open from "open";
 import express from "express";
+import { config } from "dotenv";
+
+config();
 
 // This sample demonstrates how to use the AuthorizationCodeCredential,
 // including the first part of the authorization code flow.  For this
@@ -63,7 +66,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       const app = express();
       let server: Server | undefined = undefined;
 
-      app.get('/authresponse', (req, res) => {
+      app.get('/authresponse', (req: any, res: any) => {
         // Close the temporary server once we've received the redirect.
         res.sendStatus(200);
         if (server) {
@@ -88,6 +91,18 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   // Direct the user to the authentication URI either by opening a
   // browser (desktop and mobile apps) or redirecting their browser
   // using a Location header (web apps and APIs).
+  console.log("CLIENT SECRET", clientSecret);
+    const cred = new AuthorizationCodeCredential(
+      tenantId!,
+      clientId!,
+      clientSecret!,
+      "",
+      redirectUri,
+    );
+
+    console.log("...cred", !!cred);
+  // const authenticateUrl = await cred.getAuthCodeUrl({ scopes: [scopes], redirectUri });
+  // console.log("OLD URL", getAuthorizeUrl(tenantId!, clientId!, scopes));
   const authenticateUrl = getAuthorizeUrl(tenantId!, clientId!, scopes);
   console.log("Opening user's browser to URL:", authenticateUrl);
   await open(authenticateUrl);
@@ -100,6 +115,14 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   // can be created.  This credential will take care of requesting and
   // refreshing the access token from this point forward.
   if (clientSecret) {
+    console.log("AAAA", {
+      tenantId,
+      clientId,
+      clientSecret,
+      authorizationCode,
+      redirectUri,
+      authorityHost
+    })
     return new AuthorizationCodeCredential(
       tenantId!,
       clientId!,
@@ -108,10 +131,10 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       redirectUri,
       // NOTE: It is not necessary to explicitly pass the authorityHost when using
       // the default authority host: https://login.microsoftonline.com.  It is only
-      // necesary when a different authority host is used in the initial authorization
+      // necessary when a different authority host is used in the initial authorization
       // URI.
       { authorityHost }
-    );
+      );
   } else {
     // NOTE: If there is no client secret, we can construct an auth code credential
     // using this method.
@@ -122,7 +145,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       redirectUri,
       // NOTE: It is not necessary to explicitly pass the authorityHost when using
       // the default authority host: https://login.microsoftonline.com.  It is only
-      // necesary when a different authority host is used in the initial authorization
+      // necessary when a different authority host is used in the initial authorization
       // URI.
       { authorityHost }
     );

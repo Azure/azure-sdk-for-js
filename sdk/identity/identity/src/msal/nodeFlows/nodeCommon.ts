@@ -99,6 +99,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    console.log("INSTANTIATING CONFIDENTIAL APP?",       this.msalConfig.auth.clientSecret ||
+      this.msalConfig.auth.clientAssertion ||
+      this.msalConfig.auth.clientCertificate)
     // The confidential client requires either a secret, assertion or certificate.
     if (
       this.msalConfig.auth.clientSecret ||
