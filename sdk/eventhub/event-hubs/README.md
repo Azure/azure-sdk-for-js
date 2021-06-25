@@ -4,11 +4,12 @@ Azure Event Hubs is a highly scalable publish-subscribe service that can ingest 
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs) |
-[Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs) |
-[Product documentation](https://azure.microsoft.com/services/event-hubs/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs)
+- [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs)
+- [Product documentation](https://azure.microsoft.com/services/event-hubs/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/migrationguide.md)
