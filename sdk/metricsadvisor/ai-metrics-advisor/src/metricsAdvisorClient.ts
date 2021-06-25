@@ -1422,8 +1422,7 @@ export class MetricsAdvisorClient {
         };
       });
       return {
-        rootCauses: transformed,
-        _response: result._response
+        rootCauses: transformed
       };
     } catch (e) {
       span.setStatus({
@@ -1491,8 +1490,7 @@ export class MetricsAdvisorClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getMetricFeedback(id, requestOptions);
       return {
-        ...fromServiceMetricFeedbackUnion(result),
-        _response: result._response
+        ...fromServiceMetricFeedbackUnion(result)
       };
     } catch (e) {
       span.setStatus({
