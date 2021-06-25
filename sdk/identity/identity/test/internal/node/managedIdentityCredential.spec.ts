@@ -227,25 +227,21 @@ describe("ManagedIdentityCredential", function() {
     });
 
     const clock = sandbox.useFakeTimers();
-    const promise = credential.getToken("scopes");
 
-    // Important:
-    // We can't await tickAsync on Node 16, since it makes the promise above reject without the proper error handling.
-    // This is true even when we're properly handling the promise rejection later with assertRejects.
-    //
-    // As per the source code of the IMDS MSI,
-    // the timeouts increase exponentially until we reach the limit: 800ms -> 1600ms -> 3200ms, results in 6400ms
-    clock?.tickAsync(6400);
+    let errorMessage: string = "";
+    credential.getToken("scopes").catch((error) => {
+      errorMessage = error.message;
+    });
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
 
-    await assertRejects(
-      promise,
-      (error: AuthenticationError) =>
-        error.message.indexOf(
-          `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
-        ) > -1
+    await clock.tickAsync(6400);
+    assert.ok(
+      errorMessage.indexOf(
+        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+      ) > -1
     );
 
-    clock?.restore();
+    clock.restore();
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
