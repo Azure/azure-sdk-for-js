@@ -10,7 +10,7 @@ One scenario is building an HTTP-based service that accepts events as part of an
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0 and run in express.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/) and run in express.
 
 You need [an Azure subscription][freesub] and [an Azure Event Hub resource][azhubacct] to run these sample programs.
 

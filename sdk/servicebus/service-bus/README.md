@@ -27,11 +27,14 @@ Install the latest version for the Azure Service Bus client library using npm.
 
 `npm install @azure/service-bus`
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Service Bus Namespace](https://docs.microsoft.com/azure/service-bus-messaging/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Service Bus Namespace](https://docs.microsoft.com/azure/service-bus-messaging/) 
 
 ### Configure Typescript
 

@@ -12,7 +12,7 @@ schema identifiers rather than full schemas.
 
 ## Getting started
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 
