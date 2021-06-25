@@ -27,17 +27,11 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
 };
 
 export const assertTrace = (actual: Envelope[], expectation: Expectation): void => {
-  console.log('inside assertTrace method: ');
-  console.log('actual: ');
-  console.log(actual);
-  console.log('expectation: ');
-  console.log(expectation);
   const envelope = actual.filter(
-    (e) =>
-      (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
+    (e) => {
+      return (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
+    }
   );
-  console.log('envelope: ');
-  console.log(envelope);
   if (envelope.length !== 1) {
     assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
   }
@@ -80,25 +74,12 @@ export const assertCount = (actual: Envelope[], expectations: Expectation[]): vo
 };
 
 export const assertExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
-  console.log('inside assertExpectation method: ');
-  console.log('actual: ');
-  console.log(actual);
-  console.log('expectations: ');
-  console.log(expectations);
   for (const expectation of expectations) {
-    console.log('expectation: ');
-    console.log(expectation);
-    const envelope = actual.filter(
-      (e) => {
-        console.log('e.data.baseData');
-        console.log(e.data!.baseData);
-        console.log('expectation.data!.baseData');
-        console.log(expectation.data!.baseData);
+    const envelope = actual.filter((e) => {
+      return (
         (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
-      }
-    );
-    console.log('envelope: ');
-    console.log(envelope);
+      );
+    });
     if (envelope.length !== 1) {
       assert.ok(
         false,
