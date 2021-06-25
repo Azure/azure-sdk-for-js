@@ -70,6 +70,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const privateLinkResourceName: msRest.OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {
