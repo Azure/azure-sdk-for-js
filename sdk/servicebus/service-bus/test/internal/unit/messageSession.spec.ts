@@ -12,12 +12,7 @@ import {
 } from "./unittestUtils";
 import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
-import {
-  ReceiverEvents,
-  EventContext,
-  Message as RheaMessage,
-  SessionEvents
-} from "rhea-promise";
+import { ReceiverEvents, EventContext, Message as RheaMessage, SessionEvents } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import { ProcessErrorArgs, ServiceBusError } from "../../../src";

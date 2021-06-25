@@ -9,7 +9,7 @@ import {
   ReceiverEvents,
   SessionEvents,
   Receiver as RheaPromiseReceiver,
-  Session,
+  Session
 } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
@@ -187,7 +187,10 @@ export function getRemainingWaitTimeInMsFn(
  *
  * @internal
  */
-type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<T, "once" | "removeListener" | "on">;
+type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
+  T,
+  "once" | "removeListener" | "on"
+>;
 
 /**
  * The bare minimum needed to receive messages for batched
@@ -195,7 +198,10 @@ type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<T, "once" 
  *
  * @internal
  */
-export type MinimalReceiver = Pick<RheaPromiseReceiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
+export type MinimalReceiver = Pick<
+  RheaPromiseReceiver,
+  "name" | "isOpen" | "credit" | "addCredit" | "drain"
+> &
   EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
   } & {
@@ -552,15 +558,15 @@ export class BatchingReceiverLite {
  */
 export type RheaReceiverWithPrivateProperties = RheaPromiseReceiver & {
   /**
-   * rhea-promise does an internal cast to get to the credit property as it's not actually exposed 
+   * rhea-promise does an internal cast to get to the credit property as it's not actually exposed
    * by rhea.
-   * 
+   *
    * export class RheaPromiseReceiver extends Link {}
    * export abstract class Link extends Entity {
    *   protected _link: RheaLink;
    * }
-  */
-  _link: RheaPromiseReceiver['_link'] & {
+   */
+  _link: RheaPromiseReceiver["_link"] & {
     credit: number;
-  }
+  };
 };
