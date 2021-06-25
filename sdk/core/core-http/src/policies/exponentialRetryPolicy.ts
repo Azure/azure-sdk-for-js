@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
@@ -23,6 +22,7 @@ import {
 import { RestError } from "../restError";
 import { logger } from "../log";
 import { Constants } from "../util/constants";
+import { delay } from "../util/delay";
 
 export function exponentialRetryPolicy(
   retryCount?: number,
@@ -174,7 +174,7 @@ async function retry(
   if (!isAborted && shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, response)) {
     logger.info(`Retrying request in ${retryData.retryInterval}`);
     try {
-      await utils.delay(retryData.retryInterval);
+      await delay(retryData.retryInterval);
       const res = await policy._nextPolicy.sendRequest(request.clone());
       return retry(policy, request, res, retryData);
     } catch (err) {

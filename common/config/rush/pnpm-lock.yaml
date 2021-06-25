@@ -57,6 +57,7 @@ dependencies:
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
+  '@rush-temp/perf-app-configuration': file:projects/perf-app-configuration.tgz
   '@rush-temp/perf-core-rest-pipeline': file:projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:projects/perf-identity.tgz
@@ -10577,6 +10578,21 @@ packages:
       integrity: sha512-Kvl28eIyB/TUFjHazX20V+clKd8zLCBx+Tb7zTU3Yp1kei9JNZfqMaDmDlCyfw1bmRLDslq5/xfo/NEMWks0wQ==
       tarball: file:projects/perf-ai-text-analytics.tgz
     version: 0.0.0
+  file:projects/perf-app-configuration.tgz:
+    dependencies:
+      '@types/node': 8.10.66
+      '@types/uuid': 8.3.0
+      dotenv: 8.6.0
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-app-configuration'
+    resolution:
+      integrity: sha512-i2b4+TTev+rOwl+F2AqZoAyVcrP7/qP4IkOI9KeSEWSjbizV7wKmvzpENQylboaW5EJoe7XqxGIUDLxuDxWVWQ==
+      tarball: file:projects/perf-app-configuration.tgz
+    version: 0.0.0
   file:projects/perf-core-rest-pipeline.tgz:
     dependencies:
       '@types/uuid': 8.3.0
@@ -11947,6 +11963,7 @@ specifiers:
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:./projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
+  '@rush-temp/perf-app-configuration': file:./projects/perf-app-configuration.tgz
   '@rush-temp/perf-core-rest-pipeline': file:./projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:./projects/perf-identity.tgz

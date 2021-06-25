@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortError } from "@azure/abort-controller";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -10,8 +11,8 @@ import {
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
-import { delay } from "../util/utils";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
+import { delay } from "../util/delay";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
@@ -26,6 +27,8 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
     }
   };
 }
+
+const StandardAbortMessage = "The operation was aborted.";
 
 /**
  * To learn more, please refer to
@@ -73,7 +76,16 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       );
       if (delayInMs) {
         this.numberOfRetries += 1;
-        await delay(delayInMs);
+
+        await delay(delayInMs, undefined, {
+          abortSignal: httpRequest.abortSignal,
+          abortErrorMsg: StandardAbortMessage
+        });
+
+        if (httpRequest.abortSignal?.aborted) {
+          throw new AbortError(StandardAbortMessage);
+        }
+
         // The original request and up to DEFAULT_CLIENT_MAX_RETRY_COUNT retries
         if (this.numberOfRetries <= DEFAULT_CLIENT_MAX_RETRY_COUNT) {
           return this.sendRequest(httpRequest);
