@@ -8,12 +8,11 @@
 
 export {
   ArcSetting,
+  ArcSettingList,
   AzureEntityResource,
   BaseResource,
   Cluster,
-  ClusterList,
   ClusterNode,
-  ClusterPatch,
   ClusterReportedProperties,
   ErrorAdditionalInfo,
   ErrorDetail,
