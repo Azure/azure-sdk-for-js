@@ -27,11 +27,11 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
 };
 
 export const assertTrace = (actual: Envelope[], expectation: Expectation): void => {
-  const envelope = actual.filter(
-    (e) => {
-      return (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
-    }
-  );
+  const envelope = actual.filter((e) => {
+    return (
+      (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
+    );
+  });
   if (envelope.length !== 1) {
     assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
   }
@@ -83,7 +83,8 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as RequestData).name
         }`
       );
     }
