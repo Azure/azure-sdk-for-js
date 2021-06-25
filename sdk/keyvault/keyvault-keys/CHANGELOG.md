@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
+- Updated the service version to 7.3-preview.
+
 ### Breaking Changes
 
 ### Key Bugs Fixed
