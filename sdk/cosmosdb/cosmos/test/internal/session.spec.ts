@@ -31,7 +31,7 @@ function getCollection2TokenMap(
   return (sessionContainer as any).collectionResourceIdToSessionTokens;
 }
 
-describe("Session Token", function(this: Suite) {
+describe.skip("Session Token", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const containerId = "sessionTestColl";
