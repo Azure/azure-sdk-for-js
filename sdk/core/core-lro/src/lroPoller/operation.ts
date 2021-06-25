@@ -3,8 +3,8 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperation, PollOperationState } from "../";
-import { PollerConfig, ResumablePollOperationState, LRO, LROStatus } from "./models";
-import { getPollingURL } from "./requestUtils";
+import { PollerConfig, ResumablePollOperationState, LongRunningOperation, LroStatus } from "./models";
+import { getPollingUrl } from "./requestUtils";
 import { createInitializeState, createPollForLROStatus } from "./stateMachine";
 
 export class GenericPollOperation<TResult, TState extends PollOperationState<TResult>>
@@ -12,11 +12,11 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   private GetLROStatusFromResponse?: (
     pollingURL: string,
     pollerConfig: PollerConfig
-  ) => Promise<LROStatus<TResult>>;
+  ) => Promise<LroStatus<TResult>>;
   private pollerConfig?: PollerConfig;
   constructor(
     public state: TState & ResumablePollOperationState<TResult>,
-    private lro: LRO<TResult>
+    private lro: LongRunningOperation<TResult>
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -55,12 +55,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     if (!state.isCompleted) {
       if (this.GetLROStatusFromResponse === undefined) {
         if (state.config === undefined) {
-          throw new Error("Bad state: LRO mode is undefined");
+          throw new Error("Bad state: LRO mode is undefined. Please check if the serialized state is well-formed.");
         }
         this.GetLROStatusFromResponse = createPollForLROStatus(this.lro, state.config);
       }
       if (state.pollingURL === undefined) {
-        throw new Error("Bad state: polling URL is undefined");
+        throw new Error("Bad state: polling URL is undefined. Please check if the serialized state is well-formed.");
       }
       const currentState = await this.GetLROStatusFromResponse(
         state.pollingURL,
@@ -71,12 +71,10 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         state.isCompleted = true;
       } else {
         this.GetLROStatusFromResponse = currentState.next ?? this.GetLROStatusFromResponse;
-        state.pollingURL = getPollingURL(currentState.rawResponse, state.pollingURL);
+        state.pollingURL = getPollingUrl(currentState.rawResponse, state.pollingURL);
       }
     }
-    if (options?.fireProgress !== undefined) {
-      options.fireProgress(state);
-    }
+    options?.fireProgress?.(state);
     return this;
   }
 

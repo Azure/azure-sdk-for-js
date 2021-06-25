@@ -34,11 +34,11 @@ This document presents a design of a LRO engine to be part of `@azure/core-lro` 
 
 The design consists of three main pieces:
 
-- an interface, named `LRO<T>` which groups various primitives need to implement LROs
-- a class, named `LROPoller`, that implements the LRO engine and its constructor takes as input an object that implements `LRO<T>`
-- classes that implement `LRO<T>` for `@azure/core-http` and `@azure/core-client`. @joheredi also created one for `@azure-rest/core-client` in https://github.com/Azure/azure-sdk-for-js/pull/15898
+- an interface, named `LongRunningOperation<T>` which groups various primitives need to implement LROs
+- a class, named `LroPoller`, that implements the LRO engine and its constructor takes as input an object that implements `LongRunningOperation<T>`
+- classes that implement `LongRunningOperation<T>` for `@azure/core-http` and `@azure/core-client`. @joheredi also created one for `@azure-rest/core-client` in https://github.com/Azure/azure-sdk-for-js/pull/15898
 
-### `LRO<T>`
+### `LongRunningOperation<T>`
 
 This interface contains the following three methods: **sendInitialRequest**, **sendPollRequest**, and **retrieveAzureAsyncResource**. I propose to make this interface exported by `@azure/core-lro`.
 
@@ -47,7 +47,7 @@ This interface contains the following three methods: **sendInitialRequest**, **s
 This method should be implemented to send the initial request to start the operation and it has the following signature:
 
 ```ts
-sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LROResponse<T>>
+sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LroResponse<T>>
 ```
 
 The `initializeState` parameter is a function that will initialize the state of the polling operation and will return a Boolean that indicates whether the operation has already been completed. This Boolean is especially useful in `@azure/core-client`'s engine because at this point, the customer-provided callback should be called. The implementation for `@azure/core-http` looks like this:
@@ -58,7 +58,7 @@ public async sendInitialRequest(
     rawResponse: RawResponse,
     flatResponse: unknown
   ) => boolean
-): Promise<LROResponse<T>> {
+): Promise<LroResponse<T>> {
   const response = await this.sendOperation(this.args, this.spec); // the class will have sendOperation, args, and spec as private fields
   initializeState(response.rawResponse, response.flatResponse);
   return response;
@@ -70,34 +70,34 @@ public async sendInitialRequest(
 This method should be implemented to send a polling request, a request the service should respond to with the status of the operation, and it has the following signature:
 
 ```ts
-sendPollRequest: (config: LROConfig, path: string) => Promise<LROStatus<T>>
+sendPollRequest: (config: LroConfig, path: string) => Promise<LroStatus<T>>
 ```
 
-This method takes two things as input, it takes the request path as you would expect but also takes a parameter of type `LROConfig`. The latter is an object that holds meta information about how the LRO should work and clients could need access to this information in order to do things like doing custom de-serialization in certain cases where the swagger does not describe all response shapes. The `LROConfig` interface is defined as follows:
+This method takes two things as input, it takes the request path as you would expect but also takes a parameter of type `LroConfig`. The latter is an object that holds meta information about how the Lro should work and clients could need access to this information in order to do things like doing custom de-serialization in certain cases where the swagger does not describe all response shapes. The `LroConfig` interface is defined as follows:
 
 ```ts
-export interface LROConfig {
-  mode?: LROMode;
+export interface LroConfig {
+  mode?: LroMode;
   resourceLocation?: string;
 }
 ```
 
 The information in it is currently populated from the response of the initial request. `mode` specifies which LRO implementation this particular API follows (see the [Terminology](#terminology) section). Furthermore, `resourceLocation` is a path where the desired result of the LRO could potentially be located.
 
-Implementing `sendPollRequest` is tricky because it returns a `LROStatus` which has a `done` field and it is not easy to figure out whether the LRO has finished, so this design exposes a helper function, called `createGetLROStatusFromResponse`, which the implementation should call to get a `getLROStatusFromResponse`, which in turn should be called on the response to detect whether the operation has finished at this point. Here is what the implementation looks like for `@azure/core-http`, ignoring the custom de-serialization stuff:
+Implementing `sendPollRequest` is tricky because it returns a `LroStatus` which has a `done` field and it is not easy to figure out whether the LRO has finished, so this design exposes a helper function, called `createGetLroStatusFromResponse`, which the implementation should call to get a `getLroStatusFromResponse`, which in turn should be called on the response to detect whether the operation has finished at this point. Here is what the implementation looks like for `@azure/core-http`, ignoring the custom de-serialization stuff:
 
 ```ts
 public async sendPollRequest(
-    config: LROConfig,
+    config: LroConfig,
     path: string
-): Promise<LROStatus<T>> {
-  const getLROStatusFromResponse = createGetLROStatusFromResponse(this, config, this.finalStateVia);
+): Promise<LroStatus<T>> {
+  const getLroStatusFromResponse = createGetLroStatusFromResponse(this, config, this.finalStateVia);
   const { flatResponse, rawResponse } = await sendOperation(this.args, {
     ...this.spec,
     httpMethod: "GET",
     path: path)
   });
-  return getLROStatusFromResponse(rawResponse, flatResponse as T);
+  return getLroStatusFromResponse(rawResponse, flatResponse as T);
 }
 ```
 
@@ -106,12 +106,12 @@ public async sendPollRequest(
 This method is only needed to potentially retrieve the provisioned azure resource in the _Azure Async Operation_ mode after the operation has finished and it should be different from the `sendPollRequest` one in two things:
 
 - should set the obscure `shouldDeserialize` option needed for doing custom de-serialization on the result if it is supported by the client
-- we already know the operation has finished at this point, so `done` can be set to `true` right away without calling `getLROStatusFromResponse`
+- we already know the operation has finished at this point, so `done` can be set to `true` right away without calling `getLroStatusFromResponse`
 
 It has the following signature:
 
 ```ts
-retrieveAzureAsyncResource: (path?: string) => Promise<LROStatus<T>>
+retrieveAzureAsyncResource: (path?: string) => Promise<LroStatus<T>>
 ```
 
 Note that `path` is optional here because `resourceLocation` is also optional. Here is the implementation for `@azure/core-http`:
@@ -119,7 +119,7 @@ Note that `path` is optional here because `resourceLocation` is also optional. H
 ```ts
   public async retrieveAzureAsyncResource(
     path?: string
-  ): Promise<LROStatus<T>> {
+  ): Promise<LroStatus<T>> {
   const updatedArgs = { ...this.args };
   if (updatedArgs.options) {
     (updatedArgs.options as any).shouldDeserialize = true;
@@ -132,12 +132,12 @@ Note that `path` is optional here because `resourceLocation` is also optional. H
   return { flatResponse, rawResponse, done: true };
 ```
 
-### `LROPoller`
+### `LroPoller`
 
 I propose to make this class also exported by `@azure/core-lro`. This class has the following type signature:
 
 ```ts
-class LROPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult>
+class LroPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult>
 ```
 
 so a client can instantiate the state of the polling operation with a custom type that extends the standard `PollOperationState`. This flexibility can open the door for this class to be used in Track 2 packages where it is common for LROs to have other interesting information as part of their state and customers might want to have access to it, e.g. the last time the operation was updated.
@@ -145,14 +145,14 @@ so a client can instantiate the state of the polling operation with a custom typ
 The class also has the following constructor:
 
 ```ts
-constructor(options: LROPollerOptions, lro: LRO<TResult>);
+constructor(options: LroPollerOptions, lro: LongRunningOperation<TResult>);
 ```
 
 Currently `options` has `intervalInMs` to control the polling interval and `resumeFrom` to enable resuming from a serialized state. If there are new arguments to be added to the class, they could be added to the options type. For instance, we might decide to enable customers to provide a custom LRO implementation in the form of a custom [`update`](https://github.com/Azure/azure-sdk-for-js/blob/2d2c6561cac330b8720763db88705fad4e867bda/sdk/core/core-lro/src/pollOperation.ts#L63) method, such a method could be part of the options.
 
-### `coreClientLRO` and `coreHttpLRO`
+### `coreClientLro` and `coreHttpLro`
 
-I propose to make these classes auto-generated by Autorest. These classes implement `LRO<T>` and various bits of `coreHttpLRO` have been showed earlier. These classes will need access to a few pieces: operation specification and operation arguments and a primitive function that can take them as input to send a request and also converts the response into one of type `LROResponse<T>` which has both the flattened and the raw responses. Furthermore, those classes can also, optionally, take as input an object of type `FinalStateVia`, which could determine where to find the results of the LRO after the operation finished. Typically, Autorest figures out the value for `FinalStateVia` from the `x-ms-long-running-operation-options` swagger extension.
+I propose to make these classes auto-generated by Autorest. These classes implement `LongRunningOperation<T>` and various bits of `coreHttpLro` have been showed earlier. These classes will need access to a few pieces: operation specification and operation arguments and a primitive function that can take them as input to send a request and also converts the response into one of type `LroResponse<T>` which has both the flattened and the raw responses. Furthermore, those classes can also, optionally, take as input an object of type `FinalStateVia`, which could determine where to find the results of the LRO after the operation finished. Typically, Autorest figures out the value for `FinalStateVia` from the `x-ms-long-running-operation-options` swagger extension.
 
 ## Usage examples
 
@@ -198,16 +198,16 @@ const sendOperation = async (
   };
 };
 
-const lro = new CoreClientLRO(
+const lro = new CoreClientLro(
   sendOperation,
   { options }, // arguments are just the operation options
   spec
 );
 ```
 
-### Using `LROPoller`
+### Using `LroPoller`
 
 ```ts
-const pollerEngine = new LROPoller({ intervalInMs: 2000 }, lro); // lro was instantiated in the previous section
+const pollerEngine = new LroPoller({ intervalInMs: 2000 }, lro); // lro was instantiated in the previous section
 const result = pollerEngine.pollUntilDone();
 ```

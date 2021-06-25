@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LROStatus, RawResponse } from "./models";
+import { LroStatus, RawResponse } from "./models";
 
 function isLocationPollingDone(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![202, 200].includes(code)) {
-    throw new Error(`Operation failed`);
+    throw new Error(`Received unexpected HTTP status code ${code} while polling. This may indicate a server issue.`);
   }
   return code !== 202;
 }
@@ -14,7 +14,7 @@ function isLocationPollingDone(rawResponse: RawResponse): boolean {
 export function processLocationPollingOperationResult<TResult>(
   rawResponse: RawResponse,
   flatResponse: TResult
-): LROStatus<TResult> {
+): LroStatus<TResult> {
   return {
     rawResponse,
     flatResponse,

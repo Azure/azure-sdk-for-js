@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import { Poller, PollOperationState } from "../";
-import { LRO, LROPollerOptions, ResumablePollOperationState } from "./models";
+import { LongRunningOperation, LroPollerOptions, ResumablePollOperationState } from "./models";
 import { GenericPollOperation } from "./operation";
 
 /**
  * The LRO Engine, a class that performs polling.
  */
-export class LROPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<
+export class LroPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<
   TState,
   TResult
 > {
   private intervalInMs: number;
 
-  constructor({ intervalInMs = 2000, resumeFrom }: LROPollerOptions, lro: LRO<TResult>) {
+  constructor({ intervalInMs = 2000, resumeFrom }: LroPollerOptions, lro: LongRunningOperation<TResult>) {
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
       ? JSON.parse(resumeFrom).state
       : {};

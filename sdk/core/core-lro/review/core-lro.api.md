@@ -10,61 +10,52 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createGetLROStatusFromResponse<TResult>(lroPrimitives: LRO<TResult>, config: LROConfig, finalStateVia?: FinalStateVia): (rawResponse: RawResponse, flatResponse: TResult) => LROStatus<TResult>;
+export function createGetLroStatusFromResponse<TResult>(lroPrimitives: LongRunningOperation<TResult>, config: LroConfig, finalStateVia?: FinalStateVia): GetLroStatusFromResponse<TResult>;
 
 // @public
 export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
 
 // @public
-export type GetLROStatusFromResponse<T> = (rawResponse: RawResponse, flatResponse: T) => LROStatus<T>;
+export type GetLroStatusFromResponse<T> = (rawResponse: RawResponse, flatResponse: T) => LroStatus<T>;
 
 // @public
-export interface LRO<T> {
+export interface LongRunningOperation<T> {
     requestMethod: string;
     requestPath: string;
-    retrieveAzureAsyncResource: (path?: string) => Promise<LROStatus<T>>;
-    sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LROResponse<T>>;
-    sendPollRequest: (config: LROConfig, path: string) => Promise<LROStatus<T>>;
+    retrieveAzureAsyncResource: (path?: string) => Promise<LroStatus<T>>;
+    sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LroResponse<T>>;
+    sendPollRequest: (config: LroConfig, path: string) => Promise<LroStatus<T>>;
 }
 
 // @public
-export interface LROBody extends Record<string, unknown> {
-    properties?: {
-        provisioningState?: string;
-    } & Record<string, unknown>;
-    provisioningState?: string;
-    status?: string;
-}
-
-// @public
-export interface LROConfig {
-    mode?: LROMode;
+export interface LroConfig {
+    mode?: LroMode;
     resourceLocation?: string;
 }
 
 // @public
-export interface LROInProgressState<T> extends LROResponse<T> {
+export interface LroInProgressState<T> extends LroResponse<T> {
     done: false;
-    next?: () => Promise<LROStatus<T>>;
+    next?: () => Promise<LroStatus<T>>;
 }
 
 // @public
-export type LROMode = "AzureAsync" | "Location" | "Body";
+export type LroMode = "AzureAsync" | "Location" | "Body";
 
 // @public
-export class LROPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
-    constructor({ intervalInMs, resumeFrom }: LROPollerOptions, lro: LRO<TResult>);
+export class LroPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
+    constructor({ intervalInMs, resumeFrom }: LroPollerOptions, lro: LongRunningOperation<TResult>);
     delay(): Promise<void>;
     }
 
 // @public
-export interface LROPollerOptions {
+export interface LroPollerOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
 
 // @public
-export interface LROResponse<T> {
+export interface LroResponse<T> {
     // (undocumented)
     flatResponse: T;
     // (undocumented)
@@ -72,10 +63,10 @@ export interface LROResponse<T> {
 }
 
 // @public
-export type LROStatus<T> = LROTerminalState<T> | LROInProgressState<T>;
+export type LroStatus<T> = LroTerminalState<T> | LroInProgressState<T>;
 
 // @public
-export interface LROTerminalState<T> extends LROResponse<T> {
+export interface LroTerminalState<T> extends LroResponse<T> {
     done: true;
 }
 
@@ -154,19 +145,13 @@ export interface PollOperationState<TResult> {
 export type PollProgressCallback<TState> = (state: TState) => void;
 
 // @public
-export type RawHttpHeaders = {
-    [headerName: string]: string;
-};
-
-// @public
 export interface RawResponse {
-    body?: LROBody;
-    headers: RawHttpHeaders;
+    body?: unknown;
+    headers: {
+        [headerName: string]: string;
+    };
     statusCode: number;
 }
-
-// @public
-export const terminalStates: string[];
 
 
 // (No @packageDocumentation comment for this package)
