@@ -14,7 +14,10 @@ export class LroPoller<TResult, TState extends PollOperationState<TResult>> exte
 > {
   private intervalInMs: number;
 
-  constructor({ intervalInMs = 2000, resumeFrom }: LroPollerOptions, lro: LongRunningOperation<TResult>) {
+  constructor(
+    { intervalInMs = 2000, resumeFrom }: LroPollerOptions,
+    lro: LongRunningOperation<TResult>
+  ) {
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
       ? JSON.parse(resumeFrom).state
       : {};

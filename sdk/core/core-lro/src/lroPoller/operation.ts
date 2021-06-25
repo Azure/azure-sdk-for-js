@@ -3,7 +3,12 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperation, PollOperationState } from "../";
-import { PollerConfig, ResumablePollOperationState, LongRunningOperation, LroStatus } from "./models";
+import {
+  PollerConfig,
+  ResumablePollOperationState,
+  LongRunningOperation,
+  LroStatus
+} from "./models";
 import { getPollingUrl } from "./requestUtils";
 import { createInitializeState, createPollForLROStatus } from "./stateMachine";
 
@@ -55,12 +60,16 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     if (!state.isCompleted) {
       if (this.GetLROStatusFromResponse === undefined) {
         if (state.config === undefined) {
-          throw new Error("Bad state: LRO mode is undefined. Please check if the serialized state is well-formed.");
+          throw new Error(
+            "Bad state: LRO mode is undefined. Please check if the serialized state is well-formed."
+          );
         }
         this.GetLROStatusFromResponse = createPollForLROStatus(this.lro, state.config);
       }
       if (state.pollingURL === undefined) {
-        throw new Error("Bad state: polling URL is undefined. Please check if the serialized state is well-formed.");
+        throw new Error(
+          "Bad state: polling URL is undefined. Please check if the serialized state is well-formed."
+        );
       }
       const currentState = await this.GetLROStatusFromResponse(
         state.pollingURL,

@@ -6,7 +6,9 @@ import { LroStatus, RawResponse } from "./models";
 function isLocationPollingDone(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![202, 200].includes(code)) {
-    throw new Error(`Received unexpected HTTP status code ${code} while polling. This may indicate a server issue.`);
+    throw new Error(
+      `Received unexpected HTTP status code ${code} while polling. This may indicate a server issue.`
+    );
   }
   return code !== 202;
 }
