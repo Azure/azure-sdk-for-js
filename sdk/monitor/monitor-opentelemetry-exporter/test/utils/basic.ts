@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/tracing";
+import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { delay } from "@azure/core-http";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { FlushSpanProcessor } from "./flushSpanProcessor";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
@@ -18,7 +19,7 @@ const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
 const exporter = new AzureMonitorTraceExporter({
   connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`
 });
-const processor = new SimpleSpanProcessor(exporter);
+const processor = new FlushSpanProcessor(exporter);
 
 export class BasicScenario implements Scenario {
   prepare(): void {
