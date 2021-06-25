@@ -5,7 +5,7 @@ import qs from "qs";
 import assert from "assert";
 
 import { AccessToken } from "@azure/core-auth";
-
+import * as chai from "chai";
 import { WebResource, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
@@ -340,7 +340,7 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function() {
+  it.only("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
@@ -399,9 +399,11 @@ describe("ManagedIdentityCredential", function() {
       assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
       if (authDetails.token) {
         // We use Date.now underneath.
-        assert.equal(
-          Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-          Math.floor(Date.now() / 1000000)
+        chai.assert.closeTo(
+          authDetails.token.expiresOnTimestamp,
+          Date.now(),
+          1000,
+          "expiresOnTimestamp is not in 1ms range from Date.now()"
         );
       } else {
         assert.fail("No token was returned!");
