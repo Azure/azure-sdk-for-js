@@ -28,7 +28,6 @@ interface AuthRequestDetails {
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
-  let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
     envCopy = JSON.stringify(process.env);
@@ -39,10 +38,6 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
     sandbox = Sinon.createSandbox();
-    clock = sandbox.useFakeTimers({
-      now: Date.now(),
-      shouldAdvanceTime: true
-    });
   });
   afterEach(() => {
     const env = JSON.parse(envCopy);
@@ -53,7 +48,6 @@ describe("ManagedIdentityCredential", function() {
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
     sandbox.restore();
-    clock.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -232,12 +226,12 @@ describe("ManagedIdentityCredential", function() {
       ...mockHttpClient.tokenCredentialOptions
     });
 
+    const clock = sandbox.useFakeTimers();
+
     const promise = credential.getToken("scopes");
 
-    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
-
-    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
-    clock.tick(640);
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    await clock.tickAsync(6400);
 
     await assertRejects(
       promise,
@@ -246,6 +240,8 @@ describe("ManagedIdentityCredential", function() {
           `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
         ) > -1
     );
+
+    clock.restore();
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
@@ -397,15 +393,7 @@ describe("ManagedIdentityCredential", function() {
       );
 
       assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
-      if (authDetails.token) {
-        // We use Date.now underneath.
-        assert.equal(
-          Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-          Math.floor(Date.now() / 1000000)
-        );
-      } else {
-        assert.fail("No token was returned!");
-      }
+      assert.ok(authDetails.token?.expiresOnTimestamp);
     } finally {
       unlinkSync(tempFile);
       rmdirSync(tempDir);
