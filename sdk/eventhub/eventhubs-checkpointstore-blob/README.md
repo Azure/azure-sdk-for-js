@@ -2,7 +2,11 @@
 
 An Azure Blob storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob)
+- [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 
 ## Getting started
 
