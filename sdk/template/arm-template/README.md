@@ -4,9 +4,9 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Use this API to manage the IoTSpaces service instances in your Azure subscription.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-iotspaces) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotspaces) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotspaces) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-template) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-template) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-template) |
 
 ## Getting started
 
@@ -19,12 +19,12 @@ Use this API to manage the IoTSpaces service instances in your Azure subscriptio
 
 - An [Azure subscription][azure_sub].
 
-### Install the `@azure/arm-iotspaces` package
+### Install the `@azure/arm-template` package
 
 Install the Azure IoTSpaces client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/arm-iotspaces
+npm install @azure/arm-template
 ```
 
 ### Create and authenticate a `IoTSpacesClient`
@@ -44,7 +44,7 @@ You will also need to register a new AAD application and grant access to Azure I
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```javascript
-const { IoTSpacesClient } = require("@azure/arm-iotspaces");
+const { IoTSpacesClient } = require("@azure/arm-template");
 const { DefaultAzureCredential } = require("@azure/identity");
 const client = new IoTSpacesClient("<endpoint>", new DefaultAzureCredential());
 ```
@@ -76,7 +76,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fiotspaces%2Farm-iotspaces%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fiotspaces%2Farm-template%2FREADME.png)
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
