@@ -386,6 +386,12 @@ export class BatchingReceiverLite {
     // - maxWaitTime is passed or
     // - newMessageWaitTimeoutInSeconds is passed since the last message was received
     const finalAction = (): void => {
+      if (receiver.drain) {
+        // If a drain is already in process then we should let it complete. Some messages might still be in flight, but they will
+        // arrive before the drain completes.
+        return;
+      }
+
       // Drain any pending credits.
       if (receiver.isOpen() && receiver.credit > 0) {
         logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
@@ -395,6 +401,14 @@ export class BatchingReceiverLite {
         // at which point we'll wrap everything up and resolve the promise.
         receiver.drain = true;
         receiver.addCredit(1);
+
+        // WORKAROUND: currently addCredit(<positive number>) is the only way the next tick will actually
+        // send a flow frame. However, we don't want the extra credit we just added - it can result in an extra
+        // message being sent that we did not ask for (ie, it causes us to request remaining_credits + 1)
+        //
+        // This workaround goes in and "removes" the credit, leaving all the other necessary flags intact so a
+        // flow frame will still get sent. This is all just in-memory manipulation (nothing has been sent yet).
+        (receiver as any)["_link"].credit--;
       } else {
         logger.verbose(
           `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
@@ -432,8 +446,17 @@ export class BatchingReceiverLite {
 
       try {
         const data: ServiceBusMessageImpl = this._createServiceBusMessage(context);
-        if (brokeredMessages.length < args.maxMessageCount) {
-          brokeredMessages.push(data);
+        brokeredMessages.push(data);
+
+        // NOTE: we used to actually "lose" any extra messages. At this point I've fixed the areas that were causing us to receive
+        // extra messages but if this bug arises in some other way it's better to return the message than it would be to let it be
+        // silently dropped on the floor.
+        if (brokeredMessages.length > args.maxMessageCount) {
+          logger.error(
+            `More messages arrived than were expected: ${
+              args.maxMessageCount
+            } vs ${brokeredMessages.length + 1}`
+          );
         }
       } catch (err) {
         const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
