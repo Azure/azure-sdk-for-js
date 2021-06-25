@@ -18,7 +18,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7efe0ae
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210223.1"
+  "@autorest/typescript": "6.0.0-beta.4"
 disable-async-iterators: true
 hide-clients: true
 package-version: 1.0.0
