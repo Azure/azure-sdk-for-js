@@ -52,7 +52,7 @@ export class HttpSender implements Sender {
 
   handlePermanentRedirect(location: string | undefined) {
     if (location) {
-      let locUrl = new url.URL(location);
+      const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
         this._appInsightsClient.host = "https://" + locUrl.host;
       }
