@@ -345,14 +345,3 @@ async function sendTestMessages(
     await sender.close();
   }
 }
-
-// Error#1: this comes from rhea and is just outputted as a console.error
-// Received transfer when credit was 0
-
-// Error#2:
-// [USER VISIBLE] Missing index 825
-
-// Error#3: double drain
-// console.log(`Bug: double-drain protection was activated`)
-// Error#4: message overflow
-// More messages arrived than were expected
