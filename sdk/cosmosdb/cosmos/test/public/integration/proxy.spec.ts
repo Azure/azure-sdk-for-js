@@ -1,5 +1,5 @@
-﻿// // Copyright (c) Microsoft Corporation.
-// // Licensed under the MIT license.
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 // import * as http from "http";
 // import { Context } from "mocha";
 // import * as net from "net";
