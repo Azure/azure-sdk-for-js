@@ -8,13 +8,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"InvalidTask in AnalyzeInput\",\"innererror\":{\"code\":\"InvalidRequestBodyFormat\",\"message\":\"Supplied PersonallyIdentifiableInformation tasks contains duplicates, please remove duplicates and try again.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "d5358999-d5ff-4382-844f-03f8482e1b94",
+    "apim-request-id": "38383194-11c0-490c-8c80-d4dbcc5ad1c8",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:46:58 GMT",
+    "date": "Fri, 25 Jun 2021 20:23:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "4"
+    "x-envoy-upstream-service-time": "5"
    }
   }
  ],

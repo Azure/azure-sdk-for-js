@@ -8,9 +8,9 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Document text is empty.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "02d81439-5165-44ee-a9d5-94cf6fd665ec",
+    "apim-request-id": "3ea8359c-ab7f-4b75-85d6-b8fd98a8a044",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:40:54 GMT",
+    "date": "Fri, 25 Jun 2021 20:16:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

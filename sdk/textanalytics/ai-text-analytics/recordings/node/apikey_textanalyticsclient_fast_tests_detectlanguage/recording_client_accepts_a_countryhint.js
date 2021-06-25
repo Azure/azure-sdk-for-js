@@ -16,11 +16,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '8',
   'apim-request-id',
-  'e46d46ce-9e51-42ce-bcfc-047f987d982e',
+  'fe7dbc13-f100-4fd0-ac71-41d7e8531dee',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 05:00:30 GMT'
+  'Fri, 25 Jun 2021 19:46:11 GMT'
 ]);

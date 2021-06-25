@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:34:35 GMT",
+    "date": "Fri, 25 Jun 2021 20:10:23 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - NCUS ProdSlices",
-    "x-ms-request-id": "9ceda81a-917e-4982-bafb-50a7aff04200"
+    "x-ms-ests-server": "2.1.11829.9 - SCUS ProdSlices",
+    "x-ms-request-id": "8e39ec98-09f7-43aa-b65f-9f370e277700"
    }
   },
   {
@@ -32,13 +32,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"InvalidTask in AnalyzeInput\",\"innererror\":{\"code\":\"InvalidRequestBodyFormat\",\"message\":\"Supplied PersonallyIdentifiableInformation tasks contains duplicates, please remove duplicates and try again.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "a1e75baa-9daf-4587-8816-859f0a3be15d",
+    "apim-request-id": "35126c12-326a-4e5d-86d9-9b40aa238b4b",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:34:35 GMT",
+    "date": "Fri, 25 Jun 2021 20:10:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "4"
    }
   }
  ],

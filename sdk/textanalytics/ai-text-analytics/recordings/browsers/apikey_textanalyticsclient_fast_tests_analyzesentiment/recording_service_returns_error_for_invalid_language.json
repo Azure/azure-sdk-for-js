@@ -10,9 +10,9 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,hi,it,ja,ko,nl,no,pt-BR,pt-PT,tr,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "56953f9f-0422-40db-9b1b-b024290c07e4",
+    "apim-request-id": "77de83cb-5d0f-4761-a81f-2b70353b05f5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:37:03 GMT",
+    "date": "Fri, 25 Jun 2021 20:13:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

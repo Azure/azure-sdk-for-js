@@ -15,15 +15,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1',
   'x-envoy-upstream-service-time',
-  '501',
+  '51',
   'apim-request-id',
-  '8ef3dbf1-2a6a-4fd9-bfe9-fe2601950146',
+  '9d4447db-d300-4585-b5ae-e516f64202a5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 05:00:55 GMT'
+  'Fri, 25 Jun 2021 19:46:52 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -37,13 +37,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1',
   'x-envoy-upstream-service-time',
-  '63',
+  '34',
   'apim-request-id',
-  '11b9afa2-8583-4ece-bc70-71f87e908af2',
+  'a2a44f5d-1241-4cf8-aaa8-aee99452054a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 05:00:55 GMT'
+  'Fri, 25 Jun 2021 19:46:52 GMT'
 ]);

@@ -10,13 +10,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition\"}}}],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "c00fc052-e62f-4dfc-80e6-b6a9b574f9fa",
+    "apim-request-id": "8cfa6aad-4553-4227-97ab-7436f8d57cf0",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:37:45 GMT",
+    "date": "Fri, 25 Jun 2021 20:13:42 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],

@@ -13,13 +13,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '38',
+  '65',
   'apim-request-id',
-  '8d424d3f-47ee-49da-a01c-3e499e3771a8',
+  'b30a6f9a-278e-43f9-9423-9272f81b37d0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 05:10:30 GMT'
+  'Fri, 25 Jun 2021 19:56:24 GMT'
 ]);

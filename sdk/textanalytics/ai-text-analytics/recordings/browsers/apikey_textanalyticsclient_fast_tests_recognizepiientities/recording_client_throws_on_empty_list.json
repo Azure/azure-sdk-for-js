@@ -10,13 +10,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid Request.\",\"innererror\":{\"code\":\"MissingInputRecords\",\"message\":\"Missing input records.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "685464ef-c40d-47ff-8f5f-59c632a7d4f7",
+    "apim-request-id": "6540eab1-9356-4b0e-be4d-e4658c24e01f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 05:37:29 GMT",
+    "date": "Fri, 25 Jun 2021 20:13:34 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
+    "x-envoy-upstream-service-time": "4"
    }
   }
  ],
