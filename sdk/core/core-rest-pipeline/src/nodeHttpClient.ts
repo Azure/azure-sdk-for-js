@@ -207,7 +207,7 @@ class NodeHttpClient implements HttpClient {
       throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
     }
 
-    const agent = request.agent ?? this.getOrCreateAgent(request, isInsecure);
+    const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
     const options: http.RequestOptions = {
       agent,
       hostname: url.hostname,
