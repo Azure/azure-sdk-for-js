@@ -2,7 +2,9 @@
 
 The library provides access to the Device Update for IoT Hub service that enables customers to publish updates for their IoT devices to the cloud, and then deploy these updates to their devices (approve updates to groups of devices managed and provisioned in IoT Hub).
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk) | [Product documentation](https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk)
+- [Product documentation](https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update)
 
 ## Getting started
 
