@@ -251,10 +251,7 @@ There is a separate endpoint and operation for recognizing Personally Identifiab
 
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 const documents = [
   "The employee's SSN is 555-55-5555.",
   "The employee's phone number is (555) 555-5555."
