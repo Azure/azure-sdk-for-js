@@ -7,6 +7,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-template': file:projects/arm-template.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -8389,6 +8390,26 @@ packages:
       integrity: sha512-hnxdxVITPVLYJIeSx6vf7SXvuzyKSo06rX/A37blEI12OFSYPmenR23ZTMvc7tuVrjS6VBAlNy710wd/DMx5vQ==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
+  file:projects/arm-template.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.9
+    dev: false
+    name: '@rush-temp/arm-template'
+    resolution:
+      integrity: sha512-p1mvP4nPaUkAKnE8t1GB+UD42QyFZlAdD2ZqXEXHTVkjbOIZTh4J485KannWoiXVIwGfTwExEZsKrrU8jdhhxg==
+      tarball: file:projects/arm-template.tgz
+    version: 0.0.0
   file:projects/attestation.tgz:
     dependencies:
       '@azure/core-rest-pipeline': 1.0.4
@@ -11913,6 +11934,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-template': file:./projects/arm-template.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
