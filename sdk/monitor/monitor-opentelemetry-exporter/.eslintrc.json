@@ -1,14 +1,10 @@
 {
   "settings": {
     "node": {
-      "tryExtensions": [
-        ".ts"
-      ]
+      "tryExtensions": [".ts"]
     }
   },
-  "plugins": [
-    "@azure/azure-sdk"
-  ],
+  "plugins": ["@azure/azure-sdk"],
   "extends": [
     "plugin:@azure/azure-sdk/azure-sdk-base",
     "plugin:node/recommended",
@@ -24,9 +20,7 @@
     "node/no-unsupported-features/es-syntax": [
       "error",
       {
-        "ignores": [
-          "modules"
-        ]
+        "ignores": ["modules"]
       }
     ]
   }
