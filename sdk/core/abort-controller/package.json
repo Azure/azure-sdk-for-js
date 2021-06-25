@@ -74,7 +74,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/abort-controller/README.md",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.2.0"

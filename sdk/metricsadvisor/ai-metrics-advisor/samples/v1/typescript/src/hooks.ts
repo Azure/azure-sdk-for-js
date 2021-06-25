@@ -92,8 +92,7 @@ async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookI
       toList: ["test2@example.com", "test3@example.com"]
     }
   };
-  await client.updateHook(hookId, emailPatch);
-  const response = await client.getHook(hookId);
+  const response = await client.updateHook(hookId, emailPatch);
   console.log(response);
   return response;
 }

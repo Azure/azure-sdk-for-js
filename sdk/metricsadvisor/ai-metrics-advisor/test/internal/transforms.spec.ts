@@ -217,7 +217,6 @@ describe("Transforms", () => {
   [
     { original: "Yearly", expected: "Yearly" },
     { original: "Daily", expected: "Daily" },
-    { original: "Secondly", expected: "PerSecond" },
     { original: "Minutely", expected: "PerMinute" }
   ].forEach((granularity) => {
     it(`fromServiceDataFeedDetailUnion() on granularity ${granularity.original}`, () => {
@@ -246,7 +245,6 @@ describe("Transforms", () => {
   [
     { original: "Yearly", expected: "Yearly" },
     { original: "Daily", expected: "Daily" },
-    { original: "PerSecond", expected: "Secondly" },
     { original: "PerMinute", expected: "Minutely" }
   ].forEach((granularity) => {
     it(`toServiceGranularity() on granularity ${granularity.original}`, () => {

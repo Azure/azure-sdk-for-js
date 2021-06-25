@@ -19,6 +19,7 @@ import {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage
 } from "../../src/serviceBusMessage";
+import { disableCommonLoggers, enableCommonLoggers, testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -256,9 +257,16 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     const testMessages = entityNames.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
+
+    testLogger.info(`sending (and receiving) initial message`);
+
     const msg = await sendReceiveMsg(testMessages);
 
+    testLogger.info(`Done sending initial messages`);
+
     const msgDeliveryLink = (msg as ServiceBusMessageImpl).delivery.link.name;
+
+    testLogger.info(`About to close the underlying link.`);
 
     if (entityNames.usesSessions) {
       await (receiver as ServiceBusReceiverImpl)["_context"].messageSessions[
@@ -270,10 +278,18 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       ].close();
     }
 
+    testLogger.info(
+      `Underlying link should be closed: ${receiver.isClosed}. This will force us to use the management link to settle. Will now attempt to dead letter.`
+    );
+
     let errorWasThrown = false;
     try {
       await receiver.deadLetterMessage(msg);
+
+      testLogger.info(`Message has been dead lettered`);
     } catch (err) {
+      testLogger.error(`Exception thrown`, err);
+
       should.equal(
         err.message,
         `Failed to ${DispositionType.deadletter} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -288,6 +304,9 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
     }
 
+    testLogger.info(
+      `Creating a peek lock dead letter receiver and attempting to receive the dead lettered message`
+    );
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     if (!entityNames.usesSessions) {
@@ -310,22 +329,30 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
         "MessageId is different than expected"
       );
 
+      testLogger.info(`Attempting to complete the message: ${deadLetterMsgsBatch[0].messageId}`);
       await receiver.completeMessage(deadLetterMsgsBatch[0]);
-
       await testPeekMsgsLength(deadLetterReceiver, 0);
     } else {
       const messageBatch = await receiver.receiveMessages(1);
-      await receiver.completeMessage(messageBatch[0]);
 
+      testLogger.info(`Attempting to complete the message: ${messageBatch[0].messageId}`);
+      await receiver.completeMessage(messageBatch[0]);
       await testPeekMsgsLength(receiver, 0);
     }
+
+    testLogger.info(`Done testing dead letter`);
   }
 
   it(
     noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
     async function(): Promise<void> {
-      await beforeEachTest(noSessionTestClientType);
-      await testDeadletter();
+      enableCommonLoggers();
+      try {
+        await beforeEachTest(noSessionTestClientType);
+        await testDeadletter();
+      } finally {
+        disableCommonLoggers();
+      }
     }
   );
 

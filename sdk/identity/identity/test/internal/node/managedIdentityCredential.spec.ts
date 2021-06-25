@@ -3,7 +3,10 @@
 
 import qs from "qs";
 import assert from "assert";
-import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
+import { WebResource, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
@@ -25,7 +28,6 @@ interface AuthRequestDetails {
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
-  let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
     envCopy = JSON.stringify(process.env);
@@ -36,10 +38,6 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
     sandbox = Sinon.createSandbox();
-    clock = sandbox.useFakeTimers({
-      now: Date.now(),
-      shouldAdvanceTime: true
-    });
   });
   afterEach(() => {
     const env = JSON.parse(envCopy);
@@ -50,7 +48,6 @@ describe("ManagedIdentityCredential", function() {
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
     sandbox.restore();
-    clock.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -229,20 +226,22 @@ describe("ManagedIdentityCredential", function() {
       ...mockHttpClient.tokenCredentialOptions
     });
 
-    const promise = credential.getToken("scopes");
+    const clock = sandbox.useFakeTimers();
 
-    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
+    let errorMessage: string = "";
+    credential.getToken("scopes").catch((error) => {
+      errorMessage = error.message;
+    });
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
 
-    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
-    clock.tick(640);
-
-    await assertRejects(
-      promise,
-      (error: AuthenticationError) =>
-        error.message.indexOf(
-          `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
-        ) > -1
+    await clock.tickAsync(6400);
+    assert.ok(
+      errorMessage.indexOf(
+        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+      ) > -1
     );
+
+    clock.restore();
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
@@ -394,15 +393,7 @@ describe("ManagedIdentityCredential", function() {
       );
 
       assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
-      if (authDetails.token) {
-        // We use Date.now underneath.
-        assert.equal(
-          Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-          Math.floor(Date.now() / 1000000)
-        );
-      } else {
-        assert.fail("No token was returned!");
-      }
+      assert.ok(authDetails.token?.expiresOnTimestamp);
     } finally {
       unlinkSync(tempFile);
       rmdirSync(tempDir);

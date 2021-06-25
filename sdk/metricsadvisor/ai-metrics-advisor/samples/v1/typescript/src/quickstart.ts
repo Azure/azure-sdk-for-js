@@ -276,7 +276,7 @@ async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: Anomal
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  const listIterator = client.listAnomalies(alert);
+  const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`

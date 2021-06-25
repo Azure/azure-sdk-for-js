@@ -7,10 +7,15 @@
  */
 
 import {
+  ContainerRegistryImpl,
+  ContainerRegistryBlobImpl,
+  AuthenticationImpl
+} from "./operations";
+import {
   ContainerRegistry,
   ContainerRegistryBlob,
   Authentication
-} from "./operations";
+} from "./operationsInterfaces";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
 
@@ -23,9 +28,9 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   constructor(url: string, options?: GeneratedClientOptionalParams) {
     super(url, options);
-    this.containerRegistry = new ContainerRegistry(this);
-    this.containerRegistryBlob = new ContainerRegistryBlob(this);
-    this.authentication = new Authentication(this);
+    this.containerRegistry = new ContainerRegistryImpl(this);
+    this.containerRegistryBlob = new ContainerRegistryBlobImpl(this);
+    this.authentication = new AuthenticationImpl(this);
   }
 
   containerRegistry: ContainerRegistry;

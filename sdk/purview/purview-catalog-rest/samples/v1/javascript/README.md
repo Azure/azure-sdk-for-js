@@ -56,8 +56,8 @@ npx cross-env ENDPOINT="<endpoint>" node typedefs.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[typedefs]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/purview/purview-catalog-rest/samples/v1/javascript/typedefs.js
+[typedefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-catalog-rest/samples/v1/javascript/typedefs.js
 [apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-catalog-rest/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest/README.md

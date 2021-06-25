@@ -5,8 +5,8 @@
 # There are no documented approaches to specifying CORS rules using ARM, this is a workaround until
 # support for setting CORS rules is added to ARM for Tables
 
-# It is invoked by the https://github.com/Azure/azure-sdk-for-js/blob/master/eng/New-TestResources.ps1
-# script after the ARM template, defined in https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/test-resources.json,
+# It is invoked by the https://github.com/Azure/azure-sdk-for-js/blob/main/eng/New-TestResources.ps1
+# script after the ARM template, defined in https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/test-resources.json,
 # is finished being deployed. The ARM template is responsible for creating the Storage accounts needed for live tests.
 
 param (

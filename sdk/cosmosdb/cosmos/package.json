@@ -32,7 +32,7 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md",
   "sideEffects": false,
   "types": "./dist/types/latest/cosmos.d.ts",
   "typesVersions": {
