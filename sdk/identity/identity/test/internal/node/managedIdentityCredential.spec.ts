@@ -226,16 +226,15 @@ describe("ManagedIdentityCredential", function() {
       ...mockHttpClient.tokenCredentialOptions
     });
 
-    // Sinon's clock has some issues with Node 16.
-    // If we remove this conditional on Node 16, we get the following error:
-    //  PromiseRejection HandledWarning: Promise rejection was handled asynchronously
-    // It will point to the `await promise` line below.
-    const clock = process.version.startsWith("v16") ? undefined : sandbox.useFakeTimers();
+    const clock = sandbox.useFakeTimers();
 
     const promise = credential.getToken("scopes");
 
+    // Important:
+    // We can't await tickAsync on Node 16, since it makes the promise above reject without the proper error handling.
+    // This is true even when we're properly handling the promise rejection later with assertRejects,
     // 800ms -> 1600ms -> 3200ms, results in 6400ms
-    await clock?.tickAsync(6400);
+    clock?.tickAsync(6400);
 
     await assertRejects(
       promise,
