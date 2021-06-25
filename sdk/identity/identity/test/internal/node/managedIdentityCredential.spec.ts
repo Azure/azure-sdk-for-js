@@ -226,11 +226,16 @@ describe("ManagedIdentityCredential", function() {
       ...mockHttpClient.tokenCredentialOptions
     });
 
-    const clock = sandbox.useFakeTimers();
+    // Sinon's clock has some issues with Node 16.
+    // If we remove this conditional on Node 16, we get the following error:
+    //  PromiseRejection HandledWarning: Promise rejection was handled asynchronously
+    // It will point to the `await promise` line below.
+    const clock = process.version.startsWith("v16") ? undefined : sandbox.useFakeTimers();
+
     const promise = credential.getToken("scopes");
 
     // 800ms -> 1600ms -> 3200ms, results in 6400ms
-    await clock.tickAsync(6400);
+    await clock?.tickAsync(6400);
 
     await assertRejects(
       promise,
@@ -239,7 +244,7 @@ describe("ManagedIdentityCredential", function() {
           `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
         ) > -1
     );
-    clock.restore();
+    clock?.restore();
   });
 
   it("IMDS MSI retries also retries on 503s", async function() {
