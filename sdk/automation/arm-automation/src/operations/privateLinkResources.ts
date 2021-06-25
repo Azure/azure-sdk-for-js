@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/keysMappers";
+import * as Mappers from "../models/privateLinkResourcesMappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClientContext } from "../automationClientContext";
 
-/** Class representing a Keys. */
-export class Keys {
+/** Class representing a PrivateLinkResources. */
+export class PrivateLinkResources {
   private readonly client: AutomationClientContext;
 
   /**
-   * Create a Keys.
+   * Create a PrivateLinkResources.
    * @param {AutomationClientContext} client Reference to the service client.
    */
   constructor(client: AutomationClientContext) {
@@ -26,47 +26,47 @@ export class Keys {
   }
 
   /**
-   * Retrieve the automation keys for an account.
+   * Gets the private link resources that need to be created for Automation account.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param [options] The optional parameters
-   * @returns Promise<Models.KeysListByAutomationAccountResponse>
+   * @returns Promise<Models.PrivateLinkResourcesAutomationResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.KeysListByAutomationAccountResponse>;
+  automation(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesAutomationResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
+  automation(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyListResult>, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.KeysListByAutomationAccountResponse> {
+  automation(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  automation(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesAutomationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
         options
       },
-      listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.KeysListByAutomationAccountResponse>;
+      automationOperationSpec,
+      callback) as Promise<Models.PrivateLinkResourcesAutomationResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listKeys",
+const automationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateLinkResources",
   urlParameters: [
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.subscriptionId
+    Parameters.automationAccountName
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -76,10 +76,10 @@ const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
