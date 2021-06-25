@@ -1,0 +1,27 @@
+let nock = require('nock');
+
+module.exports.hash = "80f00807f4e5acb097b5d87cf6797700";
+
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('//text/analytics/v3.1/entities/recognition/pii', {"documents":[{"id":"0","text":"아가 SSN: 859-98-0987","language":"en"}]})
+  .query(true)
+  .reply(200, {"documents":[{"redactedText":"아가 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":8,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'csp-billing-usage',
+  'CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1',
+  'x-envoy-upstream-service-time',
+  '49',
+  'apim-request-id',
+  'aaf9cdc8-31ce-4ce6-8fa4-a5b393cecd63',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Fri, 25 Jun 2021 05:00:58 GMT'
+]);

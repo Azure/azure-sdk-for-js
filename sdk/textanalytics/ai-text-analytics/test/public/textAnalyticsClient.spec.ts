@@ -3,8 +3,10 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
+import { assert, use as chaiUse } from "chai";
 import { Suite, Context } from "mocha";
+import chaiPromises from "chai-as-promised";
+chaiUse(chaiPromises);
 
 import { matrix } from "@azure/test-utils";
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
@@ -37,7 +39,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
 
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalyticsClient`, function(this: Suite) {
     let recorder: Recorder;
     let client: TextAnalyticsClient;
