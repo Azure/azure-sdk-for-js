@@ -14,7 +14,6 @@ import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
 import {
   ReceiverEvents,
-  Receiver as RheaReceiver,
   EventContext,
   Message as RheaMessage,
   SessionEvents
@@ -25,6 +24,7 @@ import { ProcessErrorArgs, ServiceBusError } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
+import { RheaReceiverWithPrivateProperties } from "../../../src/core/batchingReceiver";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -280,7 +280,9 @@ describe("Message session unit tests", () => {
     } {
       const emitter = new EventEmitter();
       const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
-      let credits = 0;
+      const _link = {
+        credit: 0
+      };
 
       const remainingRegisteredListeners = new Set<string>();
 
@@ -289,7 +291,7 @@ describe("Message session unit tests", () => {
           emitter.on(evt, handler);
 
           if (evt === ReceiverEvents.message) {
-            --credits;
+            --_link.credit;
           }
 
           assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
@@ -318,22 +320,23 @@ describe("Message session unit tests", () => {
           }
         },
         isOpen: () => true,
-        addCredit: (_credits: number) => {
-          if (_credits === 1 && fakeRheaReceiver.drain === true) {
+        addCredit: (credit: number) => {
+          if (credit === 1 && fakeRheaReceiver.drain === true) {
             // special case - if we're draining we should initiate a drain
             emitter.emit(ReceiverEvents.receiverDrained, undefined);
             clock?.runAll();
           } else {
-            credits += _credits;
+            _link.credit += credit;
           }
         },
         get credit() {
-          return credits;
+          return _link.credit;
         },
         connection: {
           id: "connection-id"
-        }
-      } as RheaReceiver;
+        },
+        _link
+      } as RheaReceiverWithPrivateProperties;
 
       batchingReceiver["_link"] = fakeRheaReceiver;
 

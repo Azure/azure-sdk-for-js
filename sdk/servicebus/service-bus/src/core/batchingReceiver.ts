@@ -8,8 +8,8 @@ import {
   OnAmqpEvent,
   ReceiverEvents,
   SessionEvents,
-  Receiver,
-  Session
+  Receiver as RheaPromiseReceiver,
+  Session,
 } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
@@ -187,7 +187,7 @@ export function getRemainingWaitTimeInMsFn(
  *
  * @internal
  */
-type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
+type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<T, "once" | "removeListener" | "on">;
 
 /**
  * The bare minimum needed to receive messages for batched
@@ -195,8 +195,8 @@ type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeLi
  *
  * @internal
  */
-export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
-  EventEmitterLike<Receiver> & {
+export type MinimalReceiver = Pick<RheaPromiseReceiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
+  EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
   } & {
     connection: {
@@ -408,7 +408,7 @@ export class BatchingReceiverLite {
         //
         // This workaround goes in and "removes" the credit, leaving all the other necessary flags intact so a
         // flow frame will still get sent. This is all just in-memory manipulation (nothing has been sent yet).
-        (receiver as any)["_link"].credit--;
+        (receiver as RheaReceiverWithPrivateProperties)._link.credit--;
       } else {
         logger.verbose(
           `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
@@ -546,3 +546,21 @@ export class BatchingReceiverLite {
     receiver.session.on(SessionEvents.sessionClose, onClose);
   }
 }
+
+/**
+ * @internal
+ */
+export type RheaReceiverWithPrivateProperties = RheaPromiseReceiver & {
+  /**
+   * rhea-promise does an internal cast to get to the credit property as it's not actually exposed 
+   * by rhea.
+   * 
+   * export class RheaPromiseReceiver extends Link {}
+   * export abstract class Link extends Entity {
+   *   protected _link: RheaLink;
+   * }
+  */
+  _link: RheaPromiseReceiver['_link'] & {
+    credit: number;
+  }
+};

@@ -12,7 +12,8 @@ import { EventEmitter } from "events";
 import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,
-  BatchingReceiverLite
+  BatchingReceiverLite,
+  RheaReceiverWithPrivateProperties
 } from "../../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
@@ -463,16 +464,18 @@ describe("BatchingReceiver unit tests", () => {
   } {
     const emitter = new EventEmitter();
     const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
-    let credits = 0;
-
     const remainingRegisteredListeners = new Set<string>();
+
+    const _link = {
+      credit: 0
+    };
 
     const fakeRheaReceiver = {
       on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
         emitter.on(evt, handler);
 
         if (evt === ReceiverEvents.message) {
-          --credits;
+          --_link.credit;
         }
 
         assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
@@ -501,22 +504,23 @@ describe("BatchingReceiver unit tests", () => {
         }
       },
       isOpen: () => true,
-      addCredit: (_credits: number) => {
-        if (_credits === 1 && fakeRheaReceiver.drain === true) {
+      addCredit: (credit: number) => {
+        if (credit === 1 && fakeRheaReceiver.drain === true) {
           // special case - if we're draining we should initiate a drain
           emitter.emit(ReceiverEvents.receiverDrained, undefined);
           clock?.runAll();
         } else {
-          credits += _credits;
+          _link.credit += credit;
         }
       },
       get credit() {
-        return credits;
+        return _link.credit;
       },
       connection: {
         id: "connection-id"
-      }
-    } as RheaReceiver;
+      },
+      _link
+    } as RheaReceiverWithPrivateProperties;
 
     return {
       receiveIsReady,
