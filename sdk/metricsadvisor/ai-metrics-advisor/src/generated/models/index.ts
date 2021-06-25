@@ -127,8 +127,11 @@ export interface MetricAlertingConfiguration {
   /** Negation operation */
   negationOperation?: boolean;
   dimensionAnomalyScope?: DimensionGroupIdentity;
+  /** Group Scope for Top N values */
   topNAnomalyScope?: TopNGroupScope;
+  /** Alert Severity Condition */
   severityFilter?: SeverityCondition;
+  /** Represents Conditions to snooze Alerts */
   snoozeFilter?: AlertSnoozeCondition;
   valueFilter?: ValueCondition;
 }
@@ -138,6 +141,7 @@ export interface DimensionGroupIdentity {
   dimension: { [propertyName: string]: string };
 }
 
+/** Group Scope for Top N values */
 export interface TopNGroupScope {
   /** top N, value range : [1, +∞) */
   top: number;
@@ -151,6 +155,7 @@ export interface TopNGroupScope {
   minTopCount: number;
 }
 
+/** Alert Severity Condition */
 export interface SeverityCondition {
   /** min alert severity */
   minAlertSeverity: Severity;
@@ -158,6 +163,7 @@ export interface SeverityCondition {
   maxAlertSeverity: Severity;
 }
 
+/** Represents Conditions to snooze Alerts */
 export interface AlertSnoozeCondition {
   /** snooze point count, value range : [0, +∞) */
   autoSnooze: number;
@@ -409,19 +415,23 @@ export interface WholeMetricConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
 }
 
+/** Represents Smart Condition */
 export interface SmartDetectionCondition {
   /** sensitivity, value range : (0, 100] */
   sensitivity: number;
   /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
+  /** Represents Suppress Condition */
   suppressCondition: SuppressCondition;
 }
 
+/** Represents Suppress Condition */
 export interface SuppressCondition {
   /** min point number, value range : [1, +∞) */
   minNumber: number;
@@ -444,6 +454,7 @@ export interface HardThresholdCondition {
   upperBound?: number;
   /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
+  /** Represents Suppress Condition */
   suppressCondition: SuppressCondition;
 }
 
@@ -459,6 +470,7 @@ export interface ChangeThresholdCondition {
   withinRange: boolean;
   /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
+  /** Represents Suppress Condition */
   suppressCondition: SuppressCondition;
 }
 
@@ -470,6 +482,7 @@ export interface DimensionGroupConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -483,6 +496,7 @@ export interface SeriesConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -609,9 +623,11 @@ export interface DetectionAnomalyResultQuery {
 export interface DetectionAnomalyFilterCondition {
   /** dimension filter */
   dimensionFilter?: DimensionGroupIdentity[];
+  /** Represents Conditions to filter severity */
   severityFilter?: SeverityFilterCondition;
 }
 
+/** Represents Conditions to filter severity */
 export interface SeverityFilterCondition {
   /** min severity */
   min: Severity;
@@ -982,6 +998,7 @@ export interface IngestionStatusList {
   readonly value?: IngestionStatus[];
 }
 
+/** Ingestion Status */
 export interface IngestionStatus {
   /**
    * data slice timestamp.
@@ -1007,6 +1024,7 @@ export interface IngestionProgressResetOptions {
   endTime: Date;
 }
 
+/** Track the progress for Datafeed Ingestion */
 export interface DataFeedIngestionProgress {
   /**
    * the timestamp of latest success ingestion job.
@@ -1132,19 +1150,19 @@ export interface EnrichmentStatus {
 
 export interface AzureSQLConnectionStringParam {
   /** The connection string to access the Azure SQL. */
-  connectionString: string;
+  connectionString?: string;
 }
 
 export interface DataLakeGen2SharedKeyParam {
   /** The account key to access the Azure Data Lake Storage Gen2. */
-  accountKey: string;
+  accountKey?: string;
 }
 
 export interface ServicePrincipalParam {
   /** The client id of the service principal. */
   clientId: string;
   /** The client secret of the service principal. */
-  clientSecret: string;
+  clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
 }
@@ -1155,7 +1173,7 @@ export interface ServicePrincipalInKVParam {
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
   /** The Client Secret to access the Key Vault. */
-  keyVaultClientSecret: string;
+  keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;
   /** The secret name of the service principal's client secret in the Key Vault. */
@@ -1422,6 +1440,7 @@ export interface PeriodFeedbackValue {
   periodValue: number;
 }
 
+/** Parameters for Email Hook */
 export interface EmailHookParameter {
   /** Email TO: list. */
   toList: string[];
@@ -1708,6 +1727,7 @@ export type PeriodFeedback = MetricFeedback & {
 export type EmailHookInfo = HookInfo & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Email";
+  /** Parameters for Email Hook */
   hookParameter: EmailHookParameter;
 };
 
@@ -1816,7 +1836,6 @@ export type Granularity =
   | "Daily"
   | "Hourly"
   | "Minutely"
-  | "Secondly"
   | "Custom";
 /** Defines values for EntityStatus. */
 export type EntityStatus = "Active" | "Paused";

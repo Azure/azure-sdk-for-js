@@ -37,6 +37,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
+    allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }
 
@@ -351,7 +352,6 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions extends CommonClientOptions {
-    allowInsecureConnection?: boolean;
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];

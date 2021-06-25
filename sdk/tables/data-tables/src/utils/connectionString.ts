@@ -21,10 +21,11 @@ const DevelopmentConnectionString =
  */
 export function getClientParamsFromConnectionString(
   connectionString: string,
-  options?: TableServiceClientOptions
+  options: TableServiceClientOptions = {}
 ): ClientParamsFromConnectionString {
   if (connectionString.toLowerCase().indexOf("usedevelopmentstorage=true") !== -1) {
     connectionString = DevelopmentConnectionString;
+    options.allowInsecureConnection = true;
   }
   const extractedCreds = extractConnectionStringParts(connectionString);
   if (extractedCreds.kind === "AccountConnString") {

@@ -2,11 +2,11 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2/typing",
+   "url": "https://endpoint/chat/threads/19%3A3UhaYJAgmFT9pQAXBl_Zu_rxT_KhqrS08VzfQ39UqUI1%40thread.v2/typing",
    "query": {
     "api-version": "2021-04-05-preview6"
    },
-   "requestBody": null,
+   "requestBody": "{}",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "14a2d7e401a934c1ed33eb1e04c1fa7e"
+ "hash": "2fc4f953abf2cd5612640aa2b6af4aa0"
 }
