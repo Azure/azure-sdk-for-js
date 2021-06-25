@@ -279,9 +279,11 @@ describe("ManagedIdentityCredential", function() {
     const clock = sandbox.useFakeTimers();
     const promise = credential.getToken("scopes");
 
+    // From the retry code of the IMDS MSI,
+    // the timeouts increase exponentially until we reach the limit:
     // 800ms -> 1600ms -> 3200ms, results in 6400ms
-    // Plus four 503s: 20s * 8
-    await clock.tickAsync(6400 + 2000 * 8);
+    // Plus four 503s: 20s * 8 from the 503 responses.
+    clock.tickAsync(6400 + 2000 * 8);
 
     assert.equal((await promise).token, "token");
     clock.restore();
