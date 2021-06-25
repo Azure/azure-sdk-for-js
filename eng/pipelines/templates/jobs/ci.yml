@@ -19,6 +19,9 @@ parameters:
   - name: MatrixReplace
     type: object
     default: []
+  - name: IncludeRelease
+    type: boolean
+    default: true
 
 jobs:
   - job: "Build"
@@ -42,6 +45,7 @@ jobs:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
+          IncludeRelease: ${{ parameters.IncludeRelease }}
 
   - job: "Analyze"
     variables:
