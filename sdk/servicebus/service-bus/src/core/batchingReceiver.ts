@@ -458,7 +458,7 @@ export class BatchingReceiverLite {
         // extra messages but if this bug arises in some other way it's better to return the message than it would be to let it be
         // silently dropped on the floor.
         if (brokeredMessages.length > args.maxMessageCount) {
-          logger.error(
+          logger.warning(
             `More messages arrived than were expected: ${
               args.maxMessageCount
             } vs ${brokeredMessages.length + 1}`
