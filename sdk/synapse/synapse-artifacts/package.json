@@ -26,7 +26,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -63,7 +63,7 @@
     "rollup": "^1.16.3",
     "uglify-js": "^3.4.9",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
