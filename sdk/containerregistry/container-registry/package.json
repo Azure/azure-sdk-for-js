@@ -78,9 +78,9 @@
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.0.0",
-    "@azure/core-rest-pipeline": "1.1.0-beta.4",
+    "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

@@ -49,7 +49,7 @@ export function getServiceVersion(): string {
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
 
 /**
  * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
