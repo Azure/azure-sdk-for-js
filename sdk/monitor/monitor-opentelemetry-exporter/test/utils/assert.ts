@@ -74,19 +74,8 @@ export const assertCount = (actual: Envelope[], expectations: Expectation[]): vo
 };
 
 export const assertExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
-  console.log("inside assertExpectation method: ");
-  console.log("actual: ");
-  console.log(actual);
-  console.log("expectasions: ");
-  console.log(expectations);
   for (const expectation of expectations) {
     const envelope = actual.filter((e) => {
-      console.log("e: ");
-      console.log(e);
-      console.log("e.data!.baseData");
-      console.log(e.data!.baseData);
-      console.log("expectation.data!.baseData");
-      console.log(expectation.data!.baseData);
       return (
         (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
       );
