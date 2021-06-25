@@ -28,3 +28,5 @@ extends:
     Artifacts:
       - name: azure-template
         safeName: azuretemplate
+      - name: azure-arm-template
+        safeName: azurearmtemplate
