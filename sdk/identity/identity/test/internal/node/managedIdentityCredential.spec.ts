@@ -248,8 +248,6 @@ describe("ManagedIdentityCredential", function() {
   });
 
   it("IMDS MSI retries also retries on 503s", async function() {
-    process.env.AZURE_CLIENT_ID = "errclient";
-
     const mockHttpClient = new MockAuthHttpClient({
       // First response says the IMDS endpoint is available.
       authResponse: [
@@ -274,7 +272,7 @@ describe("ManagedIdentityCredential", function() {
     });
 
     const credential = new ManagedIdentityCredential(
-      process.env.AZURE_CLIENT_ID,
+      "errclient",
       mockHttpClient.tokenCredentialOptions
     );
 

@@ -50,16 +50,15 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(httpRequest.clone()).then((response) => {
-      if (
-        response.status !== StatusCodes.TooManyRequests &&
-        response.status !== StatusCodes.ServiceUnavailable
-      ) {
-        return response;
-      } else {
-        return this._handleResponse(httpRequest, response);
-      }
-    });
+    const response = await this._nextPolicy.sendRequest(httpRequest.clone());
+    if (
+      response.status !== StatusCodes.TooManyRequests &&
+      response.status !== StatusCodes.ServiceUnavailable
+    ) {
+      return response;
+    } else {
+      return this._handleResponse(httpRequest, response);
+    }
   }
 
   private async _defaultResponseHandler(
