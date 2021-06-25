@@ -20,7 +20,7 @@ export type BrowserLoginStyle = "redirect" | "popup";
  */
 export interface InteractiveBrowserCredentialOptions
   extends InteractiveCredentialOptions,
-  CredentialPersistenceOptions {
+    CredentialPersistenceOptions {
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.
@@ -42,7 +42,7 @@ export interface InteractiveBrowserCredentialOptions
    * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
    */
   loginHint?: string;
-};
+}
 
 /**
  * Defines the common options for the InteractiveBrowserCredential class.
@@ -78,4 +78,4 @@ export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveC
    * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
    */
   loginHint?: string;
-};
+}
