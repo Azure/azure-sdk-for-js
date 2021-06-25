@@ -35,7 +35,7 @@ Use the library to:
 
 ### Currently supported environments
 
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 

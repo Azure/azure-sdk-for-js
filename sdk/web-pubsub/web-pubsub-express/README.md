@@ -20,7 +20,7 @@ Use the express library to:
 
 ### Currently supported environments
 
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - [Express](https://expressjs.com/) version 4.x.x or higher
 
 ### Prerequisites

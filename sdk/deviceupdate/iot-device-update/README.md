@@ -8,7 +8,7 @@ The library provides access to the Device Update for IoT Hub service that enable
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 
