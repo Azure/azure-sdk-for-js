@@ -4,7 +4,6 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -13,10 +12,6 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -25,19 +20,11 @@ export type AlertQueryTimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
 // @public
 export interface AlertsPageResponse extends Array<AnomalyAlert> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
 export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -232,10 +219,6 @@ export interface CreateDataFeedOptions extends OperationOptions {
 // @public
 export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -344,10 +327,6 @@ export type DataFeedSourcePatch = Partial<DataFeedSource> & {
 // @public
 export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -504,10 +483,6 @@ export interface DetectionConditionsCommonPatch {
 
 // @public
 export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -516,10 +491,6 @@ export type DimensionKey = Record<string, string>;
 // @public
 export interface DimensionValuesPageResponse extends Array<string> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -553,72 +524,33 @@ export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
 export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
 
 // @public
-export type GetAlertConfigResponse = AnomalyAlertConfiguration & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+export type GetAlertConfigResponse = AnomalyAlertConfiguration;
 
 // @public
-export type GetDataFeedResponse = MetricsAdvisorDataFeed & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+export type GetDataFeedResponse = MetricsAdvisorDataFeed & {};
 
 // @public
-export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion;
 
 // @public
-export type GetDetectionConfigResponse = AnomalyDetectionConfiguration & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+export type GetDetectionConfigResponse = AnomalyDetectionConfiguration;
 
 // @public
-export type GetFeedbackResponse = MetricFeedbackUnion & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+export type GetFeedbackResponse = MetricFeedbackUnion & {};
 
 // @public
-export type GetHookResponse = NotificationHookUnion & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+export type GetHookResponse = NotificationHookUnion;
 
 // @public
 export type GetIncidentRootCauseResponse = {
     rootCauses: IncidentRootCause[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 };
 
 // @public
 export type GetIngestionProgressResponse = {
     readonly latestSuccessTimestamp?: number;
     readonly latestActiveTimestamp?: number;
-} & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
+} & {};
 
 // @public
 export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {
@@ -626,10 +558,6 @@ export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {
 
 // @public
 export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -639,10 +567,6 @@ export interface GetMetricSeriesDataOptions extends OperationOptions {
 // @public
 export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -664,10 +588,6 @@ export type HardThresholdConditionUnion = {
 // @public
 export interface HooksPageResponse extends Array<NotificationHookUnion> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -681,10 +601,6 @@ export interface IncidentRootCause {
 // @public
 export interface IncidentsPageResponse extends Array<AnomalyIncident> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -708,10 +624,6 @@ export interface IngestionStatus {
 // @public
 export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -928,10 +840,6 @@ export interface MetricEnrichedSeriesData {
 // @public
 export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStatus> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -946,10 +854,6 @@ export interface MetricFeedbackCommon {
 // @public
 export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
@@ -1082,10 +986,6 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
 // @public
 export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> {
     continuationToken?: string;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
 }
 
 // @public
