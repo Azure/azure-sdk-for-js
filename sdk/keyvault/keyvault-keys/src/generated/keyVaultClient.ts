@@ -12,22 +12,28 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion72,
+  ApiVersion73Preview,
   JsonWebKeyType,
   KeyVaultClientCreateKeyOptionalParams,
   KeyVaultClientCreateKeyResponse,
+  KeyVaultClientRotateKeyOptionalParams,
+  KeyVaultClientRotateKeyResponse,
   JsonWebKey,
   KeyVaultClientImportKeyOptionalParams,
   KeyVaultClientImportKeyResponse,
+  KeyVaultClientDeleteKeyOptionalParams,
   KeyVaultClientDeleteKeyResponse,
   KeyVaultClientUpdateKeyOptionalParams,
   KeyVaultClientUpdateKeyResponse,
+  KeyVaultClientGetKeyOptionalParams,
   KeyVaultClientGetKeyResponse,
   KeyVaultClientGetKeyVersionsOptionalParams,
   KeyVaultClientGetKeyVersionsResponse,
   KeyVaultClientGetKeysOptionalParams,
   KeyVaultClientGetKeysResponse,
+  KeyVaultClientBackupKeyOptionalParams,
   KeyVaultClientBackupKeyResponse,
+  KeyVaultClientRestoreKeyOptionalParams,
   KeyVaultClientRestoreKeyResponse,
   JsonWebKeyEncryptionAlgorithm,
   KeyVaultClientEncryptOptionalParams,
@@ -35,16 +41,32 @@ import {
   KeyVaultClientDecryptOptionalParams,
   KeyVaultClientDecryptResponse,
   JsonWebKeySignatureAlgorithm,
+  KeyVaultClientSignOptionalParams,
   KeyVaultClientSignResponse,
+  KeyVaultClientVerifyOptionalParams,
   KeyVaultClientVerifyResponse,
   KeyVaultClientWrapKeyOptionalParams,
   KeyVaultClientWrapKeyResponse,
   KeyVaultClientUnwrapKeyOptionalParams,
   KeyVaultClientUnwrapKeyResponse,
+  KeyVaultClientExportOptionalParams,
+  KeyVaultClientExportResponse,
+  KeyVaultClientReleaseOptionalParams,
+  KeyVaultClientReleaseResponse,
   KeyVaultClientGetDeletedKeysOptionalParams,
   KeyVaultClientGetDeletedKeysResponse,
+  KeyVaultClientGetDeletedKeyOptionalParams,
   KeyVaultClientGetDeletedKeyResponse,
+  KeyVaultClientPurgeDeletedKeyOptionalParams,
+  KeyVaultClientRecoverDeletedKeyOptionalParams,
   KeyVaultClientRecoverDeletedKeyResponse,
+  KeyVaultClientGetKeyRotationPolicyOptionalParams,
+  KeyVaultClientGetKeyRotationPolicyResponse,
+  KeyRotationPolicy,
+  KeyVaultClientUpdateKeyRotationPolicyOptionalParams,
+  KeyVaultClientUpdateKeyRotationPolicyResponse,
+  KeyVaultClientGetRandomBytesOptionalParams,
+  KeyVaultClientGetRandomBytesResponse,
   KeyVaultClientGetKeyVersionsNextOptionalParams,
   KeyVaultClientGetKeyVersionsNextResponse,
   KeyVaultClientGetKeysNextOptionalParams,
@@ -53,7 +75,6 @@ import {
   KeyVaultClientGetDeletedKeysNextResponse
 } from "./models";
 
-/** @hidden */
 export class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -61,7 +82,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion72,
+    apiVersion: ApiVersion73Preview,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
@@ -92,6 +113,29 @@ export class KeyVaultClient extends KeyVaultClientContext {
       operationArguments,
       createKeyOperationSpec
     ) as Promise<KeyVaultClientCreateKeyResponse>;
+  }
+
+  /**
+   * The operation will rotate the key based on the key policy. It requires the keys/rotate permission.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param keyName The name of key to be rotated. The system will generate a new version in the
+   *                specified key.
+   * @param options The options parameters.
+   */
+  rotateKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: KeyVaultClientRotateKeyOptionalParams
+  ): Promise<KeyVaultClientRotateKeyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      rotateKeyOperationSpec
+    ) as Promise<KeyVaultClientRotateKeyResponse>;
   }
 
   /**
@@ -133,7 +177,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   deleteKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientDeleteKeyOptionalParams
   ): Promise<KeyVaultClientDeleteKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -186,7 +230,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientGetKeyOptionalParams
   ): Promise<KeyVaultClientGetKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -263,7 +307,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   backupKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientBackupKeyOptionalParams
   ): Promise<KeyVaultClientBackupKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -294,7 +338,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreKey(
     vaultBaseUrl: string,
     keyBundleBackup: Uint8Array,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientRestoreKeyOptionalParams
   ): Promise<KeyVaultClientRestoreKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -397,7 +441,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientSignOptionalParams
   ): Promise<KeyVaultClientSignResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -435,7 +479,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     algorithm: JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientVerifyOptionalParams
   ): Promise<KeyVaultClientVerifyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -523,6 +567,61 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 
   /**
+   * The export key operation is applicable to all key types. The target key must be marked exportable.
+   * This operation requires the keys/export permission.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param keyName The name of the key to get.
+   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
+   * @param options The options parameters.
+   */
+  export(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options?: KeyVaultClientExportOptionalParams
+  ): Promise<KeyVaultClientExportResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      keyVersion,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      exportOperationSpec
+    ) as Promise<KeyVaultClientExportResponse>;
+  }
+
+  /**
+   * The release key operation is applicable to all key types. The target key must be marked exportable.
+   * This operation requires the keys/release permission.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param keyName The name of the key to get.
+   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
+   * @param target The attestation assertion for the target of the key release.
+   * @param options The options parameters.
+   */
+  release(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    target: string,
+    options?: KeyVaultClientReleaseOptionalParams
+  ): Promise<KeyVaultClientReleaseResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      keyVersion,
+      target,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      releaseOperationSpec
+    ) as Promise<KeyVaultClientReleaseResponse>;
+  }
+
+  /**
    * Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public
    * part of a deleted key. This operation includes deletion-specific information. The Get Deleted Keys
    * operation is applicable for vaults enabled for soft-delete. While the operation can be invoked on
@@ -556,7 +655,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientGetDeletedKeyOptionalParams
   ): Promise<KeyVaultClientGetDeletedKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -580,7 +679,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   purgeDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientPurgeDeletedKeyOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -605,7 +704,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientRecoverDeletedKeyOptionalParams
   ): Promise<KeyVaultClientRecoverDeletedKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -616,6 +715,77 @@ export class KeyVaultClient extends KeyVaultClientContext {
       operationArguments,
       recoverDeletedKeyOperationSpec
     ) as Promise<KeyVaultClientRecoverDeletedKeyResponse>;
+  }
+
+  /**
+   * The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key
+   * vault. This operation requires the keys/get permission.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param keyName The name of the key in a given key vault.
+   * @param options The options parameters.
+   */
+  getKeyRotationPolicy(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: KeyVaultClientGetKeyRotationPolicyOptionalParams
+  ): Promise<KeyVaultClientGetKeyRotationPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      getKeyRotationPolicyOperationSpec
+    ) as Promise<KeyVaultClientGetKeyRotationPolicyResponse>;
+  }
+
+  /**
+   * Set specified members in the key policy. Leave others as undefined. This operation requires the
+   * keys/update permission.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param keyName The name of the key in the given vault.
+   * @param keyRotationPolicy The policy for the key.
+   * @param options The options parameters.
+   */
+  updateKeyRotationPolicy(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyRotationPolicy: KeyRotationPolicy,
+    options?: KeyVaultClientUpdateKeyRotationPolicyOptionalParams
+  ): Promise<KeyVaultClientUpdateKeyRotationPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      keyRotationPolicy,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      updateKeyRotationPolicyOperationSpec
+    ) as Promise<KeyVaultClientUpdateKeyRotationPolicyResponse>;
+  }
+
+  /**
+   * Get the requested number of bytes containing random values from a managed HSM.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param count The requested number of random bytes.
+   * @param options The options parameters.
+   */
+  getRandomBytes(
+    vaultBaseUrl: string,
+    count: number,
+    options?: KeyVaultClientGetRandomBytesOptionalParams
+  ): Promise<KeyVaultClientGetRandomBytesResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      count,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      getRandomBytesOperationSpec
+    ) as Promise<KeyVaultClientGetRandomBytesResponse>;
   }
 
   /**
@@ -709,14 +879,31 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
       keyOps: ["options", "keyOps"],
       keyAttributes: ["options", "keyAttributes"],
       tags: ["options", "tags"],
-      curve: ["options", "curve"]
+      curve: ["options", "curve"],
+      releasePolicy: ["options", "releasePolicy"]
     },
-    mapper: Mappers.KeyCreateParameters
+    mapper: { ...Mappers.KeyCreateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const rotateKeyOperationSpec: coreHttp.OperationSpec = {
+  path: "/keys/{key-name}/rotate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyBundle
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const importKeyOperationSpec: coreHttp.OperationSpec = {
@@ -735,9 +922,10 @@ const importKeyOperationSpec: coreHttp.OperationSpec = {
       hsm: ["options", "hsm"],
       key: ["key"],
       keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"]
+      tags: ["options", "tags"],
+      releasePolicy: ["options", "releasePolicy"]
     },
-    mapper: Mappers.KeyImportParameters
+    mapper: { ...Mappers.KeyImportParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName],
@@ -776,9 +964,10 @@ const updateKeyOperationSpec: coreHttp.OperationSpec = {
     parameterPath: {
       keyOps: ["options", "keyOps"],
       keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"]
+      tags: ["options", "tags"],
+      releasePolicy: ["options", "releasePolicy"]
     },
-    mapper: Mappers.KeyUpdateParameters
+    mapper: { ...Mappers.KeyUpdateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -871,7 +1060,7 @@ const restoreKeyOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: { keyBundleBackup: ["keyBundleBackup"] },
-    mapper: Mappers.KeyRestoreParameters
+    mapper: { ...Mappers.KeyRestoreParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
@@ -898,7 +1087,7 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
       authenticationTag: ["options", "authenticationTag"]
     },
-    mapper: Mappers.KeyOperationsParameters
+    mapper: { ...Mappers.KeyOperationsParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -929,7 +1118,7 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
       authenticationTag: ["options", "authenticationTag"]
     },
-    mapper: Mappers.KeyOperationsParameters
+    mapper: { ...Mappers.KeyOperationsParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -954,7 +1143,7 @@ const signOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: { algorithm: ["algorithm"], value: ["value"] },
-    mapper: Mappers.KeySignParameters
+    mapper: { ...Mappers.KeySignParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -983,7 +1172,7 @@ const verifyOperationSpec: coreHttp.OperationSpec = {
       digest: ["digest"],
       signature: ["signature"]
     },
-    mapper: Mappers.KeyVerifyParameters
+    mapper: { ...Mappers.KeyVerifyParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1014,7 +1203,7 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
       authenticationTag: ["options", "authenticationTag"]
     },
-    mapper: Mappers.KeyOperationsParameters
+    mapper: { ...Mappers.KeyOperationsParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1045,7 +1234,65 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
       authenticationTag: ["options", "authenticationTag"]
     },
-    mapper: Mappers.KeyOperationsParameters
+    mapper: { ...Mappers.KeyOperationsParameters, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const exportOperationSpec: coreHttp.OperationSpec = {
+  path: "/keys/{key-name}/{key-version}/export",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyBundle
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      wrappingKey: ["options", "wrappingKey"],
+      wrappingKid: ["options", "wrappingKid"],
+      enc: ["options", "enc"]
+    },
+    mapper: { ...Mappers.KeyExportParameters, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const releaseOperationSpec: coreHttp.OperationSpec = {
+  path: "/keys/{key-name}/{key-version}/release",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyReleaseResult
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      target: ["target"],
+      nonce: ["options", "nonce"],
+      enc: ["options", "enc"]
+    },
+    mapper: { ...Mappers.KeyReleaseParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1117,6 +1364,61 @@ const recoverDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const getKeyRotationPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/keys/{key-name}/rotationpolicy",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyRotationPolicy
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateKeyRotationPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/keys/{key-name}/rotationpolicy",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyRotationPolicy
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: Parameters.keyRotationPolicy,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const getRandomBytesOperationSpec: coreHttp.OperationSpec = {
+  path: "/rng",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RandomBytes
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: {
+    parameterPath: { count: ["count"] },
+    mapper: { ...Mappers.GetRandomBytesRequest, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const getKeyVersionsNextOperationSpec: coreHttp.OperationSpec = {

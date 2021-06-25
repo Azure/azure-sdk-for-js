@@ -6,17 +6,16 @@ import {
   DeletionRecoveryLevel,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation,
-  KnownJsonWebKeyOperation as KnownKeyOperations
+  JsonWebKeyOperation as KeyOperation
 } from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
-export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
+export { KeyType, KnownKeyTypes, KeyOperation };
 
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -475,3 +474,26 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
 export interface CryptographyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link KeyClient.getRandomBytes}
+ */
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
+
+/** Known values of {@link KeyOperation} that the service accepts. */
+export enum KnownKeyOperations {
+  /** Key operation - encrypt */
+  Encrypt = "encrypt",
+  /** Key operation - encrypt */
+  Decrypt = "decrypt",
+  /** Key operation - encrypt */
+  Sign = "sign",
+  /** Key operation - encrypt */
+  Verify = "verify",
+  /** Key operation - encrypt */
+  WrapKey = "wrapKey",
+  /** Key operation - encrypt */
+  UnwrapKey = "unwrapKey",
+  /** Key operation - encrypt */
+  Import = "import"
+}
