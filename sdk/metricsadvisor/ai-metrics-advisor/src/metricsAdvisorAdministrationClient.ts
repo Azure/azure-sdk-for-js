@@ -308,7 +308,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getDataFeedById(id, requestOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return { ...resultDataFeed };
+      return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -507,7 +507,7 @@ export class MetricsAdvisorAdministrationClient {
       };
       const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return { ...resultDataFeed };
+      return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -601,9 +601,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getAnomalyDetectionConfiguration(id, requestOptions);
-      return {
-        ...fromServiceAnomalyDetectionConfiguration(result)
-      };
+      return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1603,7 +1601,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getCredential(id, requestOptions);
       const resultCred = fromServiceCredential(result);
-      return { ...resultCred };
+      return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1765,7 +1763,7 @@ export class MetricsAdvisorAdministrationClient {
         requestOptions
       );
       const resultCred = fromServiceCredential(result);
-      return { ...resultCred };
+      return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
