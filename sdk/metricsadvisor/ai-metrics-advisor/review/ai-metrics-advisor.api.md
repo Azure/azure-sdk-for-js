@@ -527,7 +527,7 @@ export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
 export type GetAlertConfigResponse = AnomalyAlertConfiguration;
 
 // @public
-export type GetDataFeedResponse = MetricsAdvisorDataFeed & {};
+export type GetDataFeedResponse = MetricsAdvisorDataFeed;
 
 // @public
 export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion;
@@ -536,7 +536,7 @@ export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUn
 export type GetDetectionConfigResponse = AnomalyDetectionConfiguration;
 
 // @public
-export type GetFeedbackResponse = MetricFeedbackUnion & {};
+export type GetFeedbackResponse = MetricFeedbackUnion;
 
 // @public
 export type GetHookResponse = NotificationHookUnion;
@@ -550,7 +550,7 @@ export type GetIncidentRootCauseResponse = {
 export type GetIngestionProgressResponse = {
     readonly latestSuccessTimestamp?: number;
     readonly latestActiveTimestamp?: number;
-} & {};
+};
 
 // @public
 export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {
