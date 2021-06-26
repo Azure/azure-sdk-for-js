@@ -166,7 +166,7 @@ async function main() {
   const image = client.getArtifact("library/hello-world", "v1");
 
   // Set permissions on the image's "latest" tag
-  await image.setTagProperties("latest", { canWrite: false, canDelete: false });
+  await image.updateTagProperties("latest", { canWrite: false, canDelete: false });
 }
 
 main().catch((err) => {
@@ -190,7 +190,7 @@ async function main() {
   const repositoryNames = client.listRepositoryNames();
   for await (const repositoryName of repositoryNames) {
     const repository = client.getRepository(repositoryName);
-    // Obtain the images ordered from newest to oldest
+    // Obtain the images ordered from newest to oldest by passing the `orderBy` option
     const imageManifests = repository.listManifestProperties({
       orderBy: "LastUpdatedOnDescending"
     });
