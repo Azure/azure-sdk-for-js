@@ -1662,7 +1662,7 @@ export interface MetricEnrichedSeriesData {
 /**
  * Contains response data for the getDataFeed operation.
  */
-export type GetDataFeedResponse = MetricsAdvisorDataFeed & {};
+export type GetDataFeedResponse = MetricsAdvisorDataFeed;
 
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.
@@ -1699,7 +1699,7 @@ export type GetIncidentRootCauseResponse = {
 /**
  * Contains response data for the getFeedback operation.
  */
-export type GetFeedbackResponse = MetricFeedbackUnion & {};
+export type GetFeedbackResponse = MetricFeedbackUnion;
 
 /**
  * Contains response data for the listAlertsForAlertConfiguration operation.
@@ -1866,7 +1866,7 @@ export type GetIngestionProgressResponse = {
    * null indicates not available
    */
   readonly latestActiveTimestamp?: number;
-} & {};
+};
 
 /**
  * Data Source Credential
