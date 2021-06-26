@@ -25,7 +25,6 @@ import {
   SessionEvents,
   EventContext,
   Message as RheaMessage,
-  Receiver
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ConnectionContext } from "../../../src/connectionContext";
@@ -242,7 +241,7 @@ describe("BatchingReceiver unit tests", () => {
         await receiveIsReady;
 
         // force the overall timeout to fire
-        clock.tick(littleTimeout);
+        clock.tick(littleTimeout + 1);
 
         const messages = await receivePromise;
         assert.isEmpty(messages);
@@ -460,7 +459,7 @@ describe("BatchingReceiver unit tests", () => {
     receiveIsReady: Promise<void>;
     emitter: EventEmitter;
     remainingRegisteredListeners: Set<string>;
-    fakeRheaReceiver: Receiver;
+    fakeRheaReceiver: RheaReceiver;
   } {
     const emitter = new EventEmitter();
     const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
@@ -470,14 +469,11 @@ describe("BatchingReceiver unit tests", () => {
       credit: 0
     };
 
+    emitter.on(ReceiverEvents.message, () => --_link.credit);
+
     const fakeRheaReceiver = {
       on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
         emitter.on(evt, handler);
-
-        if (evt === ReceiverEvents.message) {
-          --_link.credit;
-        }
-
         assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
         remainingRegisteredListeners.add(evt.toString());
       },
@@ -505,14 +501,15 @@ describe("BatchingReceiver unit tests", () => {
       },
       isOpen: () => true,
       addCredit: (credit: number) => {
+        _link.credit += credit;
+
         if (credit === 1 && fakeRheaReceiver.drain === true) {
           // special case - if we're draining we should initiate a drain
           emitter.emit(ReceiverEvents.receiverDrained, undefined);
           clock?.runAll();
-        } else {
-          _link.credit += credit;
         }
       },
+      drain: false,
       get credit() {
         return _link.credit;
       },
@@ -521,6 +518,8 @@ describe("BatchingReceiver unit tests", () => {
       },
       _link
     } as RheaReceiverWithPrivateProperties;
+
+    fakeRheaReceiver.drain = false;
 
     return {
       receiveIsReady,
@@ -591,14 +590,14 @@ describe("BatchingReceiver unit tests", () => {
 
       const prm = receiver.receiveMessages({
         maxMessageCount: 1,
-        maxTimeAfterFirstMessageInMs: 1,
-        maxWaitTimeInMs: 1
+        maxTimeAfterFirstMessageInMs: 20,
+        maxWaitTimeInMs: 10
       });
 
       assert.isTrue(receiver.isReceivingMessages);
 
       await receiveIsReady;
-      await clock.tick(1);
+      await clock.tick(10 + 1);
 
       await prm;
       assert.isFalse(receiver.isReceivingMessages);
@@ -686,6 +685,62 @@ describe("BatchingReceiver unit tests", () => {
       assert.isTrue(resolveWasCalled);
       assert.isFalse(rejectWasCalled);
     });
+
+    it("finalAction prevents multiple concurrent drain calls", async () => {
+      // there are unintended side effects if multiple drains are requested (ie - you start to get
+      // mismatches between responses, resulting in this error message ("Received transfer
+      // when credit was 0") bring printed by rhea.
+      const { fakeRheaReceiver, emitter } = createFakeReceiver();
+
+      const batchingReceiverLite = new BatchingReceiverLite(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        async () => {
+          return fakeRheaReceiver;
+        },
+        "peekLock"
+      );
+
+      batchingReceiverLite["_receiveMessagesImpl"](
+        fakeRheaReceiver,
+        {
+          maxMessageCount: 2,
+          maxTimeAfterFirstMessageInMs: 1,
+          maxWaitTimeInMs: 1
+        },
+        () => {},
+        () => {}
+      );
+
+      assert.equal(fakeRheaReceiver.credit, 2, "No messages received, nothing drained, should have all the credits from the start.");
+
+      const finalAction = batchingReceiverLite["_finalAction"];
+
+      if (!finalAction) {
+        throw new Error("No finalAction defined!");
+      }
+
+      emitter.removeAllListeners(ReceiverEvents.receiverDrained);
+
+      const addCreditSpy = sinon.spy(fakeRheaReceiver, "addCredit");
+
+      // the first call (when there are no received messages) will initiate a drain
+      assert.isFalse(fakeRheaReceiver.drain);
+
+      finalAction();
+
+      assert.isTrue(fakeRheaReceiver.drain);
+      assert.isTrue(addCreditSpy.calledOnceWith(1));
+
+      // also our fix should leave our # of credits untouched (ie, no +1 effect)
+      assert.equal(fakeRheaReceiver.credit, 2);
+
+      addCreditSpy.resetHistory();
+
+      // subsequent calls will not initiate drains.
+      finalAction();
+      assert.isTrue(addCreditSpy.notCalled);
+});
   });
 
   it("drain doesn't resolve before message callbacks have completed", async () => {

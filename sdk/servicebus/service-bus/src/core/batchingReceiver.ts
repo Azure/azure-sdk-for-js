@@ -271,6 +271,7 @@ export class BatchingReceiverLite {
 
   private _getRemainingWaitTimeInMsFn: typeof getRemainingWaitTimeInMsFn;
   private _closeHandler: ((connectionError?: AmqpError | Error) => void) | undefined;
+  private _finalAction: (() => void) | undefined;
 
   isReceivingMessages: boolean;
 
@@ -391,7 +392,7 @@ export class BatchingReceiverLite {
     // - maxMessageCount is reached or
     // - maxWaitTime is passed or
     // - newMessageWaitTimeoutInSeconds is passed since the last message was received
-    const finalAction = (): void => {
+    this._finalAction = (): void => {
       if (receiver.drain) {
         // If a drain is already in process then we should let it complete. Some messages might still be in flight, but they will
         // arrive before the drain completes.
@@ -445,7 +446,7 @@ export class BatchingReceiverLite {
             logger.verbose(
               `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
             );
-            finalAction();
+            this._finalAction!();
           }, remainingWaitTimeInMs);
         }
       }
@@ -473,7 +474,7 @@ export class BatchingReceiverLite {
         reject(errObj);
       }
       if (brokeredMessages.length === args.maxMessageCount) {
-        finalAction();
+        this._finalAction!();
       }
     };
 
@@ -540,7 +541,7 @@ export class BatchingReceiverLite {
       logger.verbose(
         `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
       );
-      finalAction();
+      this._finalAction!();
     }, args.maxWaitTimeInMs);
 
     receiver.on(ReceiverEvents.message, onReceiveMessage);
