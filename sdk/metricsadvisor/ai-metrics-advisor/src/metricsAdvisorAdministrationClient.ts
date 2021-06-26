@@ -308,7 +308,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getDataFeedById(id, requestOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return { ...resultDataFeed, _response: result._response };
+      return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -429,10 +429,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -452,10 +449,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -513,7 +507,7 @@ export class MetricsAdvisorAdministrationClient {
       };
       const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return { ...resultDataFeed, _response: result._response };
+      return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -607,10 +601,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getAnomalyDetectionConfiguration(id, requestOptions);
-      return {
-        ...fromServiceAnomalyDetectionConfiguration(result),
-        _response: result._response
-      };
+      return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -647,10 +638,7 @@ export class MetricsAdvisorAdministrationClient {
         transformed,
         requestOptions
       );
-      return {
-        ...fromServiceAnomalyDetectionConfiguration(result),
-        _response: result._response
-      };
+      return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -752,7 +740,7 @@ export class MetricsAdvisorAdministrationClient {
         transformed,
         requestOptions
       );
-      return { ...fromServiceAlertConfiguration(result), _response: result._response };
+      return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -782,7 +770,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getAnomalyAlertingConfiguration(id, requestOptions);
-      return { ...fromServiceAlertConfiguration(result), _response: result._response };
+      return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -834,10 +822,7 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
-    yield Object.defineProperty(alertConfigurations, "_response", {
-      enumerable: false,
-      value: segment._response
-    });
+    yield alertConfigurations;
   }
 
   private async *listItemsOfAlertingConfigurations(
@@ -1001,7 +986,7 @@ export class MetricsAdvisorAdministrationClient {
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
-      return { ...resultHookResponse, _response: result._response };
+      return resultHookResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1029,10 +1014,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -1045,10 +1027,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
   }
@@ -1158,7 +1137,7 @@ export class MetricsAdvisorAdministrationClient {
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
-      return { ...resultHookResponse, _response: result._response };
+      return resultHookResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1202,10 +1181,7 @@ export class MetricsAdvisorAdministrationClient {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
     const configs = segment.value?.map((c) => fromServiceAnomalyDetectionConfiguration(c)) ?? [];
-    const resultArray = Object.defineProperty(configs, "_response", {
-      enumerable: false,
-      value: segment._response
-    });
+    const resultArray = configs;
     yield resultArray;
   }
 
@@ -1329,8 +1305,7 @@ export class MetricsAdvisorAdministrationClient {
       const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
       return {
         latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
-        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
-        _response: response._response
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime()
       };
     } catch (e) {
       span.setStatus({
@@ -1377,10 +1352,7 @@ export class MetricsAdvisorAdministrationClient {
           value: segmentResponse.nextLink
         }
       );
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1411,10 +1383,7 @@ export class MetricsAdvisorAdministrationClient {
           value: segmentResponse.nextLink
         }
       );
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1630,7 +1599,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getCredential(id, requestOptions);
       const resultCred = fromServiceCredential(result);
-      return { ...resultCred, _response: result._response };
+      return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1745,10 +1714,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1767,10 +1733,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1798,7 +1761,7 @@ export class MetricsAdvisorAdministrationClient {
         requestOptions
       );
       const resultCred = fromServiceCredential(result);
-      return { ...resultCred, _response: result._response };
+      return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
