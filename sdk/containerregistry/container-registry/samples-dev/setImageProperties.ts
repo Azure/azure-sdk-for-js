@@ -18,10 +18,10 @@ async function main() {
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
-  const image = client.getArtifact("library/hello-world", "latest");
+  const image = client.getArtifact("library/hello-world", "v1");
 
   // Set permissions on the image's "latest" tag
-  await image.updateTagProperties("v1", {
+  await image.updateTagProperties("latest", {
     canWrite: false,
     canDelete: false
   });
