@@ -10583,6 +10583,9 @@ packages:
       '@types/node': 8.10.66
       '@types/uuid': 8.3.0
       dotenv: 8.6.0
+      eslint: 7.29.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.0
       typescript: 4.2.4
@@ -10590,7 +10593,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-app-configuration'
     resolution:
-      integrity: sha512-i2b4+TTev+rOwl+F2AqZoAyVcrP7/qP4IkOI9KeSEWSjbizV7wKmvzpENQylboaW5EJoe7XqxGIUDLxuDxWVWQ==
+      integrity: sha512-O15mVhuC7Jxq1ChINDVhi4J0NaKC8SP9tYLCgh9vMraFdvP0S9r6KyxgEPsirXUwQ6HADWU2vZ7ue+DygnyINA==
       tarball: file:projects/perf-app-configuration.tgz
     version: 0.0.0
   file:projects/perf-core-rest-pipeline.tgz:
