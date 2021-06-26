@@ -1489,9 +1489,7 @@ export class MetricsAdvisorClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getMetricFeedback(id, requestOptions);
-      return {
-        ...fromServiceMetricFeedbackUnion(result)
-      };
+      return fromServiceMetricFeedbackUnion(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
