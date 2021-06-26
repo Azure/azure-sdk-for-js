@@ -1691,10 +1691,6 @@ export class MetricsAdvisorClient {
           values: s.valueList
         };
       }) || [];
-    Object.defineProperty(resultArray, "_response", {
-      enumerable: false,
-      value: result._response
-    });
 
     return resultArray as GetMetricSeriesDataResponse;
   }

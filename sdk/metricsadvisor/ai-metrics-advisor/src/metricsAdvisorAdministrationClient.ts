@@ -638,9 +638,7 @@ export class MetricsAdvisorAdministrationClient {
         transformed,
         requestOptions
       );
-      return {
-        ...fromServiceAnomalyDetectionConfiguration(result)
-      };
+      return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -742,7 +740,7 @@ export class MetricsAdvisorAdministrationClient {
         transformed,
         requestOptions
       );
-      return { ...fromServiceAlertConfiguration(result) };
+      return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -772,7 +770,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getAnomalyAlertingConfiguration(id, requestOptions);
-      return { ...fromServiceAlertConfiguration(result) };
+      return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -988,7 +986,7 @@ export class MetricsAdvisorAdministrationClient {
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
-      return { ...resultHookResponse };
+      return resultHookResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1139,7 +1137,7 @@ export class MetricsAdvisorAdministrationClient {
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
-      return { ...resultHookResponse };
+      return resultHookResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
