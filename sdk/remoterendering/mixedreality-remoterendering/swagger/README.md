@@ -18,9 +18,7 @@ add-credentials: false
 package-version: 1.0.0-beta.1
 disable-async-iterators: true
 hide-clients: true
-use-core-v2: true
-use-extension:
-  "@autorest/typescript": "https://aka.ms/autorest/typescript/corev2"
+typescript: true
 ```
 
 ```yaml
