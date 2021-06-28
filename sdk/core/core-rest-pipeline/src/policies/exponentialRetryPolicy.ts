@@ -72,7 +72,7 @@ export function exponentialRetryPolicy(
    */
   function shouldRetry(response: PipelineResponse | undefined, retryData: RetryData): boolean {
     const statusCode = response?.status;
-    if (statusCode && statusCode === 503 && response && response.headers.get("Retry-After")) {
+    if (statusCode === 503 && response?.headers.get("Retry-After")) {
       return false;
     }
 
