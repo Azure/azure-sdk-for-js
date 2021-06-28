@@ -31,8 +31,25 @@ export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
 };
 
 // @public
+export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    deleteTime: string;
+};
+
+// @public
 export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+    editTime: string;
+};
+
+// @public
+export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     editTime: string;
 };
 
@@ -47,8 +64,29 @@ export type AcsChatMessageEventBase = AcsChatEventBase & {
 };
 
 // @public
+export type AcsChatMessageEventInThreadBase = AcsChatEventInThreadBase & {
+    messageId: string;
+    senderCommunicationIdentifier: CommunicationIdentifierModel;
+    senderDisplayName: string;
+    composeTime: string;
+    type: string;
+    version: number;
+};
+
+// @public
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -1267,8 +1305,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
     "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;

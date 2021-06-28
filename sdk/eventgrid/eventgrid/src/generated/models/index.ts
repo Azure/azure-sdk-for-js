@@ -2238,12 +2238,16 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEdited event. */
 export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
   /** The time at which the message was edited */
   editTime: string;
 };
@@ -2306,12 +2310,16 @@ export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThread
 export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEditedInThread event. */
 export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
   /** The time at which the message was edited */
   editTime: string;
 };
