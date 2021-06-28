@@ -220,31 +220,6 @@ export class PartnerRegistrations {
   }
 
   /**
-   * List all partners registrations.
-   * @summary List all available partners registrations.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PartnerRegistrationsListResponse>
-   */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.PartnerRegistrationsListResponse>;
-  /**
-   * @param callback The callback
-   */
-  list(callback: msRest.ServiceCallback<Models.PartnerRegistrationsListResult>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerRegistrationsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerRegistrationsListResult>, callback?: msRest.ServiceCallback<Models.PartnerRegistrationsListResult>): Promise<Models.PartnerRegistrationsListResponse> {
-    return this.client.sendOperationRequest(
-      {
-        options
-      },
-      listOperationSpec,
-      callback) as Promise<Models.PartnerRegistrationsListResponse>;
-  }
-
-  /**
    * List all the partner registrations under an Azure subscription.
    * @summary List partner registrations under an Azure subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -459,26 +434,6 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "providers/Microsoft.EventGrid/partnerRegistrations",
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

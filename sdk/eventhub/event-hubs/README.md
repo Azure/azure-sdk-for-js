@@ -4,14 +4,14 @@ Azure Event Hubs is a highly scalable publish-subscribe service that can ingest 
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs) |
 [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs) |
 [Product documentation](https://azure.microsoft.com/services/event-hubs/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower and want to migrate to the latest version
-of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/migrationguide.md)
+of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/migrationguide.md)
 
 Samples for v2 and documentation are still available here:
 
@@ -27,11 +27,17 @@ Install the Azure Event Hubs client library using npm
 
 `npm install @azure/event-hubs`
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/)
 
 #### Configure Typescript
 
@@ -459,7 +465,7 @@ export AZURE_LOG_LEVEL=verbose
 ```
 
 For more detailed instructions on how to enable logs, you can look at the
-[@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+[@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.
 This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
@@ -496,12 +502,12 @@ export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,
 
 ### More sample code
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples)
 directory for detailed examples of how to use this library to send and receive events to/from
 [Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-about).
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FREADME.png)

@@ -14,11 +14,11 @@ Use the client library to:
 | Apply custom translation          | Translate documents using general and [custom translation](https://docs.microsoft.com/azure/cognitive-services/translator/customization#custom-translator) models. |
 | Apply custom glossaries           | Translate documents using custom glossaries.                                                                                                                       |
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documenttranslator/ai-document-translator-rest/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-translator) |
 [API reference documentation](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/samples)
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documenttranslator/ai-document-translator-rest/samples)
 
 ## Getting started
 
@@ -188,8 +188,8 @@ See the service documentation for all [supported languages][supported_languages]
 
 Please refer to the samples folder to see code samples, including:
 
-- [List Supported Formats](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/listFormats.ts)
-- [Translate documents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/translateFromBlob.ts)
+- [List Supported Formats](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/listFormats.ts)
+- [Translate documents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/translateFromBlob.ts)
 
 ## Troubleshooting
 
@@ -203,15 +203,15 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documenttranslator/ai-document-translator-rest/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
@@ -223,10 +223,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [translator_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesTextTranslation
 [azure_portal]: https://portal.azure.com
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_cli_create_dt_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
 [azure_portal_get_endpoint]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/get-started-with-document-translation?tabs=csharp#get-your-custom-domain-name-and-subscription-key
 [source_containers]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/get-started-with-document-translation?tabs=csharp#create-your-azure-blob-storage-containers

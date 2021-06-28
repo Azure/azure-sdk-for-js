@@ -3,7 +3,7 @@ $LanguageShort = "js"
 $LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
-$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
+$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
 function Confirm-NodeInstallation

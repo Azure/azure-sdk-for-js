@@ -161,7 +161,7 @@ We are cleaning the public API surface by
 ## 1.0.1 (2020-02-06)
 
 - Updated to use the latest version of the `rhea` package.
-  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md) this library.
 
 ## 1.0.0 (2020-01-08)
 

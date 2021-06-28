@@ -49,6 +49,6 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env  node server.js
 ```
 
-[server]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express/samples/v1/javascript/server.js
+[server]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express/samples/v1/javascript/server.js
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub-express/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md

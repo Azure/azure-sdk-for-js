@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
-
 import {
   SuppressCondition,
   SmartDetectionCondition,
@@ -122,9 +120,9 @@ export interface DataFeedIngestionSettings {
 }
 
 /**
- * Defines values for DataFeedRollupMethod.
+ * Defines values for DataFeedAutoRollupMethod.
  */
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+export type DataFeedAutoRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 
 /**
  * Specifies the rollup settings for a data feed.
@@ -149,7 +147,7 @@ export type DataFeedRollupSettings =
       /**
        * roll up method
        */
-      rollupMethod?: DataFeedRollupMethod;
+      rollupMethod?: DataFeedAutoRollupMethod;
       /**
        * the identification value for the row of calculated all-up value.
        */
@@ -181,14 +179,7 @@ export type DataFeedAccessMode = "Private" | "Public";
  */
 export type DataFeedGranularity =
   | {
-      granularityType:
-        | "Yearly"
-        | "Monthly"
-        | "Weekly"
-        | "Daily"
-        | "Hourly"
-        | "PerMinute"
-        | "PerSecond";
+      granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute";
     }
   | {
       granularityType: "Custom";
@@ -201,7 +192,7 @@ export type DataFeedStatus = "Paused" | "Active";
 /**
  * Represents a Metrics Advisor data feed.
  */
-export type DataFeed = {
+export type MetricsAdvisorDataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -337,7 +328,7 @@ export type AzureCosmosDbDataFeedSource = {
 export interface AzureDataExplorerAuthServicePrincipal {
   /** Authentication Type */
   authenticationType: "ServicePrincipal";
-  /** datasource credential id  */
+  /** dataSource credential id  */
   credentialId: string;
 }
 
@@ -347,7 +338,7 @@ export interface AzureDataExplorerAuthServicePrincipal {
 export interface AzureDataExplorerAuthServicePrincipalInKeyVault {
   /** Authentication Type */
   authenticationType: "ServicePrincipalInKV";
-  /** datasource credential id  */
+  /** dataSource credential id  */
   credentialId: string;
 }
 
@@ -646,7 +637,7 @@ export interface SqlServerAuthManagedIdentity {
 export interface SqlServerAuthConnectionString {
   /** Azure SQL Connection String Authentication */
   authenticationType: "AzureSQLConnectionString";
-  /** Datasource Credential Id for Sql Server datafeed authentication */
+  /** DataSource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
 }
 
@@ -656,7 +647,7 @@ export interface SqlServerAuthConnectionString {
 export interface SqlServerAuthServicePrincipalInKeyVault {
   /** Service Principal in Keyvault Authentication */
   authenticationType: "ServicePrincipalInKV";
-  /** Datasource Credential Id for Sql Server datafeed authentication */
+  /** DataSource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
   /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
@@ -668,7 +659,7 @@ export interface SqlServerAuthServicePrincipalInKeyVault {
 export interface SqlServerAuthServicePrincipal {
   /** Service Principal Authentication */
   authenticationType: "ServicePrincipal";
-  /** Datasource Credential Id for Sql Server datafeed authentication */
+  /** DataSource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
   /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
@@ -785,7 +776,7 @@ export type DataFeedPatch = {
  * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
-  /** datasource type for patch */
+  /** dataSource type for patch */
   dataSourceType: DataFeedSource["dataSourceType"];
 };
 
@@ -797,7 +788,7 @@ export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 /**
  * The logical operator to apply across anomaly detection conditions.
  */
-export type DetectionConditionsOperator = "AND" | "OR";
+export type DetectionConditionOperator = "AND" | "OR";
 
 /**
  * Represents properties common to anomaly detection conditions.
@@ -806,7 +797,7 @@ export interface DetectionConditionsCommon {
   /**
    * Condition operator
    */
-  conditionOperator?: DetectionConditionsOperator;
+  conditionOperator?: DetectionConditionOperator;
   /**
    * Specifies the condition for Smart Detection
    */
@@ -828,7 +819,7 @@ export interface DetectionConditionsCommonPatch {
   /**
    * Condition operator
    */
-  conditionOperator?: DetectionConditionsOperator;
+  conditionOperator?: DetectionConditionOperator;
   /**
    * Specifies the condition for Smart Detection
    */
@@ -868,7 +859,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the group of time series
    */
-  group: DimensionKey;
+  groupKey: DimensionKey;
 };
 
 /**
@@ -878,7 +869,7 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the time series
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
 };
 
 /**
@@ -1344,7 +1335,7 @@ export type MetricAnomalyAlertScope =
       /**
        * dimension scope
        */
-      dimensionAnomalyScope: DimensionKey;
+      seriesGroupInScope: DimensionKey;
     }
   | {
       scopeType: "TopN";
@@ -1355,7 +1346,7 @@ export type MetricAnomalyAlertScope =
     };
 
 /**
- * Defines the
+ * Defines the Boundary Conditions for the Metric
  */
 export type MetricBoundaryCondition =
   | {
@@ -1435,6 +1426,10 @@ export type MetricBoundaryCondition =
       type?: "Value" | "Mean";
     };
 
+/**
+ * Defines conditions to decide whether the detected anomalies should be
+ * included in an alert or not.
+ */
 export interface MetricAnomalyAlertConditions {
   /**
    * severity condition to trigger alert
@@ -1446,6 +1441,10 @@ export interface MetricAnomalyAlertConditions {
   metricBoundaryCondition?: MetricBoundaryCondition;
 }
 
+/**
+ * Defines alerting settings for anomalies detected by a detection
+ * configuration.
+ */
 export interface MetricAlertConfiguration {
   /**
    * Anomaly detection configuration unique id
@@ -1503,7 +1502,7 @@ export interface AnomalyAlertConfiguration {
   /**
    * dimensions used to split alert
    */
-  splitAlertByDimensions?: string[];
+  dimensionsToSplitAlert?: string[];
 }
 
 /**
@@ -1599,7 +1598,7 @@ export interface MetricSeriesDefinition {
   /**
    * identifies a time series
    */
-  dimension: Record<string, string>;
+  seriesKey: Record<string, string>;
 }
 
 /**
@@ -1627,7 +1626,7 @@ export interface MetricEnrichedSeriesData {
   /**
    * identifies the time series.
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * timestamp list
    */
@@ -1663,163 +1662,44 @@ export interface MetricEnrichedSeriesData {
 /**
  * Contains response data for the getDataFeed operation.
  */
-export type GetDataFeedResponse = DataFeed & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+export type GetDataFeedResponse = MetricsAdvisorDataFeed;
 
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.
  */
-export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+export type GetDetectionConfigResponse = AnomalyDetectionConfiguration;
 
 /**
  * Contains response data for the getAnomalyAlertConfiguration operation.
  */
-export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+export type GetAlertConfigResponse = AnomalyAlertConfiguration;
 
 /**
  * Contains response data for the getHook operation.
  */
-export type GetHookResponse = NotificationHookUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+export type GetHookResponse = NotificationHookUnion;
 
 /**
  * Contains response data for the getCredentialEntity operation.
  */
-export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion;
 
 /**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
-export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {}
 
 /**
  * Contains response data for the getIncidentRootCause operation.
  */
 export type GetIncidentRootCauseResponse = {
   rootCauses: IncidentRootCause[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 };
 
 /**
  * Contains response data for the getFeedback operation.
  */
-export type GetFeedbackResponse = MetricFeedbackUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+export type GetFeedbackResponse = MetricFeedbackUnion;
 
 /**
  * Contains response data for the listAlertsForAlertConfiguration operation.
@@ -1829,20 +1709,6 @@ export interface AlertsPageResponse extends Array<AnomalyAlert> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1853,20 +1719,6 @@ export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1877,20 +1729,6 @@ export interface DimensionValuesPageResponse extends Array<string> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1901,20 +1739,6 @@ export interface IncidentsPageResponse extends Array<AnomalyIncident> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1925,22 +1749,11 @@ export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> 
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
+/**
+ * Represents Enrichment Status
+ */
 export interface EnrichmentStatus {
   /**
    * data slice timestamp.
@@ -1964,44 +1777,16 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
  * Contains response data for the listDataFeeds operation.
  */
-export interface DataFeedsPageResponse extends Array<DataFeed> {
+export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2012,20 +1797,6 @@ export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 export interface IngestionStatus {
@@ -2050,20 +1821,6 @@ export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2074,60 +1831,16 @@ export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
  * Contains response data for the listAlertConfigs operation.
  */
-export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {}
 /**
  * Contains response data for the listAnomalyDetectionConfigurations operation.
  */
-export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {}
 
 /**
  * Contains response data for the listHooks operation.
@@ -2137,20 +1850,6 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2167,27 +1866,12 @@ export type GetIngestionProgressResponse = {
    * null indicates not available
    */
   readonly latestActiveTimestamp?: number;
-} & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 };
 
 /**
  * Data Source Credential
  */
-export interface DatasourceCredential {
+export interface DataSourceCredentialEntity {
   /**
    * Unique id of data source credential
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2202,49 +1886,49 @@ export interface DatasourceCredential {
 /**
  * SqlServer Data Source Credential
  */
-export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
+export interface DataSourceSqlConnectionString extends DataSourceCredentialEntity {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** The connection string for SqlServer Data Source Credential */
-  connectionString: string;
+  connectionString?: string;
 }
 
 /**
- * DataLake Gen2 Shared Key Datasource Credential
+ * DataLake Gen2 Shared Key DataSource Credential
  */
-export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
-  /** DataLakeGen2 Shared Key Datasource credential */
+export interface DataSourceDataLakeGen2SharedKey extends DataSourceCredentialEntity {
+  /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
-  /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
-  accountKey: string;
+  /** The account key of the DataLake Gen2 Shared Key DataSource Credential  */
+  accountKey?: string;
 }
 
 /**
- * Service Principal Datasource Credential
+ * Service Principal DataSource Credential
  */
-export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
-  /** Service Principal Datasource Credential */
+export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
+  /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** The client id of the service principal. */
   clientId: string;
   /** The client secret of the service principal. */
-  clientSecret: string;
+  clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
 }
 
 /**
- * Service Principal in KeyVault Datasource Credential
+ * Service Principal in KeyVault DataSource Credential
  */
-export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
-  /** Service Principal in KeyVault Datasource Credential */
+export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredentialEntity {
+  /** Service Principal in KeyVault DataSource Credential */
   type: "ServicePrincipalInKV";
   /** The Key Vault endpoint that storing the service principal. */
   keyVaultEndpoint: string;
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
   /** The Client Secret to access the Key Vault. */
-  keyVaultClientSecret: string;
+  keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;
   /** The secret name of the service principal's client secret in the Key Vault. */
@@ -2253,16 +1937,19 @@ export interface ServicePrincipalInKeyVaultDatasourceCredential extends Datasour
   tenantId: string;
 }
 
-export type DatasourceCredentialUnion =
-  | SqlServerConnectionStringDatasourceCredential
-  | DataLakeGen2SharedKeyDatasourceCredential
-  | ServicePrincipalDatasourceCredential
-  | ServicePrincipalInKeyVaultDatasourceCredential;
+/**
+ * Data Source Credential Entity Union Type
+ */
+export type DataSourceCredentialEntityUnion =
+  | DataSourceSqlConnectionString
+  | DataSourceDataLakeGen2SharedKey
+  | DataSourceServicePrincipal
+  | DataSourceServicePrincipalInKeyVault;
 
 /**
  * SqlServer Data Source Credential Patch
  */
-export interface SqlServerConnectionStringDatasourceCredentialPatch {
+export interface DataSourceSqlServerConnectionStringPatch {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** Name of data source credential */
@@ -2274,24 +1961,24 @@ export interface SqlServerConnectionStringDatasourceCredentialPatch {
 }
 
 /**
- * DataLake Gen2 Shared Key Datasource Credential Patch
+ * DataLake Gen2 Shared Key DataSource Credential Patch
  */
-export interface DataLakeGen2SharedKeyDatasourceCredentialPatch {
-  /** DataLakeGen2 Shared Key Datasource credential */
+export interface DataSourceDataLakeGen2SharedKeyPatch {
+  /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
   /** Name of data source credential */
   name?: string;
   /** Description of data source credential */
   description?: string;
-  /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
+  /** The account key of the DataLake Gen2 Shared Key DataSource Credential  */
   accountKey?: string;
 }
 
 /**
- *  Service Principal Datasource Credential Patch
+ *  Service Principal DataSource Credential Patch
  */
-export interface ServicePrincipalDatasourceCredentialPatch {
-  /** Service Principal Datasource Credential */
+export interface DataSourceServicePrincipalPatch {
+  /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** Name of data source credential */
   name?: string;
@@ -2306,10 +1993,10 @@ export interface ServicePrincipalDatasourceCredentialPatch {
 }
 
 /**
- *  Service Principal in KeyVault Datasource Credential Patch
+ *  Service Principal in KeyVault DataSource Credential Patch
  */
-export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
-  /** Service Principal in KeyVault Datasource Credential */
+export interface DataSourceServicePrincipalInKeyVaultPatch {
+  /** Service Principal in KeyVault DataSource Credential */
   type: "ServicePrincipalInKV";
   /** Name of data source credential */
   name?: string;
@@ -2330,34 +2017,20 @@ export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
 }
 
 /**
- * Datasource credential patch types
+ * DataSource credential patch types
  */
-export type DatasourceCredentialPatch =
-  | SqlServerConnectionStringDatasourceCredentialPatch
-  | DataLakeGen2SharedKeyDatasourceCredentialPatch
-  | ServicePrincipalDatasourceCredentialPatch
-  | ServicePrincipalInKeyVaultDatasourceCredentialPatch;
+export type DataSourceCredentialPatch =
+  | DataSourceSqlServerConnectionStringPatch
+  | DataSourceDataLakeGen2SharedKeyPatch
+  | DataSourceServicePrincipalPatch
+  | DataSourceServicePrincipalInKeyVaultPatch;
 
 /**
  * Contains response data for the listCredentials operation.
  */
-export interface CredentialsPageResponse extends Array<DatasourceCredentialUnion> {
+export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
