@@ -1,7 +1,7 @@
 # Azure Cosmos DB client library for JavaScript/TypeScript
 
 [![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)][npm]
-[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/js%20-%20cosmosdb%20-%20ci?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=850&branchName=master)
+[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/js%20-%20cosmosdb%20-%20ci?branchName=main)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=850&branchName=main)
 
 Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/Typescript applications to interact with **SQL API** databases and the JSON documents they contain:
 
@@ -203,7 +203,7 @@ try {
 
 ### Transpiling
 
-The Azure SDKs are designed to support ES5 JavaScript syntax and a minimum version of Node 8. If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
+The Azure SDKs are designed to support ES5 JavaScript syntax and [LTS versions of Node.js](https://nodejs.org/about/releases/). If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
 
 ### Handle transient errors with retries
 

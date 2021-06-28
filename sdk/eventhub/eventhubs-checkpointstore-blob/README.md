@@ -6,16 +6,24 @@ An Azure Blob storage based solution to store checkpoints and to aid in load bal
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/)
+- A [Storage account](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction)
+
 ### Install the package
 
 Install the Azure Event Hubs Checkpoint Store Blob library using npm
 
 `npm install @azure/eventhubs-checkpointstore-blob`
-
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
-[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction)
-
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Configure Typescript
 

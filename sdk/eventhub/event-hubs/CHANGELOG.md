@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 - Adds the `contentType`, `correlationId`, and `messageId` AMQP properties as top-level fields on `EventData` and `ReceivedEventData`.
 
 - Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
@@ -13,8 +15,6 @@
 ### Breaking Changes
 
 ### Key Bugs Fixed
-
-### Fixed
 
 ## 5.5.2 (2021-06-10)
 

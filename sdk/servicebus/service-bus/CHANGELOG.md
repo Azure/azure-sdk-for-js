@@ -1,8 +1,9 @@
 # Release History
 
-## 7.2.1 (Unreleased)
+## 7.3.0 (Unreleased)
 
 ### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Breaking Changes
 
@@ -10,6 +11,8 @@
 
 ### Fixed
 
+- Fixing an issue where the internal link cache would not properly remove closed links.
+  [PR#15929](https://github.com/Azure/azure-sdk-for-js/pull/15929)
 
 ## 7.2.0 (2021-06-10)
 

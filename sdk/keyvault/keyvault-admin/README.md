@@ -20,11 +20,14 @@ Install the Azure Key Vault administration client library for JavaScript and Typ
 npm install @azure/keyvault-admin
 ```
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
 ### Prerequisites
 
-- An [Azure subscription][azure-sub].
-- An existing Azure Key Vault Managed HSM. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-- Use [Node.js](https://nodejs.org/) 10.x or higher.
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
 
 #### Getting Azure credentials
 
@@ -256,7 +259,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [dotenv]: https://www.npmjs.com/package/dotenv]
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
-[logging]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
+[logging]: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/main/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
 [managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [npm]: https://www.npmjs.com/
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin

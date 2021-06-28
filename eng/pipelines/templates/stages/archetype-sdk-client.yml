@@ -58,6 +58,7 @@ stages:
             - ${{ each filter in parameters.MatrixFilters }}:
               - ${{ filter}}
           MatrixReplace: ${{ parameters.MatrixReplace }}
+          IncludeRelease: ${{ parameters.IncludeRelease }}
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:

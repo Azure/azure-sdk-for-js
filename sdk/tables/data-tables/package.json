@@ -9,6 +9,7 @@
     "./dist-esm/src/tablesNamedCredentialPolicy.js": "./dist-esm/src/tablesNamedCredentialPolicy.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/computeHMACSHA256.js": "./dist-esm/src/utils/computeHMACSHA256.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
     "./dist-esm/src/utils/transactionHeaders.js": "./dist-esm/src/utils/transactionHeaders.browser.js",
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
@@ -70,7 +71,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/",
   "sideEffects": false,
@@ -97,7 +98,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

@@ -8,11 +8,13 @@ Use the client library for App Configuration to:
 - Tag keys with labels
 - Replay settings from any point in time
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration) |
-[Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration)
+- [Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
 
 ## Getting started
 
@@ -22,10 +24,17 @@ Use the client library for App Configuration to:
 npm install @azure/app-configuration
 ```
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-- You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/) resource to use this package.
-- Node.js version 8.x.x or higher
+- An [Azure Subscription](https://azure.microsoft.com)
+- An [App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/) resource
 
 ### Create an App Configuration resource
 

@@ -96,7 +96,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
-          let filteredEnvelopes: Envelope[] = [];
+          const filteredEnvelopes: Envelope[] = [];
           breezeResponse.errors.forEach((error) => {
             if (error.statusCode && isRetriable(error.statusCode)) {
               filteredEnvelopes.push(envelopes[error.index]);
@@ -132,7 +132,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         // To prevent circular redirects
         if (this._numConsecutiveRedirects < 10) {
           if (restError.response && restError.response.headers) {
-            let location = restError.response.headers.get("location");
+            const location = restError.response.headers.get("location");
             if (location) {
               // Update sender URL
               this._sender.handlePermanentRedirect(location);
