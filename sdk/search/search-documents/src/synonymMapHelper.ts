@@ -17,7 +17,12 @@ export async function createSynonymMapFromFile(
   name: string,
   filePath: string
 ): Promise<SynonymMap> {
-  const synonyms: string[] = (await readFileAsync(filePath, "utf-8")).replace(/\r/g, "").split("\n");
+  const synonyms: string[] = (await readFileAsync(filePath, "utf-8"))
+    .replace(/\r/g, "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
   return {
     name,
     synonyms
