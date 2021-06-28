@@ -143,7 +143,7 @@ return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, cred
 #### Authenticating with a static access token
 
 You can pass a Mixed Reality access token as an `AccessToken` previously retrieved from the
-[Mixed Reality STS service](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/mixedreality/Azure.MixedReality.Authentication)
+[Mixed Reality STS service](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixedreality-authentication)
 to be used with a Mixed Reality client library:
 
 ```typescript Snippet:CreateAClientWithStaticAccessToken
@@ -361,14 +361,14 @@ client.endSession(sessionId);
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure TextAnalytics client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ### Azure Remote Rendering troubleshooting
@@ -387,15 +387,6 @@ If the input asset is invalid, then that file will contain a more detailed descr
 Similarly, sometimes when a session is requested, the session ends up in an error state.
 The startSessionOperation method will return a RenderingSession object, but that object will have an Error status and carry a
 RemoteRenderingServiceError with details.
-
-### Logging
-
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```javascript
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
 
 ## Next steps
 
