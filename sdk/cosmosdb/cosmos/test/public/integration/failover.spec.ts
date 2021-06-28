@@ -172,6 +172,7 @@ describe("Region Failover", () => {
       lastEndpointCalled,
       "https://failovertest-australiaeast.documents.azure.com:443/"
     );
+    client.dispose();
   });
 
   it("on database not found, region dropped", async () => {
@@ -212,6 +213,7 @@ describe("Region Failover", () => {
       lastEndpointCalled,
       "https://failovertest-australiaeast.documents.azure.com:443/"
     );
+    client.dispose();
   });
 
   it("all endpoints unavailable, fallback to user supplied endpoint", async () => {
@@ -250,5 +252,6 @@ describe("Region Failover", () => {
     await containerRef.item("any", undefined).read();
     await containerRef.item("any", undefined).read();
     assert.strictEqual(lastEndpointCalled, "https://failovertest.documents.azure.com/");
+    client.dispose();
   });
 });
