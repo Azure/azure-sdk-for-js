@@ -72,13 +72,18 @@ jobs:
           WorkingDirectory: $(DocRepoLocation)
           ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
 
-      - template: /eng/common/pipelines/templates/steps/start-devops-build.yml
-        parameters:
-          DevOpsPat: $(azuresdk-apidrop-devops-queue-build-pat)
-          DevOpsOrg: apidrop
-          DevOpsProject: Content%20CI
-          DevOpsPipelineId: 3452
-          # Chomp syntax allows us to use leading and ending single quotes 
-          # without escaping
-          RequestBodyJson: >-
-            '{ "variables": { "params": { "value": "{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }" } } }'
+      - task: PowerShell@2
+        displayName: Queue Docs CI build
+        condition: and(succeeded(), ne(variables['${{repo}}-template-definition-id'], ''))
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Queue-Pipeline.ps1
+          # SourceBranch must be "master" as this repo is managed by the docs 
+          # team and will be updated according to their timeline.
+          arguments: >
+            -Organization "apidrop"
+            -Project "Content%20CI"
+            -SourceBranch "master"
+            -DefinitionId 3452
+            -Base64EncodedAuthToken "$(azuresdk-apidrop-devops-queue-build-pat)"
+            -BuildParametersJson '{\"params\":\"{ \\\"target_repo\\\": { \\\"url\\\": \\\"https://github.com/MicrosoftDocs/azure-docs-sdk-node\\\", \\\"branch\\\": \\\"daily/2021-06-23\\\", \\\"folder\\\": \\\"./\\\" }, \\\"source_repos\\\": [] }\"}'
