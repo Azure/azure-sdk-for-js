@@ -60,7 +60,9 @@ import {
   CryptographyClientOptions,
   LATEST_API_VERSION,
   CreateOctKeyOptions,
-  GetRandomBytesOptions
+  GetRandomBytesOptions,
+  ReleaseKeyOptions,
+  ReleaseKeyResult
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -284,13 +286,14 @@ export class KeyClient {
     let unflattenedOptions = {};
 
     if (options) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
+      const { enabled, notBefore, expiresOn: expires, exportable, ...remainingOptions } = options;
       unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
           enabled,
           notBefore,
-          expires
+          expires,
+          exportable
         }
       };
     }
@@ -670,6 +673,27 @@ export class KeyClient {
     });
   }
 
+  public releaseKey(
+    name: string,
+    version: string,
+    options: ReleaseKeyOptions
+  ): Promise<ReleaseKeyResult> {
+    return withTrace("releaseKey", options, async (updatedOptions) => {
+      const { nonce, algorithm, target, ...rest } = updatedOptions;
+      const result = await this.client.release(this.vaultUrl, name, version, target, {
+        enc: algorithm,
+        nonce,
+        ...rest
+      });
+      console.log(result);
+
+      // TODO: is value always present?
+      return {
+        algorithm,
+        value: result.value!
+      };
+    });
+  }
   /**
    * @internal
    * @hidden

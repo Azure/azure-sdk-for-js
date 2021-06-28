@@ -136,6 +136,9 @@ export interface KeyVaultKey {
    * The properties of the key.
    */
   properties: KeyProperties;
+
+  // Todo: properties or top level?
+  releasePolicy?: KeyVaultKeyReleasePolicy;
 }
 
 /**
@@ -212,6 +215,8 @@ export interface KeyProperties {
    * the server.**
    */
   readonly managed?: boolean;
+
+  exportable?: boolean;
 }
 
 /**
@@ -262,6 +267,15 @@ export interface DeletedKey {
      */
     deletedOn?: Date;
   };
+
+  releasePolicy?: KeyVaultKeyReleasePolicy;
+}
+
+export interface KeyVaultKeyReleasePolicy {
+  /** Content type and version of key release policy */
+  contentType?: string;
+  /** Blob encoding the policy rules under which the key can be released. */
+  data?: Uint8Array;
 }
 
 /**
@@ -303,6 +317,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
+
+  exportable?: boolean;
+
+  releasePolicy?: KeyVaultKeyReleasePolicy;
 }
 
 /**
@@ -479,6 +497,16 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {}
  * Options for {@link KeyClient.getRandomBytes}
  */
 export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
+
+export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
+  target: string;
+  nonce?: string;
+  algorithm?: string;
+}
+
+export interface ReleaseKeyResult {
+  value: string;
+}
 
 /** Known values of {@link KeyOperation} that the service accepts. */
 export enum KnownKeyOperations {
