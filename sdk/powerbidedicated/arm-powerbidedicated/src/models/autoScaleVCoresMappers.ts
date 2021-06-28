@@ -8,20 +8,15 @@
 
 export {
   AutoScaleVCore,
+  AutoScaleVCoreListResult,
   AutoScaleVCoreSku,
+  AutoScaleVCoreUpdateParameters,
   BaseResource,
   CapacitySku,
-  CheckCapacityNameAvailabilityParameters,
-  CheckCapacityNameAvailabilityResult,
-  DedicatedCapacities,
   DedicatedCapacity,
   DedicatedCapacityAdministrators,
-  DedicatedCapacityUpdateParameters,
   ErrorResponse,
   ErrorResponseError,
   Resource,
-  SkuDetailsForExistingResource,
-  SkuEnumerationForExistingResourceResult,
-  SkuEnumerationForNewResourceResult,
   SystemData
 } from "../models/mappers";
