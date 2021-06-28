@@ -388,6 +388,15 @@ Similarly, sometimes when a session is requested, the session ends up in an erro
 The startSessionOperation method will return a RenderingSession object, but that object will have an Error status and carry a
 RemoteRenderingServiceError with details.
 
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
 ## Next steps
 
 - Read the [Product documentation](https://docs.microsoft.com/azure/remote-rendering/)
