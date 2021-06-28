@@ -196,12 +196,14 @@ export const Sku: msRest.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        defaultValue: 'S0',
         type: {
           name: "String"
         }
       },
       tier: {
         serializedName: "tier",
+        defaultValue: 'Standard',
         type: {
           name: "String"
         }
@@ -910,12 +912,6 @@ export const AppResourceProperties: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      enableEndToEndTLS: {
-        serializedName: "enableEndToEndTLS",
-        type: {
-          name: "Boolean"
-        }
-      },
       createdTime: {
         readOnly: true,
         serializedName: "createdTime",
@@ -935,6 +931,12 @@ export const AppResourceProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PersistentDisk"
+        }
+      },
+      enableEndToEndTLS: {
+        serializedName: "enableEndToEndTLS",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1320,6 +1322,79 @@ export const CustomDomainValidateResult: msRest.CompositeMapper = {
   }
 };
 
+export const ImageRegistryCredential: msRest.CompositeMapper = {
+  serializedName: "ImageRegistryCredential",
+  type: {
+    name: "Composite",
+    className: "ImageRegistryCredential",
+    modelProperties: {
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomContainer: msRest.CompositeMapper = {
+  serializedName: "CustomContainer",
+  type: {
+    name: "Composite",
+    className: "CustomContainer",
+    modelProperties: {
+      server: {
+        serializedName: "server",
+        type: {
+          name: "String"
+        }
+      },
+      containerImage: {
+        serializedName: "containerImage",
+        type: {
+          name: "String"
+        }
+      },
+      command: {
+        serializedName: "command",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      args: {
+        serializedName: "args",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      imageRegistryCredential: {
+        serializedName: "imageRegistryCredential",
+        type: {
+          name: "Composite",
+          className: "ImageRegistryCredential"
+        }
+      }
+    }
+  }
+};
+
 export const UserSourceInfo: msRest.CompositeMapper = {
   serializedName: "UserSourceInfo",
   type: {
@@ -1349,6 +1424,35 @@ export const UserSourceInfo: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      customContainer: {
+        serializedName: "customContainer",
+        type: {
+          name: "Composite",
+          className: "CustomContainer"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceRequests: msRest.CompositeMapper = {
+  serializedName: "ResourceRequests",
+  type: {
+    name: "Composite",
+    className: "ResourceRequests",
+    modelProperties: {
+      cpu: {
+        serializedName: "cpu",
+        type: {
+          name: "String"
+        }
+      },
+      memory: {
+        serializedName: "memory",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1372,6 +1476,13 @@ export const DeploymentSettings: msRest.CompositeMapper = {
         defaultValue: 1,
         type: {
           name: "Number"
+        }
+      },
+      resourceRequests: {
+        serializedName: "resourceRequests",
+        type: {
+          name: "Composite",
+          className: "ResourceRequests"
         }
       },
       jvmOptions: {
@@ -1644,6 +1755,12 @@ export const MetricDimension: msRest.CompositeMapper = {
         serializedName: "displayName",
         type: {
           name: "String"
+        }
+      },
+      toBeExportedForShoebox: {
+        serializedName: "toBeExportedForShoebox",
+        type: {
+          name: "Boolean"
         }
       }
     }
