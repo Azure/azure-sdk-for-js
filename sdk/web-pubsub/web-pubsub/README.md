@@ -118,6 +118,18 @@ const payload = new Uint8Array(10);
 await serviceClient.sendToAll(payload.buffer);
 ```
 
+### Access the raw HTTP response for an operation
+
+```js
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+
+function onResponse(rawResponse: FullOperationResponse): void {
+  console.log(rawResponse);
+}
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+await serviceClient.sendToAll({ message: "Hello world!" }, { onResponse });
+```
+
 ## Troubleshooting
 
 ### Enable logs
