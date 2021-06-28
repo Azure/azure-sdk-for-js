@@ -54,6 +54,7 @@ const getPackageJsons = (searchDir) => {
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
   const sdkDirectories = fs
     .readdirSync(searchDir)
+    .filter((f) => !f.startsWith("arm-")) // exclude libraries starting with "arm-"
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
@@ -77,7 +78,7 @@ const getServicePackages = (baseDir, serviceDirs) => {
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt") {
+      if (contents["sdk-type"] === "client") {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
