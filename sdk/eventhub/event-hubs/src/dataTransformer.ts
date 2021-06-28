@@ -38,6 +38,7 @@ export const defaultDataTransformer = {
     // coercing undefined to null as that will ensure that null value will be given to the
     // customer on receive.
     if (body === undefined) body = null;
+
     if (bodyType === "value") {
       // TODO: Expose value_section from `rhea` similar to the data_section and sequence_section.
       // Right now there isn't a way to create a value section officially.
@@ -47,6 +48,8 @@ export const defaultDataTransformer = {
       result = message.sequence_section(body);
     } else if (isBuffer(body)) {
       result = message.data_section(body);
+    } else if (body === null && bodyType === "data") {
+      result = message.data_section(null);
     } else {
       try {
         const bodyStr = JSON.stringify(body);
@@ -86,7 +89,6 @@ export const defaultDataTransformer = {
             return { body: body.content, bodyType: "value" };
         }
       } else {
-        // TODO: test case
         if (isBuffer(body)) {
           return { body: tryToJsonDecode(body), bodyType: "data" };
         }

@@ -119,5 +119,14 @@ describe("EventData", function(): void {
         "Unexpected messageId on the received event."
       );
     });
+
+    it(`null body`, async () => {
+      const startingPositions = await getStartingPositionsForTests(consumerClient);
+      const testEvent: EventData = { body: null };
+      await producerClient.sendBatch([testEvent]);
+
+      const event = await receiveEvent(startingPositions);
+      should.equal(event.body, testEvent.body, "Unexpected body on the received event.");
+    });
   });
 });
