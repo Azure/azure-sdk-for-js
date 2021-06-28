@@ -95,6 +95,7 @@ if (isWindows) {
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of the {@link AzurePowershellCredential}.
@@ -103,6 +104,7 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
   }
 
   /**
@@ -110,7 +112,8 @@ export class AzurePowerShellCredential implements TokenCredential {
    * @param resource - The resource to use when getting the token
    */
   private async getAzurePowerShellAccessToken(
-    resource: string
+    resource: string,
+    tenantId?: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
@@ -122,6 +125,11 @@ export class AzurePowerShellCredential implements TokenCredential {
         continue;
       }
 
+      let tenantSection = "";
+      if (tenantId) {
+        tenantSection = `-TenantId "${tenantId}"`;
+      }
+
       const results = await runCommands([
         [
           powerShellCommand,
@@ -131,7 +139,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         [
           powerShellCommand,
           "-Command",
-          `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json`
+          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`
         ]
       ]);
 
@@ -158,14 +166,18 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
-      this.tenantId = processMultiTenantRequest(this.tenantId, options);
+      const tenantId = processMultiTenantRequest(
+        this.tenantId,
+        this.allowMultiTenantAuthentication,
+        options
+      );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       ensureValidScope(scope, logger);
       logger.getToken.info(`Using the scope ${scope}`);
       const resource = getScopeResource(scope);
 
       try {
-        const response = await this.getAzurePowerShellAccessToken(resource);
+        const response = await this.getAzurePowerShellAccessToken(resource, tenantId);
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,

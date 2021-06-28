@@ -57,11 +57,6 @@ export interface GetTokenOptions {
    * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
    */
   tenantId?: string;
-
-  /**
-   * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
-   */
-  allowMultiTenantAuthentication?: boolean;
 }
 
 /**

@@ -51,14 +51,10 @@ export class AuthenticationRequiredError extends Error {
 
 // @public
 export class AuthorizationCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
-    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
+    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
+    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
-
-// @public
-export interface AuthorizationCodeCredentialOptions extends TokenCredentialOptions {
-}
 
 // @public
 export enum AzureAuthorityHosts {
@@ -76,7 +72,6 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export interface AzureCliCredentialOptions extends TokenCredentialOptions {
-    allowMultiTenantAuthentication?: boolean;
     tenantId?: string;
 }
 
@@ -88,7 +83,6 @@ export class AzurePowerShellCredential implements TokenCredential {
 
 // @public
 export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions {
-    allowMultiTenantAuthentication?: boolean;
     tenantId?: string;
 }
 
@@ -237,15 +231,10 @@ export const logger: AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(clientId: string, options?: ManagedIdentityCredentialOptions);
-    constructor(options?: ManagedIdentityCredentialOptions);
+    constructor(clientId: string, options?: TokenCredentialOptions);
+    constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
-
-// @public
-export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
-    tenantId?: string;
-}
 
 // @public
 export enum RegionalAuthority {
@@ -318,6 +307,7 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {
+    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 
@@ -337,7 +327,7 @@ export interface UsernamePasswordCredentialOptions extends TokenCredentialOption
 // @public
 export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public

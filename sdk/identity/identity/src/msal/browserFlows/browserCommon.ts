@@ -23,6 +23,7 @@ import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
+  allowMultiTenantAuthentication?: boolean;
 }
 
 /**
@@ -42,12 +43,12 @@ export function defaultBrowserMsalConfig(
   options: MsalBrowserFlowOptions
 ): msalBrowser.Configuration {
   const tenantId = options.tenantId || DefaultTenantId;
-  const authorityHost = getAuthorityHost(tenantId, options.authorityHost);
+  const authority = getAuthorityHost(tenantId, options.authorityHost);
   return {
     auth: {
       clientId: options.clientId!,
-      authority: authorityHost,
-      knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
+      authority,
+      knownAuthorities: getKnownAuthorities(tenantId, authority),
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.
@@ -69,6 +70,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected loginStyle: BrowserLoginStyle;
   protected clientId: string;
   protected tenantId: string;
+  protected allowMultiTenantAuthentication?: boolean;
+  protected authorityHost?: string;
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
@@ -83,6 +86,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     }
     this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
+    this.authorityHost = options.authorityHost;
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
 
@@ -138,9 +143,14 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
    */
   public async getToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    this.tenantId = processMultiTenantRequest(this.tenantId, options)!;
+    const tenantId = processMultiTenantRequest(
+      this.tenantId,
+      this.allowMultiTenantAuthentication,
+      options
+    )!;
+    options.authority = getAuthorityHost(tenantId, this.authorityHost);
 
     // We ensure that redirection is handled at this point.
     await this.handleRedirect();

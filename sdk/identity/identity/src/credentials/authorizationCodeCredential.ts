@@ -12,7 +12,6 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
-import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
@@ -32,6 +31,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private authorizationCode: string;
   private redirectUri: string;
   private lastTokenResponse: TokenResponse | null = null;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -61,7 +61,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: TokenCredentialOptions
   );
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -89,7 +89,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: TokenCredentialOptions
   );
   /**
    * @hidden
@@ -101,12 +101,13 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecretOrAuthorizationCode: string,
     authorizationCodeOrRedirectUri: string,
     redirectUriOrOptions: string | TokenCredentialOptions | undefined,
-    options?: AuthorizationCodeCredentialOptions
+    options?: TokenCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
 
     this.clientId = clientId;
     this.tenantId = tenantId;
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
@@ -137,7 +138,11 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    this.tenantId = processMultiTenantRequest(this.tenantId, options)!;
+    const tenantId = processMultiTenantRequest(
+      this.tenantId,
+      this.allowMultiTenantAuthentication,
+      options
+    )!;
 
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
@@ -150,7 +155,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // Try to use the refresh token first
       if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
         tokenResponse = await this.identityClient.refreshAccessToken(
-          this.tenantId,
+          tenantId,
           this.clientId,
           scopeString,
           this.lastTokenResponse.refreshToken,
@@ -161,9 +166,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       if (tokenResponse === null) {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+        const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
         const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+          url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
           method: "POST",
           disableJsonStringifyOnBody: true,
           deserializationMapper: undefined,

@@ -75,6 +75,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
+  protected allowMultiTenantAuthentication?: boolean;
+  protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
@@ -84,6 +86,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.clientId = this.msalConfig.auth.clientId;
 
     // If persistence has been configured
@@ -107,19 +110,19 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected defaultNodeMsalConfig(options: MsalNodeOptions): msalNode.Configuration {
     const clientId = options.clientId || DeveloperSignOnClientId;
     const tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    const authorityHost = getAuthorityHost(
-      tenantId,
-      options.authorityHost || process.env.AZURE_AUTHORITY_HOST
-    );
+
+    this.authorityHost = options.authorityHost || process.env.AZURE_AUTHORITY_HOST;
+    const authority = getAuthorityHost(tenantId, this.authorityHost);
+
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
-      authorityHost
+      authorityHost: authority
     });
     return {
       auth: {
         clientId,
-        authority: authorityHost,
-        knownAuthorities: getKnownAuthorities(tenantId, authorityHost)
+        authority,
+        knownAuthorities: getKnownAuthorities(tenantId, authority)
       },
       // Cache is defined in this.prepare();
       system: {
@@ -237,7 +240,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       // To be able to re-use the account, the Token Cache must also have been provided.
       account: publicToMsal(this.account),
       correlationId: options?.correlationId,
-      scopes
+      scopes,
+      authority: options?.authority
     };
 
     try {
@@ -264,7 +268,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    this.tenantId = processMultiTenantRequest(this.tenantId, options)!;
+    const tenantId = processMultiTenantRequest(
+      this.tenantId,
+      this.allowMultiTenantAuthentication,
+      options
+    )!;
+    options.authority = getAuthorityHost(tenantId, this.authorityHost);
+
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
 

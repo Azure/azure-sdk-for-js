@@ -17,17 +17,18 @@ export const multiTenantError = new Error(
  */
 export function processMultiTenantRequest(
   tenantId?: string,
+  allowMultiTenantAuthentication?: boolean,
   getTokenOptions?: GetTokenOptions
 ): string | undefined {
   if (
-    !getTokenOptions?.allowMultiTenantAuthentication &&
+    !allowMultiTenantAuthentication &&
     getTokenOptions?.tenantId &&
     tenantId &&
     getTokenOptions.tenantId !== tenantId
   ) {
     throw multiTenantError;
   }
-  if (getTokenOptions?.allowMultiTenantAuthentication && getTokenOptions?.tenantId) {
+  if (allowMultiTenantAuthentication && getTokenOptions?.tenantId) {
     return getTokenOptions.tenantId;
   }
   return tenantId;

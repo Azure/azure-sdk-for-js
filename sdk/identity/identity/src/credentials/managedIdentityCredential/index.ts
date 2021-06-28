@@ -14,19 +14,8 @@ import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 const logger = credentialLogger("ManagedIdentityCredential");
-
-/**
- * Options for the {@link ManagedIdentityCredential}
- */
-export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
-  /**
-   * Allows specifying a tenant ID
-   */
-  tenantId?: string;
-}
 
 /**
  * Attempts authentication using a managed identity that has been assigned
@@ -39,9 +28,8 @@ export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions
  */
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
+  private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
-  private clientId?: string;
-  private tenantId?: string;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -50,35 +38,28 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(clientId: string, options?: ManagedIdentityCredentialOptions);
+  constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: ManagedIdentityCredentialOptions);
+  constructor(options?: TokenCredentialOptions);
   /**
    * @internal
    * @hidden
    */
   constructor(
-    clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
-    options?: ManagedIdentityCredentialOptions
+    clientIdOrOptions: string | TokenCredentialOptions | undefined,
+    options?: TokenCredentialOptions
   ) {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
       this.identityClient = new IdentityClient(options);
-
-      if (options) {
-        this.tenantId = options.tenantId;
-      }
     } else {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
-      if (clientIdOrOptions) {
-        this.tenantId = clientIdOrOptions.tenantId;
-      }
     }
   }
 
@@ -147,8 +128,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    this.tenantId = processMultiTenantRequest(this.tenantId, options);
-
     let result: AccessToken | null = null;
 
     const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);

@@ -159,7 +159,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     }
 
     const parameters: msalBrowser.SilentRequest = {
-      authority: this.msalConfig.auth.authority!,
+      authority: options?.authority || this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
       account: publicToMsal(account),
       forceRefresh: false,
@@ -188,7 +188,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     }
 
     const parameters: msalBrowser.RedirectRequest = {
-      authority: this.msalConfig.auth.authority!,
+      authority: options?.authority || this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
       account: publicToMsal(account),
       scopes

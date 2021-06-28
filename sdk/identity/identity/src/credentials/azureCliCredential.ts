@@ -37,13 +37,26 @@ export const cliCredentialInternals = {
    * @internal
    */
   async getAzureCliAccessToken(
-    resource: string
+    resource: string,
+    tenantId?: string
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
+    let tenantSection: string[] = [];
+    if (tenantId) {
+      tenantSection = ["--tenant", tenantId];
+    }
     return new Promise((resolve, reject) => {
       try {
         child_process.execFile(
           "az",
-          ["account", "get-access-token", "--output", "json", "--resource", resource],
+          [
+            "account",
+            "get-access-token",
+            "--output",
+            "json",
+            "--resource",
+            ...tenantSection,
+            resource
+          ],
           { cwd: cliCredentialInternals.getSafeWorkingDir() },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
@@ -68,6 +81,7 @@ const logger = credentialLogger("AzureCliCredential");
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
@@ -76,6 +90,7 @@ export class AzureCliCredential implements TokenCredential {
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
   }
 
   /**
@@ -90,7 +105,11 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    this.tenantId = processMultiTenantRequest(this.tenantId, options);
+    const tenantId = processMultiTenantRequest(
+      this.tenantId,
+      this.allowMultiTenantAuthentication,
+      options
+    );
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
     ensureValidScope(scope, logger);
@@ -101,7 +120,7 @@ export class AzureCliCredential implements TokenCredential {
     const { span } = createSpan("AzureCliCredential-getToken", options);
 
     try {
-      const obj = await cliCredentialInternals.getAzureCliAccessToken(resource);
+      const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
       if (obj.stderr) {
         const isLoginError = obj.stderr.match("(.*)az login(.*)");
         const isNotInstallError =

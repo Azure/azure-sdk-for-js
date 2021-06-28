@@ -37,10 +37,7 @@ export {
   InteractiveBrowserCredentialBrowserOptions,
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
-export {
-  ManagedIdentityCredential,
-  ManagedIdentityCredentialOptions
-} from "./credentials/managedIdentityCredential";
+export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export {
   DeviceCodePromptCallback,
@@ -50,7 +47,6 @@ export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialO
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
-export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
 
