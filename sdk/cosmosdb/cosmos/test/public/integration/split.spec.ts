@@ -70,7 +70,8 @@ describe("Partition Splits", () => {
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     } as any);
     const { resources } = await client
       .database(container.database.id)
@@ -104,7 +105,8 @@ describe("Partition Splits", () => {
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     } as any);
 
     // fetchAll()
