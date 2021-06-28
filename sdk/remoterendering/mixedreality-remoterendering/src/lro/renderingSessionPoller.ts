@@ -65,15 +65,15 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
  * @internal
  */
 class RenderingSessionOperation
-  implements PollOperation<RenderingSessionOperationStateImpl, RenderingSession> {
+  implements PollOperation<RenderingSessionOperationState, RenderingSession> {
   private accountId: string;
   private operations: RemoteRendering;
-  state: RenderingSessionOperationStateImpl;
+  state: RenderingSessionOperationState;
 
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    state: RenderingSessionOperationStateImpl
+    state: RenderingSessionOperationState
   ) {
     this.accountId = accountId;
     this.operations = operations;
@@ -126,7 +126,7 @@ class RenderingSessionOperation
  * @internal
  */
 export class RenderingSessionPoller extends Poller<
-  RenderingSessionOperationStateImpl,
+  RenderingSessionOperationState,
   RenderingSession
 > {
   /**
@@ -160,7 +160,7 @@ export class RenderingSessionPoller extends Poller<
   /**
    * Gets the public state of the polling operation
    */
-  public getOperationState(): RenderingSessionOperationStateImpl {
+  public getOperationState(): RenderingSessionOperationState {
     return this.operation.state;
   }
 }

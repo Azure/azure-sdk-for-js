@@ -70,15 +70,15 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
  * @internal
  */
 class AssetConversionOperation
-  implements PollOperation<AssetConversionOperationStateImpl, AssetConversion> {
+  implements PollOperation<AssetConversionOperationState, AssetConversion> {
   private accountId: string;
   private operations: RemoteRendering;
-  state: AssetConversionOperationStateImpl;
+  state: AssetConversionOperationState;
 
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    state: AssetConversionOperationStateImpl
+    state: AssetConversionOperationState
   ) {
     this.operations = operations;
     this.accountId = accountId;
@@ -111,7 +111,7 @@ class AssetConversionOperation
  * @internal
  */
 export class AssetConversionPoller extends Poller<
-  AssetConversionOperationStateImpl,
+  AssetConversionOperationState,
   AssetConversion
 > {
   /**
@@ -145,7 +145,7 @@ export class AssetConversionPoller extends Poller<
   /**
    * Gets the public state of the polling operation
    */
-  public getOperationState(): AssetConversionOperationStateImpl {
+  public getOperationState(): AssetConversionOperationState {
     return this.operation.state;
   }
 }
