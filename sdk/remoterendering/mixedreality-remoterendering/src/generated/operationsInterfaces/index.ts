@@ -6,7 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { RemoteRenderingRestClient } from "./remoteRenderingRestClient";
-export { RemoteRenderingRestClientContext } from "./remoteRenderingRestClientContext";
-export * from "./operationsInterfaces";
+export * from "./remoteRendering";

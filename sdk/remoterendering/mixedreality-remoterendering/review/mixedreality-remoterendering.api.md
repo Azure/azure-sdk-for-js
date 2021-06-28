@@ -106,7 +106,7 @@ export type GetConversionOptions = OperationOptions;
 export type GetSessionOptions = OperationOptions;
 
 // @public
-export enum KnownAssetConversionStatus {
+export const enum KnownAssetConversionStatus {
     Cancelled = "Cancelled",
     Failed = "Failed",
     NotStarted = "NotStarted",
@@ -115,13 +115,13 @@ export enum KnownAssetConversionStatus {
 }
 
 // @public
-export enum KnownRenderingServerSize {
+export const enum KnownRenderingServerSize {
     Premium = "Premium",
     Standard = "Standard"
 }
 
 // @public
-export enum KnownRenderingSessionStatus {
+export const enum KnownRenderingSessionStatus {
     Error = "Error",
     Expired = "Expired",
     Ready = "Ready",

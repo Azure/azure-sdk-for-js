@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RemoteRendering } from "./operations";
+import { RemoteRenderingImpl } from "./operations";
+import { RemoteRendering } from "./operationsInterfaces";
 import { RemoteRenderingRestClientContext } from "./remoteRenderingRestClientContext";
 import { RemoteRenderingRestClientOptionalParams } from "./models";
 
@@ -23,7 +24,7 @@ export class RemoteRenderingRestClient extends RemoteRenderingRestClientContext 
     options?: RemoteRenderingRestClientOptionalParams
   ) {
     super(endpoint, options);
-    this.remoteRendering = new RemoteRendering(this);
+    this.remoteRendering = new RemoteRenderingImpl(this);
   }
 
   remoteRendering: RemoteRendering;

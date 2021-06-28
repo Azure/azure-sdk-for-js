@@ -32,17 +32,24 @@ export class RemoteRenderingRestClientContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-
     const defaults: RemoteRenderingRestClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
 
+    const packageDetails = `azsdk-js-mixedreality-remoterendering/1.0.0-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
       baseUri: options.endpoint || "{endpoint}"
     };
-
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;

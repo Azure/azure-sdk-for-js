@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { RemoteRendering } from "../generated/operations";
+import { RemoteRendering } from "../generated/operationsInterfaces";
 import { createSpan } from "../tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AssetConversion, assetConversionFromConversion } from "./assetConversion";

@@ -6,28 +6,39 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { RemoteRendering } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RemoteRenderingRestClientContext } from "../remoteRenderingRestClientContext";
 import {
   CreateConversionSettings,
+  RemoteRenderingCreateConversionOptionalParams,
   RemoteRenderingCreateConversionResponse,
+  RemoteRenderingGetConversionOptionalParams,
   RemoteRenderingGetConversionResponse,
+  RemoteRenderingListConversionsOptionalParams,
   RemoteRenderingListConversionsResponse,
   RenderingSessionSettings,
+  RemoteRenderingCreateSessionOptionalParams,
   RemoteRenderingCreateSessionResponse,
+  RemoteRenderingGetSessionOptionalParams,
   RemoteRenderingGetSessionResponse,
   UpdateSessionSettings,
+  RemoteRenderingUpdateSessionOptionalParams,
   RemoteRenderingUpdateSessionResponse,
+  RemoteRenderingStopSessionOptionalParams,
   RemoteRenderingStopSessionResponse,
+  RemoteRenderingListSessionsOptionalParams,
   RemoteRenderingListSessionsResponse,
+  RemoteRenderingListConversionsNextOptionalParams,
   RemoteRenderingListConversionsNextResponse,
+  RemoteRenderingListSessionsNextOptionalParams,
   RemoteRenderingListSessionsNextResponse
 } from "../models";
 
 /** Class representing a RemoteRendering. */
-export class RemoteRendering {
+export class RemoteRenderingImpl implements RemoteRendering {
   private readonly client: RemoteRenderingRestClientContext;
 
   /**
@@ -51,7 +62,7 @@ export class RemoteRendering {
     accountId: string,
     conversionId: string,
     body: CreateConversionSettings,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingCreateConversionOptionalParams
   ): Promise<RemoteRenderingCreateConversionResponse> {
     return this.client.sendOperationRequest(
       { accountId, conversionId, body, options },
@@ -70,7 +81,7 @@ export class RemoteRendering {
   getConversion(
     accountId: string,
     conversionId: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingGetConversionOptionalParams
   ): Promise<RemoteRenderingGetConversionResponse> {
     return this.client.sendOperationRequest(
       { accountId, conversionId, options },
@@ -85,7 +96,7 @@ export class RemoteRendering {
    */
   listConversions(
     accountId: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingListConversionsOptionalParams
   ): Promise<RemoteRenderingListConversionsResponse> {
     return this.client.sendOperationRequest(
       { accountId, options },
@@ -106,7 +117,7 @@ export class RemoteRendering {
     accountId: string,
     sessionId: string,
     body: RenderingSessionSettings,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingCreateSessionOptionalParams
   ): Promise<RemoteRenderingCreateSessionResponse> {
     return this.client.sendOperationRequest(
       { accountId, sessionId, body, options },
@@ -125,7 +136,7 @@ export class RemoteRendering {
   getSession(
     accountId: string,
     sessionId: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingGetSessionOptionalParams
   ): Promise<RemoteRenderingGetSessionResponse> {
     return this.client.sendOperationRequest(
       { accountId, sessionId, options },
@@ -146,7 +157,7 @@ export class RemoteRendering {
     accountId: string,
     sessionId: string,
     body: UpdateSessionSettings,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingUpdateSessionOptionalParams
   ): Promise<RemoteRenderingUpdateSessionResponse> {
     return this.client.sendOperationRequest(
       { accountId, sessionId, body, options },
@@ -165,7 +176,7 @@ export class RemoteRendering {
   stopSession(
     accountId: string,
     sessionId: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingStopSessionOptionalParams
   ): Promise<RemoteRenderingStopSessionResponse> {
     return this.client.sendOperationRequest(
       { accountId, sessionId, options },
@@ -180,7 +191,7 @@ export class RemoteRendering {
    */
   listSessions(
     accountId: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingListSessionsOptionalParams
   ): Promise<RemoteRenderingListSessionsResponse> {
     return this.client.sendOperationRequest(
       { accountId, options },
@@ -197,7 +208,7 @@ export class RemoteRendering {
   listConversionsNext(
     accountId: string,
     nextLink: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingListConversionsNextOptionalParams
   ): Promise<RemoteRenderingListConversionsNextResponse> {
     return this.client.sendOperationRequest(
       { accountId, nextLink, options },
@@ -214,7 +225,7 @@ export class RemoteRendering {
   listSessionsNext(
     accountId: string,
     nextLink: string,
-    options?: coreClient.OperationOptions
+    options?: RemoteRenderingListSessionsNextOptionalParams
   ): Promise<RemoteRenderingListSessionsNextResponse> {
     return this.client.sendOperationRequest(
       { accountId, nextLink, options },

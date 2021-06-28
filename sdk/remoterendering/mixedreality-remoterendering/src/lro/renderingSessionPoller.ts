@@ -5,7 +5,7 @@ import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
 import { KnownRenderingSessionStatus } from "../generated/models/index";
 import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RemoteRendering } from "../generated/operations";
+import { RemoteRendering } from "../generated/operationsInterfaces";
 import { delay } from "@azure/core-util";
 import { RenderingSession } from "../internal/renderingSession";
 

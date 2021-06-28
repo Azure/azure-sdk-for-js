@@ -36,7 +36,7 @@ import { createSpan } from "./tracing";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { RemoteRendering } from "./generated/operations";
+import { RemoteRenderingImpl } from "./generated/operations";
 import {
   AssetConversionPoller,
   AssetConversionOperationState,
@@ -174,7 +174,7 @@ export type RenderingSessionPollerLike = PollerLike<
 export class RemoteRenderingClient {
   private accountId: string;
   private client: RemoteRenderingRestClient;
-  private operations: RemoteRendering;
+  private operations: RemoteRenderingImpl;
 
   /**
    * Creates an instance of a RemoteRenderingClient.
@@ -296,7 +296,7 @@ export class RemoteRenderingClient {
     };
 
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);
-    this.operations = new RemoteRendering(this.client);
+    this.operations = new RemoteRenderingImpl(this.client);
   }
 
   /**

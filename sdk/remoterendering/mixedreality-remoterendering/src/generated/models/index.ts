@@ -164,7 +164,7 @@ export interface SessionProperties {
    * The error object containing details about the rendering session startup failure.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: RemoteRenderingServiceErrorInternal | null;
+  readonly error?: RemoteRenderingServiceErrorInternal;
   /**
    * The time when the rendering session was created. Date and time in ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -304,7 +304,7 @@ export interface RemoteRenderingListSessionsNextExceptionHeaders {
 }
 
 /** Known values of {@link AssetConversionStatus} that the service accepts. */
-export enum KnownAssetConversionStatus {
+export const enum KnownAssetConversionStatus {
   /** The conversion was created but hasn't started. */
   NotStarted = "NotStarted",
   /** The conversion is running. */
@@ -321,7 +321,7 @@ export enum KnownAssetConversionStatus {
  * Defines values for AssetConversionStatus. \
  * {@link KnownAssetConversionStatus} can be used interchangeably with AssetConversionStatus,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **NotStarted**: The conversion was created but hasn't started. \
  * **Running**: The conversion is running. \
  * **Cancelled**: The conversion was cancelled. This is a terminal state. \
@@ -331,7 +331,7 @@ export enum KnownAssetConversionStatus {
 export type AssetConversionStatus = string;
 
 /** Known values of {@link RenderingServerSize} that the service accepts. */
-export enum KnownRenderingServerSize {
+export const enum KnownRenderingServerSize {
   /** Standard rendering session size. */
   Standard = "Standard",
   /** Premium rendering session size. */
@@ -342,14 +342,14 @@ export enum KnownRenderingServerSize {
  * Defines values for RenderingServerSize. \
  * {@link KnownRenderingServerSize} can be used interchangeably with RenderingServerSize,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Standard**: Standard rendering session size. \
  * **Premium**: Premium rendering session size.
  */
 export type RenderingServerSize = string;
 
 /** Known values of {@link RenderingSessionStatus} that the service accepts. */
-export enum KnownRenderingSessionStatus {
+export const enum KnownRenderingSessionStatus {
   /** The rendering session has encountered an error, and is unusable. This is a terminal state. */
   Error = "Error",
   /** The rendering session enters the 'Expired' state when it has been in the 'Ready' state longer than its lease time. This is a terminal state. */
@@ -366,7 +366,7 @@ export enum KnownRenderingSessionStatus {
  * Defines values for RenderingSessionStatus. \
  * {@link KnownRenderingSessionStatus} can be used interchangeably with RenderingSessionStatus,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Error**: The rendering session has encountered an error, and is unusable. This is a terminal state. \
  * **Expired**: The rendering session enters the 'Expired' state when it has been in the 'Ready' state longer than its lease time. This is a terminal state. \
  * **Starting**: The rendering session is starting, but not accepting incoming connections yet. \
@@ -375,36 +375,76 @@ export enum KnownRenderingSessionStatus {
  */
 export type RenderingSessionStatus = string;
 
+/** Optional parameters. */
+export interface RemoteRenderingCreateConversionOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the createConversion operation. */
 export type RemoteRenderingCreateConversionResponse = RemoteRenderingCreateConversionHeaders &
   Conversion;
+
+/** Optional parameters. */
+export interface RemoteRenderingGetConversionOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getConversion operation. */
 export type RemoteRenderingGetConversionResponse = RemoteRenderingGetConversionHeaders &
   Conversion;
 
+/** Optional parameters. */
+export interface RemoteRenderingListConversionsOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listConversions operation. */
 export type RemoteRenderingListConversionsResponse = RemoteRenderingListConversionsHeaders &
   ConversionList;
 
+/** Optional parameters. */
+export interface RemoteRenderingCreateSessionOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the createSession operation. */
 export type RemoteRenderingCreateSessionResponse = SessionProperties;
+
+/** Optional parameters. */
+export interface RemoteRenderingGetSessionOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSession operation. */
 export type RemoteRenderingGetSessionResponse = SessionProperties;
 
+/** Optional parameters. */
+export interface RemoteRenderingUpdateSessionOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the updateSession operation. */
 export type RemoteRenderingUpdateSessionResponse = SessionProperties;
+
+/** Optional parameters. */
+export interface RemoteRenderingStopSessionOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the stopSession operation. */
 export type RemoteRenderingStopSessionResponse = RemoteRenderingStopSessionHeaders;
 
+/** Optional parameters. */
+export interface RemoteRenderingListSessionsOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listSessions operation. */
 export type RemoteRenderingListSessionsResponse = SessionsList;
+
+/** Optional parameters. */
+export interface RemoteRenderingListConversionsNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConversionsNext operation. */
 export type RemoteRenderingListConversionsNextResponse = RemoteRenderingListConversionsNextHeaders &
   ConversionList;
+
+/** Optional parameters. */
+export interface RemoteRenderingListSessionsNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSessionsNext operation. */
 export type RemoteRenderingListSessionsNextResponse = SessionsList;

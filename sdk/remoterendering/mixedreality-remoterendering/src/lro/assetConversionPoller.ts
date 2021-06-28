@@ -3,7 +3,7 @@
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
 import { KnownAssetConversionStatus } from "../generated/models/index";
-import { RemoteRendering } from "../generated/operations";
+import { RemoteRendering } from "../generated/operationsInterfaces";
 import { getConversionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
