@@ -1660,31 +1660,6 @@ export interface MetricEnrichedSeriesData {
 // Response types
 
 /**
- * Contains response data for the getDataFeed operation.
- */
-export type GetDataFeedResponse = MetricsAdvisorDataFeed;
-
-/**
- * Contains response data for the getAnomalyDetectionConfiguration operation.
- */
-export type GetDetectionConfigResponse = AnomalyDetectionConfiguration;
-
-/**
- * Contains response data for the getAnomalyAlertConfiguration operation.
- */
-export type GetAlertConfigResponse = AnomalyAlertConfiguration;
-
-/**
- * Contains response data for the getHook operation.
- */
-export type GetHookResponse = NotificationHookUnion;
-
-/**
- * Contains response data for the getCredentialEntity operation.
- */
-export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion;
-
-/**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
 export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {}
@@ -1695,11 +1670,6 @@ export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnriche
 export type GetIncidentRootCauseResponse = {
   rootCauses: IncidentRootCause[];
 };
-
-/**
- * Contains response data for the getFeedback operation.
- */
-export type GetFeedbackResponse = MetricFeedbackUnion;
 
 /**
  * Contains response data for the listAlertsForAlertConfiguration operation.

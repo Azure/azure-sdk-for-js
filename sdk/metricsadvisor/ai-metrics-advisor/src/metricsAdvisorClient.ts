@@ -23,7 +23,6 @@ import {
   AnomalyAlert,
   GetMetricEnrichedSeriesDataResponse,
   GetIncidentRootCauseResponse,
-  GetFeedbackResponse,
   AlertsPageResponse,
   IncidentsPageResponse,
   AnomaliesPageResponse,
@@ -1445,7 +1444,7 @@ export class MetricsAdvisorClient {
   public async addFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
-  ): Promise<GetFeedbackResponse> {
+  ): Promise<MetricFeedbackUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorClient-addFeedback",
       options
@@ -1480,7 +1479,7 @@ export class MetricsAdvisorClient {
   public async getFeedback(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetFeedbackResponse> {
+  ): Promise<MetricFeedbackUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorClient-getFeedback",
       options
