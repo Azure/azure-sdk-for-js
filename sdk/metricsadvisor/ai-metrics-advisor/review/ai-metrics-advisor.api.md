@@ -524,24 +524,6 @@ export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
 export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
 
 // @public
-export type GetAlertConfigResponse = AnomalyAlertConfiguration;
-
-// @public
-export type GetDataFeedResponse = MetricsAdvisorDataFeed;
-
-// @public
-export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion;
-
-// @public
-export type GetDetectionConfigResponse = AnomalyDetectionConfiguration;
-
-// @public
-export type GetFeedbackResponse = MetricFeedbackUnion;
-
-// @public
-export type GetHookResponse = NotificationHookUnion;
-
-// @public
 export type GetIncidentRootCauseResponse = {
     rootCauses: IncidentRootCause[];
 };
@@ -869,23 +851,23 @@ export type MetricPeriodFeedback = {
 // @public
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
-    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAlertConfigResponse>;
-    createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
-    createDataSourceCredential(dataSourceCredential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
-    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
-    createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
+    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<MetricsAdvisorDataFeed>;
+    createDataSourceCredential(dataSourceCredential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
+    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<AnomalyDetectionConfiguration>;
+    createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<NotificationHookUnion>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    getAlertConfig(id: string, options?: OperationOptions): Promise<GetAlertConfigResponse>;
-    getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
+    getAlertConfig(id: string, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
+    getDataFeed(id: string, options?: OperationOptions): Promise<MetricsAdvisorDataFeed>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
-    getDataSourceCredential(id: string, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
-    getDetectionConfig(id: string, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
-    getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
+    getDataSourceCredential(id: string, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
+    getDetectionConfig(id: string, options?: OperationOptions): Promise<AnomalyDetectionConfiguration>;
+    getHook(id: string, options?: OperationOptions): Promise<NotificationHookUnion>;
     listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<MetricsAdvisorDataFeed, DataFeedsPageResponse>;
@@ -893,11 +875,11 @@ export class MetricsAdvisorAdministrationClient {
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
-    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAlertConfigResponse>;
-    updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
-    updateDataSourceCredential(id: string, patch: DataSourceCredentialPatch, options?: OperationOptions): Promise<GetDataSourceCredentialEntityResponse>;
-    updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<GetDetectionConfigResponse>;
-    updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
+    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
+    updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<MetricsAdvisorDataFeed>;
+    updateDataSourceCredential(id: string, patch: DataSourceCredentialPatch, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
+    updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<AnomalyDetectionConfiguration>;
+    updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<NotificationHookUnion>;
 }
 
 // @public
@@ -907,9 +889,9 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 // @public
 export class MetricsAdvisorClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
-    addFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
+    addFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<MetricFeedbackUnion>;
     readonly endpointUrl: string;
-    getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
+    getFeedback(id: string, options?: OperationOptions): Promise<MetricFeedbackUnion>;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
     getMetricEnrichedSeriesData(detectionConfigId: string, seriesKey: DimensionKey[], startTime: Date | string, endTime: Date | string, options?: GetMetricEnrichedSeriesDataOptions): Promise<GetMetricEnrichedSeriesDataResponse>;
     getMetricSeriesData(metricId: string, seriesKey: DimensionKey[], startTime: Date | string, endTime: Date | string, options?: GetMetricSeriesDataOptions): Promise<GetMetricSeriesDataResponse>;

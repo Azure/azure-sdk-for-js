@@ -13,7 +13,7 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  GetDataSourceCredentialEntityResponse,
+  DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
   DataSourceSqlConnectionString
 } from "@azure/ai-metrics-advisor";
@@ -73,7 +73,7 @@ async function listDataSourceCredentials(client: MetricsAdvisorAdministrationCli
 
 async function createDataSourceCredential(
   client: MetricsAdvisorAdministrationClient
-): Promise<GetDataSourceCredentialEntityResponse> {
+): Promise<DataSourceCredentialEntityUnion> {
   console.log("Creating DataSource credential...");
   const datasourceCredential: DataSourceSqlConnectionString = {
     name: "Sql-server-cred",
