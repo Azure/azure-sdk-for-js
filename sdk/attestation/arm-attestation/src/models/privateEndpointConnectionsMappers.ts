@@ -8,7 +8,6 @@
 
 export {
   AttestationProvider,
-  AttestationProviderListResult,
   AttestationServiceCreationParams,
   AttestationServiceCreationSpecificParams,
   AttestationServicePatchParams,
@@ -19,6 +18,7 @@ export {
   JSONWebKeySet,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
   PrivateLinkServiceConnectionState,
   ProxyResource,
   Resource,
