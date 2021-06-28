@@ -85,4 +85,4 @@ jobs:
             -SourceBranch "master"
             -DefinitionId 3452
             -Base64EncodedAuthToken "$(azuresdk-apidrop-devops-queue-build-pat)"
-            -BuildParametersJson '{"params":"{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"daily/2021-06-23\", \"folder\": \"./\" }, \"source_repos\": [] }"}'
+            -BuildParametersJson '{"params":"{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }"}'
