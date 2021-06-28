@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import * as Constants from "../../../src/Declarations/Constants";
-import { ConnectionStringParser } from "../../../src/utils/connectionStringParser";
+import * as Constants from "../../src/Declarations/Constants";
+import { ConnectionStringParser } from "../../src/utils/connectionStringParser";
 
 describe("ConnectionStringParser", () => {
   describe("#parse()", () => {

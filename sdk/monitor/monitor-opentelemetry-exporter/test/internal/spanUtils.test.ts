@@ -8,19 +8,19 @@ import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource } from "@opentelemetry/resources";
 import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements } from "../../../src/types";
+import { Tags, Properties, Measurements } from "../../src/types";
 import {
   AI_CLOUD_ROLE,
   AI_CLOUD_ROLE_INSTACE
-} from "../../../src/utils/constants/applicationinsights";
-import * as http from "../../../src/utils/constants/span/httpAttributes";
-import * as grpc from "../../../src/utils/constants/span/grpcAttributes";
-import * as ai from "../../../src/utils/constants/applicationinsights";
-import { Context, getInstance } from "../../../src/platform";
-import { msToTimeSpan } from "../../../src/utils/breezeUtils";
-import { readableSpanToEnvelope } from "../../../src/utils/spanUtils";
-import { RemoteDependencyData, RequestData } from "../../../src/generated";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+} from "../../src/utils/constants/applicationinsights";
+import * as http from "../../src/utils/constants/span/httpAttributes";
+import * as grpc from "../../src/utils/constants/span/grpcAttributes";
+import * as ai from "../../src/utils/constants/applicationinsights";
+import { Context, getInstance } from "../../src/platform";
+import { msToTimeSpan } from "../../src/utils/breezeUtils";
+import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
+import { RemoteDependencyData, RequestData } from "../../src/generated";
+import { TelemetryItem as Envelope } from "../../src/generated";
 
 const context = getInstance(undefined, "./");
 
