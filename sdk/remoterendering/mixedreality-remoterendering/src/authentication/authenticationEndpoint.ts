@@ -7,9 +7,5 @@
  * @param accountDomain The Mixed Reality account domain.
  */
 export function constructAuthenticationEndpointFromDomain(accountDomain: string): string {
-  if (!accountDomain) {
-    throw new Error("Argument cannot be null or empty: 'accountDomain'.");
-  }
-
   return `https://sts.${accountDomain}`;
 }
