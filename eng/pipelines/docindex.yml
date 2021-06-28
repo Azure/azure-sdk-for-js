@@ -74,7 +74,6 @@ jobs:
 
       - task: PowerShell@2
         displayName: Queue Docs CI build
-        condition: and(succeeded(), ne(variables['${{repo}}-template-definition-id'], ''))
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Queue-Pipeline.ps1
