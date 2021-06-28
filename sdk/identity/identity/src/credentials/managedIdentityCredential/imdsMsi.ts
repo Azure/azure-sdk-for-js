@@ -44,7 +44,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: imdsEndpoint,
+    url: process.env.AZURE_POD_IDENTITY_TOKEN_URL ?? imdsEndpoint,
     method: "GET",
     queryParameters,
     headers: {
@@ -72,6 +72,11 @@ export const imdsMsi: MSI = {
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
+
+    // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
+    if (process.env.AZURE_POD_IDENTITY_TOKEN_URL) {
+      return true;
+    }
 
     const request = prepareRequestOptions(resource, clientId);
 
