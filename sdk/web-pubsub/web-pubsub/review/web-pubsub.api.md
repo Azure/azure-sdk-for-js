@@ -165,7 +165,7 @@ export class WebPubSubServiceClient {
     group(groupName: string): WebPubSubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
-    hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<void>;
+    hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<void>;

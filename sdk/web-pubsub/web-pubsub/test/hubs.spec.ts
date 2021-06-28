@@ -92,7 +92,8 @@ describe("HubClient", function() {
     });
 
     // `removeUserFromAllGroups` seems to take a very long time?
-    it.skip("can manage users", async () => {
+    it.only("can manage users", async () => {
+      this.timeout(Infinity);
       const res = await client.hasUser("foo");
       assert.ok(!res);
       await client.removeUserFromAllGroups("brian", { onResponse });

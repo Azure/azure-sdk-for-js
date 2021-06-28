@@ -713,19 +713,37 @@ export class WebPubSubServiceClient {
     connectionId: string,
     permission: Permission,
     options: HubHasPermissionOptions = {}
-  ) {
+  ): Promise<boolean> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-hasPermission",
       options
     );
 
     try {
-      return await this.client.webPubSub.checkPermission(
-        this.hubName,
-        permission,
-        connectionId,
-        updatedOptions
-      );
+      let response: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        response = rawResponse;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
+      await this.client.webPubSub.checkPermission(this.hubName, permission, connectionId, {
+        ...updatedOptions,
+        onResponse
+      });
+
+      if (response?.status === 200) {
+        return true;
+      } else if (response?.status === 404) {
+        return false;
+      } else {
+        // this is sad - wish this was handled by autorest.
+        throw new RestError(response?.bodyAsText!, {
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
+        });
+      }
     } finally {
       span.end();
     }
