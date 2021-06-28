@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - release/track1
+      - track1/release
   paths:
     include:
     - eng/pipelines/mgmt-pr.yml
