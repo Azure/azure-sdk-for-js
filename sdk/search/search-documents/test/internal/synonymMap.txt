@@ -1,0 +1,2 @@
+United States, United States of America => USA
+Washington, Wash. => WA
