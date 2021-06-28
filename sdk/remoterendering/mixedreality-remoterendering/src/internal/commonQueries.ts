@@ -10,7 +10,7 @@ import { RenderingSession, renderingSessionFromSessionProperties } from "./rende
 
 /**
  * Call getConversion on the service, wrapped in a tracing span with a provided name.
- * @param tracingSpanName The name to use for the span that wraps the call.
+ * @param tracingSpanName - The name to use for the span that wraps the call.
  * @internal
  */
 export async function getConversionInternal(
@@ -41,7 +41,7 @@ export async function getConversionInternal(
 
 /**
  * Call getSession on the service, wrapped in a tracing span with a provided name.
- * @param tracingSpanName The name to use for the span that wraps the call.
+ * @param tracingSpanName - The name to use for the span that wraps the call.
  * @internal
  */
 export async function getSessionInternal(
@@ -72,7 +72,7 @@ export async function getSessionInternal(
 
 /**
  * Call endSession on the service, wrapped in a tracing span with a provided name.
- * @param tracingSpanName The name to use for the span that wraps the call.
+ * @param tracingSpanName - The name to use for the span that wraps the call.
  * @internal
  */
 export async function endSessionInternal(

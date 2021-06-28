@@ -178,11 +178,11 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a RemoteRenderingClient.
-   * @param endpoint The RemoteRendering endpoint to use.
-   * @param accountId The Remote Rendering service account identifier.
-   * @param accountDomain The Remote Rendering service account domain.
-   * @param keyCredential The Remote Rendering service account primary or secondary key credential.
-   * @param options Additional client options.
+   * @param endpoint - The RemoteRendering endpoint to use.
+   * @param accountId - The Remote Rendering service account identifier.
+   * @param accountDomain - The Remote Rendering service account domain.
+   * @param keyCredential - The Remote Rendering service account primary or secondary key credential.
+   * @param options - Additional client options.
    */
   constructor(
     endpoint: string,
@@ -194,11 +194,11 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a RemoteRenderingClient.
-   * @param endpoint The RemoteRendering endpoint to use.
-   * @param accountId The Remote Rendering service account identifier.
-   * @param accountDomain The Remote Rendering service account domain.
-   * @param credential A token credential for authenticating the account with the Mixed Reality STS service.
-   * @param options Additional client options.
+   * @param endpoint - The RemoteRendering endpoint to use.
+   * @param accountId - The Remote Rendering service account identifier.
+   * @param accountDomain - The Remote Rendering service account domain.
+   * @param credential - A token credential for authenticating the account with the Mixed Reality STS service.
+   * @param options - Additional client options.
    */
   constructor(
     endpoint: string,
@@ -210,11 +210,11 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a RemoteRenderingClient.
-   * @param endpoint The RemoteRendering endpoint to use.
-   * @param accountId The Remote Rendering service account identifier.
-   * @param accountDomain The Remote Rendering service account domain.
-   * @param credential An access token obtained from the Mixed Reality STS service.
-   * @param options Additional client options.
+   * @param endpoint - The RemoteRendering endpoint to use.
+   * @param accountId - The Remote Rendering service account identifier.
+   * @param accountDomain - The Remote Rendering service account domain.
+   * @param credential - An access token obtained from the Mixed Reality STS service.
+   * @param options - Additional client options.
    */
   constructor(
     endpoint: string,
@@ -301,11 +301,11 @@ export class RemoteRenderingClient {
 
   /**
    * Creates a conversion using an asset stored in an Azure Blob Storage account.
-   * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
+   * @param conversionId - An ID uniquely identifying the conversion for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
-   * @param assetConversionSettings Settings configuring the asset conversion.
-   * @param options The options parameters.
+   * @param assetConversionSettings - Settings configuring the asset conversion.
+   * @param options - The options parameters.
    */
   public async beginConversion(
     conversionId: string,
@@ -315,7 +315,7 @@ export class RemoteRenderingClient {
 
   /**
    * Obtains a poller corresponding to a conversion that was already started.
-   * @param options The options parameters, carrying a resumeFrom value.
+   * @param options - The options parameters, carrying a resumeFrom value.
    */
   public async beginConversion(
     options: ResumeBeginConversionOptions
@@ -389,14 +389,14 @@ export class RemoteRenderingClient {
 
   /**
    * Gets the status of a particular conversion.
-   * @param conversionId The ID of a previously created conversion.
-   * @param options The options parameters.
+   * @param conversionId - The ID of a previously created conversion.
+   * @param options - The options parameters.
    */
   public async getConversion(
     conversionId: string,
     options?: GetConversionOptions
   ): Promise<AssetConversion> {
-    return await getConversionInternal(
+    return getConversionInternal(
       this.accountId,
       this.operations,
       conversionId,
@@ -434,7 +434,7 @@ export class RemoteRenderingClient {
 
   /**
    * Gets a list of all conversions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listConversions(
     options?: ListConversionsOptions
@@ -468,11 +468,11 @@ export class RemoteRenderingClient {
 
   /**
    * Creates a new rendering session.
-   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   * @param sessionId - An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
-   * @param settings Settings of the session to be created.
-   * @param options The options parameters.
+   * @param settings - Settings of the session to be created.
+   * @param options - The options parameters.
    */
   public async beginSession(
     sessionId: string,
@@ -482,7 +482,7 @@ export class RemoteRenderingClient {
 
   /**
    * Obtains a poller for a pre-existing session
-   * @param options The options parameters, carrying a resumeFrom value.
+   * @param options - The options parameters, carrying a resumeFrom value.
    */
   public async beginSession(
     options: ResumeBeginSessionOptions
@@ -553,16 +553,16 @@ export class RemoteRenderingClient {
 
   /**
    * Gets the status of a particular session.
-   * @param sessionId An ID uniquely identifying the session for the given account. The ID is case
+   * @param sessionId - An ID uniquely identifying the session for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public async getSession(
     sessionId: string,
     options?: GetSessionOptions
   ): Promise<RenderingSession> {
-    return await getSessionInternal(
+    return getSessionInternal(
       this.accountId,
       this.operations,
       sessionId,
@@ -573,11 +573,11 @@ export class RemoteRenderingClient {
 
   /**
    * Updates the max lease time of a particular rendering session.
-   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   * @param sessionId - An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
-   * @param updateSessionSettings Settings used to update the session.
-   * @param options The options parameters.
+   * @param updateSessionSettings - Settings used to update the session.
+   * @param options - The options parameters.
    */
   public async updateSession(
     sessionId: string,
@@ -610,13 +610,13 @@ export class RemoteRenderingClient {
 
   /**
    * Stops a particular rendering session.
-   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   * @param sessionId - An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public async endSession(sessionId: string, options?: EndSessionOptions): Promise<void> {
-    return await endSessionInternal(
+    return endSessionInternal(
       this.accountId,
       this.operations,
       sessionId,
@@ -650,7 +650,7 @@ export class RemoteRenderingClient {
 
   /**
    * Gets a list of all sessions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
