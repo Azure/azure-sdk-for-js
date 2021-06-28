@@ -63,6 +63,6 @@
 
     // HOTFIX branch for identity
     "@azure/core-tracing": ["1.0.0-preview.11"],
-    "@azure/core-http": ["^1.2.4"]
+    "@azure/core-http": ["^1.2.4", "^2.0.0"]
   }
 }
