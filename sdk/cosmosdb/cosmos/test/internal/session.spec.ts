@@ -71,10 +71,11 @@ describe("New session token", function() {
     );
     const container = database.container(createdContainerDef.id);
 
-    await container.items.create({ id: "1" });
+    const resp = await container.items.create({ id: "1" });
     await container.item("1").read();
 
-    const responseToken = response && response.headers["x-ms-session-token"];
+    await container.item("1").read();
+    const responseToken = resp.headers["x-ms-session-token"];
     const token = sessionContainer.get({
       isNameBased: true,
       operationType: OperationType.Create,
