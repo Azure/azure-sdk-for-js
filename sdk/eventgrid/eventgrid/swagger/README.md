@@ -16,8 +16,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 save-inputs: true
 source-code-folder-path: ./src/generated
-use-extension:
-  "@autorest/typescript": "1.0.0-beta.2"
+typescript: true
 hide-clients: true
 ```
 
