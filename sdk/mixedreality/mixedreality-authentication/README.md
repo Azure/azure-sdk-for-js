@@ -15,7 +15,7 @@ token from the STS that can be used to access Mixed Reality services.
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 

@@ -4,14 +4,12 @@ This is the core HTTP pipeline for Azure SDK JavaScript libraries which work in 
 
 ## Getting started
 
-### Requirements
+### Currently supported environments
 
-- [Node.js](https://nodejs.org) version > 8.x
-- Typescript compiler
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
-```shell
-npm install -g typescript
-```
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Installation
 

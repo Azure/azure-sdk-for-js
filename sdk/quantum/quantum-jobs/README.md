@@ -23,7 +23,7 @@ npm install @azure/quantum-jobs
 
 ### Prerequisites
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - [Azure subscription](https://azure.microsoft.com/free/)
 - [Azure Quantum Workspace][workspaces]
 

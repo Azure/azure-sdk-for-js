@@ -5,8 +5,8 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { FileSystemPersist } from "../../../../../src/platform/nodejs/persist/fileSystemPersist";
-import { TelemetryItem as Envelope } from "../../../../../src/generated";
+import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist";
+import { TelemetryItem as Envelope } from "../../src/generated";
 import { promisify } from "util";
 
 const statAsync = promisify(fs.stat);

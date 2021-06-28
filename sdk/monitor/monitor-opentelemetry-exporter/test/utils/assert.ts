@@ -6,7 +6,7 @@ import {
   AI_OPERATION_ID,
   AI_OPERATION_PARENT_ID
 } from "../../src/utils/constants/applicationinsights";
-import { Expectation } from "./scenario/types";
+import { Expectation } from "./types";
 import { MonitorBase, RequestData, TelemetryItem as Envelope } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
@@ -27,10 +27,11 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
 };
 
 export const assertTrace = (actual: Envelope[], expectation: Expectation): void => {
-  const envelope = actual.filter(
-    (e) =>
+  const envelope = actual.filter((e) => {
+    return (
       (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
-  );
+    );
+  });
   if (envelope.length !== 1) {
     assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
   }
@@ -74,10 +75,11 @@ export const assertCount = (actual: Envelope[], expectations: Expectation[]): vo
 
 export const assertExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    const envelope = actual.filter(
-      (e) =>
+    const envelope = actual.filter((e) => {
+      return (
         (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
-    );
+      );
+    });
     if (envelope.length !== 1) {
       assert.ok(
         false,
