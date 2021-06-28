@@ -1900,7 +1900,7 @@ export interface ClusterInfo {
 }
 
 /**
- * An interface representing Resource.
+ * The base resource definition
  */
 export interface Resource extends BaseResource {
   /**
