@@ -7,9 +7,14 @@
  */
 
 export {
-  Display,
+  AzureEntityResource,
+  BaseResource,
   ErrorResponse,
   ErrorResponseError,
-  Operation,
-  OperationList
+  ProviderInstance,
+  ProviderInstanceListResult,
+  ProxyResource,
+  Resource,
+  SapMonitor,
+  TrackedResource
 } from "../models/mappers";
