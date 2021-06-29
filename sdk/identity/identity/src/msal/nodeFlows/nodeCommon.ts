@@ -16,7 +16,7 @@ import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
-  getAuthorityHost,
+  getAuthority,
   getKnownAuthorities,
   MsalBaseUtilities,
   msalToPublic,
@@ -112,7 +112,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     const tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
 
     this.authorityHost = options.authorityHost || process.env.AZURE_AUTHORITY_HOST;
-    const authority = getAuthorityHost(tenantId, this.authorityHost);
+    const authority = getAuthority(tenantId, this.authorityHost);
 
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
@@ -273,7 +273,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       this.allowMultiTenantAuthentication,
       options
     )!;
-    options.authority = getAuthorityHost(tenantId, this.authorityHost);
+    options.authority = getAuthority(tenantId, this.authorityHost);
 
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);

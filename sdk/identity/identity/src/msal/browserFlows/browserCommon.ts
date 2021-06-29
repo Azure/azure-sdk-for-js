@@ -8,7 +8,7 @@ import { AccessToken } from "@azure/core-auth";
 import { DefaultTenantId } from "../../constants";
 import { resolveTenantId } from "../../util/resolveTenantId";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
-import { getAuthorityHost, getKnownAuthorities, MsalBaseUtilities } from "../utils";
+import { getAuthority, getKnownAuthorities, MsalBaseUtilities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
@@ -43,7 +43,7 @@ export function defaultBrowserMsalConfig(
   options: MsalBrowserFlowOptions
 ): msalBrowser.Configuration {
   const tenantId = options.tenantId || DefaultTenantId;
-  const authority = getAuthorityHost(tenantId, options.authorityHost);
+  const authority = getAuthority(tenantId, options.authorityHost);
   return {
     auth: {
       clientId: options.clientId!,
@@ -150,7 +150,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       this.allowMultiTenantAuthentication,
       options
     )!;
-    options.authority = getAuthorityHost(tenantId, this.authorityHost);
+    options.authority = getAuthority(tenantId, this.authorityHost);
 
     // We ensure that redirection is handled at this point.
     await this.handleRedirect();
