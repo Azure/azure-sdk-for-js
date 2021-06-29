@@ -72,7 +72,7 @@ describe("ThrottlingRetryPolicy", () => {
       assert.deepEqual(response.request, request);
     });
 
-    it("should do nothing when status code is not 429", async () => {
+    it("should do nothing when status code is not 429 nor 503", async () => {
       const request = new WebResource();
       const mockResponse = {
         status: 400,
@@ -112,6 +112,120 @@ describe("ThrottlingRetryPolicy", () => {
       delete (request as any).requestId;
       delete (response.request as any).requestId;
       assert.deepEqual(response, mockResponse);
+    });
+
+    it("should pass the response to the handler if the status code equals 503", async () => {
+      const request = new WebResource();
+      const mockResponse = {
+        status: 503,
+        headers: new HttpHeaders({
+          "Retry-After": "100"
+        }),
+        request: request
+      };
+      const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_, response) => {
+        delete (response.request as any).requestId;
+        delete (mockResponse.request as any).requestId;
+        assert.deepEqual(response, mockResponse);
+        return Promise.resolve(response);
+      });
+
+      const response = await policy.sendRequest(request);
+      delete (request as any).requestId;
+      delete (response.request as any).requestId;
+      assert.deepEqual(response, mockResponse);
+    });
+
+    it("if the status code equals 429, it should retry up to 3 times", async () => {
+      const request = new WebResource();
+      const status = 429;
+      const retryResponse = {
+        status,
+        headers: new HttpHeaders({
+          "Retry-After": "1"
+        }),
+        request
+      };
+      const responses: HttpOperationResponse[] = [
+        retryResponse,
+        retryResponse,
+        retryResponse,
+        // This one should be returned
+        {
+          status,
+          headers: new HttpHeaders({
+            "Retry-After": "1",
+            "final-response": "final-response"
+          }),
+          request
+        }
+      ];
+
+      const clock = sinon.useFakeTimers();
+
+      const policy = new ThrottlingRetryPolicy(
+        {
+          async sendRequest(): Promise<HttpOperationResponse> {
+            return responses.shift()!;
+          }
+        },
+        new RequestPolicyOptions()
+      );
+
+      const promise = policy.sendRequest(request);
+      clock.tickAsync(3000);
+
+      const response = await promise;
+      assert.deepEqual(response.status, status);
+      assert.equal(response.headers.get("final-response"), "final-response");
+
+      clock.restore();
+    });
+
+    it("if the status code equals 503, it should retry up to 3 times", async () => {
+      const request = new WebResource();
+      const status = 503;
+      const retryResponse = {
+        status,
+        headers: new HttpHeaders({
+          "Retry-After": "1"
+        }),
+        request
+      };
+      const responses: HttpOperationResponse[] = [
+        retryResponse,
+        retryResponse,
+        retryResponse,
+        // This one should be returned
+        {
+          status,
+          headers: new HttpHeaders({
+            "Retry-After": "1",
+            "final-response": "final-response"
+          }),
+          request
+        }
+      ];
+
+      const clock = sinon.useFakeTimers();
+
+      const policy = new ThrottlingRetryPolicy(
+        {
+          async sendRequest(): Promise<HttpOperationResponse> {
+            return responses.shift()!;
+          }
+        },
+        new RequestPolicyOptions()
+      );
+
+      const promise = policy.sendRequest(request);
+      clock.tickAsync(3000);
+
+      const response = await promise;
+      assert.deepEqual(response.status, status);
+      assert.equal(response.headers.get("final-response"), "final-response");
+
+      clock.restore();
     });
 
     it("should honor the abort signal passed", async () => {
