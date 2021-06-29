@@ -3,6 +3,7 @@
 ## 2.0.0-beta.4 (Unreleased)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Introduced an extension API through a top-level method `useIdentityExtension`. The function accepts an "extension" as an argument, which is a function accepting a `context`. The extension context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
   - `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it (see more below).
@@ -14,6 +15,7 @@
   - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
   - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
   - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
+- Now, the `CP1` client capabilities will be enabled by default for all of the credentials using MSAL. This can be disabled by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (any value counts).
 
 ### Breaking Changes
 
