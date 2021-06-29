@@ -47,7 +47,7 @@ export class Metrics {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {
-  path: "/{resourceUri}/providers/microsoft.insights/metrics",
+  path: "/{resourceUri}/providers/Microsoft.Insights/metrics",
   httpMethod: "GET",
   responses: {
     200: {
@@ -60,7 +60,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timespan,
     Parameters.interval,
-    Parameters.metric,
+    Parameters.metricnames,
     Parameters.aggregation,
     Parameters.top,
     Parameters.orderby,

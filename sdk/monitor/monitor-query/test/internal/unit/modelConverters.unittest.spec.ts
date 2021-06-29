@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import {
   BatchRequest as GeneratedBatchRequest,
-  LogQueryRequest
+  BatchQueryRequest
 } from "../../../src/generated/logquery/src";
 import {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
@@ -80,7 +80,7 @@ describe("Model unit tests", () => {
         ]
       });
 
-      assert.deepEqual(generatedRequest.requests?.[1], <LogQueryRequest>{
+      assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
         id: "1", // auto-generated (increments by 1 for each query in the batch)
         workspace: "the primary workspace id",
         headers: {
@@ -126,12 +126,12 @@ describe("Model unit tests", () => {
         track2Model
       );
 
-      assert.deepEqual(actualMetricsRequest, {
+      const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
         abortSignal,
         aggregation: "agg1,agg2",
         filter: "arbitraryFilter",
         interval: "arbitraryInterval",
-        metric: "name1,name2",
+        metricnames: "name1,name2",
         metricnamespace: "myMetricNamespace",
         orderby: "orderByClause",
         requestOptions,
@@ -139,7 +139,9 @@ describe("Model unit tests", () => {
         timespan: "arbitraryTimespan",
         top: 10,
         tracingOptions
-      });
+      };
+
+      assert.deepEqual(actualMetricsRequest, expectedMetricsRequest);
     });
 
     it("convertRequestForMetrics (only required fields)", () => {

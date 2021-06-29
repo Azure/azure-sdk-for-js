@@ -91,11 +91,9 @@ export function getMetricsArmResourceId(
   mochaContext: Pick<Context, "skip">
 ): {
   resourceId: string;
-  resourceNamespace: string;
 } {
   return {
-    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID"),
-    resourceNamespace: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_NAMESPACE")
+    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID")
   };
 }
 
@@ -117,7 +115,9 @@ export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip
 
 function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: string): string {
   if (!env[variableName]) {
-    console.log(`TODO: live tests skipped until test-resources + data population is set up.`);
+    console.log(
+      `TODO: live tests skipped until test-resources + data population is set up (missing ${variableName} env var).`
+    );
     mochaContext.skip();
   }
 
