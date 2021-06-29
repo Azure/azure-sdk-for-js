@@ -118,7 +118,7 @@ stages:
                       - checkout: self
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
-                          Artifacts: 
+                          PackageInfoLocations: 
                             - $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
@@ -252,7 +252,7 @@ stages:
 
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
-            Artifacts: 
+            PackageInfoLocations: 
               - ${{ each artifact in parameters.Artifacts }}:
                 - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
             RepoId: Azure/azure-sdk-for-js

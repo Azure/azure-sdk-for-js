@@ -135,7 +135,7 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # may not have been published if the code is identical to the code already 
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
-function Get-javascript-DocsMsLanguageSpecificPackageInfo($packageInfo) {
+function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
   $packageInfo.Version = 'dev'
   return $packageInfo
 }
