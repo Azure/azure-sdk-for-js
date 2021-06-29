@@ -150,7 +150,6 @@ describe("ThrottlingRetryPolicy", () => {
         retryResponse,
         retryResponse,
         retryResponse,
-        retryResponse,
         // This one should be returned
         {
           status,
@@ -178,7 +177,7 @@ describe("ThrottlingRetryPolicy", () => {
 
       const response = await promise;
       assert.deepEqual(response.status, status);
-      assert.deepEqual(response.headers.get("final-response"), "final-response");
+      assert.equal(response.headers.get("final-response"), "final-response");
 
       clock.restore();
     });
@@ -197,7 +196,6 @@ describe("ThrottlingRetryPolicy", () => {
         retryResponse,
         retryResponse,
         retryResponse,
-        retryResponse,
         // This one should be returned
         {
           status,
@@ -225,7 +223,7 @@ describe("ThrottlingRetryPolicy", () => {
 
       const response = await promise;
       assert.deepEqual(response.status, status);
-      assert.deepEqual(response.headers.get("final-response"), "final-response");
+      assert.equal(response.headers.get("final-response"), "final-response");
 
       clock.restore();
     });

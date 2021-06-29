@@ -254,11 +254,9 @@ describe("ManagedIdentityCredential", function() {
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
         // { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 200 },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
         { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
@@ -282,8 +280,8 @@ describe("ManagedIdentityCredential", function() {
     // From the retry code of the IMDS MSI,
     // the timeouts increase exponentially until we reach the limit:
     // 800ms -> 1600ms -> 3200ms, results in 6400ms
-    // Plus four 503s: 20s * 8 from the 503 responses.
-    clock.tickAsync(6400 + 2000 * 8);
+    // Plus four 503s: 20s * 6 from the 503 responses.
+    clock.tickAsync(6400 + 2000 * 6);
 
     assert.equal((await promise).token, "token");
     clock.restore();

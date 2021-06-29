@@ -190,36 +190,27 @@ describe("throttlingRetryPolicy", function() {
       request,
       status: 503
     };
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
+
+    const policy = throttlingRetryPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onCall(0).resolves(retryResponse);
+    next.onCall(1).resolves(retryResponse);
+    next.onCall(2).resolves(retryResponse);
+    // This one should be returned
+    next.onCall(3).resolves({
+      headers: createHttpHeaders({
+        "Retry-After": "1",
+        "final-response": "final-response"
+      }),
       request,
-      status: 200
-    };
+      status: 503
+    });
 
-    let policy = throttlingRetryPolicy();
-    let next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onCall(0).resolves(retryResponse);
-    next.onCall(1).resolves(retryResponse);
-    next.onCall(2).resolves(retryResponse);
-    next.onCall(3).resolves(successResponse);
-
-    let promise = policy.sendRequest(request, next);
-    await clock.tickAsync(4000);
-    let response = await promise;
-    assert.equal(response.status, 200);
-
-    policy = throttlingRetryPolicy();
-    next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onCall(0).resolves(retryResponse);
-    next.onCall(1).resolves(retryResponse);
-    next.onCall(2).resolves(retryResponse);
-    next.onCall(3).resolves(retryResponse);
-    next.onCall(4).resolves(retryResponse);
-
-    promise = policy.sendRequest(request, next);
-    await clock.tickAsync(5000);
-    response = await promise;
+    const promise = policy.sendRequest(request, next);
+    await clock.tickAsync(3000);
+    const response = await promise;
     assert.equal(response.status, 503);
+    assert.equal(response.headers.get("final-response"), "final-response");
 
     clock.restore();
   });
