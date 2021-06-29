@@ -42,8 +42,9 @@ export { Durations } from "./models/constants";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  Column as LogsColumn,
-  ColumnDataType,
+  Column as MetricColumn,
+  // TODO: LogsColumnType might actually be a better name!
+  LogsColumnType as ColumnDataType,
   ErrorDetail,
   ErrorInfo
 } from "./generated/logquery/src";
@@ -59,7 +60,11 @@ export {
   MetricUnit
 } from "./generated/metrics/src";
 
-export { AggregationType, MetricAvailability } from "./generated/metricsdefinitions/src";
+export {
+  AggregationType,
+  MetricAvailability,
+  MetricClass
+} from "./generated/metricsdefinitions/src";
 export {
   MetricNamespace,
   MetricNamespaceName,
