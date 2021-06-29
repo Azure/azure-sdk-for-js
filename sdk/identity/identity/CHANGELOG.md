@@ -17,7 +17,7 @@
 - The `AzureCliCredential` now receives an `AzureCliCredentialOptions` object, which has the same structure of the `TokenCredentialOptions`, but with an extra optional `tenantId`.
 - The `AzurePowerShellCredential` now receives an `AzurePowerShellCredentialOptions` object, which has the same structure of the `TokenCredentialOptions`, but with an extra optional `tenantId`.
 - All of the credentials now accept `allowMultiTenantAuthentication`, and as long as they allow configuring a `tenantId`, they now also work with the `GetTokenOptions` new property: `tenantId`.
-  - If a tenant is specified, any `getToken` request that receives a `tenantId` that doesn't match the credential's `tenantId` will throw an error, unless `getToken` gets called with the `allowMultiTenantAuthentication` property set to true.
+  - If a tenant is specified, any `getToken` request that receives a `tenantId` that doesn't match the credential's `tenantId` will throw an error, unless the credential has been constructed with the `allowMultiTenantAuthentication` option set to true.
   - If multi-tenant authentication is allowed, a `tenantId` received through `GetTokenOptions` will be used for that specific request for token instead of the `tenantId` configured when the credential was initialized.
 
 ### Breaking Changes
