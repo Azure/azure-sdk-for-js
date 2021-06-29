@@ -275,14 +275,16 @@ export type MetricsAdvisorDataFeed = {
 
 /**
  * Represents an Azure Application Insights data source.
+ * User is required to specify azureCloud, applicationId and apiKey for Create.
+ * apiKey being a secret is not returned by service.
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  /** The Azure cloud that this Azure Application Insights in */
+  /** The Azure cloud that this Azure Application Insights in. Required by user for Create*/
   azureCloud?: string;
-  /** The application id of this Azure Application Insights */
+  /** The application id of this Azure Application Insights. Required by user for Create*/
   applicationId?: string;
-  /** The API Key that can access this Azure Application Insights */
+  /** The API Key that can access this Azure Application Insights. Required by user for Create. Not returned by service */
   apiKey?: string;
   /** The statement to query this Azure Application Insights */
   query: string;
@@ -292,11 +294,13 @@ export type AzureApplicationInsightsDataFeedSource = {
 
 /**
  * Represents an Azure Blob Storage data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  /** Azure Blob connection string */
-  connectionString: string;
+  /** Azure Blob connection string. Required by user for Create. Not returned by service  */
+  connectionString?: string;
   /** Container */
   container: string;
   /** Blob Template */
@@ -307,10 +311,12 @@ export type AzureBlobDataFeedSource = {
 
 /**
  * Represents an Azure CosmosDB data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureCosmosDbDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  /** The connection string of this Azure CosmosDB */
+  /** The connection string of this Azure CosmosDB. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** The statement to query this collection */
   sqlQuery: string;
@@ -368,24 +374,28 @@ export type AzureDataExplorerAuthTypes =
   | AzureDataExplorerAuthServicePrincipalInKeyVault;
 /**
  * Represents an Azure Data Explorer data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureDataExplorerDataFeedSource = {
   /** Azure Data Explorer Data Source */
   dataSourceType: "AzureDataExplorer";
-  /** Database connection string */
-  connectionString: string;
+  /** Database connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Query script */
   query: string;
 } & AzureDataExplorerAuthTypes;
 
 /**
  * Represents Basic Authentication Type for Azure DataLake Storage Gen2 Source
+ * User is required to specify accountKey for Create with Basic type.
+ * accountKey being a secret is not returned by service.
  */
 export type DataLakeStorageGen2AuthBasic = {
   /** Authentication */
   authenticationType: "Basic";
-  /** Account key */
-  accountKey: string;
+  /** Account key. Required by user for Create. Not returned by service */
+  accountKey?: string;
 };
 
 /**
@@ -454,12 +464,14 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 
 /**
  * Represents an Azure Table data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureTableDataFeedSource = {
   /** Azure Table data Source type */
   dataSourceType: "AzureTable";
-  /** Azure Table connection string */
-  connectionString: string;
+  /** Azure Table connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Table name */
   table: string;
   /** Query script */
@@ -469,11 +481,19 @@ export type AzureTableDataFeedSource = {
 };
 
 /**
- * Represents Basic Authentication Type for Azure Log Analytics Source
+ * Represents Basic Authentication Type for Azure Log Analytics Source.
+ * User is required to specify clientSecret for Create with Basic type.
+ * clientSecret being a secret will not be returned by the service.
  */
 export type LogAnalyticsAuthBasic = {
   /** Authentication */
   authenticationType: "Basic";
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId: string;
+  /** The client id of service principal that have access to this Log Analytics. */
+  clientId: string;
+  /** The client secret of service principal that have access to this Log Analytics. Required by user for Create. Not returned by service*/
+  clientSecret?: string;
 };
 
 /**
@@ -509,12 +529,6 @@ export type AzureLogAnalyticsAuthTypes =
  */
 export type AzureLogAnalyticsDataFeedSource = {
   dataSourceType: "AzureLogAnalytics";
-  /** The tenant id of service principal that have access to this Log Analytics */
-  tenantId?: string;
-  /** The client id of service principal that have access to this Log Analytics */
-  clientId?: string;
-  /** The client secret of service principal that have access to this Log Analytics */
-  clientSecret?: string;
   /** The workspace id of this Log Analytics */
   workspaceId: string;
   /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
@@ -523,11 +537,13 @@ export type AzureLogAnalyticsDataFeedSource = {
 
 /**
  * Represents an Azure Event Hubs data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureEventHubsDataFeedSource = {
   /** Azure Event Hubs data source type */
   dataSourceType: "AzureEventHubs";
-  /** The connection string of this Azure Event Hubs */
+  /** The connection string of this Azure Event Hubs. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** The consumer group to be used in this data feed */
   consumerGroup: string;
@@ -537,6 +553,8 @@ export type AzureEventHubsDataFeedSource = {
 
 /**
  * Represents an InfluxDB data source.
+ * User is required to specify password for Create.
+ * password being a secret is not returned by service.
  */
 export type InfluxDbDataFeedSource = {
   /** InfluxDB data source type */
@@ -547,8 +565,8 @@ export type InfluxDbDataFeedSource = {
   database: string;
   /** Database access user */
   userName: string;
-  /** Database access password */
-  password: string;
+  /** Database access password. Required by user for Create. Not returned by service */
+  password?: string;
   /** Query script */
   query: string;
   /** Authentication type */
@@ -557,11 +575,13 @@ export type InfluxDbDataFeedSource = {
 
 /**
  * Represents a MySQL data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type MySqlDataFeedSource = {
   /** MySql data source */
   dataSourceType: "MySql";
-  /** Database connection string */
+  /** Database connection string. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** Query script */
   query: string;
@@ -571,11 +591,13 @@ export type MySqlDataFeedSource = {
 
 /**
  * Represents a PostgreSQL data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type PostgreSqlDataFeedSource = {
   /** PostgreSQL data source */
   dataSourceType: "PostgreSql";
-  /** Database connection string */
+  /** Database connection string. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** Query script */
   query: string;
@@ -585,12 +607,14 @@ export type PostgreSqlDataFeedSource = {
 
 /**
  * Represents a MongoDB data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type MongoDbDataFeedSource = {
   /** MongoDB data source */
   dataSourceType: "MongoDB";
-  /** MongoDB connection string */
-  connectionString: string;
+  /** MongoDB connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Database name */
   database: string;
   /** Query script */

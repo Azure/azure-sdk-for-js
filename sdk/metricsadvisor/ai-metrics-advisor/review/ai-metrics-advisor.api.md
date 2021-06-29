@@ -107,7 +107,7 @@ export type AzureApplicationInsightsDataFeedSource = {
 // @public
 export type AzureBlobDataFeedSource = {
     dataSourceType: "AzureBlob";
-    connectionString: string;
+    connectionString?: string;
     container: string;
     blobTemplate: string;
     authenticationType: "Basic" | "ManagedIdentity";
@@ -151,7 +151,7 @@ export type AzureDataExplorerAuthTypes = AzureDataExplorerAuthBasic | AzureDataE
 // @public
 export type AzureDataExplorerDataFeedSource = {
     dataSourceType: "AzureDataExplorer";
-    connectionString: string;
+    connectionString?: string;
     query: string;
 } & AzureDataExplorerAuthTypes;
 
@@ -181,9 +181,6 @@ export type AzureLogAnalyticsAuthTypes = LogAnalyticsAuthBasic | LogAnalyticsAut
 // @public
 export type AzureLogAnalyticsDataFeedSource = {
     dataSourceType: "AzureLogAnalytics";
-    tenantId?: string;
-    clientId?: string;
-    clientSecret?: string;
     workspaceId: string;
     query: string;
 } & AzureLogAnalyticsAuthTypes;
@@ -191,7 +188,7 @@ export type AzureLogAnalyticsDataFeedSource = {
 // @public
 export type AzureTableDataFeedSource = {
     dataSourceType: "AzureTable";
-    connectionString: string;
+    connectionString?: string;
     table: string;
     query: string;
     authenticationType: "Basic";
@@ -335,7 +332,7 @@ export type DataFeedStatus = "Paused" | "Active";
 // @public
 export type DataLakeStorageGen2AuthBasic = {
     authenticationType: "Basic";
-    accountKey: string;
+    accountKey?: string;
 };
 
 // @public
@@ -609,7 +606,7 @@ export type InfluxDbDataFeedSource = {
     connectionString: string;
     database: string;
     userName: string;
-    password: string;
+    password?: string;
     query: string;
     authenticationType: "Basic";
 };
@@ -722,6 +719,9 @@ export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
 // @public
 export type LogAnalyticsAuthBasic = {
     authenticationType: "Basic";
+    tenantId: string;
+    clientId: string;
+    clientSecret?: string;
 };
 
 // @public
@@ -996,7 +996,7 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
 // @public
 export type MongoDbDataFeedSource = {
     dataSourceType: "MongoDB";
-    connectionString: string;
+    connectionString?: string;
     database: string;
     command: string;
     authenticationType: "Basic";

@@ -765,12 +765,14 @@ matrix([[true, false]] as const, async (useAad) => {
           createdLogAnalyticsId = actual.id;
           assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
           if (actual.source.dataSourceType === "AzureLogAnalytics") {
-            assert.equal(actual.source.clientId, expectedSource.clientId);
-            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
             assert.equal(actual.source.query, expectedSource.query);
-            assert.equal(actual.source.tenantId, expectedSource.tenantId);
             assert.equal(actual.source.workspaceId, expectedSource.workspaceId);
-            assert.equal(actual.source.clientSecret, undefined);
+            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
+            if (actual.source.authenticationType === "Basic") {
+              assert.equal(actual.source.tenantId, expectedSource.tenantId);
+              assert.equal(actual.source.clientId, expectedSource.clientId);
+              assert.equal(actual.source.clientSecret, undefined);
+            }
           }
         });
 
