@@ -66,7 +66,11 @@ export function createClient(
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  return new TextAnalyticsClient(env.ENDPOINT, credential, options);
+  return new TextAnalyticsClient(
+    env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
+    credential,
+    options
+  );
 }
 
 /**
