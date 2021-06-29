@@ -214,10 +214,77 @@ export interface ConnectedCluster extends TrackedResource {
    */
   readonly connectivityStatus?: ConnectivityStatus;
   /**
+   * Property which describes the state of private link on a connected cluster resource. Possible
+   * values include: 'Enabled', 'Disabled'. Default value: 'Disabled'.
+   */
+  privateLinkState?: PrivateLinkState;
+  /**
+   * The resource id of the private link scope this connected cluster is assigned to, if any.
+   */
+  privateLinkScopeResourceId?: string;
+  /**
    * Metadata pertaining to creation and last modification of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+}
+
+/**
+ * Contains the REP (rendezvous endpoint) and “Sender” access token.
+ */
+export interface HybridConnectionConfig {
+  /**
+   * Timestamp when this token will be expired.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expirationTime?: number;
+  /**
+   * Name of the connection
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hybridConnectionName?: string;
+  /**
+   * Name of the relay.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly relay?: string;
+  /**
+   * Sender access token
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly token?: string;
+}
+
+/**
+ * The credential result response.
+ */
+export interface CredentialResult {
+  /**
+   * The name of the credential.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: Uint8Array;
+}
+
+/**
+ * The list of credential result response.
+ */
+export interface CredentialResults {
+  /**
+   * Contains the REP (rendezvous endpoint) and “Sender” access token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hybridConnectionConfig?: HybridConnectionConfig;
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kubeconfigs?: CredentialResult[];
 }
 
 /**
@@ -229,10 +296,28 @@ export interface ConnectedClusterPatch {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Describes the connected cluster resource properties that can be updated during PATCH
-   * operation.
+   * Property which describes the state of private link on a connected cluster resource. Possible
+   * values include: 'Enabled', 'Disabled'
    */
-  properties?: any;
+  privateLinkState?: PrivateLinkState;
+  /**
+   * The resource id of the private link scope this connected cluster is assigned to, if any.
+   */
+  privateLinkScopeResourceId?: string;
+}
+
+/**
+ * An interface representing ListClusterUserCredentialsProperties.
+ */
+export interface ListClusterUserCredentialsProperties {
+  /**
+   * The mode of client authentication. Possible values include: 'Token', 'AAD'
+   */
+  authenticationMethod: AuthenticationMethod;
+  /**
+   * Boolean value to indicate whether the request is for client side proxy or not
+   */
+  clientProxy: boolean;
 }
 
 /**
@@ -371,6 +456,14 @@ export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Provision
 export type ConnectivityStatus = 'Connecting' | 'Connected' | 'Offline' | 'Expired';
 
 /**
+ * Defines values for PrivateLinkState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkState = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for CreatedByType.
  * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
  * @readonly
@@ -385,6 +478,14 @@ export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
  * @enum {string}
  */
 export type LastModifiedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for AuthenticationMethod.
+ * Possible values include: 'Token', 'AAD'
+ * @readonly
+ * @enum {string}
+ */
+export type AuthenticationMethod = 'Token' | 'AAD';
 
 /**
  * Contains response data for the create operation.
@@ -447,6 +548,26 @@ export type ConnectedClusterGetResponse = ConnectedCluster & {
 };
 
 /**
+ * Contains response data for the listClusterUserCredentials operation.
+ */
+export type ConnectedClusterListClusterUserCredentialsResponse = CredentialResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CredentialResults;
+    };
+};
+
+/**
  * Contains response data for the listByResourceGroup operation.
  */
 export type ConnectedClusterListByResourceGroupResponse = ConnectedClusterList & {
@@ -490,6 +611,26 @@ export type ConnectedClusterListBySubscriptionResponse = ConnectedClusterList & 
  * Contains response data for the beginCreate operation.
  */
 export type ConnectedClusterBeginCreateResponse = ConnectedCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectedCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ConnectedClusterBeginUpdateResponse = ConnectedCluster & {
   /**
    * The underlying HTTP response.
    */

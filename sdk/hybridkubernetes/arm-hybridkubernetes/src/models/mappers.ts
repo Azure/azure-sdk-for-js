@@ -309,12 +309,118 @@ export const ConnectedCluster: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      privateLinkState: {
+        serializedName: "properties.privateLinkState",
+        defaultValue: 'Disabled',
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkScopeResourceId: {
+        serializedName: "properties.privateLinkScopeResourceId",
+        type: {
+          name: "String"
+        }
+      },
       systemData: {
         readOnly: true,
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const HybridConnectionConfig: msRest.CompositeMapper = {
+  serializedName: "HybridConnectionConfig",
+  type: {
+    name: "Composite",
+    className: "HybridConnectionConfig",
+    modelProperties: {
+      expirationTime: {
+        readOnly: true,
+        serializedName: "expirationTime",
+        type: {
+          name: "Number"
+        }
+      },
+      hybridConnectionName: {
+        readOnly: true,
+        serializedName: "hybridConnectionName",
+        type: {
+          name: "String"
+        }
+      },
+      relay: {
+        readOnly: true,
+        serializedName: "relay",
+        type: {
+          name: "String"
+        }
+      },
+      token: {
+        readOnly: true,
+        serializedName: "token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CredentialResult: msRest.CompositeMapper = {
+  serializedName: "CredentialResult",
+  type: {
+    name: "Composite",
+    className: "CredentialResult",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
+export const CredentialResults: msRest.CompositeMapper = {
+  serializedName: "CredentialResults",
+  type: {
+    name: "Composite",
+    className: "CredentialResults",
+    modelProperties: {
+      hybridConnectionConfig: {
+        readOnly: true,
+        serializedName: "hybridConnectionConfig",
+        type: {
+          name: "Composite",
+          className: "HybridConnectionConfig"
+        }
+      },
+      kubeconfigs: {
+        readOnly: true,
+        serializedName: "kubeconfigs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CredentialResult"
+            }
+          }
         }
       }
     }
@@ -338,10 +444,40 @@ export const ConnectedClusterPatch: msRest.CompositeMapper = {
           }
         }
       },
-      properties: {
-        serializedName: "properties",
+      privateLinkState: {
+        serializedName: "properties.privateLinkState",
         type: {
-          name: "Object"
+          name: "String"
+        }
+      },
+      privateLinkScopeResourceId: {
+        serializedName: "properties.privateLinkScopeResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListClusterUserCredentialsProperties: msRest.CompositeMapper = {
+  serializedName: "ListClusterUserCredentialsProperties",
+  type: {
+    name: "Composite",
+    className: "ListClusterUserCredentialsProperties",
+    modelProperties: {
+      authenticationMethod: {
+        required: true,
+        serializedName: "authenticationMethod",
+        type: {
+          name: "String"
+        }
+      },
+      clientProxy: {
+        required: true,
+        serializedName: "clientProxy",
+        type: {
+          name: "Boolean"
         }
       }
     }

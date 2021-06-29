@@ -50,32 +50,9 @@ export class ConnectedClusterOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectedClusterUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, connectedClusterPatch: Models.ConnectedClusterPatch, options?: msRest.RequestOptionsBase): Promise<Models.ConnectedClusterUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Kubernetes cluster on which get is called.
-   * @param connectedClusterPatch Parameters supplied to update Connected Cluster.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, clusterName: string, connectedClusterPatch: Models.ConnectedClusterPatch, callback: msRest.ServiceCallback<Models.ConnectedCluster>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Kubernetes cluster on which get is called.
-   * @param connectedClusterPatch Parameters supplied to update Connected Cluster.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, clusterName: string, connectedClusterPatch: Models.ConnectedClusterPatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectedCluster>): void;
-  update(resourceGroupName: string, clusterName: string, connectedClusterPatch: Models.ConnectedClusterPatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectedCluster>, callback?: msRest.ServiceCallback<Models.ConnectedCluster>): Promise<Models.ConnectedClusterUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        clusterName,
-        connectedClusterPatch,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.ConnectedClusterUpdateResponse>;
+  update(resourceGroupName: string, clusterName: string, connectedClusterPatch: Models.ConnectedClusterPatch, options?: msRest.RequestOptionsBase): Promise<Models.ConnectedClusterUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,clusterName,connectedClusterPatch,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConnectedClusterUpdateResponse>;
   }
 
   /**
@@ -123,6 +100,43 @@ export class ConnectedClusterOperations {
   deleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,clusterName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets cluster user credentials of the connected cluster with a specified resource group and name.
+   * @summary Gets cluster user credentials of a connected cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param properties ListClusterUserCredentials properties
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ConnectedClusterListClusterUserCredentialsResponse>
+   */
+  listClusterUserCredentials(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialsProperties, options?: msRest.RequestOptionsBase): Promise<Models.ConnectedClusterListClusterUserCredentialsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param properties ListClusterUserCredentials properties
+   * @param callback The callback
+   */
+  listClusterUserCredentials(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialsProperties, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param properties ListClusterUserCredentials properties
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listClusterUserCredentials(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialsProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterUserCredentials(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialsProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ConnectedClusterListClusterUserCredentialsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        properties,
+        options
+      },
+      listClusterUserCredentialsOperationSpec,
+      callback) as Promise<Models.ConnectedClusterListClusterUserCredentialsResponse>;
   }
 
   /**
@@ -198,6 +212,27 @@ export class ConnectedClusterOperations {
         options
       },
       beginCreateOperationSpec,
+      options);
+  }
+
+  /**
+   * API to update certain properties of the connected cluster resource
+   * @summary Updates a connected cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param connectedClusterPatch Parameters supplied to update Connected Cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, clusterName: string, connectedClusterPatch: Models.ConnectedClusterPatch, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        connectedClusterPatch,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -281,38 +316,6 @@ export class ConnectedClusterOperations {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectedClusterPatch",
-    mapper: {
-      ...Mappers.ConnectedClusterPatch,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectedCluster
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
@@ -330,6 +333,38 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConnectedCluster
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}/listClusterUserCredentials",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "properties",
+    mapper: {
+      ...Mappers.ListClusterUserCredentialsProperties,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CredentialResults
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -413,6 +448,39 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ConnectedCluster
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectedClusterPatch",
+    mapper: {
+      ...Mappers.ConnectedClusterPatch,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectedCluster
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
