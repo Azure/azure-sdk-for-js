@@ -7,8 +7,13 @@
  */
 
 export {
+  discriminators,
+  Amount,
   ErrorDetails,
   ErrorResponse,
+  LegacyReservationRecommendation,
+  ModernReservationRecommendation,
   ReservationRecommendation,
-  ReservationRecommendationsListResult
+  ReservationRecommendationsListResult,
+  SkuProperty
 } from "../models/mappers";
