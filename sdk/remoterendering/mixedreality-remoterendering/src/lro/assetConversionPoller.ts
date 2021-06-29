@@ -110,10 +110,7 @@ class AssetConversionOperation
 /**
  * @internal
  */
-export class AssetConversionPoller extends Poller<
-  AssetConversionOperationState,
-  AssetConversion
-> {
+export class AssetConversionPoller extends Poller<AssetConversionOperationState, AssetConversion> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
