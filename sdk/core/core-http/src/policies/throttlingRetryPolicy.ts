@@ -76,17 +76,17 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       if (delayInMs) {
         this.numberOfRetries += 1;
 
-        await delay(delayInMs, undefined, {
-          abortSignal: httpRequest.abortSignal,
-          abortErrorMsg: StandardAbortMessage
-        });
-
-        if (httpRequest.abortSignal?.aborted) {
-          throw new AbortError(StandardAbortMessage);
-        }
-
         // The original request and up to DEFAULT_CLIENT_MAX_RETRY_COUNT retries
         if (this.numberOfRetries <= DEFAULT_CLIENT_MAX_RETRY_COUNT) {
+          await delay(delayInMs, undefined, {
+            abortSignal: httpRequest.abortSignal,
+            abortErrorMsg: StandardAbortMessage
+          });
+
+          if (httpRequest.abortSignal?.aborted) {
+            throw new AbortError(StandardAbortMessage);
+          }
+
           return this.sendRequest(httpRequest);
         } else {
           return this._nextPolicy.sendRequest(httpRequest);

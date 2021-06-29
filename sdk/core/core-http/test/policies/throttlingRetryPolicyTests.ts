@@ -136,6 +136,100 @@ describe("ThrottlingRetryPolicy", () => {
       assert.deepEqual(response, mockResponse);
     });
 
+    it("if the status code equals 429, it should retry up to 3 times", async () => {
+      const request = new WebResource();
+      const status = 429;
+      const retryResponse = {
+        status,
+        headers: new HttpHeaders({
+          "Retry-After": "1"
+        }),
+        request
+      };
+      const responses: HttpOperationResponse[] = [
+        retryResponse,
+        retryResponse,
+        retryResponse,
+        retryResponse,
+        // This one should be returned
+        {
+          status,
+          headers: new HttpHeaders({
+            "Retry-After": "1",
+            "final-response": "final-response"
+          }),
+          request
+        }
+      ];
+
+      const clock = sinon.useFakeTimers();
+
+      const policy = new ThrottlingRetryPolicy(
+        {
+          async sendRequest(): Promise<HttpOperationResponse> {
+            return responses.shift()!;
+          }
+        },
+        new RequestPolicyOptions()
+      );
+
+      const promise = policy.sendRequest(request);
+      clock.tickAsync(3000);
+
+      const response = await promise;
+      assert.deepEqual(response.status, status);
+      assert.deepEqual(response.headers.get("final-response"), "final-response");
+
+      clock.restore();
+    });
+
+    it("if the status code equals 503, it should retry up to 3 times", async () => {
+      const request = new WebResource();
+      const status = 503;
+      const retryResponse = {
+        status,
+        headers: new HttpHeaders({
+          "Retry-After": "1"
+        }),
+        request
+      };
+      const responses: HttpOperationResponse[] = [
+        retryResponse,
+        retryResponse,
+        retryResponse,
+        retryResponse,
+        // This one should be returned
+        {
+          status,
+          headers: new HttpHeaders({
+            "Retry-After": "1",
+            "final-response": "final-response"
+          }),
+          request
+        }
+      ];
+
+      const clock = sinon.useFakeTimers();
+
+      const policy = new ThrottlingRetryPolicy(
+        {
+          async sendRequest(): Promise<HttpOperationResponse> {
+            return responses.shift()!;
+          }
+        },
+        new RequestPolicyOptions()
+      );
+
+      const promise = policy.sendRequest(request);
+      clock.tickAsync(3000);
+
+      const response = await promise;
+      assert.deepEqual(response.status, status);
+      assert.deepEqual(response.headers.get("final-response"), "final-response");
+
+      clock.restore();
+    });
+
     it("should honor the abort signal passed", async () => {
       const request = new WebResource(
         "https://fakeservice.io",

@@ -140,12 +140,7 @@ async function retry(
 ): Promise<HttpOperationResponse> {
   function shouldPolicyRetry(responseParam?: HttpOperationResponse): boolean {
     const statusCode = responseParam?.status;
-    if (
-      statusCode &&
-      statusCode === 503 &&
-      response &&
-      response.headers.get(Constants.HeaderConstants.RETRY_AFTER)
-    ) {
+    if (statusCode === 503 && response?.headers.get(Constants.HeaderConstants.RETRY_AFTER)) {
       return false;
     }
 
