@@ -26,7 +26,7 @@ export class ContentItem {
   }
 
   /**
-   * Returns list of content items
+   * Lists developer portal's content items specified by the provided content type.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -62,7 +62,8 @@ export class ContentItem {
   }
 
   /**
-   * Returns content item metadata
+   * Returns the entity state (ETag) version of the developer portal's content item specified by its
+   * identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -102,7 +103,7 @@ export class ContentItem {
   }
 
   /**
-   * Returns content item details
+   * Returns the developer portal's content item specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -142,7 +143,7 @@ export class ContentItem {
   }
 
   /**
-   * Creates new content item
+   * Creates a new developer portal's content item specified by the provided content type.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -182,7 +183,7 @@ export class ContentItem {
   }
 
   /**
-   * Removes specified content item.
+   * Removes the specified developer portal's content item.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -229,7 +230,7 @@ export class ContentItem {
   }
 
   /**
-   * Returns list of content items
+   * Lists developer portal's content items specified by the provided content type.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentItemListByServiceNextResponse>

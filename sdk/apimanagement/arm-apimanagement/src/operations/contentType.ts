@@ -26,7 +26,8 @@ export class ContentType {
   }
 
   /**
-   * Returns list of content types
+   * Lists the developer portal's content types. Content types describe content items' properties,
+   * validation rules, and constraints.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -58,7 +59,8 @@ export class ContentType {
   }
 
   /**
-   * Gets API Management content type details.
+   * Gets the details of the developer portal's content type. Content types describe content items'
+   * properties, validation rules, and constraints.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -94,7 +96,9 @@ export class ContentType {
   }
 
   /**
-   * Creates or updates an Content Type.
+   * Creates or updates the developer portal's content type. Content types describe content items'
+   * properties, validation rules, and constraints. Custom content types' identifiers need to start
+   * with the `c-` prefix. Built-in content types can't be modified.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -130,7 +134,9 @@ export class ContentType {
   }
 
   /**
-   * Removes specified content type.
+   * Removes the specified developer portal's content type. Content types describe content items'
+   * properties, validation rules, and constraints. Built-in content types (with identifiers starting
+   * with the `c-` prefix) can't be removed.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
@@ -173,7 +179,8 @@ export class ContentType {
   }
 
   /**
-   * Returns list of content types
+   * Lists the developer portal's content types. Content types describe content items' properties,
+   * validation rules, and constraints.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentTypeListByServiceNextResponse>
