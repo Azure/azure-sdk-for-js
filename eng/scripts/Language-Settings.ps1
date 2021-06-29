@@ -131,7 +131,7 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
   }
 }
 
-# In the case of NPM packages, the "dev veresion" produced for the given build
+# In the case of NPM packages, the "dev version" produced for the given build
 # may not have been published if the code is identical to the code already 
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
