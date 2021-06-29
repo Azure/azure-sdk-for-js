@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Sample code demonstrating how to invoke modules on lva pipelines in Azure IoT hub",
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mediaservices",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mediaservices",
   "sideEffects": false,
   "dependencies": {
     "@azure/template": "latest",

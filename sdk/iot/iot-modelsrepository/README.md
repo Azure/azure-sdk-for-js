@@ -2,7 +2,7 @@
 
 This package contains an isomorphic Client Library for Azure IoT Models Repository in JavaScript. Use the Azure IoT Models Repository library for JavaScript to pull DTDL files from remote endpoints.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/iot-modelsrepository) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository) |
 [Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/) |
 Samples
 
@@ -16,8 +16,10 @@ The Azure IoT Models Repository library for JavaScript provides functionality fo
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### How to Install
 

@@ -33,39 +33,21 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlDatabasesResponse>
    */
-  listSqlDatabases(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlDatabasesResponse>;
+  listSqlDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlDatabasesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listSqlDatabases(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>
-  ): void;
+  listSqlDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlDatabases(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>
-  ): void;
-  listSqlDatabases(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabaseListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlDatabaseListResult>
-  ): Promise<Models.SqlResourcesListSqlDatabasesResponse> {
+  listSqlDatabases(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>): void;
+  listSqlDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabaseListResult>, callback?: msRest.ServiceCallback<Models.SqlDatabaseListResult>): Promise<Models.SqlResourcesListSqlDatabasesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,8 +55,7 @@ export class SqlResources {
         options
       },
       listSqlDatabasesOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlDatabasesResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlDatabasesResponse>;
   }
 
   /**
@@ -85,24 +66,14 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlDatabaseResponse>
    */
-  getSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlDatabaseResponse>;
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  getSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    callback: msRest.ServiceCallback<Models.SqlDatabaseGetResults>
-  ): void;
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SqlDatabaseGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -110,20 +81,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlDatabaseGetResults>
-  ): void;
-  getSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabaseGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlDatabaseGetResults>
-  ): Promise<Models.SqlResourcesGetSqlDatabaseResponse> {
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlDatabaseGetResults>): void;
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabaseGetResults>, callback?: msRest.ServiceCallback<Models.SqlDatabaseGetResults>): Promise<Models.SqlResourcesGetSqlDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,8 +91,7 @@ export class SqlResources {
         options
       },
       getSqlDatabaseOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlDatabaseResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlDatabaseResponse>;
   }
 
   /**
@@ -145,22 +103,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlDatabaseResponse>
    */
-  createUpdateSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    createUpdateSqlDatabaseParameters: Models.SqlDatabaseCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlDatabaseResponse> {
-    return this.beginCreateUpdateSqlDatabase(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      createUpdateSqlDatabaseParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlDatabaseResponse
-    >;
+  createUpdateSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateSqlDatabaseParameters: Models.SqlDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlDatabaseResponse> {
+    return this.beginCreateUpdateSqlDatabase(resourceGroupName,accountName,databaseName,createUpdateSqlDatabaseParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlDatabaseResponse>;
   }
 
   /**
@@ -171,18 +116,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlDatabase(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlDatabase(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -194,24 +130,14 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse>
    */
-  getSqlDatabaseThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse>;
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  getSqlDatabaseThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
-  ): void;
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -219,22 +145,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlDatabaseThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
-  ): void;
-  getSqlDatabaseThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
-    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
-  ): Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse> {
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,8 +155,7 @@ export class SqlResources {
         options
       },
       getSqlDatabaseThroughputOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse>;
   }
 
   /**
@@ -257,22 +168,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesUpdateSqlDatabaseThroughputResponse>
    */
-  updateSqlDatabaseThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesUpdateSqlDatabaseThroughputResponse> {
-    return this.beginUpdateSqlDatabaseThroughput(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      updateThroughputParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesUpdateSqlDatabaseThroughputResponse
-    >;
+  updateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesUpdateSqlDatabaseThroughputResponse> {
+    return this.beginUpdateSqlDatabaseThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesUpdateSqlDatabaseThroughputResponse>;
   }
 
   /**
@@ -283,20 +181,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>
    */
-  migrateSqlDatabaseToAutoscale(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse> {
-    return this.beginMigrateSqlDatabaseToAutoscale(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse
-    >;
+  migrateSqlDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse> {
+    return this.beginMigrateSqlDatabaseToAutoscale(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>;
   }
 
   /**
@@ -307,20 +194,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>
    */
-  migrateSqlDatabaseToManualThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse> {
-    return this.beginMigrateSqlDatabaseToManualThroughput(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse
-    >;
+  migrateSqlDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse> {
+    return this.beginMigrateSqlDatabaseToManualThroughput(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
   }
 
   /**
@@ -331,24 +207,14 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlContainersResponse>
    */
-  listSqlContainers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlContainersResponse>;
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlContainersResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  listSqlContainers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    callback: msRest.ServiceCallback<Models.SqlContainerListResult>
-  ): void;
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SqlContainerListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -356,20 +222,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlContainers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlContainerListResult>
-  ): void;
-  listSqlContainers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainerListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlContainerListResult>
-  ): Promise<Models.SqlResourcesListSqlContainersResponse> {
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlContainerListResult>): void;
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainerListResult>, callback?: msRest.ServiceCallback<Models.SqlContainerListResult>): Promise<Models.SqlResourcesListSqlContainersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -378,8 +232,7 @@ export class SqlResources {
         options
       },
       listSqlContainersOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlContainersResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlContainersResponse>;
   }
 
   /**
@@ -391,13 +244,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlContainerResponse>
    */
-  getSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlContainerResponse>;
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlContainerResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -405,13 +252,7 @@ export class SqlResources {
    * @param containerName Cosmos DB container name.
    * @param callback The callback
    */
-  getSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    callback: msRest.ServiceCallback<Models.SqlContainerGetResults>
-  ): void;
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlContainerGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -420,22 +261,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlContainerGetResults>
-  ): void;
-  getSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainerGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlContainerGetResults>
-  ): Promise<Models.SqlResourcesGetSqlContainerResponse> {
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlContainerGetResults>): void;
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainerGetResults>, callback?: msRest.ServiceCallback<Models.SqlContainerGetResults>): Promise<Models.SqlResourcesGetSqlContainerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -445,8 +272,7 @@ export class SqlResources {
         options
       },
       getSqlContainerOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlContainerResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlContainerResponse>;
   }
 
   /**
@@ -460,24 +286,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlContainerResponse>
    */
-  createUpdateSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    createUpdateSqlContainerParameters: Models.SqlContainerCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlContainerResponse> {
-    return this.beginCreateUpdateSqlContainer(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      createUpdateSqlContainerParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlContainerResponse
-    >;
+  createUpdateSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, createUpdateSqlContainerParameters: Models.SqlContainerCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlContainerResponse> {
+    return this.beginCreateUpdateSqlContainer(resourceGroupName,accountName,databaseName,containerName,createUpdateSqlContainerParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlContainerResponse>;
   }
 
   /**
@@ -489,20 +300,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlContainer(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlContainer(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -514,13 +314,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlContainerThroughputResponse>
    */
-  getSqlContainerThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlContainerThroughputResponse>;
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlContainerThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -528,13 +322,7 @@ export class SqlResources {
    * @param containerName Cosmos DB container name.
    * @param callback The callback
    */
-  getSqlContainerThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
-  ): void;
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -543,24 +331,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlContainerThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
-  ): void;
-  getSqlContainerThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
-    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
-  ): Promise<Models.SqlResourcesGetSqlContainerThroughputResponse> {
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.SqlResourcesGetSqlContainerThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -570,8 +342,7 @@ export class SqlResources {
         options
       },
       getSqlContainerThroughputOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlContainerThroughputResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlContainerThroughputResponse>;
   }
 
   /**
@@ -585,24 +356,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse>
    */
-  updateSqlContainerThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse> {
-    return this.beginUpdateSqlContainerThroughput(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      updateThroughputParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesUpdateSqlContainerThroughputResponse
-    >;
+  updateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse> {
+    return this.beginUpdateSqlContainerThroughput(resourceGroupName,accountName,databaseName,containerName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse>;
   }
 
   /**
@@ -614,22 +370,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse>
    */
-  migrateSqlContainerToAutoscale(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse> {
-    return this.beginMigrateSqlContainerToAutoscale(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse
-    >;
+  migrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse> {
+    return this.beginMigrateSqlContainerToAutoscale(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse>;
   }
 
   /**
@@ -641,22 +384,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse>
    */
-  migrateSqlContainerToManualThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse> {
-    return this.beginMigrateSqlContainerToManualThroughput(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse
-    >;
+  migrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse> {
+    return this.beginMigrateSqlContainerToManualThroughput(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse>;
   }
 
   /**
@@ -668,13 +398,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlStoredProceduresResponse>
    */
-  listSqlStoredProcedures(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlStoredProceduresResponse>;
+  listSqlStoredProcedures(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlStoredProceduresResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -682,13 +406,7 @@ export class SqlResources {
    * @param containerName Cosmos DB container name.
    * @param callback The callback
    */
-  listSqlStoredProcedures(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    callback: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>
-  ): void;
+  listSqlStoredProcedures(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -697,24 +415,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlStoredProcedures(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>
-  ): void;
-  listSqlStoredProcedures(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlStoredProcedureListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>
-  ): Promise<Models.SqlResourcesListSqlStoredProceduresResponse> {
+  listSqlStoredProcedures(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>): void;
+  listSqlStoredProcedures(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlStoredProcedureListResult>, callback?: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>): Promise<Models.SqlResourcesListSqlStoredProceduresResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -724,8 +426,7 @@ export class SqlResources {
         options
       },
       listSqlStoredProceduresOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlStoredProceduresResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlStoredProceduresResponse>;
   }
 
   /**
@@ -738,14 +439,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlStoredProcedureResponse>
    */
-  getSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlStoredProcedureResponse>;
+  getSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlStoredProcedureResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -754,14 +448,7 @@ export class SqlResources {
    * @param storedProcedureName Cosmos DB storedProcedure name.
    * @param callback The callback
    */
-  getSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    callback: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>
-  ): void;
+  getSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, callback: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -771,26 +458,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>
-  ): void;
-  getSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>
-  ): Promise<Models.SqlResourcesGetSqlStoredProcedureResponse> {
+  getSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>): void;
+  getSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>, callback?: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>): Promise<Models.SqlResourcesGetSqlStoredProcedureResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -801,8 +470,7 @@ export class SqlResources {
         options
       },
       getSqlStoredProcedureOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlStoredProcedureResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlStoredProcedureResponse>;
   }
 
   /**
@@ -817,26 +485,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlStoredProcedureResponse>
    */
-  createUpdateSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    createUpdateSqlStoredProcedureParameters: Models.SqlStoredProcedureCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlStoredProcedureResponse> {
-    return this.beginCreateUpdateSqlStoredProcedure(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      storedProcedureName,
-      createUpdateSqlStoredProcedureParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlStoredProcedureResponse
-    >;
+  createUpdateSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, createUpdateSqlStoredProcedureParameters: Models.SqlStoredProcedureCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlStoredProcedureResponse> {
+    return this.beginCreateUpdateSqlStoredProcedure(resourceGroupName,accountName,databaseName,containerName,storedProcedureName,createUpdateSqlStoredProcedureParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlStoredProcedureResponse>;
   }
 
   /**
@@ -849,22 +500,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlStoredProcedure(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      storedProcedureName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlStoredProcedure(resourceGroupName,accountName,databaseName,containerName,storedProcedureName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -876,13 +514,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse>
    */
-  listSqlUserDefinedFunctions(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse>;
+  listSqlUserDefinedFunctions(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -890,13 +522,7 @@ export class SqlResources {
    * @param containerName Cosmos DB container name.
    * @param callback The callback
    */
-  listSqlUserDefinedFunctions(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>
-  ): void;
+  listSqlUserDefinedFunctions(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -905,24 +531,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlUserDefinedFunctions(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>
-  ): void;
-  listSqlUserDefinedFunctions(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>
-  ): Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse> {
+  listSqlUserDefinedFunctions(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>): void;
+  listSqlUserDefinedFunctions(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>, callback?: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>): Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -932,8 +542,7 @@ export class SqlResources {
         options
       },
       listSqlUserDefinedFunctionsOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse>;
   }
 
   /**
@@ -946,14 +555,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse>
    */
-  getSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse>;
+  getSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -962,14 +564,7 @@ export class SqlResources {
    * @param userDefinedFunctionName Cosmos DB userDefinedFunction name.
    * @param callback The callback
    */
-  getSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>
-  ): void;
+  getSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -979,26 +574,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>
-  ): void;
-  getSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>
-  ): Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse> {
+  getSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>): void;
+  getSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>, callback?: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>): Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1009,8 +586,7 @@ export class SqlResources {
         options
       },
       getSqlUserDefinedFunctionOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse>;
   }
 
   /**
@@ -1025,26 +601,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>
    */
-  createUpdateSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    createUpdateSqlUserDefinedFunctionParameters: Models.SqlUserDefinedFunctionCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse> {
-    return this.beginCreateUpdateSqlUserDefinedFunction(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      userDefinedFunctionName,
-      createUpdateSqlUserDefinedFunctionParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse
-    >;
+  createUpdateSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, createUpdateSqlUserDefinedFunctionParameters: Models.SqlUserDefinedFunctionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse> {
+    return this.beginCreateUpdateSqlUserDefinedFunction(resourceGroupName,accountName,databaseName,containerName,userDefinedFunctionName,createUpdateSqlUserDefinedFunctionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>;
   }
 
   /**
@@ -1057,22 +616,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlUserDefinedFunction(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      userDefinedFunctionName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlUserDefinedFunction(resourceGroupName,accountName,databaseName,containerName,userDefinedFunctionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1084,13 +630,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlTriggersResponse>
    */
-  listSqlTriggers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlTriggersResponse>;
+  listSqlTriggers(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlTriggersResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1098,13 +638,7 @@ export class SqlResources {
    * @param containerName Cosmos DB container name.
    * @param callback The callback
    */
-  listSqlTriggers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    callback: msRest.ServiceCallback<Models.SqlTriggerListResult>
-  ): void;
+  listSqlTriggers(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlTriggerListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1113,22 +647,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlTriggers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlTriggerListResult>
-  ): void;
-  listSqlTriggers(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlTriggerListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlTriggerListResult>
-  ): Promise<Models.SqlResourcesListSqlTriggersResponse> {
+  listSqlTriggers(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlTriggerListResult>): void;
+  listSqlTriggers(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlTriggerListResult>, callback?: msRest.ServiceCallback<Models.SqlTriggerListResult>): Promise<Models.SqlResourcesListSqlTriggersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1138,8 +658,7 @@ export class SqlResources {
         options
       },
       listSqlTriggersOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlTriggersResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlTriggersResponse>;
   }
 
   /**
@@ -1152,14 +671,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlTriggerResponse>
    */
-  getSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlTriggerResponse>;
+  getSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlTriggerResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1168,14 +680,7 @@ export class SqlResources {
    * @param triggerName Cosmos DB trigger name.
    * @param callback The callback
    */
-  getSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    callback: msRest.ServiceCallback<Models.SqlTriggerGetResults>
-  ): void;
+  getSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, callback: msRest.ServiceCallback<Models.SqlTriggerGetResults>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1185,24 +690,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlTriggerGetResults>
-  ): void;
-  getSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlTriggerGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlTriggerGetResults>
-  ): Promise<Models.SqlResourcesGetSqlTriggerResponse> {
+  getSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlTriggerGetResults>): void;
+  getSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlTriggerGetResults>, callback?: msRest.ServiceCallback<Models.SqlTriggerGetResults>): Promise<Models.SqlResourcesGetSqlTriggerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1213,8 +702,7 @@ export class SqlResources {
         options
       },
       getSqlTriggerOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlTriggerResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlTriggerResponse>;
   }
 
   /**
@@ -1228,26 +716,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlTriggerResponse>
    */
-  createUpdateSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    createUpdateSqlTriggerParameters: Models.SqlTriggerCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlTriggerResponse> {
-    return this.beginCreateUpdateSqlTrigger(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      triggerName,
-      createUpdateSqlTriggerParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlTriggerResponse
-    >;
+  createUpdateSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, createUpdateSqlTriggerParameters: Models.SqlTriggerCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlTriggerResponse> {
+    return this.beginCreateUpdateSqlTrigger(resourceGroupName,accountName,databaseName,containerName,triggerName,createUpdateSqlTriggerParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlTriggerResponse>;
   }
 
   /**
@@ -1260,22 +731,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlTrigger(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      triggerName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlTrigger(resourceGroupName,accountName,databaseName,containerName,triggerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1286,24 +744,14 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>
    */
-  getSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
   /**
    * @param roleDefinitionId The GUID for the Role Definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  getSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>
-  ): void;
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): void;
   /**
    * @param roleDefinitionId The GUID for the Role Definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1311,22 +759,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>
-  ): void;
-  getSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>
-  ): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse> {
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): void;
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>, callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         roleDefinitionId,
@@ -1335,8 +769,7 @@ export class SqlResources {
         options
       },
       getSqlRoleDefinitionOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
   }
 
   /**
@@ -1349,22 +782,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse>
    */
-  createUpdateSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse> {
-    return this.beginCreateUpdateSqlRoleDefinition(
-      roleDefinitionId,
-      resourceGroupName,
-      accountName,
-      createUpdateSqlRoleDefinitionParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse
-    >;
+  createUpdateSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse> {
+    return this.beginCreateUpdateSqlRoleDefinition(roleDefinitionId,resourceGroupName,accountName,createUpdateSqlRoleDefinitionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse>;
   }
 
   /**
@@ -1375,18 +795,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlRoleDefinition(
-      roleDefinitionId,
-      resourceGroupName,
-      accountName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlRoleDefinition(roleDefinitionId,resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1396,41 +807,21 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>
    */
-  listSqlRoleDefinitions(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listSqlRoleDefinitions(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>
-  ): void;
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlRoleDefinitions(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>
-  ): void;
-  listSqlRoleDefinitions(
-    resourceGroupName: string,
-    accountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>
-  ): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse> {
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): void;
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>, callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1438,8 +829,7 @@ export class SqlResources {
         options
       },
       listSqlRoleDefinitionsOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
   }
 
   /**
@@ -1450,24 +840,14 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>
    */
-  getSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
   /**
    * @param roleAssignmentId The GUID for the Role Assignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  getSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>
-  ): void;
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): void;
   /**
    * @param roleAssignmentId The GUID for the Role Assignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1475,22 +855,8 @@ export class SqlResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>
-  ): void;
-  getSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>,
-    callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>
-  ): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse> {
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): void;
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>, callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         roleAssignmentId,
@@ -1499,8 +865,7 @@ export class SqlResources {
         options
       },
       getSqlRoleAssignmentOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
+      callback) as Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
   }
 
   /**
@@ -1513,22 +878,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse>
    */
-  createUpdateSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse> {
-    return this.beginCreateUpdateSqlRoleAssignment(
-      roleAssignmentId,
-      resourceGroupName,
-      accountName,
-      createUpdateSqlRoleAssignmentParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse
-    >;
+  createUpdateSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse> {
+    return this.beginCreateUpdateSqlRoleAssignment(roleAssignmentId,resourceGroupName,accountName,createUpdateSqlRoleAssignmentParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse>;
   }
 
   /**
@@ -1539,18 +891,9 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlRoleAssignment(
-      roleAssignmentId,
-      resourceGroupName,
-      accountName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlRoleAssignment(roleAssignmentId,resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1560,41 +903,21 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>
    */
-  listSqlRoleAssignments(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listSqlRoleAssignments(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>
-  ): void;
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSqlRoleAssignments(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>
-  ): void;
-  listSqlRoleAssignments(
-    resourceGroupName: string,
-    accountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>,
-    callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>
-  ): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse> {
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): void;
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1602,8 +925,22 @@ export class SqlResources {
         options
       },
       listSqlRoleAssignmentsOperationSpec,
-      callback
-    ) as Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
+      callback) as Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
+  }
+
+  /**
+   * Retrieves continuous backup information for a container resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param location The name of the continuous backup restore location.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse>
+   */
+  retrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: Models.ContinuousBackupRestoreLocation, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse> {
+    return this.beginRetrieveContinuousBackupInformation(resourceGroupName,accountName,databaseName,containerName,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse>;
   }
 
   /**
@@ -1615,13 +952,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    createUpdateSqlDatabaseParameters: Models.SqlDatabaseCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateSqlDatabaseParameters: Models.SqlDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1631,8 +962,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlDatabaseOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1643,12 +973,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlDatabase(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1657,8 +982,7 @@ export class SqlResources {
         options
       },
       beginDeleteSqlDatabaseOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1671,13 +995,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateSqlDatabaseThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1687,8 +1005,7 @@ export class SqlResources {
         options
       },
       beginUpdateSqlDatabaseThroughputOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1699,12 +1016,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateSqlDatabaseToAutoscale(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginMigrateSqlDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1713,8 +1025,7 @@ export class SqlResources {
         options
       },
       beginMigrateSqlDatabaseToAutoscaleOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1725,12 +1036,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateSqlDatabaseToManualThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginMigrateSqlDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1739,8 +1045,7 @@ export class SqlResources {
         options
       },
       beginMigrateSqlDatabaseToManualThroughputOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1754,14 +1059,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    createUpdateSqlContainerParameters: Models.SqlContainerCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, createUpdateSqlContainerParameters: Models.SqlContainerCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1772,8 +1070,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlContainerOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1785,13 +1082,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlContainer(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1801,8 +1092,7 @@ export class SqlResources {
         options
       },
       beginDeleteSqlContainerOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1816,14 +1106,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateSqlContainerThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1834,8 +1117,7 @@ export class SqlResources {
         options
       },
       beginUpdateSqlContainerThroughputOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1847,13 +1129,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateSqlContainerToAutoscale(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginMigrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1863,8 +1139,7 @@ export class SqlResources {
         options
       },
       beginMigrateSqlContainerToAutoscaleOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1876,13 +1151,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateSqlContainerToManualThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginMigrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1892,8 +1161,7 @@ export class SqlResources {
         options
       },
       beginMigrateSqlContainerToManualThroughputOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1908,15 +1176,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    createUpdateSqlStoredProcedureParameters: Models.SqlStoredProcedureCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, createUpdateSqlStoredProcedureParameters: Models.SqlStoredProcedureCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1928,8 +1188,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlStoredProcedureOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1942,14 +1201,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlStoredProcedure(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    storedProcedureName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1960,8 +1212,7 @@ export class SqlResources {
         options
       },
       beginDeleteSqlStoredProcedureOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -1976,15 +1227,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    createUpdateSqlUserDefinedFunctionParameters: Models.SqlUserDefinedFunctionCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, createUpdateSqlUserDefinedFunctionParameters: Models.SqlUserDefinedFunctionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1996,8 +1239,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlUserDefinedFunctionOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2010,14 +1252,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlUserDefinedFunction(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    userDefinedFunctionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2028,8 +1263,7 @@ export class SqlResources {
         options
       },
       beginDeleteSqlUserDefinedFunctionOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2043,15 +1277,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    createUpdateSqlTriggerParameters: Models.SqlTriggerCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, createUpdateSqlTriggerParameters: Models.SqlTriggerCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2063,8 +1289,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlTriggerOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2077,14 +1302,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlTrigger(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    triggerName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2095,8 +1313,7 @@ export class SqlResources {
         options
       },
       beginDeleteSqlTriggerOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2109,13 +1326,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleDefinitionId,
@@ -2125,8 +1336,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlRoleDefinitionOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2137,12 +1347,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlRoleDefinition(
-    roleDefinitionId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleDefinitionId,
@@ -2151,8 +1356,7 @@ export class SqlResources {
         options
       },
       beginDeleteSqlRoleDefinitionOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2165,13 +1369,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleAssignmentId,
@@ -2181,8 +1379,7 @@ export class SqlResources {
         options
       },
       beginCreateUpdateSqlRoleAssignmentOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2193,12 +1390,7 @@ export class SqlResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteSqlRoleAssignment(
-    roleAssignmentId: string,
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleAssignmentId,
@@ -2207,8 +1399,31 @@ export class SqlResources {
         options
       },
       beginDeleteSqlRoleAssignmentOperationSpec,
-      options
-    );
+      options);
+  }
+
+  /**
+   * Retrieves continuous backup information for a container resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param location The name of the continuous backup restore location.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRetrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: Models.ContinuousBackupRestoreLocation, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        location,
+        options
+      },
+      beginRetrieveContinuousBackupInformationOperationSpec,
+      options);
   }
 }
 
@@ -2216,11 +1431,18 @@ export class SqlResources {
 const serializer = new msRest.Serializer(Mappers);
 const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlDatabaseListResult
@@ -2234,16 +1456,19 @@ const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
 
 const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlDatabaseGetResults
@@ -2257,16 +1482,19 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
 
 const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -2280,16 +1508,19 @@ const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
 
 const listSqlContainersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlContainerListResult
@@ -2303,8 +1534,7 @@ const listSqlContainersOperationSpec: msRest.OperationSpec = {
 
 const getSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2312,8 +1542,12 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlContainerGetResults
@@ -2327,8 +1561,7 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
 
 const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2336,8 +1569,12 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -2351,8 +1588,7 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
 
 const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2360,8 +1596,12 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlStoredProcedureListResult
@@ -2375,8 +1615,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
 
 const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2385,8 +1624,12 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.storedProcedureName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlStoredProcedureGetResults
@@ -2400,8 +1643,7 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
 
 const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2409,8 +1651,12 @@ const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlUserDefinedFunctionListResult
@@ -2424,8 +1670,7 @@ const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
 
 const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2434,8 +1679,12 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.userDefinedFunctionName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlUserDefinedFunctionGetResults
@@ -2449,8 +1698,7 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
 
 const listSqlTriggersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2458,8 +1706,12 @@ const listSqlTriggersOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlTriggerListResult
@@ -2473,8 +1725,7 @@ const listSqlTriggersOperationSpec: msRest.OperationSpec = {
 
 const getSqlTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2483,8 +1734,12 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.triggerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlTriggerGetResults
@@ -2498,16 +1753,19 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
 
 const getSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
   urlParameters: [
     Parameters.roleDefinitionId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlRoleDefinitionGetResults
@@ -2521,11 +1779,18 @@ const getSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listSqlRoleDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlRoleDefinitionListResult
@@ -2539,16 +1804,19 @@ const listSqlRoleDefinitionsOperationSpec: msRest.OperationSpec = {
 
 const getSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
   urlParameters: [
     Parameters.roleAssignmentId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlRoleAssignmentGetResults
@@ -2562,11 +1830,18 @@ const getSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
 
 const listSqlRoleAssignmentsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SqlRoleAssignmentListResult
@@ -2580,16 +1855,19 @@ const listSqlRoleAssignmentsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlDatabaseParameters",
     mapper: {
@@ -2611,16 +1889,19 @@ const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     202: {},
     204: {},
@@ -2633,16 +1914,19 @@ const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -2664,16 +1948,19 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateSqlDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -2688,16 +1975,19 @@ const beginMigrateSqlDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateSqlDatabaseToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -2712,8 +2002,7 @@ const beginMigrateSqlDatabaseToManualThroughputOperationSpec: msRest.OperationSp
 
 const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2721,8 +2010,12 @@ const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlContainerParameters",
     mapper: {
@@ -2744,8 +2037,7 @@ const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2753,8 +2045,12 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     202: {},
     204: {},
@@ -2767,8 +2063,7 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2776,8 +2071,12 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -2799,8 +2098,7 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2808,8 +2106,12 @@ const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -2824,8 +2126,7 @@ const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2833,8 +2134,12 @@ const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationS
     Parameters.databaseName,
     Parameters.containerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -2849,8 +2154,7 @@ const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationS
 
 const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2859,8 +2163,12 @@ const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.storedProcedureName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlStoredProcedureParameters",
     mapper: {
@@ -2882,8 +2190,7 @@ const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2892,8 +2199,12 @@ const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.storedProcedureName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     202: {},
     204: {},
@@ -2906,8 +2217,7 @@ const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2916,8 +2226,12 @@ const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec
     Parameters.containerName,
     Parameters.userDefinedFunctionName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlUserDefinedFunctionParameters",
     mapper: {
@@ -2939,8 +2253,7 @@ const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec
 
 const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2949,8 +2262,12 @@ const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.userDefinedFunctionName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     202: {},
     204: {},
@@ -2963,8 +2280,7 @@ const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -2973,8 +2289,12 @@ const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.triggerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlTriggerParameters",
     mapper: {
@@ -2996,8 +2316,7 @@ const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -3006,8 +2325,12 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.triggerName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     202: {},
     204: {},
@@ -3020,16 +2343,19 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
   urlParameters: [
     Parameters.roleDefinitionId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlRoleDefinitionParameters",
     mapper: {
@@ -3051,16 +2377,19 @@ const beginCreateUpdateSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
   urlParameters: [
     Parameters.roleDefinitionId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -3074,16 +2403,19 @@ const beginDeleteSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
   urlParameters: [
     Parameters.roleAssignmentId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "createUpdateSqlRoleAssignmentParameters",
     mapper: {
@@ -3105,20 +2437,58 @@ const beginCreateUpdateSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
   urlParameters: [
     Parameters.roleAssignmentId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRetrieveContinuousBackupInformationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "location",
+    mapper: {
+      ...Mappers.ContinuousBackupRestoreLocation,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupInformation
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

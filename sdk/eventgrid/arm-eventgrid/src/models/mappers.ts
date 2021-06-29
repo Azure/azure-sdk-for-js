@@ -181,6 +181,7 @@ export const ResourceSku: msRest.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        defaultValue: 'Basic',
         type: {
           name: "String"
         }
@@ -373,6 +374,52 @@ export const TrackedResource: msRest.CompositeMapper = {
   }
 };
 
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const Domain: msRest.CompositeMapper = {
   serializedName: "Domain",
   type: {
@@ -381,6 +428,7 @@ export const Domain: msRest.CompositeMapper = {
     modelProperties: {
       ...TrackedResource.type.modelProperties,
       privateEndpointConnections: {
+        readOnly: true,
         serializedName: "properties.privateEndpointConnections",
         type: {
           name: "Sequence",
@@ -429,6 +477,7 @@ export const Domain: msRest.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
@@ -445,6 +494,27 @@ export const Domain: msRest.CompositeMapper = {
           }
         }
       },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoCreateTopicWithFirstSubscription: {
+        serializedName: "properties.autoCreateTopicWithFirstSubscription",
+        defaultValue: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoDeleteTopicWithLastSubscription: {
+        serializedName: "properties.autoDeleteTopicWithLastSubscription",
+        defaultValue: true,
+        type: {
+          name: "Boolean"
+        }
+      },
       sku: {
         serializedName: "sku",
         type: {
@@ -457,6 +527,14 @@ export const Domain: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IdentityInfo"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -496,6 +574,24 @@ export const DomainUpdateParameters: msRest.CompositeMapper = {
               className: "InboundIpRule"
             }
           }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoCreateTopicWithFirstSubscription: {
+        serializedName: "properties.autoCreateTopicWithFirstSubscription",
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoDeleteTopicWithLastSubscription: {
+        serializedName: "properties.autoDeleteTopicWithLastSubscription",
+        type: {
+          name: "Boolean"
         }
       },
       identity: {
@@ -563,9 +659,18 @@ export const DomainTopic: msRest.CompositeMapper = {
     modelProperties: {
       ...Resource.type.modelProperties,
       provisioningState: {
+        readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -652,6 +757,7 @@ export const EventChannelFilter: msRest.CompositeMapper = {
     modelProperties: {
       enableAdvancedFilteringOnArrays: {
         serializedName: "enableAdvancedFilteringOnArrays",
+        defaultValue: false,
         type: {
           name: "Boolean"
         }
@@ -1091,52 +1197,6 @@ export const IsNotNullAdvancedFilter: msRest.CompositeMapper = {
   }
 };
 
-export const SystemData: msRest.CompositeMapper = {
-  serializedName: "systemData",
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const EventChannel: msRest.CompositeMapper = {
   serializedName: "EventChannel",
   type: {
@@ -1337,12 +1397,14 @@ export const RetryPolicy: msRest.CompositeMapper = {
     modelProperties: {
       maxDeliveryAttempts: {
         serializedName: "maxDeliveryAttempts",
+        defaultValue: 30,
         type: {
           name: "Number"
         }
       },
       eventTimeToLiveInMinutes: {
         serializedName: "eventTimeToLiveInMinutes",
+        defaultValue: 1440,
         type: {
           name: "Number"
         }
@@ -1518,12 +1580,14 @@ export const WebHookEventSubscriptionDestination: msRest.CompositeMapper = {
       },
       maxEventsPerBatch: {
         serializedName: "properties.maxEventsPerBatch",
+        defaultValue: 1,
         type: {
           name: "Number"
         }
       },
       preferredBatchSizeInKilobytes: {
         serializedName: "properties.preferredBatchSizeInKilobytes",
+        defaultValue: 64,
         type: {
           name: "Number"
         }
@@ -1728,12 +1792,14 @@ export const AzureFunctionEventSubscriptionDestination: msRest.CompositeMapper =
       },
       maxEventsPerBatch: {
         serializedName: "properties.maxEventsPerBatch",
+        defaultValue: 1,
         type: {
           name: "Number"
         }
       },
       preferredBatchSizeInKilobytes: {
         serializedName: "properties.preferredBatchSizeInKilobytes",
+        defaultValue: 64,
         type: {
           name: "Number"
         }
@@ -1815,6 +1881,7 @@ export const EventSubscription: msRest.CompositeMapper = {
       },
       eventDeliverySchema: {
         serializedName: "properties.eventDeliverySchema",
+        defaultValue: 'EventGridSchema',
         type: {
           name: "String"
         }
@@ -2024,6 +2091,12 @@ export const Operation: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -2041,6 +2114,19 @@ export const PartnerNamespace: msRest.CompositeMapper = {
     className: "PartnerNamespace",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      privateEndpointConnections: {
+        readOnly: true,
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -2059,6 +2145,32 @@ export const PartnerNamespace: msRest.CompositeMapper = {
         serializedName: "properties.endpoint",
         type: {
           name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        defaultValue: 'Enabled',
+        type: {
+          name: "String"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
+            }
+          }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       },
       systemData: {
@@ -2088,6 +2200,30 @@ export const PartnerNamespaceUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
+            }
+          }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2333,34 +2469,6 @@ export const EventType: msRest.CompositeMapper = {
   }
 };
 
-export const PartnerRegistrationEventTypesListResult: msRest.CompositeMapper = {
-  serializedName: "PartnerRegistrationEventTypesListResult",
-  type: {
-    name: "Composite",
-    className: "PartnerRegistrationEventTypesListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EventType"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PartnerTopicUpdateParameters: msRest.CompositeMapper = {
   serializedName: "PartnerTopicUpdateParameters",
   type: {
@@ -2376,6 +2484,13 @@ export const PartnerTopicUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityInfo"
         }
       }
     }
@@ -2420,13 +2535,6 @@ export const PartnerTopic: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "IdentityInfo"
-        }
-      },
       systemData: {
         readOnly: true,
         serializedName: "systemData",
@@ -2434,74 +2542,12 @@ export const PartnerTopic: msRest.CompositeMapper = {
           name: "Composite",
           className: "SystemData"
         }
-      }
-    }
-  }
-};
-
-export const PartnerTopicType: msRest.CompositeMapper = {
-  serializedName: "PartnerTopicType",
-  type: {
-    name: "Composite",
-    className: "PartnerTopicType",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      partnerName: {
-        serializedName: "properties.partnerName",
-        type: {
-          name: "String"
-        }
       },
-      topicTypeName: {
-        serializedName: "properties.topicTypeName",
+      identity: {
+        serializedName: "identity",
         type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      setupUri: {
-        serializedName: "properties.setupUri",
-        type: {
-          name: "String"
-        }
-      },
-      authorizationState: {
-        serializedName: "properties.authorizationState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PartnerTopicTypesListResult: msRest.CompositeMapper = {
-  serializedName: "PartnerTopicTypesListResult",
-  type: {
-    name: "Composite",
-    className: "PartnerTopicTypesListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PartnerTopicType"
-            }
-          }
+          name: "Composite",
+          className: "IdentityInfo"
         }
       }
     }
@@ -2603,19 +2649,19 @@ export const SystemTopic: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "IdentityInfo"
-        }
-      },
       systemData: {
         readOnly: true,
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityInfo"
         }
       }
     }
@@ -2680,6 +2726,7 @@ export const Topic: msRest.CompositeMapper = {
     modelProperties: {
       ...TrackedResource.type.modelProperties,
       privateEndpointConnections: {
+        readOnly: true,
         serializedName: "properties.privateEndpointConnections",
         type: {
           name: "Sequence",
@@ -2728,6 +2775,7 @@ export const Topic: msRest.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
@@ -2742,6 +2790,13 @@ export const Topic: msRest.CompositeMapper = {
               className: "InboundIpRule"
             }
           }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       },
       sku: {
@@ -2769,6 +2824,14 @@ export const Topic: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ExtendedLocation"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -2815,6 +2878,12 @@ export const TopicUpdateParameters: msRest.CompositeMapper = {
               className: "InboundIpRule"
             }
           }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean"
         }
       },
       sku: {

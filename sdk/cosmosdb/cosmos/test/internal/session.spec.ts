@@ -4,7 +4,7 @@ import assert from "assert";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import * as sinon from "sinon";
-import { ClientContext } from "../../src";
+import { ClientContext, PluginConfig, PluginOn } from "../../src";
 import { OperationType, ResourceType, trimSlashes } from "../../src/common";
 import { ConsistencyLevel } from "../../src";
 import { Constants, CosmosClient } from "../../src";
@@ -14,6 +14,7 @@ import { endpoint, masterKey } from "../public/common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import * as RequestHandler from "../../src/request/RequestHandler";
 import { RequestContext } from "../../src";
+import { Response } from "../../src/request/Response";
 
 // TODO: there is alot of "any" types for tokens here
 // TODO: there is alot of leaky document client stuff here that will make removing document client hard
@@ -21,7 +22,8 @@ import { RequestContext } from "../../src";
 const client = new CosmosClient({
   endpoint,
   key: masterKey,
-  consistencyLevel: ConsistencyLevel.Session
+  consistencyLevel: ConsistencyLevel.Session,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
 });
 
 function getCollection2TokenMap(
@@ -30,7 +32,63 @@ function getCollection2TokenMap(
   return (sessionContainer as any).collectionResourceIdToSessionTokens;
 }
 
-describe("Session Token", function(this: Suite) {
+describe("New session token", function() {
+  it("preserves tokens", async function() {
+    let response: Response<any>;
+    let rqContext: RequestContext;
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, next) => {
+          rqContext = context;
+          response = await next(context);
+          return response;
+        }
+      }
+    ];
+    const sessionClient = new CosmosClient({
+      endpoint,
+      key: masterKey,
+      consistencyLevel: ConsistencyLevel.Session,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+      plugins
+    });
+    const containerId = "sessionTestColl";
+
+    const containerDefinition = {
+      id: containerId,
+      partitionKey: { paths: ["/id"] }
+    };
+    const containerOptions = { offerThroughput: 25100 };
+
+    const clientContext: ClientContext = (sessionClient as any).clientContext;
+    const sessionContainer: SessionContainer = (clientContext as any).sessionContainer;
+    const database = await getTestDatabase("session test", sessionClient);
+
+    const { resource: createdContainerDef } = await database.containers.create(
+      containerDefinition,
+      containerOptions
+    );
+    const container = database.container(createdContainerDef.id);
+
+    const resp = await container.items.create({ id: "1" });
+    await container.item("1").read();
+
+    await container.item("1").read();
+    const responseToken = resp.headers["x-ms-session-token"];
+    const token = sessionContainer.get({
+      isNameBased: true,
+      operationType: OperationType.Create,
+      resourceAddress: container.url,
+      resourceType: ResourceType.item,
+      resourceId: "1"
+    });
+    assert.equal(responseToken, token);
+    assert.equal(responseToken, rqContext.headers["x-ms-session-token"]);
+  });
+});
+
+describe.skip("Session Token", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const containerId = "sessionTestColl";
@@ -341,37 +399,12 @@ describe("Session Token", function(this: Suite) {
     await container.item("1", "1").read();
   });
 
-  // TODO: chrande - looks like this might be broken by going name based?
-  // We never had a name based version of this test. Looks like we fail to set the session token
-  // because OwnerId is missing on the header. This only happens for name based.
-  it.skip("client should not have session token of a container created by another client", async function() {
-    const client2 = new CosmosClient({
-      endpoint,
-      key: masterKey,
-      consistencyLevel: ConsistencyLevel.Session
-    });
-    const database = await getTestDatabase("clientshouldnothaveanotherclienttoken");
-    await database.containers.create(containerDefinition, containerOptions);
-    const container = database.container(containerDefinition.id);
-    await container.read();
-    await client2
-      .database(database.id)
-      .container(containerDefinition.id)
-      .delete();
-    await client2.database(database.id).containers.create(containerDefinition, containerOptions);
-    await client2
-      .database(database.id)
-      .container(containerDefinition.id)
-      .read();
-    assert.equal((client as any).clientContext.getSessionToken(container.url), ""); // TODO: _self
-    assert.notEqual((client2 as any).clientContext.getSessionToken(container.url), "");
-  });
-
   it("validate session container update on 'Not found' with 'undefined' status code for non master resource", async function() {
     const client2 = new CosmosClient({
       endpoint,
       key: masterKey,
-      consistencyLevel: ConsistencyLevel.Session
+      consistencyLevel: ConsistencyLevel.Session,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     const db = await getTestDatabase("session test", client);

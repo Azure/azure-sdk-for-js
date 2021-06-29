@@ -9,7 +9,7 @@
 ## 5.1.0-beta.6 (2021-05-18)
 
 ### New Features
-
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
 - `beginAnalyzeActions` adds support for analyze sentiment actions.
 - `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls service-side logging.

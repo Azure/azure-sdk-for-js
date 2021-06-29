@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createClientLogger, setLogLevel } from "@azure/logger";
 import { Delivery, ServiceBusReceivedMessage } from "../../../src";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 
@@ -16,4 +17,14 @@ export function getDeliveryProperty(message: ServiceBusReceivedMessage): Deliver
   throw new Error(
     "Received message does not contain a .delivery member - not a ServiceBusMessageImpl instance."
   );
+}
+
+export const testLogger = createClientLogger("test");
+
+export function enableCommonLoggers() {
+  setLogLevel("verbose");
+}
+
+export function disableCommonLoggers() {
+  setLogLevel();
 }

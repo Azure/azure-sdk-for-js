@@ -36,9 +36,20 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: Models.DiskAccess, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,diskAccessName,diskAccess,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DiskAccessesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: Models.DiskAccess,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      diskAccessName,
+      diskAccess,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DiskAccessesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -51,9 +62,20 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesUpdateResponse>
    */
-  update(resourceGroupName: string, diskAccessName: string, diskAccess: Models.DiskAccessUpdate, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,diskAccessName,diskAccess,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DiskAccessesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: Models.DiskAccessUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      diskAccessName,
+      diskAccess,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DiskAccessesUpdateResponse
+    >;
   }
 
   /**
@@ -65,7 +87,11 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesGetResponse>
    */
-  get(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesGetResponse>;
+  get(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -73,7 +99,11 @@ export class DiskAccesses {
    * A-Z, 0-9 and _. The maximum name length is 80 characters.
    * @param callback The callback
    */
-  get(resourceGroupName: string, diskAccessName: string, callback: msRest.ServiceCallback<Models.DiskAccess>): void;
+  get(
+    resourceGroupName: string,
+    diskAccessName: string,
+    callback: msRest.ServiceCallback<Models.DiskAccess>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -82,8 +112,18 @@ export class DiskAccesses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, diskAccessName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskAccess>): void;
-  get(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccess>, callback?: msRest.ServiceCallback<Models.DiskAccess>): Promise<Models.DiskAccessesGetResponse> {
+  get(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskAccess>
+  ): void;
+  get(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccess>,
+    callback?: msRest.ServiceCallback<Models.DiskAccess>
+  ): Promise<Models.DiskAccessesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +131,8 @@ export class DiskAccesses {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DiskAccessesGetResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesGetResponse>;
   }
 
   /**
@@ -103,9 +144,14 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,diskAccessName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, diskAccessName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -114,26 +160,41 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DiskAccessList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DiskAccessList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskAccessList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>, callback?: msRest.ServiceCallback<Models.DiskAccessList>): Promise<Models.DiskAccessesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskAccessList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>,
+    callback?: msRest.ServiceCallback<Models.DiskAccessList>
+  ): Promise<Models.DiskAccessesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DiskAccessesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesListByResourceGroupResponse>;
   }
 
   /**
@@ -150,14 +211,21 @@ export class DiskAccesses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskAccessList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>, callback?: msRest.ServiceCallback<Models.DiskAccessList>): Promise<Models.DiskAccessesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskAccessList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>,
+    callback?: msRest.ServiceCallback<Models.DiskAccessList>
+  ): Promise<Models.DiskAccessesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DiskAccessesListResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesListResponse>;
   }
 
   /**
@@ -169,7 +237,11 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse>
    */
-  getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse>;
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -177,7 +249,11 @@ export class DiskAccesses {
    * A-Z, 0-9 and _. The maximum name length is 80 characters.
    * @param callback The callback
    */
-  getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    diskAccessName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -186,8 +262,20 @@ export class DiskAccesses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse> {
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +283,8 @@ export class DiskAccesses {
         options
       },
       getPrivateLinkResourcesOperationSpec,
-      callback) as Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse>;
   }
 
   /**
@@ -211,9 +300,22 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesUpdateAPrivateEndpointConnectionResponse>
    */
-  updateAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesUpdateAPrivateEndpointConnectionResponse> {
-    return this.beginUpdateAPrivateEndpointConnection(resourceGroupName,diskAccessName,privateEndpointConnectionName,privateEndpointConnection,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DiskAccessesUpdateAPrivateEndpointConnectionResponse>;
+  updateAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnection: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesUpdateAPrivateEndpointConnectionResponse> {
+    return this.beginUpdateAPrivateEndpointConnection(
+      resourceGroupName,
+      diskAccessName,
+      privateEndpointConnectionName,
+      privateEndpointConnection,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DiskAccessesUpdateAPrivateEndpointConnectionResponse
+    >;
   }
 
   /**
@@ -226,7 +328,12 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse>
    */
-  getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse>;
+  getAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -235,7 +342,12 @@ export class DiskAccesses {
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param callback The callback
    */
-  getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  getAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -245,8 +357,20 @@ export class DiskAccesses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse> {
+  getAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  getAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -255,7 +379,8 @@ export class DiskAccesses {
         options
       },
       getAPrivateEndpointConnectionOperationSpec,
-      callback) as Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse>;
   }
 
   /**
@@ -268,9 +393,18 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteAPrivateEndpointConnection(resourceGroupName,diskAccessName,privateEndpointConnectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteAPrivateEndpointConnection(
+      resourceGroupName,
+      diskAccessName,
+      privateEndpointConnectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -282,7 +416,11 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse>
    */
-  listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse>;
+  listPrivateEndpointConnections(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -290,7 +428,11 @@ export class DiskAccesses {
    * A-Z, 0-9 and _. The maximum name length is 80 characters.
    * @param callback The callback
    */
-  listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  listPrivateEndpointConnections(
+    resourceGroupName: string,
+    diskAccessName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
@@ -299,8 +441,20 @@ export class DiskAccesses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse> {
+  listPrivateEndpointConnections(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
+  listPrivateEndpointConnections(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -308,7 +462,8 @@ export class DiskAccesses {
         options
       },
       listPrivateEndpointConnectionsOperationSpec,
-      callback) as Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse>;
   }
 
   /**
@@ -321,7 +476,12 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: Models.DiskAccess, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: Models.DiskAccess,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -330,7 +490,8 @@ export class DiskAccesses {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -343,7 +504,12 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: Models.DiskAccessUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: Models.DiskAccessUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -352,7 +518,8 @@ export class DiskAccesses {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -364,7 +531,11 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, diskAccessName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -372,7 +543,8 @@ export class DiskAccesses {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -388,7 +560,13 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnection: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -398,7 +576,8 @@ export class DiskAccesses {
         options
       },
       beginUpdateAPrivateEndpointConnectionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -411,7 +590,12 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -420,7 +604,8 @@ export class DiskAccesses {
         options
       },
       beginDeleteAPrivateEndpointConnectionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -429,26 +614,41 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiskAccessList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiskAccessList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskAccessList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>, callback?: msRest.ServiceCallback<Models.DiskAccessList>): Promise<Models.DiskAccessesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskAccessList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>,
+    callback?: msRest.ServiceCallback<Models.DiskAccessList>
+  ): Promise<Models.DiskAccessesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DiskAccessesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -457,7 +657,10 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -468,15 +671,24 @@ export class DiskAccesses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskAccessList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>, callback?: msRest.ServiceCallback<Models.DiskAccessList>): Promise<Models.DiskAccessesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskAccessList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskAccessList>,
+    callback?: msRest.ServiceCallback<Models.DiskAccessList>
+  ): Promise<Models.DiskAccessesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DiskAccessesListNextResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesListNextResponse>;
   }
 
   /**
@@ -485,26 +697,43 @@ export class DiskAccesses {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse>
    */
-  listPrivateEndpointConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse>;
+  listPrivateEndpointConnectionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listPrivateEndpointConnectionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  listPrivateEndpointConnectionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPrivateEndpointConnectionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  listPrivateEndpointConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse> {
+  listPrivateEndpointConnectionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
+  listPrivateEndpointConnectionsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listPrivateEndpointConnectionsNextOperationSpec,
-      callback) as Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse>;
+      callback
+    ) as Promise<Models.DiskAccessesListPrivateEndpointConnectionsNextResponse>;
   }
 }
 
@@ -512,18 +741,15 @@ export class DiskAccesses {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskAccess
@@ -537,17 +763,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskAccessList
@@ -562,15 +782,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskAccessList
@@ -584,18 +798,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult
@@ -609,19 +820,16 @@ const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
 
 const getAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -635,18 +843,15 @@ const getAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
 
 const listPrivateEndpointConnectionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
@@ -660,18 +865,15 @@ const listPrivateEndpointConnectionsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "diskAccess",
     mapper: {
@@ -695,18 +897,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "diskAccess",
     mapper: {
@@ -730,18 +929,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -755,19 +951,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateEndpointConnection",
     mapper: {
@@ -791,19 +984,16 @@ const beginUpdateAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec =
 
 const beginDeleteAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -819,15 +1009,9 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskAccessList
@@ -843,15 +1027,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskAccessList
@@ -867,15 +1045,9 @@ const listPrivateEndpointConnectionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult

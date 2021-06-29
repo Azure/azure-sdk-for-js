@@ -9,6 +9,7 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -41,13 +42,17 @@ export type ClientOptions = PipelineOptions & {
     };
     baseUrl?: string;
     apiVersion?: string;
+    allowInsecureConnection?: boolean;
 };
 
 // @public
 export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
 
 // @public
-export function getClient(baseUrl: string, options?: PipelineOptions): Client;
+export function createRestError(message: string, response: PathUncheckedResponse): RestError;
+
+// @public
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
@@ -79,7 +84,11 @@ export type RequestParameters = {
 };
 
 // @public
-export type RouteParams<TRoute extends string> = TRoute extends `{${infer _Param}}/${infer Tail}` ? [pathParam: string, ...pathParams: RouteParams<Tail>] : TRoute extends `{${infer _Param}}` ? [pathParam: string] : TRoute extends `${infer _Prefix}:${infer Tail}` ? RouteParams<`{${Tail}}`> : [];
+export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
+    pathParam: string,
+    ...pathParams: RouteParams<Tail>
+] : [
+];
 
 
 ```

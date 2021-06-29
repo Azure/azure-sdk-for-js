@@ -1364,6 +1364,9 @@ export class BlobClient extends StorageClient {
    * @param blobHTTPHeaders - If no value provided, or no value provided for
    *                                                   the specified blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
+   *                                                   A common header to set is `blobContentType`
+   *                                                   enabling the browser to provide functionality
+   *                                                   based on file type.
    * @param options - Optional options to Blob Set HTTP Headers operation.
    */
   public async setHTTPHeaders(
@@ -2135,7 +2138,10 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * HTTP headers to set when creating append blobs.
+   * HTTP headers to set when creating append blobs. A common header
+   * to set is `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2169,7 +2175,10 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * HTTP headers to set when creating append blobs.
+   * HTTP headers to set when creating append blobs. A common header to set is
+   * `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2731,7 +2740,10 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * HTTP headers to set when uploading to a block blob.
+   * HTTP headers to set when uploading to a block blob. A common header to set is
+   * `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2814,6 +2826,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
   copySourceBlobProperties?: boolean;
   /**
    * HTTP headers to set when uploading to a block blob.
+   *
+   * A common header to set is `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -3115,6 +3131,10 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 
   /**
    * Blob HTTP Headers.
+   *
+   * A common header to set is `blobContentType`, enabling the
+   * browser to provide functionality based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -3181,7 +3201,10 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Blob HTTP Headers.
+   * Blob HTTP Headers. A common header to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -3809,6 +3832,10 @@ export class BlockBlobClient extends BlobClient {
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
+   * A common {@link BlockBlobParallelUploadOptions.blobHTTPHeaders} option to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
+   *
    * @param data - Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
    * @param options -
    */
@@ -3861,6 +3888,10 @@ export class BlockBlobClient extends BlobClient {
    * When buffer length lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
+   *
+   * A common {@link BlockBlobParallelUploadOptions.blobHTTPHeaders} option to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
    *
    * @deprecated Use {@link uploadData} instead.
    *

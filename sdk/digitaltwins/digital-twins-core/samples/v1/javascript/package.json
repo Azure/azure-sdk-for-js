@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core",
   "dependencies": {
     "@azure/digital-twins-core": "latest",
     "dotenv": "latest",
