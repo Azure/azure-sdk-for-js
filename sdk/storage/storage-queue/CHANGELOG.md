@@ -1,15 +1,16 @@
 # Release History
 
-## 12.5.1 (Unreleased)
+## 12.6.0 (Unreleased)
 
 ### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
 ### Key Bugs Fixed
 
 ### Fixed
-
 
 ## 12.5.0 (2021-06-09)
 

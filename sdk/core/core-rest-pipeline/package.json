@@ -77,7 +77,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/",
   "sideEffects": false,
@@ -110,7 +110,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

@@ -20,7 +20,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 ## Prerequisites
 
-The samples are compatible with Node.ts >= 8.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to TypeScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 

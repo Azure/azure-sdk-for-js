@@ -6,7 +6,6 @@ import YAML from "yaml";
 
 import prettier from "prettier";
 
-import { MIN_SUPPORTED_NODE_VERSION } from "../util/sampleConfiguration";
 import { SampleReadmeConfiguration } from "../util/sampleGenerationInfo";
 
 /**
@@ -166,7 +165,7 @@ ${table(info)}
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=${MIN_SUPPORTED_NODE_VERSION}.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 ${(() => {
   if (info.useTypeScript) {

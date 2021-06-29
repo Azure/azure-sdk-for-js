@@ -1,15 +1,16 @@
 # Release History
 
-## 12.6.1 (Unreleased)
+## 12.7.0 (Unreleased)
 
 ### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
 ### Key Bugs Fixed
 
 ### Fixed
-
 
 ## 12.6.0 (2021-06-09)
 
@@ -240,8 +241,8 @@
 - Async iterators with pagination support are added for listing methods
   - `listFilesAndDirectories()` and `listShares()`
   - Please refer to the samples for async iterators in the `samples` folder.
-- [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
-- [Breaking] High level convenience functions are moved into clients as their instance member function.
+- [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
+- [Breaking] High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToAzureFile()`, `uploadStreamToAzureFile()`, `downloadAzureFileToBuffer()` and `uploadBrowserDataToAzureFile()` -> `FileClient.uploadFile()`,
     `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.

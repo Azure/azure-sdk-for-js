@@ -10,11 +10,17 @@ This exporter package assumes your application is [already instrumented](https:/
 
 `npm install @azure/monitor-opentelemetry-exporter`
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Application Insights workspace](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 8.5.0 or higher.
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- An [Application Insights workspace](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/)
 
 ### Distributed Tracing
 

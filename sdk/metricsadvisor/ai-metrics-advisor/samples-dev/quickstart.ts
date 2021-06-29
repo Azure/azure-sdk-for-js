@@ -15,7 +15,7 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   AnomalyAlert,
-  GetDataFeedResponse,
+  MetricsAdvisorDataFeed,
   MetricsAdvisorClient,
   WebNotificationHook,
   DataFeedDescriptor,
@@ -91,7 +91,7 @@ async function createDataFeed(
   adminClient: MetricsAdvisorAdministrationClient,
   sqlServerConnectionString: string,
   sqlServerQuery: string
-): Promise<GetDataFeedResponse> {
+): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const dataFeed: DataFeedDescriptor = {
     name: "test_datafeed_" + new Date().getTime().toString(),
@@ -277,7 +277,7 @@ async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: Anomal
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  const listIterator = client.listAnomalies(alert);
+  const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`

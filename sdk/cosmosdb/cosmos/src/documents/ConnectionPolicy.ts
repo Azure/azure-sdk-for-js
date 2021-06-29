@@ -10,7 +10,10 @@ export interface ConnectionPolicy {
   connectionMode?: ConnectionMode;
   /** Request timeout (time to wait for response from network peer). Represented in milliseconds. */
   requestTimeout?: number;
-  /** Flag to enable/disable automatic redirecting of requests based on read/write operations. */
+  /**
+   * Flag to enable/disable automatic redirecting of requests based on read/write operations. Default true.
+   * Required to call client.dispose() when this is set to true after destroying the CosmosClient inside another process or in the browser.
+   */
   enableEndpointDiscovery?: boolean;
   /** List of azure regions to be used as preferred locations for read requests. */
   preferredLocations?: string[];
@@ -21,16 +24,27 @@ export interface ConnectionPolicy {
    * Default is `false`.
    */
   useMultipleWriteLocations?: boolean;
+  /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
+  endpointRefreshRateInMs?: number;
+  /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
+   * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
+  enableBackgroundEndpointRefreshing?: boolean;
 }
 
 /**
  * @hidden
  */
-export const defaultConnectionPolicy = Object.freeze({
+export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   connectionMode: ConnectionMode.Gateway,
   requestTimeout: 60000,
   enableEndpointDiscovery: true,
   preferredLocations: [],
-  retryOptions: {},
-  useMultipleWriteLocations: true
+  retryOptions: {
+    maxRetryAttemptCount: 9,
+    fixedRetryIntervalInMilliseconds: 100,
+    maxWaitTimeInSeconds: 30
+  },
+  useMultipleWriteLocations: true,
+  endpointRefreshRateInMs: 300000,
+  enableBackgroundEndpointRefreshing: true
 });
