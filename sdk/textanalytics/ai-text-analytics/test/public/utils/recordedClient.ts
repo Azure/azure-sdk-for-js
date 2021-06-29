@@ -38,7 +38,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export type AuthMethod = "APIKey" | "AAD";
+export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 
 export function createClient(
   authMethod: AuthMethod,
@@ -56,6 +56,10 @@ export function createClient(
         env.AZURE_CLIENT_ID,
         env.AZURE_CLIENT_SECRET
       );
+      break;
+    }
+    case "DummyAPIKey": {
+      credential = new AzureKeyCredential("whatever");
       break;
     }
     default: {

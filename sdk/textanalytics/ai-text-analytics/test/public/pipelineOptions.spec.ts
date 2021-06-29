@@ -4,18 +4,14 @@
 import { assert } from "chai";
 
 import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient";
 
 import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { Context } from "mocha";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
-  beforeEach(function(this: Context) {
-    createRecorder(this);
-  });
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
-      const client = createClient("APIKey", {
+      const client = createClient("DummyAPIKey", {
         httpClient: {
           sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
             status: 200,
