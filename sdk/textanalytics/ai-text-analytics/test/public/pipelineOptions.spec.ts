@@ -7,7 +7,7 @@ import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../sr
 import { createClient } from "./utils/recordedClient";
 
 import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
-import "./utils/env"
+import "./utils/env";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
   it("use custom HTTPClient", async () => {
