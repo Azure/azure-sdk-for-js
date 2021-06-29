@@ -1,7 +1,7 @@
 pr:
   branches:
     include:
-    - track1/release
+    - feature/v4
     - '*-preview'
   paths:
     include:
