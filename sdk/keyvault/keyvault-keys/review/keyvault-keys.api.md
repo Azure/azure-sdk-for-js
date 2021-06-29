@@ -69,10 +69,16 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
+    // (undocumented)
+    exportable?: boolean;
     hsm?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
+    // Warning: (ae-forgotten-export) The symbol "KeyVaultKeyReleasePolicy" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    releasePolicy?: KeyVaultKeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
@@ -141,6 +147,8 @@ export interface DeletedKey {
         readonly scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
+    // (undocumented)
+    releasePolicy?: KeyVaultKeyReleasePolicy;
 }
 
 // @public
@@ -228,6 +236,11 @@ export class KeyClient {
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "ReleaseKeyOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ReleaseKeyResult" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    releaseKey(name: string, version: string, options: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
@@ -255,6 +268,8 @@ export interface KeyProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
+    // (undocumented)
+    exportable?: boolean;
     id?: string;
     readonly managed?: boolean;
     name: string;
@@ -280,6 +295,8 @@ export interface KeyVaultKey {
     keyType?: KeyType;
     name: string;
     properties: KeyProperties;
+    // (undocumented)
+    releasePolicy?: KeyVaultKeyReleasePolicy;
 }
 
 // @public
