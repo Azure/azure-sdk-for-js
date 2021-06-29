@@ -304,7 +304,7 @@ export interface RemoteRenderingListSessionsNextExceptionHeaders {
 }
 
 /** Known values of {@link AssetConversionStatus} that the service accepts. */
-export const enum KnownAssetConversionStatus {
+export enum KnownAssetConversionStatus {
   /** The conversion was created but hasn't started. */
   NotStarted = "NotStarted",
   /** The conversion is running. */
@@ -331,7 +331,7 @@ export const enum KnownAssetConversionStatus {
 export type AssetConversionStatus = string;
 
 /** Known values of {@link RenderingServerSize} that the service accepts. */
-export const enum KnownRenderingServerSize {
+export enum KnownRenderingServerSize {
   /** Standard rendering session size. */
   Standard = "Standard",
   /** Premium rendering session size. */
@@ -349,7 +349,7 @@ export const enum KnownRenderingServerSize {
 export type RenderingServerSize = string;
 
 /** Known values of {@link RenderingSessionStatus} that the service accepts. */
-export const enum KnownRenderingSessionStatus {
+export enum KnownRenderingSessionStatus {
   /** The rendering session has encountered an error, and is unusable. This is a terminal state. */
   Error = "Error",
   /** The rendering session enters the 'Expired' state when it has been in the 'Ready' state longer than its lease time. This is a terminal state. */
