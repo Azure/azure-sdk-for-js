@@ -3,6 +3,7 @@
 
 import chai from "chai";
 import {
+  Context,
   context as otContext,
   Context as OTContext,
   getSpanContext,
@@ -106,7 +107,7 @@ describe("Tracing tests", () => {
     );
 
     assert.equal(
-      getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
+      getSpanContext(options?.tracingOptions?.tracingContext! as Context)?.spanId,
       "my parent span id",
       "Parent span should be properly passed in."
     );
@@ -289,7 +290,7 @@ describe("Tracing tests", () => {
       assert.isFalse(Array.isArray(messages));
 
       assert.equal(
-        getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
+        getSpanContext(options?.tracingOptions?.tracingContext! as Context)!.spanId,
         "my parent span id"
       );
 

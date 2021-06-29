@@ -55,7 +55,7 @@ export function createServiceBusSpan(
     tracingOptions: {
       ...operationOptions?.tracingOptions,
       spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
+        ...(operationOptions?.tracingOptions?.spanOptions as object),
         ...additionalSpanOptions
       }
     }

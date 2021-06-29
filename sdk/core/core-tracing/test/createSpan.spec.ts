@@ -191,7 +191,7 @@ describe("createSpan", () => {
       const { span, updatedOptions } = createSpanFn("parent", op);
       assert.ok(span);
 
-      parentContext = updatedOptions.tracingOptions!.tracingContext!;
+      parentContext = updatedOptions.tracingOptions!.tracingContext! as Context;
 
       assert.ok(parentContext);
       assert.notDeepEqual(parentContext, otContext.active(), "new child context should be created");

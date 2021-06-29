@@ -6,13 +6,11 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
-import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Span } from '@azure/core-tracing';
-import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AbortSignalLike }
@@ -611,9 +609,9 @@ export interface RequestOptionsBase {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     serializerOptions?: SerializerOptions;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    spanOptions?: SpanOptions;
+    spanOptions?: unknown;
     timeout?: number;
-    tracingContext?: Context;
+    tracingContext?: unknown;
 }
 
 // @public (undocumented)
@@ -673,8 +671,8 @@ export interface RequestPrepareOptions {
         [key: string]: any | ParameterValue;
     };
     serializationMapper?: Mapper;
-    spanOptions?: SpanOptions;
-    tracingContext?: Context;
+    spanOptions?: unknown;
+    tracingContext?: unknown;
     url?: string;
 }
 
@@ -937,13 +935,13 @@ export class WebResource implements WebResourceLike {
     // (undocumented)
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    spanOptions?: SpanOptions;
+    spanOptions?: unknown;
     // @deprecated (undocumented)
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     // (undocumented)
     timeout: number;
-    tracingContext?: Context;
+    tracingContext?: unknown;
     // (undocumented)
     url: string;
     validateRequestProperties(): void;
@@ -973,12 +971,12 @@ export interface WebResourceLike {
     };
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    spanOptions?: SpanOptions;
+    spanOptions?: unknown;
     // @deprecated (undocumented)
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
-    tracingContext?: Context;
+    tracingContext?: unknown;
     url: string;
     validateRequestProperties(): void;
     withCredentials: boolean;

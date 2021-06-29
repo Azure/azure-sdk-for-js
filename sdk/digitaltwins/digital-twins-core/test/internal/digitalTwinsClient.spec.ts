@@ -33,7 +33,7 @@ import {
 } from "../../src/generated/models";
 import { DigitalTwinsClient } from "../../src/index";
 import { createSpan } from "../../src/tracing";
-import { getSpanContext } from "@azure/core-tracing";
+import { Context, getSpanContext } from "@azure/core-tracing";
 
 describe("DigitalTwinsClient", () => {
   let operationOptions: OperationOptions;
@@ -749,8 +749,8 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
     const expectedContext = _expectedOptions!.tracingOptions!.tracingContext!;
 
     assert.deepEqual(
-      getSpanContext(expectedContext),
-      getSpanContext(actualOptions.tracingOptions!.tracingContext!)
+      getSpanContext(expectedContext as Context),
+      getSpanContext(actualOptions.tracingOptions!.tracingContext! as Context)
     );
 
     // check all the other properties that aren't interestingly unique

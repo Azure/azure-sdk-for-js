@@ -8,7 +8,8 @@ import {
   SpanOptions,
   SpanKind,
   setSpan,
-  context as otContext
+  context as otContext,
+  Context
 } from "./interfaces";
 
 /**
@@ -59,11 +60,11 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const tracingOptions = operationOptions?.tracingOptions || {};
     const spanOptions: SpanOptions = {
       kind: SpanKind.INTERNAL,
-      ...tracingOptions.spanOptions
+      ...(tracingOptions.spanOptions as object)
     };
 
     const spanName = args.packagePrefix ? `${args.packagePrefix}.${operationName}` : operationName;
-    const span = tracer.startSpan(spanName, spanOptions, tracingOptions.tracingContext);
+    const span = tracer.startSpan(spanName, spanOptions, tracingOptions.tracingContext as Context);
 
     if (args.namespace) {
       span.setAttribute("az.namespace", args.namespace);
@@ -73,7 +74,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
 
     if (span.isRecording() && args.namespace) {
       newSpanOptions = {
-        ...tracingOptions.spanOptions,
+        ...(tracingOptions.spanOptions as Context),
         attributes: {
           ...spanOptions.attributes,
           "az.namespace": args.namespace
@@ -84,7 +85,10 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const newTracingOptions: Required<OperationTracingOptions> = {
       ...tracingOptions,
       spanOptions: newSpanOptions,
-      tracingContext: setSpan(tracingOptions.tracingContext || otContext.active(), span)
+      tracingContext: setSpan(
+        (tracingOptions.tracingContext as Context) || otContext.active(),
+        span
+      )
     };
 
     const newOperationOptions = {

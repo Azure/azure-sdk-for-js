@@ -5,7 +5,8 @@ import {
   getTraceParentHeader,
   OperationTracingOptions,
   createSpanFunction,
-  SpanStatusCode
+  SpanStatusCode,
+  Context
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
@@ -55,7 +56,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
       const tracingOptions: OperationTracingOptions = {
         ...request.tracingOptions,
         spanOptions: {
-          ...request.tracingOptions.spanOptions,
+          ...(request.tracingOptions.spanOptions as Context),
           kind: SpanKind.CLIENT
         }
       };

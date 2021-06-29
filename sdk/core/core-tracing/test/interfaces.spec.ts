@@ -78,7 +78,7 @@ describe("interface compatibility", () => {
     >> = {};
     assert.ok(t2, "core-tracing and core-auth should have the same properties");
 
-    const authTracingOptions: coreAuth.GetTokenOptions["tracingOptions"] = coreTracingOptions;
+    const authTracingOptions = coreTracingOptions;
     assert.ok(authTracingOptions);
   });
 });

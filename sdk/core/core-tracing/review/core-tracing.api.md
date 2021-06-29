@@ -107,8 +107,8 @@ export class NoOpTracer implements Tracer {
 
 // @public
 export interface OperationTracingOptions {
-    spanOptions?: SpanOptions;
-    tracingContext?: Context;
+    spanOptions?: unknown;
+    tracingContext?: unknown;
 }
 
 // @public

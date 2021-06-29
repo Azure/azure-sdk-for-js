@@ -57,7 +57,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     const { span } = createSpan(path, {
       tracingOptions: {
         spanOptions: {
-          ...request.spanOptions,
+          ...(request.spanOptions as object),
           kind: SpanKind.CLIENT
         },
         tracingContext: request.tracingContext

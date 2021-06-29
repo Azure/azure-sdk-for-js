@@ -48,8 +48,8 @@ export interface GetTokenOptions {
         timeout?: number;
     };
     tracingOptions?: {
-        spanOptions?: SpanOptions;
-        tracingContext?: Context;
+        spanOptions?: unknown;
+        tracingContext?: unknown;
     };
 }
 
