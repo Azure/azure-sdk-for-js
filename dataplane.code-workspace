@@ -273,6 +273,12 @@
       "path": "sdk/deviceupdate/iot-device-update"
     },
     {
+      "path": "sdk/web-pubsub/web-pubsub"
+    },
+    {
+      "path": "sdk/web-pubsub/web-pubsub-express"
+    },
+    {
       "name": "mixedreality-remoterendering",
       "path": "sdk/remoterendering/mixedreality-remoterendering"
     }

@@ -23,10 +23,14 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal) to use this package.
+### Currently supported environments
 
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
 
 ### Install the package
 
