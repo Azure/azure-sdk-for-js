@@ -7,22 +7,22 @@
  */
 
 import { MetricDefinitions } from "./operations";
-import { MetricsDefinitionsClientContext } from "./metricsDefinitionsClientContext";
+import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
-  MetricsDefinitionsClientOptionalParams,
-  ApiVersion20170501Preview
+  MonitorManagementClientOptionalParams,
+  ApiVersion201801
 } from "./models";
 
 /** @hidden */
-export class MetricsDefinitionsClient extends MetricsDefinitionsClientContext {
+export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
-   * Initializes a new instance of the MetricsDefinitionsClient class.
+   * Initializes a new instance of the MonitorManagementClient class.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20170501Preview,
-    options?: MetricsDefinitionsClientOptionalParams
+    apiVersion: ApiVersion201801,
+    options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);
     this.metricDefinitions = new MetricDefinitions(this);

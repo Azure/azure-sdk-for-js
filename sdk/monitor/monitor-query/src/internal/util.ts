@@ -7,7 +7,12 @@ import { QueryLogsOptions } from "../models/publicLogsModels";
  * @internal
  */
 export function formatPreferHeader(
-  args: Pick<QueryLogsOptions, "serverTimeoutInSeconds" | "includeQueryStatistics"> | undefined
+  args:
+    | Pick<
+        QueryLogsOptions,
+        "serverTimeoutInSeconds" | "includeQueryStatistics" | "includeVisualization"
+      >
+    | undefined
 ): { Prefer: string } | undefined {
   if (!args) {
     return undefined;
@@ -23,6 +28,10 @@ export function formatPreferHeader(
 
   if (args.includeQueryStatistics) {
     pairs.push("include-statistics=true");
+  }
+
+  if (args.includeVisualization) {
+    pairs.push("include-render=true");
   }
 
   if (pairs.length > 0) {

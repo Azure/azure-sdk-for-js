@@ -145,6 +145,7 @@ export const Constants: {
         };
         StatusCodes: {
             TooManyRequests: number;
+            ServiceUnavailable: number;
         };
     };
     HeaderConstants: {

@@ -3,15 +3,15 @@
 
 import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { AzureMonitorTraceExporter } from "../../../src/export/trace";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
   successfulBreezeResponse
-} from "../breezeTestUtils";
-import { FileSystemPersist, HttpSender } from "../../../src/platform";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+} from "../utils/breezeTestUtils";
+import { FileSystemPersist, HttpSender } from "../../src/platform";
+import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
 
 function toObject<T>(obj: T): T {

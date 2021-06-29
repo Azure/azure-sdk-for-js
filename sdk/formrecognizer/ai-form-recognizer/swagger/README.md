@@ -18,7 +18,7 @@ add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210121.2"
-package-version: "3.1.0"
+package-version: "3.2.0"
 disable-async-iterators: true
 hide-clients: true
 ```

@@ -7,22 +7,22 @@
  */
 
 import { MetricNamespaces } from "./operations";
-import { MetricsNamespacesClientContext } from "./metricsNamespacesClientContext";
+import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
-  MetricsNamespacesClientOptionalParams,
+  MonitorManagementClientOptionalParams,
   ApiVersion20171201Preview
 } from "./models";
 
 /** @hidden */
-export class MetricsNamespacesClient extends MetricsNamespacesClientContext {
+export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
-   * Initializes a new instance of the MetricsNamespacesClient class.
+   * Initializes a new instance of the MonitorManagementClient class.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
     apiVersion: ApiVersion20171201Preview,
-    options?: MetricsNamespacesClientOptionalParams
+    options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);
     this.metricNamespaces = new MetricNamespaces(this);

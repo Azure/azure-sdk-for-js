@@ -20,16 +20,22 @@ export interface MetricDefinition {
   isDimensionRequired?: boolean;
   /** the resource identifier of the resource that emitted the metric. */
   resourceId?: string;
+  /** the namespace the metric belongs to. */
+  namespace?: string;
   /** the name and the display name of the metric, i.e. it is a localizable string. */
   name?: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** Custom category name for this metric. */
   category?: string;
-  /** the unit of the metric. */
+  /** The class of the metric. */
+  metricClass?: MetricClass;
+  /** The unit of the metric. */
   unit?: MetricUnit;
   /** the primary aggregation type value defining how to use the values for display. */
   primaryAggregationType?: AggregationType;
+  /** the collection of what aggregation types are supported. */
+  supportedAggregationTypes?: AggregationType[];
   /** the collection of what aggregation intervals are available to be queried. */
   metricAvailabilities?: MetricAvailability[];
   /** the resource identifier of the metric definition. */
@@ -62,20 +68,42 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Known values of {@link ApiVersion20170501Preview} that the service accepts. */
-export const enum KnownApiVersion20170501Preview {
-  /** Api Version '2017-05-01-preview' */
-  TwoThousandSeventeen0501Preview = "2017-05-01-preview"
+/** Known values of {@link ApiVersion201801} that the service accepts. */
+export const enum KnownApiVersion201801 {
+  /** Api Version '2018-01-01' */
+  TwoThousandEighteen0101 = "2018-01-01"
 }
 
 /**
- * Defines values for ApiVersion20170501Preview. \
- * {@link KnownApiVersion20170501Preview} can be used interchangeably with ApiVersion20170501Preview,
+ * Defines values for ApiVersion201801. \
+ * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **2017-05-01-preview**: Api Version '2017-05-01-preview'
+ * **2018-01-01**: Api Version '2018-01-01'
  */
-export type ApiVersion20170501Preview = string;
+export type ApiVersion201801 = string;
+
+/** Known values of {@link MetricClass} that the service accepts. */
+export const enum KnownMetricClass {
+  Availability = "Availability",
+  Transactions = "Transactions",
+  Errors = "Errors",
+  Latency = "Latency",
+  Saturation = "Saturation"
+}
+
+/**
+ * Defines values for MetricClass. \
+ * {@link KnownMetricClass} can be used interchangeably with MetricClass,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Availability** \
+ * **Transactions** \
+ * **Errors** \
+ * **Latency** \
+ * **Saturation**
+ */
+export type MetricClass = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export const enum KnownMetricUnit {
@@ -143,7 +171,7 @@ export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
 };
 
 /** Optional parameters. */
-export interface MetricsDefinitionsClientOptionalParams
+export interface MonitorManagementClientOptionalParams
   extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;

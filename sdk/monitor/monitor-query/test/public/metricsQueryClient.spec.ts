@@ -9,11 +9,10 @@ import { createTestClientSecretCredential, getMetricsArmResourceId } from "./sha
 
 describe("MetricsClient live tests", function() {
   let resourceId: string;
-  let resourceNamespace: string;
   let metricsQueryClient: MetricsQueryClient;
 
   beforeEach(function(this: Context) {
-    ({ resourceNamespace, resourceId } = getMetricsArmResourceId(this));
+    ({ resourceId } = getMetricsArmResourceId(this));
     metricsQueryClient = new MetricsQueryClient(createTestClientSecretCredential());
   });
 
@@ -55,11 +54,24 @@ describe("MetricsClient live tests", function() {
       assert.isNotEmpty(newResults.metrics);
     }
 
-    // query for a metric we do know about
-    metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-      metricNames: ["Average_Uptime"],
-      metricNamespace: resourceNamespace
-    });
+    // pick the first query and use the namespace as well.
+
+    const firstMetricDefinition = metricDefinitions.definitions[0];
+
+    assert.isNotNull(firstMetricDefinition);
+    assert.isNotEmpty(firstMetricDefinition.name);
+    assert.isNotEmpty(firstMetricDefinition.namespace);
+
+    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(
+      resourceId,
+      Durations.last24Hours,
+      {
+        metricNames: [firstMetricDefinition.name!],
+        metricNamespace: firstMetricDefinition.namespace
+      }
+    );
+
+    assert.ok(individualMetricWithNamespace);
   });
 
   it("listNamespaces", async () => {

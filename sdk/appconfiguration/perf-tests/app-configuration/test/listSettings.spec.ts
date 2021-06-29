@@ -23,15 +23,18 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     }
   };
 
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
+    if (!this.parsedOptions.count.value) {
+      return;
+    }
     await executeParallel(
-      async (_count: number, _index: number) => {
+      async () => {
         await this.client.addConfigurationSetting({
           key: ListSettingsTest.prefix + generateUuid(),
           value: "random"
         });
       },
-      this.parsedOptions.count.value!,
+      this.parsedOptions.count.value,
       32
     );
   }
@@ -40,12 +43,13 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     for await (const response of this.client
       .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
       .byPage()) {
+        // eslint-disable-next-line no-empty
       for (const _ of response.items) {
       }
     }
   }
 
-  public async globalCleanup() {
+  public async globalCleanup(): Promise<void> {
     const keys: string[] = [];
     for await (const response of this.client
       .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
@@ -54,11 +58,14 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
         keys.push(setting.key);
       }
     }
+    if (!this.parsedOptions.count.value) {
+      return;
+    }
     await executeParallel(
-      async (count: number, _: number) => {
+      async (count: number) => {
         await this.client.deleteConfigurationSetting({ key: keys[count] });
       },
-      this.parsedOptions.count.value!,
+      this.parsedOptions.count.value,
       32
     );
   }

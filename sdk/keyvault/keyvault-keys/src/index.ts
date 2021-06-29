@@ -59,7 +59,8 @@ import {
   KeyClientOptions,
   CryptographyClientOptions,
   LATEST_API_VERSION,
-  CreateOctKeyOptions
+  CreateOctKeyOptions,
+  GetRandomBytesOptions
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -136,6 +137,7 @@ export {
   EncryptResult,
   GetDeletedKeyOptions,
   GetKeyOptions,
+  GetRandomBytesOptions,
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
@@ -647,6 +649,24 @@ export class KeyClient {
     return withTrace(`restoreKeyBackup`, options, async (updatedOptions) => {
       const response = await this.client.restoreKey(this.vaultUrl, backup, updatedOptions);
       return getKeyFromKeyBundle(response);
+    });
+  }
+
+  /**
+   * Gets the requested number of bytes containing random values from a managed HSM.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let bytes = await client.getRandomBytes(10);
+   * ```
+   * @param count - The number of bytes to generate between 1 and 128 inclusive.
+   * @param options - The optional parameters.
+   */
+  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<Uint8Array> {
+    return withTrace("getRandomBytes", options, async (updatedOptions) => {
+      const response = await this.client.getRandomBytes(this.vaultUrl, count, updatedOptions);
+      return response.value!;
     });
   }
 

@@ -62,6 +62,13 @@ export const KeyCreateParameters: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      releasePolicy: {
+        serializedName: "release_policy",
+        type: {
+          name: "Composite",
+          className: "KeyReleasePolicy"
+        }
       }
     }
   }
@@ -108,6 +115,28 @@ export const Attributes: coreHttp.CompositeMapper = {
   }
 };
 
+export const KeyReleasePolicy: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyReleasePolicy",
+    modelProperties: {
+      contentType: {
+        defaultValue: "application/json; charset=utf-8",
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Base64Url"
+        }
+      }
+    }
+  }
+};
+
 export const KeyBundle: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -139,6 +168,13 @@ export const KeyBundle: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      },
+      releasePolicy: {
+        serializedName: "release_policy",
+        type: {
+          name: "Composite",
+          className: "KeyReleasePolicy"
         }
       }
     }
@@ -332,6 +368,13 @@ export const KeyImportParameters: coreHttp.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
+      },
+      releasePolicy: {
+        serializedName: "release_policy",
+        type: {
+          name: "Composite",
+          className: "KeyReleasePolicy"
+        }
       }
     }
   }
@@ -365,6 +408,13 @@ export const KeyUpdateParameters: coreHttp.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      },
+      releasePolicy: {
+        serializedName: "release_policy",
+        type: {
+          name: "Composite",
+          className: "KeyReleasePolicy"
         }
       }
     }
@@ -622,6 +672,81 @@ export const KeyVerifyResult: coreHttp.CompositeMapper = {
   }
 };
 
+export const KeyExportParameters: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyExportParameters",
+    modelProperties: {
+      wrappingKey: {
+        serializedName: "wrappingKey",
+        type: {
+          name: "Composite",
+          className: "JsonWebKey"
+        }
+      },
+      wrappingKid: {
+        serializedName: "wrappingKid",
+        type: {
+          name: "String"
+        }
+      },
+      enc: {
+        serializedName: "enc",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyReleaseParameters: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyReleaseParameters",
+    modelProperties: {
+      target: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "target",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      nonce: {
+        serializedName: "nonce",
+        type: {
+          name: "String"
+        }
+      },
+      enc: {
+        serializedName: "enc",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyReleaseResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyReleaseResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeletedKeyListResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -645,6 +770,165 @@ export const DeletedKeyListResult: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyRotationPolicy: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyRotationPolicy",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      lifetimeActions: {
+        serializedName: "lifetimeActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LifetimeActions"
+            }
+          }
+        }
+      },
+      attributes: {
+        serializedName: "attributes",
+        type: {
+          name: "Composite",
+          className: "KeyRotationPolicyAttributes"
+        }
+      }
+    }
+  }
+};
+
+export const LifetimeActions: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LifetimeActions",
+    modelProperties: {
+      trigger: {
+        serializedName: "trigger",
+        type: {
+          name: "Composite",
+          className: "LifetimeActionsTrigger"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "LifetimeActionsType"
+        }
+      }
+    }
+  }
+};
+
+export const LifetimeActionsTrigger: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LifetimeActionsTrigger",
+    modelProperties: {
+      timeAfterCreate: {
+        serializedName: "timeAfterCreate",
+        type: {
+          name: "String"
+        }
+      },
+      timeBeforeExpiry: {
+        serializedName: "timeBeforeExpiry",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LifetimeActionsType: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LifetimeActionsType",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["rotate", "notify"]
+        }
+      }
+    }
+  }
+};
+
+export const KeyRotationPolicyAttributes: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyRotationPolicyAttributes",
+    modelProperties: {
+      expiryTime: {
+        serializedName: "expiryTime",
+        type: {
+          name: "String"
+        }
+      },
+      created: {
+        serializedName: "created",
+        readOnly: true,
+        type: {
+          name: "UnixTime"
+        }
+      },
+      updated: {
+        serializedName: "updated",
+        readOnly: true,
+        type: {
+          name: "UnixTime"
+        }
+      }
+    }
+  }
+};
+
+export const GetRandomBytesRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetRandomBytesRequest",
+    modelProperties: {
+      count: {
+        constraints: {
+          InclusiveMaximum: 128,
+          InclusiveMinimum: 1
+        },
+        serializedName: "count",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RandomBytes: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RandomBytes",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Base64Url"
         }
       }
     }
@@ -708,6 +992,12 @@ export const KeyAttributes: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      exportable: {
+        serializedName: "exportable",
+        type: {
+          name: "Boolean"
         }
       }
     }
