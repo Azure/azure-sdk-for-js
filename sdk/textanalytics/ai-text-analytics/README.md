@@ -495,10 +495,6 @@ async function main() {
 main();
 ```
 
-## Known Issues
-
-- At time of this SDK release, the `modelVersion` option to `beginAnalyzeHealthcareEntities` is ignored by the service. The service always processes the operation using the "latest" model.
-
 ## Troubleshooting
 
 ### Logging
