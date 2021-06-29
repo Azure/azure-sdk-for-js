@@ -65,8 +65,11 @@ function GetAdjustedReadmeContent($ReadmeContent, $PackageInfo, $PackageMetadata
     $foundTitle = $matches["filetitle"]
   }
 
-  $replacementPattern = "`${1}$tag"
-  $ReadmeContent = $ReadmeContent -replace $releaseReplaceRegex, $replacementPattern
+  # If this is not a daily dev package, perform link replacement
+  if (!$packageInfo.DevVersion) {
+    $replacementPattern = "`${1}$tag"
+    $ReadmeContent = $ReadmeContent -replace $releaseReplaceRegex, $replacementPattern
+  }
   
   $header = @"
 ---
