@@ -12,233 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * The presentation time range, this is asset related and not recommended for Account Filter.
- */
-export interface PresentationTimeRange {
-  /**
-   * The absolute start time boundary.
-   */
-  startTimestamp?: number;
-  /**
-   * The absolute end time boundary.
-   */
-  endTimestamp?: number;
-  /**
-   * The relative to end sliding window.
-   */
-  presentationWindowDuration?: number;
-  /**
-   * The relative to end right edge.
-   */
-  liveBackoffDuration?: number;
-  /**
-   * The time scale of time stamps.
-   */
-  timescale?: number;
-  /**
-   * The indicator of forcing existing of end time stamp.
-   */
-  forceEndTimestamp?: boolean;
-}
-
-/**
- * The class to specify one track property condition.
- */
-export interface FilterTrackPropertyCondition {
-  /**
-   * The track property type. Possible values include: 'Unknown', 'Type', 'Name', 'Language',
-   * 'FourCC', 'Bitrate'
-   */
-  property: FilterTrackPropertyType;
-  /**
-   * The track property value.
-   */
-  value: string;
-  /**
-   * The track property condition operation. Possible values include: 'Equal', 'NotEqual'
-   */
-  operation: FilterTrackPropertyCompareOperation;
-}
-
-/**
- * Filter First Quality
- */
-export interface FirstQuality {
-  /**
-   * The first quality bitrate.
-   */
-  bitrate: number;
-}
-
-/**
- * Representing a list of FilterTrackPropertyConditions to select a track.  The filters are
- * combined using a logical AND operation.
- */
-export interface FilterTrackSelection {
-  /**
-   * The track selections.
-   */
-  trackSelections: FilterTrackPropertyCondition[];
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * An Account Filter.
- */
-export interface AccountFilter extends ProxyResource {
-  /**
-   * The presentation time range.
-   */
-  presentationTimeRange?: PresentationTimeRange;
-  /**
-   * The first quality.
-   */
-  firstQuality?: FirstQuality;
-  /**
-   * The tracks selection conditions.
-   */
-  tracks?: FilterTrackSelection[];
-  /**
-   * The system metadata relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Information about an error.
- */
-export interface ODataError {
-  /**
-   * A language-independent error name.
-   */
-  code?: string;
-  /**
-   * The error message.
-   */
-  message?: string;
-  /**
-   * The target of the error (for example, the name of the property in error).
-   */
-  target?: string;
-  /**
-   * The error details.
-   */
-  details?: ODataError[];
-}
-
-/**
- * The API error.
- */
-export interface ApiError {
-  /**
-   * The error properties.
-   */
-  error?: ODataError;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * A resource provider.
- */
-export interface Provider {
-  /**
-   * The provider name.
-   */
-  providerName: string;
-}
-
-/**
  * Operation details.
  */
 export interface OperationDisplay {
@@ -324,6 +97,26 @@ export interface MetricSpecification {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly dimensions?: MetricDimension[];
+  /**
+   * Indicates whether regional MDM account is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enableRegionalMdmAccount?: boolean;
+  /**
+   * The source MDM account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMdmAccount?: string;
+  /**
+   * The source MDM namespace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMdmNamespace?: string;
+  /**
+   * The supported time grain types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedTimeGrainTypes?: string[];
 }
 
 /**
@@ -394,13 +187,14 @@ export interface Operation {
    * Operation properties format.
    */
   properties?: Properties;
-}
-
-/**
- * An interface representing Location.
- */
-export interface Location {
-  name: string;
+  /**
+   * Whether the operation applies to data-plane.
+   */
+  isDataAction?: boolean;
+  /**
+   * Indicates the action type. Possible values include: 'Internal'
+   */
+  actionType?: ActionType;
 }
 
 /**
@@ -422,6 +216,21 @@ export interface EntityNameAvailabilityCheckOutput {
 }
 
 /**
+ * An interface representing ResourceIdentity.
+ */
+export interface ResourceIdentity {
+  /**
+   * The user assigned managed identity's ARM ID to use when accessing a resource.
+   */
+  userAssignedIdentity?: string;
+  /**
+   * Indicates whether to use System Assigned Managed Identity. Mutual exclusive with User Assigned
+   * Managed Identity.
+   */
+  useSystemAssignedIdentity: boolean;
+}
+
+/**
  * The storage account details.
  */
 export interface StorageAccount {
@@ -436,6 +245,15 @@ export interface StorageAccount {
    * The type of the storage account. Possible values include: 'Primary', 'Secondary'
    */
   type: StorageAccountType;
+  /**
+   * The storage account identity.
+   */
+  identity?: ResourceIdentity;
+  /**
+   * The current status of the storage account mapping.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
@@ -478,6 +296,56 @@ export interface AccountEncryption {
    * The properties of the key used to encrypt the account.
    */
   keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The Key Vault identity.
+   */
+  identity?: ResourceIdentity;
+  /**
+   * The current status of the Key Vault mapping.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * An interface representing AccessControl.
+ */
+export interface AccessControl {
+  /**
+   * The behavior for IP access control in Key Delivery. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: DefaultAction;
+  /**
+   * The IP allow list for access control in Key Delivery. If the default action is set to 'Allow',
+   * the IP allow list must be empty.
+   */
+  ipAllowList?: string[];
+}
+
+/**
+ * An interface representing KeyDelivery.
+ */
+export interface KeyDelivery {
+  /**
+   * The access control properties for Key Delivery.
+   */
+  accessControl?: AccessControl;
+}
+
+/**
+ * An interface representing UserAssignedManagedIdentity.
+ */
+export interface UserAssignedManagedIdentity {
+  /**
+   * The client ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+  /**
+   * The principal ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
 }
 
 /**
@@ -485,9 +353,9 @@ export interface AccountEncryption {
  */
 export interface MediaServiceIdentity {
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   * The identity type.
    */
-  type: ManagedIdentityType;
+  type: string;
   /**
    * The Principal ID of the identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -498,6 +366,82 @@ export interface MediaServiceIdentity {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
+  /**
+   * The user assigned managed identities.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedManagedIdentity };
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
 }
 
 /**
@@ -522,6 +466,15 @@ export interface MediaService extends TrackedResource {
    */
   encryption?: AccountEncryption;
   /**
+   * The Key Delivery properties for Media Services account.
+   */
+  keyDelivery?: KeyDelivery;
+  /**
+   * Whether or not public network access is allowed for resources under the Media Services
+   * account. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
    * The Managed Identity for the Media Services account.
    */
   identity?: MediaServiceIdentity;
@@ -530,6 +483,46 @@ export interface MediaService extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+}
+
+/**
+ * A Media Services account update.
+ */
+export interface MediaServiceUpdate {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The Media Services account ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mediaServiceId?: string;
+  /**
+   * The storage accounts for this resource.
+   */
+  storageAccounts?: StorageAccount[];
+  /**
+   * Possible values include: 'System', 'ManagedIdentity'
+   */
+  storageAuthentication?: StorageAuthentication;
+  /**
+   * The account encryption properties.
+   */
+  encryption?: AccountEncryption;
+  /**
+   * The Key Delivery properties for Media Services account.
+   */
+  keyDelivery?: KeyDelivery;
+  /**
+   * Whether or not public network access is allowed for resources under the Media Services
+   * account. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The Managed Identity for the Media Services account.
+   */
+  identity?: MediaServiceIdentity;
 }
 
 /**
@@ -591,6 +584,16 @@ export interface EdgePolicies {
 }
 
 /**
+ * A collection of Operation items.
+ */
+export interface OperationCollection {
+  /**
+   * A collection of Operation items.
+   */
+  value?: Operation[];
+}
+
+/**
  * The input to the check name availability request.
  */
 export interface CheckNameAvailabilityInput {
@@ -602,6 +605,85 @@ export interface CheckNameAvailabilityInput {
    * The account type. For a Media Services account, this should be 'MediaServices'.
    */
   type?: string;
+}
+
+/**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -693,6 +775,99 @@ export interface PrivateLinkResourceListResult {
    * Array of private link resources
    */
   value?: PrivateLinkResource[];
+}
+
+/**
+ * The presentation time range, this is asset related and not recommended for Account Filter.
+ */
+export interface PresentationTimeRange {
+  /**
+   * The absolute start time boundary.
+   */
+  startTimestamp?: number;
+  /**
+   * The absolute end time boundary.
+   */
+  endTimestamp?: number;
+  /**
+   * The relative to end sliding window.
+   */
+  presentationWindowDuration?: number;
+  /**
+   * The relative to end right edge.
+   */
+  liveBackoffDuration?: number;
+  /**
+   * The time scale of time stamps.
+   */
+  timescale?: number;
+  /**
+   * The indicator of forcing existing of end time stamp.
+   */
+  forceEndTimestamp?: boolean;
+}
+
+/**
+ * The class to specify one track property condition.
+ */
+export interface FilterTrackPropertyCondition {
+  /**
+   * The track property type. Possible values include: 'Unknown', 'Type', 'Name', 'Language',
+   * 'FourCC', 'Bitrate'
+   */
+  property: FilterTrackPropertyType;
+  /**
+   * The track property value.
+   */
+  value: string;
+  /**
+   * The track property condition operation. Possible values include: 'Equal', 'NotEqual'
+   */
+  operation: FilterTrackPropertyCompareOperation;
+}
+
+/**
+ * Filter First Quality
+ */
+export interface FirstQuality {
+  /**
+   * The first quality bitrate.
+   */
+  bitrate: number;
+}
+
+/**
+ * Representing a list of FilterTrackPropertyConditions to select a track.  The filters are
+ * combined using a logical AND operation.
+ */
+export interface FilterTrackSelection {
+  /**
+   * The track selections.
+   */
+  trackSelections: FilterTrackPropertyCondition[];
+}
+
+/**
+ * An Account Filter.
+ */
+export interface AccountFilter extends ProxyResource {
+  /**
+   * The presentation time range.
+   */
+  presentationTimeRange?: PresentationTimeRange;
+  /**
+   * The first quality.
+   */
+  firstQuality?: FirstQuality;
+  /**
+   * The tracks selection conditions.
+   */
+  tracks?: FilterTrackSelection[];
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -1399,2179 +1574,6 @@ export interface ContentKeyPolicy extends ProxyResource {
 }
 
 /**
- * Contains the possible cases for Preset.
- */
-export type PresetUnion = Preset | FaceDetectorPreset | AudioAnalyzerPresetUnion | BuiltInStandardEncoderPreset | StandardEncoderPreset;
-
-/**
- * Base type for all Presets, which define the recipe or instructions on how the input media files
- * should be processed.
- */
-export interface Preset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "Preset";
-}
-
-/**
- * Contains the possible cases for Codec.
- */
-export type CodecUnion = Codec | AudioUnion | VideoUnion | CopyVideo | CopyAudio;
-
-/**
- * Describes the basic properties of all codecs.
- */
-export interface Codec {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "Codec";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-}
-
-/**
- * Contains the possible cases for Audio.
- */
-export type AudioUnion = Audio | AacAudio;
-
-/**
- * Defines the common properties for all audio codecs.
- */
-export interface Audio {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.Audio";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The number of channels in the audio.
-   */
-  channels?: number;
-  /**
-   * The sampling rate to use for encoding in hertz.
-   */
-  samplingRate?: number;
-  /**
-   * The bitrate, in bits per second, of the output encoded audio.
-   */
-  bitrate?: number;
-}
-
-/**
- * Describes Advanced Audio Codec (AAC) audio encoding settings.
- */
-export interface AacAudio {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.AacAudio";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The number of channels in the audio.
-   */
-  channels?: number;
-  /**
-   * The sampling rate to use for encoding in hertz.
-   */
-  samplingRate?: number;
-  /**
-   * The bitrate, in bits per second, of the output encoded audio.
-   */
-  bitrate?: number;
-  /**
-   * The encoding profile to be used when encoding audio with AAC. Possible values include:
-   * 'AacLc', 'HeAacV1', 'HeAacV2'
-   */
-  profile?: AacAudioProfile;
-}
-
-/**
- * Contains the possible cases for Layer.
- */
-export type LayerUnion = Layer | H265VideoLayerUnion | VideoLayerUnion | JpgLayer | PngLayer;
-
-/**
- * The encoder can be configured to produce video and/or images (thumbnails) at different
- * resolutions, by specifying a layer for each desired resolution. A layer represents the
- * properties for the video or image at a resolution.
- */
-export interface Layer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "Layer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-}
-
-/**
- * Contains the possible cases for H265VideoLayer.
- */
-export type H265VideoLayerUnion = H265VideoLayer | H265Layer;
-
-/**
- * Describes the settings to be used when encoding the input video into a desired output bitrate
- * layer.
- */
-export interface H265VideoLayer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.H265VideoLayer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-  /**
-   * The average bitrate in bits per second at which to encode the input video when generating this
-   * layer. For example: a target bitrate of 3000Kbps or 3Mbps means this value should be 3000000
-   * This is a required field.
-   */
-  bitrate: number;
-  /**
-   * The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill.
-   * If not specified, defaults to the same value as bitrate.
-   */
-  maxBitrate?: number;
-  /**
-   * The number of B-frames to be used when encoding this layer.  If not specified, the encoder
-   * chooses an appropriate number based on the video profile and level.
-   */
-  bFrames?: number;
-  /**
-   * The frame rate (in frames per second) at which to encode this layer. The value can be in the
-   * form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number
-   * (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on
-   * the profile and level. If it is not specified, the encoder will use the same frame rate as the
-   * input video.
-   */
-  frameRate?: string;
-  /**
-   * The number of slices to be used when encoding this layer. If not specified, default is zero,
-   * which means that encoder will use a single slice for each frame.
-   */
-  slices?: number;
-  /**
-   * Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not
-   * specified, the encoder will turn it on whenever the video profile permits its use.
-   */
-  adaptiveBFrame?: boolean;
-}
-
-/**
- * Describes the settings to be used when encoding the input video into a desired output bitrate
- * layer with the H.265 video codec.
- */
-export interface H265Layer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.H265Layer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-  /**
-   * The average bitrate in bits per second at which to encode the input video when generating this
-   * layer. For example: a target bitrate of 3000Kbps or 3Mbps means this value should be 3000000
-   * This is a required field.
-   */
-  bitrate: number;
-  /**
-   * The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill.
-   * If not specified, defaults to the same value as bitrate.
-   */
-  maxBitrate?: number;
-  /**
-   * The number of B-frames to be used when encoding this layer.  If not specified, the encoder
-   * chooses an appropriate number based on the video profile and level.
-   */
-  bFrames?: number;
-  /**
-   * The frame rate (in frames per second) at which to encode this layer. The value can be in the
-   * form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number
-   * (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on
-   * the profile and level. If it is not specified, the encoder will use the same frame rate as the
-   * input video.
-   */
-  frameRate?: string;
-  /**
-   * The number of slices to be used when encoding this layer. If not specified, default is zero,
-   * which means that encoder will use a single slice for each frame.
-   */
-  slices?: number;
-  /**
-   * Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not
-   * specified, the encoder will turn it on whenever the video profile permits its use.
-   */
-  adaptiveBFrame?: boolean;
-  /**
-   * We currently support Main. Default is Auto. Possible values include: 'Auto', 'Main'
-   */
-  profile?: H265VideoProfile;
-  /**
-   * We currently support Level up to 6.2. The value can be Auto, or a number that matches the
-   * H.265 profile. If not specified, the default is Auto, which lets the encoder choose the Level
-   * that is appropriate for this layer.
-   */
-  level?: string;
-  /**
-   * The VBV buffer window length. The value should be in ISO 8601 format. The value should be in
-   * the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
-   */
-  bufferWindow?: string;
-  /**
-   * The number of reference frames to be used when encoding this layer. If not specified, the
-   * encoder determines an appropriate number based on the encoder complexity setting.
-   */
-  referenceFrames?: number;
-}
-
-/**
- * Contains the possible cases for Video.
- */
-export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
-
-/**
- * Describes the basic properties for encoding the input video.
- */
-export interface Video {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.Video";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
-   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
-   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
-   * the input source setting.
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-  /**
-   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
-   */
-  syncMode?: VideoSyncMode;
-}
-
-/**
- * Describes all the properties for encoding a video with the H.265 codec.
- */
-export interface H265Video {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.H265Video";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
-   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
-   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
-   * the input source setting.
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-  /**
-   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
-   */
-  syncMode?: VideoSyncMode;
-  /**
-   * Specifies whether or not the encoder should insert key frames at scene changes. If not
-   * specified, the default is false. This flag should be set to true only when the encoder is
-   * being configured to produce a single output video.
-   */
-  sceneChangeDetection?: boolean;
-  /**
-   * Tells the encoder how to choose its encoding settings.  Quality will provide for a higher
-   * compression ratio but at a higher cost and longer compute time.  Speed will produce a
-   * relatively larger file but is faster and more economical. The default value is Balanced.
-   * Possible values include: 'Speed', 'Balanced', 'Quality'
-   */
-  complexity?: H265Complexity;
-  /**
-   * The collection of output H.265 layers to be produced by the encoder.
-   */
-  layers?: H265Layer[];
-}
-
-/**
- * Contains the possible cases for TrackDescriptor.
- */
-export type TrackDescriptorUnion = TrackDescriptor | AudioTrackDescriptorUnion | VideoTrackDescriptorUnion;
-
-/**
- * Base type for all TrackDescriptor types, which define the metadata and selection for tracks that
- * should be processed by a Job
- */
-export interface TrackDescriptor {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "TrackDescriptor";
-}
-
-/**
- * Contains the possible cases for AudioTrackDescriptor.
- */
-export type AudioTrackDescriptorUnion = AudioTrackDescriptor | SelectAudioTrackByAttribute | SelectAudioTrackById;
-
-/**
- * A TrackSelection to select audio tracks.
- */
-export interface AudioTrackDescriptor {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.AudioTrackDescriptor";
-  /**
-   * Optional designation for single channel audio tracks.  Can be used to combine the tracks into
-   * stereo or multi-channel audio tracks. Possible values include: 'FrontLeft', 'FrontRight',
-   * 'Center', 'LowFrequencyEffects', 'BackLeft', 'BackRight', 'StereoLeft', 'StereoRight'
-   */
-  channelMapping?: ChannelMapping;
-}
-
-/**
- * Select audio tracks from the input by specifying an attribute and an attribute filter.
- */
-export interface SelectAudioTrackByAttribute {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.SelectAudioTrackByAttribute";
-  /**
-   * Optional designation for single channel audio tracks.  Can be used to combine the tracks into
-   * stereo or multi-channel audio tracks. Possible values include: 'FrontLeft', 'FrontRight',
-   * 'Center', 'LowFrequencyEffects', 'BackLeft', 'BackRight', 'StereoLeft', 'StereoRight'
-   */
-  channelMapping?: ChannelMapping;
-  /**
-   * The TrackAttribute to filter the tracks by. Possible values include: 'Bitrate', 'Language'
-   */
-  attribute: TrackAttribute;
-  /**
-   * The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
-   * Possible values include: 'All', 'Top', 'Bottom', 'ValueEquals'
-   */
-  filter: AttributeFilter;
-  /**
-   * The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified
-   * for the Filter property.
-   */
-  filterValue?: string;
-}
-
-/**
- * Select audio tracks from the input by specifying a track identifier.
- */
-export interface SelectAudioTrackById {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.SelectAudioTrackById";
-  /**
-   * Optional designation for single channel audio tracks.  Can be used to combine the tracks into
-   * stereo or multi-channel audio tracks. Possible values include: 'FrontLeft', 'FrontRight',
-   * 'Center', 'LowFrequencyEffects', 'BackLeft', 'BackRight', 'StereoLeft', 'StereoRight'
-   */
-  channelMapping?: ChannelMapping;
-  /**
-   * Track identifier to select
-   */
-  trackId: number;
-}
-
-/**
- * Contains the possible cases for InputDefinition.
- */
-export type InputDefinitionUnion = InputDefinition | FromAllInputFile | FromEachInputFile | InputFile;
-
-/**
- * Base class for defining an input. Use sub classes of this class to specify tracks selections and
- * related metadata.
- */
-export interface InputDefinition {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "InputDefinition";
-  /**
-   * The list of TrackDescriptors which define the metadata and selection of tracks in the input.
-   */
-  includedTracks?: TrackDescriptorUnion[];
-}
-
-/**
- * An InputDefinition that looks across all of the files provided to select tracks specified by the
- * IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute
- * to allow selection of a single track across a set of input files.
- */
-export interface FromAllInputFile {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.FromAllInputFile";
-  /**
-   * The list of TrackDescriptors which define the metadata and selection of tracks in the input.
-   */
-  includedTracks?: TrackDescriptorUnion[];
-}
-
-/**
- * An InputDefinition that looks at each input file provided to select tracks specified by the
- * IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute
- * to select tracks from each file given.
- */
-export interface FromEachInputFile {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.FromEachInputFile";
-  /**
-   * The list of TrackDescriptors which define the metadata and selection of tracks in the input.
-   */
-  includedTracks?: TrackDescriptorUnion[];
-}
-
-/**
- * An InputDefinition for a single file.  TrackSelections are scoped to the file specified.
- */
-export interface InputFile {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.InputFile";
-  /**
-   * The list of TrackDescriptors which define the metadata and selection of tracks in the input.
-   */
-  includedTracks?: TrackDescriptorUnion[];
-  /**
-   * Name of the file that this input definition applies to.
-   */
-  filename?: string;
-}
-
-/**
- * Describes all the settings to be used when analyzing a video in order to detect (and optionally
- * redact) all the faces present.
- */
-export interface FaceDetectorPreset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.FaceDetectorPreset";
-  /**
-   * Specifies the maximum resolution at which your video is analyzed. The default behavior is
-   * "SourceResolution," which will keep the input video at its original resolution when analyzed.
-   * Using "StandardDefinition" will resize input videos to standard definition while preserving
-   * the appropriate aspect ratio. It will only resize if the video is of higher resolution. For
-   * example, a 1920x1080 input would be scaled to 640x360 before processing. Switching to
-   * "StandardDefinition" will reduce the time it takes to process high resolution video. It may
-   * also reduce the cost of using this component (see
-   * https://azure.microsoft.com/en-us/pricing/details/media-services/#analytics for details).
-   * However, faces that end up being too small in the resized video may not be detected. Possible
-   * values include: 'SourceResolution', 'StandardDefinition'
-   */
-  resolution?: AnalysisResolution;
-  /**
-   * This mode provides the ability to choose between the following settings: 1) Analyze - For
-   * detection only.This mode generates a metadata JSON file marking appearances of faces
-   * throughout the video.Where possible, appearances of the same person are assigned the same ID.
-   * 2) Combined - Additionally redacts(blurs) detected faces. 3) Redact - This enables a 2-pass
-   * process, allowing for selective redaction of a subset of detected faces.It takes in the
-   * metadata file from a prior analyze pass, along with the source video, and a user-selected
-   * subset of IDs that require redaction. Possible values include: 'Analyze', 'Redact', 'Combined'
-   */
-  mode?: FaceRedactorMode;
-  /**
-   * Blur type. Possible values include: 'Box', 'Low', 'Med', 'High', 'Black'
-   */
-  blurType?: BlurType;
-  /**
-   * Dictionary containing key value pairs for parameters not exposed in the preset itself
-   */
-  experimentalOptions?: { [propertyName: string]: string };
-}
-
-/**
- * Contains the possible cases for AudioAnalyzerPreset.
- */
-export type AudioAnalyzerPresetUnion = AudioAnalyzerPreset | VideoAnalyzerPreset;
-
-/**
- * The Audio Analyzer preset applies a pre-defined set of AI-based analysis operations, including
- * speech transcription. Currently, the preset supports processing of content with a single audio
- * track.
- */
-export interface AudioAnalyzerPreset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.AudioAnalyzerPreset";
-  /**
-   * The language for the audio payload in the input using the BCP-47 format of 'language
-   * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
-   * you specify it. The language must be specified explicitly for AudioAnalysisMode::Basic, since
-   * automatic language detection is not included in basic mode. If the language isn't specified or
-   * set to null, automatic language detection will choose the first language detected and process
-   * with the selected language for the duration of the file. It does not currently support
-   * dynamically switching between languages after the first language is detected. The automatic
-   * detection works best with audio recordings with clearly discernable speech. If automatic
-   * detection fails to find the language, transcription would fallback to 'en-US'." The list of
-   * supported languages is available here: https://go.microsoft.com/fwlink/?linkid=2109463
-   */
-  audioLanguage?: string;
-  /**
-   * Determines the set of audio analysis operations to be performed. If unspecified, the Standard
-   * AudioAnalysisMode would be chosen. Possible values include: 'Standard', 'Basic'
-   */
-  mode?: AudioAnalysisMode;
-  /**
-   * Dictionary containing key value pairs for parameters not exposed in the preset itself
-   */
-  experimentalOptions?: { [propertyName: string]: string };
-}
-
-/**
- * Contains the possible cases for Overlay.
- */
-export type OverlayUnion = Overlay | AudioOverlay | VideoOverlay;
-
-/**
- * Base type for all overlays - image, audio or video.
- */
-export interface Overlay {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "Overlay";
-  /**
-   * The label of the job input which is to be used as an overlay. The Input must specify exactly
-   * one file. You can specify an image file in JPG, PNG, GIF or BMP format, or an audio file (such
-   * as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the
-   * complete list of supported audio and video file formats.
-   */
-  inputLabel: string;
-  /**
-   * The start position, with reference to the input video, at which the overlay starts. The value
-   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds into the
-   * input video. If not specified the overlay starts from the beginning of the input video.
-   */
-  start?: string;
-  /**
-   * The end position, with reference to the input video, at which the overlay ends. The value
-   * should be in ISO 8601 format. For example, PT30S to end the overlay at 30 seconds into the
-   * input video. If not specified or the value is greater than the input video duration, the
-   * overlay will be applied until the end of the input video if the overlay media duration is
-   * greater than the input video duration, else the overlay will last as long as the overlay media
-   * duration.
-   */
-  end?: string;
-  /**
-   * The duration over which the overlay fades in onto the input video. The value should be in ISO
-   * 8601 duration format. If not specified the default behavior is to have no fade in (same as
-   * PT0S).
-   */
-  fadeInDuration?: string;
-  /**
-   * The duration over which the overlay fades out of the input video. The value should be in ISO
-   * 8601 duration format. If not specified the default behavior is to have no fade out (same as
-   * PT0S).
-   */
-  fadeOutDuration?: string;
-  /**
-   * The gain level of audio in the overlay. The value should be in the range [0, 1.0]. The default
-   * is 1.0.
-   */
-  audioGainLevel?: number;
-}
-
-/**
- * Describes the properties of an audio overlay.
- */
-export interface AudioOverlay {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.AudioOverlay";
-  /**
-   * The label of the job input which is to be used as an overlay. The Input must specify exactly
-   * one file. You can specify an image file in JPG, PNG, GIF or BMP format, or an audio file (such
-   * as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the
-   * complete list of supported audio and video file formats.
-   */
-  inputLabel: string;
-  /**
-   * The start position, with reference to the input video, at which the overlay starts. The value
-   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds into the
-   * input video. If not specified the overlay starts from the beginning of the input video.
-   */
-  start?: string;
-  /**
-   * The end position, with reference to the input video, at which the overlay ends. The value
-   * should be in ISO 8601 format. For example, PT30S to end the overlay at 30 seconds into the
-   * input video. If not specified or the value is greater than the input video duration, the
-   * overlay will be applied until the end of the input video if the overlay media duration is
-   * greater than the input video duration, else the overlay will last as long as the overlay media
-   * duration.
-   */
-  end?: string;
-  /**
-   * The duration over which the overlay fades in onto the input video. The value should be in ISO
-   * 8601 duration format. If not specified the default behavior is to have no fade in (same as
-   * PT0S).
-   */
-  fadeInDuration?: string;
-  /**
-   * The duration over which the overlay fades out of the input video. The value should be in ISO
-   * 8601 duration format. If not specified the default behavior is to have no fade out (same as
-   * PT0S).
-   */
-  fadeOutDuration?: string;
-  /**
-   * The gain level of audio in the overlay. The value should be in the range [0, 1.0]. The default
-   * is 1.0.
-   */
-  audioGainLevel?: number;
-}
-
-/**
- * A codec flag, which tells the encoder to copy the input video bitstream without re-encoding.
- */
-export interface CopyVideo {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.CopyVideo";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-}
-
-/**
- * Contains the possible cases for Image.
- */
-export type ImageUnion = Image | JpgImage | PngImage;
-
-/**
- * Describes the basic properties for generating thumbnails from the input video
- */
-export interface Image {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.Image";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
-   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
-   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
-   * the input source setting.
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-  /**
-   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
-   */
-  syncMode?: VideoSyncMode;
-  /**
-   * The position in the input video from where to start generating thumbnails. The value can be in
-   * ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10
-   * to start at the 10th frame), or a relative value to stream duration (For example, 10% to start
-   * at 10% of stream duration). Also supports a macro {Best}, which tells the encoder to select
-   * the best thumbnail from the first few seconds of the video and will only produce one
-   * thumbnail, no matter what other settings are for Step and Range. The default value is macro
-   * {Best}.
-   */
-  start: string;
-  /**
-   * The intervals at which thumbnails are generated. The value can be in ISO 8601 format (For
-   * example, PT05S for one image every 5 seconds), or a frame count (For example, 30 for one image
-   * every 30 frames), or a relative value to stream duration (For example, 10% for one image every
-   * 10% of stream duration). Note: Step value will affect the first generated thumbnail, which may
-   * not be exactly the one specified at transform preset start time. This is due to the encoder,
-   * which tries to select the best thumbnail between start time and Step position from start time
-   * as the first output. As the default value is 10%, it means if stream has long duration, the
-   * first generated thumbnail might be far away from the one specified at start time. Try to
-   * select reasonable value for Step if the first thumbnail is expected close to start time, or
-   * set Range value at 1 if only one thumbnail is needed at start time.
-   */
-  step?: string;
-  /**
-   * The position relative to transform preset start time in the input video at which to stop
-   * generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5
-   * minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the
-   * 300th frame from the frame at start time. If this value is 1, it means only producing one
-   * thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop
-   * at half of stream duration from start time). The default value is 100%, which means to stop at
-   * the end of the stream.
-   */
-  range?: string;
-}
-
-/**
- * Contains the possible cases for Format.
- */
-export type FormatUnion = Format | ImageFormatUnion | MultiBitrateFormatUnion;
-
-/**
- * Base class for output.
- */
-export interface Format {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "Format";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-}
-
-/**
- * Contains the possible cases for ImageFormat.
- */
-export type ImageFormatUnion = ImageFormat | JpgFormat | PngFormat;
-
-/**
- * Describes the properties for an output image file.
- */
-export interface ImageFormat {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.ImageFormat";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-}
-
-/**
- * Describes the settings for producing JPEG thumbnails.
- */
-export interface JpgFormat {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JpgFormat";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-}
-
-/**
- * Describes the settings for producing PNG thumbnails.
- */
-export interface PngFormat {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.PngFormat";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-}
-
-/**
- * A codec flag, which tells the encoder to copy the input audio bitstream.
- */
-export interface CopyAudio {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.CopyAudio";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-}
-
-/**
- * Describes the de-interlacing settings.
- */
-export interface Deinterlace {
-  /**
-   * The field parity for de-interlacing, defaults to Auto. Possible values include: 'Auto',
-   * 'TopFieldFirst', 'BottomFieldFirst'
-   */
-  parity?: DeinterlaceParity;
-  /**
-   * The deinterlacing mode. Defaults to AutoPixelAdaptive. Possible values include: 'Off',
-   * 'AutoPixelAdaptive'
-   */
-  mode?: DeinterlaceMode;
-}
-
-/**
- * Describes the properties of a rectangular window applied to the input media before processing
- * it.
- */
-export interface Rectangle {
-  /**
-   * The number of pixels from the left-margin. This can be absolute pixel value (e.g 100), or
-   * relative to the size of the video (For example, 50%).
-   */
-  left?: string;
-  /**
-   * The number of pixels from the top-margin. This can be absolute pixel value (e.g 100), or
-   * relative to the size of the video (For example, 50%).
-   */
-  top?: string;
-  /**
-   * The width of the rectangular region in pixels. This can be absolute pixel value (e.g 100), or
-   * relative to the size of the video (For example, 50%).
-   */
-  width?: string;
-  /**
-   * The height of the rectangular region in pixels. This can be absolute pixel value (e.g 100), or
-   * relative to the size of the video (For example, 50%).
-   */
-  height?: string;
-}
-
-/**
- * Describes all the filtering operations, such as de-interlacing, rotation etc. that are to be
- * applied to the input media before encoding.
- */
-export interface Filters {
-  /**
-   * The de-interlacing settings.
-   */
-  deinterlace?: Deinterlace;
-  /**
-   * The rotation, if any, to be applied to the input video, before it is encoded. Default is Auto.
-   * Possible values include: 'Auto', 'None', 'Rotate0', 'Rotate90', 'Rotate180', 'Rotate270'
-   */
-  rotation?: Rotation;
-  /**
-   * The parameters for the rectangular window with which to crop the input video.
-   */
-  crop?: Rectangle;
-  /**
-   * The properties of overlays to be applied to the input video. These could be audio, image or
-   * video overlays.
-   */
-  overlays?: OverlayUnion[];
-}
-
-/**
- * Contains the possible cases for VideoLayer.
- */
-export type VideoLayerUnion = VideoLayer | H264Layer;
-
-/**
- * Describes the settings to be used when encoding the input video into a desired output bitrate
- * layer.
- */
-export interface VideoLayer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.VideoLayer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-  /**
-   * The average bitrate in bits per second at which to encode the input video when generating this
-   * layer. This is a required field.
-   */
-  bitrate: number;
-  /**
-   * The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill.
-   * If not specified, defaults to the same value as bitrate.
-   */
-  maxBitrate?: number;
-  /**
-   * The number of B-frames to be used when encoding this layer.  If not specified, the encoder
-   * chooses an appropriate number based on the video profile and level.
-   */
-  bFrames?: number;
-  /**
-   * The frame rate (in frames per second) at which to encode this layer. The value can be in the
-   * form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number
-   * (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on
-   * the profile and level. If it is not specified, the encoder will use the same frame rate as the
-   * input video.
-   */
-  frameRate?: string;
-  /**
-   * The number of slices to be used when encoding this layer. If not specified, default is zero,
-   * which means that encoder will use a single slice for each frame.
-   */
-  slices?: number;
-  /**
-   * Whether or not adaptive B-frames are to be used when encoding this layer. If not specified,
-   * the encoder will turn it on whenever the video profile permits its use.
-   */
-  adaptiveBFrame?: boolean;
-}
-
-/**
- * Describes the settings to be used when encoding the input video into a desired output bitrate
- * layer with the H.264 video codec.
- */
-export interface H264Layer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.H264Layer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-  /**
-   * The average bitrate in bits per second at which to encode the input video when generating this
-   * layer. This is a required field.
-   */
-  bitrate: number;
-  /**
-   * The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill.
-   * If not specified, defaults to the same value as bitrate.
-   */
-  maxBitrate?: number;
-  /**
-   * The number of B-frames to be used when encoding this layer.  If not specified, the encoder
-   * chooses an appropriate number based on the video profile and level.
-   */
-  bFrames?: number;
-  /**
-   * The frame rate (in frames per second) at which to encode this layer. The value can be in the
-   * form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number
-   * (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on
-   * the profile and level. If it is not specified, the encoder will use the same frame rate as the
-   * input video.
-   */
-  frameRate?: string;
-  /**
-   * The number of slices to be used when encoding this layer. If not specified, default is zero,
-   * which means that encoder will use a single slice for each frame.
-   */
-  slices?: number;
-  /**
-   * Whether or not adaptive B-frames are to be used when encoding this layer. If not specified,
-   * the encoder will turn it on whenever the video profile permits its use.
-   */
-  adaptiveBFrame?: boolean;
-  /**
-   * We currently support Baseline, Main, High, High422, High444. Default is Auto. Possible values
-   * include: 'Auto', 'Baseline', 'Main', 'High', 'High422', 'High444'
-   */
-  profile?: H264VideoProfile;
-  /**
-   * We currently support Level up to 6.2. The value can be Auto, or a number that matches the
-   * H.264 profile. If not specified, the default is Auto, which lets the encoder choose the Level
-   * that is appropriate for this layer.
-   */
-  level?: string;
-  /**
-   * The VBV buffer window length. The value should be in ISO 8601 format. The value should be in
-   * the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
-   */
-  bufferWindow?: string;
-  /**
-   * The number of reference frames to be used when encoding this layer. If not specified, the
-   * encoder determines an appropriate number based on the encoder complexity setting.
-   */
-  referenceFrames?: number;
-  /**
-   * The entropy mode to be used for this layer. If not specified, the encoder chooses the mode
-   * that is appropriate for the profile and level. Possible values include: 'Cabac', 'Cavlc'
-   */
-  entropyMode?: EntropyMode;
-}
-
-/**
- * Describes all the properties for encoding a video with the H.264 codec.
- */
-export interface H264Video {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.H264Video";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
-   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
-   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
-   * the input source setting.
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-  /**
-   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
-   */
-  syncMode?: VideoSyncMode;
-  /**
-   * Whether or not the encoder should insert key frames at scene changes. If not specified, the
-   * default is false. This flag should be set to true only when the encoder is being configured to
-   * produce a single output video.
-   */
-  sceneChangeDetection?: boolean;
-  /**
-   * Tells the encoder how to choose its encoding settings. The default value is Balanced. Possible
-   * values include: 'Speed', 'Balanced', 'Quality'
-   */
-  complexity?: H264Complexity;
-  /**
-   * The collection of output H.264 layers to be produced by the encoder.
-   */
-  layers?: H264Layer[];
-}
-
-/**
- * Describes the settings to produce a JPEG image from the input video.
- */
-export interface JpgLayer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JpgLayer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-  /**
-   * The compression quality of the JPEG output. Range is from 0-100 and the default is 70.
-   */
-  quality?: number;
-}
-
-/**
- * Describes the properties for producing a series of JPEG images from the input video.
- */
-export interface JpgImage {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JpgImage";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
-   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
-   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
-   * the input source setting.
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-  /**
-   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
-   */
-  syncMode?: VideoSyncMode;
-  /**
-   * The position in the input video from where to start generating thumbnails. The value can be in
-   * ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10
-   * to start at the 10th frame), or a relative value to stream duration (For example, 10% to start
-   * at 10% of stream duration). Also supports a macro {Best}, which tells the encoder to select
-   * the best thumbnail from the first few seconds of the video and will only produce one
-   * thumbnail, no matter what other settings are for Step and Range. The default value is macro
-   * {Best}.
-   */
-  start: string;
-  /**
-   * The intervals at which thumbnails are generated. The value can be in ISO 8601 format (For
-   * example, PT05S for one image every 5 seconds), or a frame count (For example, 30 for one image
-   * every 30 frames), or a relative value to stream duration (For example, 10% for one image every
-   * 10% of stream duration). Note: Step value will affect the first generated thumbnail, which may
-   * not be exactly the one specified at transform preset start time. This is due to the encoder,
-   * which tries to select the best thumbnail between start time and Step position from start time
-   * as the first output. As the default value is 10%, it means if stream has long duration, the
-   * first generated thumbnail might be far away from the one specified at start time. Try to
-   * select reasonable value for Step if the first thumbnail is expected close to start time, or
-   * set Range value at 1 if only one thumbnail is needed at start time.
-   */
-  step?: string;
-  /**
-   * The position relative to transform preset start time in the input video at which to stop
-   * generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5
-   * minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the
-   * 300th frame from the frame at start time. If this value is 1, it means only producing one
-   * thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop
-   * at half of stream duration from start time). The default value is 100%, which means to stop at
-   * the end of the stream.
-   */
-  range?: string;
-  /**
-   * A collection of output JPEG image layers to be produced by the encoder.
-   */
-  layers?: JpgLayer[];
-  /**
-   * Sets the number of columns used in thumbnail sprite image.  The number of rows are
-   * automatically calculated and a VTT file is generated with the coordinate mappings for each
-   * thumbnail in the sprite. Note: this value should be a positive integer and a proper value is
-   * recommended so that the output image resolution will not go beyond JPEG maximum pixel
-   * resolution limit 65535x65535.
-   */
-  spriteColumn?: number;
-}
-
-/**
- * Represents an output file produced.
- */
-export interface OutputFile {
-  /**
-   * The list of labels that describe how the encoder should multiplex video and audio into an
-   * output file. For example, if the encoder is producing two video layers with labels v1 and v2,
-   * and one audio layer with label a1, then an array like '[v1, a1]' tells the encoder to produce
-   * an output file with the video track represented by v1 and the audio track represented by a1.
-   */
-  labels: string[];
-}
-
-/**
- * Contains the possible cases for MultiBitrateFormat.
- */
-export type MultiBitrateFormatUnion = MultiBitrateFormat | Mp4Format | TransportStreamFormat;
-
-/**
- * Describes the properties for producing a collection of GOP aligned multi-bitrate files. The
- * default behavior is to produce one output file for each video layer which is muxed together with
- * all the audios. The exact output files produced can be controlled by specifying the outputFiles
- * collection.
- */
-export interface MultiBitrateFormat {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.MultiBitrateFormat";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-  /**
-   * The list of output files to produce.  Each entry in the list is a set of audio and video layer
-   * labels to be muxed together .
-   */
-  outputFiles?: OutputFile[];
-}
-
-/**
- * Describes the properties for an output ISO MP4 file.
- */
-export interface Mp4Format {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.Mp4Format";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-  /**
-   * The list of output files to produce.  Each entry in the list is a set of audio and video layer
-   * labels to be muxed together .
-   */
-  outputFiles?: OutputFile[];
-}
-
-/**
- * Describes the settings to produce a PNG image from the input video.
- */
-export interface PngLayer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.PngLayer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
-}
-
-/**
- * Describes the properties for producing a series of PNG images from the input video.
- */
-export interface PngImage {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.PngImage";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
-   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
-   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
-   * the input source setting.
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-  /**
-   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
-   */
-  syncMode?: VideoSyncMode;
-  /**
-   * The position in the input video from where to start generating thumbnails. The value can be in
-   * ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10
-   * to start at the 10th frame), or a relative value to stream duration (For example, 10% to start
-   * at 10% of stream duration). Also supports a macro {Best}, which tells the encoder to select
-   * the best thumbnail from the first few seconds of the video and will only produce one
-   * thumbnail, no matter what other settings are for Step and Range. The default value is macro
-   * {Best}.
-   */
-  start: string;
-  /**
-   * The intervals at which thumbnails are generated. The value can be in ISO 8601 format (For
-   * example, PT05S for one image every 5 seconds), or a frame count (For example, 30 for one image
-   * every 30 frames), or a relative value to stream duration (For example, 10% for one image every
-   * 10% of stream duration). Note: Step value will affect the first generated thumbnail, which may
-   * not be exactly the one specified at transform preset start time. This is due to the encoder,
-   * which tries to select the best thumbnail between start time and Step position from start time
-   * as the first output. As the default value is 10%, it means if stream has long duration, the
-   * first generated thumbnail might be far away from the one specified at start time. Try to
-   * select reasonable value for Step if the first thumbnail is expected close to start time, or
-   * set Range value at 1 if only one thumbnail is needed at start time.
-   */
-  step?: string;
-  /**
-   * The position relative to transform preset start time in the input video at which to stop
-   * generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5
-   * minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the
-   * 300th frame from the frame at start time. If this value is 1, it means only producing one
-   * thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop
-   * at half of stream duration from start time). The default value is 100%, which means to stop at
-   * the end of the stream.
-   */
-  range?: string;
-  /**
-   * A collection of output PNG image layers to be produced by the encoder.
-   */
-  layers?: PngLayer[];
-}
-
-/**
- * Describes a built-in preset for encoding the input video with the Standard Encoder.
- */
-export interface BuiltInStandardEncoderPreset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.BuiltInStandardEncoderPreset";
-  /**
-   * The built-in preset to be used for encoding videos. Possible values include:
-   * 'H264SingleBitrateSD', 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
-   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental', 'ContentAwareEncoding',
-   * 'CopyAllBitrateNonInterleaved', 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
-   * 'H264MultipleBitrateSD', 'H265ContentAwareEncoding', 'H265AdaptiveStreaming',
-   * 'H265SingleBitrate720p', 'H265SingleBitrate1080p', 'H265SingleBitrate4K'
-   */
-  presetName: EncoderNamedPreset;
-}
-
-/**
- * Describes all the settings to be used when encoding the input video with the Standard Encoder.
- */
-export interface StandardEncoderPreset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.StandardEncoderPreset";
-  /**
-   * One or more filtering operations that are applied to the input media before encoding.
-   */
-  filters?: Filters;
-  /**
-   * The list of codecs to be used when encoding the input video.
-   */
-  codecs: CodecUnion[];
-  /**
-   * The list of outputs to be produced by the encoder.
-   */
-  formats: FormatUnion[];
-}
-
-/**
- * A video analyzer preset that extracts insights (rich metadata) from both audio and video, and
- * outputs a JSON format file.
- */
-export interface VideoAnalyzerPreset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.VideoAnalyzerPreset";
-  /**
-   * The language for the audio payload in the input using the BCP-47 format of 'language
-   * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
-   * you specify it. The language must be specified explicitly for AudioAnalysisMode::Basic, since
-   * automatic language detection is not included in basic mode. If the language isn't specified or
-   * set to null, automatic language detection will choose the first language detected and process
-   * with the selected language for the duration of the file. It does not currently support
-   * dynamically switching between languages after the first language is detected. The automatic
-   * detection works best with audio recordings with clearly discernable speech. If automatic
-   * detection fails to find the language, transcription would fallback to 'en-US'." The list of
-   * supported languages is available here: https://go.microsoft.com/fwlink/?linkid=2109463
-   */
-  audioLanguage?: string;
-  /**
-   * Determines the set of audio analysis operations to be performed. If unspecified, the Standard
-   * AudioAnalysisMode would be chosen. Possible values include: 'Standard', 'Basic'
-   */
-  mode?: AudioAnalysisMode;
-  /**
-   * Dictionary containing key value pairs for parameters not exposed in the preset itself
-   */
-  experimentalOptions?: { [propertyName: string]: string };
-  /**
-   * Defines the type of insights that you want the service to generate. The allowed values are
-   * 'AudioInsightsOnly', 'VideoInsightsOnly', and 'AllInsights'. The default is AllInsights. If
-   * you set this to AllInsights and the input is audio only, then only audio insights are
-   * generated. Similarly if the input is video only, then only video insights are generated. It is
-   * recommended that you not use AudioInsightsOnly if you expect some of your inputs to be video
-   * only; or use VideoInsightsOnly if you expect some of your inputs to be audio only. Your Jobs
-   * in such conditions would error out. Possible values include: 'AudioInsightsOnly',
-   * 'VideoInsightsOnly', 'AllInsights'
-   */
-  insightsToExtract?: InsightsType;
-}
-
-/**
- * Describes the properties for generating an MPEG-2 Transport Stream (ISO/IEC 13818-1) output
- * video file(s).
- */
-export interface TransportStreamFormat {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.TransportStreamFormat";
-  /**
-   * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - An expansion macro that will use the name of the
-   * input video file. If the base name(the file suffix is not included) of the input video file is
-   * less than 32 characters long, the base name of input video files will be used. If the length
-   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
-   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
-   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
-   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
-   * {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any
-   * unsubstituted macros will be collapsed and removed from the filename.
-   */
-  filenamePattern: string;
-  /**
-   * The list of output files to produce.  Each entry in the list is a set of audio and video layer
-   * labels to be muxed together .
-   */
-  outputFiles?: OutputFile[];
-}
-
-/**
- * Describes the properties of a video overlay.
- */
-export interface VideoOverlay {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.VideoOverlay";
-  /**
-   * The label of the job input which is to be used as an overlay. The Input must specify exactly
-   * one file. You can specify an image file in JPG, PNG, GIF or BMP format, or an audio file (such
-   * as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the
-   * complete list of supported audio and video file formats.
-   */
-  inputLabel: string;
-  /**
-   * The start position, with reference to the input video, at which the overlay starts. The value
-   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds into the
-   * input video. If not specified the overlay starts from the beginning of the input video.
-   */
-  start?: string;
-  /**
-   * The end position, with reference to the input video, at which the overlay ends. The value
-   * should be in ISO 8601 format. For example, PT30S to end the overlay at 30 seconds into the
-   * input video. If not specified or the value is greater than the input video duration, the
-   * overlay will be applied until the end of the input video if the overlay media duration is
-   * greater than the input video duration, else the overlay will last as long as the overlay media
-   * duration.
-   */
-  end?: string;
-  /**
-   * The duration over which the overlay fades in onto the input video. The value should be in ISO
-   * 8601 duration format. If not specified the default behavior is to have no fade in (same as
-   * PT0S).
-   */
-  fadeInDuration?: string;
-  /**
-   * The duration over which the overlay fades out of the input video. The value should be in ISO
-   * 8601 duration format. If not specified the default behavior is to have no fade out (same as
-   * PT0S).
-   */
-  fadeOutDuration?: string;
-  /**
-   * The gain level of audio in the overlay. The value should be in the range [0, 1.0]. The default
-   * is 1.0.
-   */
-  audioGainLevel?: number;
-  /**
-   * The location in the input video where the overlay is applied.
-   */
-  position?: Rectangle;
-  /**
-   * The opacity of the overlay. This is a value in the range [0 - 1.0]. Default is 1.0 which mean
-   * the overlay is opaque.
-   */
-  opacity?: number;
-  /**
-   * An optional rectangular window used to crop the overlay image or video.
-   */
-  cropRectangle?: Rectangle;
-}
-
-/**
- * Contains the possible cases for VideoTrackDescriptor.
- */
-export type VideoTrackDescriptorUnion = VideoTrackDescriptor | SelectVideoTrackByAttribute | SelectVideoTrackById;
-
-/**
- * A TrackSelection to select video tracks.
- */
-export interface VideoTrackDescriptor {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.VideoTrackDescriptor";
-}
-
-/**
- * Select video tracks from the input by specifying an attribute and an attribute filter.
- */
-export interface SelectVideoTrackByAttribute {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.SelectVideoTrackByAttribute";
-  /**
-   * The TrackAttribute to filter the tracks by. Possible values include: 'Bitrate', 'Language'
-   */
-  attribute: TrackAttribute;
-  /**
-   * The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
-   * Possible values include: 'All', 'Top', 'Bottom', 'ValueEquals'
-   */
-  filter: AttributeFilter;
-  /**
-   * The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified
-   * for the Filter property. For TrackAttribute.Bitrate, this should be an integer value in bits
-   * per second (e.g: '1500000').  The TrackAttribute.Language is not supported for video tracks.
-   */
-  filterValue?: string;
-}
-
-/**
- * Select video tracks from the input by specifying a track identifier.
- */
-export interface SelectVideoTrackById {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.SelectVideoTrackById";
-  /**
-   * Track identifier to select
-   */
-  trackId: number;
-}
-
-/**
- * Describes the properties of a TransformOutput, which are the rules to be applied while
- * generating the desired output.
- */
-export interface TransformOutput {
-  /**
-   * A Transform can define more than one outputs. This property defines what the service should do
-   * when one output fails - either continue to produce other outputs, or, stop the other outputs.
-   * The overall Job state will not reflect failures of outputs that are specified with
-   * 'ContinueJob'. The default is 'StopProcessingJob'. Possible values include:
-   * 'StopProcessingJob', 'ContinueJob'
-   */
-  onError?: OnErrorType;
-  /**
-   * Sets the relative priority of the TransformOutputs within a Transform. This sets the priority
-   * that the service uses for processing TransformOutputs. The default priority is Normal.
-   * Possible values include: 'Low', 'Normal', 'High'
-   */
-  relativePriority?: Priority;
-  /**
-   * Preset that describes the operations that will be used to modify, transcode, or extract
-   * insights from the source file to generate the output.
-   */
-  preset: PresetUnion;
-}
-
-/**
- * A Transform encapsulates the rules or instructions for generating desired outputs from input
- * media, such as by transcoding or by extracting insights. After the Transform is created, it can
- * be applied to input media by creating Jobs.
- */
-export interface Transform extends ProxyResource {
-  /**
-   * The UTC date and time when the Transform was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly created?: Date;
-  /**
-   * An optional verbose description of the Transform.
-   */
-  description?: string;
-  /**
-   * The UTC date and time when the Transform was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModified?: Date;
-  /**
-   * An array of one or more TransformOutputs that the Transform should generate.
-   */
-  outputs: TransformOutput[];
-  /**
-   * The system metadata relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Contains the possible cases for JobInput.
- */
-export type JobInputUnion = JobInput | JobInputClipUnion | JobInputs | JobInputSequence;
-
-/**
- * Base class for inputs to a Job.
- */
-export interface JobInput {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "JobInput";
-}
-
-/**
- * Contains the possible cases for ClipTime.
- */
-export type ClipTimeUnion = ClipTime | AbsoluteClipTime | UtcClipTime;
-
-/**
- * Base class for specifying a clip time. Use sub classes of this class to specify the time
- * position in the media.
- */
-export interface ClipTime {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "ClipTime";
-}
-
-/**
- * Contains the possible cases for JobInputClip.
- */
-export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
-
-/**
- * Represents input files for a Job.
- */
-export interface JobInputClip {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobInputClip";
-  /**
-   * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
-   */
-  files?: string[];
-  /**
-   * Defines a point on the timeline of the input media at which processing will start. Defaults to
-   * the beginning of the input media.
-   */
-  start?: ClipTimeUnion;
-  /**
-   * Defines a point on the timeline of the input media at which processing will end. Defaults to
-   * the end of the input media.
-   */
-  end?: ClipTimeUnion;
-  /**
-   * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
-   * Transform. For example, a Transform can be authored so as to take an image file with the label
-   * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
-   * Job, exactly one of the JobInputs should be the image file, and it should have the label
-   * 'xyz'.
-   */
-  label?: string;
-  /**
-   * Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track
-   * selections and related metadata.
-   */
-  inputDefinitions?: InputDefinitionUnion[];
-}
-
-/**
- * Specifies the clip time as an absolute time position in the media file.  The absolute time can
- * point to a different position depending on whether the media file starts from a timestamp of
- * zero or not.
- */
-export interface AbsoluteClipTime {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.AbsoluteClipTime";
-  /**
-   * The time position on the timeline of the input media. It is usually specified as an ISO8601
-   * period. e.g PT30S for 30 seconds.
-   */
-  time: string;
-}
-
-/**
- * Specifies the clip time as a Utc time position in the media file.  The Utc time can point to a
- * different position depending on whether the media file starts from a timestamp of zero or not.
- */
-export interface UtcClipTime {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.UtcClipTime";
-  /**
-   * The time position on the timeline of the input media based on Utc time.
-   */
-  time: Date;
-}
-
-/**
- * Describes a list of inputs to a Job.
- */
-export interface JobInputs {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobInputs";
-  /**
-   * List of inputs to a Job.
-   */
-  inputs?: JobInputUnion[];
-}
-
-/**
- * Represents an Asset for input into a Job.
- */
-export interface JobInputAsset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobInputAsset";
-  /**
-   * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
-   */
-  files?: string[];
-  /**
-   * Defines a point on the timeline of the input media at which processing will start. Defaults to
-   * the beginning of the input media.
-   */
-  start?: ClipTimeUnion;
-  /**
-   * Defines a point on the timeline of the input media at which processing will end. Defaults to
-   * the end of the input media.
-   */
-  end?: ClipTimeUnion;
-  /**
-   * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
-   * Transform. For example, a Transform can be authored so as to take an image file with the label
-   * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
-   * Job, exactly one of the JobInputs should be the image file, and it should have the label
-   * 'xyz'.
-   */
-  label?: string;
-  /**
-   * Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track
-   * selections and related metadata.
-   */
-  inputDefinitions?: InputDefinitionUnion[];
-  /**
-   * The name of the input Asset.
-   */
-  assetName: string;
-}
-
-/**
- * Represents HTTPS job input.
- */
-export interface JobInputHttp {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobInputHttp";
-  /**
-   * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
-   */
-  files?: string[];
-  /**
-   * Defines a point on the timeline of the input media at which processing will start. Defaults to
-   * the beginning of the input media.
-   */
-  start?: ClipTimeUnion;
-  /**
-   * Defines a point on the timeline of the input media at which processing will end. Defaults to
-   * the end of the input media.
-   */
-  end?: ClipTimeUnion;
-  /**
-   * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
-   * Transform. For example, a Transform can be authored so as to take an image file with the label
-   * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
-   * Job, exactly one of the JobInputs should be the image file, and it should have the label
-   * 'xyz'.
-   */
-  label?: string;
-  /**
-   * Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track
-   * selections and related metadata.
-   */
-  inputDefinitions?: InputDefinitionUnion[];
-  /**
-   * Base URI for HTTPS job input. It will be concatenated with provided file names. If no base uri
-   * is given, then the provided file list is assumed to be fully qualified uris. Maximum length of
-   * 4000 characters.
-   */
-  baseUri?: string;
-}
-
-/**
- * Details of JobOutput errors.
- */
-export interface JobErrorDetail {
-  /**
-   * Code describing the error detail.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * A human-readable representation of the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * Details of JobOutput errors.
- */
-export interface JobError {
-  /**
-   * Error code describing the error. Possible values include: 'ServiceError',
-   * 'ServiceTransientError', 'DownloadNotAccessible', 'DownloadTransientError',
-   * 'UploadNotAccessible', 'UploadTransientError', 'ConfigurationUnsupported', 'ContentMalformed',
-   * 'ContentUnsupported'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: JobErrorCode;
-  /**
-   * A human-readable language-dependent representation of the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * Helps with categorization of errors. Possible values include: 'Service', 'Download', 'Upload',
-   * 'Configuration', 'Content'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly category?: JobErrorCategory;
-  /**
-   * Indicates that it may be possible to retry the Job. If retry is unsuccessful, please contact
-   * Azure support via Azure Portal. Possible values include: 'DoNotRetry', 'MayRetry'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly retry?: JobRetry;
-  /**
-   * An array of details about specific errors that led to this reported error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: JobErrorDetail[];
-}
-
-/**
- * Contains the possible cases for JobOutput.
- */
-export type JobOutputUnion = JobOutput | JobOutputAsset;
-
-/**
- * Describes all the properties of a JobOutput.
- */
-export interface JobOutput {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "JobOutput";
-  /**
-   * If the JobOutput is in the Error state, it contains the details of the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly error?: JobError;
-  /**
-   * Describes the state of the JobOutput. Possible values include: 'Canceled', 'Canceling',
-   * 'Error', 'Finished', 'Processing', 'Queued', 'Scheduled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: JobState;
-  /**
-   * If the JobOutput is in a Processing state, this contains the Job completion percentage. The
-   * value is an estimate and not intended to be used to predict Job completion times. To determine
-   * if the JobOutput is complete, use the State property.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly progress?: number;
-  /**
-   * A label that is assigned to a JobOutput in order to help uniquely identify it. This is useful
-   * when your Transform has more than one TransformOutput, whereby your Job has more than one
-   * JobOutput. In such cases, when you submit the Job, you will add two or more JobOutputs, in the
-   * same order as TransformOutputs in the Transform. Subsequently, when you retrieve the Job,
-   * either through events or on a GET request, you can use the label to easily identify the
-   * JobOutput. If a label is not provided, a default value of '{presetName}_{outputIndex}' will be
-   * used, where the preset name is the name of the preset in the corresponding TransformOutput and
-   * the output index is the relative index of the this JobOutput within the Job. Note that this
-   * index is the same as the relative index of the corresponding TransformOutput within its
-   * Transform.
-   */
-  label?: string;
-  /**
-   * The UTC date and time at which this Job Output began processing.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The UTC date and time at which this Job Output finished processing.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: Date;
-}
-
-/**
- * Represents an Asset used as a JobOutput.
- */
-export interface JobOutputAsset {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobOutputAsset";
-  /**
-   * If the JobOutput is in the Error state, it contains the details of the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly error?: JobError;
-  /**
-   * Describes the state of the JobOutput. Possible values include: 'Canceled', 'Canceling',
-   * 'Error', 'Finished', 'Processing', 'Queued', 'Scheduled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: JobState;
-  /**
-   * If the JobOutput is in a Processing state, this contains the Job completion percentage. The
-   * value is an estimate and not intended to be used to predict Job completion times. To determine
-   * if the JobOutput is complete, use the State property.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly progress?: number;
-  /**
-   * A label that is assigned to a JobOutput in order to help uniquely identify it. This is useful
-   * when your Transform has more than one TransformOutput, whereby your Job has more than one
-   * JobOutput. In such cases, when you submit the Job, you will add two or more JobOutputs, in the
-   * same order as TransformOutputs in the Transform. Subsequently, when you retrieve the Job,
-   * either through events or on a GET request, you can use the label to easily identify the
-   * JobOutput. If a label is not provided, a default value of '{presetName}_{outputIndex}' will be
-   * used, where the preset name is the name of the preset in the corresponding TransformOutput and
-   * the output index is the relative index of the this JobOutput within the Job. Note that this
-   * index is the same as the relative index of the corresponding TransformOutput within its
-   * Transform.
-   */
-  label?: string;
-  /**
-   * The UTC date and time at which this Job Output began processing.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The UTC date and time at which this Job Output finished processing.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * The name of the output Asset.
-   */
-  assetName: string;
-}
-
-/**
- * A Sequence contains an ordered list of Clips where each clip is a JobInput.  The Sequence will
- * be treated as a single input.
- */
-export interface JobInputSequence {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.JobInputSequence";
-  /**
-   * JobInputs that make up the timeline.
-   */
-  inputs?: JobInputClipUnion[];
-}
-
-/**
- * A Job resource type. The progress and state can be obtained by polling a Job or subscribing to
- * events using EventGrid.
- */
-export interface Job extends ProxyResource {
-  /**
-   * The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly created?: Date;
-  /**
-   * The current state of the job. Possible values include: 'Canceled', 'Canceling', 'Error',
-   * 'Finished', 'Processing', 'Queued', 'Scheduled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: JobState;
-  /**
-   * Optional customer supplied description of the Job.
-   */
-  description?: string;
-  /**
-   * The inputs for the Job.
-   */
-  input: JobInputUnion;
-  /**
-   * The UTC date and time when the customer has last updated the Job, in 'YYYY-MM-DDThh:mm:ssZ'
-   * format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModified?: Date;
-  /**
-   * The outputs for the Job.
-   */
-  outputs: JobOutputUnion[];
-  /**
-   * Priority with which the job should be processed. Higher priority jobs are processed before
-   * lower priority jobs. If not set, the default is normal. Possible values include: 'Low',
-   * 'Normal', 'High'
-   */
-  priority?: Priority;
-  /**
-   * Customer provided key, value pairs that will be returned in Job and JobOutput state events.
-   */
-  correlationData?: { [propertyName: string]: string };
-  /**
-   * The UTC date and time at which this Job began processing.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The UTC date and time at which this Job finished processing.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * The system metadata relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
  * Class to specify one track property condition
  */
 export interface TrackPropertyCondition {
@@ -4068,6 +2070,11 @@ export interface LiveOutput extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly resourceState?: LiveOutputResourceState;
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -4205,7 +2212,7 @@ export interface LiveEventEncoding {
    * Premium1080p, a live encoder transcodes the incoming stream into multiple bitrates or layers.
    * See https://go.microsoft.com/fwlink/?linkid=2095101 for more information. This property cannot
    * be modified after the live event is created. Possible values include: 'None', 'Standard',
-   * 'Premium1080p'
+   * 'Premium1080p', 'PassthroughBasic', 'PassthroughStandard'
    */
   encodingType?: LiveEventEncodingType;
   /**
@@ -4613,62 +2620,6 @@ export interface ContentKeyPoliciesListNextOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface TransformsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Restricts the set of items returned.
-   */
-  filter?: string;
-  /**
-   * Specifies the key by which the result collection should be ordered.
-   */
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TransformsListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Restricts the set of items returned.
-   */
-  filter?: string;
-  /**
-   * Specifies the key by which the result collection should be ordered.
-   */
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Restricts the set of items returned.
-   */
-  filter?: string;
-  /**
-   * Specifies the key by which the result collection should be ordered.
-   */
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobsListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Restricts the set of items returned.
-   */
-  filter?: string;
-  /**
-   * Specifies the key by which the result collection should be ordered.
-   */
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
 export interface StreamingPoliciesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Restricts the set of items returned.
@@ -4795,36 +2746,23 @@ export interface AzureMediaServicesOptions extends AzureServiceClientOptions {
 
 /**
  * @interface
- * A collection of AccountFilter items.
- * @extends Array<AccountFilter>
- */
-export interface AccountFilterCollection extends Array<AccountFilter> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
- * A collection of Operation items.
- * @extends Array<Operation>
- */
-export interface OperationCollection extends Array<Operation> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * A collection of MediaService items.
  * @extends Array<MediaService>
  */
 export interface MediaServiceCollection extends Array<MediaService> {
+  /**
+   * A link to the next page of the collection (when the collection contains too many results to
+   * return in one response).
+   */
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
+ * A collection of AccountFilter items.
+ * @extends Array<AccountFilter>
+ */
+export interface AccountFilterCollection extends Array<AccountFilter> {
   /**
    * A link to the next page of the collection (when the collection contains too many results to
    * return in one response).
@@ -4864,32 +2802,6 @@ export interface AssetFilterCollection extends Array<AssetFilter> {
  * @extends Array<ContentKeyPolicy>
  */
 export interface ContentKeyPolicyCollection extends Array<ContentKeyPolicy> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
- * A collection of Transform items.
- * @extends Array<Transform>
- */
-export interface TransformCollection extends Array<Transform> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
- * A collection of Job items.
- * @extends Array<Job>
- */
-export interface JobCollection extends Array<Job> {
   /**
    * A link to the next page of the collection (when the collection contains too many results to
    * return in one response).
@@ -4978,30 +2890,6 @@ export interface StreamingEndpointListResult extends Array<StreamingEndpoint> {
 }
 
 /**
- * Defines values for FilterTrackPropertyType.
- * Possible values include: 'Unknown', 'Type', 'Name', 'Language', 'FourCC', 'Bitrate'
- * @readonly
- * @enum {string}
- */
-export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' | 'FourCC' | 'Bitrate';
-
-/**
- * Defines values for FilterTrackPropertyCompareOperation.
- * Possible values include: 'Equal', 'NotEqual'
- * @readonly
- * @enum {string}
- */
-export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
-
-/**
  * Defines values for MetricUnit.
  * Possible values include: 'Bytes', 'Count', 'Milliseconds'
  * @readonly
@@ -5016,6 +2904,14 @@ export type MetricUnit = 'Bytes' | 'Count' | 'Milliseconds';
  * @enum {string}
  */
 export type MetricAggregationType = 'Average' | 'Count' | 'Total';
+
+/**
+ * Defines values for ActionType.
+ * Possible values include: 'Internal'
+ * @readonly
+ * @enum {string}
+ */
+export type ActionType = 'Internal';
 
 /**
  * Defines values for StorageAccountType.
@@ -5042,12 +2938,28 @@ export type StorageAuthentication = 'System' | 'ManagedIdentity';
 export type AccountEncryptionKeyType = 'SystemKey' | 'CustomerKey';
 
 /**
- * Defines values for ManagedIdentityType.
- * Possible values include: 'SystemAssigned', 'None'
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
  * @readonly
  * @enum {string}
  */
-export type ManagedIdentityType = 'SystemAssigned' | 'None';
+export type DefaultAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -5064,6 +2976,22 @@ export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating
  * @enum {string}
  */
 export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+/**
+ * Defines values for FilterTrackPropertyType.
+ * Possible values include: 'Unknown', 'Type', 'Name', 'Language', 'FourCC', 'Bitrate'
+ * @readonly
+ * @enum {string}
+ */
+export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' | 'FourCC' | 'Bitrate';
+
+/**
+ * Defines values for FilterTrackPropertyCompareOperation.
+ * Possible values include: 'Equal', 'NotEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
 
 /**
  * Defines values for AssetStorageEncryptionFormat.
@@ -5121,223 +3049,6 @@ export type ContentKeyPolicyRestrictionTokenType = 'Unknown' | 'Swt' | 'Jwt';
  * @enum {string}
  */
 export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'DualExpiry' | 'PersistentUnlimited' | 'PersistentLimited';
-
-/**
- * Defines values for AacAudioProfile.
- * Possible values include: 'AacLc', 'HeAacV1', 'HeAacV2'
- * @readonly
- * @enum {string}
- */
-export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
-
-/**
- * Defines values for H265VideoProfile.
- * Possible values include: 'Auto', 'Main'
- * @readonly
- * @enum {string}
- */
-export type H265VideoProfile = 'Auto' | 'Main';
-
-/**
- * Defines values for StretchMode.
- * Possible values include: 'None', 'AutoSize', 'AutoFit'
- * @readonly
- * @enum {string}
- */
-export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
-
-/**
- * Defines values for VideoSyncMode.
- * Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
- * @readonly
- * @enum {string}
- */
-export type VideoSyncMode = 'Auto' | 'Passthrough' | 'Cfr' | 'Vfr';
-
-/**
- * Defines values for H265Complexity.
- * Possible values include: 'Speed', 'Balanced', 'Quality'
- * @readonly
- * @enum {string}
- */
-export type H265Complexity = 'Speed' | 'Balanced' | 'Quality';
-
-/**
- * Defines values for ChannelMapping.
- * Possible values include: 'FrontLeft', 'FrontRight', 'Center', 'LowFrequencyEffects', 'BackLeft',
- * 'BackRight', 'StereoLeft', 'StereoRight'
- * @readonly
- * @enum {string}
- */
-export type ChannelMapping = 'FrontLeft' | 'FrontRight' | 'Center' | 'LowFrequencyEffects' | 'BackLeft' | 'BackRight' | 'StereoLeft' | 'StereoRight';
-
-/**
- * Defines values for TrackAttribute.
- * Possible values include: 'Bitrate', 'Language'
- * @readonly
- * @enum {string}
- */
-export type TrackAttribute = 'Bitrate' | 'Language';
-
-/**
- * Defines values for AttributeFilter.
- * Possible values include: 'All', 'Top', 'Bottom', 'ValueEquals'
- * @readonly
- * @enum {string}
- */
-export type AttributeFilter = 'All' | 'Top' | 'Bottom' | 'ValueEquals';
-
-/**
- * Defines values for AnalysisResolution.
- * Possible values include: 'SourceResolution', 'StandardDefinition'
- * @readonly
- * @enum {string}
- */
-export type AnalysisResolution = 'SourceResolution' | 'StandardDefinition';
-
-/**
- * Defines values for FaceRedactorMode.
- * Possible values include: 'Analyze', 'Redact', 'Combined'
- * @readonly
- * @enum {string}
- */
-export type FaceRedactorMode = 'Analyze' | 'Redact' | 'Combined';
-
-/**
- * Defines values for BlurType.
- * Possible values include: 'Box', 'Low', 'Med', 'High', 'Black'
- * @readonly
- * @enum {string}
- */
-export type BlurType = 'Box' | 'Low' | 'Med' | 'High' | 'Black';
-
-/**
- * Defines values for AudioAnalysisMode.
- * Possible values include: 'Standard', 'Basic'
- * @readonly
- * @enum {string}
- */
-export type AudioAnalysisMode = 'Standard' | 'Basic';
-
-/**
- * Defines values for DeinterlaceParity.
- * Possible values include: 'Auto', 'TopFieldFirst', 'BottomFieldFirst'
- * @readonly
- * @enum {string}
- */
-export type DeinterlaceParity = 'Auto' | 'TopFieldFirst' | 'BottomFieldFirst';
-
-/**
- * Defines values for DeinterlaceMode.
- * Possible values include: 'Off', 'AutoPixelAdaptive'
- * @readonly
- * @enum {string}
- */
-export type DeinterlaceMode = 'Off' | 'AutoPixelAdaptive';
-
-/**
- * Defines values for Rotation.
- * Possible values include: 'Auto', 'None', 'Rotate0', 'Rotate90', 'Rotate180', 'Rotate270'
- * @readonly
- * @enum {string}
- */
-export type Rotation = 'Auto' | 'None' | 'Rotate0' | 'Rotate90' | 'Rotate180' | 'Rotate270';
-
-/**
- * Defines values for H264VideoProfile.
- * Possible values include: 'Auto', 'Baseline', 'Main', 'High', 'High422', 'High444'
- * @readonly
- * @enum {string}
- */
-export type H264VideoProfile = 'Auto' | 'Baseline' | 'Main' | 'High' | 'High422' | 'High444';
-
-/**
- * Defines values for EntropyMode.
- * Possible values include: 'Cabac', 'Cavlc'
- * @readonly
- * @enum {string}
- */
-export type EntropyMode = 'Cabac' | 'Cavlc';
-
-/**
- * Defines values for H264Complexity.
- * Possible values include: 'Speed', 'Balanced', 'Quality'
- * @readonly
- * @enum {string}
- */
-export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
-
-/**
- * Defines values for EncoderNamedPreset.
- * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
- * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'ContentAwareEncodingExperimental', 'ContentAwareEncoding', 'CopyAllBitrateNonInterleaved',
- * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD',
- * 'H265ContentAwareEncoding', 'H265AdaptiveStreaming', 'H265SingleBitrate720p',
- * 'H265SingleBitrate1080p', 'H265SingleBitrate4K'
- * @readonly
- * @enum {string}
- */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'ContentAwareEncoding' | 'CopyAllBitrateNonInterleaved' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD' | 'H265ContentAwareEncoding' | 'H265AdaptiveStreaming' | 'H265SingleBitrate720p' | 'H265SingleBitrate1080p' | 'H265SingleBitrate4K';
-
-/**
- * Defines values for InsightsType.
- * Possible values include: 'AudioInsightsOnly', 'VideoInsightsOnly', 'AllInsights'
- * @readonly
- * @enum {string}
- */
-export type InsightsType = 'AudioInsightsOnly' | 'VideoInsightsOnly' | 'AllInsights';
-
-/**
- * Defines values for OnErrorType.
- * Possible values include: 'StopProcessingJob', 'ContinueJob'
- * @readonly
- * @enum {string}
- */
-export type OnErrorType = 'StopProcessingJob' | 'ContinueJob';
-
-/**
- * Defines values for Priority.
- * Possible values include: 'Low', 'Normal', 'High'
- * @readonly
- * @enum {string}
- */
-export type Priority = 'Low' | 'Normal' | 'High';
-
-/**
- * Defines values for JobErrorCode.
- * Possible values include: 'ServiceError', 'ServiceTransientError', 'DownloadNotAccessible',
- * 'DownloadTransientError', 'UploadNotAccessible', 'UploadTransientError',
- * 'ConfigurationUnsupported', 'ContentMalformed', 'ContentUnsupported'
- * @readonly
- * @enum {string}
- */
-export type JobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'DownloadNotAccessible' | 'DownloadTransientError' | 'UploadNotAccessible' | 'UploadTransientError' | 'ConfigurationUnsupported' | 'ContentMalformed' | 'ContentUnsupported';
-
-/**
- * Defines values for JobErrorCategory.
- * Possible values include: 'Service', 'Download', 'Upload', 'Configuration', 'Content'
- * @readonly
- * @enum {string}
- */
-export type JobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configuration' | 'Content';
-
-/**
- * Defines values for JobRetry.
- * Possible values include: 'DoNotRetry', 'MayRetry'
- * @readonly
- * @enum {string}
- */
-export type JobRetry = 'DoNotRetry' | 'MayRetry';
-
-/**
- * Defines values for JobState.
- * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing', 'Queued',
- * 'Scheduled'
- * @readonly
- * @enum {string}
- */
-export type JobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'Processing' | 'Queued' | 'Scheduled';
 
 /**
  * Defines values for TrackPropertyType.
@@ -5398,11 +3109,20 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
- * Possible values include: 'None', 'Standard', 'Premium1080p'
+ * Possible values include: 'None', 'Standard', 'Premium1080p', 'PassthroughBasic',
+ * 'PassthroughStandard'
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Standard' | 'Premium1080p';
+export type LiveEventEncodingType = 'None' | 'Standard' | 'Premium1080p' | 'PassthroughBasic' | 'PassthroughStandard';
+
+/**
+ * Defines values for StretchMode.
+ * Possible values include: 'None', 'AutoSize', 'AutoFit'
+ * @readonly
+ * @enum {string}
+ */
+export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
 
 /**
  * Defines values for LiveEventResourceState.
@@ -5432,127 +3152,7 @@ export type StreamingEndpointResourceState = 'Stopped' | 'Starting' | 'Running' 
 /**
  * Contains response data for the list operation.
  */
-export type AccountFiltersListResponse = AccountFilterCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilterCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AccountFiltersGetResponse = AccountFilter & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type AccountFiltersCreateOrUpdateResponse = AccountFilter & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type AccountFiltersUpdateResponse = AccountFilter & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AccountFiltersListNextResponse = AccountFilterCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilterCollection;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
 export type OperationsListResponse = OperationCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationCollection;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -5686,26 +3286,6 @@ export type MediaservicesListBySubscriptionResponse = MediaServiceCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MediaServiceCollection;
-    };
-};
-
-/**
- * Contains response data for the getBySubscription operation.
- */
-export type MediaservicesGetBySubscriptionResponse = MediaService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaService;
     };
 };
 
@@ -5866,6 +3446,106 @@ export type LocationsCheckNameAvailabilityResponse = EntityNameAvailabilityCheck
        * The response body as parsed JSON or XML
        */
       parsedBody: EntityNameAvailabilityCheckOutput;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AccountFiltersListResponse = AccountFilterCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilterCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AccountFiltersGetResponse = AccountFilter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilter;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type AccountFiltersCreateOrUpdateResponse = AccountFilter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilter;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type AccountFiltersUpdateResponse = AccountFilter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilter;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AccountFiltersListNextResponse = AccountFilterCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilterCollection;
     };
 };
 
@@ -6246,206 +3926,6 @@ export type ContentKeyPoliciesListNextResponse = ContentKeyPolicyCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ContentKeyPolicyCollection;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type TransformsListResponse = TransformCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransformCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TransformsGetResponse = Transform & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Transform;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type TransformsCreateOrUpdateResponse = Transform & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Transform;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type TransformsUpdateResponse = Transform & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Transform;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type TransformsListNextResponse = TransformCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransformCollection;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type JobsListResponse = JobCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type JobsGetResponse = Job & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type JobsCreateResponse = Job & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type JobsUpdateResponse = Job & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type JobsListNextResponse = JobCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobCollection;
     };
 };
 

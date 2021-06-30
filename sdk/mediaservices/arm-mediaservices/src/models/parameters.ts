@@ -93,16 +93,6 @@ export const filterName: msRest.OperationURLParameter = {
     }
   }
 };
-export const jobName: msRest.OperationURLParameter = {
-  parameterPath: "jobName",
-  mapper: {
-    required: true,
-    serializedName: "jobName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const liveEventName: msRest.OperationURLParameter = {
   parameterPath: "liveEventName",
   mapper: {
@@ -240,16 +230,6 @@ export const top: msRest.OperationQueryParameter = {
     serializedName: "$top",
     type: {
       name: "Number"
-    }
-  }
-};
-export const transformName: msRest.OperationURLParameter = {
-  parameterPath: "transformName",
-  mapper: {
-    required: true,
-    serializedName: "transformName",
-    type: {
-      name: "String"
     }
   }
 };
