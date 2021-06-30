@@ -1891,6 +1891,31 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidRequest");
           }
         });
+
+        it("multiple actions per type are disallowed", async function() {
+          const docs = [{ id: "1", text: "I will go to the park." }];
+
+          try {
+            await client.beginAnalyzeActions(
+              docs,
+              {
+                recognizePiiEntitiesActions: [
+                  { modelVersion: "latest" },
+                  { modelVersion: "latest", stringIndexType: "TextElement_v8" }
+                ]
+              },
+              {
+                updateIntervalInMs: pollingInterval
+              }
+            );
+            throw new Error("Expected an error to occur");
+          } catch (e) {
+            assert.equal(
+              e.message,
+              "beginAnalyzeActions: Currently, the service can accept up to one action only for recognizePiiEntities actions."
+            );
+          }
+        });
       });
 
       describe("#health", function() {
