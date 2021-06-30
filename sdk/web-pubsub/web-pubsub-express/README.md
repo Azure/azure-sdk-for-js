@@ -9,12 +9,13 @@ Use the express library to:
 - Add Web PubSub CloudEvents middleware to handle incoming client events
   - Handle abuse validation requests
   - Handle client events requests
-
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express) |
-[API reference documentation](https://aka.ms/awps/sdk/js) |
-[Product documentation](https://aka.ms/awps/doc) |
-[Samples][samples_ref]
+  
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express)
+- [API reference documentation](https://aka.ms/awps/sdk/js)
+- [Product documentation](https://aka.ms/awps/doc)
+- [Samples][samples_ref]
 
 ## Getting started
 
