@@ -1,0 +1,26 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "query": {},
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"bad\",\"stringIndexType\":\"Utf16CodeUnit\"}},{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}},{\"parameters\":{\"model-version\":\"bad\",\"stringIndexType\":\"TextElement_v8\"}}]}}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"InvalidTask in AnalyzeInput\",\"innererror\":{\"code\":\"InvalidRequestBodyFormat\",\"message\":\"Supplied PersonallyIdentifiableInformation tasks contains duplicates, please remove duplicates and try again.\"}}}",
+   "responseHeaders": {
+    "apim-request-id": "38383194-11c0-490c-8c80-d4dbcc5ad1c8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 25 Jun 2021 20:23:12 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "2b01aaa2671bd98a68dd057c4ccf8f47"
+}
