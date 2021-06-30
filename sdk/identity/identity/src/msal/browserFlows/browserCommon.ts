@@ -24,6 +24,7 @@ export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
   allowMultiTenantAuthentication?: boolean;
+  loginHint?: string;
 }
 
 /**

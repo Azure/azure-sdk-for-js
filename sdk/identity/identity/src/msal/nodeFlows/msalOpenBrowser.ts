@@ -22,6 +22,7 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
  */
 export interface MSALOpenBrowserOptions extends MsalNodeOptions {
   redirectUri: string;
+  loginHint?: string;
 }
 
 /**
@@ -41,11 +42,13 @@ export class MsalOpenBrowser extends MsalNode {
   private redirectUri: string;
   private port: number;
   private hostname: string;
+  private loginHint?: string;
 
   constructor(options: MSALOpenBrowserOptions) {
     super(options);
     this.logger = credentialLogger("NodeJS MSAL Open Browser");
     this.redirectUri = options.redirectUri;
+    this.loginHint = options.loginHint;
 
     const url = new URL(this.redirectUri);
     this.port = parseInt(url.port);
@@ -209,6 +212,7 @@ export class MsalOpenBrowser extends MsalNode {
       scopes: scopeArray,
       redirectUri: this.redirectUri,
       authority: options?.authority,
+      loginHint: this.loginHint,
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256" // Use SHA256 Algorithm
     };
