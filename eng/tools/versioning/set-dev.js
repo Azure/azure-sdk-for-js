@@ -137,8 +137,8 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       rushPackages[depName].newVer !== undefined
     ) {
 
-      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alphb  so that this automatically matches
-      // with the latest alpha version published on npm
+      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alpha  so that this automatically matches 
+      // with the latest dev version published on npm
       const versionPrefix = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}`;
       dependencySection[depName] = `>=${versionPrefix}-alpha <${versionPrefix}-alphb`;
     }
@@ -175,7 +175,7 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
       const parsedPackageVersion = semver.minVersion(version);
       if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
         const versionPrefix = `${parsedSearchVersion.major}.${parsedSearchVersion.minor}.${parsedSearchVersion.patch}`;
-        var devVersionRange = versionPrefix + "-alpha.20210629.1" < " + versionPrefix + " - alphb"";
+        var devVersionRange = ">=" + versionPrefix + "-alpha <" + versionPrefix + "-alphb";
         allowedAlternativeVersions[package].push(devVersionRange);
         break;
       }
