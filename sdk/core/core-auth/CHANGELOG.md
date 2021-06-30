@@ -2,6 +2,7 @@
 
 ## 1.3.1 (2021-06-30)
 
+- Added `tenantId` optional property to the `GetTokenOptions` interface. If `tenantId` is set, credentials will be able to use multi-tenant authentication, in the cases when it's enabled.
 
 ## 1.3.0 (2021-03-30)
 

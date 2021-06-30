@@ -66,12 +66,24 @@ export enum AzureAuthorityHosts {
 
 // @public
 export class AzureCliCredential implements TokenCredential {
+    constructor(options?: AzureCliCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface AzureCliCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
 }
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
+    constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    }
+
+// @public
+export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
 }
 
 // @public
@@ -297,6 +309,7 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {
+    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 
@@ -316,7 +329,7 @@ export interface UsernamePasswordCredentialOptions extends TokenCredentialOption
 // @public
 export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
