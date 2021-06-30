@@ -14,9 +14,9 @@
     "build:test": "echo skipped",
     "build:node": "tsc -p . && rollup -c 2>&1",
     "build": "npm run build:node && npm run build:browser && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o telemetry-exporter-lintReport.html || exit 0",
     "test": "npm run test:node && npm run test:browser",
@@ -35,7 +35,8 @@
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "prepare": "npm run build",
     "pack": "npm pack 2>&1",
-    "build:samples": "echo Skipped.",
+    "build:samples": "echo Obsolete.",
+    "execute:samples": "dev-tool samples run samples-dev",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
@@ -72,6 +73,15 @@
         "prefix": "package-version"
       }
     ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Monitor Trace Exporter",
+    "productSlugs": [
+      "azure-monitor-opentelemetry-exporter"
+    ],
+    "requiredResources": {
+      "Azure Application Insights workspace instance": "https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview"
+    }
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

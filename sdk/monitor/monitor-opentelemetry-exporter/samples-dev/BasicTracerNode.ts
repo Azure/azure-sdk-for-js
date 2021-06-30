@@ -1,6 +1,15 @@
-'use strict';
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import opentelemetry from '@opentelemetry/api';
+/**
+ * This example shows how to use 
+ * [@opentelemetry/tracing](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing) 
+ * to instrument a simple Node.js application - e.g. a batch job.
+ *
+ * @summary use @opentelemetry/tracing to instrument a Node.js application
+ */
+
+import * as opentelemetry from '@opentelemetry/api';
 import { Resource } from '@opentelemetry/resources';
 import { ResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/tracing';
@@ -41,7 +50,7 @@ parentSpan.end();
 // flush and close the connection.
 exporter.shutdown();
 
-function doWork(parent) {
+function doWork(parent: opentelemetry.Span) {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
   const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);

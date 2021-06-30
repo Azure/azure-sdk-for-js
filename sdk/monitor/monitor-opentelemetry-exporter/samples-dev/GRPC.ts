@@ -1,4 +1,14 @@
-"use strict";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * OpenTelemetry gRPC Instrumentation allows the user to 
+ * automatically collect trace data and export them 
+ * to the backend of choice (we can use Zipkin or Jaeger for this example), 
+ * to give observability to distributed systems.
+ *
+ * @summary OpenTelemetry gRPC Instrumentation
+ */
 
 import { tracer } from "./utils/Tracer";
 import grpc from "grpc";

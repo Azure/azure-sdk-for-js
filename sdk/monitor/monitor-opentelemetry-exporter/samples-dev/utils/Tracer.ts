@@ -1,4 +1,15 @@
-"use strict";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * Initialize a global tracer. 
+ * All tracing initialization should happen before your application code runs.
+ *
+ * Then initialize and register a trace exporter.
+ * If you want to see a completed trace, you need to register an exporter to send traces to a tracing backend.
+ *
+ * @azsdk-util true
+ */
 
 import * as opentelemetry from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/node";

@@ -1,6 +1,13 @@
-'use strict';
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import api from "@opentelemetry/api";
+/**
+ * A gRPC server that receives requests on sample server port.
+ *
+ * @summary a gRPC server
+ */
+
+import * as api from "@opentelemetry/api";
 import { tracer } from "./utils/Tracer";
 import grpc from "grpc";
 
@@ -20,7 +27,7 @@ function startServer() {
 }
 
 function sayHello(call, callback) {
-  const currentSpan = api.trace.getSpan(api.context.active());
+  const currentSpan = api.trace.getSpan(api.context.active()) as api.Span;
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.spanContext().traceId}`);
   const span = tracer("example-grpc-server", "grpc-example").startSpan('server.js:sayHello()', {

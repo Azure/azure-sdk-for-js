@@ -1,10 +1,17 @@
-"use strict";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * A function which handles requests and send response.
+ *
+ * @summary a https server
+ */
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import * as opentelemetry from "@opentelemetry/api";
+import * as api from "@opentelemetry/api";
 // Tracer MUST be setup first to correctly apply module patching!
 import { tracer } from "./utils/Tracer";
 import express from 'express';
@@ -13,7 +20,7 @@ const app = express();
 
 /** A function which handles requests and send response. */
 app.get("/helloworld", (req, res) => {
-  const currentSpan = opentelemetry.trace.getSpan(opentelemetry.context.active());
+  const currentSpan = api.trace.getSpan(api.context.active()) as api.Span;
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.spanContext().traceId}`);
   const span = tracer("example-https-server", "https-example").startSpan("handleRequest", {
