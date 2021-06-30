@@ -1,0 +1,59 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
+   "query": {},
+   "requestBody": "{\"dataSourceType\":\"AzureEventHubs\",\"dataFeedName\":\"js-test-httpRequestFeed-162501234543306266\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"eventhub-connection-string\",\"consumerGroup\":\"consumer-group\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "5679a89e-ad78-49fb-ab6a-c87ce4612640",
+    "content-length": "0",
+    "date": "Wed, 30 Jun 2021 00:19:12 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d014ae47-7dc7-4089-a2e6-6d0f5eb95000",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7294",
+    "x-request-id": "5679a89e-ad78-49fb-ab6a-c87ce4612640"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d014ae47-7dc7-4089-a2e6-6d0f5eb95000",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"dataFeedId\":\"d014ae47-7dc7-4089-a2e6-6d0f5eb95000\",\"dataFeedName\":\"js-test-httpRequestFeed-162501234543306266\",\"metrics\":[{\"metricId\":\"54b3d024-6860-407c-aa35-f7dff05dddcc\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"1b60509a-9e6a-466f-bcbf-b5a52c208732\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2021-06-30T00:00:00Z\",\"dataSourceType\":\"AzureEventHubs\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-06-30T00:19:12Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"consumerGroup\":\"consumer-group\"},\"authenticationType\":\"Basic\"}",
+   "responseHeaders": {
+    "apim-request-id": "6f0e52d2-6723-4d00-8d1e-3084bc3da5af",
+    "content-length": "1233",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 30 Jun 2021 00:19:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5473",
+    "x-request-id": "6f0e52d2-6723-4d00-8d1e-3084bc3da5af"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "js-test-datafeed-": "js-test-datafeed-162501234543306421",
+   "js-test-appInsightsFeed-": "js-test-appInsightsFeed-162501234543300868",
+   "js-test-sqlServerFeed-": "js-test-sqlServerFeed-162501234543301861",
+   "js-test-cosmosFeed-": "js-test-cosmosFeed-162501234543300197",
+   "js-test-dataExplorerFeed-": "js-test-dataExplorerFeed-162501234543305973",
+   "js-test-tableFeed-": "js-test-tableFeed-162501234543305847",
+   "js-test-httpRequestFeed-": "js-test-httpRequestFeed-162501234543306266",
+   "js-test-logAnalyticsFeed-": "js-test-logAnalyticsFeed-162501234543307504",
+   "js-test-influxdbFeed-": "js-test-influxdbFeed-162501234543300179",
+   "js-test-mongoDbFeed-": "js-test-mongoDbFeed-162501234543304941",
+   "js-test-mySqlFeed-": "js-test-mySqlFeed-162501234543307091",
+   "js-test-postgreSqlFeed-": "js-test-postgreSqlFeed-162501234543303230",
+   "js-test-dataLakeGenFeed-": "js-test-dataLakeGenFeed-162501234543308809"
+  },
+  "newDate": {}
+ },
+ "hash": "193729b4ee398f057de645b773a9512c"
+}

@@ -1,0 +1,83 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 30 Jun 2021 00:18:39 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11829.9 - SCUS ProdSlices",
+    "x-ms-request-id": "3f8c4ad6-0330-42f6-a047-a3eb51d04401"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
+   "query": {},
+   "requestBody": "{\"dataSourceType\":\"AzureEventHubs\",\"dataFeedName\":\"js-test-httpRequestFeed-162501231972906997\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"eventhub-connection-string\",\"consumerGroup\":\"consumer-group\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "a09a58e2-911c-4a13-8596-c5e0548b0d14",
+    "content-length": "0",
+    "date": "Wed, 30 Jun 2021 00:18:47 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/a362818a-af39-45eb-af98-6b529b5f8150",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7225",
+    "x-request-id": "a09a58e2-911c-4a13-8596-c5e0548b0d14"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/a362818a-af39-45eb-af98-6b529b5f8150",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"dataFeedId\":\"a362818a-af39-45eb-af98-6b529b5f8150\",\"dataFeedName\":\"js-test-httpRequestFeed-162501231972906997\",\"metrics\":[{\"metricId\":\"f4df58ce-d0ab-45c4-ae17-ad77953d0c4f\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"4c7e3776-2ecf-4980-a808-018c7fdd4489\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2021-06-30T00:00:00Z\",\"dataSourceType\":\"AzureEventHubs\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"azure_client_id\"],\"viewers\":[],\"creator\":\"azure_client_id\",\"status\":\"Active\",\"createdTime\":\"2021-06-30T00:18:47Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"consumerGroup\":\"consumer-group\"},\"authenticationType\":\"Basic\"}",
+   "responseHeaders": {
+    "apim-request-id": "e3a71b66-3e8d-40d9-b8dc-68b9ba132bf3",
+    "content-length": "1263",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 30 Jun 2021 00:18:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5386",
+    "x-request-id": "e3a71b66-3e8d-40d9-b8dc-68b9ba132bf3"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "js-test-datafeed-": "js-test-datafeed-162501231972905455",
+   "js-test-appInsightsFeed-": "js-test-appInsightsFeed-162501231972908093",
+   "js-test-sqlServerFeed-": "js-test-sqlServerFeed-162501231972907287",
+   "js-test-cosmosFeed-": "js-test-cosmosFeed-162501231972908784",
+   "js-test-dataExplorerFeed-": "js-test-dataExplorerFeed-162501231972906258",
+   "js-test-tableFeed-": "js-test-tableFeed-162501231972908470",
+   "js-test-httpRequestFeed-": "js-test-httpRequestFeed-162501231972906997",
+   "js-test-logAnalyticsFeed-": "js-test-logAnalyticsFeed-162501231972908386",
+   "js-test-influxdbFeed-": "js-test-influxdbFeed-162501231972901554",
+   "js-test-mongoDbFeed-": "js-test-mongoDbFeed-162501231972905000",
+   "js-test-mySqlFeed-": "js-test-mySqlFeed-162501231972904087",
+   "js-test-postgreSqlFeed-": "js-test-postgreSqlFeed-162501231972901759",
+   "js-test-dataLakeGenFeed-": "js-test-dataLakeGenFeed-162501231972904681"
+  },
+  "newDate": {}
+ },
+ "hash": "193729b4ee398f057de645b773a9512c"
+}
