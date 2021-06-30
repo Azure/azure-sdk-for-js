@@ -11,7 +11,7 @@
 - `PiiEntityDomainType` was renamed to `PiiEntityDomain`.
 - `domain` property of `RecognizePiiEntitiesAction` was renamed to `domainFilter`.
 - `categoriesFilter` was added to `RecognizePiiEntitiesAction`.
-- `beginAnalyzeActions` is not limited to accept up to one action only per type.
+- `beginAnalyzeActions` is now limited to accept up to one action only per type.
 
 ## 5.1.0-beta.6 (2021-05-18)
 
