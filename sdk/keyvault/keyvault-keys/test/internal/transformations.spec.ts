@@ -9,10 +9,15 @@ import {
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem
 } from "../../src/transformations";
+import { stringToUint8Array } from "../utils/crypto";
 
 describe("Transformations", () => {
-  it("KeyBundle to KeyVaultKey", () => {
+  it.only("KeyBundle to KeyVaultKey", () => {
     const date = new Date();
+    const releasePolicy = {
+      contentType: "content type",
+      data: stringToUint8Array("release policy")
+    };
     const bundle: KeyBundle = {
       key: {
         kid:
@@ -21,6 +26,7 @@ describe("Transformations", () => {
         keyOps: ["encrypt", "decrypt"]
       },
       attributes: {
+        exportable: true,
         recoverableDays: 1,
         recoveryLevel: "Recoverable",
         enabled: true,
@@ -29,6 +35,7 @@ describe("Transformations", () => {
         created: date,
         updated: date
       },
+      releasePolicy,
       tags: {
         tag_name: "tag_value"
       },
@@ -59,6 +66,8 @@ describe("Transformations", () => {
         tags: {
           tag_name: "tag_value"
         },
+        exportable: true,
+        releasePolicy,
         createdOn: date,
         updatedOn: date,
         recoveryLevel: "Recoverable",

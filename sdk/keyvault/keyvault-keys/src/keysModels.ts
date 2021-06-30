@@ -136,9 +136,6 @@ export interface KeyVaultKey {
    * The properties of the key.
    */
   properties: KeyProperties;
-
-  // Todo: properties or top level?
-  releasePolicy?: KeyVaultKeyReleasePolicy;
 }
 
 /**
@@ -217,6 +214,8 @@ export interface KeyProperties {
   readonly managed?: boolean;
 
   exportable?: boolean;
+
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -267,11 +266,9 @@ export interface DeletedKey {
      */
     deletedOn?: Date;
   };
-
-  releasePolicy?: KeyVaultKeyReleasePolicy;
 }
 
-export interface KeyVaultKeyReleasePolicy {
+export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
   contentType?: string;
   /** Blob encoding the policy rules under which the key can be released. */
@@ -318,9 +315,11 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   hsm?: boolean;
 
+  // TODO: consider whether we should make the two coupled:
+  // If you have one but not the other the service will error today.
   exportable?: boolean;
 
-  releasePolicy?: KeyVaultKeyReleasePolicy;
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -396,6 +395,9 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
    * Expiry date in UTC.
    */
   expiresOn?: Date;
+
+  exportable?: boolean;
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**

@@ -32,7 +32,6 @@ export function getKeyFromKeyBundle(
     name: parsedId.name,
     keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
     keyType: keyBundle.key ? keyBundle.key.kty : undefined,
-    releasePolicy: keyBundle.releasePolicy,
     properties: {
       tags: keyBundle.tags,
 
@@ -44,6 +43,7 @@ export function getKeyFromKeyBundle(
       recoverableDays: attributes.recoverableDays,
       recoveryLevel: attributes.recoveryLevel,
       exportable: attributes.exportable,
+      releasePolicy: keyBundle.releasePolicy,
 
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
