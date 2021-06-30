@@ -764,7 +764,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it.only("family emoji wit skin tone modifier", async function(this: Context) {
+          it("family emoji wit skin tone modifier", async function(this: Context) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -843,7 +843,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
           });
 
-          it.only("family emoji wit skin tone modifier", async function() {
+          it("family emoji wit skin tone modifier", async function() {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -886,7 +886,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
           });
 
-          it.only("family emoji wit skin tone modifier", async function() {
+          it("family emoji wit skin tone modifier", async function() {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
