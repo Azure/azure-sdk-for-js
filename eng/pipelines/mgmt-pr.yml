@@ -1,7 +1,7 @@
 pr:
   branches:
     include:
-    - feature/v4
+    - feature/*
     - '*-preview'
   paths:
     include:
