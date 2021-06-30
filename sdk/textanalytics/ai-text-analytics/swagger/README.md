@@ -195,6 +195,16 @@ directive:
       delete $["targetRef"];
 ```
 
+### Remove taskName
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties
+    transform: >
+      delete $["taskName"];
+```
+
 ### Rename text input objects to avoid "export as"
 
 ```yaml
