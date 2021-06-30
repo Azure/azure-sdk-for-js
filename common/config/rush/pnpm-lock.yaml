@@ -578,7 +578,7 @@ packages:
       integrity: sha512-oel7ibYlredh2wo7XwNYMx4jWlbMkIzCC8t8VpdhsAWDJVNSSce+DYj5jjZn1oED+QsCytVM2B7/QTuLN1/yDw==
   /@azure/msal-browser/2.14.2:
     dependencies:
-      '@azure/msal-common': 4.4.0
+      '@azure/msal-common': 4.3.0
     dev: false
     engines:
       node: '>=0.8.0'
@@ -608,6 +608,14 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-EihnqHh2EE6xcB0Dh2LF30jE1Ga9cgh9PyRkX4fj+KpvYfL4ae57hvQwJGkynUgpf3V1xQxU5yaJVXOElfXiGw==
+  /@azure/msal-common/4.3.0:
+    dependencies:
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha512-jFqUWe83wVb6O8cNGGBFg2QlKvqM1ezUgJTEV7kIsAPX0RXhGFE4B1DLNt6hCnkTXDbw+KGW0zgxOEr4MJQwLw==
   /@azure/msal-common/4.4.0:
     dependencies:
       debug: 4.3.1
@@ -6226,12 +6234,14 @@ packages:
     resolution:
       integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring/0.2.0:
+    deprecated: The
     dev: false
     engines:
       node: '>=0.4.x'
     resolution:
       integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
   /querystring/0.2.1:
+    deprecated: The
     dev: false
     engines:
       node: '>=0.4.x'
@@ -9700,6 +9710,7 @@ packages:
       buffer: 5.7.1
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.0.3_chai@4.3.4
       chai-string: 1.5.0_chai@4.3.4
       cross-env: 7.0.3
       debug: 4.3.1
@@ -9744,7 +9755,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-E6rqZwFWroU5Fh0CdkKDZeDNYpis0r6OfX+IrBpObaLFP9P36UKrjHuHtSyvBWt9j3tBY+BBGDSBOC7BxDSfKw==
+      integrity: sha512-jyp97MnjNlpAMXZ1/mYu47qrpR0sST70voj7qtVoqXunUK6mLmnM/rmb7NijMKXFTlHXqTAF2yutC8LjtWtvOQ==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -9983,7 +9994,7 @@ packages:
   file:projects/identity.tgz:
     dependencies:
       '@azure/msal-browser': 2.14.2
-      '@azure/msal-common': 4.4.0
+      '@azure/msal-common': 4.3.0
       '@azure/msal-node': 1.2.0
       '@microsoft/api-extractor': 7.7.11
       '@types/jws': 3.2.3
