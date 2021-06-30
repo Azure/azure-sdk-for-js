@@ -105,7 +105,8 @@ export class LogsQueryClient {
 
     return {
       tables: result.tables.map(convertGeneratedTable),
-      statistics: result.statistics
+      statistics: result.statistics,
+      visualization: result.render
     };
   }
 

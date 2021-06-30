@@ -92,13 +92,18 @@ export const Metric: coreHttp.CompositeMapper = {
       },
       displayDescription: {
         serializedName: "displayDescription",
-        required: true,
         type: {
           name: "String"
         }
       },
       errorCode: {
         serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }

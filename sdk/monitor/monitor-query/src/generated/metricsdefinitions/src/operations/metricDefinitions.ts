@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MetricsDefinitionsClient } from "../metricsDefinitionsClient";
+import { MonitorManagementClient } from "../monitorManagementClient";
 import {
   MetricDefinitionsListOptionalParams,
   MetricDefinitionsListResponse
@@ -17,13 +17,13 @@ import {
 
 /** Class representing a MetricDefinitions. */
 export class MetricDefinitions {
-  private readonly client: MetricsDefinitionsClient;
+  private readonly client: MonitorManagementClient;
 
   /**
    * Initialize a new instance of the class MetricDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: MetricsDefinitionsClient) {
+  constructor(client: MonitorManagementClient) {
     this.client = client;
   }
 
@@ -50,7 +50,7 @@ export class MetricDefinitions {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {
-  path: "/{resourceUri}/providers/microsoft.insights/metricDefinitions",
+  path: "/{resourceUri}/providers/Microsoft.Insights/metricDefinitions",
   httpMethod: "GET",
   responses: {
     200: {

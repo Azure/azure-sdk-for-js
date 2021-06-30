@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
@@ -226,7 +227,7 @@ export class EventHubProducerClient {
    * await client.sendBatch(messages);
    * ```
    *
-   * @param batch - An array of {@link EventData}.
+   * @param batch - An array of {@link EventData} or `AmqpAnnotatedMessage`.
    * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
@@ -238,7 +239,10 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+  async sendBatch(
+    batch: EventData[] | AmqpAnnotatedMessage[],
+    options?: SendBatchOptions
+  ): Promise<void>;
   /**
    * Sends a batch of events to the associated Event Hub.
    *
