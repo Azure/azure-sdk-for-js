@@ -9,12 +9,13 @@ Use the client libraries in this package to:
 - Create/List/Delete File Systems
 - Create/Read/List/Update/Delete Paths, Directories and Files
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake) |
-[Product documentation](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples) |
-[Azure Storage Data Lake REST APIs](https://docs.microsoft.com/rest/api/storageservices/data-lake-storage-gen2)
+key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake)
+- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples)
+- [Azure Storage Data Lake REST APIs](https://docs.microsoft.com/rest/api/storageservices/data-lake-storage-gen2)
 
 ## Getting started
 
