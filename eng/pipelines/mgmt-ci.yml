@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - feature/v4
+      - feature/*
   paths:
     include:
     - eng/pipelines/mgmt-pr.yml
