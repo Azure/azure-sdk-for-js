@@ -16,7 +16,12 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates)
+- [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates)
+- [Product documentation](https://azure.microsoft.com/services/key-vault/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples)
 
 ## Getting started
 
