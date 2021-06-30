@@ -12,6 +12,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -30,6 +31,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private authorizationCode: string;
   private redirectUri: string;
   private lastTokenResponse: TokenResponse | null = null;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -120,6 +122,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.identityClient = new IdentityClient(options);
   }
 
@@ -135,6 +138,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
@@ -146,7 +153,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // Try to use the refresh token first
       if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
         tokenResponse = await this.identityClient.refreshAccessToken(
-          this.tenantId,
+          tenantId,
           this.clientId,
           scopeString,
           this.lastTokenResponse.refreshToken,
@@ -157,9 +164,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       if (tokenResponse === null) {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+        const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
         const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+          url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
           method: "POST",
           disableJsonStringifyOnBody: true,
           deserializationMapper: undefined,
