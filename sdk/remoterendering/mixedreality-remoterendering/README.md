@@ -37,25 +37,10 @@ npm install @azure/mixedreality-remoterendering
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-<!--
-
 #### CORS
 
-NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
-
-Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
-
-
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
-
-For example, you can create the following CORS settings for debugging. But please customize the settings carefully according to your requirements in a production environment.
-
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
--->
+This library cannot be used to make direct calls to the Azure Remote Rendering service from a browser.
+Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
 ### Authenticate the client
 
@@ -76,7 +61,7 @@ There are several different forms of authentication:
 
 See [here](https://docs.microsoft.com/azure/remote-rendering/how-tos/authentication) for detailed instructions and information.
 
-In all the following examples, the client is constructed with a `remoteRenderingEndpoint` Uri object.
+In all the following examples, the client is constructed with a `remoteRenderingEndpoint`.
 The available endpoints correspond to regions, and the choice of endpoint determines the region in which the service performs its work.
 An example is `https://remoterendering.eastus2.mixedreality.azure.com`.
 
@@ -343,11 +328,7 @@ This method may return sessions which have yet to start and sessions which are r
 
 ```typescript Snippet:ListSessions
 for await (const session of client.listSessions()) {
-  if (session.status === "Starting") {
-    console.log(`Session ${session.sessionId} is starting`);
-  } else if (session.status === "Ready") {
-    console.log(`Session ${session.sessionId} is ready`);
-  }
+  console.log(`Session ${session.sessionId} is ${session.status}`);
 }
 ```
 
