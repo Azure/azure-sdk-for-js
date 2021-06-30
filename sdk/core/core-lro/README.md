@@ -6,7 +6,11 @@
 
 `@azure/core-lro` is made following our [Long Running Operations guidelines](https://azure.github.io/azure-sdk/typescript_design.html#ts-lro)
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro) | [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro)
+- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) 
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) 
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-lro/samples)
 
 ## Getting started
 
