@@ -6,7 +6,7 @@ import { PollOperationState } from "../pollOperation";
 /**
  * Options for the LRO poller.
  */
-export interface LroPollerOptions {
+export interface LroEngineOptions {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -27,7 +27,7 @@ export const terminalStates = successStates.concat(failureStates);
 /**
  * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
  */
-export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
+export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 /**
  * The type of a LRO response body. This is just a convenience type for checking the status of the operation.
@@ -153,5 +153,5 @@ export interface LongRunningOperation<T> {
   /**
    * A function that can be used to retrieve the provisioned azure resource.
    */
-  retrieveAzureAsyncResource: (path?: string) => Promise<LroStatus<T>>;
+  retrieveAzureAsyncResource: (path?: string) => Promise<LroResponse<T>>;
 }

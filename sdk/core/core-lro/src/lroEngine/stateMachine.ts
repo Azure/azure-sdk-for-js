@@ -5,7 +5,7 @@ import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
 import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
 import { processLocationPollingOperationResult } from "./locationPolling";
 import {
-  FinalStateVia,
+  LroResourceLocationConfig,
   GetLroStatusFromResponse,
   LongRunningOperation,
   LroConfig,
@@ -15,7 +15,7 @@ import {
   ResumablePollOperationState
 } from "./models";
 import { processPassthroughOperationResult } from "./passthrough";
-import { getPollingUrl, inferLROMode } from "./requestUtils";
+import { getPollingUrl, inferLroMode, isExpectedInitialResponse } from "./requestUtils";
 
 /**
  * creates a stepping function that maps an LRO state to another.
@@ -23,7 +23,7 @@ import { getPollingUrl, inferLROMode } from "./requestUtils";
 export function createGetLroStatusFromResponse<TResult>(
   lroPrimitives: LongRunningOperation<TResult>,
   config: LroConfig,
-  finalStateVia?: FinalStateVia
+  finalStateVia?: LroResourceLocationConfig
 ): GetLroStatusFromResponse<TResult> {
   switch (config.mode) {
     case "AzureAsync": {
@@ -90,10 +90,11 @@ export function createInitializeState<TResult>(
   requestMethod: string
 ): (rawResponse: RawResponse, flatResponse: unknown) => boolean {
   return (rawResponse: RawResponse, flatResponse: unknown) => {
+    if (isExpectedInitialResponse(rawResponse)) return true;
     state.initialRawResponse = rawResponse;
     state.isStarted = true;
     state.pollingURL = getPollingUrl(state.initialRawResponse, requestPath);
-    state.config = inferLROMode(requestPath, requestMethod, state.initialRawResponse);
+    state.config = inferLroMode(requestPath, requestMethod, state.initialRawResponse);
     /** short circuit polling if body polling is done in the initial request */
     if (
       state.config.mode === undefined ||

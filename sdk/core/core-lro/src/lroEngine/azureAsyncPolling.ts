@@ -3,7 +3,7 @@
 
 import {
   failureStates,
-  FinalStateVia,
+  LroResourceLocationConfig,
   LongRunningOperation,
   LroBody,
   LroResponse,
@@ -11,6 +11,7 @@ import {
   RawResponse,
   successStates
 } from "./models";
+import { isExpectedPollingResponse } from "./requestUtils";
 
 function getResponseStatus(rawResponse: RawResponse): string {
   const { status } = (rawResponse.body as LroBody) ?? {};
@@ -19,7 +20,7 @@ function getResponseStatus(rawResponse: RawResponse): string {
 
 function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {
   const state = getResponseStatus(rawResponse);
-  if (failureStates.includes(state)) {
+  if (isExpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
     throw new Error(`Operation status: ${state}`);
   }
   return successStates.includes(state);
@@ -27,7 +28,7 @@ function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {
 
 async function sendFinalRequest<TResult>(
   lro: LongRunningOperation<TResult>,
-  finalStateVia?: FinalStateVia,
+  finalStateVia?: LroResourceLocationConfig,
   resourceLocation?: string
 ): Promise<LroResponse<TResult> | undefined> {
   switch (finalStateVia) {
@@ -44,7 +45,7 @@ async function sendFinalRequest<TResult>(
 export function processAzureAsyncOperationResult<TResult>(
   lro: LongRunningOperation<TResult>,
   resourceLocation?: string,
-  finalStateVia?: FinalStateVia
+  finalStateVia?: LroResourceLocationConfig
 ): (rawResponse: RawResponse, flatResponse: TResult) => LroStatus<TResult> {
   return (rawResponse: RawResponse, flatResponse: TResult): LroStatus<TResult> => {
     if (isAzureAsyncPollingDone(rawResponse)) {

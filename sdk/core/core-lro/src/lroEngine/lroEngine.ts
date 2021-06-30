@@ -3,22 +3,20 @@
 
 import { PollOperationState } from "../pollOperation";
 import { Poller } from "../poller";
-import { LongRunningOperation, LroPollerOptions, ResumablePollOperationState } from "./models";
+import { LongRunningOperation, LroEngineOptions, ResumablePollOperationState } from "./models";
 import { GenericPollOperation } from "./operation";
 
 /**
  * The LRO Engine, a class that performs polling.
  */
-export class LroPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<
+export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<
   TState,
   TResult
 > {
   private intervalInMs: number;
 
-  constructor(
-    { intervalInMs = 2000, resumeFrom }: LroPollerOptions,
-    lro: LongRunningOperation<TResult>
-  ) {
+  constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
+    const { intervalInMs = 2000, resumeFrom } = options || {};
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
       ? JSON.parse(resumeFrom).state
       : {};

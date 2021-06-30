@@ -14,7 +14,7 @@ import { createInitializeState, createPollForLROStatus } from "./stateMachine";
 
 export class GenericPollOperation<TResult, TState extends PollOperationState<TResult>>
   implements PollOperation<TState, TResult> {
-  private GetLROStatusFromResponse?: (
+  private getLROStatusFromResponse?: (
     pollingURL: string,
     pollerConfig: PollerConfig
   ) => Promise<LroStatus<TResult>>;
@@ -58,20 +58,20 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     }
 
     if (!state.isCompleted) {
-      if (this.GetLROStatusFromResponse === undefined) {
+      if (this.getLROStatusFromResponse === undefined) {
         if (state.config === undefined) {
           throw new Error(
             "Bad state: LRO mode is undefined. Please check if the serialized state is well-formed."
           );
         }
-        this.GetLROStatusFromResponse = createPollForLROStatus(this.lro, state.config);
+        this.getLROStatusFromResponse = createPollForLROStatus(this.lro, state.config);
       }
       if (state.pollingURL === undefined) {
         throw new Error(
           "Bad state: polling URL is undefined. Please check if the serialized state is well-formed."
         );
       }
-      const currentState = await this.GetLROStatusFromResponse(
+      const currentState = await this.getLROStatusFromResponse(
         state.pollingURL,
         this.pollerConfig!
       );
@@ -79,7 +79,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         state.result = currentState.flatResponse;
         state.isCompleted = true;
       } else {
-        this.GetLROStatusFromResponse = currentState.next ?? this.GetLROStatusFromResponse;
+        this.getLROStatusFromResponse = currentState.next ?? this.getLROStatusFromResponse;
         state.pollingURL = getPollingUrl(currentState.rawResponse, state.pollingURL);
       }
     }

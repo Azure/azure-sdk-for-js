@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { LroPoller } from "./lroPoller";
+export { LroEngine } from "./lroEngine";
 export { createGetLroStatusFromResponse } from "./stateMachine";
 export {
-  FinalStateVia,
+  LroResourceLocationConfig,
   GetLroStatusFromResponse,
   RawResponse,
   LongRunningOperation,
@@ -14,5 +14,5 @@ export {
   LroStatus,
   LroTerminalState,
   LroInProgressState,
-  LroPollerOptions
+  LroEngineOptions
 } from "./models";

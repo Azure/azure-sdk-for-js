@@ -10,10 +10,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createGetLroStatusFromResponse<TResult>(lroPrimitives: LongRunningOperation<TResult>, config: LroConfig, finalStateVia?: FinalStateVia): GetLroStatusFromResponse<TResult>;
-
-// @public
-export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
+export function createGetLroStatusFromResponse<TResult>(lroPrimitives: LongRunningOperation<TResult>, config: LroConfig, finalStateVia?: LroResourceLocationConfig): GetLroStatusFromResponse<TResult>;
 
 // @public
 export type GetLroStatusFromResponse<T> = (rawResponse: RawResponse, flatResponse: T) => LroStatus<T>;
@@ -22,7 +19,7 @@ export type GetLroStatusFromResponse<T> = (rawResponse: RawResponse, flatRespons
 export interface LongRunningOperation<T> {
     requestMethod: string;
     requestPath: string;
-    retrieveAzureAsyncResource: (path?: string) => Promise<LroStatus<T>>;
+    retrieveAzureAsyncResource: (path?: string) => Promise<LroResponse<T>>;
     sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LroResponse<T>>;
     sendPollRequest: (config: LroConfig, path: string) => Promise<LroStatus<T>>;
 }
@@ -31,6 +28,18 @@ export interface LongRunningOperation<T> {
 export interface LroConfig {
     mode?: LroMode;
     resourceLocation?: string;
+}
+
+// @public
+export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
+    constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions);
+    delay(): Promise<void>;
+    }
+
+// @public
+export interface LroEngineOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
 }
 
 // @public
@@ -43,16 +52,7 @@ export interface LroInProgressState<T> extends LroResponse<T> {
 export type LroMode = "AzureAsync" | "Location" | "Body";
 
 // @public
-export class LroPoller<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
-    constructor({ intervalInMs, resumeFrom }: LroPollerOptions, lro: LongRunningOperation<TResult>);
-    delay(): Promise<void>;
-    }
-
-// @public
-export interface LroPollerOptions {
-    intervalInMs?: number;
-    resumeFrom?: string;
-}
+export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 // @public
 export interface LroResponse<T> {
