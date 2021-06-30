@@ -9,8 +9,8 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-resources";
 const packageVersion = "4.2.0";
@@ -28,19 +28,15 @@ export class ResourceManagementClientContext extends msRestAzure.AzureServiceCli
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The Microsoft Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.ResourceManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.ResourceManagementClientOptions) {
     if (credentials == undefined) {
-      throw new Error("'credentials' cannot be null.");
+      throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
-      throw new Error("'subscriptionId' cannot be null.");
+      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -53,8 +49,8 @@ export class ResourceManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
-    this.apiVersion = "2021-01-01";
-    this.acceptLanguage = "en-US";
+    this.apiVersion = '2021-04-01';
+    this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
@@ -64,10 +60,7 @@ export class ResourceManagementClientContext extends msRestAzure.AzureServiceCli
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (
-      options.longRunningOperationRetryTimeout !== null &&
-      options.longRunningOperationRetryTimeout !== undefined
-    ) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

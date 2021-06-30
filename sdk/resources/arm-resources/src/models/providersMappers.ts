@@ -15,8 +15,14 @@ export {
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,
+  Permission,
   Provider,
+  ProviderConsentDefinition,
   ProviderExtendedLocation,
   ProviderListResult,
-  ProviderResourceType
+  ProviderPermission,
+  ProviderPermissionListResult,
+  ProviderRegistrationRequest,
+  ProviderResourceType,
+  RoleDefinition
 } from "../models/mappers";
