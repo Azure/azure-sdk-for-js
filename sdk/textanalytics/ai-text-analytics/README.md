@@ -21,11 +21,12 @@ Use the client library to:
 - Identify and categorize entities in your text as people, places, organizations, date/time, quantities, percentages, currencies, healthcare specific, and more.
 - Perform multiple of the above tasks at once.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/textanalytics/ai-text-analytics/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics)
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)
 
 ## Getting started
 
