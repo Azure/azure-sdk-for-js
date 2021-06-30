@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { multiTenantError, processMultiTenantRequest } from "../../src/util/validateMultiTenant";
+import {
+  multiTenantErrorMessage,
+  processMultiTenantRequest
+} from "../../src/util/validateMultiTenant";
 
 describe("Identity utilities", function() {
   describe("validateMultiTenantRequest", function() {
@@ -19,7 +22,7 @@ describe("Identity utilities", function() {
         error,
         "validateMultiTenantRequest should throw if multi-tenant is disallowed and the tenants don't match"
       );
-      assert.equal(error!.message, multiTenantError.message);
+      assert.equal(error!.message, multiTenantErrorMessage);
     });
 
     it("throws if multi-tenant authentication is undefined, and the tenants don't match", async function() {
@@ -35,7 +38,7 @@ describe("Identity utilities", function() {
         error,
         "validateMultiTenantRequest should throw if multi-tenant is disallowed and the tenants don't match"
       );
-      assert.equal(error!.message, multiTenantError.message);
+      assert.equal(error!.message, multiTenantErrorMessage);
     });
 
     it("If allowMultiTenantAuthentication is disallowed, it shouldn't throw if the tenant received is the same as the tenant we already had, that same tenant should be returned", async function() {

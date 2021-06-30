@@ -6,9 +6,8 @@ import { GetTokenOptions } from "@azure/core-auth";
 /**
  * @internal
  */
-export const multiTenantError = new Error(
-  "Multi-tenant authentication was attempted, but multi-tenant authentication was not enabled in this credential instance."
-);
+export const multiTenantErrorMessage =
+  "A getToken request was attempted with a tenant different than the tenant configured at the initialization of the credential, but multi-tenant authentication was not enabled in this credential instance.";
 
 /**
  * Verifies whether locally assigned tenants are equal to tenants received through getToken.
@@ -26,7 +25,7 @@ export function processMultiTenantRequest(
     tenantId &&
     getTokenOptions.tenantId !== tenantId
   ) {
-    throw multiTenantError;
+    throw new Error(multiTenantErrorMessage);
   }
   if (allowMultiTenantAuthentication && getTokenOptions?.tenantId) {
     return getTokenOptions.tenantId;
