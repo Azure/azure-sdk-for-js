@@ -260,14 +260,13 @@ export class RemoteRenderingClient {
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...{ ...options, userAgentOptions },
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          // This array contains header names we want to log that are not already
-          // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"]
-        }
+      ...options, 
+      userAgentOptions,
+      loggingOptions: {
+        logger: logger.info,
+        // This array contains header names we want to log that are not already
+        // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
+        additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"]
       }
     };
 
