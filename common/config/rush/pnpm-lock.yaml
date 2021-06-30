@@ -6234,12 +6234,14 @@ packages:
     resolution:
       integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring/0.2.0:
+    deprecated: The
     dev: false
     engines:
       node: '>=0.4.x'
     resolution:
       integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
   /querystring/0.2.1:
+    deprecated: The
     dev: false
     engines:
       node: '>=0.4.x'
@@ -6541,26 +6543,26 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==
-  /rhea-promise/2.0.0:
+  /rhea-promise/2.1.0:
     dependencies:
       debug: 3.2.7
-      rhea: 2.0.2
+      rhea: 2.0.3
       tslib: 2.3.0
     dev: false
     resolution:
-      integrity: sha512-hoK6pTrFyIFDp0jrC2FQXzZPFnJXG78OHikpSHeC2gjdKGT+ofoFsbbxA0FcYjBqU2r2hDKRZbacBBvGtGAzhw==
+      integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==
   /rhea/1.0.24:
     dependencies:
       debug: 3.2.7
     dev: false
     resolution:
       integrity: sha512-PEl62U2EhxCO5wMUZ2/bCBcXAVKN9AdMSNQOrp3+R5b77TEaOSiy16MQ0sIOmzj/iqsgIAgPs1mt3FYfu1vIXA==
-  /rhea/2.0.2:
+  /rhea/2.0.3:
     dependencies:
       debug: 3.2.7
     dev: false
     resolution:
-      integrity: sha512-G2QqyVzRnZvv+WkpKBmWrVmkeeLRX7xKZB3wutU2fs/qvr4PJvAqKO7ymSYX/0dm2xt1QhNJO/Af17x49f7FBw==
+      integrity: sha512-goQWv15ci6RdjtSpDezknlJ0PQDDkkJiMVxC3oS8DpECnzLFov01WMJ23cpXW+L3hlSQwyunqX9kc0JW6/lziw==
   /rimraf/2.7.1:
     dependencies:
       glob: 7.1.7
@@ -8883,8 +8885,8 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea: 2.0.2
-      rhea-promise: 2.0.0
+      rhea: 2.0.3
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -8901,7 +8903,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-NsjbIvK0AepoWd0jHaFjQIsq2AIm10LaxkUXhc55cqQTJUCfPmPjw/OENA/4TcvI7c9lMe+5ZhGxyEbTiUI0Xw==
+      integrity: sha512-FHTxFxeancQjNBMEO+8O8eirRfSQp0TUzFfwBEBKy+/psSDQnFUCiVuYo9Q1DoXUDTFNX56lGOEhcuiG2fp7GA==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9034,7 +9036,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client-paging'
     resolution:
-      integrity: sha512-56hlO8jgFdKMR/mgzW2WPHAqxx7n+ji+L9ZCeF+9yxkcmBBzsSKfYrQdTtsBN94/1/ZwtmWJluu7WDKieWYY0w==
+      integrity: sha512-2yfyj7zg3Un1ZqzSMicY6SUmVE+Xnx4HbbAumjTWTAHBPeemreMzkys2OtcP7pYuLkd8mlBuHxzw/9xLf3p8Zg==
       tarball: file:projects/core-client-paging.tgz
     version: 0.0.0
   file:projects/core-client.tgz:
@@ -9708,6 +9710,7 @@ packages:
       buffer: 5.7.1
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.0.3_chai@4.3.4
       chai-string: 1.5.0_chai@4.3.4
       cross-env: 7.0.3
       debug: 4.3.1
@@ -9736,7 +9739,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 2.0.0
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9752,7 +9755,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-E6rqZwFWroU5Fh0CdkKDZeDNYpis0r6OfX+IrBpObaLFP9P36UKrjHuHtSyvBWt9j3tBY+BBGDSBOC7BxDSfKw==
+      integrity: sha512-fXz8BwzRRBOJmgO0z1ohoQA+AUIxVR81oPK3Cuo4lk3Q+93rtkF4gryRjJEFkIfUNAWXo2kQB5ITgwhlUC8iVw==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -10440,14 +10443,14 @@ packages:
       dotenv: 8.6.0
       eslint: 7.29.0
       prettier: 1.19.1
-      rhea: 2.0.2
+      rhea: 2.0.3
       rimraf: 3.0.2
       tslib: 2.3.0
       typescript: 4.2.4
     dev: false
     name: '@rush-temp/mock-hub'
     resolution:
-      integrity: sha512-w4gQTrqQney0Jkj0NMc1D9KrgNJ1upzYkheaNFdeA84uApywwVloe7o8mOhGMVhzR1uQMsq2zFlNGdDgbByDog==
+      integrity: sha512-K6rFTLoACIBX5It6x5v3r668Kpt7jjkgCeukzTyZ13cvPrjqJ4M7L9y0oU2ECIigGm59cbHx4sWOX/rHAhELhw==
       tarball: file:projects/mock-hub.tgz
     version: 0.0.0
   file:projects/monitor-opentelemetry-exporter.tgz:
@@ -10907,7 +10910,7 @@ packages:
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-s8e8M//91ePGj1dO90jFRt/t9boXQAb412rQ/eV7Plvf4Z7juW8OQNFfgfDDgbu/+Yh4BmTEEt0Ge5fhQ3MNGQ==
+      integrity: sha512-xaaEFEa1AX8TYN/mligAKSMcHNTyWbkerkOi1p5DkRMbDoT9rycvNcS2aIzGwbPv352PeDIR9wa4Pz3pXutOnw==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:
@@ -11123,7 +11126,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 2.0.0
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -11138,7 +11141,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-teYp08lQ/CkmWhDaJMHvTWnOzeIiEbMgx3AAs4BjPFVPVK9/2RI2dT7kwyZbZwRyOmh9+ipjF1mfxpF4fiUXLQ==
+      integrity: sha512-U+lymhlntKTzSY+fZ2ZO0n7kDS40eA9hrB3q3kpSUTHitPFW5S6sbE1DR1ibvEGEis4oCAMsTz+DhZoPNR6uHA==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
@@ -11846,7 +11849,7 @@ packages:
     dev: false
     name: '@rush-temp/web-pubsub-express'
     resolution:
-      integrity: sha512-7fhzzPMfrSmDZbdzhtoALZPAyEC+HYfKldEM0RaYayTsuyHOdVz5IwWyKBXMwwCVoiWbbQEtVYf1NbI4e5g3Kg==
+      integrity: sha512-0BfXTMbuUjTrsR+Tz0lBb+1y+5qhO0XGgmNcy/JjyEZUTn7PccRFYnyK4/wW+St7teCrsF6zampG5ab/h0RhHA==
       tarball: file:projects/web-pubsub-express.tgz
     version: 0.0.0
   file:projects/web-pubsub.tgz:
@@ -11858,6 +11861,7 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.19
       '@types/jsonwebtoken': 8.5.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.15
@@ -11903,7 +11907,7 @@ packages:
     dev: false
     name: '@rush-temp/web-pubsub'
     resolution:
-      integrity: sha512-NEgAqwtqpS48OPZ9oNnVcyOUBN9+cdG8bmcyFPVcH69lHkGVUKUTWlYQKAer1xuBZbdvZrw7l8UjrFtpnVCqaw==
+      integrity: sha512-c4EhqvsmN20MNmoKzSpn0/RAmB5FyARVkcVQl8fVxJnH3kcx7H7yud35i3fe+jySbR35elHuXs0uOUw3LijIXQ==
       tarball: file:projects/web-pubsub.tgz
     version: 0.0.0
 registry: ''
