@@ -14,6 +14,10 @@ export interface QueryResults {
   tables: Table[];
   /** Statistics represented in JSON format. */
   statistics?: any;
+  /** Visualization data in JSON format. */
+  render?: any;
+  /** The code and message for an error. */
+  error?: ErrorInfo;
 }
 
 /** Contains the columns and rows for one table in a query response. */
@@ -23,7 +27,7 @@ export interface Table {
   /** The list of columns in this table. */
   columns: Column[];
   /** The resulting rows from this query. */
-  rows: string[][];
+  rows: any[][];
 }
 
 /** A column in a table. */
@@ -31,13 +35,7 @@ export interface Column {
   /** The name of this column. */
   name?: string;
   /** The data type of this column. */
-  type?: ColumnDataType;
-}
-
-/** Contains details when the response code indicates an error. */
-export interface ErrorResponse {
-  /** The error details. */
-  error: ErrorInfo;
+  type?: LogsColumnType;
 }
 
 /** The code and message for an error. */
@@ -70,6 +68,12 @@ export interface ErrorDetail {
   additionalProperties?: any;
 }
 
+/** Contains details when the response code indicates an error. */
+export interface ErrorResponse {
+  /** The error details. */
+  error: ErrorInfo;
+}
+
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 export interface QueryBody {
   /** The query to execute. */
@@ -78,12 +82,6 @@ export interface QueryBody {
   timespan?: string;
   /** A list of workspaces that are included in the query. */
   workspaces?: string[];
-  /** A list of qualified workspace names that are included in the query. */
-  qualifiedNames?: string[];
-  /** A list of workspace IDs that are included in the query. */
-  workspaceIds?: string[];
-  /** A list of Azure resource IDs that are included in the query. */
-  azureResourceIds?: string[];
 }
 
 /** The metadata response for the app, including available tables, etc. */
@@ -405,60 +403,67 @@ export interface MetadataPermissionsApplicationsItem {
 /** An array of requests. */
 export interface BatchRequest {
   /** An single request in a batch. */
-  requests?: LogQueryRequest[];
+  requests: BatchQueryRequest[];
 }
 
 /** An single request in a batch. */
-export interface LogQueryRequest {
+export interface BatchQueryRequest {
   /** The error details. */
-  id?: string;
+  id: string;
   /** Dictionary of <string> */
   headers?: { [propertyName: string]: string };
   /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
-  body?: QueryBody;
+  body: QueryBody;
   path?: "/query";
   method?: "POST";
   /** Workspace Id to be included in the query */
-  workspace?: string;
+  workspace: string;
 }
 
-/** Response to a batch. */
+/** Response to a batch query. */
 export interface BatchResponse {
   /** An array of responses corresponding to each individual request in a batch. */
-  responses?: LogQueryResponse[];
+  responses?: BatchQueryResponse[];
 }
 
-export interface LogQueryResponse {
+export interface BatchQueryResponse {
   id?: string;
   status?: number;
-  /** Contains the tables, columns & rows resulting from the query or the error details if the query failed. */
-  body?: LogQueryResult;
+  /** Contains the tables, columns & rows resulting from a query. */
+  body?: BatchQueryResults;
   /** Dictionary of <string> */
   headers?: { [propertyName: string]: string };
 }
 
-/** Contains the tables, columns & rows resulting from the query or the error details if the query failed. */
-export interface LogQueryResult {
+/** Contains the tables, columns & rows resulting from a query. */
+export interface BatchQueryResults {
   /** The list of tables, columns and rows. */
   tables?: Table[];
+  /** Statistics represented in JSON format. */
+  statistics?: any;
+  /** Visualization data in JSON format. */
+  render?: any;
   /** The code and message for an error. */
   error?: ErrorInfo;
 }
 
-/** Known values of {@link ColumnDataType} that the service accepts. */
-export const enum KnownColumnDataType {
+/** Known values of {@link LogsColumnType} that the service accepts. */
+export const enum KnownLogsColumnType {
   Bool = "bool",
   Datetime = "datetime",
   Dynamic = "dynamic",
   Int = "int",
   Long = "long",
   Real = "real",
-  String = "string"
+  String = "string",
+  Guid = "guid",
+  Decimal = "decimal",
+  Timespan = "timespan"
 }
 
 /**
- * Defines values for ColumnDataType. \
- * {@link KnownColumnDataType} can be used interchangeably with ColumnDataType,
+ * Defines values for LogsColumnType. \
+ * {@link KnownLogsColumnType} can be used interchangeably with LogsColumnType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **bool** \
@@ -467,9 +472,12 @@ export const enum KnownColumnDataType {
  * **int** \
  * **long** \
  * **real** \
- * **string**
+ * **string** \
+ * **guid** \
+ * **decimal** \
+ * **timespan**
  */
-export type ColumnDataType = string;
+export type LogsColumnType = string;
 
 /** Known values of {@link MetadataColumnDataType} that the service accepts. */
 export const enum KnownMetadataColumnDataType {
@@ -479,7 +487,10 @@ export const enum KnownMetadataColumnDataType {
   Int = "int",
   Long = "long",
   Real = "real",
-  String = "string"
+  String = "string",
+  Guid = "guid",
+  Decimal = "decimal",
+  Timespan = "timespan"
 }
 
 /**
@@ -493,7 +504,10 @@ export const enum KnownMetadataColumnDataType {
  * **int** \
  * **long** \
  * **real** \
- * **string**
+ * **string** \
+ * **guid** \
+ * **decimal** \
+ * **timespan**
  */
 export type MetadataColumnDataType = string;
 
@@ -517,7 +531,7 @@ export type QueryGetResponse = QueryResults & {
 
 /** Optional parameters. */
 export interface QueryExecuteOptionalParams extends coreHttp.OperationOptions {
-  /** Optional. The prefer header to set server timeout, */
+  /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
   prefer?: string;
 }
 

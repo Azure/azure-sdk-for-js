@@ -2,31 +2,31 @@
 
 ## 2.0.0-beta.4 (Unreleased)
 
-### New features
-
+### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Introduced an extension API through a top-level method `useIdentityExtension`. The function accepts an "extension" as an argument, which is a function accepting a `context`. The extension context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
   - `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it (see more below).
   - `@azure/identity-cache-persistence`, which provides persistent token caching (same as was available in version 2.0.0-beta.2, but now provided through a secondary extension package).
 - Reintroduced a stub implementation of `VisualStudioCodeCredential`. If the `@azure/identity-vscode` extension is not used, then it will throw a `CredentialUnavailableError` (similar to how it previously behaved if the `keytar` package was not installed). The extension now provides the underlying implementation of `VisualStudioCodeCredential` through dependency injection.
 - Reintroduced the `TokenCachePersistenceOptions` property on most credential constructor options. This property must be present with an `enabled` property set to true to enable persistent token caching for a credential instance. Credentials that do not support persistent token caching do not have this property.
-
-## Bug fixes
-
-- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
-- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in NodeJS.
-
-### Breaking changes
-
-- Removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. While it will continue to be available as part of v1, we won't be supporting this method as part of v2's public API.
-
-### New Features
-
+- Added support to `ManagedIdentityCredential` for Bridge to Kubernetes local development authentication.
+- Enabled PKCE on `InteractiveBrowserCredential` for Node.js. [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) is a security feature that mitigates authentication code interception attacks.
+- Added `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
 - Added regional STS support to client credential types.
   - Added the `RegionalAuthority` type, that allows specifying Azure regions.
   - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
   - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
   - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
-   
+
+### Breaking Changes
+
+- Removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. While it will continue to be available as part of v1, we won't be supporting this method as part of v2's public API.
+
+### Key Bugs Fixed
+
+- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
+- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in NodeJS.
+
 ## 2.0.0-beta.3 (2021-05-12)
 
 ### New features

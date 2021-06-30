@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { DEFAULT_EXPORTER_CONFIG } from "../../../../src/config";
-import { HttpSender } from "../../../../src/platform/nodejs/httpSender";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../../src/Declarations/Constants";
+import { DEFAULT_EXPORTER_CONFIG } from "../../src/config";
+import { HttpSender } from "../../src/platform/nodejs/httpSender";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
   partialBreezeResponse
-} from "../../breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../../src/generated";
+} from "../utils/breezeTestUtils";
+import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
 
 describe("HttpSender", () => {
