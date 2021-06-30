@@ -66,7 +66,7 @@ matrix([[true, false]] as const, async (useAad) => {
           azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
         }
         if (recorder && !eventHubsFeedName) {
-          eventHubsFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+          eventHubsFeedName = recorder.getUniqueName("js-test-eventhubRequestFeed-");
         }
         if (recorder && !logAnalyticsFeedName) {
           logAnalyticsFeedName = recorder.getUniqueName("js-test-logAnalyticsFeed-");
