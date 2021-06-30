@@ -535,7 +535,6 @@ export interface BlobDownloadHeaders {
     errorCode?: string;
     etag?: string;
     immutabilityPolicyExpiresOn?: Date;
-    // Warning: (ae-forgotten-export) The symbol "BlobImmutabilityPolicyMode" needs to be exported by the entry point index.d.ts
     immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isSealed?: boolean;
@@ -768,9 +767,14 @@ export interface BlobHTTPHeaders {
 }
 
 // @public
+export type BlobImmutabilityPolicyMode = "Unlocked" | "Locked" | "Mutable";
+
+// @public
 export interface BlobItem {
     // (undocumented)
     deleted: boolean;
+    // (undocumented)
+    hasVersionsOnly?: boolean;
     // (undocumented)
     isCurrentVersion?: boolean;
     // (undocumented)
@@ -1873,6 +1877,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeCopy?: boolean;
     includeDeleted?: boolean;
+    includeDeletedwithVersions?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     includeTags?: boolean;
