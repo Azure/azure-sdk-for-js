@@ -12,15 +12,14 @@ import { EventEmitter } from "events";
 import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,
-  BatchingReceiverLite,
-  RheaReceiverWithPrivateProperties
+  BatchingReceiverLite
 } from "../../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
 import { AbortController } from "@azure/abort-controller";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import {
-  Receiver as RheaReceiver,
+  Receiver as RheaPromiseReceiver,
   ReceiverEvents,
   SessionEvents,
   EventContext,
@@ -147,7 +146,7 @@ describe("BatchingReceiver unit tests", () => {
               listeners.add(eventType);
             }
           }
-        } as any) as RheaReceiver;
+        } as any) as RheaPromiseReceiver;
 
         abortController.abort();
       };
@@ -418,7 +417,7 @@ describe("BatchingReceiver unit tests", () => {
         clock?: ReturnType<typeof sinon.useFakeTimers>
       ): {
         receiveIsReady: Promise<void>;
-        rheaReceiver: RheaReceiver;
+        rheaReceiver: RheaPromiseReceiver;
       } {
         const rheaReceiver = createFakeReceiver(clock);
 
@@ -440,40 +439,35 @@ describe("BatchingReceiver unit tests", () => {
     });
   });
 
-  function createFakeReceiver(clock?: ReturnType<typeof sinon.useFakeTimers>): RheaReceiver {
-    const fakeRheaReceiver = new EventEmitter() as RheaReceiverWithPrivateProperties;
+  function createFakeReceiver(clock?: ReturnType<typeof sinon.useFakeTimers>): RheaPromiseReceiver {
+    const fakeRheaReceiver = new EventEmitter() as RheaPromiseReceiver;
+    fakeRheaReceiver.drain = false;
 
-    const rheaLink = {
-      credit: 0
-    };
+    let credit = 0;
 
     fakeRheaReceiver.on(ReceiverEvents.message, function creditRemoverForTests() {
-      --rheaLink.credit;
+      --credit;
     });
     (fakeRheaReceiver as any).session = new EventEmitter();
 
     fakeRheaReceiver["isOpen"] = () => true;
-    fakeRheaReceiver["addCredit"] = (credit: number) => {
-      rheaLink.credit += credit;
-
-      if (credit === 1 && fakeRheaReceiver.drain === true) {
-        // special case - if we're draining we should initiate a drain
-        fakeRheaReceiver.emit(ReceiverEvents.receiverDrained, undefined);
-        clock?.runAll();
-      }
+    fakeRheaReceiver["addCredit"] = (_credit: number) => {
+      credit += _credit;
     };
-    fakeRheaReceiver.drain = false;
+
+    fakeRheaReceiver["drainCredit"] = () => {
+      fakeRheaReceiver.drain = true;
+      fakeRheaReceiver.emit(ReceiverEvents.receiverDrained, undefined);
+      clock?.runAll();
+    };
 
     Object.defineProperty(fakeRheaReceiver, "credit", {
-      get: () => rheaLink.credit
+      get: () => credit
     });
 
     (fakeRheaReceiver as any)["connection"] = {
       id: "connection-id"
     };
-
-    (fakeRheaReceiver as any)["_link"] = rheaLink;
-    fakeRheaReceiver.drain = false;
 
     return fakeRheaReceiver;
   }
@@ -678,24 +672,23 @@ describe("BatchingReceiver unit tests", () => {
 
       fakeRheaReceiver.removeAllListeners(ReceiverEvents.receiverDrained);
 
-      const addCreditSpy = sinon.spy(fakeRheaReceiver, "addCredit");
-
       // the first call (when there are no received messages) will initiate a drain
       assert.isFalse(fakeRheaReceiver.drain);
 
+      const drainCreditSpy = sinon.spy(fakeRheaReceiver, "drainCredit");
+
       finalAction();
 
-      assert.isTrue(fakeRheaReceiver.drain);
-      assert.isTrue(addCreditSpy.calledOnceWith(1));
+      assert.isTrue(drainCreditSpy.calledOnceWith());
 
       // also our fix should leave our # of credits untouched (ie, no +1 effect)
       assert.equal(fakeRheaReceiver.credit, 2);
 
-      addCreditSpy.resetHistory();
+      drainCreditSpy.resetHistory();
 
       // subsequent calls will not initiate drains.
       finalAction();
-      assert.isTrue(addCreditSpy.notCalled);
+      assert.isTrue(drainCreditSpy.notCalled);
     });
   });
 
@@ -789,7 +782,7 @@ function getReceiveIsReadyPromise(batchingReceiverLite: BatchingReceiverLite): P
   return promise;
 }
 
-function assertListenersRemoved(rheaReceiver: RheaReceiver): void {
+function assertListenersRemoved(rheaReceiver: RheaPromiseReceiver): void {
   const shouldBeEmpty = [
     ReceiverEvents.receiverClose,
     ReceiverEvents.receiverDrained,

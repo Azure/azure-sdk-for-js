@@ -183,11 +183,11 @@ export function createRheaReceiverForTests(options?: ReceiverOptions): RheaPromi
     }
   };
 
-  (receiver as any)['_link'] = link;
+  (receiver as any)["_link"] = link;
 
   receiver.drain = false;
 
-  (receiver as any)['drainCredit'] = () => {
+  (receiver as any)["drainCredit"] = () => {
     link.drain_credit();
   };
 

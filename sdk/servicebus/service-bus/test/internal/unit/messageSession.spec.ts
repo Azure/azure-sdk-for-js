@@ -12,14 +12,19 @@ import {
 } from "./unittestUtils";
 import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
-import { ReceiverEvents, EventContext, Message as RheaMessage, SessionEvents } from "rhea-promise";
+import {
+  ReceiverEvents,
+  EventContext,
+  Message as RheaMessage,
+  SessionEvents,
+  Receiver as RheaPromiseReceiver
+} from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import { ProcessErrorArgs, ServiceBusError } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import { RheaReceiverWithPrivateProperties } from "../../../src/core/batchingReceiver";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -275,18 +280,16 @@ describe("Message session unit tests", () => {
     } {
       const emitter = new EventEmitter();
       const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
-      const _link = {
-        credit: 0
-      };
 
       const remainingRegisteredListeners = new Set<string>();
+      let credit = 0;
 
       const fakeRheaReceiver = {
         on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
           emitter.on(evt, handler);
 
           if (evt === ReceiverEvents.message) {
-            --_link.credit;
+            --credit;
           }
 
           assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
@@ -315,23 +318,20 @@ describe("Message session unit tests", () => {
           }
         },
         isOpen: () => true,
-        addCredit: (credit: number) => {
-          if (credit === 1 && fakeRheaReceiver.drain === true) {
-            // special case - if we're draining we should initiate a drain
-            emitter.emit(ReceiverEvents.receiverDrained, undefined);
-            clock?.runAll();
-          } else {
-            _link.credit += credit;
-          }
+        addCredit: (_credit: number) => {
+          credit += _credit;
+        },
+        drainCredit: () => {
+          emitter.emit(ReceiverEvents.receiverDrained, undefined);
+          clock?.runAll();
         },
         get credit() {
-          return _link.credit;
+          return credit;
         },
         connection: {
           id: "connection-id"
-        },
-        _link
-      } as RheaReceiverWithPrivateProperties;
+        }
+      } as RheaPromiseReceiver;
 
       batchingReceiver["_link"] = fakeRheaReceiver;
 

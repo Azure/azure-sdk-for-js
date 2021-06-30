@@ -200,7 +200,7 @@ type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
  */
 export type MinimalReceiver = Pick<
   RheaPromiseReceiver,
-  "name" | "isOpen" | "credit" | "addCredit" | "drain"
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit"
 > &
   EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
@@ -402,20 +402,7 @@ export class BatchingReceiverLite {
       // Drain any pending credits.
       if (receiver.isOpen() && receiver.credit > 0) {
         logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
-
-        // setting .drain and combining it with .addCredit results in (eventually) sending
-        // a drain request to Service Bus. When the drain completes rhea will call `onReceiveDrain`
-        // at which point we'll wrap everything up and resolve the promise.
-        receiver.drain = true;
-        receiver.addCredit(1);
-
-        // WORKAROUND: currently addCredit(<positive number>) is the only way the next tick will actually
-        // send a flow frame. However, we don't want the extra credit we just added - it can result in an extra
-        // message being sent that we did not ask for (ie, it causes us to request remaining_credits + 1)
-        //
-        // This workaround goes in and "removes" the credit, leaving all the other necessary flags intact so a
-        // flow frame will still get sent. This is all just in-memory manipulation (nothing has been sent yet).
-        (receiver as RheaReceiverWithPrivateProperties)._link.credit--;
+        receiver.drainCredit();
       } else {
         logger.verbose(
           `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
@@ -553,21 +540,3 @@ export class BatchingReceiverLite {
     receiver.session.on(SessionEvents.sessionClose, onClose);
   }
 }
-
-/**
- * @internal
- */
-export type RheaReceiverWithPrivateProperties = RheaPromiseReceiver & {
-  /**
-   * rhea-promise does an internal cast to get to the credit property as it's not actually exposed
-   * by rhea.
-   *
-   * export class RheaPromiseReceiver extends Link {}
-   * export abstract class Link extends Entity {
-   *   protected _link: RheaLink;
-   * }
-   */
-  _link: RheaPromiseReceiver["_link"] & {
-    credit: number;
-  };
-};
