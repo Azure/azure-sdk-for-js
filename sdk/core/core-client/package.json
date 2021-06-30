@@ -1,6 +1,10 @@
 {
   "name": "@azure/core-client",
+<<<<<<< HEAD
   "version": "1.2.2",
+=======
+  "version": "1.2.1",
+>>>>>>> cf4e6ae91 (Version increment due to accidental core package release)
   "description": "Core library for interfacing with AutoRest generated code",
   "sdk-type": "client",
   "main": "dist/index.js",

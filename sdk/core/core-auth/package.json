@@ -1,6 +1,10 @@
 {
   "name": "@azure/core-auth",
+<<<<<<< HEAD
   "version": "1.3.3",
+=======
+  "version": "1.3.2",
+>>>>>>> cf4e6ae91 (Version increment due to accidental core package release)
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",

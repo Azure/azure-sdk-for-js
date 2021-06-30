@@ -1,7 +1,11 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
+<<<<<<< HEAD
   "version": "3.1.0",
+=======
+  "version": "3.0.2",
+>>>>>>> cf4e6ae91 (Version increment due to accidental core package release)
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",

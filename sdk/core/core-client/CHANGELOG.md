@@ -1,9 +1,14 @@
 # Release History
 
+<<<<<<< HEAD
 ## 1.2.2 (Unreleased)
+=======
+## 1.2.1 (Unreleased)
+>>>>>>> cf4e6ae91 (Version increment due to accidental core package release)
 
 ### Features Added
 
+<<<<<<< HEAD
 ### Breaking Changes
 
 ### Key Bugs Fixed
@@ -11,10 +16,16 @@
 ### Fixed
 
 
+<<<<<<< HEAD
 ## 1.2.1 (2021-06-30)
+=======
+## 1.2.0 (UNRELEASED)
+>>>>>>> cf4e6ae91 (Version increment due to accidental core package release)
 
 ### Features Added
 
+=======
+>>>>>>> 3aaf03621 (Updated change log)
 - Moved `allowInsecureConnection` from `ServiceClientOptions` to `CommonClientOptions` [issue 15938](https://github.com/azure/azure-sdk-for-js/issues/15938)
 
 ## 1.1.3 (2021-06-17)
