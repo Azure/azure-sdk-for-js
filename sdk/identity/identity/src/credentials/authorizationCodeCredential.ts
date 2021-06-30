@@ -107,7 +107,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
     this.clientId = clientId;
     this.tenantId = tenantId;
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
@@ -123,6 +122,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.identityClient = new IdentityClient(options);
   }
 
