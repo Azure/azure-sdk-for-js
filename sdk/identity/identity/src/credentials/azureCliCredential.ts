@@ -11,6 +11,7 @@ import * as child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -110,6 +111,10 @@ export class AzureCliCredential implements TokenCredential {
       this.allowMultiTenantAuthentication,
       options
     );
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
+
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
     ensureValidScope(scope, logger);

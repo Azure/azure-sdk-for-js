@@ -10,6 +10,7 @@ import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { processUtils } from "../util/processUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -171,6 +172,10 @@ export class AzurePowerShellCredential implements TokenCredential {
         this.allowMultiTenantAuthentication,
         options
       );
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
+
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       ensureValidScope(scope, logger);
       logger.getToken.info(`Using the scope ${scope}`);
