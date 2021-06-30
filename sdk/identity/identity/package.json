@@ -57,7 +57,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -103,7 +103,7 @@
     "@microsoft/api-extractor": "7.7.11",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/qs": "^6.5.3",
     "@types/uuid": "^8.0.0",
     "assert": "^1.4.1",

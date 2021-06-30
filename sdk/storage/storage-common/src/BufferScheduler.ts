@@ -92,7 +92,7 @@ export class BufferScheduler {
   /**
    * Encoding of the input Readable stream which has string data type instead of Buffer.
    */
-  private encoding?: string;
+  private encoding?: BufferEncoding;
 
   /**
    * How many buffers have been allocated.
@@ -141,7 +141,7 @@ export class BufferScheduler {
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
     concurrency: number,
-    encoding?: string
+    encoding?: BufferEncoding
   ) {
     if (bufferSize <= 0) {
       throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);

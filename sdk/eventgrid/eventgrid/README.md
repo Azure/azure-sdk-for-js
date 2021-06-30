@@ -18,12 +18,12 @@ Use the client library to:
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
-  - Apple Safari: latest two versions
-  - Google Chrome: latest two versions
-  - Microsoft Edge: all supported versions
-  - Mozilla FireFox: latest two versions
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 

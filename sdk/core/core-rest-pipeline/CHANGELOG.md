@@ -6,6 +6,12 @@
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
 
+### Features Added
+
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- The `ExponentialRetryPolicy` will now ignore `503` responses if they have the `Retry-After` header.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
+
 ### Breaking Changes
 
 - Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.

@@ -47,6 +47,12 @@ export const MetricDefinition: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -62,6 +68,12 @@ export const MetricDefinition: coreHttp.CompositeMapper = {
       },
       category: {
         serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      metricClass: {
+        serializedName: "metricClass",
         type: {
           name: "String"
         }
@@ -84,6 +96,25 @@ export const MetricDefinition: coreHttp.CompositeMapper = {
             "Maximum",
             "Total"
           ]
+        }
+      },
+      supportedAggregationTypes: {
+        serializedName: "supportedAggregationTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "None",
+                "Average",
+                "Count",
+                "Minimum",
+                "Maximum",
+                "Total"
+              ]
+            }
+          }
         }
       },
       metricAvailabilities: {

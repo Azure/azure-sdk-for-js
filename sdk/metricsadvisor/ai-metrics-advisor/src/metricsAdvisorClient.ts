@@ -23,7 +23,6 @@ import {
   AnomalyAlert,
   GetMetricEnrichedSeriesDataResponse,
   GetIncidentRootCauseResponse,
-  GetFeedbackResponse,
   AlertsPageResponse,
   IncidentsPageResponse,
   AnomaliesPageResponse,
@@ -257,10 +256,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -285,10 +281,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
   }
@@ -454,10 +447,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -489,10 +479,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
   }
@@ -637,10 +624,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -672,10 +656,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -825,10 +806,7 @@ export class MetricsAdvisorClient {
       };
     });
 
-    return Object.defineProperty(results, "_response", {
-      enumerable: false,
-      value: result._response
-    });
+    return results;
   }
 
   /**
@@ -881,10 +859,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -913,10 +888,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
     }
   }
 
@@ -1070,10 +1042,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1090,10 +1059,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1268,10 +1234,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1302,10 +1265,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1461,8 +1421,7 @@ export class MetricsAdvisorClient {
         };
       });
       return {
-        rootCauses: transformed,
-        _response: result._response
+        rootCauses: transformed
       };
     } catch (e) {
       span.setStatus({
@@ -1485,7 +1444,7 @@ export class MetricsAdvisorClient {
   public async addFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
-  ): Promise<GetFeedbackResponse> {
+  ): Promise<MetricFeedbackUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorClient-addFeedback",
       options
@@ -1520,7 +1479,7 @@ export class MetricsAdvisorClient {
   public async getFeedback(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetFeedbackResponse> {
+  ): Promise<MetricFeedbackUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorClient-getFeedback",
       options
@@ -1529,10 +1488,7 @@ export class MetricsAdvisorClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getMetricFeedback(id, requestOptions);
-      return {
-        ...fromServiceMetricFeedbackUnion(result),
-        _response: result._response
-      };
+      return fromServiceMetricFeedbackUnion(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1581,10 +1537,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1602,10 +1555,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1740,10 +1690,6 @@ export class MetricsAdvisorClient {
           values: s.valueList
         };
       }) || [];
-    Object.defineProperty(resultArray, "_response", {
-      enumerable: false,
-      value: result._response
-    });
 
     return resultArray as GetMetricSeriesDataResponse;
   }
@@ -1775,10 +1721,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1801,10 +1744,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1937,10 +1877,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1957,10 +1894,7 @@ export class MetricsAdvisorClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -2100,10 +2034,7 @@ export class MetricsAdvisorClient {
           value: segmentResponse.nextLink
         }
       );
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -2129,10 +2060,7 @@ export class MetricsAdvisorClient {
           value: segmentResponse.nextLink
         }
       );
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }

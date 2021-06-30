@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
-
 import {
   SuppressCondition,
   SmartDetectionCondition,
@@ -1662,164 +1660,15 @@ export interface MetricEnrichedSeriesData {
 // Response types
 
 /**
- * Contains response data for the getDataFeed operation.
- */
-export type GetDataFeedResponse = MetricsAdvisorDataFeed & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getAnomalyDetectionConfiguration operation.
- */
-export type GetDetectionConfigResponse = AnomalyDetectionConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getAnomalyAlertConfiguration operation.
- */
-export type GetAlertConfigResponse = AnomalyAlertConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getHook operation.
- */
-export type GetHookResponse = NotificationHookUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getCredentialEntity operation.
- */
-export type GetDataSourceCredentialEntityResponse = DataSourceCredentialEntityUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
-export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {}
 
 /**
  * Contains response data for the getIncidentRootCause operation.
  */
 export type GetIncidentRootCauseResponse = {
   rootCauses: IncidentRootCause[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getFeedback operation.
- */
-export type GetFeedbackResponse = MetricFeedbackUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 };
 
 /**
@@ -1830,20 +1679,6 @@ export interface AlertsPageResponse extends Array<AnomalyAlert> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1854,20 +1689,6 @@ export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1878,20 +1699,6 @@ export interface DimensionValuesPageResponse extends Array<string> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1902,20 +1709,6 @@ export interface IncidentsPageResponse extends Array<AnomalyIncident> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1926,20 +1719,6 @@ export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> 
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1968,20 +1747,6 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1992,20 +1757,6 @@ export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2016,20 +1767,6 @@ export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 export interface IngestionStatus {
@@ -2054,20 +1791,6 @@ export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2078,60 +1801,16 @@ export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
  * Contains response data for the listAlertConfigs operation.
  */
-export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {}
 /**
  * Contains response data for the listAnomalyDetectionConfigurations operation.
  */
-export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {}
 
 /**
  * Contains response data for the listHooks operation.
@@ -2141,20 +1820,6 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2171,21 +1836,6 @@ export type GetIngestionProgressResponse = {
    * null indicates not available
    */
   readonly latestActiveTimestamp?: number;
-} & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 };
 
 /**
@@ -2353,18 +2003,4 @@ export interface CredentialsPageResponse extends Array<DataSourceCredentialEntit
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }

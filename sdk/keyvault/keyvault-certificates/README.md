@@ -20,17 +20,20 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
+
 ### Install the package
 
 Install the Azure Key Vault Certificates client library using npm
 
 `npm install @azure/keyvault-certificates`
-
-### Prerequisites
-
-- An [Azure subscription](https://azure.microsoft.com/free/).
-- An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI](https://docs.microsoft.com/azure/key-vault/general/quick-create-cli).
-- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 ### Install the identity library
 
