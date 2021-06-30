@@ -75,10 +75,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
       console.log(`version in package's dep = ${depVersionRange}`); //^1.0.0
       console.log(`dep's version = ${packageVersion}`); //1.0.0
 
-      const parsedPackageVersion = semver.parse(packageVersion);
-      const parsedDepMinVersion = semver.minVersion(depVersionRange);
-
-      if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
+      if (semver.satisfies(packageVersion, depVersionRange)) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
     }
@@ -130,10 +127,9 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
     console.log(`version in package's dep = ${depVersionRange}`);
     console.log(`dep's version = ${packageVersion}`);
     const parsedPackageVersion = semver.parse(packageVersion);
-    const parsedDepMinVersion = semver.minVersion(depVersionRange);
     // If the dependency range is satisfied by the package's current version,
     // replace it with an exact match to the package's new version
-    if (semver.eq(parsedDepMinVersion, parsedPackageVersion) &&
+    if (semver.satisfies(packageVersion, depVersionRange) &&
       rushPackages[depName].newVer !== undefined
     ) {
 
@@ -172,8 +168,7 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
 
   if (allowedAlternativeVersions[package]) {
     for (var version of allowedAlternativeVersions[package]) {
-      const parsedPackageVersion = semver.minVersion(version);
-      if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
+      if (semver.satisfies(searchVersion, version)) {
         const versionPrefix = `${parsedSearchVersion.major}.${parsedSearchVersion.minor}.${parsedSearchVersion.patch}`;
         var devVersionRange = ">=" + versionPrefix + "-alpha <" + versionPrefix + "-alphb";
         allowedAlternativeVersions[package].push(devVersionRange);
