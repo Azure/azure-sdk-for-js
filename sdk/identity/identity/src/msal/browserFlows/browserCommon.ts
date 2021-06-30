@@ -146,11 +146,9 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(
-      this.tenantId,
-      this.allowMultiTenantAuthentication,
-      options
-    )!;
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
 
     if (!options.authority) {
       options.authority = getAuthority(tenantId, this.authorityHost);

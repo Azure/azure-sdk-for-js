@@ -174,11 +174,10 @@ export class VisualStudioCodeCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken> {
     await this.prepareOnce();
-    const tenantId = processMultiTenantRequest(
-      this.tenantId,
-      this.allowMultiTenantAuthentication,
-      options
-    )!;
+
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(

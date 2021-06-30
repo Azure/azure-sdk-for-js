@@ -138,11 +138,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(
-      this.tenantId,
-      this.allowMultiTenantAuthentication,
-      options
-    )!;
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
 
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
