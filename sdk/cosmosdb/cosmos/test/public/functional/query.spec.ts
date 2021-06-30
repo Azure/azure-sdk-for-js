@@ -7,7 +7,11 @@ import { Container } from "../../../src/";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 // TODO: This is required for Node 6 and above, so just putting it in here.
 // Might want to decide on only supporting async iterators once Node supports them officially.

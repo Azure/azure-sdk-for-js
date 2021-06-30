@@ -179,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
             },
             seriesGroupDetectionConditions: [
               {
-                group: { city: "Mumbai" },
+                groupKey: { city: "Mumbai" },
                 hardThresholdCondition: {
                   anomalyDetectorDirection: "Up",
                   upperBound: 400,
@@ -189,7 +189,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ],
             seriesDetectionConditions: [
               {
-                series: { city: "Kolkata", category: "Handmade" },
+                seriesKey: { city: "Kolkata", category: "Handmade" },
                 changeThresholdCondition: {
                   anomalyDetectorDirection: "Both",
                   shiftPoint: 1,
@@ -201,8 +201,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ]
           };
 
-          await client.updateDetectionConfig(createdDetectionConfigId, expected);
-          const actual = await client.getDetectionConfig(createdDetectionConfigId);
+          const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
 
@@ -217,18 +216,18 @@ matrix([[true, false]] as const, async (useAad) => {
             "Expecting valid seriesGroupDetectionConditions"
           );
           assert.deepStrictEqual(
-            actual.seriesGroupDetectionConditions![0].group,
-            expected.seriesGroupDetectionConditions![0].group
+            actual.seriesGroupDetectionConditions![0].groupKey,
+            expected.seriesGroupDetectionConditions![0].groupKey
           );
           assert.deepStrictEqual(
             actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
             expected.seriesGroupDetectionConditions![0].hardThresholdCondition
           );
           assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
-          delete (actual.seriesDetectionConditions![0].series as any).seriesId; // workaround service issue
+          delete (actual.seriesDetectionConditions![0].seriesKey as any).seriesId; // workaround service issue
           assert.deepStrictEqual(
-            actual.seriesDetectionConditions![0].series,
-            expected.seriesDetectionConditions![0].series
+            actual.seriesDetectionConditions![0].seriesKey,
+            expected.seriesDetectionConditions![0].seriesKey
           );
           assert.deepStrictEqual(
             actual.seriesDetectionConditions![0].changeThresholdCondition,
@@ -277,7 +276,7 @@ matrix([[true, false]] as const, async (useAad) => {
             crossMetricsOperator: "AND",
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig],
             hookIds: [],
-            splitAlertByDimensions: []
+            dimensionsToSplitAlert: []
           };
 
           const actual = await client.createAlertConfig(expectedAlertConfig);
@@ -293,8 +292,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
           assert.deepStrictEqual(actual.hookIds, expectedAlertConfig.hookIds);
           assert.deepStrictEqual(
-            actual.splitAlertByDimensions,
-            expectedAlertConfig.splitAlertByDimensions
+            actual.dimensionsToSplitAlert,
+            expectedAlertConfig.dimensionsToSplitAlert
           );
         });
 
@@ -325,8 +324,7 @@ matrix([[true, false]] as const, async (useAad) => {
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
           };
 
-          await client.updateAlertConfig(createdAlertConfigId, patch);
-          const actual = await client.getAlertConfig(createdAlertConfigId);
+          const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
           assert.ok(actual.id, "Expecting valid alerting config");
           assert.equal(actual.name, "new alert config name");
           assert.equal(actual.description, "new alert config description");

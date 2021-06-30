@@ -152,6 +152,10 @@ export class BatchingReceiver extends MessageReceiver {
     context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.messageReceivers[this.name];
+  }
 }
 
 /**

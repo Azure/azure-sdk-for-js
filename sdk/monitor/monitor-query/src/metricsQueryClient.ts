@@ -17,16 +17,16 @@ import {
 } from "./models/publicMetricsModels";
 
 import {
-  KnownApiVersion20170501Preview as MetricsApiVersion,
+  KnownApiVersion201801 as MetricsApiVersion,
   MonitorManagementClient as GeneratedMetricsClient
 } from "./generated/metrics/src";
 import {
-  KnownApiVersion20170501Preview as MetricDefinitionsApiVersion,
-  MetricsDefinitionsClient as GeneratedMetricsDefinitionsClient
+  KnownApiVersion201801 as MetricDefinitionsApiVersion,
+  MonitorManagementClient as GeneratedMetricsDefinitionsClient
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MetricsNamespacesClient as GeneratedMetricsNamespacesClient
+  MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
@@ -70,12 +70,12 @@ export class MetricsQueryClient {
     };
 
     this._metricsClient = new GeneratedMetricsClient(
-      MetricsApiVersion.TwoThousandSeventeen0501Preview,
+      MetricsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
     );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
-      MetricDefinitionsApiVersion.TwoThousandSeventeen0501Preview,
+      MetricDefinitionsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
     );
 

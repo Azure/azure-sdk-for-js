@@ -3,8 +3,8 @@
 
 import {
   BatchRequest as GeneratedBatchRequest,
-  LogQueryRequest,
-  LogQueryResponse,
+  BatchQueryRequest as GeneratedBatchQueryRequest,
+  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBatchResponse as GeneratedQueryBatchResponse,
   QueryBody,
   Table as GeneratedTable
@@ -32,13 +32,12 @@ import {
   GetMetricDefinitionsResult,
   GetMetricNamespacesResult,
   LogsTable,
-  MetricDefinition,
   QueryLogsBatch,
   QueryLogsBatchResult,
   QueryMetricsOptions,
   QueryMetricsResult
 } from "../../src";
-import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
+import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
 
 /**
  * @internal
@@ -46,7 +45,7 @@ import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
 export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBatchRequest {
   let id = 0;
 
-  const requests: LogQueryRequest[] = batch.queries.map((query: BatchQuery) => {
+  const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
     const body: QueryBody &
       Partial<
         Pick<BatchQuery, "includeQueryStatistics" | "serverTimeoutInSeconds" | "workspace">
@@ -55,7 +54,7 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
     delete body["serverTimeoutInSeconds"];
     delete body["includeQueryStatistics"];
 
-    const logQueryRequest: LogQueryRequest = {
+    const generatedRequest: GeneratedBatchQueryRequest = {
       id: id.toString(),
       workspace: query.workspace,
       headers: formatPreferHeader(query),
@@ -64,7 +63,7 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
 
     ++id;
 
-    return logQueryRequest;
+    return generatedRequest;
   });
 
   return {
@@ -95,7 +94,7 @@ export function convertResponseForQueryBatch(
 
         return left - right;
       })
-      ?.map((response: LogQueryResponse) => ({
+      ?.map((response: GeneratedBatchQueryResponse) => ({
         id: response.id,
         status: response.status,
         // hoist fields from the sub-object 'body' to this level
@@ -185,7 +184,7 @@ export function convertRequestForMetrics(
     obj.orderby = orderBy;
   }
   if (metricNames) {
-    obj.metric = metricNames.join(",");
+    obj.metricnames = metricNames.join(",");
   }
   if (aggregations) {
     obj.aggregation = aggregations.join(",");
@@ -264,19 +263,24 @@ export function convertResponseForMetricsDefinitions(
   generatedResponse: GeneratedMetricDefinitionsListResponse
 ): GetMetricDefinitionsResult {
   return {
-    definitions: generatedResponse.value.map((defn) => {
-      const { name, dimensions, ...rest } = defn;
-      const newDefn: MetricDefinition = rest;
+    definitions: generatedResponse.value?.map((genDef) => {
+      const { name, dimensions, ...rest } = genDef;
 
-      if (name) {
-        newDefn.name = name.value;
+      const response: MetricDefinition = {
+        ...rest
+      };
+
+      if (name?.value) {
+        response.name = name.value;
       }
 
-      if (dimensions) {
-        newDefn.dimensions = dimensions.map((dimension) => dimension.value);
+      const mappedDimensions = dimensions?.map((dim) => dim.value);
+
+      if (mappedDimensions) {
+        response.dimensions = mappedDimensions;
       }
 
-      return newDefn;
+      return response;
     })
   };
 }

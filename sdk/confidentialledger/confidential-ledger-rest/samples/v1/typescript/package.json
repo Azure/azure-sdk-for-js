@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/confidentialledger/confidential-ledger-rest",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/confidential-ledger-rest",
   "dependencies": {
     "@azure-rest/confidential-ledger": "next",
     "dotenv": "latest",

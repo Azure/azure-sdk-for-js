@@ -64,16 +64,16 @@ npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node h
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/helloworld.js
-[helloworldwithlabels]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/helloworldWithLabels.js
-[optimisticconcurrencyviaetag]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/optimisticConcurrencyViaEtag.js
-[setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/setReadOnlySample.js
-[getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/getSettingOnlyIfChanged.js
-[listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listConfigurationSettings.js
-[listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
-[secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/secretReference.js
-[featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/featureFlag.js
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/helloworld.js
+[helloworldwithlabels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/helloworldWithLabels.js
+[optimisticconcurrencyviaetag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/optimisticConcurrencyViaEtag.js
+[setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/setReadOnlySample.js
+[getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/getSettingOnlyIfChanged.js
+[listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/listConfigurationSettings.js
+[listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
+[secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/secretReference.js
+[featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/featureFlag.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md

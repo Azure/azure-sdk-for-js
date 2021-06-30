@@ -71,11 +71,11 @@ npx cross-env API_KEY="<api key>" ENDPOINT="<endpoint>" node dist/sample_detect_
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_change_point.ts
-[sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_entire_series_anomaly.ts
-[sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_last_point_anomaly.ts
+[sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_change_point.ts
+[sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_entire_series_anomaly.ts
+[sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_last_point_anomaly.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureanomalydetectorinstance]: https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/quickstarts/client-libraries?tabs=windows&pivots=programming-language-javascript
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

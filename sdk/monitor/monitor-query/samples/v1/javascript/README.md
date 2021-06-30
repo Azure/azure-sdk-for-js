@@ -48,10 +48,10 @@ npx cross-env MONITOR_WORKSPACE_ID="<monitor workspace id>" node logsQuery.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/logsQuery.js
-[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryBatch.js
-[metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/metricsQuery.js
+[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsQuery.js
+[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryBatch.js
+[metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/metricsQuery.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/README.md

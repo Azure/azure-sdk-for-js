@@ -6,7 +6,11 @@ import { Suite } from "mocha";
 import { CosmosClient } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
 
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

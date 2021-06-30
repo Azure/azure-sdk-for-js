@@ -21,6 +21,7 @@ const redirectHash = self.location.hash;
  */
 export class MSALAuthCode extends MsalBrowser {
   protected app: msalBrowser.PublicClientApplication;
+  private loginHint?: string;
 
   /**
    * Sets up an MSAL object based on the given parameters.
@@ -30,6 +31,7 @@ export class MSALAuthCode extends MsalBrowser {
    */
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
+    this.loginHint = options.loginHint;
 
     this.msalConfig.cache = {
       cacheLocation: "sessionStorage",
@@ -122,8 +124,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async login(scopes: string | string[] = []): Promise<AuthenticationRecord | undefined> {
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-    const loginRequest = {
-      scopes: arrayScopes
+    const loginRequest: msalBrowser.RedirectRequest = {
+      scopes: arrayScopes,
+      loginHint: this.loginHint
     };
     switch (this.loginStyle) {
       case "redirect": {
@@ -191,6 +194,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       authority: this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
       account: publicToMsal(account),
+      loginHint: this.loginHint,
       scopes
     };
 

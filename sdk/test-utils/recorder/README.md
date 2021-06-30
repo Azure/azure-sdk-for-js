@@ -151,7 +151,7 @@ The common recorder provides the following public methods and properties:
   This package assumes that the tests in the sdk are leveraging
   [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/)
   (and [karma](https://karma-runner.github.io/latest/index.html) test runner
-  for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template)
+  for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template)
   package in the repo. It also returns an object with a method `stop()`, which
   will allow you to control when you want the recorder to stop re-routing your
   http requests.
@@ -292,7 +292,7 @@ config.set({
 
 For a more detailed and opinionated approach, please check out the following
 section of our guidelines:
-[Setting up karma.conf.js file in the SDK](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md#setting-up-karmaconfjs-file-in-the-sdk).
+[Setting up karma.conf.js file in the SDK](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GUIDELINES.md#setting-up-karmaconfjs-file-in-the-sdk).
 
 ## Examples
 
@@ -423,7 +423,7 @@ which will skip the test in node or browser runtimes based on the `{runtime}`
 argument. If the `{runtime}` is undefined, the test will be skipped in both the
 node and browser runtimes. This method has no effect if the TEST_MODE
 environment variable is neither "record" nor "playback". You can read more
-about this feature [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md#skipping-a-test).
+about this feature [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GUIDELINES.md#skipping-a-test).
 
 ### Securing sensitive data
 
@@ -546,6 +546,6 @@ search link:
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Frecorder%2FREADME.png)
