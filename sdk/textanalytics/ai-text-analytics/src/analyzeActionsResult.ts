@@ -399,7 +399,7 @@ function makeActionResult<TTaskResult, TActionResult>(
         ...actions,
         {
           results: recognizeEntitiesResults,
-          completedOn: lastUpdateDateTime,
+          completedOn: lastUpdateDateTime
         }
       ];
     } else {
