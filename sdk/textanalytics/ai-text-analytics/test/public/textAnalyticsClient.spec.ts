@@ -764,16 +764,16 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji wit skin tone modifier", async function() {
-            await checkOffsetAndLength(
-              client,
-              "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-              "Utf16CodeUnit",
-              25,
-              11,
-              checkEntityTextOffset
-            );
-          });
+          // it("family emoji wit skin tone modifier", async function(this: Context) {
+          //   await checkOffsetAndLength(
+          //     client,
+          //     "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+          //     "Utf16CodeUnit",
+          //     25,
+          //     11,
+          //     checkEntityTextOffset
+          //   );
+          // });
 
           it("diacritics nfc", async function() {
             await checkOffsetAndLength(
@@ -843,15 +843,15 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
           });
 
-          it("family emoji wit skin tone modifier", async function() {
-            await checkOffsetAndLength(
-              client,
-              "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-              "UnicodeCodePoint",
-              17,
-              11
-            ); // offset was 25 with UTF16
-          });
+          // it("family emoji wit skin tone modifier", async function() {
+          //   await checkOffsetAndLength(
+          //     client,
+          //     "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+          //     "UnicodeCodePoint",
+          //     17,
+          //     11
+          //   ); // offset was 25 with UTF16
+          // });
 
           it("diacritics nfc", async function() {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
@@ -886,15 +886,15 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
           });
 
-          it("family emoji wit skin tone modifier", async function() {
-            await checkOffsetAndLength(
-              client,
-              "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-              "TextElement_v8",
-              17,
-              11
-            ); // offset was 25 with UTF16
-          });
+          // it("family emoji wit skin tone modifier", async function() {
+          //   await checkOffsetAndLength(
+          //     client,
+          //     "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+          //     "TextElement_v8",
+          //     17,
+          //     11
+          //   ); // offset was 25 with UTF16
+          // });
 
           it("diacritics nfc", async function() {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElement_v8", 9, 11);
