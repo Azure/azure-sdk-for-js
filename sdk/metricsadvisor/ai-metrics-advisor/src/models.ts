@@ -1909,33 +1909,39 @@ export interface DataSourceCredentialEntity {
 
 /**
  * SqlServer Data Source Credential
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export interface DataSourceSqlConnectionString extends DataSourceCredentialEntity {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
-  /** The connection string for SqlServer Data Source Credential */
+  /** The connection string for SqlServer Data Source Credential. Required by user for Create. Not returned by service. */
   connectionString?: string;
 }
 
 /**
  * DataLake Gen2 Shared Key DataSource Credential
+ * User is required to specify accountKey for Create.
+ * accountKey being a secret is not returned by service.
  */
 export interface DataSourceDataLakeGen2SharedKey extends DataSourceCredentialEntity {
   /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
-  /** The account key of the DataLake Gen2 Shared Key DataSource Credential  */
+  /** The account key of the DataLake Gen2 Shared Key DataSource Credential. Required by user for Create. Not returned by service. */
   accountKey?: string;
 }
 
 /**
  * Service Principal DataSource Credential
+ * User is required to specify clientSecret for Create.
+ * clientSecret being a secret is not returned by service.
  */
 export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
   /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** The client id of the service principal. */
   clientId: string;
-  /** The client secret of the service principal. */
+  /** The client secret of the service principal. Required by user for Create. Not returned by service. */
   clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
@@ -1943,6 +1949,8 @@ export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
 
 /**
  * Service Principal in KeyVault DataSource Credential
+ * User is required to specify keyVaultClientSecret for Create.
+ * keyVaultClientSecret being a secret is not returned by service.
  */
 export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredentialEntity {
   /** Service Principal in KeyVault DataSource Credential */
@@ -1951,7 +1959,7 @@ export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredenti
   keyVaultEndpoint: string;
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
-  /** The Client Secret to access the Key Vault. */
+  /** The Client Secret to access the Key Vault. Required by user for Create. Not returned by service. */
   keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;
