@@ -1012,8 +1012,8 @@ export class TextAnalyticsClient {
 }
 
 function validateActions(actions: TextAnalyticsActions): void {
-  function validateActionType(actions: unknown[] | undefined, actionType: string) {
-    if ((actions?.length ?? 0) > 1) {
+  function validateActionType(actionList: unknown[] | undefined, actionType: string): void {
+    if ((actionList?.length ?? 0) > 1) {
       throw new Error(
         `beginAnalyzeActions: Currently, the service can accept up to one action only for ${actionType} actions.`
       );
