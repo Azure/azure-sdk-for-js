@@ -1874,9 +1874,10 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await client.beginAnalyzeActions(
               docs,
               {
+                //  the service currently supports up to one action only per type.
                 recognizePiiEntitiesActions: [
-                  { modelVersion: "bad" },
-                  { modelVersion: "latest" },
+                  // { modelVersion: "bad" },
+                  // { modelVersion: "latest" },
                   { modelVersion: "bad", stringIndexType: "TextElement_v8" }
                 ]
               },

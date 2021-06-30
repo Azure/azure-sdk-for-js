@@ -297,27 +297,27 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 }
 
 /**
- * Description of collection of actions for the analyze API to perform on input documents
+ * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
  */
 export interface TextAnalyticsActions {
   /**
-   * A collection of descriptions of entities recognition actions.
+   * A collection of descriptions of entities recognition actions. However, currently, the service can accept up to one action only for `recognizeEntities`.
    */
   recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
   /**
-   * A collection of descriptions of Pii entities recognition actions.
+   * A collection of descriptions of Pii entities recognition actions. However, currently, the service can accept up to one action only for `recognizePiiEntities`.
    */
   recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
   /**
-   * A collection of descriptions of key phrases recognition actions.
+   * A collection of descriptions of key phrases recognition actions. However, currently, the service can accept up to one action only for `extractKeyPhrases`.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
   /**
-   * A collection of descriptions of entities linking actions.
+   * A collection of descriptions of entities linking actions. However, currently, the service can accept up to one action only for `recognizeLinkedEntities`.
    */
   recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
   /**
-   * A collection of descriptions of sentiment analysis actions.
+   * A collection of descriptions of sentiment analysis actions. However, currently, the service can accept up to one action only for `analyzeSentiment`.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
 }
@@ -994,6 +994,7 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeActionsOptions) || {};
     }
+    validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
     const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
     const poller = new BeginAnalyzeActionsPoller({
@@ -1008,6 +1009,21 @@ export class TextAnalyticsClient {
     await poller.poll();
     return poller;
   }
+}
+
+function validateActions(actions: TextAnalyticsActions): void {
+  function validateActionType(actions: unknown[] | undefined, actionType: string) {
+    if ((actions?.length ?? 0) > 1) {
+      throw new Error(
+        `beginAnalyzeActions: Currently, the service can accept up to one action only for ${actionType} actions.`
+      );
+    }
+  }
+  validateActionType(actions.analyzeSentimentActions, `analyzeSentiment`);
+  validateActionType(actions.extractKeyPhrasesActions, `extractKeyPhrases`);
+  validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
+  validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
+  validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
 }
 
 /**
