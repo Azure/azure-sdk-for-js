@@ -260,7 +260,7 @@ export class RemoteRenderingClient {
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...options, 
+      ...options,
       userAgentOptions,
       loggingOptions: {
         logger: logger.info,
