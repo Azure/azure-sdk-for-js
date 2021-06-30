@@ -8,12 +8,11 @@
 - `listAnomalies()` overloads split into `listAnomaliesForAlert()` and `listAnomaliesForDetectionConfiguration()`
 - Removed support for granularity type `PerSecond`
 - Returning the objects as part of update method response
-- Made the parameters containing sensitive data in datasource credential and data feed source types as optional
-- Rename "createFeedback" to "addFeedback"
+- Renamed "createFeedback" to "addFeedback"
 - `seriesToFilter` parameter renamed to `seriesKey` in methods `getmetricenrichedseriesdata` and `getmetricseriesdata` and ordering updated
-- Rename type `DetectionConditionsOperator` to `DetectionConditionOperator`
-- Rename property `splitAlertByDimension` to `dimensionsToSplitAlert` in `AnomalyAlertConfiguration`
-- Rename `datasource` to `DataSource`
+- Renamed type `DetectionConditionsOperator` to `DetectionConditionOperator`
+- Renamed property `splitAlertByDimension` to `dimensionsToSplitAlert` in `AnomalyAlertConfiguration`
+- Renamed `datasource` to `DataSource`
 - Renamed `DatasourceCredential` to `DataSourceCredentialEntity`, `SqlServerConnectionStringDataSourceCredential` to `DataSourceSqlConnectionString`,
   `DataLakeGen2SharedKeyDataSourceCredential` to `DataSourceDataLakeGen2SharedKey`,
   `ServicePrincipalDataSourceCredential` to `DataSourceServicePrincipal`,
