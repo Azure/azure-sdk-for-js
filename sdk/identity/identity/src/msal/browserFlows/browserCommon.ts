@@ -151,7 +151,10 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       this.allowMultiTenantAuthentication,
       options
     )!;
-    options.authority = getAuthority(tenantId, this.authorityHost);
+
+    if (!options.authority) {
+      options.authority = getAuthority(tenantId, this.authorityHost);
+    }
 
     // We ensure that redirection is handled at this point.
     await this.handleRedirect();
