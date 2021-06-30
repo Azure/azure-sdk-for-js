@@ -625,7 +625,6 @@ export interface TextAnalyticsActions {
 
 // @public
 export interface TextAnalyticsActionSuccessState {
-    readonly actionName: string;
     readonly completedOn: Date;
     readonly error?: undefined;
 }

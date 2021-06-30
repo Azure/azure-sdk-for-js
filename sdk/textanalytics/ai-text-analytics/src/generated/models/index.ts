@@ -50,7 +50,6 @@ export interface JobManifestTasks {
 
 export interface EntitiesTask {
   parameters?: EntitiesTaskParameters;
-  taskName?: string;
 }
 
 export interface EntitiesTaskParameters {
@@ -61,7 +60,6 @@ export interface EntitiesTaskParameters {
 
 export interface PiiTask {
   parameters?: PiiTaskParameters;
-  taskName?: string;
 }
 
 export interface PiiTaskParameters {
@@ -75,7 +73,6 @@ export interface PiiTaskParameters {
 
 export interface KeyPhrasesTask {
   parameters?: KeyPhrasesTaskParameters;
-  taskName?: string;
 }
 
 export interface KeyPhrasesTaskParameters {
@@ -85,7 +82,6 @@ export interface KeyPhrasesTaskParameters {
 
 export interface EntityLinkingTask {
   parameters?: EntityLinkingTaskParameters;
-  taskName?: string;
 }
 
 export interface EntityLinkingTaskParameters {
@@ -96,7 +92,6 @@ export interface EntityLinkingTaskParameters {
 
 export interface SentimentAnalysisTask {
   parameters?: SentimentAnalysisTaskParameters;
-  taskName?: string;
 }
 
 export interface SentimentAnalysisTaskParameters {
@@ -167,7 +162,6 @@ export interface TasksStateTasks {
 
 export interface TaskState {
   lastUpdateDateTime: Date;
-  taskName: string;
   status: State;
 }
 
