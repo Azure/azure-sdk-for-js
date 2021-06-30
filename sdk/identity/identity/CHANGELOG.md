@@ -17,11 +17,8 @@
   - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
   - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
   - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
-- The `AzureCliCredential` now receives an `AzureCliCredentialOptions` object, which has the same structure of the `TokenCredentialOptions`, but with an extra optional `tenantId`.
-- The `AzurePowerShellCredential` now receives an `AzurePowerShellCredentialOptions` object, which has the same structure of the `TokenCredentialOptions`, but with an extra optional `tenantId`.
-- All of the credentials now accept `allowMultiTenantAuthentication`, and as long as they allow configuring a `tenantId`, they now also work with the `GetTokenOptions` new property: `tenantId`.
-  - If a tenant is specified, any `getToken` request that receives a `tenantId` that doesn't match the credential's `tenantId` will throw an error, unless the credential has been constructed with the `allowMultiTenantAuthentication` option set to true.
-  - If multi-tenant authentication is allowed, a `tenantId` received through `GetTokenOptions` will be used for that specific request for token instead of the `tenantId` configured when the credential was initialized.
+- `AzureCliCredential` and `AzurePowerShellCredential` now allow specifying a `tenantId`.
+- All credentials except `ManagedIdentityCredential` support enabling multi tenant authentication via the `allowMultiTenantAuthentication` option.
 
 ### Breaking Changes
 
