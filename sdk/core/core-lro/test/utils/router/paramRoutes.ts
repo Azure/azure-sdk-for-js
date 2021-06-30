@@ -66,7 +66,7 @@ function putBody(request: PipelineRequest): PipelineResponse | undefined {
   return undefined;
 }
 
-function retry(request: PipelineRequest): PipelineResponse | undefined {
+function retries(request: PipelineRequest): PipelineResponse | undefined {
   function isValidRequest(initialCode: number, retry: string, finalCode: number): boolean {
     return (
       (initialCode === 202 && retry === "retry" && finalCode === 200) ||
@@ -376,7 +376,7 @@ namespace postasyncRetry {
 
 export const paramRoutes = [
   putBody,
-  retry,
+  retries,
   deleteProvisioning,
   deleteasyncRetry,
   putasyncRetry,
