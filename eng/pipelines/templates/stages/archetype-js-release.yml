@@ -108,23 +108,31 @@ stages:
               dependsOn: PublishPackage
 
               pool:
-                name: azsdk-pool-mms-win-2019-general
-                vmImage: MMS2019
+                name: azsdk-pool-mms-ubuntu-2004-general
+                vmImage: MMSUbuntu20.04
 
               strategy:
                 runOnce:
                   deploy:
                     steps:
-                      - checkout: self
+                      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+                        parameters:
+                          SkipDefaultCheckout: true 
+                          Paths:
+                            - eng/
+                      - download: current
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations: 
-                            - $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
+                            - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
                           TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
                           TargetDocRepoName: ${{parameters.TargetDocRepoName}}
                           Language: 'javascript'
+                          SparseCheckoutPaths:
+                            - docs-ref-services/
+                            - metadata/
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -243,10 +251,14 @@ stages:
       - job: PublishDocsToNightlyBranch
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
         pool:
-          name: azsdk-pool-mms-ubuntu-1804-general
-          vmImage: MMSUbuntu18.04
+          name: azsdk-pool-mms-ubuntu-2004-general
+          vmImage: MMSUbuntu20.04
         steps:
-          - checkout: self
+          - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+            parameters:
+              SkipDefaultCheckout: true 
+              Paths:
+                - eng/
           - download: current
           - pwsh: |
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
@@ -263,3 +275,6 @@ stages:
               TargetDocRepoName: ${{parameters.TargetDocRepoName}}
               Language: 'javascript'
               DailyDocsBuild: true
+              SparseCheckoutPaths:
+                - docs-ref-services/
+                - metadata/
