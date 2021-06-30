@@ -12,6 +12,7 @@ export class RemoteRenderingServiceError extends Error {
     super(message);
     Object.setPrototypeOf(this, RemoteRenderingServiceError.prototype);
     this.code = code;
+    this.name = "RemoteRenderingServiceError";
   }
 
   /** Error code. */
