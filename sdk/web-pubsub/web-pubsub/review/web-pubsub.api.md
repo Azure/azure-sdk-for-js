@@ -179,7 +179,7 @@ export class WebPubSubServiceClient {
     sendToConnection(connectionId: string, message: JSONTypes, options?: HubSendToConnectionOptions): Promise<RestResponse>;
     sendToConnection(connectionId: string, message: HttpRequestBody | JSONTypes, options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions): Promise<RestResponse>;
     sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<RestResponse>;
-    sendToUser(username: string, message: JSONTypes, options: HubSendTextToUserOptions): Promise<RestResponse>;
+    sendToUser(username: string, message: JSONTypes, options?: HubSendToUserOptions): Promise<RestResponse>;
     sendToUser(username: string, message: HttpRequestBody, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<RestResponse>;
 }
 

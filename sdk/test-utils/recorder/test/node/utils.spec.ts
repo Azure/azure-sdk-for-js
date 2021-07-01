@@ -7,11 +7,11 @@ import {
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  handleSingleQuotesInUrlPath,
-  maskAccessTokenInNockFixture
+  handleSingleQuotesInUrlPath
 } from "../../src/utils";
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 import chai, { expect } from "chai";
+import { defaultCustomizationsOnRecordings } from "../../src/defaultCustomizations";
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
@@ -398,10 +398,10 @@ describe("NodeJS utils", () => {
     });
   });
 
-  describe("Mask access tokens in nock fixtures", () => {
+  describe("defaultCustomizationsOnRecordings for nock fixtures", () => {
     [
       {
-        name: `mask "access_token"s in json response`,
+        name: `mask "access_token"s in json response and modify scope url`,
         input: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
           .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
           .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"e6z-9_g"}, [
@@ -420,7 +420,7 @@ describe("NodeJS utils", () => {
           'X-Content-Type-Options'
         ]);`,
         output: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fsanitized%2F")
           .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
           'Cache-Control',
           'no-store, no-cache',
@@ -438,7 +438,7 @@ describe("NodeJS utils", () => {
         ]);`
       },
       {
-        name: `do nothing for json response without access_token`,
+        name: `modify scope url and do nothing else for json response without access_token`,
         input: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
           .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
           .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_string":"e6z-9_g"}, [
@@ -457,7 +457,7 @@ describe("NodeJS utils", () => {
           'X-Content-Type-Options'
         ]);`,
         output: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fsanitized%2F")
           .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_string":"e6z-9_g"}, [
           'Cache-Control',
           'no-store, no-cache',
@@ -475,7 +475,7 @@ describe("NodeJS utils", () => {
         ]);`
       },
       {
-        name: `do nothing for non JSON response`,
+        name: `do nothing for (unrelated) non JSON response`,
         input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
           .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
           .query(true)
@@ -500,7 +500,7 @@ describe("NodeJS utils", () => {
         ]);`
       },
       {
-        name: "do nothing for XML response",
+        name: "do nothing for unrelated XML response",
         input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
           .post('/', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><KeyInfo><Start>2019-12-03T06:12:38Z</Start><Expiry>2019-12-04T05:12:38Z</Expiry></KeyInfo>")
           .query(true)
@@ -540,10 +540,14 @@ describe("NodeJS utils", () => {
       }
     ].forEach((test) => {
       it(test.name, () => {
+        let updatedFixture = test.input;
+        for (const customization of defaultCustomizationsOnRecordings) {
+          updatedFixture = customization(updatedFixture);
+        }
         chai.assert.equal(
-          maskAccessTokenInNockFixture(test.input),
+          updatedFixture,
           test.output,
-          `Unexpected result - access_token is not masked`
+          `Unexpected result - updatedFixture is not as expected`
         );
       });
     });

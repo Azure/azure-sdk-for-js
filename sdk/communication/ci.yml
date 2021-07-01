@@ -3,7 +3,6 @@
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
@@ -14,7 +13,6 @@ trigger:
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
@@ -38,3 +36,5 @@ extends:
         safeName: azurecommunicationidentity
       - name: azure-communication-phone-numbers
         safeName: azurecommunicationphonenumbers
+      - name: azure-communication-network-traversal
+        safeName: azurecommunicationnetworktraversal

@@ -14,9 +14,8 @@ import {
   EventPosition
 } from "../../src";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { AbortController } from "@azure/abort-controller";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
-import { translate, StandardAbortMessage } from "@azure/core-amqp";
+import { translate } from "@azure/core-amqp";
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", function(): void {
@@ -54,106 +53,6 @@ describe("EventHubConsumerClient", function(): void {
   });
 
   describe("EventHubConsumer receiveBatch", function(): void {
-    it("should support being cancelled", async function(): Promise<void> {
-      const partitionId = partitionIds[0];
-      const time = Date.now();
-
-      // send a message that can be received
-      await producerClient.sendBatch([{ body: "batchReceiver cancellation - timeout 0" }], {
-        partitionId
-      });
-
-      const receiver = new EventHubReceiver(
-        consumerClient["_context"],
-        EventHubConsumerClient.defaultConsumerGroupName,
-        partitionId,
-        {
-          enqueuedOn: time
-        }
-      );
-
-      try {
-        // abortSignal event listeners will be triggered after synchronous paths are executed
-        const abortSignal = AbortController.timeout(0);
-        await receiver.receiveBatch(1, 60, abortSignal);
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
-
-      await receiver.close();
-    });
-
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
-      void
-    > {
-      const partitionId = partitionIds[0];
-      const time = Date.now();
-
-      // send a message that can be received
-      await producerClient.sendBatch([{ body: "batchReceiver cancellation - immediate" }], {
-        partitionId
-      });
-
-      const receiver = new EventHubReceiver(
-        consumerClient["_context"],
-        EventHubConsumerClient.defaultConsumerGroupName,
-        partitionId,
-        {
-          enqueuedOn: time
-        }
-      );
-
-      try {
-        // abortSignal event listeners will be triggered after synchronous paths are executed
-        const abortController = new AbortController();
-        abortController.abort();
-        await receiver.receiveBatch(1, 60, abortController.signal);
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
-
-      await receiver.close();
-    });
-
-    it("should support cancellation when a connection already exists", async function(): Promise<
-      void
-    > {
-      const partitionId = partitionIds[0];
-      const time = Date.now();
-
-      // send a message that can be received
-      await producerClient.sendBatch([{ body: "batchReceiver cancellation - timeout 0" }], {
-        partitionId
-      });
-
-      const receiver = new EventHubReceiver(
-        consumerClient["_context"],
-        EventHubConsumerClient.defaultConsumerGroupName,
-        partitionId,
-        {
-          enqueuedOn: time
-        }
-      );
-
-      try {
-        // call receiveBatch once to establish a connection
-        await receiver.receiveBatch(1, 60);
-        // abortSignal event listeners will be triggered after synchronous paths are executed
-        const abortSignal = AbortController.timeout(0);
-        await receiver.receiveBatch(1, 60, abortSignal);
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
-
-      await receiver.close();
-    });
-
     it("should not lose messages on error", async () => {
       const partitionId = partitionIds[0];
       const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(

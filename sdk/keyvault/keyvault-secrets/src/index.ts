@@ -50,7 +50,7 @@ import {
   SecretClientOptions,
   LATEST_API_VERSION
 } from "./secretsModels";
-import { KeyVaultSecretId } from "./identifier";
+import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -70,7 +70,8 @@ export {
   ListDeletedSecretsOptions,
   PagedAsyncIterableIterator,
   PageSettings,
-  KeyVaultSecretId,
+  KeyVaultSecretIdentifier,
+  parseKeyVaultSecretIdentifier,
   PollerLike,
   PollOperationState,
   KeyVaultSecret,

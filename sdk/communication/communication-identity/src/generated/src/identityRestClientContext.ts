@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { IdentityRestClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-identity";
-const packageVersion = "1.0.1";
+const packageVersion = "1.1.0-beta.1";
 
 export class IdentityRestClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -46,6 +46,6 @@ export class IdentityRestClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-03-07";
+    this.apiVersion = options.apiVersion || "2021-03-31-preview1";
   }
 }

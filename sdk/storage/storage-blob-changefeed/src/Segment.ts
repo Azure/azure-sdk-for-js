@@ -46,7 +46,6 @@ export class Segment {
     this.shardIndex = shardIndex;
     this._dateTime = dateTime;
 
-    // TODO: add polyfill for Array.prototype.fill for IE11
     this.shardDone = Array(shards.length).fill(false);
     this.shardDoneCount = 0;
   }

@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { GeneratedClient } from "./generated/generatedClient";
-import { Service } from "./generated/operations";
-import { Table } from "./generated/operations";
+import { Service, Table } from "./generated";
 import {
   ListTableItemsOptions,
   TableServiceClientOptions,
@@ -18,17 +17,27 @@ import {
   SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import {
+  isNamedKeyCredential,
+  NamedKeyCredential,
+  SASCredential,
+  isSASCredential,
+  TokenCredential,
+  isTokenCredential
+} from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { LIB_INFO, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
-import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { ListTableItemsResponse } from "./utils/internalModels";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { isCredential } from "./utils/isCredential";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -39,23 +48,27 @@ export class TableServiceClient {
    * Table Account URL
    */
   public url: string;
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   * Pipelines can have multiple policies to manage manipulating each request before and after it is made to the server.
+   */
+  public pipeline: Pipeline;
   private table: Table;
   private service: Service;
 
   /**
    * Creates a new instance of the TableServiceClient class.
    *
-   * @param url - The URL of the service account that is the target of the desired operation., such as
-   *              "https://myaccount.table.core.windows.net". You can append a SAS,
-   *              such as "https://myaccount.table.core.windows.net?sasString".
-   * @param credential - TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param url - The URL of the service account that is the target of the desired operation., such as "https://myaccount.table.core.windows.net".
+   * @param credential - NamedKeyCredential | SASCredential used to authenticate requests. Only Supported for Node
    * @param options - Options to configure the HTTP pipeline.
    *
-   * Example using an account name/key:
+   * ### Example using an account name/key:
    *
    * ```js
+   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
    * const account = "<storage account name>"
-   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
    *
    * const tableServiceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
@@ -63,11 +76,50 @@ export class TableServiceClient {
    * );
    * ```
    */
-  constructor(
-    url: string,
-    credential: TablesSharedKeyCredential,
-    options?: TableServiceClientOptions
-  );
+  constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+  /**
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation., such as "https://myaccount.table.core.windows.net".
+   * @param credential - SASCredential used to authenticate requests
+   * @param options - Options to configure the HTTP pipeline.
+   *
+   * ### Example using a SAS Token.
+   *
+   * ```js
+   * const { AzureSASCredential, TableServiceClient } = require("@azure/data-tables")
+   * const account = "<storage account name>"
+   * const sasCredential = new AzureSASCredential(account, "<account key>");
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   sasCredential
+   * );
+   * ```
+   */
+  constructor(url: string, credential: SASCredential, options?: TableServiceClientOptions);
+  /**
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation., such as "https://myaccount.table.core.windows.net".
+   * @param credential - Azure Active Directory credential used to authenticate requests
+   * @param options - Options to configure the HTTP pipeline.
+   *
+   * ### Example using an Azure Active Directory credential:
+   *
+   * ```js
+   * cons { DefaultAzureCredential } = require("@azure/identity");
+   * const { TableServiceClient } = require("@azure/data-tables")
+   * const account = "<storage account name>"
+   * const credential = new DefaultAzureCredential();
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   credential
+   * );
+   * ```
+   */
+  constructor(url: string, credential: TokenCredential, options?: TableServiceClientOptions);
   /**
    * Creates a new instance of the TableServiceClient class.
    *
@@ -89,18 +141,19 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?:
+      | NamedKeyCredential
+      | SASCredential
+      | TokenCredential
+      | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
     this.url = url;
-    const credential =
-      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
-      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
-        ? credentialOrOptions
-        : options) || {};
+      (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
+    clientOptions.endpoint = clientOptions.endpoint || this.url;
 
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
@@ -125,13 +178,17 @@ export class TableServiceClient {
         serializationOptions: {
           stringifyXML
         }
-      }
+      },
+      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE })
     };
-
-    const client = new GeneratedClient(url, internalPipelineOptions);
-    if (credential) {
-      client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    const client = new GeneratedClient(this.url, internalPipelineOptions);
+    if (isNamedKeyCredential(credential)) {
+      client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
+    } else if (isSASCredential(credential)) {
+      client.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
+
+    this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
   }
@@ -141,10 +198,10 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  public getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
+  public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
-      return this.service.getStatistics(updatedOptions);
+      return await this.service.getStatistics(updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -158,10 +215,10 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
+  public async getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
     try {
-      return this.service.getProperties(updatedOptions);
+      return await this.service.getProperties(updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -176,13 +233,13 @@ export class TableServiceClient {
    * @param properties - The Table Service properties.
    * @param options - The options parameters.
    */
-  public setProperties(
+  public async setProperties(
     properties: ServiceProperties,
     options: SetPropertiesOptions = {}
   ): Promise<SetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-setProperties", options);
     try {
-      return this.service.setProperties(properties, updatedOptions);
+      return await this.service.setProperties(properties, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -310,7 +367,6 @@ export class TableServiceClient {
     const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
       options
     );
-
     return Object.assign([...value], { nextTableName });
   }
 

@@ -344,7 +344,7 @@ export class WebPubSubServiceClient {
   ): Promise<RestResponse>;
 
   public async sendToAll(
-    message: HttpRequestBody | JSONTypes,
+    message: HttpRequestBody | string,
     options: HubSendToAllOptions | HubSendTextToAllOptions = {}
   ): Promise<RestResponse> {
     const normalizedOptions = normalizeSendToAllOptions(options);
@@ -389,7 +389,7 @@ export class WebPubSubServiceClient {
   public async sendToUser(
     username: string,
     message: JSONTypes,
-    options: HubSendTextToUserOptions
+    options?: HubSendToUserOptions
   ): Promise<RestResponse>;
 
   /**
@@ -406,7 +406,7 @@ export class WebPubSubServiceClient {
   ): Promise<RestResponse>;
   public async sendToUser(
     username: string,
-    message: JSONTypes | HttpRequestBody,
+    message: string | HttpRequestBody,
     options: HubSendToUserOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-sendToUser", options);

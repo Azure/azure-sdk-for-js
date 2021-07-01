@@ -79,46 +79,36 @@ export class NetAppResource {
    * Check if a file path is available.
    * @summary Check file path availability
    * @param location The location
-   * @param name Resource name to verify.
-   * @param type Resource type used for verification. Possible values include:
-   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
-   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
-   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
-   * @param resourceGroup Resource group name.
+   * @param name File path to verify.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   * Microsoft.NetApp/volumes
    * @param [options] The optional parameters
    * @returns Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
+  checkFilePathAvailability(location: string, name: string, subnetId: string, options?: msRest.RequestOptionsBase): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
   /**
    * @param location The location
-   * @param name Resource name to verify.
-   * @param type Resource type used for verification. Possible values include:
-   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
-   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
-   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
-   * @param resourceGroup Resource group name.
+   * @param name File path to verify.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   * Microsoft.NetApp/volumes
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
+  checkFilePathAvailability(location: string, name: string, subnetId: string, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
   /**
    * @param location The location
-   * @param name Resource name to verify.
-   * @param type Resource type used for verification. Possible values include:
-   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
-   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
-   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
-   * @param resourceGroup Resource group name.
+   * @param name File path to verify.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   * Microsoft.NetApp/volumes
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse> {
+  checkFilePathAvailability(location: string, name: string, subnetId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
+  checkFilePathAvailability(location: string, name: string, subnetId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         name,
-        type,
-        resourceGroup,
+        subnetId,
         options
       },
       checkFilePathAvailabilityOperationSpec,
@@ -229,11 +219,10 @@ const checkFilePathAvailabilityOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: {
       name: "name",
-      type: "type",
-      resourceGroup: "resourceGroup"
+      subnetId: "subnetId"
     },
     mapper: {
-      ...Mappers.ResourceNameAvailabilityRequest,
+      ...Mappers.FilePathAvailabilityRequest,
       required: true
     }
   },

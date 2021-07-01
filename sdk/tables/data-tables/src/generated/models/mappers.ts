@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CompositeMapper } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 
-export const TableQueryResponse: CompositeMapper = {
+export const TableQueryResponse: coreClient.CompositeMapper = {
   serializedName: "TableQueryResponse",
   type: {
     name: "Composite",
@@ -39,7 +39,7 @@ export const TableQueryResponse: CompositeMapper = {
   }
 };
 
-export const TableResponseProperties: CompositeMapper = {
+export const TableResponseProperties: coreClient.CompositeMapper = {
   serializedName: "TableResponseProperties",
   type: {
     name: "Composite",
@@ -77,7 +77,7 @@ export const TableResponseProperties: CompositeMapper = {
   }
 };
 
-export const TableServiceError: CompositeMapper = {
+export const TableServiceError: coreClient.CompositeMapper = {
   serializedName: "TableServiceError",
   type: {
     name: "Composite",
@@ -95,7 +95,7 @@ export const TableServiceError: CompositeMapper = {
   }
 };
 
-export const TableServiceErrorOdataError: CompositeMapper = {
+export const TableServiceErrorOdataError: coreClient.CompositeMapper = {
   serializedName: "TableServiceErrorOdataError",
   type: {
     name: "Composite",
@@ -120,7 +120,7 @@ export const TableServiceErrorOdataError: CompositeMapper = {
   }
 };
 
-export const TableServiceErrorOdataErrorMessage: CompositeMapper = {
+export const TableServiceErrorOdataErrorMessage: coreClient.CompositeMapper = {
   serializedName: "TableServiceErrorOdataErrorMessage",
   type: {
     name: "Composite",
@@ -144,7 +144,7 @@ export const TableServiceErrorOdataErrorMessage: CompositeMapper = {
   }
 };
 
-export const TableProperties: CompositeMapper = {
+export const TableProperties: coreClient.CompositeMapper = {
   serializedName: "TableProperties",
   type: {
     name: "Composite",
@@ -161,7 +161,7 @@ export const TableProperties: CompositeMapper = {
   }
 };
 
-export const TableEntityQueryResponse: CompositeMapper = {
+export const TableEntityQueryResponse: coreClient.CompositeMapper = {
   serializedName: "TableEntityQueryResponse",
   type: {
     name: "Composite",
@@ -192,7 +192,7 @@ export const TableEntityQueryResponse: CompositeMapper = {
   }
 };
 
-export const SignedIdentifier: CompositeMapper = {
+export const SignedIdentifier: coreClient.CompositeMapper = {
   serializedName: "SignedIdentifier",
   xmlName: "SignedIdentifier",
   type: {
@@ -219,7 +219,7 @@ export const SignedIdentifier: CompositeMapper = {
   }
 };
 
-export const AccessPolicy: CompositeMapper = {
+export const AccessPolicy: coreClient.CompositeMapper = {
   serializedName: "AccessPolicy",
   xmlName: "AccessPolicy",
   type: {
@@ -228,23 +228,20 @@ export const AccessPolicy: CompositeMapper = {
     modelProperties: {
       start: {
         serializedName: "Start",
-        required: true,
         xmlName: "Start",
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       expiry: {
         serializedName: "Expiry",
-        required: true,
         xmlName: "Expiry",
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       permission: {
         serializedName: "Permission",
-        required: true,
         xmlName: "Permission",
         type: {
           name: "String"
@@ -254,7 +251,7 @@ export const AccessPolicy: CompositeMapper = {
   }
 };
 
-export const TableServiceProperties: CompositeMapper = {
+export const TableServiceProperties: coreClient.CompositeMapper = {
   serializedName: "TableServiceProperties",
   xmlName: "StorageServiceProperties",
   type: {
@@ -304,7 +301,7 @@ export const TableServiceProperties: CompositeMapper = {
   }
 };
 
-export const Logging: CompositeMapper = {
+export const Logging: coreClient.CompositeMapper = {
   serializedName: "Logging",
   xmlName: "Logging",
   type: {
@@ -355,7 +352,7 @@ export const Logging: CompositeMapper = {
   }
 };
 
-export const RetentionPolicy: CompositeMapper = {
+export const RetentionPolicy: coreClient.CompositeMapper = {
   serializedName: "RetentionPolicy",
   xmlName: "RetentionPolicy",
   type: {
@@ -384,7 +381,7 @@ export const RetentionPolicy: CompositeMapper = {
   }
 };
 
-export const Metrics: CompositeMapper = {
+export const Metrics: coreClient.CompositeMapper = {
   serializedName: "Metrics",
   type: {
     name: "Composite",
@@ -424,7 +421,7 @@ export const Metrics: CompositeMapper = {
   }
 };
 
-export const CorsRule: CompositeMapper = {
+export const CorsRule: coreClient.CompositeMapper = {
   serializedName: "CorsRule",
   xmlName: "CorsRule",
   type: {
@@ -478,7 +475,7 @@ export const CorsRule: CompositeMapper = {
   }
 };
 
-export const TableServiceStats: CompositeMapper = {
+export const TableServiceStats: coreClient.CompositeMapper = {
   serializedName: "TableServiceStats",
   xmlName: "StorageServiceStats",
   type: {
@@ -497,7 +494,7 @@ export const TableServiceStats: CompositeMapper = {
   }
 };
 
-export const GeoReplication: CompositeMapper = {
+export const GeoReplication: coreClient.CompositeMapper = {
   serializedName: "GeoReplication",
   xmlName: "GeoReplication",
   type: {
@@ -524,7 +521,7 @@ export const GeoReplication: CompositeMapper = {
   }
 };
 
-export const TableResponse: CompositeMapper = {
+export const TableResponse: coreClient.CompositeMapper = {
   serializedName: "TableResponse",
   type: {
     name: "Composite",
@@ -542,7 +539,7 @@ export const TableResponse: CompositeMapper = {
   }
 };
 
-export const TableQueryHeaders: CompositeMapper = {
+export const TableQueryHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_queryHeaders",
   type: {
     name: "Composite",
@@ -587,7 +584,7 @@ export const TableQueryHeaders: CompositeMapper = {
   }
 };
 
-export const TableQueryExceptionHeaders: CompositeMapper = {
+export const TableQueryExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_queryExceptionHeaders",
   type: {
     name: "Composite",
@@ -604,7 +601,7 @@ export const TableQueryExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableCreateHeaders: CompositeMapper = {
+export const TableCreateHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_createHeaders",
   type: {
     name: "Composite",
@@ -649,7 +646,7 @@ export const TableCreateHeaders: CompositeMapper = {
   }
 };
 
-export const TableCreateExceptionHeaders: CompositeMapper = {
+export const TableCreateExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_createExceptionHeaders",
   type: {
     name: "Composite",
@@ -666,7 +663,7 @@ export const TableCreateExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableDeleteHeaders: CompositeMapper = {
+export const TableDeleteHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_deleteHeaders",
   type: {
     name: "Composite",
@@ -704,7 +701,7 @@ export const TableDeleteHeaders: CompositeMapper = {
   }
 };
 
-export const TableDeleteExceptionHeaders: CompositeMapper = {
+export const TableDeleteExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_deleteExceptionHeaders",
   type: {
     name: "Composite",
@@ -721,7 +718,7 @@ export const TableDeleteExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableQueryEntitiesHeaders: CompositeMapper = {
+export const TableQueryEntitiesHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_queryEntitiesHeaders",
   type: {
     name: "Composite",
@@ -773,7 +770,7 @@ export const TableQueryEntitiesHeaders: CompositeMapper = {
   }
 };
 
-export const TableQueryEntitiesExceptionHeaders: CompositeMapper = {
+export const TableQueryEntitiesExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_queryEntitiesExceptionHeaders",
   type: {
     name: "Composite",
@@ -790,7 +787,7 @@ export const TableQueryEntitiesExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableQueryEntitiesWithPartitionAndRowKeyHeaders: CompositeMapper = {
+export const TableQueryEntitiesWithPartitionAndRowKeyHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_queryEntitiesWithPartitionAndRowKeyHeaders",
   type: {
     name: "Composite",
@@ -849,7 +846,7 @@ export const TableQueryEntitiesWithPartitionAndRowKeyHeaders: CompositeMapper = 
   }
 };
 
-export const TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders: CompositeMapper = {
+export const TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_queryEntitiesWithPartitionAndRowKeyExceptionHeaders",
   type: {
     name: "Composite",
@@ -866,7 +863,7 @@ export const TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders: Composite
   }
 };
 
-export const TableUpdateEntityHeaders: CompositeMapper = {
+export const TableUpdateEntityHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_updateEntityHeaders",
   type: {
     name: "Composite",
@@ -911,7 +908,7 @@ export const TableUpdateEntityHeaders: CompositeMapper = {
   }
 };
 
-export const TableUpdateEntityExceptionHeaders: CompositeMapper = {
+export const TableUpdateEntityExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_updateEntityExceptionHeaders",
   type: {
     name: "Composite",
@@ -928,7 +925,7 @@ export const TableUpdateEntityExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableMergeEntityHeaders: CompositeMapper = {
+export const TableMergeEntityHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_mergeEntityHeaders",
   type: {
     name: "Composite",
@@ -973,7 +970,7 @@ export const TableMergeEntityHeaders: CompositeMapper = {
   }
 };
 
-export const TableMergeEntityExceptionHeaders: CompositeMapper = {
+export const TableMergeEntityExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_mergeEntityExceptionHeaders",
   type: {
     name: "Composite",
@@ -990,7 +987,7 @@ export const TableMergeEntityExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableDeleteEntityHeaders: CompositeMapper = {
+export const TableDeleteEntityHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_deleteEntityHeaders",
   type: {
     name: "Composite",
@@ -1028,7 +1025,7 @@ export const TableDeleteEntityHeaders: CompositeMapper = {
   }
 };
 
-export const TableDeleteEntityExceptionHeaders: CompositeMapper = {
+export const TableDeleteEntityExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_deleteEntityExceptionHeaders",
   type: {
     name: "Composite",
@@ -1045,7 +1042,7 @@ export const TableDeleteEntityExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableInsertEntityHeaders: CompositeMapper = {
+export const TableInsertEntityHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_insertEntityHeaders",
   type: {
     name: "Composite",
@@ -1104,7 +1101,7 @@ export const TableInsertEntityHeaders: CompositeMapper = {
   }
 };
 
-export const TableInsertEntityExceptionHeaders: CompositeMapper = {
+export const TableInsertEntityExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_insertEntityExceptionHeaders",
   type: {
     name: "Composite",
@@ -1121,7 +1118,7 @@ export const TableInsertEntityExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableGetAccessPolicyHeaders: CompositeMapper = {
+export const TableGetAccessPolicyHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_getAccessPolicyHeaders",
   type: {
     name: "Composite",
@@ -1159,7 +1156,7 @@ export const TableGetAccessPolicyHeaders: CompositeMapper = {
   }
 };
 
-export const TableGetAccessPolicyExceptionHeaders: CompositeMapper = {
+export const TableGetAccessPolicyExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_getAccessPolicyExceptionHeaders",
   type: {
     name: "Composite",
@@ -1176,7 +1173,7 @@ export const TableGetAccessPolicyExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const TableSetAccessPolicyHeaders: CompositeMapper = {
+export const TableSetAccessPolicyHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_setAccessPolicyHeaders",
   type: {
     name: "Composite",
@@ -1214,7 +1211,7 @@ export const TableSetAccessPolicyHeaders: CompositeMapper = {
   }
 };
 
-export const TableSetAccessPolicyExceptionHeaders: CompositeMapper = {
+export const TableSetAccessPolicyExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Table_setAccessPolicyExceptionHeaders",
   type: {
     name: "Composite",
@@ -1231,7 +1228,7 @@ export const TableSetAccessPolicyExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesHeaders: CompositeMapper = {
+export const ServiceSetPropertiesHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_setPropertiesHeaders",
   type: {
     name: "Composite",
@@ -1262,7 +1259,7 @@ export const ServiceSetPropertiesHeaders: CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesExceptionHeaders: CompositeMapper = {
+export const ServiceSetPropertiesExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_setPropertiesExceptionHeaders",
   type: {
     name: "Composite",
@@ -1279,7 +1276,7 @@ export const ServiceSetPropertiesExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesHeaders: CompositeMapper = {
+export const ServiceGetPropertiesHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getPropertiesHeaders",
   type: {
     name: "Composite",
@@ -1310,7 +1307,7 @@ export const ServiceGetPropertiesHeaders: CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesExceptionHeaders: CompositeMapper = {
+export const ServiceGetPropertiesExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getPropertiesExceptionHeaders",
   type: {
     name: "Composite",
@@ -1327,7 +1324,7 @@ export const ServiceGetPropertiesExceptionHeaders: CompositeMapper = {
   }
 };
 
-export const ServiceGetStatisticsHeaders: CompositeMapper = {
+export const ServiceGetStatisticsHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getStatisticsHeaders",
   type: {
     name: "Composite",
@@ -1365,7 +1362,7 @@ export const ServiceGetStatisticsHeaders: CompositeMapper = {
   }
 };
 
-export const ServiceGetStatisticsExceptionHeaders: CompositeMapper = {
+export const ServiceGetStatisticsExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getStatisticsExceptionHeaders",
   type: {
     name: "Composite",

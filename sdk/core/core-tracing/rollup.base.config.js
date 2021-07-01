@@ -38,7 +38,7 @@ export function nodeConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert as external
     baseConfig.external.push("assert");
@@ -80,7 +80,17 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           ...openTelemetryCommonJs(),
-          assert: ["ok", "fail", "equal", "deepEqual", "deepStrictEqual", "strictEqual"]
+          assert: [
+            "ok",
+            "fail",
+            "equal",
+            "deepEqual",
+            "deepStrictEqual",
+            "strictEqual",
+            "notDeepEqual",
+            "notStrictEqual",
+            "notDeepStrictEqual"
+          ]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

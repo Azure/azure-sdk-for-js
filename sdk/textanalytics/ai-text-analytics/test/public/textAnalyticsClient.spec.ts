@@ -14,13 +14,12 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  ExtractKeyPhrasesSuccessResult,
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
   Opinion,
   AssessmentSentiment,
-  PiiEntityDomainType
+  PiiEntityDomain
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
@@ -479,15 +478,6 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         assert.equal(result.error.code, "UnsupportedLanguageCode");
       });
 
-      it("service reports warning for long words", async function() {
-        const results = await client.extractKeyPhrases([
-          "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters."
-        ]);
-        assertAllSuccess(results);
-        const result = results[0] as ExtractKeyPhrasesSuccessResult;
-        assert.equal(result.warnings[0].code, "LongWordsInDocument");
-      });
-
       it("client accepts mixed-language TextDocumentInput[]", async function() {
         const enInputs = testDataEn.map(
           (text): TextDocumentInput => ({
@@ -587,7 +577,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
               language: "en"
             }
           ],
-          { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
+          { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION }
         );
         if (!result.error) {
           assert.equal(result.entities.length, 2);
@@ -878,47 +868,47 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
         });
       });
-      describe("#TextElements_v8", function() {
+      describe("#TextElement_v8", function() {
         it("emoji", async function() {
-          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElement_v8", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElement_v8", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
           await checkOffsetAndLength(
             client,
             "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-            "TextElements_v8",
+            "TextElement_v8",
             17,
             11
           ); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElement_v8", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElement_v8", 9, 11); // offset was 10 with UTF16
         });
 
         it("korean nfc", async function() {
-          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElement_v8", 8, 11);
         });
 
         it("korean nfd", async function() {
-          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElement_v8", 8, 11);
         });
 
         it("zalgo", async function() {
-          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElement_v8", 9, 11); // offset was 121 with UTF16
         });
       });
     });
@@ -1879,7 +1869,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
               recognizePiiEntitiesActions: [
                 { modelVersion: "bad" },
                 { modelVersion: "latest" },
-                { modelVersion: "bad", stringIndexType: "TextElements_v8" }
+                { modelVersion: "bad", stringIndexType: "TextElement_v8" }
               ]
             },
             {

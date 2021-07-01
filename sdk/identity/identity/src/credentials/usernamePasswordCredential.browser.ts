@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";

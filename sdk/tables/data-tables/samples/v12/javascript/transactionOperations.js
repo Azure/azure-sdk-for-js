@@ -84,6 +84,31 @@ async function batchOperations() {
   //   }
   // ]
 
+  // We can also send transactions with update operations
+  const updateTransaction = [
+    // The default update mode is "Merge" which only replaces the properties in the entity we send
+    // all other properties are kept as they are stored
+    ["update", { partitionKey, rowKey: "A1", name: "[Updated - Merge] Marker Set" }],
+    // If we set the update mode to "Replace", the original entity will be replaced with exactly what we send.
+    // We need to be careful when using replace, because if we forget to pass a property it will get deleted.
+    [
+      "update",
+      { partitionKey, rowKey: "A2", name: "[Updated - Replace] Pen Set", price: 99, quantity: 33 },
+      "Replace"
+    ]
+  ];
+
+  const updateResult = await client.submitTransaction(updateTransaction);
+
+  console.log(updateResult);
+
+  // Now we'll query our entities
+  const entities = client.listEntities();
+
+  for await (const entity of entities) {
+    console.log(entity);
+  }
+
   // Delete the table to clean up
   await client.deleteTable();
 }

@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
+
+import { AccessToken } from "@azure/core-auth";
+
 import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
-import { AccessToken } from "@azure/core-http";
 import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../errors";
@@ -35,7 +37,7 @@ export class MSALAuthCode extends MsalBrowser {
     };
     this.msalConfig.system = {
       loggerOptions: {
-        loggerCallback: defaultLoggerCallback(this.logger)
+        loggerCallback: defaultLoggerCallback(this.logger, "Browser")
       }
     };
 

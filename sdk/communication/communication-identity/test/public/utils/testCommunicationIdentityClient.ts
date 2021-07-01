@@ -14,7 +14,8 @@ import {
   getTokenHttpClient,
   createUserHttpClient,
   revokeTokensHttpClient,
-  createUserAndTokenHttpClient
+  createUserAndTokenHttpClient,
+  exchangeTeamsTokenHttpClient
 } from "./mockHttpClients";
 
 export class TestCommunicationIdentityClient {
@@ -62,5 +63,16 @@ export class TestCommunicationIdentityClient {
       httpClient: createUserAndTokenHttpClient
     } as CommunicationIdentityClientOptions);
     return client.createUserAndToken(scopes, options as any);
+  }
+
+  public async exchangeTeamsTokenTest(
+    teamsToken: string,
+    options: OperationOptions = {}
+  ): Promise<CommunicationAccessToken> {
+    // casting is a workaround to enable min-max testing
+    const client = new CommunicationIdentityClient(this.connectionString, {
+      httpClient: exchangeTeamsTokenHttpClient
+    } as CommunicationIdentityClientOptions);
+    return client.exchangeTeamsToken(teamsToken, options as any);
   }
 }

@@ -62,7 +62,7 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dis
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples/typescript/src/basic.ts
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples/typescript/src/basic.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/

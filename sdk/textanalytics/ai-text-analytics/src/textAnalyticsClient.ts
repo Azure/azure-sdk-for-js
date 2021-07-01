@@ -146,7 +146,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
 /**
  * The types of PII domains the user can choose from.
  */
-export enum PiiEntityDomainType {
+export enum PiiEntityDomain {
   /**
    * @see {@link https://aka.ms/tanerpii} for more information.
    */
@@ -162,7 +162,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domainFilter?: PiiEntityDomainType;
+  domainFilter?: PiiEntityDomain;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -224,7 +224,7 @@ export type RecognizePiiEntitiesAction = {
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiEntityDomainType;
+  domain?: PiiEntityDomain;
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.

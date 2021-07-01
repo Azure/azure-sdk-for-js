@@ -4,7 +4,7 @@
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { Context } from "mocha";
 import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
-import { isNode } from "../testUtils";
+import { isNode } from "@azure/test-utils";
 import { assert } from "chai";
 import { ConnectionString } from "../../src/utils/internalModels";
 
@@ -23,7 +23,7 @@ describe("Utility Helpers", () => {
         const result = extractConnectionStringParts(validConnectionString);
         assert.deepEqual(result, {
           accountName: "testaccount",
-          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          accountKey: "REDACTED",
           kind: "AccountConnString",
           url: "https://testaccount.table.core.windows.net"
         });
@@ -35,7 +35,7 @@ describe("Utility Helpers", () => {
         const result = extractConnectionStringParts(validConnectionString);
         assert.deepEqual(result, {
           accountName: "testaccount",
-          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          accountKey: "REDACTED",
           kind: "AccountConnString",
           url: "https://testaccount.table.core.windows.net"
         });
@@ -47,7 +47,7 @@ describe("Utility Helpers", () => {
         const result = extractConnectionStringParts(validConnectionString);
         assert.deepEqual(result, {
           accountName: "testaccount",
-          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          accountKey: "REDACTED",
           kind: "AccountConnString",
           url: "https://myAccount.table.core.windows.net"
         });

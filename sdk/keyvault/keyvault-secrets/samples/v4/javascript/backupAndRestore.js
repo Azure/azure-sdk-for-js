@@ -32,7 +32,7 @@ function readFile(filename) {
   });
 }
 
-export function delay(t, value) {
+function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 

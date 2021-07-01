@@ -345,7 +345,8 @@ export const GeoReplication: coreHttp.CompositeMapper = {
         required: true,
         xmlName: "Status",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["live", "bootstrap", "unavailable"]
         }
       },
       lastSyncOn: {
@@ -529,7 +530,8 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "PublicAccess",
         xmlName: "PublicAccess",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["container", "blob"]
         }
       },
       hasImmutabilityPolicy: {
@@ -2641,7 +2643,8 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-public-access",
         xmlName: "x-ms-blob-public-access",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["container", "blob"]
         }
       },
       hasImmutabilityPolicy: {
@@ -2848,7 +2851,8 @@ export const ContainerGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-public-access",
         xmlName: "x-ms-blob-public-access",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["container", "blob"]
         }
       },
       etag: {
@@ -5423,6 +5427,13 @@ export const BlobSetHttpHeadersHeaders: coreHttp.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }

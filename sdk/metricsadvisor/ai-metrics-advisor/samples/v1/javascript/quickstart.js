@@ -86,10 +86,9 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     name: "test_datafeed_" + new Date().getTime().toString(),
     source: {
       dataSourceType: "SqlServer",
-      dataSourceParameter: {
-        connectionString: sqlServerConnectionString,
-        query: sqlServerQuery
-      }
+      connectionString: sqlServerConnectionString,
+      query: sqlServerQuery,
+      authenticationType: "Basic"
     },
     granularity: {
       granularityType: "Daily"
@@ -250,7 +249,7 @@ async function queryAnomaliesByAlert(client, alert) {
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  const listIterator = client.listAnomalies(alert);
+  const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
       `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`

@@ -10,11 +10,20 @@ import {
   transformKeyValue,
   transformKeyValueResponseWithStatusCode,
   transformKeyValueResponse,
-  formatFieldsForSelect
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam
 } from "../../src/internal/helpers";
 import * as assert from "assert";
-import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from "../../src";
+import {
+  ConfigurationSetting,
+  featureFlagContentType,
+  HttpResponseField,
+  HttpResponseFields,
+  secretReferenceContentType
+} from "../../src";
 import { HttpHeaders } from "@azure/core-http";
+import { FeatureFlagValue } from "../../src/featureFlag";
+import { SecretReferenceValue } from "../../src/secretReference";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -130,6 +139,44 @@ describe("helper methods", () => {
     });
   });
 
+  describe("serializeAsConfigurationSettingParam", () => {
+    [`[]`, "Hello World"].forEach((value) => {
+      // These values are unexpected for feature flag or secret reference config setting
+      // These tests make sure the latest version supports such settings where the value is unexpected
+      // as well because the older versions of the SDK support such cases.
+      // These tests make sure the SDK is not broken for the users with such use cases.
+      it(`serializer doesn't throw on ${value} as feature flag value`, () => {
+        const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
+          contentType: featureFlagContentType,
+          key: "key",
+          isReadOnly: false,
+          value: { conditions: { clientFilters: [] }, enabled: true }
+        };
+        featureFlag.value = value as any;
+        assert.deepEqual(
+          serializeAsConfigurationSettingParam(featureFlag),
+          featureFlag,
+          "setting was modified"
+        );
+      });
+
+      it(`serializer doesn't throw on ${value} as secret reference value`, () => {
+        const setting: ConfigurationSetting<SecretReferenceValue> = {
+          contentType: secretReferenceContentType,
+          key: "key",
+          isReadOnly: false,
+          value: { secretId: "abc" }
+        };
+        setting.value = value as any;
+        assert.deepEqual(
+          serializeAsConfigurationSettingParam(setting),
+          setting,
+          "setting was modified"
+        );
+      });
+    });
+  });
+
   const fakeHttp204Response: HttpResponseField<any> = {
     _response: {
       request: {
@@ -192,15 +239,13 @@ describe("helper methods", () => {
       locked: true
     });
 
-    assert.deepEqual(
-      {
-        // the 'locked' property should not be present in the object since
-        // it should be 'renamed' to readOnly
-        isReadOnly: true,
-        key: "hello"
-      },
-      configurationSetting
-    );
+    assert.deepEqual(configurationSetting, {
+      // the 'locked' property should not be present in the object since
+      // it should be 'renamed' to readOnly
+      isReadOnly: true,
+      key: "hello",
+      value: undefined
+    });
   });
 
   it("transformKeyValueResponseWithStatusCode", () => {
@@ -213,23 +258,20 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(["isReadOnly", "key", "statusCode"], actualKeys);
+    assert.deepEqual(actualKeys, ["isReadOnly", "key", "statusCode", "value"]);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
       enumerable: true
     });
 
-    assert.deepEqual(
-      {
-        isReadOnly: true,
-        key: "hello",
-
-        statusCode: 204,
-        _response: fakeHttp204Response._response
-      },
-      configurationSetting
-    );
+    assert.deepEqual(configurationSetting, {
+      isReadOnly: true,
+      key: "hello",
+      value: undefined,
+      statusCode: 204,
+      _response: fakeHttp204Response._response
+    });
   });
 
   it("transformKeyValueResponse", () => {
@@ -242,21 +284,19 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(["isReadOnly", "key"], actualKeys);
+    assert.deepEqual(actualKeys, ["isReadOnly", "key", "value"]);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
       enumerable: true
     });
 
-    assert.deepEqual(
-      {
-        isReadOnly: true,
-        key: "hello",
-        _response: fakeHttp204Response._response
-      },
-      configurationSetting
-    );
+    assert.deepEqual(configurationSetting, {
+      isReadOnly: true,
+      key: "hello",
+      value: undefined,
+      _response: fakeHttp204Response._response
+    });
   });
 
   it("normalizeFilterFields", () => {

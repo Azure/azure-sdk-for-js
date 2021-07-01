@@ -33,12 +33,9 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    files: ["dist-test/index.browser.js"].concat(
+      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
+    ),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -64,7 +61,8 @@ module.exports = function(config) {
       "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS"
     ],
 
     // test results reporter to use

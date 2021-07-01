@@ -4,22 +4,24 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 05 Apr 2021 22:16:10 GMT",
+    "date": "Fri, 11 Jun 2021 18:41:12 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11562.10 - SCUS ProdSlices",
-    "x-ms-request-id": "1c106eb6-c49c-4606-bd61-8885e2666a00"
+    "x-ms-ests-server": "2.1.11829.4 - WUS2 ProdSlices",
+    "x-ms-request-id": "d460f1b2-71cd-4271-a6c8-f4d2c5302a00"
    }
   },
   {
@@ -30,15 +32,15 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"etag\":\"bb067ce2-0000-0800-0000-606b8c240000\",\"properties\":{\"type\":\"MappingDataFlow\"}}]}",
+   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"etag\":\"4f0029e7-0000-0800-0000-60c3ae420000\",\"properties\":{\"type\":\"MappingDataFlow\"}}]}",
    "responseHeaders": {
     "content-length": "328",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 05 Apr 2021 22:16:10 GMT",
+    "date": "Fri, 11 Jun 2021 18:41:11 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "6ed26ba2-2b73-487e-933a-49cb53772c44"
+    "x-ms-request-id": "6decd8ca-2079-42d1-bf29-55d0ed599686"
    }
   }
  ],
@@ -46,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "90ec8ab1ad4af8fa149a0615d4355c93"
+ "hash": "1352d707f054182c3ed762040d9f9a76"
 }

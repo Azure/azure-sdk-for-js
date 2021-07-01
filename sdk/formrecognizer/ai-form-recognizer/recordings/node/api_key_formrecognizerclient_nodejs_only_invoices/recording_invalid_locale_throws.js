@@ -7,19 +7,19 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/formrecognizer/v2.1/prebuilt/invoice/analyze', {"source":"https://storageaccount/testingdata/Invoice_1.pdf?sastoken"})
   .query(true)
-  .reply(400, {"error":{"code":"UnsupportedLocale","innerError":{"requestId":"ff4df504-5827-46d1-bcc2-2ac484cd277d"},"message":"Locale unsupported. Supported locale includes en-US."}}, [
+  .reply(400, {"error":{"code":"UnsupportedLocale","innerError":{"requestId":"38b5a7c7-46d7-4b71-8e9a-168c15b4aa85"},"message":"Locale unsupported. Supported locale includes en-US."}}, [
   'Content-Length',
   '169',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '227',
+  '313',
   'apim-request-id',
-  'ff4df504-5827-46d1-bcc2-2ac484cd277d',
+  '38b5a7c7-46d7-4b71-8e9a-168c15b4aa85',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 12 May 2021 01:28:49 GMT'
+  'Tue, 25 May 2021 18:14:24 GMT'
 ]);

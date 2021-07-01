@@ -266,7 +266,14 @@ export const SendChatMessageRequest: coreHttp.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "text",
+            "html",
+            "topicUpdated",
+            "participantAdded",
+            "participantRemoved"
+          ]
         }
       },
       metadata: {
@@ -341,7 +348,14 @@ export const ChatMessage: coreHttp.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "text",
+            "html",
+            "topicUpdated",
+            "participantAdded",
+            "participantRemoved"
+          ]
         }
       },
       sequenceId: {
@@ -743,6 +757,21 @@ export const UpdateChatThreadRequest: coreHttp.CompositeMapper = {
     modelProperties: {
       topic: {
         serializedName: "topic",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SendTypingNotificationRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SendTypingNotificationRequest",
+    modelProperties: {
+      senderDisplayName: {
+        serializedName: "senderDisplayName",
         type: {
           name: "String"
         }

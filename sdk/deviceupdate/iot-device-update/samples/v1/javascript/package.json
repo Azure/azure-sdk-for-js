@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/deviceupdate/iot-device-update",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update",
   "dependencies": {
     "@azure/iot-device-update": "next",
     "dotenv": "latest",

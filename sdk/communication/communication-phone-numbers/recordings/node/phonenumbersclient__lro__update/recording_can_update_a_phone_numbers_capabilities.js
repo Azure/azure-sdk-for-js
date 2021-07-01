@@ -1,10 +1,10 @@
 let nock = require('nock');
 
-module.exports.hash = "cf8a094d8766ef00749ee0fffa38fe5c";
+module.exports.hash = "c712c9c77d67bd041a87c0cfd72c611f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
   .query(true)
   .reply(202, {"capabilitiesUpdateId":"sanitized"}, [
@@ -19,7 +19,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '/UYMfcfiaEK5hk430efXJA.0',
+  'I99VikQapUCozl5S/WyOtw.0',
   'Operation-Location',
   '/phoneNumbers/operations/capabilities_sanitized?api-version=2021-03-07',
   'operation-id',
@@ -29,17 +29,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1056ms',
+  '1785ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0rD16YAAAAACoV40pepxQRq5q5ExEtJNeWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0A8zMYAAAAAB3ggB+vQgHTpdUTovnM/l3WVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 17 Apr 2021 01:45:16 GMT'
+  'Fri, 18 Jun 2021 16:38:28 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/capabilities_sanitized')
   .query(true)
-  .reply(200, {"status":"notStarted","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-04-17T01:45:16.8910762+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-06-18T16:38:28.5782722+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -51,21 +53,23 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'lZ3GYQods0qFAm06gukCSw.0',
+  'jqhrRy/v5ECHH4kHTR89aw.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '273ms',
+  '391ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0rT16YAAAAAD367Cmo8EiQp0Jq6vKIEtTWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0BMzMYAAAAACnEkLQqM1SQ4u8ASmgNGrbWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 17 Apr 2021 01:45:16 GMT'
+  'Fri, 18 Jun 2021 16:38:28 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/capabilities_sanitized')
   .query(true)
-  .reply(200, {"status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-04-17T01:45:16.8910762+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-06-18T16:38:28.5782722+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -77,21 +81,23 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'qvzfaloktk6cJK7X4ld7cA.0',
+  'nq3C7t8F+UOL/4yGWj8NIg.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '242ms',
+  '298ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0tD16YAAAAABOMaDOJ9OlR7cBbF7V2PnyWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0B8zMYAAAAACJyLQn5ajbS7RH4GQNWKltWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 17 Apr 2021 01:45:23 GMT'
+  'Fri, 18 Jun 2021 16:38:31 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/capabilities_sanitized')
   .query(true)
-  .reply(200, {"status":"succeeded","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-04-17T01:45:16.8910762+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-06-18T16:38:28.5782722+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -103,21 +109,79 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'UZM+kQBIH0uuHzClCEOJwg.0',
+  'jXXTRhZlrUCMOdmQpWppFg.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '266ms',
+  '304ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0tj16YAAAAADskyYuH5m6Roboa6RYRh5EWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0CczMYAAAAAB3VvNfPGagSoG0bGVhlzeZWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 17 Apr 2021 01:45:26 GMT'
+  'Fri, 18 Jun 2021 16:38:33 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/capabilities_sanitized')
+  .query(true)
+  .reply(200, {"status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-06-18T16:38:28.5782722+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Location',
+  '/phoneNumbers/+14155550100?api-version=2021-03-07',
+  'Access-Control-Expose-Headers',
+  'Location',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  'gfq27MjhO06jUEOjSLl5PQ.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '297ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0DMzMYAAAAACWu1aerjVCRYGLexL5MS8SWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:38:35 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
+  .get('/phoneNumbers/operations/capabilities_sanitized')
+  .query(true)
+  .reply(200, {"status":"succeeded","resourceLocation":"/phoneNumbers/+14155550100?api-version=2021-03-07","createdDateTime":"2021-06-18T16:38:28.5782722+00:00","id":"capabilities_sanitized","operationType":"updatePhoneNumberCapabilities","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Location',
+  '/phoneNumbers/+14155550100?api-version=2021-03-07',
+  'Access-Control-Expose-Headers',
+  'Location',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  'ibRBzJvoFky4Uh8URmmGEg.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '294ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
+  'X-Azure-Ref',
+  '0DszMYAAAAACwoYCPkDb5SaTcKFXPUFtHWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Fri, 18 Jun 2021 16:38:38 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/+14155550100')
   .query(true)
-  .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-02-10T17:52:41.818335+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}, [
+  .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-03-09T15:03:04.7513808+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -125,13 +189,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'gLStxvYfG0CC4nQF3dp1bQ.0',
+  'aXFNE3dQS0Wr+aC0R3a9GA.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1143ms',
+  '1153ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0uT16YAAAAAAroaJ9sm7vSaDinb6zHPzoWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0EMzMYAAAAACfhh7GaNiZSJXoebTY7IjOWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 17 Apr 2021 01:45:30 GMT'
+  'Fri, 18 Jun 2021 16:38:41 GMT'
 ]);

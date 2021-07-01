@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+
 import { Socket } from "net";
 import http from "http";
 import open from "open";
 import stoppable from "stoppable";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { msalToPublic } from "../utils";
@@ -138,18 +141,13 @@ export class MsalOpenBrowser extends MsalNode {
             cleanup();
           });
       };
+
       const app = http.createServer(requestListener);
+      const server = stoppable(app);
 
       const listen = app.listen(this.port, this.hostname, () =>
         this.logger.info(`InteractiveBrowserCredential listening on port ${this.port}!`)
       );
-      app.on("connection", (socket) => socketToDestroy.push(socket));
-      const server = stoppable(app);
-
-      this.openAuthCodeUrl(scopes).catch((e) => {
-        cleanup();
-        reject(e);
-      });
 
       function cleanup(): void {
         if (listen) {
@@ -166,13 +164,24 @@ export class MsalOpenBrowser extends MsalNode {
         }
       }
 
-      const abortSignal = options?.abortSignal;
-      if (abortSignal) {
-        abortSignal.addEventListener("abort", () => {
+      app.on("connection", (socket) => socketToDestroy.push(socket));
+
+      app.on("listening", () => {
+        const openPromise = this.openAuthCodeUrl(scopes);
+
+        const abortSignal = options?.abortSignal;
+        if (abortSignal) {
+          abortSignal.addEventListener("abort", () => {
+            cleanup();
+            reject(new Error("Aborted"));
+          });
+        }
+
+        openPromise.then().catch((e) => {
           cleanup();
-          reject(new Error("Aborted"));
+          reject(e);
         });
-      }
+      });
     });
   }
 

@@ -45,7 +45,7 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       state = JSON.parse(resumeFrom).state;
     }
     const operation = new BeginAnalyzeHealthcarePollerOperation(
-      state || {},
+      (state || {}) as any,
       client,
       documents,
       options

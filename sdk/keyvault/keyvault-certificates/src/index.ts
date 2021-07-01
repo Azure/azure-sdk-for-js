@@ -119,7 +119,7 @@ import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 import { parseCertificateBytes } from "./utils";
-import { KeyVaultCertificateId } from "./identifier";
+import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -160,7 +160,8 @@ export {
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
-  KeyVaultCertificateId,
+  KeyVaultCertificateIdentifier,
+  parseKeyVaultCertificateIdentifier,
   PollerLike,
   CreateCertificateState,
   DeleteCertificateState,

@@ -333,7 +333,7 @@ export interface KeyVaultCertificate {
 }
 
 // @public
-export interface KeyVaultCertificateId {
+export interface KeyVaultCertificateIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -423,6 +423,9 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export function parseKeyVaultCertificateIdentifier(id: string): KeyVaultCertificateIdentifier;
 
 export { PipelineOptions }
 

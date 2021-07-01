@@ -94,7 +94,7 @@ const jsEncodingUnit = "Utf16CodeUnit";
 /**
  * Measurement units that can used to calculate the offset and length properties.
  */
-export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 /**
  * @internal

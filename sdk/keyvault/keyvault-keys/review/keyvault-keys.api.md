@@ -381,6 +381,9 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
+// @public
+export function parseKeyVaultKeyIdentifier(id: string): KeyVaultKeyIdentifier;
+
 export { PipelineOptions }
 
 export { PollerLike }

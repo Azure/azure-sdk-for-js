@@ -9,3 +9,19 @@ export function getEnvironmentVariable(name: string): string {
   }
   return value;
 }
+
+/**
+ * typeguard - for timewindow client filter
+ */
+export function isTimeWindowClientFilter(
+  clientFilter: any
+): clientFilter is { parameters: { Start: string; End: string } } {
+  return (
+    clientFilter.name === "Microsoft.TimeWindow" &&
+    clientFilter.parameters &&
+    clientFilter.parameters["Start"] &&
+    clientFilter.parameters["End"] &&
+    typeof clientFilter.parameters["Start"] === "string" &&
+    typeof clientFilter.parameters["End"] === "string"
+  );
+}

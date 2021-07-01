@@ -92,7 +92,7 @@ async function createDetectionConfig(
   };
   const seriesGroupDetectionConditions: MetricSeriesGroupDetectionCondition[] = [
     {
-      group: { city: "Manila" },
+      groupKey: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -105,7 +105,7 @@ async function createDetectionConfig(
   ];
   const seriesDetectionConditions: MetricSingleSeriesDetectionCondition[] = [
     {
-      series: { city: "Manila", category: "Handmade" },
+      seriesKey: { city: "Manila", category: "Handmade" },
       conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
@@ -152,7 +152,7 @@ async function updateDetectionConfig(
     },
     seriesGroupDetectionConditions: [
       {
-        group: { city: "Manila" },
+        groupKey: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -163,7 +163,7 @@ async function updateDetectionConfig(
     ],
     seriesDetectionConditions: [
       {
-        series: { city: "Manila", category: "Handmade" },
+        seriesKey: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",

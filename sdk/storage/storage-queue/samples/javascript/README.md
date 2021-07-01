@@ -59,15 +59,15 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node bas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/anonymousCred.js
-[azureadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/azureAdAuth.js
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/basic.js
-[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/customPipeline.js
-[iterators]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/iterators.js
-[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/proxyAuth.js
-[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/sharedKeyCred.js
-[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/withConnString.js
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/anonymousCred.js
+[azureadauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/azureAdAuth.js
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/basic.js
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/customPipeline.js
+[iterators]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/iterators.js
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/proxyAuth.js
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/sharedKeyCred.js
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/withConnString.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-queue
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/README.md

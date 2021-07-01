@@ -133,7 +133,6 @@ describe("disconnected", function() {
 
         context.connection["_connection"].idle();
         await context.readyToOpenLink();
-        console.log("open", context.connection.isOpen());
         await context.close();
       });
     });

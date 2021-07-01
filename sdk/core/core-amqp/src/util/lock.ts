@@ -12,6 +12,8 @@ import { logger } from "../log";
 export interface AcquireLockProperties {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel lock acquisition.
+   * This only applies to the acquisition of a lock. Once the lock is acquired, the task is invoked and `acquire`
+   * can no longer be cancelled.
    * This does not cancel running the task passed to `acquire()` if the lock has been acquired,
    * but will prevent it from running if cancelled before the task is invoked.
    */

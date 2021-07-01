@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+
 import { CredentialUnavailableError } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
@@ -133,10 +134,8 @@ export class AzurePowerShellCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful. If authentication cannot be performed at this time, this method may
-   * return null. If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this TokenCredential implementation might make.

@@ -157,7 +157,14 @@ class NodeHttpClient implements HttpClient {
         if (body && isReadableStream(body)) {
           body.pipe(req);
         } else if (body) {
-          req.end(body);
+          if (typeof body === "string" || Buffer.isBuffer(body)) {
+            req.end(body);
+          } else if (isArrayBuffer(body)) {
+            req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
+          } else {
+            logger.error("Unrecognized body type", body);
+            throw new RestError("Unrecognized body type");
+          }
         } else {
           // streams don't like "undefined" being passed as data
           req.end();
@@ -300,7 +307,8 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   });
 }
 
-function getBodyLength(body: RequestBodyType): number | null {
+/** @internal */
+export function getBodyLength(body: RequestBodyType): number | null {
   if (!body) {
     return 0;
   } else if (Buffer.isBuffer(body)) {
@@ -309,6 +317,8 @@ function getBodyLength(body: RequestBodyType): number | null {
     return null;
   } else if (isArrayBuffer(body)) {
     return body.byteLength;
+  } else if (typeof body === "string") {
+    return Buffer.from(body).length;
   } else {
     return null;
   }

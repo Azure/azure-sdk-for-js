@@ -15,14 +15,6 @@ export type AccessTokenGetter = (
   options: GetTokenOptions
 ) => Promise<AccessToken>;
 
-/**
- * The response of the
- */
-export interface AccessTokenRefresher {
-  cachedToken: AccessToken | null;
-  getToken: AccessTokenGetter;
-}
-
 export interface TokenCyclerOptions {
   /**
    * The window of time before token expiration during which the token will be
@@ -115,7 +107,7 @@ async function beginRefresh(
 export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>
-): AccessTokenRefresher {
+): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
 
@@ -195,31 +187,23 @@ export function createTokenCycler(
     return refreshWorker as Promise<AccessToken>;
   }
 
-  return {
-    get cachedToken(): AccessToken | null {
-      return token;
-    },
-    getToken: async (
-      scopes: string | string[],
-      tokenOptions: GetTokenOptions
-    ): Promise<AccessToken> => {
-      //
-      // Simple rules:
-      // - If we MUST refresh, then return the refresh task, blocking
-      //   the pipeline until a token is available.
-      // - If we SHOULD refresh, then run refresh but don't return it
-      //   (we can still use the cached token).
-      // - Return the token, since it's fine if we didn't return in
-      //   step 1.
-      //
+  return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
+    //
+    // Simple rules:
+    // - If we MUST refresh, then return the refresh task, blocking
+    //   the pipeline until a token is available.
+    // - If we SHOULD refresh, then run refresh but don't return it
+    //   (we can still use the cached token).
+    // - Return the token, since it's fine if we didn't return in
+    //   step 1.
+    //
 
-      if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
+    if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
 
-      if (cycler.shouldRefresh) {
-        refresh(scopes, tokenOptions);
-      }
-
-      return token as AccessToken;
+    if (cycler.shouldRefresh) {
+      refresh(scopes, tokenOptions);
     }
+
+    return token as AccessToken;
   };
 }

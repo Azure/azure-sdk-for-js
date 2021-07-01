@@ -35,17 +35,17 @@ async function getEnrichedSeriesData(client, detectionConfigId) {
   try {
     const result = await client.getMetricEnrichedSeriesData(
       detectionConfigId,
-      new Date("09/01/2020"),
-      new Date("09/12/2020"),
       [
         { city: "Manila", category: "Handmade" },
         { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
-      ]
+      ],
+      new Date("09/01/2020"),
+      new Date("09/12/2020")
     );
 
     for (const enriched of result) {
       console.log("enriched series:");
-      console.log(enriched.series);
+      console.log(enriched.seriesKey);
       if (enriched.timestamps && enriched.timestamps.length > 0) {
         for (let i = 0; i < enriched.timestamps.length; i++) {
           console.log("  ----");
@@ -70,12 +70,12 @@ async function getMetricSeriesData(client, metricId) {
   try {
     const result = await client.getMetricSeriesData(
       metricId,
-      new Date("09/01/2020"),
-      new Date("09/12/2020"),
       [
         { city: "Manila", category: "Handmade" },
         { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
-      ]
+      ],
+      new Date("09/01/2020"),
+      new Date("09/12/2020")
     );
 
     for (const series of result) {

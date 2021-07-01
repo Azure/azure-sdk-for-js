@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SUPPORTED_API_VERSIONS } from "./constants";
 
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */
-export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
+export interface KeyVaultBackupClientOptions extends CommonClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
@@ -18,7 +18,7 @@ export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link beginBackup}
  */
-export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
+export interface KeyVaultBackupPollerOptions extends OperationOptions {
   /**
    * Time between each polling
    */
@@ -43,9 +43,9 @@ export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginSelectiveRestore}
+ * passed to {@link beginSelectiveKeyRestore}
  */
-export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions {}
+export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the result of a backup operation.
@@ -54,7 +54,7 @@ export interface KeyVaultBackupResult {
   /**
    * The location of the full backup.
    */
-  backupFolderUri?: string;
+  folderUri?: string;
 
   /**
    * The start time of the backup operation.
@@ -78,6 +78,21 @@ export interface KeyVaultRestoreResult {
 
   /**
    * The end time of the restore operation.
+   */
+  endTime?: Date;
+}
+
+/**
+ * An interface representing the result of a selective key restore operation.
+ */
+export interface KeyVaultSelectiveKeyRestoreResult {
+  /**
+   * The start time of the selective key restore operation.
+   */
+  startTime: Date;
+
+  /**
+   * The end time of the selective key restore operation.
    */
   endTime?: Date;
 }
