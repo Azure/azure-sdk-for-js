@@ -56,7 +56,7 @@ export function createClient(): RemoteRenderingClient {
     // the AccessToken auth path.
     const maxTimestampMs = 8640000000000000;
     const credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
-    return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+    return new RemoteRenderingClient(serviceEndpoint, accountId, credential);
   } else {
     const credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
     return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);

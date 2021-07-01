@@ -25,7 +25,7 @@ import {
 import { RemoteRenderingClientOptions } from "./options";
 
 import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint";
-import { getMixedRealityCredential } from "./authentication/mixedRealityTokenCredential";
+import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential";
 import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential";
 import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential";
 
@@ -219,7 +219,6 @@ export class RemoteRenderingClient {
   constructor(
     endpoint: string,
     accountId: string,
-    accountDomain: string,
     credential: AccessToken,
     options?: RemoteRenderingClientOptions
   );
@@ -227,20 +226,48 @@ export class RemoteRenderingClient {
   constructor(
     endpoint: string,
     accountId: string,
-    accountDomain: string,
-    credential: TokenCredential | AzureKeyCredential | AccessToken,
-    options: RemoteRenderingClientOptions = {}
-  ) {
+    ...args: Array<any>) {
+
+    let tokenCredential: TokenCredential | null = null;
+    let options: RemoteRenderingClientOptions = {};
+
+    if ((args.length == 0) || (args.length > 3)) {
+      throw new Error("Wrong number of arguments");
+    } else if ((typeof args[0] === "object") && (args.length <= 2)) {
+      tokenCredential = new StaticAccessTokenCredential(args[0] as AccessToken);
+      if (args.length == 2) {
+        options = args[1];
+      }
+    } else if ((typeof args[0] === "string") && (args.length >= 2) && (args.length <= 3)) {
+      let accountDomain: string = args[0];
+
+      let credential: TokenCredential;
+
+      if (args[1] instanceof AzureKeyCredential) {
+        credential = new MixedRealityAccountKeyCredential(accountId, args[0]);
+      } else if (!isTokenCredential(args[1])) {
+        credential = args[1];
+      } else {
+        throw new Error("Argument 4 is not a supported type of credential");
+      }
+
+      const authenticationEndpoint =
+      options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
+      const stsOptions = { customEndpointUrl: authenticationEndpoint };
+      tokenCredential = new MixedRealityTokenCredential(accountId, accountDomain, credential, stsOptions)
+      if (args.length == 3) {
+        options = args[2];
+      }
+    } else {
+      throw new Error("Argument 3 is not of the expected type");
+    }
+
     if (!endpoint) {
       throw new Error("Argument cannot be null or empty: 'endpoint'.");
     }
 
     if (!accountId) {
       throw new Error("Argument cannot be null or empty: 'accountId'.");
-    }
-
-    if (!accountDomain) {
-      throw new Error("Argument cannot be null or empty: 'accountDomain'.");
     }
 
     this.accountId = accountId;
@@ -270,27 +297,10 @@ export class RemoteRenderingClient {
       }
     };
 
-    const tokenCredential: TokenCredential =
-      credential instanceof AzureKeyCredential
-        ? new MixedRealityAccountKeyCredential(accountId, credential)
-        : isTokenCredential(credential)
-        ? credential
-        : new StaticAccessTokenCredential(credential as AccessToken);
-
-    const authenticationEndpoint =
-      options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
-
-    const mrTokenCredential: TokenCredential = getMixedRealityCredential(
-      accountId,
-      authenticationEndpoint,
-      tokenCredential,
-      { customEndpointUrl: authenticationEndpoint }
-    );
-
     const clientOptions: RemoteRenderingRestClientOptionalParams = {
       ...internalPipelineOptions,
       endpoint: endpoint,
-      credential: mrTokenCredential,
+      credential: tokenCredential,
       credentialScopes: `${endpoint}/.default`
     };
 

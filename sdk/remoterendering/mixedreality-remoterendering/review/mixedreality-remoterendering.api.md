@@ -160,7 +160,7 @@ export interface ReadyRenderingSession extends RenderingSessionBase {
 export class RemoteRenderingClient {
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: AzureKeyCredential, options?: RemoteRenderingClientOptions);
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: TokenCredential, options?: RemoteRenderingClientOptions);
-    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AccessToken, options?: RemoteRenderingClientOptions);
+    constructor(endpoint: string, accountId: string, credential: AccessToken, options?: RemoteRenderingClientOptions);
     beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: BeginConversionOptions): Promise<AssetConversionPollerLike>;
     beginConversion(options: ResumeBeginConversionOptions): Promise<AssetConversionPollerLike>;
     beginSession(sessionId: string, settings: RenderingSessionSettings, options?: BeginSessionOptions): Promise<RenderingSessionPollerLike>;

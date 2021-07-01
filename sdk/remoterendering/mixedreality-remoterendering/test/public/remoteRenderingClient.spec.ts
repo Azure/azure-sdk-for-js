@@ -50,7 +50,6 @@ describe("RemoteRenderingClient construction", () => {
     const client = new RemoteRenderingClient(
       serviceEndpoint,
       accountId,
-      accountDomain,
       accessToken
     );
 

@@ -7,13 +7,12 @@ import {
   MixedRealityStsClient,
   MixedRealityStsClientOptions
 } from "@azure/mixedreality-authentication";
-import { StaticAccessTokenCredential } from "./staticAccessTokenCredential";
 
 /**
  * Represents a token credential that can be used to access a Mixed Reality service.
  * @internal
  */
-class MixedRealityTokenCredential implements TokenCredential {
+export class MixedRealityTokenCredential implements TokenCredential {
   private stsClient: MixedRealityStsClient;
 
   constructor(
@@ -28,19 +27,4 @@ class MixedRealityTokenCredential implements TokenCredential {
   getToken(_scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     return this.stsClient.getToken(options);
   }
-}
-
-export function getMixedRealityCredential(
-  accountId: string,
-  accountDomain: string,
-  credential: TokenCredential,
-  options: MixedRealityStsClientOptions
-): TokenCredential {
-  if (credential instanceof StaticAccessTokenCredential) {
-    // Static access tokens are assumed to be Mixed Reality access tokens already, so we don't need to exchange
-    // them using the MixedRealityTokenCredential.
-    return credential;
-  }
-
-  return new MixedRealityTokenCredential(accountId, accountDomain, credential, options);
 }
