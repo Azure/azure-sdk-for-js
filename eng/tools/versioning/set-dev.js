@@ -173,7 +173,7 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
     for (var version of allowedAlternativeVersions[package]) {
       const parsedPackageVersion = semver.minVersion(version);
       if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
-        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-alpha";
+        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-alpha"";
         allowedAlternativeVersions[package].push(devVersionRange);
         break;
       }

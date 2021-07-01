@@ -235,7 +235,12 @@ stages:
         - ${{ each artifact in parameters.Artifacts }}:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
-                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*-alpha.*.tgz
+                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
+                if ($detectedPackageName -notmatch "-alpha"))
+                {
+                  Write-Error "Found non alpha version artifact to publish as dev version. Failing alpha version publish step."
+                  exit 1
+                }
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"
