@@ -388,6 +388,7 @@ export class KeyClient {
       const {
         enabled,
         notBefore,
+        exportable,
         expiresOn: expires,
         hardwareProtected: hsm,
         ...remainingOptions
@@ -398,7 +399,8 @@ export class KeyClient {
           enabled,
           notBefore,
           expires,
-          hsm
+          hsm,
+          exportable
         }
       };
     }

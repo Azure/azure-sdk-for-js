@@ -503,11 +503,12 @@ export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
 export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
   target: string;
   nonce?: string;
-  algorithm?: string;
+  algorithm?: KeyExportEncryptionAlgorithm;
 }
 
 export interface ReleaseKeyResult {
   value: string;
+  algorithm?: KeyExportEncryptionAlgorithm;
 }
 
 /** Known values of {@link KeyOperation} that the service accepts. */
@@ -527,3 +528,21 @@ export enum KnownKeyOperations {
   /** Key operation - encrypt */
   Import = "import"
 }
+
+/** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
+export enum KnownKeyExportEncryptionAlgorithm {
+  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
+  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
+}
+
+/**
+ * Defines values for KeyEncryptionAlgorithm. \
+ * {@link KnownKeyExportEncryptionAlgorithm} can be used interchangeably with KeyEncryptionAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CKM_RSA_AES_KEY_WRAP** \
+ * **RSA_AES_KEY_WRAP_256** \
+ * **RSA_AES_KEY_WRAP_384**
+ */
+export type KeyExportEncryptionAlgorithm = string;

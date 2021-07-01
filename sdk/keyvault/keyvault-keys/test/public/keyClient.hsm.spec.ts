@@ -8,10 +8,10 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { CreateOctKeyOptions } from "../../src/keysModels";
+import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
 import { getServiceVersion, onVersions } from "../utils/utils.common";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
+import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 onVersions({ minVer: "7.2" }).describe(
   "Keys client - create, read, update and delete operations for managed HSM",
@@ -74,7 +74,12 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
-      it("can import an exportable key and release it", async () => {
+      // TODO: attestation using the mock service
+      // TODO: should this be a string or a buffer?
+      const attestation =
+        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikx0VEw5ME9BQllkaUVsT3hzWWpLZDdpMEtDYWRIVjhyRW0tMnVtM3pySWMiLCJqa3UiOiJodHRwczovL21hbGVnZXJza3I0LmF6dXJld2Vic2l0ZXMubmV0Ly9rZXlzIn0.eyJpc3MiOiJodHRwczovL21hbGVnZXJza3I0LmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImUiOiJBUUFCIiwidXNlIjoiZW5jIiwia2lkIjoiZHVtbXktcmVsZWFzZS1rZXkiLCJuIjoiamFlQ0ZMWVoxS1V2SlppS3lCaHl1N2Y2c0dfOEQtLVpvZWJFM1EzamxSRDhCcmNwc3d0TVBJRmRvN1hfcC1lR2J6dklHRzV6VWhaLTFTWFdwT2d0YkpWeGRuZ05HOWoxbnNpZVpmM3FBM1pEVDU2STRDOFE2alh0T0dablU4SDVVZUpXYTUxeTEybmp4OGVaTV9teF9xZ0dBQ2p1MzFLbEdzVGNDVGlYNXlrajl3M05aNUY3SnJ0Z3ZpT1N2emJ1SjJWT2tOTXFPMmplTUl2ME8xSmNoNkhHdFVDd0l5RHZnV2t6UV9vR29nTUFrRm1yazlaazdmTWJYWnUwMFFWVjAtcHFRMXVnQUZ1THAtNDlXYWJHSlhvQmZ0VWxiRi0yd2owLWJ4TkNvOWVfZmhzNXQ5d1dLZlp2SWpqSHhiZjJCTXhNSUluQnFMb3FvREpiRGVRR1JRIn1dfSwibWFhLWVoZCI6InNkay10ZXN0IiwiaWF0IjoxNjI0OTA5MzA1LCJleHAiOjE2MjU1MTQxMDV9.mcJhNXki0deaTzyO5wg3h9ZI2uJXZxZ7pImPm08UmomeSZZ3Jvr3jYhX1Z-hu_ui-qUCCPsKF-ergTDQb7FcJnhyI0Fm21007UwW-s4q62c2xGMwE3vneYeuyOO7n34HnukVZbypB6LmEnaEZ2ZasT5rLHUV_fe4xrmvJULrhKVUG1QDIIMPMe_CVWrVQ0BAF0ykFGGnn9KXQiZvn-EjJhcp_Zlia1i20NsamN9JuGTejx2kirsLRuEyqs-k-kKLSaQs6Slowgebyc28pRPEoECvhXd6rBLwev1b-nB1EDaHmoFXNZrmsIdOLHITjvfVx1zasJ4SjXSO55UHumMPUQ";
+
+      it.only("can import an exportable key and release it", async () => {
         const keyName = recorder.getUniqueName("importreleasekey");
         const releasePolicy = {
           anyOf: [
@@ -92,22 +97,26 @@ onVersions({ minVer: "7.2" }).describe(
           version: "1.0"
         };
         const encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
-        const importedKey = await hsmClient.importKey(
-          keyName,
-          {},
-          {
-            exportable: true,
-            releasePolicy: { data: encodedReleasePolicy }
-          }
-        );
+        const importedKey = await hsmClient.importKey(keyName, createRsaKey(), {
+          exportable: true,
+          releasePolicy: { data: encodedReleasePolicy }
+        });
 
         assert.exists(importedKey.properties.releasePolicy?.data);
         assert.isNotEmpty(
           JSON.parse(uint8ArrayToString(importedKey.properties.releasePolicy?.data!))
         );
+        const releaseResult = await hsmClient.releaseKey(keyName, importedKey.properties.version!, {
+          target: attestation,
+          nonce: "nonce",
+          algorithm: KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256 // TODO: naming?
+        });
+
+        assert.exists(releaseResult.value);
+        assert.equal(releaseResult.algorithm, KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256);
       });
 
-      it.only("can create an exportable key and release it", async () => {
+      it("can create an exportable key and release it", async () => {
         const keyName = recorder.getUniqueName("exportkey");
         const releasePolicy = {
           anyOf: [
@@ -140,9 +149,6 @@ onVersions({ minVer: "7.2" }).describe(
           JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.data!))
         );
         assert.isTrue(createdKey.properties.exportable);
-        // TODO: attestation using the mock service
-        const attestation =
-          "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikx0VEw5ME9BQllkaUVsT3hzWWpLZDdpMEtDYWRIVjhyRW0tMnVtM3pySWMiLCJqa3UiOiJodHRwczovL21hbGVnZXJza3I0LmF6dXJld2Vic2l0ZXMubmV0Ly9rZXlzIn0.eyJpc3MiOiJodHRwczovL21hbGVnZXJza3I0LmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImUiOiJBUUFCIiwidXNlIjoiZW5jIiwia2lkIjoiZHVtbXktcmVsZWFzZS1rZXkiLCJuIjoiamFlQ0ZMWVoxS1V2SlppS3lCaHl1N2Y2c0dfOEQtLVpvZWJFM1EzamxSRDhCcmNwc3d0TVBJRmRvN1hfcC1lR2J6dklHRzV6VWhaLTFTWFdwT2d0YkpWeGRuZ05HOWoxbnNpZVpmM3FBM1pEVDU2STRDOFE2alh0T0dablU4SDVVZUpXYTUxeTEybmp4OGVaTV9teF9xZ0dBQ2p1MzFLbEdzVGNDVGlYNXlrajl3M05aNUY3SnJ0Z3ZpT1N2emJ1SjJWT2tOTXFPMmplTUl2ME8xSmNoNkhHdFVDd0l5RHZnV2t6UV9vR29nTUFrRm1yazlaazdmTWJYWnUwMFFWVjAtcHFRMXVnQUZ1THAtNDlXYWJHSlhvQmZ0VWxiRi0yd2owLWJ4TkNvOWVfZmhzNXQ5d1dLZlp2SWpqSHhiZjJCTXhNSUluQnFMb3FvREpiRGVRR1JRIn1dfSwibWFhLWVoZCI6InNkay10ZXN0IiwiaWF0IjoxNjI0OTA5MzA1LCJleHAiOjE2MjU1MTQxMDV9.mcJhNXki0deaTzyO5wg3h9ZI2uJXZxZ7pImPm08UmomeSZZ3Jvr3jYhX1Z-hu_ui-qUCCPsKF-ergTDQb7FcJnhyI0Fm21007UwW-s4q62c2xGMwE3vneYeuyOO7n34HnukVZbypB6LmEnaEZ2ZasT5rLHUV_fe4xrmvJULrhKVUG1QDIIMPMe_CVWrVQ0BAF0ykFGGnn9KXQiZvn-EjJhcp_Zlia1i20NsamN9JuGTejx2kirsLRuEyqs-k-kKLSaQs6Slowgebyc28pRPEoECvhXd6rBLwev1b-nB1EDaHmoFXNZrmsIdOLHITjvfVx1zasJ4SjXSO55UHumMPUQ";
         // TODO: what about nonce and algorithm?
         // TODO: what about an overload that takes the key (since it has a version)?
         const releaseResult = await hsmClient.releaseKey(keyName, createdKey.properties.version!, {
