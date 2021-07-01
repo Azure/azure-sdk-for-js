@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  AzureKeyCredential,
+  KeyCredential,
   AccessToken,
   GetTokenOptions,
   TokenCredential
@@ -15,16 +15,16 @@ const maxTimestampMs = 8640000000000000;
  * @internal
  */
 export class MixedRealityAccountKeyCredential implements TokenCredential {
-  private readonly accountKey: AzureKeyCredential;
+  private readonly accountKey: KeyCredential;
 
   /**
    * Creates an instance of a MixedRealityAccountKeyCredential.
    * @param accountId - The Mixed Reality service account identifier.
    * @param accountKey - The Mixed Reality service account primary or secondary key.
    */
-  constructor(public readonly accountId: string, accountKey: string | AzureKeyCredential) {
+  constructor(public readonly accountId: string, accountKey: string | KeyCredential) {
     if (typeof accountKey === "string") {
-      this.accountKey = new AzureKeyCredential(accountKey);
+      this.accountKey = { key: accountKey };
     } else {
       this.accountKey = accountKey;
     }
