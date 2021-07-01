@@ -1,16 +1,16 @@
 # Release History
 
-## 5.1.0 (Unreleased)
+## 5.1.0 (2021-07-08)
 
 ### New Features
 
 - We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
+- `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
 
 ### Breaking Changes
 
 - `PiiEntityDomainType` was renamed to `PiiEntityDomain`.
 - `domain` property of `RecognizePiiEntitiesAction` was renamed to `domainFilter`.
-- `categoriesFilter` was added to `RecognizePiiEntitiesAction`.
 - `beginAnalyzeActions` is now limited to accept up to one action only per type.
 
 ## 5.1.0-beta.6 (2021-05-18)
