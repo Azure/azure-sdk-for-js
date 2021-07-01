@@ -238,7 +238,7 @@ stages:
                 $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
                 if ($detectedPackageName -notmatch "-alpha")
                 {
-                  Write-Error "Found non alpha version artifact [$detectedPackageName] to publish as dev version. Failing publish step."
+                  Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step."
                   exit 1
                 }
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
