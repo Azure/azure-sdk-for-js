@@ -236,6 +236,7 @@ stages:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
                 $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
+                Write-Host "Detected package name: $($detectedPackageName)"
                 if ($detectedPackageName -notmatch "-alpha")
                 {
                   Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step."
