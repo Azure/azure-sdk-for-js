@@ -119,7 +119,6 @@ stages:
                         parameters:
                           SkipDefaultCheckout: true 
                           Paths:
-                            - eng/
                             - sdk/**/*.md
                       - download: current
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
@@ -258,7 +257,6 @@ stages:
           parameters:
             SkipDefaultCheckout: true 
             Paths:
-              - eng/
               - sdk/**/*.md
         - download: current
         - pwsh: |
