@@ -13,7 +13,7 @@ import { StaticAccessTokenCredential } from "./staticAccessTokenCredential";
  * Represents a token credential that can be used to access a Mixed Reality service.
  * @internal
  */
-export class MixedRealityTokenCredential implements TokenCredential {
+class MixedRealityTokenCredential implements TokenCredential {
   private stsClient: MixedRealityStsClient;
 
   constructor(
@@ -28,19 +28,19 @@ export class MixedRealityTokenCredential implements TokenCredential {
   getToken(_scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     return this.stsClient.getToken(options);
   }
+}
 
-  static getMixedRealityCredential(
-    accountId: string,
-    accountDomain: string,
-    credential: TokenCredential,
-    options: MixedRealityStsClientOptions
-  ): TokenCredential {
-    if (credential instanceof StaticAccessTokenCredential) {
-      // Static access tokens are assumed to be Mixed Reality access tokens already, so we don't need to exchange
-      // them using the MixedRealityTokenCredential.
-      return credential;
-    }
-
-    return new MixedRealityTokenCredential(accountId, accountDomain, credential, options);
+export function getMixedRealityCredential(
+  accountId: string,
+  accountDomain: string,
+  credential: TokenCredential,
+  options: MixedRealityStsClientOptions
+): TokenCredential {
+  if (credential instanceof StaticAccessTokenCredential) {
+    // Static access tokens are assumed to be Mixed Reality access tokens already, so we don't need to exchange
+    // them using the MixedRealityTokenCredential.
+    return credential;
   }
+
+  return new MixedRealityTokenCredential(accountId, accountDomain, credential, options);
 }

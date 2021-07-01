@@ -25,7 +25,7 @@ import {
 import { RemoteRenderingClientOptions } from "./options";
 
 import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint";
-import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential";
+import { getMixedRealityCredential } from "./authentication/mixedRealityTokenCredential";
 import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential";
 import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential";
 
@@ -280,7 +280,7 @@ export class RemoteRenderingClient {
     const authenticationEndpoint =
       options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
 
-    const mrTokenCredential: TokenCredential = MixedRealityTokenCredential.getMixedRealityCredential(
+    const mrTokenCredential: TokenCredential = getMixedRealityCredential(
       accountId,
       authenticationEndpoint,
       tokenCredential,
