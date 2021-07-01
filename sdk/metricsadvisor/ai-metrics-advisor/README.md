@@ -235,7 +235,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    adminEmails: ["xyz@example.com"]
+    admins: ["xyz@example.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 

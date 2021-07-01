@@ -258,14 +258,14 @@ export type MetricsAdvisorDataFeed = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * data feed administrators email addresses or client id
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * data feed viewers email addresses or client id
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -774,14 +774,14 @@ export type DataFeedPatch = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * data feed administrators email addresses or client id
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * data feed viewers email addresses or client id
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -1121,9 +1121,9 @@ export interface NotificationHook {
    */
   externalLink?: string;
   /**
-   * email addresses of hook administrators
+   * hook administrators email addresses or client id
    */
-  readonly adminEmails?: string[];
+  readonly admins?: string[];
 }
 
 /**

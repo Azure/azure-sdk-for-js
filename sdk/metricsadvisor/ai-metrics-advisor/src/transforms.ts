@@ -921,8 +921,8 @@ export function fromServiceDataFeedDetailUnion(
             fillType: original.fillMissingPointType!
           },
     accessMode: original.viewMode,
-    adminEmails: original.admins,
-    viewerEmails: original.viewers
+    admins: original.admins,
+    viewers: original.viewers
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
@@ -1205,7 +1205,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
     name: original.name,
     description: original.description,
     externalLink: original.externalLink,
-    adminEmails: original.admins
+    admins: original.admins
   };
   switch (original.hookType) {
     case "Email": {

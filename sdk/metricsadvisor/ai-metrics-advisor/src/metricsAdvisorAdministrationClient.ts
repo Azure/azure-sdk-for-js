@@ -209,8 +209,8 @@ export class MetricsAdvisorAdministrationClient {
       rollupSettings,
       missingDataPointFillSettings,
       accessMode,
-      adminEmails,
-      viewerEmails,
+      admins,
+      viewers,
       description
     } = feed;
 
@@ -262,8 +262,8 @@ export class MetricsAdvisorAdministrationClient {
         fillMissingPointType,
         fillMissingPointValue,
         viewMode: accessMode,
-        admins: adminEmails,
-        viewers: viewerEmails,
+        admins: admins,
+        viewers: viewers,
         dataFeedDescription: description,
         ...finalOptions
       };
@@ -495,8 +495,8 @@ export class MetricsAdvisorAdministrationClient {
             : undefined,
         // other options
         viewMode: patch.accessMode,
-        admins: patch.adminEmails,
-        viewers: patch.viewerEmails,
+        admins: patch.admins,
+        viewers: patch.viewers,
         status: patch.status,
         actionLinkTemplate: patch.actionLinkTemplate
       };
