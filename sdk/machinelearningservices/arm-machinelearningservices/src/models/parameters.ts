@@ -51,18 +51,6 @@ export const computeName: msRest.OperationURLParameter = {
     }
   }
 };
-export const computeType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "computeType"
-  ],
-  mapper: {
-    serializedName: "compute-type",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const connectionName: msRest.OperationURLParameter = {
   parameterPath: "connectionName",
   mapper: {
@@ -70,6 +58,31 @@ export const connectionName: msRest.OperationURLParameter = {
     serializedName: "connectionName",
     type: {
       name: "String"
+    }
+  }
+};
+export const expand0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "expand",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const expand1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "expand",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -86,6 +99,30 @@ export const location: msRest.OperationURLParameter = {
     }
   }
 };
+export const modelId: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "modelId"
+  ],
+  mapper: {
+    serializedName: "modelId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const modelName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "modelName"
+  ],
+  mapper: {
+    serializedName: "modelName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -97,6 +134,19 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const orderby: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "orderby"
+  ],
+  mapper: {
+    serializedName: "orderby",
+    defaultValue: 'UpdatedAtDesc',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const privateEndpointConnectionName: msRest.OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -107,15 +157,15 @@ export const privateEndpointConnectionName: msRest.OperationURLParameter = {
     }
   }
 };
-export const recommended: msRest.OperationQueryParameter = {
+export const properties: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "recommended"
+    "properties"
   ],
   mapper: {
-    serializedName: "recommended",
+    serializedName: "properties",
     type: {
-      name: "Boolean"
+      name: "String"
     }
   }
 };
@@ -129,13 +179,35 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const skiptoken: msRest.OperationQueryParameter = {
+export const runId: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "skiptoken"
+    "runId"
   ],
   mapper: {
-    serializedName: "$skiptoken",
+    serializedName: "runId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const serviceName: msRest.OperationURLParameter = {
+  parameterPath: "serviceName",
+  mapper: {
+    required: true,
+    serializedName: "serviceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const skip: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "skip"
+  ],
+  mapper: {
+    serializedName: "$skip",
     type: {
       name: "String"
     }
@@ -146,6 +218,30 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tag: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "tag"
+  ],
+  mapper: {
+    serializedName: "tag",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tags: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "tags"
+  ],
+  mapper: {
+    serializedName: "tags",
     type: {
       name: "String"
     }

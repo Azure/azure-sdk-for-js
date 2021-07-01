@@ -188,29 +188,9 @@ export class Workspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resyncKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param callback The callback
-   */
-  resyncKeys(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  resyncKeys(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resyncKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        options
-      },
-      resyncKeysOperationSpec,
-      callback);
+  resyncKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginResyncKeys(resourceGroupName,workspaceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -235,6 +215,38 @@ export class Workspaces {
       },
       listBySubscriptionOperationSpec,
       callback) as Promise<Models.WorkspacesListBySubscriptionResponse>;
+  }
+
+  /**
+   * return notebook access token and refresh token
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WorkspacesListNotebookAccessTokenResponse>
+   */
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListNotebookAccessTokenResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param callback The callback
+   */
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.NotebookAccessTokenResult>): void;
+  /**
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotebookAccessTokenResult>): void;
+  listNotebookAccessToken(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotebookAccessTokenResult>, callback?: msRest.ServiceCallback<Models.NotebookAccessTokenResult>): Promise<Models.WorkspacesListNotebookAccessTokenResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        options
+      },
+      listNotebookAccessTokenOperationSpec,
+      callback) as Promise<Models.WorkspacesListNotebookAccessTokenResponse>;
   }
 
   /**
@@ -272,6 +284,25 @@ export class Workspaces {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Resync all the keys associated with this workspace. This includes keys for the storage account,
+   * app insights and password for container registry
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginResyncKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        options
+      },
+      beginResyncKeysOperationSpec,
       options);
   }
 
@@ -400,7 +431,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -441,9 +472,33 @@ const listKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const resyncKeysOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skip
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceListResult
+    },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
+const listNotebookAccessTokenOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/resyncKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookAccessToken",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -456,30 +511,8 @@ const resyncKeysOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
-
-const listBySubscriptionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.NotebookAccessTokenResult
     },
     default: {
       bodyMapper: Mappers.MachineLearningServiceError
@@ -549,6 +582,30 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginResyncKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/resyncKeys",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
 const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -558,7 +615,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -583,7 +640,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skiptoken
+    Parameters.skip
   ],
   headerParameters: [
     Parameters.acceptLanguage

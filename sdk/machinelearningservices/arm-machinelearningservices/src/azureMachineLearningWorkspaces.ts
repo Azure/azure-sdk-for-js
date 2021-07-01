@@ -8,9 +8,9 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
-import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { AzureMachineLearningWorkspacesContext } from "./azureMachineLearningWorkspacesContext";
 
@@ -20,137 +20,49 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
   operations: operations.Operations;
   workspaces: operations.Workspaces;
   workspaceFeatures: operations.WorkspaceFeatures;
-  notebooks: operations.Notebooks;
   usages: operations.Usages;
   virtualMachineSizes: operations.VirtualMachineSizes;
   quotas: operations.Quotas;
-  workspaceConnections: operations.WorkspaceConnections;
   machineLearningCompute: operations.MachineLearningCompute;
+  workspace: operations.WorkspaceOperations;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
+  machineLearningService: operations.MachineLearningService;
+  notebooks: operations.Notebooks;
+  storageAccount: operations.StorageAccount;
+  workspaceConnections: operations.WorkspaceConnections;
 
   /**
    * Initializes a new instance of the AzureMachineLearningWorkspaces class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Azure subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMachineLearningWorkspacesOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.AzureMachineLearningWorkspacesOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.workspaces = new operations.Workspaces(this);
     this.workspaceFeatures = new operations.WorkspaceFeatures(this);
-    this.notebooks = new operations.Notebooks(this);
     this.usages = new operations.Usages(this);
     this.virtualMachineSizes = new operations.VirtualMachineSizes(this);
     this.quotas = new operations.Quotas(this);
-    this.workspaceConnections = new operations.WorkspaceConnections(this);
     this.machineLearningCompute = new operations.MachineLearningCompute(this);
+    this.workspace = new operations.WorkspaceOperations(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
-  }
-
-  /**
-   * Lists all skus with associated features
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ListSkusResponse>
-   */
-  listSkus(options?: msRest.RequestOptionsBase): Promise<Models.ListSkusResponse>;
-  /**
-   * @param callback The callback
-   */
-  listSkus(callback: msRest.ServiceCallback<Models.SkuListResult>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuListResult>): void;
-  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuListResult>, callback?: msRest.ServiceCallback<Models.SkuListResult>): Promise<Models.ListSkusResponse> {
-    return this.sendOperationRequest(
-      {
-        options
-      },
-      listSkusOperationSpec,
-      callback) as Promise<Models.ListSkusResponse>;
-  }
-
-  /**
-   * Lists all skus with associated features
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ListSkusNextResponse>
-   */
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListSkusNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SkuListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuListResult>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuListResult>, callback?: msRest.ServiceCallback<Models.SkuListResult>): Promise<Models.ListSkusNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listSkusNextOperationSpec,
-      callback) as Promise<Models.ListSkusNextResponse>;
+    this.machineLearningService = new operations.MachineLearningService(this);
+    this.notebooks = new operations.Notebooks(this);
+    this.storageAccount = new operations.StorageAccount(this);
+    this.workspaceConnections = new operations.WorkspaceConnections(this);
   }
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listSkusOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuListResult
-    },
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
-
-const listSkusNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuListResult
-    },
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
 
 export {
   AzureMachineLearningWorkspaces,
