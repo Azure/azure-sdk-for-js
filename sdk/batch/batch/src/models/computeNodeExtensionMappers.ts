@@ -9,15 +9,10 @@
 export {
   BatchError,
   BatchErrorDetail,
-  Certificate,
-  CertificateAddHeaders,
-  CertificateAddParameter,
-  CertificateCancelDeletionHeaders,
-  CertificateDeleteHeaders,
-  CertificateGetHeaders,
-  CertificateListHeaders,
-  CertificateListResult,
-  DeleteCertificateError,
+  ComputeNodeExtensionGetHeaders,
   ErrorMessage,
-  NameValuePair
+  InstanceViewStatus,
+  NodeVMExtension,
+  VMExtension,
+  VMExtensionInstanceView
 } from "../models/mappers";
