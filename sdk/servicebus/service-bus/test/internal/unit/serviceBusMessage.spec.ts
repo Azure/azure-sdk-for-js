@@ -73,10 +73,18 @@ describe("ServiceBusMessageImpl unit tests", () => {
       delivery_annotations_three: "delivery_annotations_three_value"
     };
 
+    const timestamp = new Date();
     const amqpMessage: RheaMessage = {
       body: "hello",
       message_annotations,
       delivery_annotations,
+      application_properties: {
+        topLevelDate: timestamp,
+        child: {
+          nestedDate: timestamp,
+          children: [timestamp, { deepDate: timestamp }]
+        }
+      },
       delivery_count: 2,
       first_acquirer: true,
       ttl: 123456,
@@ -88,8 +96,8 @@ describe("ServiceBusMessageImpl unit tests", () => {
       correlation_id: "random_correlationId",
       content_type: "random_contentType",
       content_encoding: "random_contentEncoding",
-      absolute_expiry_time: 123908745,
-      creation_time: 45612349,
+      absolute_expiry_time: new Date(123908745),
+      creation_time: new Date(45612349),
       group_id: "random_groupId",
       group_sequence: 98723560,
       reply_to_group_id: "random_replyToGroupId",
@@ -166,9 +174,12 @@ describe("ServiceBusMessageImpl unit tests", () => {
       );
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.absoluteExpiryTime,
-        amqpMessage.absolute_expiry_time
+        amqpMessage.absolute_expiry_time?.getTime()
       );
-      assert.equal(sbMessage._rawAmqpMessage.properties?.creationTime, amqpMessage.creation_time);
+      assert.equal(
+        sbMessage._rawAmqpMessage.properties?.creationTime,
+        amqpMessage.creation_time!.getTime()
+      );
       assert.equal(sbMessage._rawAmqpMessage.properties?.groupId, amqpMessage.group_id);
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.replyToGroupId,
@@ -189,6 +200,20 @@ describe("ServiceBusMessageImpl unit tests", () => {
         sbMessage.replyToSessionId
       );
       assert.equal(sbMessage._rawAmqpMessage.properties?.subject, sbMessage.subject);
+      assert.deepEqual(sbMessage.applicationProperties, {
+        topLevelDate: timestamp.getTime(),
+        child: {
+          nestedDate: timestamp.getTime(),
+          children: [timestamp.getTime(), { deepDate: timestamp.getTime() }]
+        }
+      });
+      assert.deepEqual(sbMessage._rawAmqpMessage.applicationProperties, {
+        topLevelDate: timestamp.getTime(),
+        child: {
+          nestedDate: timestamp.getTime(),
+          children: [timestamp.getTime(), { deepDate: timestamp.getTime() }]
+        }
+      });
     });
   });
 

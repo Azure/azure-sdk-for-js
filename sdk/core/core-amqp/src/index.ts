@@ -34,9 +34,7 @@ export {
   delay,
   parseConnectionString,
   defaultCancellableLock,
-  defaultLock,
   ParsedOutput,
-  AsyncLock,
   WebSocketOptions
 } from "./util/utils";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";

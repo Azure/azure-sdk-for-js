@@ -1,6 +1,18 @@
 # Release History
 
-## 12.6.0 (Unreleased)
+## 12.7.0 (Unreleased)
+
+### Features Added
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+## 12.6.0 (2021-06-09)
 
 - Includes all features released in 12.6.0-beta.1.
 
@@ -296,6 +308,11 @@
 - Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
 - Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
 
+## 10.4.1 (2019-08-28)
+
+- Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
+- `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
+
 ## 12.0.0-preview.2 (2019-08-06)
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
@@ -306,11 +323,6 @@
   - Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   - SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
-
-## 10.4.1 (2019-08-28)
-
-- Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
-- `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
 
 ## 10.4.0 (2019-07-30)
 
@@ -344,12 +356,12 @@
 - [Breaking] The static methods to create client types are removed. The functionality is moved into new instance methods added to the parent clients.
 - [Breaking] The telemetry strings have been updated.
   - `Azure-Storage/${SDK_VERSION}` is updated to `azsdk-js-storagefile/${SDK_VERSION}`.
-- [Breaking]  withPipeline method is removed.
+- [Breaking] withPipeline method is removed.
 - Async iterators with pagination support are added for listing methods
   - `listContainers()`, `listBlobsFlat()` and `listBlobsByHierarchy()`
   - Please refer to the samples for async iterators in the `samples` folder.
-- [Breaking]  Methods that list segments(`listBlobFlatSegment()` and `listContainersSegment()`) are no longer exposed in public api.
-- [Breaking]  High level convenience functions are moved into clients as their instance member function.
+- [Breaking] Methods that list segments(`listBlobFlatSegment()` and `listContainersSegment()`) are no longer exposed in public api.
+- [Breaking] High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToBlockBlob()`, `uploadStreamToBlockBlob()` and `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and `BlockBlobClient.uploadBrowserData()` respectively
   - `downloadBlobToBuffer()` -> `BlobClient.downloadToBuffer()`
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.

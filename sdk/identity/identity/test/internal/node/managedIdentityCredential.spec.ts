@@ -3,7 +3,10 @@
 
 import qs from "qs";
 import assert from "assert";
-import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
+import { WebResource, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,

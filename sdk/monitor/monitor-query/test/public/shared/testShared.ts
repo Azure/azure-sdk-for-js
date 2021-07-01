@@ -5,7 +5,7 @@ import { env, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorde
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
-import { Table } from "../../../src/generated/logquery/src";
+import { LogsTable } from "../../../src";
 
 export const loggerForTest = createClientLogger("test");
 
@@ -19,7 +19,7 @@ export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode()
   // are mapped to below.
   const replaceableVariables: Record<string, string> = {
     MONITOR_WORKSPACE_ID: "<workspace-id>",
-    METRICS_RESOURCE_ID_TO_QUERY: "<metrics-arm-resource-id>",
+    METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
 
     AZURE_TENANT_ID: "azure_tenant_id",
     AZURE_CLIENT_ID: "azure_client_id",
@@ -87,8 +87,16 @@ export function getMonitorWorkspaceId(mochaContext: Pick<Context, "skip">): stri
   return getRequiredEnvVar(mochaContext, "MONITOR_WORKSPACE_ID");
 }
 
-export function getMetricsArmResourceId(mochaContext: Pick<Context, "skip">): string {
-  return getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID_TO_QUERY");
+export function getMetricsArmResourceId(
+  mochaContext: Pick<Context, "skip">
+): {
+  resourceId: string;
+  resourceNamespace: string;
+} {
+  return {
+    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID"),
+    resourceNamespace: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_NAMESPACE")
+  };
 }
 
 export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip">): string {
@@ -116,7 +124,7 @@ function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: st
   return env[variableName];
 }
 
-export function printLogQueryTables(tables: Table[]): void {
+export function printLogQueryTables(tables: LogsTable[]): void {
   for (const table of tables) {
     const columnHeaderString = table.columns.map((c) => `${c.name}(${c.type}) `).join("| ");
     console.log(columnHeaderString);
@@ -129,11 +137,11 @@ export function printLogQueryTables(tables: Table[]): void {
 }
 
 export function assertQueryTable(
-  table: Table | undefined,
+  table: LogsTable | undefined,
   expectedTable: {
     name: string;
     columns: string[];
-    rows: string[][];
+    rows: LogsTable["rows"];
   },
   message: string
 ): void {

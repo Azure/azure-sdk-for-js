@@ -13,7 +13,7 @@ import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdenti
 import { exchangeTeamsTokenHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
-  const dateHeader = isNode ? "date" : "x-ms-date";
+  const dateHeader = "x-ms-date";
   const user: CommunicationUserIdentifier = { communicationUserId: "ACS_ID" };
 
   afterEach(() => {

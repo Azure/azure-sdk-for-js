@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 dotenv.config();
 
-export function delay(t, value) {
+function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 

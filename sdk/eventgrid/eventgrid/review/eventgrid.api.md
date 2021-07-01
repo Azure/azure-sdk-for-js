@@ -118,9 +118,11 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 
 // @public
 export interface AcsRecordingChunkInfo {
+    contentLocation: string;
     documentId: string;
     endReason: string;
     index: number;
+    metadataLocation: string;
 }
 
 // @public
@@ -1161,6 +1163,17 @@ export interface StorageBlobDeletedEventData {
 }
 
 // @public
+export interface StorageBlobInventoryPolicyCompletedEventData {
+    accountName: string;
+    manifestBlobUrl: string;
+    policyRunId: string;
+    policyRunStatus: string;
+    policyRunStatusMessage: string;
+    ruleName: string;
+    scheduleDateTime: string;
+}
+
+// @public
 export interface StorageBlobRenamedEventData {
     api: string;
     clientRequestId: string;
@@ -1332,10 +1345,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
     "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
     "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
     "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
     "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
     "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
     "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
     "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
     "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;

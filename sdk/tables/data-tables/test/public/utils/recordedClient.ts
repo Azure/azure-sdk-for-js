@@ -3,12 +3,13 @@
 
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
+import { ClientSecretCredential } from "@azure/identity";
 import { TableClient, TableServiceClient } from "../../../src";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 import "./env";
 
-const mockAccountName = "fakestorageaccount";
+const mockAccountName = "fakeaccount";
 const mockAccountKey = "fakeKey";
 const fakeSas =
   "sv=2019-12-12&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-01-31T05:16:52Z&st=2021-01-26T21:16:52Z&spr=https&sig=fakeSignature";
@@ -20,7 +21,11 @@ const replaceableVariables: { [k: string]: string } = {
   ACCOUNT_NAME: `${mockAccountName}`,
   ACCOUNT_KEY: `${mockAccountKey}`,
   ACCOUNT_SAS: `${mockAccountKey}`,
-  SAS_CONNECTION_STRING: `${mockSasConnectionString}`
+  TABLES_URL: `https://${mockAccountName}.table.core.windows.net`,
+  SAS_CONNECTION_STRING: `${mockSasConnectionString}`,
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
@@ -51,11 +56,12 @@ export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
   ]
 };
 
-type CreateClientMode =
+export type CreateClientMode =
   | "SASConnectionString"
   | "SASToken"
   | "AccountKey"
-  | "AccountConnectionString";
+  | "AccountConnectionString"
+  | "TokenCredential";
 
 export function createTableClient(
   tableName: string,
@@ -78,7 +84,11 @@ export function createTableClient(
         );
       }
 
-      return new TableClient(`${env.TABLES_URL}${env.SAS_TOKEN}`, tableName);
+      return new TableClient(
+        env.TABLES_URL,
+        tableName,
+        new AzureSASCredential(env.SAS_TOKEN ?? "")
+      );
 
     case "AccountKey":
       if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {
@@ -92,6 +102,22 @@ export function createTableClient(
         tableName,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY)
       );
+
+    case "TokenCredential": {
+      if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
+        throw new Error(
+          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment"
+        );
+      }
+
+      const credential = new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
+
+      return new TableClient(env.TABLES_URL, tableName, credential);
+    }
 
     case "AccountConnectionString":
       if (!env.ACCOUNT_CONNECTION_STRING) {
@@ -140,6 +166,22 @@ export function createTableServiceClient(
         env.TABLES_URL,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY)
       );
+
+    case "TokenCredential": {
+      if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
+        throw new Error(
+          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment"
+        );
+      }
+
+      const credential = new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
+
+      return new TableServiceClient(env.TABLES_URL, credential);
+    }
 
     case "AccountConnectionString":
       if (!env.ACCOUNT_CONNECTION_STRING) {

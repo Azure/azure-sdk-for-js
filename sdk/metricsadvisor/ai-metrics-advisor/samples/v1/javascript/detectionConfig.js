@@ -81,7 +81,7 @@ async function createDetectionConfig(adminClient, metricId) {
   };
   const seriesGroupDetectionConditions = [
     {
-      group: { city: "Manila" },
+      groupKey: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -94,7 +94,7 @@ async function createDetectionConfig(adminClient, metricId) {
   ];
   const seriesDetectionConditions = [
     {
-      series: { city: "Manila", category: "Handmade" },
+      seriesKey: { city: "Manila", category: "Handmade" },
       conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
@@ -138,7 +138,7 @@ async function updateDetectionConfig(adminClient, configId) {
     },
     seriesGroupDetectionConditions: [
       {
-        group: { city: "Manila" },
+        groupKey: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -149,7 +149,7 @@ async function updateDetectionConfig(adminClient, configId) {
     ],
     seriesDetectionConditions: [
       {
-        series: { city: "Manila", category: "Handmade" },
+        seriesKey: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",

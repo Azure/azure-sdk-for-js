@@ -8,7 +8,6 @@
 
 import {
   RoleDefinitionsDeleteOptionalParams,
-  RoleDefinitionsDeleteResponse,
   RoleDefinitionCreateParameters,
   RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsCreateOrUpdateResponse,
@@ -34,7 +33,7 @@ export interface RoleDefinitions {
     scope: string,
     roleDefinitionName: string,
     options?: RoleDefinitionsDeleteOptionalParams
-  ): Promise<RoleDefinitionsDeleteResponse>;
+  ): Promise<void>;
   /**
    * Creates or updates a custom role definition.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.

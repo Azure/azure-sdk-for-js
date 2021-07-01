@@ -8,7 +8,6 @@
 
 import {
   RoleAssignmentsDeleteOptionalParams,
-  RoleAssignmentsDeleteResponse,
   RoleAssignmentCreateParameters,
   RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsCreateResponse,
@@ -34,7 +33,7 @@ export interface RoleAssignments {
     scope: string,
     roleAssignmentName: string,
     options?: RoleAssignmentsDeleteOptionalParams
-  ): Promise<RoleAssignmentsDeleteResponse>;
+  ): Promise<void>;
   /**
    * Creates a role assignment.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.

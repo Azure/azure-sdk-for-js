@@ -110,7 +110,7 @@ export interface ChatMessageReadReceipt {
 }
 
 // @public
-export type ChatMessageType = string;
+export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
 
 // @public
 export interface ChatParticipant {
@@ -258,7 +258,9 @@ export interface SendReadReceiptRequest {
 }
 
 // @public
-export type SendTypingNotificationOptions = OperationOptions;
+export interface SendTypingNotificationOptions extends OperationOptions {
+    senderDisplayName?: string;
+}
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {

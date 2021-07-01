@@ -24,11 +24,12 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/tables/data-tables",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables",
   "dependencies": {
     "@azure/data-tables": "next",
     "dotenv": "latest",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

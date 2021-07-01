@@ -78,13 +78,13 @@ npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/backupAndRestore.ts
-[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/deleteAndRecover.ts
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/helloWorld.ts
-[listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/listOperations.ts
-[purgeallsecrets]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/purgeAllSecrets.ts
+[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/backupAndRestore.ts
+[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/deleteAndRecover.ts
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/helloWorld.ts
+[listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/listOperations.ts
+[purgeallsecrets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/purgeAllSecrets.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

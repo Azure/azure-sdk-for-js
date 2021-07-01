@@ -1,6 +1,28 @@
 # Release History
 
-## 4.2.0-beta.5 (Unreleased)
+## 4.3.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+## 4.2.0 (2021-06-15)
+
+### New Features
+
+- Added support for the 7.2 version of the Key Vault service API.
+
+### Bug Fixes
+
+- Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+- Added a `certificateKeyId?: string` secret property to use instead of the deprecated `keyId?: URL` and removed `"lib": ["dom"]` from `tsconfig.json`
+
+### Changes since 4.2.0-beta.4:
 
 - Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
 - Renamed the `KeyVaultSecretId` to `KeyVaultSecretIdentifier`, and exported a method to parse Key Vault Secret Ids: `parseKeyVaultSecretIdentifier`.
@@ -21,7 +43,7 @@
 
 ## 4.2.0-beta.2 (2021-02-09)
 
-- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 - Updated the Key Vault Secrets Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
 

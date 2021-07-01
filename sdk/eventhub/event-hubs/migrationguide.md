@@ -4,8 +4,8 @@ This guide is intended to assist in the migration from version 2 of the Event Hu
 It will focus on side-by-side comparisons for similar operations between the two packages.
 
 Familiarity with the version 2 of the `@azure/event-hubs` and `@azure/event-processor-host` libraries are assumed.
-For those new to the Event Hubs client library, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md).
-and [Event Hubs samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples) for the `@azure/event-hubs` library rather than this guide.
+For those new to the Event Hubs client library, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/README.md).
+and [Event Hubs samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples) for the `@azure/event-hubs` library rather than this guide.
 
 ## Table of contents
 
@@ -54,7 +54,7 @@ We have a variety of new features in version 5 of the Event Hubs library.
 - Ability to cancel async operations on the clients using the abort signal from `@azure/abort-controller`.
 - Authentication with AAD credentials using `@azure/identity`.
 
-Refer to the [changelog](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/CHANGELOG.md) for more new features, changes and bug fixes.
+Refer to the [changelog](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/CHANGELOG.md) for more new features, changes and bug fixes.
 
 ## Important changes
 
@@ -69,9 +69,9 @@ allowing the `EventHubConsumerClient` to be the single point of entry for receiv
 
 | In v2                                             | Equivalent in v5                                                 | Sample                                                                                                                                                                                                                                                                   |
 | ------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `EventHubClient.createFromConnectionString()`     | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts), [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
-| `EventHubClient.createFromAadTokenCredentials()`  | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/usingAadAuth.ts)                                                                                                                                     |
-| `EventProcessorHost.createFromConnectionString()` | `new EventHubConsumerClient(..., checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/typescript/src/receiveEventsUsingCheckpointStore.ts)                                                                       |
+| `EventHubClient.createFromConnectionString()`     | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts), [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
+| `EventHubClient.createFromAadTokenCredentials()`  | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/usingAadAuth.ts)                                                                                                                                     |
+| `EventProcessorHost.createFromConnectionString()` | `new EventHubConsumerClient(..., checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsUsingCheckpointStore.ts)                                                                    |
 
 Other noteworthy changes:
 
@@ -89,7 +89,7 @@ This and the need to support improvements to the algorithm used for managing par
 
 | In v2                              | Equivalent in v5                               | Sample                                                                                                                           |
 | ---------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `EventHubClient.sendBatch(events)` | `EventHubProducerClient.sendBatch(eventBatch)` | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
+| `EventHubClient.sendBatch(events)` | `EventHubProducerClient.sendBatch(eventBatch)` | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
 
 Other noteworthy changes:
 
@@ -176,7 +176,7 @@ if (batch.count > 0) {
 
 | In v2                                                          | Equivalent in v5                     | Sample                                                                                                                                 |
 | -------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `EventHubClient.receive()` and `EventHubClient.receiveBatch()` | `EventHubConsumerClient.subscribe()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
+| `EventHubClient.receive()` and `EventHubClient.receiveBatch()` | `EventHubConsumerClient.subscribe()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
 
 Other noteworthy changes:
 
@@ -226,7 +226,7 @@ const subscription = eventHubConsumerClient.subscribe(
 await subscription.close();
 ```
 
-See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
+See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
 for a sample program demonstrating this.
 
 #### Migrating from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
@@ -333,7 +333,7 @@ what order, making checkpointing difficult to do correctly.
 
 In V5 the model has been simplified so new events are not delivered until the
 previous batch has been consumed by your event handler. You can see a sample
-demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
+demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
 
 ### Creating EventPosition
 
@@ -350,7 +350,7 @@ demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/
 Retry logic and tuning has been externalized, allowing for better configuration
 to better suit your network configuration and reliability.
 
-More information about configuring and tuning retries can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#guidance-around-retries).
+More information about configuring and tuning retries can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs#guidance-around-retries).
 
 ### Handling errors
 
@@ -367,6 +367,6 @@ More information about configuring and tuning retries can be found [here](https:
 
 ## Additional samples
 
-More examples can be found at [samples for @azure/event-hubs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples).
+More examples can be found at [samples for @azure/event-hubs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FMIGRATIONGUIDE.png)

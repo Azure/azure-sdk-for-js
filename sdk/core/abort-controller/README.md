@@ -1,4 +1,4 @@
-# Azure Abort Controller library for JavaScript
+# Azure Abort Controller client library for JavaScript
 
 The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes. These classes are compatible
 with the [AbortController](https://developer.mozilla.org/docs/Web/API/AbortController) built into modern browsers
@@ -89,8 +89,16 @@ allTasksController.abort(); // aborts allTasksSignal, subTask
 subTask.abort(); // aborts only subTask
 ```
 
+## Next steps
+
+You can build and run the tests locally by executing `rushx test`. Explore the `test` folder to see advanced usage and behavior of the public classes.
+
+## Troubleshooting
+
+If you run into issues while using this library, please feel free to [file an issue](https://github.com/Azure/azure-sdk-for-js/issues/new).
+
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fabort-controller%2FREADME.png)

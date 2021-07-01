@@ -4,29 +4,36 @@
 //
 // Curated exports
 //
-export { LogsClientOptions, LogsClient } from "./logsClient";
+export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
   BatchQuery,
   QueryLogsBatch,
   QueryLogsBatchOptions,
-  QueryLogsBatchResponse,
+  QueryLogsBatchResult,
   QueryLogsOptions,
   QueryLogsResult,
-  QueryStatistics
+  // TODO: design issues around this still pending.
+  // QueryStatistics,
+  LogsTable
 } from "./models/publicLogsModels";
-export { MetricsClient, MetricsClientOptions } from "./metricsClient";
+export {
+  MetricsQueryClient,
+  MetricsQueryClientOptions as MetricsClientOptions
+} from "./metricsQueryClient";
 export {
   GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResponse,
+  GetMetricDefinitionsResult,
   GetMetricNamespacesOptions,
-  GetMetricNamespacesResponse,
+  GetMetricNamespacesResult,
+  MetadataValue,
   Metric,
+  MetricDefinition,
   QueryMetricsOptions,
-  QueryMetricsResponse,
+  QueryMetricsResult,
   TimeSeriesElement
 } from "./models/publicMetricsModels";
 
-export { CommonDurations } from "./models/constants";
+export { Durations } from "./models/constants";
 
 //
 // LogsClient: generated exports
@@ -35,12 +42,10 @@ export { CommonDurations } from "./models/constants";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  Column as MetricColumn,
+  Column as LogsColumn,
   ColumnDataType,
   ErrorDetail,
-  ErrorInfo,
-  QueryResults,
-  Table
+  ErrorInfo
 } from "./generated/logquery/src";
 
 //
@@ -49,18 +54,12 @@ export {
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  LocalizableString,
-  MetadataValue,
   MetricValue,
   ResultType,
   MetricUnit
 } from "./generated/metrics/src";
 
-export {
-  AggregationType,
-  MetricAvailability,
-  MetricDefinition
-} from "./generated/metricsdefinitions/src";
+export { AggregationType, MetricAvailability } from "./generated/metricsdefinitions/src";
 export {
   MetricNamespace,
   MetricNamespaceName,

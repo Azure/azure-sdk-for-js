@@ -7,7 +7,11 @@
  *
  * @summary authenticates using different authentication methods
  */
-const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
+const {
+  TableServiceClient,
+  AzureNamedKeyCredential,
+  AzureSASCredential
+} = require("@azure/data-tables");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -40,7 +44,7 @@ async function tableServiceClientWithSasConnectionString() {
  * Create a TableServiceCLient using a SAS token
  */
 async function tableServiceClientWithSasToken() {
-  const client = new TableServiceClient(`${tablesUrl}${sasToken}`);
+  const client = new TableServiceClient(tablesUrl, new AzureSASCredential(sasToken));
   countTablesWithClient(client);
 }
 

@@ -10,16 +10,8 @@ import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
-import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
-
-/**
- * @internal
- */
-export const withTrace = createTraceFunction(
-  "Azure.KeyVault.Certificates.RecoverDeletedCertificatePoller"
-);
 
 /**
  * Class that creates a poller that waits until a deleted certificate is fully recovered.

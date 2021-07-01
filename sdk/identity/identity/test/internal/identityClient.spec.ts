@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { assertRejects, MockAuthHttpClient } from "../authTestUtils";
-import { IdentityClient } from "../../src/client/identityClient";
+import { getIdentityClientAuthorityHost, IdentityClient } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { isNode } from "@azure/core-http";
@@ -82,6 +82,15 @@ describe("IdentityClient", function() {
       Error,
       "The authorityHost address must use the 'https' protocol."
     );
+  });
+
+  it("parses authority host environment variable as expected", function(this: Context) {
+    if (!isNode) {
+      return this.skip();
+    }
+    process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
+    assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
+    return;
   });
 
   it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {

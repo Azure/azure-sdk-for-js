@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableInsertEntityHeaders } from "./generated/models";
+import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
@@ -251,3 +251,24 @@ export interface TableTransactionEntityResponse {
    */
   status: number;
 }
+
+/** A signed identifier. */
+export interface SignedIdentifier {
+  /** A unique id. */
+  id: string;
+  /** The access policy. */
+  accessPolicy?: AccessPolicy;
+}
+
+/** An Access policy. */
+export interface AccessPolicy {
+  /** The start datetime from which the policy is active. */
+  start?: Date;
+  /** The datetime that the policy expires. */
+  expiry?: Date;
+  /** The permissions for the acl policy. */
+  permission?: string;
+}
+
+/** Contains response data for the getAccessPolicy operation. */
+export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[];

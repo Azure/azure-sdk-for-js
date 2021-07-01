@@ -49,10 +49,6 @@ export interface ServiceClientOptions extends CommonClientOptions {
    * A customized pipeline to use, otherwise a default one will be created.
    */
   pipeline?: Pipeline;
-  /**
-   * Set to true if the request is sent over HTTP instead of HTTPS
-   */
-  allowInsecureConnection?: boolean;
 }
 
 /**

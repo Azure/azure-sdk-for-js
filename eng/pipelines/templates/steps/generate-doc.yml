@@ -16,5 +16,5 @@ steps:
     displayName: "Run Typedoc Docs"
 
   - pwsh: |
-      $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.ArtifactStagingDirectory)/Documentation"
+      $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.SourcesDirectory)/docGen"
     displayName: "Generate Typedoc Docs"

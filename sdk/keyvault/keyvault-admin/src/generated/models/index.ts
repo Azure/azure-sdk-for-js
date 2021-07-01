@@ -6,62 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-
-/** Role definition. */
-export interface RoleDefinition {
-  /**
-   * The role definition ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The role definition name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The role definition type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: RoleDefinitionType;
-  /** The role name. */
-  roleName?: string;
-  /** The role definition description. */
-  description?: string;
-  /** The role type. */
-  roleType?: RoleType;
-  /** Role definition permissions. */
-  permissions?: Permission[];
-  /** Role definition assignable scopes. */
-  assignableScopes?: RoleScope[];
-}
-
-/** Role definition properties. */
-export interface RoleDefinitionProperties {
-  /** The role name. */
-  roleName?: string;
-  /** The role definition description. */
-  description?: string;
-  /** The role type. */
-  roleType?: RoleType;
-  /** Role definition permissions. */
-  permissions?: Permission[];
-  /** Role definition assignable scopes. */
-  assignableScopes?: RoleScope[];
-}
-
-/** Role definition permissions. */
-export interface Permission {
-  /** Action permissions that are granted. */
-  actions?: string[];
-  /** Action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal. */
-  notActions?: string[];
-  /** Data action permissions that are granted. */
-  dataActions?: DataAction[];
-  /** Data action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal. */
-  notDataActions?: DataAction[];
-}
+import * as coreClient from "@azure/core-client";
 
 /** The key vault error exception. */
 export interface KeyVaultError {
@@ -97,12 +42,81 @@ export interface RoleDefinitionCreateParameters {
   properties: RoleDefinitionProperties;
 }
 
+/** Role definition properties. */
+export interface RoleDefinitionProperties {
+  /** The role name. */
+  roleName?: string;
+  /** The role definition description. */
+  description?: string;
+  /** The role type. */
+  roleType?: RoleType;
+  /** Role definition permissions. */
+  permissions?: Permission[];
+  /** Role definition assignable scopes. */
+  assignableScopes?: RoleScope[];
+}
+
+/** Role definition permissions. */
+export interface Permission {
+  /** Action permissions that are granted. */
+  actions?: string[];
+  /** Action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal. */
+  notActions?: string[];
+  /** Data action permissions that are granted. */
+  dataActions?: DataAction[];
+  /** Data action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal. */
+  notDataActions?: DataAction[];
+}
+
+/** Role definition. */
+export interface RoleDefinition {
+  /**
+   * The role definition ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The role definition name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The role definition type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: RoleDefinitionType;
+  /** The role name. */
+  roleName?: string;
+  /** The role definition description. */
+  description?: string;
+  /** The role type. */
+  roleType?: RoleType;
+  /** Role definition permissions. */
+  permissions?: Permission[];
+  /** Role definition assignable scopes. */
+  assignableScopes?: RoleScope[];
+}
+
 /** Role definition list operation result. */
 export interface RoleDefinitionListResult {
   /** Role definition list. */
   value?: RoleDefinition[];
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
+}
+
+/** Role assignment create parameters. */
+export interface RoleAssignmentCreateParameters {
+  /** Role assignment properties. */
+  properties: RoleAssignmentProperties;
+}
+
+/** Role assignment properties. */
+export interface RoleAssignmentProperties {
+  /** The role definition ID used in the role assignment. */
+  roleDefinitionId: string;
+  /** The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group. */
+  principalId: string;
 }
 
 /** Role Assignments */
@@ -134,20 +148,6 @@ export interface RoleAssignmentPropertiesWithScope {
   roleDefinitionId?: string;
   /** The principal ID. */
   principalId?: string;
-}
-
-/** Role assignment create parameters. */
-export interface RoleAssignmentCreateParameters {
-  /** Role assignment properties. */
-  properties: RoleAssignmentProperties;
-}
-
-/** Role assignment properties. */
-export interface RoleAssignmentProperties {
-  /** The role definition ID used in the role assignment. */
-  roleDefinitionId: string;
-  /** The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group. */
-  principalId: string;
 }
 
 /** Role assignment list operation result. */
@@ -265,19 +265,20 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link RoleDefinitionType} that the service accepts. */
-export const enum KnownRoleDefinitionType {
-  MicrosoftAuthorizationRoleDefinitions = "Microsoft.Authorization/roleDefinitions"
+/** Known values of {@link ApiVersion72} that the service accepts. */
+export const enum KnownApiVersion72 {
+  /** Api Version '7.2' */
+  Seven2 = "7.2"
 }
 
 /**
- * Defines values for RoleDefinitionType. \
- * {@link KnownRoleDefinitionType} can be used interchangeably with RoleDefinitionType,
+ * Defines values for ApiVersion72. \
+ * {@link KnownApiVersion72} can be used interchangeably with ApiVersion72,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Microsoft.Authorization\/roleDefinitions**
+ * ### Known values supported by the service
+ * **7.2**: Api Version '7.2'
  */
-export type RoleDefinitionType = string;
+export type ApiVersion72 = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
 export const enum KnownRoleType {
@@ -291,16 +292,14 @@ export const enum KnownRoleType {
  * Defines values for RoleType. \
  * {@link KnownRoleType} can be used interchangeably with RoleType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **AKVBuiltInRole**: Built in role. \
  * **CustomRole**: Custom role.
  */
 export type RoleType = string;
 
 /** Known values of {@link DataAction} that the service accepts. */
-// Note: `const` keyword removed manually while we discuss the generated code
-// in https://github.com/Azure/autorest.typescript/issues/1013
-export enum KnownDataAction {
+export const enum KnownDataAction {
   /** Read HSM key metadata. */
   ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
   /** Update an HSM key. */
@@ -365,7 +364,7 @@ export enum KnownDataAction {
  * Defines values for DataAction. \
  * {@link KnownDataAction} can be used interchangeably with DataAction,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Microsoft.KeyVault\/managedHsm\/keys\/read\/action**: Read HSM key metadata. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/write\/action**: Update an HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/deletedKeys\/read\/action**: Read deleted HSM key. \
@@ -399,9 +398,7 @@ export enum KnownDataAction {
 export type DataAction = string;
 
 /** Known values of {@link RoleScope} that the service accepts. */
-// Note: `const` keyword removed manually while we discuss the generated code
-// in https://github.com/Azure/autorest.typescript/issues/1013
-export enum KnownRoleScope {
+export const enum KnownRoleScope {
   /** Global scope */
   Global = "/",
   /** Keys scope */
@@ -412,287 +409,152 @@ export enum KnownRoleScope {
  * Defines values for RoleScope. \
  * {@link KnownRoleScope} can be used interchangeably with RoleScope,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **\/**: Global scope \
  * **\/keys**: Keys scope
  */
 export type RoleScope = string;
 
+/** Known values of {@link RoleDefinitionType} that the service accepts. */
+export const enum KnownRoleDefinitionType {
+  MicrosoftAuthorizationRoleDefinitions = "Microsoft.Authorization/roleDefinitions"
+}
+
+/**
+ * Defines values for RoleDefinitionType. \
+ * {@link KnownRoleDefinitionType} can be used interchangeably with RoleDefinitionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.Authorization\/roleDefinitions**
+ */
+export type RoleDefinitionType = string;
+
 /** Optional parameters. */
 export interface RoleDefinitionsDeleteOptionalParams
-  extends coreHttp.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type RoleDefinitionsDeleteResponse = RoleDefinition & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleDefinition;
-  };
-};
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RoleDefinitionsCreateOrUpdateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleDefinition;
-  };
-};
+export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition;
 
 /** Optional parameters. */
 export interface RoleDefinitionsGetOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleDefinitionsGetResponse = RoleDefinition & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleDefinition;
-  };
-};
+export type RoleDefinitionsGetResponse = RoleDefinition;
 
 /** Optional parameters. */
 export interface RoleDefinitionsListOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well. */
   filter?: string;
 }
 
 /** Contains response data for the list operation. */
-export type RoleDefinitionsListResponse = RoleDefinitionListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleDefinitionListResult;
-  };
-};
+export type RoleDefinitionsListResponse = RoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface RoleDefinitionsListNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well. */
   filter?: string;
 }
 
 /** Contains response data for the listNext operation. */
-export type RoleDefinitionsListNextResponse = RoleDefinitionListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleDefinitionListResult;
-  };
-};
+export type RoleDefinitionsListNextResponse = RoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsDeleteOptionalParams
-  extends coreHttp.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type RoleAssignmentsDeleteResponse = RoleAssignment & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleAssignment;
-  };
-};
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RoleAssignmentsCreateOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type RoleAssignmentsCreateResponse = RoleAssignment & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleAssignment;
-  };
-};
+export type RoleAssignmentsCreateResponse = RoleAssignment;
 
 /** Optional parameters. */
 export interface RoleAssignmentsGetOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleAssignmentsGetResponse = RoleAssignment & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleAssignment;
-  };
-};
+export type RoleAssignmentsGetResponse = RoleAssignment;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForScopeOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
   filter?: string;
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleAssignmentListResult;
-  };
-};
+export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForScopeNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
   filter?: string;
 }
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RoleAssignmentListResult;
-  };
-};
+export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientFullBackupOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Azure blob shared access signature token pointing to a valid Azure blob container where full backup needs to be stored. This token needs to be valid for at least next 24 hours from the time of making this call */
   azureStorageBlobContainerUri?: SASTokenParameter;
 }
 
 /** Contains response data for the fullBackup operation. */
 export type KeyVaultClientFullBackupResponse = KeyVaultClientFullBackupHeaders &
-  FullBackupOperation & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: FullBackupOperation;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: KeyVaultClientFullBackupHeaders;
-    };
-  };
+  FullBackupOperation;
 
 /** Optional parameters. */
 export interface KeyVaultClientFullBackupStatusOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the fullBackupStatus operation. */
-export type KeyVaultClientFullBackupStatusResponse = FullBackupOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: FullBackupOperation;
-  };
-};
+export type KeyVaultClientFullBackupStatusResponse = FullBackupOperation;
 
 /** Optional parameters. */
 export interface KeyVaultClientFullRestoreOperationOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: RestoreOperationParameters;
 }
 
 /** Contains response data for the fullRestoreOperation operation. */
 export type KeyVaultClientFullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
-  RestoreOperation & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: RestoreOperation;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: KeyVaultClientFullRestoreOperationHeaders;
-    };
-  };
+  RestoreOperation;
 
 /** Optional parameters. */
 export interface KeyVaultClientRestoreStatusOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the restoreStatus operation. */
-export type KeyVaultClientRestoreStatusResponse = RestoreOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RestoreOperation;
-  };
-};
+export type KeyVaultClientRestoreStatusResponse = RestoreOperation;
 
 /** Optional parameters. */
 export interface KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: SelectiveKeyRestoreOperationParameters;
 }
 
 /** Contains response data for the selectiveKeyRestoreOperation operation. */
 export type KeyVaultClientSelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
-  SelectiveKeyRestoreOperation & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: SelectiveKeyRestoreOperation;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: KeyVaultClientSelectiveKeyRestoreOperationHeaders;
-    };
-  };
+  SelectiveKeyRestoreOperation;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
-  /** Api Version */
-  apiVersion?: string;
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -23,7 +23,12 @@ import {
   toCoreAttributes,
   toCorePolicy
 } from "../../transformations";
-import { withTrace } from "./poller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertificatePoller");
 
 /**
  * The public representation of the CreateCertificatePoller operation state.

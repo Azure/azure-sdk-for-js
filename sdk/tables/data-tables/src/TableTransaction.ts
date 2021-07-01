@@ -5,9 +5,17 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   PipelineResponse,
-  RestError
+  RestError,
+  Pipeline,
+  PipelineRequest
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions } from "@azure/core-client";
+import {
+  ServiceClient,
+  OperationOptions,
+  serializationPolicy,
+  serializationPolicyName,
+  ServiceClientOptions
+} from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -17,19 +25,34 @@ import {
   TableTransactionEntityResponse,
   TransactionAction
 } from "./models";
-import { NamedKeyCredential } from "@azure/core-auth";
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential,
+  NamedKeyCredential,
+  SASCredential,
+  TokenCredential
+} from "@azure/core-auth";
 import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
-import { TableClient } from "./TableClient";
 import {
-  prepateTransactionPipeline,
   getTransactionHttpRequestBody,
   getInitialTransactionBody
 } from "./utils/transactionHelpers";
+import { signURLWithSAS } from "./tablesSASTokenPolicy";
+import {
+  transactionHeaderFilterPolicy,
+  transactionRequestAssemblePolicy,
+  transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicyName
+} from "./TablePolicies";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -108,7 +131,7 @@ export class InternalTableTransaction {
     partitionKey: string;
   };
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential;
+  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
 
   /**
    * @param url - Tables account url
@@ -117,29 +140,29 @@ export class InternalTableTransaction {
    */
   constructor(
     url: string,
-    tableName: string,
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    credential?: NamedKeyCredential
+    interceptClient: TableClientLike,
+    credential?: NamedKeyCredential | SASCredential | TokenCredential
   ) {
     this.credential = credential;
     this.url = url;
-    this.interceptClient = new TableClient(this.url, tableName);
+    this.interceptClient = interceptClient;
 
     // Initialize Reset-able properties
     this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
-      // When authenticating with SAS we need to add the SAS token after $batch
+      // When the SAS token is provided as part of the URL we need to move it after $batch
       const urlParts = url.split("?");
       this.url = urlParts[0];
       const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
-      this.url = `${this.url}/$batch${sas}`;
+      this.url = `${this.getUrlWithSlash()}$batch${sas}`;
     } else {
       // When using a SharedKey credential no SAS token is needed
-      this.url = `${this.url}/$batch`;
+      this.url = `${this.getUrlWithSlash()}$batch`;
     }
   }
 
@@ -153,7 +176,8 @@ export class InternalTableTransaction {
   private initializeSharedState(transactionId: string, changesetId: string, partitionKey: string) {
     const pendingOperations: Promise<any>[] = [];
     const bodyParts = getInitialTransactionBody(transactionId, changesetId);
-    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId);
+    const isCosmos = isCosmosEndpoint(this.url);
+    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId, isCosmos);
 
     return {
       transactionId,
@@ -247,7 +271,15 @@ export class InternalTableTransaction {
       this.resetableState.transactionId,
       this.resetableState.changesetId
     );
-    const client = new ServiceClient();
+
+    const options: ServiceClientOptions = {};
+
+    if (isTokenCredential(this.credential)) {
+      options.credentialScopes = STORAGE_SCOPE;
+      options.credential = this.credential;
+    }
+
+    const client = new ServiceClient(options);
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
@@ -262,9 +294,11 @@ export class InternalTableTransaction {
       tracingOptions: updatedOptions.tracingOptions
     });
 
-    if (this.credential) {
+    if (isNamedKeyCredential(this.credential)) {
       const authHeader = getAuthorizationHeader(request, this.credential);
       request.headers.set("Authorization", authHeader);
+    } else if (isSASCredential(this.credential)) {
+      signURLWithSAS(request, this.credential);
     }
 
     try {
@@ -286,14 +320,26 @@ export class InternalTableTransaction {
       throw new Error("All operations in a transaction must target the same partitionKey");
     }
   }
+
+  private getUrlWithSlash(): string {
+    return this.url.endsWith("/") ? this.url : `${this.url}/`;
+  }
 }
 
-function parseTransactionResponse(transactionResponse: PipelineResponse): TableTransactionResponse {
+export function parseTransactionResponse(
+  transactionResponse: PipelineResponse
+): TableTransactionResponse {
   const subResponsePrefix = `--changesetresponse_`;
   const status = transactionResponse.status;
   const rawBody = transactionResponse.bodyAsText || "";
   const splitBody = rawBody.split(subResponsePrefix);
-  // Droping the first and last elemets as they are the boundaries
+  const isSuccessByStatus = 200 <= status && status < 300;
+
+  if (!isSuccessByStatus) {
+    handleBodyError(rawBody, status, transactionResponse.request, transactionResponse);
+  }
+
+  // Dropping the first and last elements as they are the boundaries
   // we just care about sub request content
   const subResponses = splitBody.slice(1, splitBody.length - 1);
 
@@ -309,18 +355,12 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
 
     const bodyMatch = subResponse.match(/\{(.*)\}/);
     if (bodyMatch?.length === 2) {
-      const parsedError = JSON.parse(bodyMatch[0]);
-      // Only transaction sub-responses return body
-      if (parsedError && parsedError["odata.error"]) {
-        const error: TableServiceErrorOdataError = parsedError["odata.error"];
-        const message = error.message?.value || "One of the transaction operations failed";
-        throw new RestError(message, {
-          code: error.code,
-          statusCode: subResponseStatus,
-          request: transactionResponse.request,
-          response: transactionResponse
-        });
-      }
+      handleBodyError(
+        bodyMatch[0],
+        subResponseStatus,
+        transactionResponse.request,
+        transactionResponse
+      );
     }
 
     const etagMatch = subResponse.match(/ETag: (.*)/);
@@ -338,4 +378,68 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
     subResponses: responses,
     getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
   };
+}
+
+function handleBodyError(
+  bodyAsText: string,
+  statusCode: number,
+  request: PipelineRequest,
+  response: PipelineResponse
+) {
+  let parsedError;
+
+  try {
+    parsedError = JSON.parse(bodyAsText);
+  } catch {
+    parsedError = {};
+  }
+
+  let message = "Transaction Failed";
+  let code: string | undefined;
+  // Only transaction sub-responses return body
+  if (parsedError && parsedError["odata.error"]) {
+    const error: TableServiceErrorOdataError = parsedError["odata.error"];
+    message = error.message?.value ?? message;
+    code = error.code;
+  }
+
+  throw new RestError(message, {
+    code,
+    statusCode,
+    request,
+    response
+  });
+}
+
+/**
+ * Prepares the transaction pipeline to intercept operations
+ * @param pipeline - Client pipeline
+ */
+export function prepateTransactionPipeline(
+  pipeline: Pipeline,
+  bodyParts: string[],
+  changesetId: string,
+  isCosmos: boolean
+): void {
+  // Fist, we need to clear all the existing policies to make sure we start
+  // with a fresh state.
+  const policies = pipeline.getOrderedPolicies();
+  for (const policy of policies) {
+    pipeline.removePolicy({
+      name: policy.name
+    });
+  }
+
+  // With the clear state we now initialize the pipelines required for intercepting the requests.
+  // Use transaction assemble policy to assemble request and intercept request from going to wire
+
+  pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+  pipeline.addPolicy(transactionHeaderFilterPolicy());
+  pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
+  if (isCosmos) {
+    pipeline.addPolicy(cosmosPatchPolicy(), {
+      afterPolicies: [transactionHeaderFilterPolicyName],
+      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName]
+    });
+  }
 }

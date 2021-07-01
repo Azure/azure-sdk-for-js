@@ -7,20 +7,18 @@ import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { URL } from "./url";
 
-import { GeneratedClient } from "./generated";
+import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { createSpan } from "./tracing";
 import {
-  ContentProperties,
-  DeleteRepositoryResult,
   ManifestOrderBy,
+  ContainerRepositoryProperties,
   ArtifactManifestProperties,
-  RepositoryProperties
-} from "./model";
+  ManifestPageResponse
+} from "./models";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
 import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
-import { extractNextLink } from "./utils";
+import { extractNextLink } from "./utils/helpers";
 
 /**
  * Options for delete repository operation.
@@ -29,7 +27,7 @@ export interface DeleteRepositoryOptions extends OperationOptions {}
 /**
  * Options for the `listRegistryArtifacts` method of `ContainerRepository`.
  */
-export interface ListManifestsOptions extends OperationOptions {
+export interface ListManifestPropertiesOptions extends OperationOptions {
   /** orderby query parameter */
   orderBy?: ManifestOrderBy;
 }
@@ -40,7 +38,18 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setProperties` method of `ContainerRepository`.
  */
-export type SetRepositoryPropertiesOptions = ContentProperties & OperationOptions;
+export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
+  teleportEnabled?: boolean;
+}
 
 /**
  * The helper used to interact with the Container Registry service.
@@ -49,21 +58,17 @@ export interface ContainerRepository {
   /**
    * The Azure Container Registry endpoint.
    */
-  readonly registryUrl: string;
+  readonly registryEndpoint: string;
   /**
    * Repository name.
    */
   readonly name: string;
   /**
-   * Registry name.
-   */
-  readonly fullyQualifiedName: string;
-  /**
    * Deletes this repository.
    *
    * @param options - optional configuration for the operation
    */
-  delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+  delete(options?: DeleteRepositoryOptions): Promise<void>;
   /**
    * Returns an instance of RegistryArtifact.
    * @param tagOrDigest - the tag or digest of the artifact
@@ -73,27 +78,58 @@ export interface ContainerRepository {
    * Retrieves properties of this repository.
    * @param options -
    */
-  getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
   /**
    * Updates repository attributes.
    * @param options -
    */
-  setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  updateProperties(
+    options: UpdateRepositoryPropertiesOptions
+  ): Promise<ContainerRepositoryProperties>;
   /**
-   * Iterates manifests.
+   * Returns an async iterable iterator to list manifest properties.
    *
-   * Example usage:
-   * ```ts
-   * const client = new ContainerRegistryClient(url, credentials);
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
    * const repository = client.getRepository(repositoryName)
-   * for await (const manifest of repository.listManifests()) {
+   * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = repository.listManifestProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("manifest properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = repository.listManifestProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const manifestProperties of page.value) {
+   *      console.log(`  manifest properties: ${manifestProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
    */
-  listManifests(
-    options?: ListManifestsOptions
+  listManifestProperties(
+    options?: ListManifestPropertiesOptions
   ): PagedAsyncIterableIterator<ArtifactManifestProperties>;
 }
 
@@ -106,27 +142,21 @@ export class ContainerRepositoryImpl {
   /**
    * The Azure Container Registry endpoint.
    */
-  public readonly registryUrl: string;
+  public readonly registryEndpoint: string;
   /**
    * Repository name.
    */
   public readonly name: string;
-  /**
-   * Registry name.
-   */
-  public readonly fullyQualifiedName: string;
 
   /**
    * Creates an instance of a ContainerRepository.
-   * @param registryUrl - the URL to the Container Registry endpoint
+   * @param registryEndpoint - the URL to the Container Registry endpoint
    * @param name - the name of the repository
    * @param client - the generated client that interacts with service
    */
-  constructor(registryUrl: string, name: string, client: GeneratedClient) {
-    this.registryUrl = registryUrl;
+  constructor(registryEndpoint: string, name: string, client: GeneratedClient) {
+    this.registryEndpoint = registryEndpoint;
     this.name = name;
-    const parsedUrl = new URL(registryUrl);
-    this.fullyQualifiedName = `${parsedUrl.hostname}/${name}`;
 
     this.client = client;
   }
@@ -136,18 +166,11 @@ export class ContainerRepositoryImpl {
    *
    * @param options - optional configuration for the operation
    */
-  public async delete(options: DeleteRepositoryOptions = {}): Promise<DeleteRepositoryResult> {
+  public async delete(options: DeleteRepositoryOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepository-delete", options);
 
     try {
-      const result = await this.client.containerRegistry.deleteRepository(
-        this.name,
-        updatedOptions
-      );
-      return {
-        deletedManifests: result.deletedManifests ?? [],
-        deletedTags: result.deletedTags ?? []
-      };
+      await this.client.containerRegistry.deleteRepository(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -157,11 +180,14 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Returns an instance of RegistryArtifact.
+   * Returns an instance of {@link RegistryArtifact} that interacts with a container registry artifact.
    * @param tagOrDigest - the tag or digest of the artifact
    */
   public getArtifact(tagOrDigest: string): RegistryArtifact {
-    return new RegistryArtifactImpl(this.registryUrl, this.name, tagOrDigest, this.client);
+    if (!tagOrDigest) {
+      throw new Error("invalid tagOrDigest");
+    }
+    return new RegistryArtifactImpl(this.registryEndpoint, this.name, tagOrDigest, this.client);
   }
 
   /**
@@ -170,12 +196,11 @@ export class ContainerRepositoryImpl {
    */
   public async getProperties(
     options: GetRepositoryPropertiesOptions = {}
-  ): Promise<RepositoryProperties> {
+  ): Promise<ContainerRepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepository-getProperties", options);
 
     try {
-      const result = await this.client.containerRegistry.getProperties(this.name, updatedOptions);
-      return result;
+      return await this.client.containerRegistry.getProperties(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -188,33 +213,23 @@ export class ContainerRepositoryImpl {
    * Updates repository attributes.
    * @param options -
    */
-  public async setProperties(
-    options: SetRepositoryPropertiesOptions
-  ): Promise<RepositoryProperties> {
-    const { span, updatedOptions } = createSpan("ContainerRepository-setProperties", {
+  public async updateProperties(
+    options: UpdateRepositoryPropertiesOptions
+  ): Promise<ContainerRepositoryProperties> {
+    const value: RepositoryWriteableProperties = {
+      canDelete: options.canDelete,
+      canWrite: options.canWrite,
+      canList: options.canList,
+      canRead: options.canRead,
+      teleportEnabled: options.teleportEnabled
+    };
+    const { span, updatedOptions } = createSpan("ContainerRepository-updateProperties", {
       ...options,
-      value: {
-        canDelete: options.canDelete,
-        canWrite: options.canWrite,
-        canList: options.canList,
-        canRead: options.canRead
-      }
+      value
     });
 
     try {
-      const properties = await this.client.containerRegistry.setProperties(
-        this.name,
-        updatedOptions
-      );
-      return {
-        ...properties,
-        writeableProperties: {
-          canDelete: properties.writeableProperties.canDelete,
-          canList: properties.writeableProperties.canList,
-          canRead: properties.writeableProperties.canRead,
-          canWrite: properties.writeableProperties.canWrite
-        }
-      };
+      return await this.client.containerRegistry.updateProperties(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -224,21 +239,50 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Iterates manifests.
+   * Returns an async iterable iterator to list manifest properties.
    *
-   * Example usage:
-   * ```ts
-   * const client = new ContainerRegistryClient(url, credentials);
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
    * const repository = client.getRepository(repositoryName)
-   * for await (const manifest of repository.listManifests()) {
+   * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = repository.listManifestProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("manifest properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = repository.listManifestProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const manifestProperties of page.value) {
+   *      console.log(`  manifest properties: ${manifestProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
    */
-  public listManifests(
-    options: ListManifestsOptions = {}
-  ): PagedAsyncIterableIterator<ArtifactManifestProperties> {
+  public listManifestProperties(
+    options: ListManifestPropertiesOptions = {}
+  ): PagedAsyncIterableIterator<ArtifactManifestProperties, ManifestPageResponse> {
     const iter = this.listManifestsItems(options);
 
     return {
@@ -253,7 +297,7 @@ export class ContainerRepositoryImpl {
   }
 
   private async *listManifestsItems(
-    options: ListManifestsOptions = {}
+    options: ListManifestPropertiesOptions = {}
   ): AsyncIterableIterator<ArtifactManifestProperties> {
     for await (const page of this.listManifestsPage({}, options)) {
       yield* page;
@@ -262,8 +306,8 @@ export class ContainerRepositoryImpl {
 
   private async *listManifestsPage(
     continuationState: PageSettings,
-    options: ListManifestsOptions = {}
-  ): AsyncIterableIterator<ArtifactManifestProperties[]> {
+    options: ListManifestPropertiesOptions = {}
+  ): AsyncIterableIterator<ManifestPageResponse> {
     const orderby = toServiceManifestOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
@@ -277,7 +321,13 @@ export class ContainerRepositoryImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
-        yield currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
+        const array = currentPage.manifests.map((t) =>
+          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!)
+        );
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
       }
     }
     while (continuationState.continuationToken) {
@@ -288,7 +338,13 @@ export class ContainerRepositoryImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
-        yield currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
+        const array = currentPage.manifests.map((t) =>
+          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!)
+        );
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
       }
     }
   }

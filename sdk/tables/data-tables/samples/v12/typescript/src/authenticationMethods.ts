@@ -7,7 +7,11 @@
  *
  * @summary authenticates using different authentication methods
  */
-import { TableServiceClient, AzureNamedKeyCredential } from "@azure/data-tables";
+import {
+  TableServiceClient,
+  AzureNamedKeyCredential,
+  AzureSASCredential
+} from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -40,7 +44,7 @@ async function tableServiceClientWithSasConnectionString() {
  * Create a TableServiceCLient using a SAS token
  */
 async function tableServiceClientWithSasToken() {
-  const client = new TableServiceClient(`${tablesUrl}${sasToken}`);
+  const client = new TableServiceClient(tablesUrl, new AzureSASCredential(sasToken));
   countTablesWithClient(client);
 }
 

@@ -122,7 +122,10 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
   };
 }
 
-function getProxyAgentOptions(
+/**
+ * @internal
+ */
+export function getProxyAgentOptions(
   proxySettings: ProxySettings,
   requestHeaders: HttpHeaders
 ): HttpProxyAgentOptions {
@@ -143,6 +146,8 @@ function getProxyAgentOptions(
   };
   if (proxySettings.username && proxySettings.password) {
     proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
+  } else if (proxySettings.username) {
+    proxyAgentOptions.auth = `${proxySettings.username}`;
   }
   return proxyAgentOptions;
 }
