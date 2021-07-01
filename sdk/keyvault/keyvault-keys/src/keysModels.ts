@@ -530,7 +530,7 @@ export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
  */
 export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
   /** A client provided nonce for freshness. */
-  nonce?: string; // TODO: consider providing one if customer did not pass one in?
+  nonce?: string;
 
   /** The {@link KeyExportEncryptionAlgorithm} to for protecting the exported key material. */
   algorithm?: KeyExportEncryptionAlgorithm;
@@ -541,7 +541,7 @@ export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
  */
 export interface ReleaseKeyResult {
   /** A signed object containing the released key. */
-  value: string; // TODO: string | Buffer?
+  value: string;
 
   /** The {@link KeyExportEncryptionAlgorithm} used when releasing the key, if provided. */
   algorithm?: KeyExportEncryptionAlgorithm;

@@ -84,7 +84,6 @@ onVersions({ minVer: "7.2" }).describe(
                 value: "true"
               }
             ],
-            // TODO: formalize this setup when deployment is automated.
             authority: "https://malegeskr5.azurewebsites.net/"
           }
         ],
@@ -119,7 +118,7 @@ onVersions({ minVer: "7.2" }).describe(
           attestation,
           {
             nonce: "nonce",
-            algorithm: KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256 // TODO: naming?
+            algorithm: KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256
           }
         );
 
@@ -129,14 +128,12 @@ onVersions({ minVer: "7.2" }).describe(
 
       it("can create an exportable key and release it", async () => {
         const keyName = recorder.getUniqueName("exportkey");
-        // TODO: releasePolicy is a JSON blob, should we convert it in convenience layer?
         const createdKey = await hsmClient.createKey(keyName, "RSA", {
           exportable: true,
           releasePolicy: { data: encodedReleasePolicy },
           keyOps: ["encrypt", "decrypt"]
         });
 
-        // TODO: what's important to test here?
         assert.exists(createdKey.properties.releasePolicy?.data);
         assert.isNotEmpty(
           JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.data!))
