@@ -134,9 +134,19 @@ export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
 }
 
 /**
+ * Set the pii categories property
  * @internal
  */
-export function AddParamsToTask<X extends TextAnalyticsAction>(
+export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
+  x: X
+): X & { piiCategories?: string[] } {
+  return { ...x, piiCategories: x.categoriesFilter };
+}
+
+/**
+ * @internal
+ */
+export function addParamsToTask<X extends TextAnalyticsAction>(
   action: X
 ): { parameters?: Omit<X, "actionName">; taskName?: string } {
   const { actionName, ...params } = action;
