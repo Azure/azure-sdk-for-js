@@ -23,14 +23,14 @@ import { getPollingUrl, inferLroMode, isExpectedInitialResponse } from "./reques
 export function createGetLroStatusFromResponse<TResult>(
   lroPrimitives: LongRunningOperation<TResult>,
   config: LroConfig,
-  finalStateVia?: LroResourceLocationConfig
+  lroResourceLocationConfig?: LroResourceLocationConfig
 ): GetLroStatusFromResponse<TResult> {
   switch (config.mode) {
     case "AzureAsync": {
       return processAzureAsyncOperationResult(
         lroPrimitives,
         config.resourceLocation,
-        finalStateVia
+        lroResourceLocationConfig
       );
     }
     case "Location": {

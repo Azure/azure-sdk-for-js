@@ -10,7 +10,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createGetLroStatusFromResponse<TResult>(lroPrimitives: LongRunningOperation<TResult>, config: LroConfig, finalStateVia?: LroResourceLocationConfig): GetLroStatusFromResponse<TResult>;
+export function createGetLroStatusFromResponse<TResult>(lroPrimitives: LongRunningOperation<TResult>, config: LroConfig, lroResourceLocationConfig?: LroResourceLocationConfig): GetLroStatusFromResponse<TResult>;
 
 // @public
 export type GetLroStatusFromResponse<T> = (rawResponse: RawResponse, flatResponse: T) => LroStatus<T>;

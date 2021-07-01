@@ -28,10 +28,10 @@ function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {
 
 async function sendFinalRequest<TResult>(
   lro: LongRunningOperation<TResult>,
-  finalStateVia?: LroResourceLocationConfig,
+  lroResourceLocationConfig?: LroResourceLocationConfig,
   resourceLocation?: string
 ): Promise<LroResponse<TResult> | undefined> {
-  switch (finalStateVia) {
+  switch (lroResourceLocationConfig) {
     case "original-uri":
       return lro.retrieveAzureAsyncResource();
     case "azure-async-operation":
@@ -45,7 +45,7 @@ async function sendFinalRequest<TResult>(
 export function processAzureAsyncOperationResult<TResult>(
   lro: LongRunningOperation<TResult>,
   resourceLocation?: string,
-  finalStateVia?: LroResourceLocationConfig
+  lroResourceLocationConfig?: LroResourceLocationConfig
 ): (rawResponse: RawResponse, flatResponse: TResult) => LroStatus<TResult> {
   return (rawResponse: RawResponse, flatResponse: TResult): LroStatus<TResult> => {
     if (isAzureAsyncPollingDone(rawResponse)) {
@@ -57,7 +57,7 @@ export function processAzureAsyncOperationResult<TResult>(
           flatResponse,
           done: false,
           next: async () => {
-            const finalResponse = await sendFinalRequest(lro, finalStateVia, resourceLocation);
+            const finalResponse = await sendFinalRequest(lro, lroResourceLocationConfig, resourceLocation);
             return {
               ...(finalResponse ?? {
                 rawResponse,
