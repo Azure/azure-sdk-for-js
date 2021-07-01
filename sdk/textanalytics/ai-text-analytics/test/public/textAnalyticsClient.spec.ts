@@ -1155,6 +1155,66 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
+        it("single pii entities recognition action with categories filtered", async function() {
+          const docs = [
+            {
+              id: "1",
+              text:
+                "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+            },
+            {
+              id: "2",
+              text:
+                "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizePiiEntitiesActions: [
+                { modelVersion: "latest", categoriesFilter: ["USSocialSecurityNumber"] }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const result = await poller.pollUntilDone();
+          for await (const page of result) {
+            const entitiesResult = page.recognizePiiEntitiesResults;
+            if (entitiesResult.length === 1) {
+              const action = entitiesResult[0];
+              if (!action.error) {
+                const actionResults = action.results;
+                assert.equal(actionResults.length, 2);
+                const doc1 = actionResults[0];
+                const doc2 = actionResults[1];
+                if (!doc1.error) {
+                  assert.equal(doc1.entities.length, 1);
+                  assert.equal(doc1.entities[0].text, "859-98-0987");
+                  assert.equal(doc1.entities[0].category, "USSocialSecurityNumber");
+                }
+                if (!doc2.error) {
+                  assert.equal(doc2.entities.length, 0);
+                }
+                for (const doc of actionResults) {
+                  if (!doc.error) {
+                    for (const entity of doc.entities) {
+                      assert.isDefined(entity.text);
+                      assert.isDefined(entity.category);
+                      assert.isDefined(entity.offset);
+                      assert.isDefined(entity.confidenceScore);
+                    }
+                  }
+                }
+              }
+            } else {
+              assert.fail("expected an array of pii entities results but did not get one.");
+            }
+          }
+        });
+
         it("single sentiment analysis action", async function() {
           const docs = [
             "The food was unacceptable",

@@ -50,9 +50,10 @@ import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
-  AddParamsToTask,
+  addParamsToTask,
   compose,
   handleInvalidDocumentBatch,
+  setCategoriesFilter,
   setOpinionMining,
   setStrEncodingParam,
   setStrEncodingParamValue,
@@ -1032,17 +1033,17 @@ function validateActions(actions: TextAnalyticsActions): void {
 function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask))
     ),
     entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask)
     ),
-    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask),
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(addParamsToTask),
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask)
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
-      compose(setStrEncodingParam, compose(setOpinionMining, AddParamsToTask))
+      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
     )
   };
 }
