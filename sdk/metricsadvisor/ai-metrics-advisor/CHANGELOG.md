@@ -2,12 +2,13 @@
 
 ## 1.0.0 (2021-07-06)
 
+The Metrics Advisor library is now in GA with this release.
+
 ### Breaking Changes
 
 - `listIncidents()` overloads split into `listInclidentsForAlert()` and `listIncidentsForDetectionConfiguration()`
 - `listAnomalies()` overloads split into `listAnomaliesForAlert()` and `listAnomaliesForDetectionConfiguration()`
 - Removed support for granularity type `PerSecond`
-- Returning the objects as part of update method response
 - Renamed "createFeedback" to "addFeedback"
 - `seriesToFilter` parameter renamed to `seriesKey` in methods `getmetricenrichedseriesdata` and `getmetricseriesdata` and ordering updated
 - Renamed type `DetectionConditionsOperator` to `DetectionConditionOperator`
@@ -17,6 +18,10 @@
   `DataLakeGen2SharedKeyDataSourceCredential` to `DataSourceDataLakeGen2SharedKey`,
   `ServicePrincipalDataSourceCredential` to `DataSourceServicePrincipal`,
   `ServicePrincipalInKeyVaultDataSourceCredential` to `DataSourceServicePrincipalInKeyVault`
+
+### Other Changes
+
+- Update methods now return the updated object
 
 ## 1.0.0-beta.4 (2021-06-07)
 
