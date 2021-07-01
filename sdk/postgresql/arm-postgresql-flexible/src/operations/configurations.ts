@@ -12,17 +12,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/configurationsMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
 /** Class representing a Configurations. */
 export class Configurations {
-  private readonly client: PostgreSQLFlexibleManagementClientContext;
+  private readonly client: PostgreSQLManagementClientContext;
 
   /**
    * Create a Configurations.
-   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
+   * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLFlexibleManagementClientContext) {
+  constructor(client: PostgreSQLManagementClientContext) {
     this.client = client;
   }
 
@@ -170,7 +170,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -196,7 +196,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.configurationName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -222,7 +222,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.configurationName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -254,7 +254,7 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
