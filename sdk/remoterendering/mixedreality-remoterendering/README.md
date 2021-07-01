@@ -138,7 +138,7 @@ to be used with a Mixed Reality client library:
 // to the client.
 const accessToken = GetMixedRealityAccessTokenFromWebService();
 
-RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, accessToken);
+RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accessToken);
 ```
 
 ## Key concepts
