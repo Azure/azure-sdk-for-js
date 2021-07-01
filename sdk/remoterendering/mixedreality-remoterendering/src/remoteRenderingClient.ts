@@ -223,22 +223,18 @@ export class RemoteRenderingClient {
     options?: RemoteRenderingClientOptions
   );
 
-  constructor(
-    endpoint: string,
-    accountId: string,
-    ...args: Array<any>) {
-
+  constructor(endpoint: string, accountId: string, ...args: Array<any>) {
     let tokenCredential: TokenCredential | null = null;
     let options: RemoteRenderingClientOptions = {};
 
-    if ((args.length == 0) || (args.length > 3)) {
+    if (args.length == 0 || args.length > 3) {
       throw new Error("Wrong number of arguments");
-    } else if ((typeof args[0] === "object") && (args.length <= 2)) {
+    } else if (typeof args[0] === "object" && args.length <= 2) {
       tokenCredential = new StaticAccessTokenCredential(args[0] as AccessToken);
       if (args.length == 2) {
         options = args[1];
       }
-    } else if ((typeof args[0] === "string") && (args.length >= 2) && (args.length <= 3)) {
+    } else if (typeof args[0] === "string" && args.length >= 2 && args.length <= 3) {
       let accountDomain: string = args[0];
 
       let credential: TokenCredential;
@@ -252,9 +248,15 @@ export class RemoteRenderingClient {
       }
 
       const authenticationEndpoint =
-      options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
+        options.authenticationEndpointUrl ??
+        constructAuthenticationEndpointFromDomain(accountDomain);
       const stsOptions = { customEndpointUrl: authenticationEndpoint };
-      tokenCredential = new MixedRealityTokenCredential(accountId, accountDomain, credential, stsOptions)
+      tokenCredential = new MixedRealityTokenCredential(
+        accountId,
+        accountDomain,
+        credential,
+        stsOptions
+      );
       if (args.length == 3) {
         options = args[2];
       }

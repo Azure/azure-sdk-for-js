@@ -47,11 +47,7 @@ describe("RemoteRenderingClient construction", () => {
   it("can create with AccessToken", () => {
     const maxTimestampMs = 8640000000000000;
     const accessToken: AccessToken = { expiresOnTimestamp: maxTimestampMs, token: `abcdefghijk` };
-    const client = new RemoteRenderingClient(
-      serviceEndpoint,
-      accountId,
-      accessToken
-    );
+    const client = new RemoteRenderingClient(serviceEndpoint, accountId, accessToken);
 
     assert.isNotNull(client);
   });
