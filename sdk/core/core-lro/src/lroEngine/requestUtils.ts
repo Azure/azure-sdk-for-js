@@ -71,7 +71,7 @@ export class RestError extends Error {
   }
 }
 
-export function isExpectedInitialResponse(rawResponse: RawResponse): boolean {
+export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![203, 204, 202, 201, 200, 500].includes(code)) {
     throw new RestError(
@@ -82,7 +82,7 @@ export function isExpectedInitialResponse(rawResponse: RawResponse): boolean {
   return false;
 }
 
-export function isExpectedPollingResponse(rawResponse: RawResponse): boolean {
+export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![202, 201, 200, 500].includes(code)) {
     throw new RestError(

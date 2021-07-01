@@ -15,7 +15,7 @@ import {
   ResumablePollOperationState
 } from "./models";
 import { processPassthroughOperationResult } from "./passthrough";
-import { getPollingUrl, inferLroMode, isExpectedInitialResponse } from "./requestUtils";
+import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
 
 /**
  * creates a stepping function that maps an LRO state to another.
@@ -90,7 +90,7 @@ export function createInitializeState<TResult>(
   requestMethod: string
 ): (rawResponse: RawResponse, flatResponse: unknown) => boolean {
   return (rawResponse: RawResponse, flatResponse: unknown) => {
-    if (isExpectedInitialResponse(rawResponse)) return true;
+    if (isUnexpectedInitialResponse(rawResponse)) return true;
     state.initialRawResponse = rawResponse;
     state.isStarted = true;
     state.pollingURL = getPollingUrl(state.initialRawResponse, requestPath);
