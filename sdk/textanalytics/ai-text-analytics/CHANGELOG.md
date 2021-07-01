@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0 (Unreleased)
+## 5.1.0 (2021-07-08)
 
 ### New Features
 
