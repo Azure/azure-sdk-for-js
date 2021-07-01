@@ -7,7 +7,6 @@ import {
   AssetConversionOutput,
   KnownAssetConversionStatus
 } from "../generated/models/index";
-import { expectDefinedFromService } from "./expectDefinedFromService";
 import {
   RemoteRenderingServiceError,
   createRemoteRenderingServiceError
@@ -92,7 +91,7 @@ export function assetConversionFromConversion(conversion: Conversion): AssetConv
       return {
         status: "Succeeded",
         ...baseProperties,
-        output: expectDefinedFromService(conversion, "output")
+        output: conversion.output!
       };
     case KnownAssetConversionStatus.Cancelled:
       return {
@@ -103,7 +102,7 @@ export function assetConversionFromConversion(conversion: Conversion): AssetConv
       return {
         status: "Failed",
         ...baseProperties,
-        error: createRemoteRenderingServiceError(expectDefinedFromService(conversion, "error"))
+        error: createRemoteRenderingServiceError(conversion.error!)
       };
     default:
       throw new Error("Unrecognized AssetConversionStatus returned by the service");

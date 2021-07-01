@@ -6,7 +6,6 @@ import {
   SessionProperties,
   KnownRenderingSessionStatus
 } from "../generated/index";
-import { expectDefinedFromService } from "./expectDefinedFromService";
 import {
   RemoteRenderingServiceError,
   createRemoteRenderingServiceError
@@ -149,12 +148,12 @@ function renderingSessionPropertiesFromSessionProperties(
   session: SessionProperties
 ): RenderingSessionProperties {
   return {
-    arrInspectorPort: expectDefinedFromService(session, "arrInspectorPort"),
-    handshakePort: expectDefinedFromService(session, "handshakePort"),
-    elapsedTimeInMinutes: expectDefinedFromService(session, "elapsedTimeInMinutes"),
-    host: expectDefinedFromService(session, "host"),
-    teraflops: expectDefinedFromService(session, "teraflops"),
-    createdOn: expectDefinedFromService(session, "createdOn")
+    arrInspectorPort: session.arrInspectorPort!,
+    handshakePort: session.handshakePort!,
+    elapsedTimeInMinutes: session.elapsedTimeInMinutes!,
+    host: session.host!,
+    teraflops: session.teraflops!,
+    createdOn: session.createdOn!
   };
 }
 
@@ -203,7 +202,7 @@ export function renderingSessionFromSessionProperties(
       return {
         status: "Error",
         ...baseProperties,
-        error: createRemoteRenderingServiceError(expectDefinedFromService(session, "error")),
+        error: createRemoteRenderingServiceError(session.error!),
         partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session)
       };
     case KnownRenderingSessionStatus.Expired:
