@@ -12,7 +12,7 @@ import {
 import { stringToUint8Array } from "../utils/crypto";
 
 describe("Transformations", () => {
-  it.only("KeyBundle to KeyVaultKey", () => {
+  it("KeyBundle to KeyVaultKey", () => {
     const date = new Date();
     const releasePolicy = {
       contentType: "content type",

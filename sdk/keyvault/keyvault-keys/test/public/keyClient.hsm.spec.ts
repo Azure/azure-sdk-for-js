@@ -73,7 +73,7 @@ onVersions({ minVer: "7.2" }).describe(
       });
     });
 
-    onVersions({ minVer: "7.3-preview" }).describe.only("releaseKey", () => {
+    onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
       const releasePolicy = {
         anyOf: [
           {

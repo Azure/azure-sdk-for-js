@@ -247,6 +247,9 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 export type KeyCurveName = string;
 
 // @public
+export type KeyExportEncryptionAlgorithm = string;
+
+// @public
 export type KeyOperation = string;
 
 // @public
@@ -412,21 +415,15 @@ export { PollOperationState }
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "KeyExportEncryptionAlgorithm" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     algorithm?: KeyExportEncryptionAlgorithm;
-    // (undocumented)
     nonce?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ReleaseKeyResult {
-    // (undocumented)
     algorithm?: KeyExportEncryptionAlgorithm;
-    // (undocumented)
     value: string;
 }
 

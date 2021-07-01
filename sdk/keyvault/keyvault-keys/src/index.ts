@@ -63,7 +63,8 @@ import {
   GetRandomBytesOptions,
   ReleaseKeyOptions,
   ReleaseKeyResult,
-  KeyReleasePolicy
+  KeyReleasePolicy,
+  KeyExportEncryptionAlgorithm
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -184,7 +185,8 @@ export {
   logger,
   ReleaseKeyOptions,
   ReleaseKeyResult,
-  KeyReleasePolicy
+  KeyReleasePolicy,
+  KeyExportEncryptionAlgorithm
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
