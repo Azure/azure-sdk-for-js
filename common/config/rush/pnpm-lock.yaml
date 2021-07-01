@@ -11709,7 +11709,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-perfstress'
     resolution:
-      integrity: sha512-Dw1ymK8lJ4/YxOxYRvmYQqPBj0hrCmiQbCU8dwlW3gikFdUd2T16cIgHLuCHIEC1pkFT35+uhiOH2Hf6gbEypQ==
+      integrity: sha512-IoXmWcVt9jDlI8ISTsLwpJHY9i3R73g/mpx9oEnBOwMnwfRxjkletLRvyDP/s8LtKHyUiYroRSWbYSryCqoYUQ==
       tarball: file:projects/test-utils-perfstress.tgz
     version: 0.0.0
   file:projects/test-utils-recorder.tgz:
