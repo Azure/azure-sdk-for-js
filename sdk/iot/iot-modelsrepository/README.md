@@ -4,7 +4,7 @@ This package contains an isomorphic Client Library for Azure IoT Models Reposito
 
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/iot-modelsrepository)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository)
 - [Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/)
 - Samples
 
