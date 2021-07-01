@@ -9,7 +9,7 @@ Use the client library for App Configuration to:
 - Replay settings from any point in time
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/mainr/sdk/appconfiguration/app-configuration/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration)
 - [Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/)
