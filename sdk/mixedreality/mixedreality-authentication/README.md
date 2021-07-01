@@ -5,10 +5,10 @@ token service (STS) for authentication. This package supports exchanging Mixed R
 token from the STS that can be used to access Mixed Reality services.
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/mixedreality/mixedreality-authentication/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/mixedreality-authentication/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/mixedreality-authentication)
 - [API reference documentation](https://aka.ms/azsdk/js/mixedreality-authentication/docs)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixedreality-authentication/samples)
 
 ![Mixed Reality service authentication diagram](https://docs.microsoft.com/azure/spatial-anchors/concepts/media/spatial-anchors-authentication-overview.png)
 

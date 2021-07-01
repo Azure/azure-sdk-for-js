@@ -4,7 +4,7 @@
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector)
 - [Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/)

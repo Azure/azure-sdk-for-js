@@ -8,7 +8,7 @@ Use the client library for Azure Monitor to:
 - Query metrics
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/) 
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) 
 - [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) 
 - [API reference documentation][msdocs_apiref]
 - [Product documentation][azure_monitor_product_documentation]

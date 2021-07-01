@@ -11,7 +11,7 @@ Key links:
 - [Source code][source]
 - [API reference documentation](https://docs.microsoft.com/qsharp/api/)
 - [Product documentation](https://docs.microsoft.com/azure/quantum/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/quantum/quantum-jobs/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
 
 ## Getting started
 

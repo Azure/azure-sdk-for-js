@@ -11,7 +11,7 @@ Use the express library to:
   - Handle client events requests
   
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express)
 - [API reference documentation](https://aka.ms/awps/sdk/js)
 - [Product documentation](https://aka.ms/awps/doc)

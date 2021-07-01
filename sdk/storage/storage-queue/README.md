@@ -11,11 +11,11 @@ Use the client libraries in this package to:
 - Send/Receive/Peek/Clear/Update/Delete Queue Messages
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-queue)
 - [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples)
 - [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
 
 ## Getting started

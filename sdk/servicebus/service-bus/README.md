@@ -11,11 +11,11 @@ Use the client library `@azure/service-bus` in your application to
 Resources for `@azure/service-bus` version 7:
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus)
 - [Package (npm)](https://www.npmjs.com/package/@azure/service-bus)
 - [API Reference Documentation][apiref]
 - [Product documentation](https://azure.microsoft.com/services/service-bus/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples)
 
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]

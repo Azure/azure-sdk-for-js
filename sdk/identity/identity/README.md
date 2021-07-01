@@ -5,11 +5,11 @@ The Azure Identity library provides Azure Active Directory token authentication 
 You can find examples for these various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity)
 - [Package (npm)](https://www.npmjs.com/package/@azure/identity)
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/identity)
 - [Product documentation](https://azure.microsoft.com/services/active-directory/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples)
 
 ## Getting started
 

@@ -12,11 +12,11 @@ Use the client libraries in this package to:
 - Resuming reading events from a saved position
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/)
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed)
 - [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples)
 
 ## Getting started
 

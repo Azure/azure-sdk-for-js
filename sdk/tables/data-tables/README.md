@@ -17,11 +17,11 @@ Azure Cosmos DB provides a Table API for applications that are written for Azure
 - The Azure Tables client library can seamlessly target either Azure table storage or Azure Cosmos DB table service endpoints with no code changes.
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/data-tables)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/data-tables)
 - [Product documentation](https://docs.microsoft.com/azure/storage/tables/table-storage-overview/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/tables/data-tables/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples)
 
 ## Getting started
 
@@ -130,7 +130,7 @@ grant access to your Azure Table resources to users, groups, or applications.
 To access a table resource with a `TokenCredential`, the authenticated identity should have either the "Storage Table Data Contributor" or "Storage Table Data Reader" role.
 
 With the `@azure/identity` package, you can seamlessly authorize requests in both development and production environments.
-To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
+To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
 
 ```javascript
 const { TableServiceClient } = require("@azure/data-tables");
@@ -254,7 +254,7 @@ grant access to your Azure Table resources to users, groups, or applications.
 To access a table resource with a `TokenCredential`, the authenticated identity should have either the "Storage Table Data Contributor" or "Storage Table Data Reader" role.
 
 With the `@azure/identity` package, you can seamlessly authorize requests in both development and production environments.
-To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
+To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
 
 ```javascript
 const { TableClient } = require("@azure/data-tables");
