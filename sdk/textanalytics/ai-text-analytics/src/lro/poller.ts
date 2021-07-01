@@ -24,7 +24,7 @@ export interface OperationMetadata {
   /**
    * The date and time the operation was created.
    */
-  createdOn?: Date;
+  createdOn: Date;
   /**
    * The date and time when the operation results will expire on the server.
    */
@@ -32,15 +32,15 @@ export interface OperationMetadata {
   /**
    * The operation id.
    */
-  operationId?: string;
+  operationId: string;
   /**
    * The time the operation status was last updated.
    */
-  lastModifiedOn?: Date;
+  lastModifiedOn: Date;
   /**
    * The current status of the operation.
    */
-  status?: State;
+  status: State;
 }
 
 /**

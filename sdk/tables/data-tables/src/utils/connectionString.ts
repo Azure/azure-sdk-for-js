@@ -21,10 +21,11 @@ const DevelopmentConnectionString =
  */
 export function getClientParamsFromConnectionString(
   connectionString: string,
-  options?: TableServiceClientOptions
+  options: TableServiceClientOptions = {}
 ): ClientParamsFromConnectionString {
   if (connectionString.toLowerCase().indexOf("usedevelopmentstorage=true") !== -1) {
     connectionString = DevelopmentConnectionString;
+    options.allowInsecureConnection = true;
   }
   const extractedCreds = extractConnectionStringParts(connectionString);
   if (extractedCreds.kind === "AccountConnString") {
@@ -103,7 +104,7 @@ function getValueInConnString(
     | "SharedAccessSignature"
 ): string {
   const searchKey = argument.toLowerCase();
-  const elements = connectionString.split(";");
+  const elements = connectionString.split(";").filter((e) => Boolean(e));
   for (const element of elements) {
     const trimmedElement = element.trim();
     const [elementKey, value] = getValuePair(trimmedElement);

@@ -1,6 +1,36 @@
 # Release History
 
-## 4.2.0-beta.6 (Unreleased)
+## 4.3.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+## 4.2.1 (2021-06-15)
+
+### Bug Fixes
+
+- Fixed an issue where bundling could fail when importing this library due to an incorrectly set import.
+
+## 4.2.0 (2021-06-15)
+
+### New Features
+
+- Added support for local cryptography operations. If supported by the key type and algorithm, the `CryptographyClient` will attempt to perform a cryptography operation locally.
+- Added support for symmetric keys in Managed HSMs including support for AES encryption algorithms to encrypt, decrypt, wrap, and unwrap using symmetric keys.
+- Added support for the 7.2 version of the Key Vault service API.
+
+### Bug Fixes
+
+- Fixed a bug with `beginDeleteKey` and `beginRecoverDeletedKey` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed bug with the list operations which were returning misplaced properties. Fixes customer issue: [15353](https://github.com/Azure/azure-sdk-for-js/issues/15353).
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+
+### Changes since 4.2.0-beta.5:
 
 - Removed the now obsolete `KeyOperationsOptions` and replaced it with `CryptographyOptions`.
   - Introduced in 4.2.0-beta.1 to support additional encryption parameters for AES encryption, we have since moved these parameters outside of the options bag so a separate `KeyOperationsOptions` is now redundant.
@@ -30,7 +60,7 @@
 
 ## 4.2.0-beta.3 (2021-02-09)
 
-- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 - Updated the Key Vault Keys Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
 - Added a constructor overload to `CryptographyClient` that takes a `JsonWebKey` and allows for local-only subset of operations.

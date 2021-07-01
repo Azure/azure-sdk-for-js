@@ -55,12 +55,12 @@ function updateREADME(mainModule, relativePath, namespace) {
 
     return `## Azure ${clientName} SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for ${clientName}.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for ${clientName}.
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### Prerequisites
 

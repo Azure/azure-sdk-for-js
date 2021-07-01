@@ -8,10 +8,9 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   AttestationSigner,
   AttestationToken,
+  AttestationTokenValidationOptions,
   AttestationResult,
-  AttestationData,
-  TpmAttestationRequest,
-  TpmAttestationResponse
+  AttestationData
 } from "./models";
 
 import { logger } from "./logger";
@@ -25,16 +24,29 @@ import { AttestationResponse } from "./models/attestationResponse";
 import { TypeDeserializer } from "./utils/typeDeserializer";
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { bytesToString, stringToBytes } from "./utils/utf8";
 
 /**
  * Attestation Client Construction Options.
  */
-export interface AttestationClientOptions extends CommonClientOptions {}
+export interface AttestationClientOptions extends CommonClientOptions {
+  /**
+   * Validation options to be used to validate attestation tokens received
+   * from the attestation service.
+   */
+  validationOptions?: AttestationTokenValidationOptions;
+}
 
 /**
  * Operation options for the Attestation Client operations.
  */
-export interface AttestationClientOperationOptions extends OperationOptions {}
+export interface AttestationClientOperationOptions extends OperationOptions {
+  /**
+   * Validation options to be used to validate attestation tokens received
+   * from the attestation service for the individual operation.
+   */
+  validationOptions?: AttestationTokenValidationOptions;
+}
 
 /**
  * Optional parameters for the AttestOpenEnclave API.
@@ -146,7 +158,7 @@ export class AttestationClient {
     };
 
     this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
-    this.instanceUrl = instanceUrl;
+    this._validationOptions = options.validationOptions;
 
     // Legacy compatibility classes functions which will be removed eventually.
     this.policyCertificates = new PolicyCertificates(this);
@@ -196,6 +208,10 @@ export class AttestationClient {
       );
 
       const token = new AttestationToken(attestationResponse.token);
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
 
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
@@ -249,6 +265,11 @@ export class AttestationClient {
       );
 
       const token = new AttestationToken(attestationResponse.token);
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
+
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
@@ -269,19 +290,38 @@ export class AttestationClient {
 
   /** Attest a TPM based enclave.
 
-   * See the TPM Attestation Protocol Reference {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol} for more information.
+   * See the  {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
    * 
-   * @param request - Incoming request to send to the TPM attestation service.
+   * @param request - Incoming request to send to the TPM attestation service, Utf8 encoded.
    * @param options - Pipeline options for TPM attestation request.
-   * @returns A structure containing the response from the TPM attestation.
+   * @returns A structure containing the response from the TPM attestation, Utf8 encoded.
+   * 
+   * @remarks
+   * 
+   * The incoming requests to the TPM attestation API are stringified JSON objects.
+   * 
+   * @example
+   * For example, the initial call for a TPM attestation operation is:
+   * 
+   * ```js
+   * const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
+   * const result = await client.attestTpm(encodedPayload);
+   * ```
+   * 
+   * where stringToBytes converts the string to UTF8.
    */
-  public async attestTpm(
-    request: TpmAttestationRequest,
-    options: AttestTpmOptions = {}
-  ): Promise<TpmAttestationResponse> {
+  public async attestTpm(request: string, options: AttestTpmOptions = {}): Promise<string> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
-      return await this._client.attestation.attestTpm(request, updatedOptions);
+      const response = await this._client.attestation.attestTpm(
+        { data: stringToBytes(request) },
+        updatedOptions
+      );
+      if (response.data) {
+        return bytesToString(response.data);
+      } else {
+        throw Error("Internal error - response data cannot be undefined.");
+      }
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -334,11 +374,21 @@ export class AttestationClient {
   }
 
   private _client: GeneratedClient;
+  private _validationOptions?: AttestationTokenValidationOptions;
+  private _signers?: Promise<AttestationSigner[]>;
 
-  instanceUrl: string;
+  private get _signingKeys(): Promise<AttestationSigner[]> {
+    if (this._signers !== undefined) {
+      return Promise.resolve(this._signers);
+    }
+    this._signers = this.getAttestationSigners();
+    return Promise.resolve(this._signers);
+  }
 
   /**
-   * @hidden
+   * Legacy property to access policy certificate management APIs.
+   *
+   * Will be removed.
    */
   policyCertificates: PolicyCertificates;
 }

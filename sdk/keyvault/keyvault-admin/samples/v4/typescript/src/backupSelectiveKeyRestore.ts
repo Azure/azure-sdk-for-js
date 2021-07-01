@@ -29,28 +29,45 @@ export async function main(): Promise<void> {
   const keyName = "key-name";
   const key = await keyClient.createRsaKey(keyName);
 
-  const blobStorageUri = process.env["BLOB_STORAGE_URI"];
-  if (!blobStorageUri) {
-    throw new Error("Missing environment variable BLOB_STORAGE_URI.");
-  }
   const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
   if (!sasToken) {
     throw new Error("Missing environment variable BLOB_STORAGE_SAS_TOKEN.");
   }
-  const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
-  await backupPoller.pollUntilDone();
 
+  // Create a Uri with the storage container path.
+  const blobContainerUri = buildBlobContainerUri();
+
+  // Start the backup and wait for its completion.
+  const backupPoller = await client.beginBackup(blobContainerUri, sasToken);
+  const backupResult = await backupPoller.pollUntilDone();
+  console.log("backupResult", backupResult);
+
+  // Finally, start and wait for the restore operation using the folderUri returned from a previous backup operation.
   const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
     key.name,
-    blobStorageUri,
+    backupResult.folderUri!,
     sasToken
   );
-  await selectiveKeyRestorePoller.pollUntilDone();
+  const restoreResult = await selectiveKeyRestorePoller.pollUntilDone();
+  console.log("restoreResult", restoreResult);
+}
 
-  // Deleting and purging the key, just in case we want to create the same key again.
-  const deleteKeyPoller = await keyClient.beginDeleteKey(keyName);
-  await deleteKeyPoller.pollUntilDone();
-  await keyClient.purgeDeletedKey(keyName);
+/**
+ * Helper function to construct a valid blob container URI from its parts.
+ */
+function buildBlobContainerUri() {
+  const blobStorageUri = process.env["BLOB_STORAGE_URI"];
+  if (!blobStorageUri) {
+    throw new Error("Missing environment variable BLOB_STORAGE_URI.");
+  }
+
+  const blobContainerName = process.env["BLOB_CONTAINER_NAME"];
+  if (!blobContainerName) {
+    throw new Error("Missing environment variable BLOB_CONTAINER_NAME.");
+  }
+
+  // If there are trailing slashes, remove them before building the URI.
+  return `${blobStorageUri.replace(/\/$/, "")}/${blobContainerName}`;
 }
 
 main().catch((err) => {

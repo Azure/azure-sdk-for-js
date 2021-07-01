@@ -24,7 +24,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/operationalinsights/loganalytics",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/sdk/operationalinsights/loganalytics",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

@@ -15,11 +15,11 @@ Use the client libraries in this package to:
 > It has been renamed to `@azure/storage-file-share` to better align with the upcoming new package
 > for Azure Storage Files DataLake and provide a consistent set of APIs for working with files on Azure.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-share) |
 [Product documentation](https://docs.microsoft.com/azure/storage/files/storage-files-introduction) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples) |
 [Azure Storage File REST APIs](https://docs.microsoft.com/rest/api/storageservices/file-service-rest-api)
 
 ## Getting started
@@ -45,23 +45,18 @@ Azure Storage supports several ways to authenticate. In order to interact with t
 
 This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
 
-#### Compatible with IE11
+#### Web Workers
 
-You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
+This library requires certain DOM objects to be globally available when used in the browser, which web workers do not make available by default. You will need to polyfill these to make this library work in web workers.
 
-You can also load separate polyfills for missed ES feature(s).
-This library depends on following ES features which need external polyfills loaded.
+For more information please refer to our [documentation for using Azure SDK for JS in Web Workers](https://aka.ms/azsdk/js/web-workers)
 
-- `Promise`
-- `String.prototype.startsWith`
-- `String.prototype.endsWith`
-- `String.prototype.repeat`
-- `String.prototype.includes`
-- `Array.prototype.includes`
-- `Object.assign`
-- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
-- `Symbol`
-- `Symbol.iterator`
+This library depends on following DOM APIs which need external polyfills loaded when used in web workers:
+
+- [`document`](https://developer.mozilla.org/docs/Web/API/Document)
+- [`DOMParser`](https://developer.mozilla.org/docs/Web/API/DOMParser)
+- [`Node`](https://developer.mozilla.org/docs/Web/API/Node)
+- [`XMLSerializer`](https://developer.mozilla.org/docs/Web/API/XMLSerializer)
 
 #### Differences between Node.js and browsers
 
@@ -382,7 +377,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating please see [samples/typescript/src/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts).
+For a complete sample on iterating please see [samples/typescript/src/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts).
 
 ### Download a file and convert it to a string (Node.js)
 
@@ -475,7 +470,7 @@ async function blobToString(blob) {
 main();
 ```
 
-A complete example of basic scenarios is at [samples/typescript/src/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/src/basic.ts).
+A complete example of basic scenarios is at [samples/typescript/src/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/typescript/src/basic.ts).
 
 ## Troubleshooting
 
@@ -491,14 +486,14 @@ setLogLevel("info");
 
 More code samples
 
-- [File Share Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript)
-- [File Share Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript)
-- [File Share Storage Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/test)
+- [File Share Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript)
+- [File Share Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript)
+- [File Share Storage Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/test)
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-Also refer to [Storage specific guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/CONTRIBUTING.md) for additional information on setting up the test environment for storage libraries.
+Also refer to [Storage specific guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/CONTRIBUTING.md) for additional information on setting up the test environment for storage libraries.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2FREADME.png)

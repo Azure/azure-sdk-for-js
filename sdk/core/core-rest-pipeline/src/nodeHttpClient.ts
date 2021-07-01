@@ -157,7 +157,14 @@ class NodeHttpClient implements HttpClient {
         if (body && isReadableStream(body)) {
           body.pipe(req);
         } else if (body) {
-          req.end(body);
+          if (typeof body === "string" || Buffer.isBuffer(body)) {
+            req.end(body);
+          } else if (isArrayBuffer(body)) {
+            req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
+          } else {
+            logger.error("Unrecognized body type", body);
+            throw new RestError("Unrecognized body type");
+          }
         } else {
           // streams don't like "undefined" being passed as data
           req.end();

@@ -15,6 +15,7 @@ import {
   TRANSACTION_HTTP_VERSION_1_1
 } from "./utils/constants";
 import { getChangeSetBoundary } from "./utils/transactionHelpers";
+import { URL } from "./utils/url";
 
 export const transactionRequestAssemblePolicyName = "transactionRequestAssemblePolicy";
 

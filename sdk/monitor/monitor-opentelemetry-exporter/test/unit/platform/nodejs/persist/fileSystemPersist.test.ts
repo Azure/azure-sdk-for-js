@@ -151,10 +151,10 @@ describe("FileSystemPersist", () => {
       persister.fileRetemptionPeriod = 1;
       // wait 100 ms
       await sleep(100);
-      let cleanup = await persister["_fileCleanupTask"]();
+      const cleanup = await persister["_fileCleanupTask"]();
       assert.strictEqual(cleanup, true);
-      let fileValue = await persister.shift();
-      assert.deepStrictEqual(fileValue, null); //File doesn't exist anymore
+      const fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, null); // File doesn't exist anymore
     });
   });
 });

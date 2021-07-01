@@ -112,6 +112,9 @@ export function createConnectionContextForTests(
       },
       async close(): Promise<void> {
         /** Nothing to do here */
+      },
+      isOpen() {
+        return initWasCalled;
       }
     },
     initWasCalled

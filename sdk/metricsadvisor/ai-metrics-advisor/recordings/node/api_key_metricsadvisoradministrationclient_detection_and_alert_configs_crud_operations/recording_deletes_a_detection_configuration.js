@@ -5,41 +5,41 @@ module.exports.hash = "14054da5863782c4fc6a8a675748b72d";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/aee13f5c-3bf8-4f7f-afea-bfbe2c9d52af')
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/a7cc6dda-d4e7-447d-aa57-3fc3395d5516')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '5e3aefae-4878-4320-8459-ff51edb85a1f',
+  'e3f70da9-9f7b-48a1-91fe-c29ffbf8d6dc',
   'x-envoy-upstream-service-time',
-  '178',
+  '102',
   'apim-request-id',
-  '5e3aefae-4878-4320-8459-ff51edb85a1f',
+  'e3f70da9-9f7b-48a1-91fe-c29ffbf8d6dc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 21:46:18 GMT'
+  'Wed, 02 Jun 2021 17:31:53 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/aee13f5c-3bf8-4f7f-afea-bfbe2c9d52af')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 188743af-90cc-44b8-bda8-19bd4f3bd261"}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/a7cc6dda-d4e7-447d-aa57-3fc3395d5516')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 9a0637da-d009-4ce8-9736-0ed4a568cc2d"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '980c8ded-10cc-4ab8-b47d-f5ee3e749f2c',
+  '6cee0b27-b784-494a-b547-35abf14555ea',
   'x-envoy-upstream-service-time',
-  '144',
+  '77',
   'apim-request-id',
-  '980c8ded-10cc-4ab8-b47d-f5ee3e749f2c',
+  '6cee0b27-b784-494a-b547-35abf14555ea',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 21:46:18 GMT'
+  'Wed, 02 Jun 2021 17:31:53 GMT'
 ]);

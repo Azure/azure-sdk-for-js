@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
-
-import { X509, KJUR } from "jsrsasign";
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
 
 /**
  * Creates an instance of AttestationSigningKey.
@@ -38,12 +34,12 @@ export class AttestationSigningKey {
     //
     // Sign a buffer with the key, then verify the signature with the
     // certificate.
-    const x509 = new X509();
+    const x509 = new jsrsasign.X509();
     x509.readCertPEM(certificate);
 
     const alg = x509.getSignatureAlgorithmName();
 
-    const signer = new KJUR.crypto.Signature({ alg: alg });
+    const signer = new jsrsasign.KJUR.crypto.Signature({ alg: alg });
 
     const bufferToSign = "1234";
 
@@ -51,7 +47,7 @@ export class AttestationSigningKey {
     signer.updateString(bufferToSign);
     const sigVal = signer.sign();
 
-    const verifier = new KJUR.crypto.Signature({ alg: alg });
+    const verifier = new jsrsasign.KJUR.crypto.Signature({ alg: alg });
     verifier.init(x509.getPublicKey());
     verifier.updateString(bufferToSign);
     if (!verifier.verify(sigVal)) {
@@ -62,6 +58,14 @@ export class AttestationSigningKey {
     this.key = key;
   }
 
+  /**
+   * The PEM encoded RSA or ECDS key to sign an {@link AttestationToken}.
+   */
   key: string;
+
+  /**
+   * An X.509 Certificate wrapping the {@link key} which will be included in a
+   * signed {@link AttestationToken}.
+   */
   certificate: string;
 }

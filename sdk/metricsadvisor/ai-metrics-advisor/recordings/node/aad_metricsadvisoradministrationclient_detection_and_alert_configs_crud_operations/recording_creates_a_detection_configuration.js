@@ -2,7 +2,7 @@ let nock = require('nock');
 
 module.exports.hash = "eee7de2a9d43a2fc2b145a8342b1ecd6";
 
-module.exports.testInfo = {"uniqueName":{"js-detection-config-":"js-detection-config-162007824097303688"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"js-detection-config-":"js-detection-config-162265509950201585"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
@@ -22,59 +22,59 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0b36147e-db19-4848-9ba3-deb4b946ce00',
+  '6f3ae5b2-455f-4cc1-9751-9eb8b7ffa600',
   'x-ms-ests-server',
-  '2.1.11654.16 - NCUS ProdSlices',
+  '2.1.11722.26 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AnlkyI3_Sw5Cu2-AqfSONJTGLH8mAQAAAKBlItgOAAAA; expires=Wed, 02-Jun-2021 21:44:01 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhDmgzXYAD1Lu7GFYxxGYOLGLH8mBgAAAHi3SdgOAAAA; expires=Fri, 02-Jul-2021 17:31:39 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 03 May 2021 21:44:00 GMT',
+  'Wed, 02 Jun 2021 17:31:39 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations', {"name":"js-detection-config-162007824097303688","description":"fresh detection","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","wholeMetricConfiguration":{"conditionOperator":"AND","hardThresholdCondition":{"upperBound":400,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":2,"minRatio":2}},"changeThresholdCondition":{"changePercentage":33,"shiftPoint":1,"withinRange":true,"anomalyDetectorDirection":"Both","suppressCondition":{"minNumber":2,"minRatio":2}}},"dimensionGroupOverrideConfigurations":[],"seriesOverrideConfigurations":[]})
+  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations', {"name":"js-detection-config-162265509950201585","description":"fresh detection","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","wholeMetricConfiguration":{"conditionOperator":"AND","hardThresholdCondition":{"upperBound":400,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":2,"minRatio":2}},"changeThresholdCondition":{"changePercentage":33,"shiftPoint":1,"withinRange":true,"anomalyDetectorDirection":"Both","suppressCondition":{"minNumber":2,"minRatio":2}}},"dimensionGroupOverrideConfigurations":[],"seriesOverrideConfigurations":[]})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/edb91803-d3ef-4209-85d8-e880b13f7587',
+  'https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/3eb1771b-7943-4ce4-8a99-54f102d244de',
   'x-request-id',
-  'bde58f4b-787f-4f0d-9359-4857a8290144',
+  '369be11c-e164-4256-ba90-64b0f3845bd4',
   'x-envoy-upstream-service-time',
-  '5327',
+  '55',
   'apim-request-id',
-  'bde58f4b-787f-4f0d-9359-4857a8290144',
+  '369be11c-e164-4256-ba90-64b0f3845bd4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 21:44:06 GMT'
+  'Wed, 02 Jun 2021 17:31:38 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/edb91803-d3ef-4209-85d8-e880b13f7587')
-  .reply(200, {"anomalyDetectionConfigurationId":"edb91803-d3ef-4209-85d8-e880b13f7587","name":"js-detection-config-162007824097303688","description":"fresh detection","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","wholeMetricConfiguration":{"conditionOperator":"AND","hardThresholdCondition":{"upperBound":400,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":2,"minRatio":2}},"changeThresholdCondition":{"changePercentage":33,"shiftPoint":1,"anomalyDetectorDirection":"Both","withinRange":true,"suppressCondition":{"minNumber":2,"minRatio":2}}},"dimensionGroupOverrideConfigurations":[],"seriesOverrideConfigurations":[]}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/3eb1771b-7943-4ce4-8a99-54f102d244de')
+  .reply(200, {"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","name":"js-detection-config-162265509950201585","description":"fresh detection","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","wholeMetricConfiguration":{"conditionOperator":"AND","hardThresholdCondition":{"upperBound":400,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":2,"minRatio":2}},"changeThresholdCondition":{"changePercentage":33,"shiftPoint":1,"anomalyDetectorDirection":"Both","withinRange":true,"suppressCondition":{"minNumber":2,"minRatio":2}}},"dimensionGroupOverrideConfigurations":[],"seriesOverrideConfigurations":[]}, [
   'Content-Length',
   '636',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'fa99b7f1-1ddd-43ca-a70e-5ee471f99b33',
+  '861799f4-3db5-4eed-b9ff-4e9f8e8bc73f',
   'x-envoy-upstream-service-time',
-  '286',
+  '5087',
   'apim-request-id',
-  'fa99b7f1-1ddd-43ca-a70e-5ee471f99b33',
+  '861799f4-3db5-4eed-b9ff-4e9f8e8bc73f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 21:44:07 GMT'
+  'Wed, 02 Jun 2021 17:31:44 GMT'
 ]);

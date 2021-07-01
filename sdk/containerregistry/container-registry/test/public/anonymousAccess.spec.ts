@@ -8,8 +8,8 @@ import * as dotenv from "dotenv";
 import { ContainerRegistryClient } from "../../src";
 
 import { env, record, Recorder } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-util";
-import { createRegistryClient, recorderEnvSetup } from "./utils";
+import { isNode } from "../utils/isNode";
+import { createRegistryClient, recorderEnvSetup } from "../utils/utils";
 
 if (isNode) {
   dotenv.config();
@@ -51,5 +51,18 @@ describe("Anonymous access tests", function() {
       results.indexOf(repositoryName) !== -1,
       `Expecting '${repositoryName}' in the list`
     );
+  });
+
+  it("should throw error setting properties with anonymous access", async () => {
+    try {
+      const repository = client.getRepository(repositoryName);
+      await repository.updateProperties({
+        canDelete: false
+      });
+      assert.fail("should have thrown already");
+    } catch (e) {
+      assert.strictEqual((e as any).statusCode, 401);
+      assert.strictEqual((e as any).details.errors[0].code, "UNAUTHORIZED");
+    }
   });
 });

@@ -1,7 +1,21 @@
 # Release History
 
-## 5.5.2 (Unreleased)
+## 5.5.3 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
+## 5.5.2 (2021-06-10)
+
+### Bug fixes
+
+- Fixes issue [#13500](https://github.com/Azure/azure-sdk-for-js/issues/13500) where a `TypeError: Cannot read property '_process' of undefined` could be thrown in rare cases.
 
 ## 5.5.1 (2021-04-29)
 
@@ -150,7 +164,7 @@ changes between patch and minor updates.
   after calling `subscribe` would cause events to still be read.
 - Updated to use the latest version of the `@azure/core-amqp` package which in
   turn uses the latest version of the `rhea` package.
-  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md) this library.
   ([Pull Request](https://github.com/amqp/rhea/pull/274))
 
 ## 5.0.0 (2020-01-09)
@@ -332,7 +346,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Next Steps
 
 - Refer to the `API reference documentation` to get an overview of the entire API surface.
-- Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
+- Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
 
 ## 2.1.0 (2019-06-10)
 
@@ -354,7 +368,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Bug fixes and other changes
 
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md#debug-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/README.md#debug-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.
@@ -425,7 +439,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 0.2.6 (2018-08-07)
 
 - Improved log statements.
-- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs//#debug-logs).
+- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs//#debug-logs).
 - Minimum dependency on `"rhea": "^0.2.18"`.
 - Fixed bugs in recovery logic
 - Added support to recover from session close for sender and receiver

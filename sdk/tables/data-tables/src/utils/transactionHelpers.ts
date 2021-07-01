@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 import { HeaderConstants, TRANSACTION_HTTP_LINE_ENDING } from "./constants";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { serializationPolicy } from "@azure/core-client";
-import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "../TablePolicies";
 
 /**
  * Builds a transaction change set boundary to be added to the transaction request body
@@ -48,33 +45,7 @@ export function getTransactionHttpRequestBody(
   const transactionBoundary = getTransactionBoundary(transactionId);
   const changesetBoundary = getChangeSetBoundary(changesetId);
   const changesetEnding = `--${changesetBoundary}--`;
-  const transactionEnding = `--${transactionBoundary}`;
+  const transactionEnding = `--${transactionBoundary}--`;
   const bodyContent = bodyParts.join(TRANSACTION_HTTP_LINE_ENDING);
   return `${bodyContent}${TRANSACTION_HTTP_LINE_ENDING}${changesetEnding}${TRANSACTION_HTTP_LINE_ENDING}${transactionEnding}${TRANSACTION_HTTP_LINE_ENDING}`;
-}
-
-/**
- * Prepares the transaction pipeline to intercept operations
- * @param pipeline - Client pipeline
- */
-export function prepateTransactionPipeline(
-  pipeline: Pipeline,
-  bodyParts: string[],
-  changesetId: string
-): void {
-  // Fist, we need to clear all the existing policies to make sure we start
-  // with a fresh state.
-  const policies = pipeline.getOrderedPolicies();
-  for (const policy of policies) {
-    pipeline.removePolicy({
-      name: policy.name
-    });
-  }
-
-  // With the clear state we now initialize the pipelines required for intercepting the requests.
-  // Use transaction assemble policy to assemble request and intercept request from going to wire
-
-  pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
-  pipeline.addPolicy(transactionHeaderFilterPolicy());
-  pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
 }

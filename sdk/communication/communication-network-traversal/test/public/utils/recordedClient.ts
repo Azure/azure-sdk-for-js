@@ -36,7 +36,7 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
-  AZURE_TENANT_ID: "SomeTenantId"
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {

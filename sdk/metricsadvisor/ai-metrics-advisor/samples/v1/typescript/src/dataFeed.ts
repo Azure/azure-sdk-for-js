@@ -78,15 +78,13 @@ async function createDataFeed(
     name: "test-datafeed-" + new Date().getTime().toString(),
     source: {
       dataSourceType: "AzureBlob",
-      dataSourceParameter: {
-        connectionString:
-          process.env.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING ||
-          "<Azure Blob storage connection string>",
-        container:
-          process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
-        blobTemplate:
-          process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>"
-      }
+      connectionString:
+        process.env.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING ||
+        "<Azure Blob storage connection string>",
+      container: process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
+      blobTemplate:
+        process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>",
+      authenticationType: "Basic"
     },
     granularity: {
       granularityType: "Daily"
@@ -146,7 +144,8 @@ async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedI
 async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
   const patch: DataFeedPatch = {
     source: {
-      dataSourceType: "AzureBlob"
+      dataSourceType: "AzureBlob",
+      authenticationType: "ManagedIdentity"
     },
     name: "new name test-datafeed " + new Date().getTime().toString(),
     ingestionSettings: {

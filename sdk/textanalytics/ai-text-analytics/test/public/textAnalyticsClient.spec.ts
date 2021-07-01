@@ -14,7 +14,6 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  ExtractKeyPhrasesSuccessResult,
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
@@ -477,15 +476,6 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         }
 
         assert.equal(result.error.code, "UnsupportedLanguageCode");
-      });
-
-      it("service reports warning for long words", async function() {
-        const results = await client.extractKeyPhrases([
-          "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters."
-        ]);
-        assertAllSuccess(results);
-        const result = results[0] as ExtractKeyPhrasesSuccessResult;
-        assert.equal(result.warnings[0].code, "LongWordsInDocument");
       });
 
       it("client accepts mixed-language TextDocumentInput[]", async function() {

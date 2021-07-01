@@ -237,9 +237,8 @@ export const dataSourceType: OperationQueryParameter = {
         "AzureDataExplorer",
         "AzureDataLakeStorageGen2",
         "AzureEventHubs",
+        "AzureLogAnalytics",
         "AzureTable",
-        "Elasticsearch",
-        "HttpRequest",
         "InfluxDB",
         "MongoDB",
         "MySql",
@@ -263,7 +262,6 @@ export const granularityName: OperationQueryParameter = {
         "Daily",
         "Hourly",
         "Minutely",
-        "Secondly",
         "Custom"
       ]
     }

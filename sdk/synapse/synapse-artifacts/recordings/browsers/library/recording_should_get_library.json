@@ -4,22 +4,24 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 05 Apr 2021 22:16:54 GMT",
+    "date": "Fri, 11 Jun 2021 18:41:46 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11562.10 - NCUS ProdSlices",
-    "x-ms-request-id": "8ebd0574-c18b-43e2-bdf0-09683e436400"
+    "x-ms-ests-server": "2.1.11829.4 - SCUS ProdSlices",
+    "x-ms-request-id": "1490438c-efac-497b-a346-63c6254e2600"
    }
   },
   {
@@ -30,15 +32,15 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/libraries/testLibraryName.jar\",\"name\":\"testLibraryName.jar\",\"type\":\"Microsoft.Synapse/workspaces/libraries\",\"properties\":{\"name\":\"testLibraryName.jar\",\"path\":\"xysynapsetest/libraries/testLibraryName.jar\",\"containerName\":\"prep\",\"uploadedTimestamp\":\"2021-04-05T22:16:43.7395879+00:00\",\"type\":\"jar\",\"provisioningStatus\":\"Incomplete\",\"creatorId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\"},\"etag\":\"bc063721-0000-0800-0000-606b8c4f0000\"}",
+   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/libraries/testLibraryName.jar\",\"name\":\"testLibraryName.jar\",\"type\":\"Microsoft.Synapse/workspaces/libraries\",\"properties\":{\"name\":\"testLibraryName.jar\",\"path\":\"xysynapsetest/libraries/testLibraryName.jar\",\"containerName\":\"prep\",\"uploadedTimestamp\":\"2021-06-11T18:41:38.3151754+00:00\",\"type\":\"jar\",\"provisioningStatus\":\"Incomplete\",\"creatorId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\"},\"etag\":\"4f007eea-0000-0800-0000-60c3ae650000\"}",
    "responseHeaders": {
     "content-length": "564",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 05 Apr 2021 22:16:54 GMT",
+    "date": "Fri, 11 Jun 2021 18:41:46 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "397c699b-0004-4d55-a887-4b930f7f5a7a"
+    "x-ms-request-id": "6c0efa08-c8a0-4ec4-8244-8553658a23fd"
    }
   }
  ],
@@ -46,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6e145c7219e1399d561c1f17054bdb7e"
+ "hash": "df6f8ed12a51828a757a2a9d3e75ab90"
 }

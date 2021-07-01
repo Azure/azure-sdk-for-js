@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClient } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-export class GeneratedClientContext extends ServiceClient {
+/** @internal */
+export class GeneratedClientContext extends coreClient.ServiceClient {
   url: string;
   version: string;
 
@@ -18,23 +19,25 @@ export class GeneratedClientContext extends ServiceClient {
    * @param url The URL of the service account or table that is the target of the desired operation.
    * @param options The parameter options
    */
-  constructor(url: string, options: GeneratedClientOptionalParams = {}) {
-    if (!url) {
-      throw new Error("'url' cannot be null or empty");
+  constructor(url: string, options?: GeneratedClientOptionalParams) {
+    if (url === undefined) {
+      throw new Error("'url' cannot be null");
     }
 
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
     const defaults: GeneratedClientOptionalParams = {
-      baseUri: "{url}",
       requestContentType: "application/json; charset=utf-8"
     };
 
     const optionsWithDefaults = {
       ...defaults,
-      ...options
+      ...options,
+      baseUri: options.endpoint || "{url}"
     };
-
     super(optionsWithDefaults);
-
     // Parameter assignments
     this.url = url;
 

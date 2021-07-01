@@ -7,12 +7,12 @@ import {
   ChallengeCallbacks,
   AuthorizeRequestOptions
 } from "@azure/core-rest-pipeline";
-import { parseWWWAuthenticate } from "./wwwAuthenticateParser";
+import { parseWWWAuthenticate } from "./utils/wwwAuthenticateParser";
 import {
   ContainerRegistryGetTokenOptions,
   ContainerRegistryRefreshTokenCredential
 } from "./containerRegistryTokenCredential";
-import { AccessTokenRefresher, createTokenCycler } from "./tokenCycler";
+import { AccessTokenRefresher, createTokenCycler } from "./utils/tokenCycler";
 
 const fiveMinutesInMs = 5 * 60 * 1000;
 
@@ -45,7 +45,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
     });
   }
 
-  authenticateRequest(_options: AuthorizeRequestOptions): Promise<void> {
+  authorizeRequest(_options: AuthorizeRequestOptions): Promise<void> {
     return Promise.resolve();
   }
 

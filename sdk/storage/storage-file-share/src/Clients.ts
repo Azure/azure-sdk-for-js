@@ -3579,14 +3579,17 @@ export class ShareFileClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (
-            await this.context.download({
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.leaseAccessConditions,
-              ...updatedOptions,
-              ...convertTracingToRequestOptionsBase(updatedOptions)
-            })
-          ).readableStreamBody!;
+          const downloadRes = await this.context.download({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.leaseAccessConditions,
+            ...updatedOptions,
+            ...convertTracingToRequestOptionsBase(updatedOptions)
+          });
+
+          if (!(downloadRes.etag === res.etag)) {
+            throw new Error("File has been modified concurrently");
+          }
+          return downloadRes.readableStreamBody!;
         },
         offset,
         res.contentLength!,

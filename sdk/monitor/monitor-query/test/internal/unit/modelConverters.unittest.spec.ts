@@ -22,12 +22,12 @@ import {
 import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
-  CommonDurations,
-  GetMetricDefinitionsResponse,
-  GetMetricNamespacesResponse,
+  Durations,
+  GetMetricDefinitionsResult,
+  GetMetricNamespacesResult,
   GetMetricDefinitionsOptions,
   QueryMetricsOptions,
-  QueryMetricsResponse
+  QueryMetricsResult
 } from "../../../src";
 
 describe("Model unit tests", () => {
@@ -37,7 +37,8 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "the kusto query",
-            workspace: "the primary workspace id"
+            workspace: "the primary workspace id",
+            timespan: Durations.last24Hours
           }
         ]
       });
@@ -49,7 +50,8 @@ describe("Model unit tests", () => {
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
-              query: "the kusto query"
+              query: "the kusto query",
+              timespan: Durations.last24Hours
             }
           }
         ]
@@ -61,7 +63,8 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "<placeholder>",
-            workspace: "<placeholder>"
+            workspace: "<placeholder>",
+            timespan: Durations.last24Hours
           },
           {
             azureResourceIds: ["resourceId1"],
@@ -69,7 +72,7 @@ describe("Model unit tests", () => {
             qualifiedNames: ["qualifiedName"],
             query: "the kusto query",
             serverTimeoutInSeconds: 100,
-            timespan: CommonDurations.last5Minutes,
+            timespan: Durations.last5Minutes,
             workspace: "the primary workspace id",
             workspaceIds: ["additionalWorkspaceId"],
             workspaces: ["additionalWorkspace"]
@@ -87,7 +90,7 @@ describe("Model unit tests", () => {
           azureResourceIds: ["resourceId1"],
           qualifiedNames: ["qualifiedName"],
           query: "the kusto query",
-          timespan: CommonDurations.last5Minutes,
+          timespan: Durations.last5Minutes,
           workspaceIds: ["additionalWorkspaceId"],
           workspaces: ["additionalWorkspace"]
         }
@@ -114,12 +117,12 @@ describe("Model unit tests", () => {
         orderBy: "orderByClause",
         requestOptions,
         resultType: "Data",
-        timespan: "arbitraryTimespan",
         top: 10,
         tracingOptions
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
+        "arbitraryTimespan",
         track2Model
       );
 
@@ -140,11 +143,17 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics(undefined), {});
-      assert.deepEqual(convertRequestForMetrics({}), {});
+      assert.deepEqual(convertRequestForMetrics(Durations.lastDay, undefined), {
+        timespan: Durations.lastDay
+      });
+      assert.deepEqual(convertRequestForMetrics(Durations.last2Days, {}), {
+        timespan: Durations.last2Days
+      });
     });
 
     it("convertResponseForMetrics (all fields)", () => {
+      const now = new Date();
+
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
         timespan: "aTimespan",
@@ -158,13 +167,24 @@ describe("Model unit tests", () => {
             },
             timeseries: [
               {
-                data: [],
+                data: [
+                  {
+                    timeStamp: now,
+                    count: 100
+                  }
+                ],
                 // this value is renamed in track 2
                 metadatavalues: [
                   {
                     name: {
                       value: "metadataName"
                     }
+                  },
+                  {
+                    name: {
+                      value: "metadataName2"
+                    },
+                    value: "value2"
                   }
                 ]
               }
@@ -182,25 +202,31 @@ describe("Model unit tests", () => {
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
-      const expectedResponse: QueryMetricsResponse = {
+      const expectedResponse: QueryMetricsResult = {
         timespan: "aTimespan",
         metrics: [
           {
             id: "fakeMetric",
             displayDescription: "displayDescription",
             errorCode: "anErrorCode",
-            name: {
-              value: "fakeValue"
-            },
+            name: "fakeValue",
             timeseries: [
               {
-                data: [],
+                data: [
+                  {
+                    timeStamp: now,
+                    count: 100
+                  }
+                ],
                 // this value is renamed in track 2
                 metadataValues: [
                   {
-                    name: {
-                      value: "metadataName"
-                    }
+                    name: "metadataName"
+                    // note we don't unnecesssarily add properties that weren't in the input
+                  },
+                  {
+                    name: "metadataName2",
+                    value: "value2"
                   }
                 ]
               }
@@ -251,12 +277,55 @@ describe("Model unit tests", () => {
     it("convertResponseForMetricsDefinitions", () => {
       const actualResponse = convertResponseForMetricsDefinitions({
         _response: {} as any,
-        value: [{ id: "anything" } as any]
+        value: [
+          {
+            dimensions: [
+              {
+                value: "the value",
+                localizedValue: "optional localized value but it's ignored"
+              }
+            ],
+            name: {
+              value: "the name"
+            },
+            id: "anything"
+          }
+        ]
       });
 
       assert.deepEqual(
-        <GetMetricDefinitionsResponse>{
-          definitions: [{ id: "anything" } as any]
+        <GetMetricDefinitionsResult>{
+          definitions: [
+            {
+              id: "anything",
+              name: "the name",
+              dimensions: ["the value"]
+            }
+          ]
+        },
+        actualResponse
+      );
+    });
+
+    it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
+      const actualResponse = convertResponseForMetricsDefinitions({
+        _response: {} as any,
+        value: [
+          {
+            id: "anything"
+          }
+        ]
+      });
+
+      assert.deepEqual(
+        <GetMetricDefinitionsResult>{
+          definitions: [
+            // we don't add fields if they weren't in the original response (for instance, we don't add in an
+            // undefined 'name', or 'dimensions')
+            {
+              id: "anything"
+            }
+          ]
         },
         actualResponse
       );
@@ -268,7 +337,7 @@ describe("Model unit tests", () => {
         value: [{ id: "anything" } as any]
       });
 
-      assert.deepEqual(actualResponse, <GetMetricNamespacesResponse>{
+      assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
         namespaces: [{ id: "anything" } as any]
       });
     });

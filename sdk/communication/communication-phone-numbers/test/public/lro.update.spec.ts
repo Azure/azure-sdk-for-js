@@ -46,7 +46,7 @@ matrix([[true, false]], async function(useAad) {
       await updatePoller.pollUntilDone();
       assert.ok(updatePoller.getOperationState().isCompleted);
       // assert.deepEqual(phoneNumber.capabilities, update);
-    }).timeout(90000);
+    }).timeout(120000);
 
     it("update throws when phone number isn't owned", async function() {
       const fakeNumber = "+14155550100";

@@ -6,7 +6,8 @@ import sinon from "sinon";
 import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
 import { WebResource } from "../../src/webResource";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
-import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { AbortController } from "@azure/abort-controller";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
@@ -111,6 +112,41 @@ describe("ThrottlingRetryPolicy", () => {
       delete (request as any).requestId;
       delete (response.request as any).requestId;
       assert.deepEqual(response, mockResponse);
+    });
+
+    it("should honor the abort signal passed", async () => {
+      const request = new WebResource(
+        "https://fakeservice.io",
+        "GET",
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        AbortController.timeout(100)
+      );
+      const mockResponse = {
+        headers: new HttpHeaders({
+          "Retry-After": "10000"
+        }),
+        status: Constants.HttpConstants.StatusCodes.TooManyRequests,
+        body: {
+          type: "https://fakeservice.io/errors/too-many-requests",
+          title: "Resource utilization has surpassed the assigned quota",
+          policy: "Total Requests",
+          status: Constants.HttpConstants.StatusCodes.TooManyRequests
+        },
+        request: request
+      };
+      const policy = createDefaultThrottlingRetryPolicy(mockResponse);
+      let errorWasThrown = false;
+      try {
+        await policy.sendRequest(request);
+      } catch (error) {
+        errorWasThrown = true;
+        assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
+      }
+      assert.equal(errorWasThrown, true, "Error was not thrown");
     });
   });
 

@@ -5,41 +5,41 @@ module.exports.hash = "b2209a17485822432cf80b656050872d";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/dataFeeds/ba83086a-880b-4e8b-a5a4-0ba260e74ecd')
+  .delete('/metricsadvisor/v1.0/dataFeeds/b88af029-dd7d-497a-87be-9ceacb9b9895')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'f823808f-58e4-47a0-bfbf-7fde8dffda45',
+  'b98aab30-e9e1-4855-8b79-24e7c409ec2b',
   'x-envoy-upstream-service-time',
-  '401',
+  '412',
   'apim-request-id',
-  'f823808f-58e4-47a0-bfbf-7fde8dffda45',
+  'b98aab30-e9e1-4855-8b79-24e7c409ec2b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:29 GMT'
+  'Thu, 03 Jun 2021 00:10:58 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/ba83086a-880b-4e8b-a5a4-0ba260e74ecd')
-  .reply(404, {"code":"ERROR_INVALID_PARAMETER","message":"datafeedId is invalid."}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/b88af029-dd7d-497a-87be-9ceacb9b9895')
+  .reply(404, {"code":"404 NOT_FOUND","message":"datafeedId is invalid."}, [
   'Content-Length',
-  '69',
+  '59',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '041036bd-d9fa-48f9-80af-50be636aa042',
+  'fac3e72b-dc94-4eb6-88cb-ecbac6d00043',
   'x-envoy-upstream-service-time',
-  '67',
+  '75',
   'apim-request-id',
-  '041036bd-d9fa-48f9-80af-50be636aa042',
+  'fac3e72b-dc94-4eb6-88cb-ecbac6d00043',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:30 GMT'
+  'Thu, 03 Jun 2021 00:10:58 GMT'
 ]);

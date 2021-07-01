@@ -274,6 +274,12 @@ export interface UpdateChatThreadRequest {
   topic?: string;
 }
 
+/** Request payload for typing notifications. */
+export interface SendTypingNotificationRequest {
+  /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+}
+
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export const enum KnownCommunicationCloudEnvironmentModel {
   Public = "public",
@@ -291,28 +297,13 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
-
-/** Known values of {@link ChatMessageType} that the service accepts. */
-export const enum KnownChatMessageType {
-  Text = "text",
-  Html = "html",
-  TopicUpdated = "topicUpdated",
-  ParticipantAdded = "participantAdded",
-  ParticipantRemoved = "participantRemoved"
-}
-
-/**
- * Defines values for ChatMessageType. \
- * {@link KnownChatMessageType} can be used interchangeably with ChatMessageType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **text** \
- * **html** \
- * **topicUpdated** \
- * **participantAdded** \
- * **participantRemoved**
- */
-export type ChatMessageType = string;
+/** Defines values for ChatMessageType. */
+export type ChatMessageType =
+  | "text"
+  | "html"
+  | "topicUpdated"
+  | "participantAdded"
+  | "participantRemoved";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams
@@ -424,6 +415,13 @@ export type ChatThreadGetChatThreadPropertiesResponse = ChatThreadProperties & {
     parsedBody: ChatThreadProperties;
   };
 };
+
+/** Optional parameters. */
+export interface ChatThreadSendTypingNotificationOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Details of the typing notification request. */
+  sendTypingNotificationRequest?: SendTypingNotificationRequest;
+}
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams

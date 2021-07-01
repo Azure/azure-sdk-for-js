@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+
 import { assert, use as chaiUse } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
-
-import { X509 } from "jsrsasign";
+import { Recorder } from "@azure/test-utils-recorder";
 
 import {
   createRecordedAdminClient,
-  createRecordedClient,
   createRecorder,
   EndpointType,
   getIsolatedSigningKey
@@ -24,7 +25,6 @@ import {
   StoredAttestationPolicy,
   AttestationType
 } from "../../src";
-import { verifyAttestationToken } from "../utils/helpers";
 import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { KnownPolicyModification } from "../../src/generated";
 import { encodeByteArray } from "../utils/base64url";
@@ -61,8 +61,8 @@ describe("PolicyGetSetTests ", function() {
       undefined,
       "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     );
-    const rsaKey = createRSAKey();
-    const rsaCertificate = createX509Certificate(rsaKey, "CertificateName");
+    const [rsaKey, rsapubKey] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
     const signingKey = new AttestationSigningKey(rsaKey, rsaCertificate);
     await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
@@ -85,8 +85,8 @@ describe("PolicyGetSetTests ", function() {
       undefined,
       "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     );
-    const rsaKey = createRSAKey();
-    const rsaCertificate = createX509Certificate(rsaKey, "CertificateName");
+    const [rsaKey, rsaPubKey] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
     const signingKey = new AttestationSigningKey(rsaKey, rsaCertificate);
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
@@ -106,15 +106,7 @@ describe("PolicyGetSetTests ", function() {
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(clientLocation);
     const policyResult = await adminClient.getPolicy(attestationType);
-    const result = policyResult.token;
     assert.isTrue(policyResult.value.startsWith("version="));
-
-    assert(policyResult.token, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      const client = createRecordedClient(clientLocation);
-      const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(policyResult.token.serialize(), signers, clientLocation);
-    }
   }
 
   async function testSetPolicy(
@@ -154,10 +146,10 @@ describe("PolicyGetSetTests ", function() {
         pemCert += encodeByteArray(policyResult.value.policySigner.certificates[0]);
         pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-        const expectedCert = new X509();
+        const expectedCert = new jsrsasign.X509();
         expectedCert.readCertPEM(signer.certificate);
 
-        const actualCert = new X509();
+        const actualCert = new jsrsasign.X509();
         actualCert.readCertPEM(pemCert);
 
         // The signer in the response should match the signer we set in the request.
