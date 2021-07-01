@@ -548,8 +548,8 @@ export function toServiceDataFeedSource(
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
-            tenantId: source.tenantId!,
-            clientId: source.clientId!,
+            tenantId: source.tenantId,
+            clientId: source.clientId,
             clientSecret: source.clientSecret!,
             workspaceId: source.workspaceId,
             query: source.query
@@ -560,9 +560,6 @@ export function toServiceDataFeedSource(
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
-            tenantId: source.tenantId!,
-            clientId: source.clientId!,
-            clientSecret: source.clientSecret!,
             workspaceId: source.workspaceId,
             query: source.query
           },
@@ -827,9 +824,6 @@ export function toServiceDataFeedSourcePatch(
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
-            tenantId: source.tenantId,
-            clientId: source.clientId,
-            clientSecret: source.clientSecret,
             workspaceId: source.workspaceId,
             query: source.query!
           },
@@ -1183,9 +1177,9 @@ export function fromServiceDataFeedDetailUnion(
         ...common,
         source: {
           dataSourceType: "AzureLogAnalytics",
-          clientId: orig14.dataSourceParameter.clientId,
+          clientId: orig14.dataSourceParameter.clientId!,
           clientSecret: orig14.dataSourceParameter.clientSecret,
-          tenantId: orig14.dataSourceParameter.tenantId,
+          tenantId: orig14.dataSourceParameter.tenantId!,
           query: orig14.dataSourceParameter.query,
           workspaceId: orig14.dataSourceParameter.workspaceId,
           authenticationType: "Basic"

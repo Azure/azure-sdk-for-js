@@ -21,6 +21,11 @@ export interface QueryLogsOptions extends OperationOptions {
    * Results will also include statistics about the query.
    */
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+
+  /**
+   * Results will also include visualization information, in JSON format.
+   */
+  includeVisualization?: boolean;
 }
 
 /**
@@ -42,6 +47,8 @@ export interface QueryLogsResult {
   tables: LogsTable[];
   /** Statistics represented in JSON format. */
   statistics?: any;
+  /** Visualization data in JSON format. */
+  visualization?: any;
 }
 
 /** Options when query logs with a batch. */

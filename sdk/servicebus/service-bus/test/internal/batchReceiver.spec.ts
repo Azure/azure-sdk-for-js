@@ -1388,23 +1388,12 @@ function causeDisconnectDuringDrain(
     throw new Error("No active link for batching receiver");
   }
 
-  const origAddCredit = link.addCredit;
-
-  // We want to simulate a disconnect once the batching receiver is draining.
-  // We can detect when the receiver enters a draining state when `addCredit` is
-  // called while didRequestDrainResolver is called to resolve the promise.
-  const addCreditThatImmediatelyDetaches = function(credits: number): void {
-    origAddCredit.call(link, credits);
-
-    if (link.drain && credits === 1) {
-      // initiate the detach now (prior to any possibilty of the 'drain' call being scheduled)
-      batchingReceiver
-        .onDetached(new Error("Test: fake connection failure"))
-        .then(() => resolveOnDetachedCallPromise());
-    }
+  link["drainCredit"] = () => {
+    // don't send the drain request, we'll just detach.
+    batchingReceiver
+      .onDetached(new Error("Test: fake connection failure"))
+      .then(() => resolveOnDetachedCallPromise());
   };
-
-  link["addCredit"] = addCreditThatImmediatelyDetaches;
 
   return {
     onDetachedCalledPromise
