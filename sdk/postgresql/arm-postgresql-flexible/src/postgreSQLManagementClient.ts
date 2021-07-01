@@ -12,24 +12,23 @@ import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { PostgreSQLFlexibleManagementClientContext } from "./postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "./postgreSQLManagementClientContext";
 
 
-class PostgreSQLFlexibleManagementClient extends PostgreSQLFlexibleManagementClientContext {
+class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
   // Operation groups
-  databases: operations.Databases;
-  getPrivateDnsZoneSuffix: operations.GetPrivateDnsZoneSuffix;
   servers: operations.Servers;
   firewallRules: operations.FirewallRules;
   configurations: operations.Configurations;
   checkNameAvailability: operations.CheckNameAvailability;
   locationBasedCapabilities: operations.LocationBasedCapabilities;
   virtualNetworkSubnetUsage: operations.VirtualNetworkSubnetUsage;
-  recoverableServers: operations.RecoverableServers;
   operations: operations.Operations;
+  databases: operations.Databases;
+  getPrivateDnsZoneSuffix: operations.GetPrivateDnsZoneSuffix;
 
   /**
-   * Initializes a new instance of the PostgreSQLFlexibleManagementClient class.
+   * Initializes a new instance of the PostgreSQLManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure. Credentials
    * implementing the TokenCredential interface from the @azure/identity package are recommended. For
    * more information about these credentials, see
@@ -39,27 +38,26 @@ class PostgreSQLFlexibleManagementClient extends PostgreSQLFlexibleManagementCli
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.PostgreSQLFlexibleManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.PostgreSQLManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.databases = new operations.Databases(this);
-    this.getPrivateDnsZoneSuffix = new operations.GetPrivateDnsZoneSuffix(this);
     this.servers = new operations.Servers(this);
     this.firewallRules = new operations.FirewallRules(this);
     this.configurations = new operations.Configurations(this);
     this.checkNameAvailability = new operations.CheckNameAvailability(this);
     this.locationBasedCapabilities = new operations.LocationBasedCapabilities(this);
     this.virtualNetworkSubnetUsage = new operations.VirtualNetworkSubnetUsage(this);
-    this.recoverableServers = new operations.RecoverableServers(this);
     this.operations = new operations.Operations(this);
+    this.databases = new operations.Databases(this);
+    this.getPrivateDnsZoneSuffix = new operations.GetPrivateDnsZoneSuffix(this);
   }
 }
 
 // Operation Specifications
 
 export {
-  PostgreSQLFlexibleManagementClient,
-  PostgreSQLFlexibleManagementClientContext,
-  Models as PostgreSQLFlexibleManagementModels,
-  Mappers as PostgreSQLFlexibleManagementMappers
+  PostgreSQLManagementClient,
+  PostgreSQLManagementClientContext,
+  Models as PostgreSQLManagementModels,
+  Mappers as PostgreSQLManagementMappers
 };
 export * from "./operations";

@@ -12,173 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * Represents a Database.
- */
-export interface Database extends ProxyResource {
-  /**
-   * The charset of the database.
-   */
-  charset?: string;
-  /**
-   * The collation of the database.
-   */
-  collation?: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.)
- * @summary Error Response
- */
-export interface ErrorResponse {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorResponse[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * Sku information related properties of a server.
- */
-export interface Sku {
-  /**
-   * The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
-   */
-  name: string;
-  /**
-   * The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable',
-   * 'GeneralPurpose', 'MemoryOptimized'
-   */
-  tier: SkuTier;
-}
-
-/**
- * Represents a recoverable server resource.
- */
-export interface RecoverableServerResource extends ProxyResource {
-  /**
-   * The SKU (pricing tier) of the server.
-   */
-  sku?: Sku;
-  /**
-   * The location the resource resides in.
-   */
-  location?: string;
-  /**
-   * Availability zone of the server
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly availabilityZone?: string;
-  /**
-   * Edition of the performance tier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serverEdition?: string;
-  /**
-   * The PostgreSQL version
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly version?: string;
-}
-
-/**
  * Virtual network subnet usage parameter
  */
 export interface VirtualNetworkSubnetUsageParameter {
@@ -337,10 +170,6 @@ export interface StorageProfile {
    * Max storage allowed for a server.
    */
   storageMB?: number;
-  /**
-   * Geo Backup redundancy option. Possible values include: 'Enabled', 'Disabled'
-   */
-  geoRedundantBackup?: GeoRedundantBackupOption;
 }
 
 /**
@@ -403,6 +232,61 @@ export interface Identity {
    * The identity type. Possible values include: 'SystemAssigned'
    */
   type?: ResourceIdentityType;
+}
+
+/**
+ * Sku information related properties of a server.
+ */
+export interface Sku {
+  /**
+   * The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
+   */
+  name: string;
+  /**
+   * The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable',
+   * 'GeneralPurpose', 'MemoryOptimized'
+   */
+  tier: SkuTier;
+}
+
+/**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
 }
 
 /**
@@ -474,11 +358,11 @@ export interface Server extends TrackedResource {
    */
   sourceServerName?: string;
   /**
-   * The subscription id of source PostgreSQL server name to restore from.
+   * The subscription id of source serve PostgreSQL server name to restore from.
    */
   sourceSubscriptionId?: string;
   /**
-   * The resource group name of source PostgreSQL server name to restore from.
+   * The resource group name of source serve PostgreSQL server name to restore from.
    */
   sourceResourceGroupName?: string;
   /**
@@ -503,7 +387,7 @@ export interface Server extends TrackedResource {
   privateDnsZoneArguments?: ServerPropertiesPrivateDnsZoneArguments;
   /**
    * The mode to create a new PostgreSQL server. Possible values include: 'Default',
-   * 'PointInTimeRestore', 'GeoRestore'
+   * 'PointInTimeRestore'
    */
   createMode?: CreateMode;
   /**
@@ -545,6 +429,14 @@ export interface ServerForUpdate {
    * Application-specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
 }
 
 /**
@@ -705,6 +597,67 @@ export interface NameAvailability {
 }
 
 /**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.)
+ * @summary Error Response
+ */
+export interface ErrorResponse {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * An interface representing ResourceModelWithAllowedPropertySetIdentity.
  */
 export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
@@ -808,22 +761,24 @@ export interface ResourceModelWithAllowedPropertySet extends BaseResource {
 }
 
 /**
- * An interface representing PostgreSQLFlexibleManagementClientOptions.
+ * Represents a Database.
  */
-export interface PostgreSQLFlexibleManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+export interface Database extends ProxyResource {
+  /**
+   * The charset of the database.
+   */
+  charset?: string;
+  /**
+   * The collation of the database.
+   */
+  collation?: string;
 }
 
 /**
- * @interface
- * A List of databases.
- * @extends Array<Database>
+ * An interface representing PostgreSQLManagementClientOptions.
  */
-export interface DatabaseListResult extends Array<Database> {
-  /**
-   * The link used to get the next page of databases.
-   */
-  nextLink?: string;
+export interface PostgreSQLManagementClientOptions extends AzureServiceClientOptions {
+  baseUri?: string;
 }
 
 /**
@@ -876,12 +831,16 @@ export interface CapabilitiesListResult extends Array<CapabilityProperties> {
 }
 
 /**
- * Defines values for SkuTier.
- * Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
- * @readonly
- * @enum {string}
+ * @interface
+ * A List of databases.
+ * @extends Array<Database>
  */
-export type SkuTier = 'Burstable' | 'GeneralPurpose' | 'MemoryOptimized';
+export interface DatabaseListResult extends Array<Database> {
+  /**
+   * The link used to get the next page of databases.
+   */
+  nextLink?: string;
+}
 
 /**
  * Defines values for ServerVersion.
@@ -910,14 +869,6 @@ export type ServerState = 'Ready' | 'Dropping' | 'Disabled' | 'Starting' | 'Stop
 export type ServerHAState = 'NotEnabled' | 'CreatingStandby' | 'ReplicatingData' | 'FailingOver' | 'Healthy' | 'RemovingStandby';
 
 /**
- * Defines values for GeoRedundantBackupOption.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type GeoRedundantBackupOption = 'Enabled' | 'Disabled';
-
-/**
  * Defines values for ServerPublicNetworkAccessState.
  * Possible values include: 'Enabled', 'Disabled'
  * @readonly
@@ -935,11 +886,11 @@ export type HAEnabledEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for CreateMode.
- * Possible values include: 'Default', 'PointInTimeRestore', 'GeoRestore'
+ * Possible values include: 'Default', 'PointInTimeRestore'
  * @readonly
  * @enum {string}
  */
-export type CreateMode = 'Default' | 'PointInTimeRestore' | 'GeoRestore';
+export type CreateMode = 'Default' | 'PointInTimeRestore';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -948,6 +899,14 @@ export type CreateMode = 'Default' | 'PointInTimeRestore' | 'GeoRestore';
  * @enum {string}
  */
 export type ResourceIdentityType = 'SystemAssigned';
+
+/**
+ * Defines values for SkuTier.
+ * Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuTier = 'Burstable' | 'GeneralPurpose' | 'MemoryOptimized';
 
 /**
  * Defines values for ConfigurationDataType.
@@ -972,131 +931,6 @@ export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
  * @enum {string}
  */
 export type Body = 'PostgreSQL' | 'PostgreSQLCitus' | 'MySQL' | 'MariaDb' | 'Oracle';
-
-/**
- * Contains response data for the create operation.
- */
-export type DatabasesCreateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DatabasesGetResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type DatabasesListByServerResponse = DatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type DatabasesBeginCreateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type DatabasesListByServerNextResponse = DatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the execute operation.
- */
-export type GetPrivateDnsZoneSuffixExecuteResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: string;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
-};
 
 /**
  * Contains response data for the create operation.
@@ -1559,26 +1393,6 @@ export type VirtualNetworkSubnetUsageExecuteResponse = VirtualNetworkSubnetUsage
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type RecoverableServersGetResponse = RecoverableServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoverableServerResource;
-    };
-};
-
-/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationListResult & {
@@ -1595,5 +1409,130 @@ export type OperationsListResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type DatabasesCreateResponse = Database & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Database;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DatabasesGetResponse = Database & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Database;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type DatabasesListByServerResponse = DatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type DatabasesBeginCreateResponse = Database & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Database;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type DatabasesListByServerNextResponse = DatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the execute operation.
+ */
+export type GetPrivateDnsZoneSuffixExecuteResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
     };
 };
