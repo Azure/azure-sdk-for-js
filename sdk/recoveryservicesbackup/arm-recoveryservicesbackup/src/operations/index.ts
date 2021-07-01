@@ -7,6 +7,12 @@
  * regenerated.
  */
 
+export * from "./protectionIntentOperations";
+export * from "./backupStatus";
+export * from "./featureSupport";
+export * from "./backupProtectionIntent";
+export * from "./backupUsageSummaries";
+export * from "./operations";
 export * from "./backupResourceVaultConfigs";
 export * from "./backupResourceEncryptionConfigs";
 export * from "./privateEndpointConnectionOperations";
@@ -53,9 +59,3 @@ export * from "./crrOperationStatus";
 export * from "./backupResourceStorageConfigs";
 export * from "./recoveryPointsCrr";
 export * from "./backupProtectedItemsCrr";
-export * from "./protectionIntentOperations";
-export * from "./backupStatus";
-export * from "./featureSupport";
-export * from "./backupProtectionIntent";
-export * from "./backupUsageSummaries";
-export * from "./operations";

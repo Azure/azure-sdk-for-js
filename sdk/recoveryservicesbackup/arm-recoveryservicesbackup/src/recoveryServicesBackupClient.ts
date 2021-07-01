@@ -16,8 +16,15 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { RecoveryServicesBackupClientContext } from "./recoveryServicesBackupClientContext";
 
+
 class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   // Operation groups
+  protectionIntent: operations.ProtectionIntentOperations;
+  backupStatus: operations.BackupStatus;
+  featureSupport: operations.FeatureSupport;
+  backupProtectionIntent: operations.BackupProtectionIntent;
+  backupUsageSummaries: operations.BackupUsageSummaries;
+  operations: operations.Operations;
   backupResourceVaultConfigs: operations.BackupResourceVaultConfigs;
   backupResourceEncryptionConfigs: operations.BackupResourceEncryptionConfigs;
   privateEndpointConnection: operations.PrivateEndpointConnectionOperations;
@@ -64,12 +71,6 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   backupResourceStorageConfigs: operations.BackupResourceStorageConfigs;
   recoveryPointsCrr: operations.RecoveryPointsCrr;
   backupProtectedItemsCrr: operations.BackupProtectedItemsCrr;
-  protectionIntent: operations.ProtectionIntentOperations;
-  backupStatus: operations.BackupStatus;
-  featureSupport: operations.FeatureSupport;
-  backupProtectionIntent: operations.BackupProtectionIntent;
-  backupUsageSummaries: operations.BackupUsageSummaries;
-  operations: operations.Operations;
 
   /**
    * Initializes a new instance of the RecoveryServicesBackupClient class.
@@ -82,12 +83,14 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param subscriptionId The subscription Id.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.RecoveryServicesBackupClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.RecoveryServicesBackupClientOptions) {
     super(credentials, subscriptionId, options);
+    this.protectionIntent = new operations.ProtectionIntentOperations(this);
+    this.backupStatus = new operations.BackupStatus(this);
+    this.featureSupport = new operations.FeatureSupport(this);
+    this.backupProtectionIntent = new operations.BackupProtectionIntent(this);
+    this.backupUsageSummaries = new operations.BackupUsageSummaries(this);
+    this.operations = new operations.Operations(this);
     this.backupResourceVaultConfigs = new operations.BackupResourceVaultConfigs(this);
     this.backupResourceEncryptionConfigs = new operations.BackupResourceEncryptionConfigs(this);
     this.privateEndpointConnection = new operations.PrivateEndpointConnectionOperations(this);
@@ -109,15 +112,11 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
     this.backupProtectedItems = new operations.BackupProtectedItems(this);
     this.operation = new operations.Operation(this);
     this.backupEngines = new operations.BackupEngines(this);
-    this.protectionContainerRefreshOperationResults = new operations.ProtectionContainerRefreshOperationResults(
-      this
-    );
+    this.protectionContainerRefreshOperationResults = new operations.ProtectionContainerRefreshOperationResults(this);
     this.protectableContainers = new operations.ProtectableContainers(this);
     this.protectionContainers = new operations.ProtectionContainers(this);
     this.backupWorkloadItems = new operations.BackupWorkloadItems(this);
-    this.protectionContainerOperationResults = new operations.ProtectionContainerOperationResults(
-      this
-    );
+    this.protectionContainerOperationResults = new operations.ProtectionContainerOperationResults(this);
     this.backups = new operations.Backups(this);
     this.protectedItemOperationStatuses = new operations.ProtectedItemOperationStatuses(this);
     this.itemLevelRecoveryConnections = new operations.ItemLevelRecoveryConnections(this);
@@ -138,12 +137,6 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
     this.backupResourceStorageConfigs = new operations.BackupResourceStorageConfigs(this);
     this.recoveryPointsCrr = new operations.RecoveryPointsCrr(this);
     this.backupProtectedItemsCrr = new operations.BackupProtectedItemsCrr(this);
-    this.protectionIntent = new operations.ProtectionIntentOperations(this);
-    this.backupStatus = new operations.BackupStatus(this);
-    this.featureSupport = new operations.FeatureSupport(this);
-    this.backupProtectionIntent = new operations.BackupProtectionIntent(this);
-    this.backupUsageSummaries = new operations.BackupUsageSummaries(this);
-    this.operations = new operations.Operations(this);
   }
 
   /**
@@ -155,12 +148,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetOperationStatusResponse>
    */
-  getOperationStatus(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.GetOperationStatusResponse>;
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetOperationStatusResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -168,12 +156,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param operationId
    * @param callback The callback
    */
-  getOperationStatus(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -182,20 +165,8 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOperationStatus(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
-  getOperationStatus(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
-    callback?: msRest.ServiceCallback<Models.OperationStatus>
-  ): Promise<Models.GetOperationStatusResponse> {
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.GetOperationStatusResponse> {
     return this.sendOperationRequest(
       {
         vaultName,
@@ -204,8 +175,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
         options
       },
       getOperationStatusOperationSpec,
-      callback
-    ) as Promise<Models.GetOperationStatusResponse>;
+      callback) as Promise<Models.GetOperationStatusResponse>;
   }
 
   /**
@@ -217,18 +187,9 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  bMSPrepareDataMove(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.PrepareDataMoveRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginBMSPrepareDataMove(
-      vaultName,
-      resourceGroupName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  bMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: Models.PrepareDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginBMSPrepareDataMove(vaultName,resourceGroupName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -240,18 +201,9 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  bMSTriggerDataMove(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.TriggerDataMoveRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginBMSTriggerDataMove(
-      vaultName,
-      resourceGroupName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  bMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: Models.TriggerDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginBMSTriggerDataMove(vaultName,resourceGroupName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -267,26 +219,9 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  moveRecoveryPoint(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    protectedItemName: string,
-    recoveryPointId: string,
-    parameters: Models.MoveRPAcrossTiersRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginMoveRecoveryPoint(
-      vaultName,
-      resourceGroupName,
-      fabricName,
-      containerName,
-      protectedItemName,
-      recoveryPointId,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  moveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: Models.MoveRPAcrossTiersRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginMoveRecoveryPoint(vaultName,resourceGroupName,fabricName,containerName,protectedItemName,recoveryPointId,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -298,12 +233,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginBMSPrepareDataMove(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.PrepareDataMoveRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginBMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: Models.PrepareDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         vaultName,
@@ -312,8 +242,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
         options
       },
       beginBMSPrepareDataMoveOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -325,12 +254,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginBMSTriggerDataMove(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.TriggerDataMoveRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginBMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: Models.TriggerDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         vaultName,
@@ -339,8 +263,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
         options
       },
       beginBMSTriggerDataMoveOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -356,16 +279,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMoveRecoveryPoint(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    protectedItemName: string,
-    recoveryPointId: string,
-    parameters: Models.MoveRPAcrossTiersRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: Models.MoveRPAcrossTiersRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         vaultName,
@@ -378,8 +292,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
         options
       },
       beginMoveRecoveryPointOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -387,16 +300,19 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -410,11 +326,18 @@ const getOperationStatusOperationSpec: msRest.OperationSpec = {
 
 const beginBMSPrepareDataMoveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
-  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -434,11 +357,18 @@ const beginBMSPrepareDataMoveOperationSpec: msRest.OperationSpec = {
 
 const beginBMSTriggerDataMoveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
-  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -458,8 +388,7 @@ const beginBMSTriggerDataMoveOperationSpec: msRest.OperationSpec = {
 
 const beginMoveRecoveryPointOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/move",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/move",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -469,8 +398,12 @@ const beginMoveRecoveryPointOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName,
     Parameters.recoveryPointId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

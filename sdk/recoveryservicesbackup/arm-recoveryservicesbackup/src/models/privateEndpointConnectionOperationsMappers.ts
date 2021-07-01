@@ -103,6 +103,8 @@ export {
   BackupResourceConfig,
   BackupResourceConfigResource,
   BackupResourceEncryptionConfig,
+  BackupResourceEncryptionConfigExtended,
+  BackupResourceEncryptionConfigExtendedResource,
   BackupResourceEncryptionConfigResource,
   BackupResourceVaultConfig,
   BackupResourceVaultConfigResource,
