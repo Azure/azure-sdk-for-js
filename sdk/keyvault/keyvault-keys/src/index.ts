@@ -707,9 +707,7 @@ export class KeyClient {
         nonce,
         ...rest
       });
-      console.log(result);
 
-      // TODO: is value always present?
       return {
         algorithm,
         value: result.value!
