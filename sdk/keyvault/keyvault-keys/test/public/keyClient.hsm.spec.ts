@@ -106,11 +106,15 @@ onVersions({ minVer: "7.2" }).describe(
         assert.isNotEmpty(
           JSON.parse(uint8ArrayToString(importedKey.properties.releasePolicy?.data!))
         );
-        const releaseResult = await hsmClient.releaseKey(keyName, importedKey.properties.version!, {
-          target: attestation,
-          nonce: "nonce",
-          algorithm: KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256 // TODO: naming?
-        });
+        const releaseResult = await hsmClient.releaseKey(
+          keyName,
+          importedKey.properties.version!,
+          attestation,
+          {
+            nonce: "nonce",
+            algorithm: KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256 // TODO: naming?
+          }
+        );
 
         assert.exists(releaseResult.value);
         assert.equal(releaseResult.algorithm, KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256);
@@ -151,9 +155,11 @@ onVersions({ minVer: "7.2" }).describe(
         assert.isTrue(createdKey.properties.exportable);
         // TODO: what about nonce and algorithm?
         // TODO: what about an overload that takes the key (since it has a version)?
-        const releaseResult = await hsmClient.releaseKey(keyName, createdKey.properties.version!, {
-          target: attestation
-        });
+        const releaseResult = await hsmClient.releaseKey(
+          keyName,
+          createdKey.properties.version!,
+          attestation
+        );
 
         assert.exists(releaseResult.value);
       });

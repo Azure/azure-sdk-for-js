@@ -62,7 +62,8 @@ import {
   CreateOctKeyOptions,
   GetRandomBytesOptions,
   ReleaseKeyOptions,
-  ReleaseKeyResult
+  ReleaseKeyResult,
+  KeyReleasePolicy
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -180,7 +181,10 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger
+  logger,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  KeyReleasePolicy
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -675,13 +679,29 @@ export class KeyClient {
     });
   }
 
+  /**
+   * Releases a key from a managed HSM.
+   *
+   * The release key operation is applicable to all key types. The operation requires the key to be marked exportable and the keys/release permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let result = await client.releaseKey("myKey", "keyVersion", target)
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param version - The version of the key.
+   * @param options - The optional parameters.
+   */
   public releaseKey(
     name: string,
     version: string,
-    options: ReleaseKeyOptions
+    target: string,
+    options: ReleaseKeyOptions = {}
   ): Promise<ReleaseKeyResult> {
     return withTrace("releaseKey", options, async (updatedOptions) => {
-      const { nonce, algorithm, target, ...rest } = updatedOptions;
+      const { nonce, algorithm, ...rest } = updatedOptions;
       const result = await this.client.release(this.vaultUrl, name, version, target, {
         enc: algorithm,
         nonce,

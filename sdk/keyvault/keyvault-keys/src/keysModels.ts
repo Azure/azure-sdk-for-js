@@ -213,8 +213,14 @@ export interface KeyProperties {
    */
   readonly managed?: boolean;
 
+  /**
+   * Indicates whether the private key can be exported.
+   */
   exportable?: boolean;
 
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
   releasePolicy?: KeyReleasePolicy;
 }
 
@@ -268,9 +274,17 @@ export interface DeletedKey {
   };
 }
 
+/**
+ * The policy rules under which a key can be exported.
+ */
 export interface KeyReleasePolicy {
-  /** Content type and version of key release policy */
+  /**
+   * Content type and version of key release policy.
+   *
+   * Defaults to "application/json; charset=utf-8" if omitted.
+   */
   contentType?: string;
+
   /** Blob encoding the policy rules under which the key can be released. */
   data?: Uint8Array;
 }
@@ -315,10 +329,14 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   hsm?: boolean;
 
-  // TODO: consider whether we should make the two coupled:
-  // If you have one but not the other the service will error today.
+  /**
+   * Indicates whether the private key can be exported.
+   */
   exportable?: boolean;
 
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
   releasePolicy?: KeyReleasePolicy;
 }
 
@@ -396,7 +414,14 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
    */
   expiresOn?: Date;
 
+  /**
+   * Indicates whether the private key can be exported.
+   */
   exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
   releasePolicy?: KeyReleasePolicy;
 }
 
@@ -501,7 +526,6 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {}
 export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
 
 export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
-  target: string;
   nonce?: string;
   algorithm?: KeyExportEncryptionAlgorithm;
 }
