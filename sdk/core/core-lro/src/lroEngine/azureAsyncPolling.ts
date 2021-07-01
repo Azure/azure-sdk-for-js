@@ -57,7 +57,11 @@ export function processAzureAsyncOperationResult<TResult>(
           flatResponse,
           done: false,
           next: async () => {
-            const finalResponse = await sendFinalRequest(lro, lroResourceLocationConfig, resourceLocation);
+            const finalResponse = await sendFinalRequest(
+              lro,
+              lroResourceLocationConfig,
+              resourceLocation
+            );
             return {
               ...(finalResponse ?? {
                 rawResponse,

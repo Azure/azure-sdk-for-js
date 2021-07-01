@@ -60,7 +60,9 @@ export interface RawResponse {
  * The type of the response of a LRO.
  */
 export interface LroResponse<T> {
+  /** The flattened response */
   flatResponse: T;
+  /** The raw response */
   rawResponse: RawResponse;
 }
 

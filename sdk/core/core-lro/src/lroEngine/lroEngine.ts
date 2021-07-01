@@ -17,9 +17,16 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 
   constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
     const { intervalInMs = 2000, resumeFrom } = options || {};
+    function deserializeState(resumeFrom: string): TState & ResumablePollOperationState<TResult> {
+      try {
+        return JSON.parse(resumeFrom).state;
+      } catch (e) {
+        throw new Error(`LroEngine: Unable to deserialize state: ${resumeFrom}`);
+      }
+    }
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
-      ? JSON.parse(resumeFrom).state
-      : {};
+      ? deserializeState(resumeFrom)
+      : ({} as any);
 
     const operation = new GenericPollOperation(state, lro);
     super(operation);

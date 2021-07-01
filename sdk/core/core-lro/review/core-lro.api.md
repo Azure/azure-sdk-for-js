@@ -56,9 +56,7 @@ export type LroResourceLocationConfig = "azure-async-operation" | "location" | "
 
 // @public
 export interface LroResponse<T> {
-    // (undocumented)
     flatResponse: T;
-    // (undocumented)
     rawResponse: RawResponse;
 }
 
