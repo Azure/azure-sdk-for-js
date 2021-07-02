@@ -241,7 +241,7 @@ export class RemoteRenderingClient {
 
       if (args[1] instanceof AzureKeyCredential) {
         credential = new MixedRealityAccountKeyCredential(accountId, args[0]);
-      } else if (!isTokenCredential(args[1])) {
+      } else if (isTokenCredential(args[1])) {
         credential = args[1];
       } else {
         throw new Error("Argument 4 is not a supported type of credential");
@@ -261,7 +261,7 @@ export class RemoteRenderingClient {
         options = args[2];
       }
     } else {
-      throw new Error("Argument 3 is not of the expected type");
+      throw new Error("Argument 3 is invalid.");
     }
 
     if (!endpoint) {
