@@ -8,6 +8,7 @@
 
 export {
   AzureEntityResource,
+  Backup,
   BaseResource,
   CloudError,
   Configuration,
@@ -16,20 +17,20 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   FirewallRule,
+  HighAvailability,
   Identity,
   MaintenanceWindow,
+  Network,
   Plan,
   ProxyResource,
-  RecoverableServerResource,
   Resource,
   ResourceModelWithAllowedPropertySet,
   ResourceModelWithAllowedPropertySetIdentity,
   ResourceModelWithAllowedPropertySetPlan,
   ResourceModelWithAllowedPropertySetSku,
   Server,
-  ServerPropertiesDelegatedSubnetArguments,
-  ServerPropertiesPrivateDnsZoneArguments,
   Sku,
-  StorageProfile,
+  Storage,
+  SystemData,
   TrackedResource
 } from "../models/mappers";

@@ -7,13 +7,12 @@
  * regenerated.
  */
 
-export * from "./databases";
-export * from "./getPrivateDnsZoneSuffix";
 export * from "./servers";
 export * from "./firewallRules";
 export * from "./configurations";
 export * from "./checkNameAvailability";
 export * from "./locationBasedCapabilities";
 export * from "./virtualNetworkSubnetUsage";
-export * from "./recoverableServers";
 export * from "./operations";
+export * from "./databases";
+export * from "./getPrivateDnsZoneSuffix";

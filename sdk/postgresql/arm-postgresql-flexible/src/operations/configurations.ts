@@ -12,17 +12,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/configurationsMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
 /** Class representing a Configurations. */
 export class Configurations {
-  private readonly client: PostgreSQLFlexibleManagementClientContext;
+  private readonly client: PostgreSQLManagementClientContext;
 
   /**
    * Create a Configurations.
-   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
+   * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLFlexibleManagementClientContext) {
+  constructor(client: PostgreSQLManagementClientContext) {
     this.client = client;
   }
 
@@ -115,6 +115,20 @@ export class Configurations {
    * @param configurationName The name of the server configuration.
    * @param parameters The required parameters for updating a server configuration.
    * @param [options] The optional parameters
+   * @returns Promise<Models.ConfigurationsPutResponse>
+   */
+  put(resourceGroupName: string, serverName: string, configurationName: string, parameters: Models.Configuration, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsPutResponse> {
+    return this.beginPut(resourceGroupName,serverName,configurationName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConfigurationsPutResponse>;
+  }
+
+  /**
+   * Updates a configuration of a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param configurationName The name of the server configuration.
+   * @param parameters The required parameters for updating a server configuration.
+   * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
   beginUpdate(resourceGroupName: string, serverName: string, configurationName: string, parameters: Models.Configuration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
@@ -127,6 +141,28 @@ export class Configurations {
         options
       },
       beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates a configuration of a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param configurationName The name of the server configuration.
+   * @param parameters The required parameters for updating a server configuration.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginPut(resourceGroupName: string, serverName: string, configurationName: string, parameters: Models.Configuration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        configurationName,
+        parameters,
+        options
+      },
+      beginPutOperationSpec,
       options);
   }
 
@@ -170,7 +206,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -196,7 +232,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.configurationName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -222,7 +258,41 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.configurationName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Configuration,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Configuration
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginPutOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/configurations/{configurationName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.configurationName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -254,7 +324,7 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
