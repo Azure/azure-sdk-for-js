@@ -97,8 +97,8 @@ export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 // @public
 export type AzureApplicationInsightsDataFeedSource = {
     dataSourceType: "AzureApplicationInsights";
-    azureCloud?: string;
-    applicationId?: string;
+    azureCloud: string;
+    applicationId: string;
     apiKey?: string;
     query: string;
     authenticationType: "Basic";
@@ -287,8 +287,8 @@ export type DataFeedPatch = {
     rollupSettings?: DataFeedRollupSettings;
     missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
     accessMode?: DataFeedAccessMode;
-    adminEmails?: string[];
-    viewerEmails?: string[];
+    admins?: string[];
+    viewers?: string[];
     actionLinkTemplate?: string;
     status?: DataFeedDetailStatus;
 };
@@ -928,8 +928,8 @@ export type MetricsAdvisorDataFeed = {
     rollupSettings?: DataFeedRollupSettings;
     missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
     accessMode?: DataFeedAccessMode;
-    adminEmails?: string[];
-    viewerEmails?: string[];
+    admins?: string[];
+    viewers?: string[];
     actionLinkTemplate?: string;
 };
 
@@ -994,7 +994,7 @@ export type MySqlDataFeedSource = {
 
 // @public
 export interface NotificationHook {
-    readonly adminEmails?: string[];
+    admins?: string[];
     description?: string;
     externalLink?: string;
     readonly id?: string;
@@ -1006,6 +1006,7 @@ export type NotificationHookPatch = {
     hookName?: string;
     description?: string;
     externalLink?: string;
+    admins?: string[];
 };
 
 // @public
