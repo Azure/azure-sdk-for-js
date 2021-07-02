@@ -26,7 +26,7 @@ function startServer() {
   server.start();
 }
 
-function sayHello(call, callback) {
+function sayHello(call: any, callback: Function) {
   const currentSpan = api.trace.getSpan(api.context.active()) as api.Span;
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.spanContext().traceId}`);

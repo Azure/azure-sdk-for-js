@@ -19,7 +19,7 @@ import express from 'express';
 const app = express();
 
 /** A function which handles requests and send response. */
-app.get("/helloworld", (req, res) => {
+app.get("/helloworld", (_req, res) => {
   const currentSpan = api.trace.getSpan(api.context.active()) as api.Span;
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.spanContext().traceId}`);
