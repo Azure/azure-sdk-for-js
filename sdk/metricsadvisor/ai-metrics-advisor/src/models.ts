@@ -796,7 +796,12 @@ export type DataFeedPatch = {
   admins?: string[];
 
   /**
-   * data feed viewers email addresses or client id
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
   viewers?: string[];
 
@@ -1188,6 +1193,16 @@ export type NotificationHookPatch = {
    * new hook external link
    */
   externalLink?: string;
+  /**
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
+   */
+  admins?: string[];
 };
 
 /**

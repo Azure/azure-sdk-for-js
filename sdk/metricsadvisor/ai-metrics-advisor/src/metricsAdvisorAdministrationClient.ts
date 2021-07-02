@@ -714,7 +714,7 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Updates an anomaly alert configuration for the given configuration id
    * @param id - id of the anomaly alert configuration to update
-   * @param patch - Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
+   * @param patch - Input to the update anomaly alert configuration operation
    * @param options - The options parameter
    */
   public async updateAlertConfig(
@@ -1115,7 +1115,7 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Updates hook for the given hook id
    * @param id - id of the hook to update
-   * @param patch - Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
+   * @param patch - Input to the update hook of type Email {@link EmailNotificationHookPatch} or WebHook {@link WebhookNotificationHookPatch}
    * @param options - The options parameter
    */
   public async updateHook(

@@ -1006,6 +1006,7 @@ export type NotificationHookPatch = {
     hookName?: string;
     description?: string;
     externalLink?: string;
+    admins?: string[];
 };
 
 // @public
