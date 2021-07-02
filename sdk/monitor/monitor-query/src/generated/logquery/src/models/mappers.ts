@@ -31,6 +31,19 @@ export const QueryResults: coreHttp.CompositeMapper = {
         type: {
           name: "any"
         }
+      },
+      render: {
+        serializedName: "render",
+        type: {
+          name: "any"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo"
+        }
       }
     }
   }
@@ -71,7 +84,7 @@ export const Table: coreHttp.CompositeMapper = {
               name: "Sequence",
               element: {
                 type: {
-                  name: "String"
+                  name: "any"
                 }
               }
             }
@@ -97,22 +110,6 @@ export const Column: coreHttp.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorInfo"
         }
       }
     }
@@ -219,6 +216,22 @@ export const ErrorDetail: coreHttp.CompositeMapper = {
   }
 };
 
+export const ErrorResponse: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo"
+        }
+      }
+    }
+  }
+};
+
 export const QueryBody: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -239,39 +252,6 @@ export const QueryBody: coreHttp.CompositeMapper = {
       },
       workspaces: {
         serializedName: "workspaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      qualifiedNames: {
-        serializedName: "qualifiedNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      workspaceIds: {
-        serializedName: "workspaceIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      azureResourceIds: {
-        serializedName: "azureResourceIds",
         type: {
           name: "Sequence",
           element: {
@@ -1550,12 +1530,13 @@ export const BatchRequest: coreHttp.CompositeMapper = {
     modelProperties: {
       requests: {
         serializedName: "requests",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "LogQueryRequest"
+              className: "BatchQueryRequest"
             }
           }
         }
@@ -1564,13 +1545,14 @@ export const BatchRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogQueryRequest: coreHttp.CompositeMapper = {
+export const BatchQueryRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogQueryRequest",
+    className: "BatchQueryRequest",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
@@ -1607,6 +1589,7 @@ export const LogQueryRequest: coreHttp.CompositeMapper = {
       },
       workspace: {
         serializedName: "workspace",
+        required: true,
         type: {
           name: "String"
         }
@@ -1627,7 +1610,7 @@ export const BatchResponse: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LogQueryResponse"
+              className: "BatchQueryResponse"
             }
           }
         }
@@ -1636,10 +1619,10 @@ export const BatchResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogQueryResponse: coreHttp.CompositeMapper = {
+export const BatchQueryResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogQueryResponse",
+    className: "BatchQueryResponse",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -1657,7 +1640,7 @@ export const LogQueryResponse: coreHttp.CompositeMapper = {
         serializedName: "body",
         type: {
           name: "Composite",
-          className: "LogQueryResult"
+          className: "BatchQueryResults"
         }
       },
       headers: {
@@ -1671,10 +1654,10 @@ export const LogQueryResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogQueryResult: coreHttp.CompositeMapper = {
+export const BatchQueryResults: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogQueryResult",
+    className: "BatchQueryResults",
     modelProperties: {
       tables: {
         serializedName: "tables",
@@ -1686,6 +1669,18 @@ export const LogQueryResult: coreHttp.CompositeMapper = {
               className: "Table"
             }
           }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "any"
+        }
+      },
+      render: {
+        serializedName: "render",
+        type: {
+          name: "any"
         }
       },
       error: {

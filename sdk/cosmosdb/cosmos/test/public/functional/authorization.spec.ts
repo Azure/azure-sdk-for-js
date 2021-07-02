@@ -20,19 +20,31 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
 
   describe("Validate Authorization", function() {
     it("should handle all the key options", async function() {
-      const clientOptionsKey = new CosmosClient({ endpoint, key: masterKey });
+      const clientOptionsKey = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      });
       assert(
         undefined !== (await clientOptionsKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
       );
 
-      const clientOptionsAuthKey = new CosmosClient({ endpoint, key: masterKey });
+      const clientOptionsAuthKey = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      });
       assert(
         undefined !== (await clientOptionsAuthKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
       );
 
-      const clientOptionsAuthMasterKey = new CosmosClient({ endpoint, key: masterKey });
+      const clientOptionsAuthMasterKey = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      });
       assert(
         undefined !== (await clientOptionsAuthMasterKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
@@ -139,7 +151,11 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       resourceTokens[entities.coll1.id] = (entities.permissionOnColl1 as any)._token;
       resourceTokens[entities.doc1.id] = (entities.permissionOnColl1 as any)._token;
 
-      const col1Client = new CosmosClient({ endpoint, resourceTokens });
+      const col1Client = new CosmosClient({
+        endpoint,
+        resourceTokens,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      });
 
       // 1. Success-- Use Col1 Permission to Read
       const { resource: successColl1 } = await col1Client
@@ -229,7 +245,11 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       const resourceTokens: any = {};
       resourceTokens[container.id] = (permission as any)._token;
 
-      const restrictedClient = new CosmosClient({ endpoint, resourceTokens });
+      const restrictedClient = new CosmosClient({
+        endpoint,
+        resourceTokens,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      });
       await restrictedClient
         .database(container.database.id)
         .container(container.id)

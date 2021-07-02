@@ -72,7 +72,7 @@ With GitHub's Codespaces, the container already has all prerequisites installed.
 If you prefer to setup your own environment instead, make sure you have these prerequisites installed and available on your `$PATH`:
 
 - Git
-- Node 8.x or higher
+- Any of the [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Rush 5.x
   - Install / update Rush globally via `npm install -g @microsoft/rush`.
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.

@@ -1,15 +1,23 @@
 # Release History
 
-## 5.1.0-beta.7 (Unreleased)
+## 5.1.0 (2021-07-08)
+
+### New Features
+
+- We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
+- `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
 
 ### Breaking Changes
 
 - `PiiEntityDomainType` was renamed to `PiiEntityDomain`.
+- `domain` property of `RecognizePiiEntitiesAction` was renamed to `domainFilter`.
+- `beginAnalyzeActions` is now limited to accept up to one action only per type.
 
 ## 5.1.0-beta.6 (2021-05-18)
 
 ### New Features
 
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
 - `beginAnalyzeActions` adds support for analyze sentiment actions.
 - `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls service-side logging.

@@ -14,25 +14,28 @@ For a more complete view of Azure libraries, see the [azure sdk typescript relea
 
 Key links:
 
-- [Source code][source_code] 
-- [Package (NPM)][Attestation_npm] 
-- [API reference documentation][API_reference] 
+- [Source code][source_code]
+- [Package (NPM)][attestation_npm]
+- [API reference documentation][api_reference]
 - [Product documentation](https://docs.microsoft.com/azure/attestation/)
 
 ## Getting started
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
-- An Azure subscription.  To use Azure services, including the Microsoft Azure Attestation service, you'll need a subscription.  If you do not have an existing Azure account, you may sign up for a [free trial][azure_sub] or use your [Visual Studio Subscription](https://visualstudio.microsoft.com/subscriptions/) benefits when you [create an account](https://account.windowsazure.com/Home/Index).
+- An [Azure Subscription](https://azure.microsoft.com)
 - An existing Azure Attestation Instance, or you can use the "shared provider" available in each Azure region. If you need to create an Azure Attestation service instance, you can use the Azure Portal or [Azure CLI][azure_cli].
 
 ### Install the @azure/attestation package
 
-Install the Microsoft Azure Attestation client library for JavaScript with [NPM][Attestation_npm]:
+Install the Microsoft Azure Attestation client library for JavaScript with [NPM][attestation_npm]:
 
 ```Powershell
 npm install @azure/attestation
@@ -41,9 +44,9 @@ npm install @azure/attestation
 ### Authenticate the client
 
 In order to interact with the Microsoft Azure Attestation service, you'll need to create an instance of the [Attestation Client][attestation_client] or [Attestation Administration Client][attestation_admin_client] class. You need a **attestation instance url**, which you may see as "DNS Name" in the portal,
- and **client secret credentials (client id, client secret, tenant id)** to instantiate a client object.
+and **client secret credentials (client id, client secret, tenant id)** to instantiate a client object.
 
-Client secret credential authentication is being used in this getting started section but you can find more ways to authenticate with [Azure identity][azure_identity]. To use the [DefaultAzureCredential][DefaultAzureCredential] provider shown below,
+Client secret credential authentication is being used in this getting started section but you can find more ways to authenticate with [Azure identity][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
 or other credential providers provided with the Azure SDK, you should install the Azure.Identity package:
 
 ```Powershell
@@ -56,35 +59,35 @@ Use the [Azure CLI][azure_cli] snippet below to create/get client secret credent
 
 - Create a service principal and configure its access to Azure resources:
 
-    ```Powershell
-    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-    ```
+  ```Powershell
+  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+  ```
 
-    Output:
+  Output:
 
-    ```json
-    {
-        "appId": "generated-app-ID",
-        "displayName": "dummy-app-name",
-        "name": "http://dummy-app-name",
-        "password": "random-password",
-        "tenant": "tenant-ID"
-    }
-    ```
+  ```json
+  {
+    "appId": "generated-app-ID",
+    "displayName": "dummy-app-name",
+    "name": "http://dummy-app-name",
+    "password": "random-password",
+    "tenant": "tenant-ID"
+  }
+  ```
 
 - Take note of the service principal objectId
 
-    ```Powershell
-    az ad sp show --id <appId> --query objectId
-    ```
+  ```Powershell
+  az ad sp show --id <appId> --query objectId
+  ```
 
-    Output:
+  Output:
 
-    ```Powershell
-    "<your-service-principal-object-id>"
-    ```
+  ```Powershell
+  "<your-service-principal-object-id>"
+  ```
 
-- Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables. The following example shows a way to do this in Powershell:
+- Use the returned credentials above to set **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables. The following example shows a way to do this in Powershell:
 
 ```Powershell
     $Env:AZURE_CLIENT_ID="generated-app-ID"
@@ -99,7 +102,7 @@ For more information about the Azure Identity APIs and how to use them, see [Azu
 There are four major families of functionality provided in this preview SDK:
 
 - [SGX and TPM enclave attestation.](#attestation)
-- [MAA Attestation Token signing certificate discovery and validation.](#attestation-token-signing-certificate-discovery-and-validation)  
+- [MAA Attestation Token signing certificate discovery and validation.](#attestation-token-signing-certificate-discovery-and-validation)
 - [Attestation Policy management.](#policy-management)
 - [Attestation policy management certificate management](#policy-management-certificate-management) (yes, policy management management).
 
@@ -143,9 +146,9 @@ clients to "roll" the policy management certificates.
 
 ### Isolated Mode and AAD Mode
 
-Each Microsoft Azure Attestation service instance operates in either "AAD" mode or "Isolated" mode. When an MAA instance is operating in AAD mode, it means that the customer which created the attestation instance allows Azure Active Directory and Azure Role Based Access control policies to verify access to the attestation instance.  
+Each Microsoft Azure Attestation service instance operates in either "AAD" mode or "Isolated" mode. When an MAA instance is operating in AAD mode, it means that the customer which created the attestation instance allows Azure Active Directory and Azure Role Based Access control policies to verify access to the attestation instance.
 
-### *AttestationType*
+### _AttestationType_
 
 The Microsoft Azure Attestation service supports attesting different types of evidence depending on the environment.
 Currently, MAA supports the following Trusted Execution environments:
@@ -186,13 +189,13 @@ The `getPolicy` method retrieves the attestation policy from the service.
 Attestation Policies are instanced on a per-attestation type basis, the `AttestationType` parameter defines the type to retrieve.
 
 ```js
-    const policyResult = await adminClient.getPolicy(attestationType);
+const policyResult = await adminClient.getPolicy(attestationType);
 
-    // The text policy document is available in the `policyResult.value`
-    // property.
+// The text policy document is available in the `policyResult.value`
+// property.
 
-    // The actual attestation token returned by the MAA service is available
-    // in `policyResult.token`.
+// The actual attestation token returned by the MAA service is available
+// in `policyResult.token`.
 ```
 
 ### Set an attestation policy for a specified attestation type
@@ -222,20 +225,19 @@ There are two properties provided in the [PolicyResult][attestation_policy_resul
 To verify the hash, clients can generate an attestation token and verify the hash generated from that token:
 
 ```js
-    const expectedPolicy = AttestationToken.create(
-      { 
-          body: new StoredAttestationPolicy(minimalPolicy).serialize(), 
-          signer: signer
-      });
+const expectedPolicy = AttestationToken.create({
+  body: new StoredAttestationPolicy(minimalPolicy).serialize(),
+  signer: signer
+});
 
-    // Use your favorite SHA256 hash generator function to create a hash of the
-    // stringized JWS. The tests in this package use `KJUR.crypto.Util.hashString(buffer, "sha256")`
-    // from the `jsrsasign` library, but any crypto library will
-    // work.
-    const expectedHash = generateSha256Hash(expectedPolicy.serialize());
+// Use your favorite SHA256 hash generator function to create a hash of the
+// stringized JWS. The tests in this package use `KJUR.crypto.Util.hashString(buffer, "sha256")`
+// from the `jsrsasign` library, but any crypto library will
+// work.
+const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
-    // The hash returned in expectedHash will match the value in 
-    // `setResult.value.policy_token_hash.
+// The hash returned in expectedHash will match the value in
+// `setResult.value.policy_token_hash.
 ```
 
 ### Attest SGX Enclave
@@ -248,7 +250,7 @@ One solution to this problem is what is known as "Secure Key Release", which is 
 
 To implement the "Secure Key Release" pattern, the enclave code generates an ephemeral asymmetric key. It then serializes the public portion of the key to some format (possibly a JSON Web Key, or PEM, or some other serialization format).
 
-The enclave code then calculates the SHA256 value of the public key and passes it as an input to code which generates an SGX Quote (for OpenEnclave, that would be the [oe_get_evidence](https://openenclave.io/apidocs/v0.14/attester_8h_a7d197e42468636e95a6ab97b8e74c451.html#a7d197e42468636e95a6ab97b8e74c451) or  [oe_get_report](https://openenclave.io/apidocs/v0.14/enclave_8h_aefcb89c91a9078d595e255bd7901ac71.html#aefcb89c91a9078d595e255bd7901ac71)).
+The enclave code then calculates the SHA256 value of the public key and passes it as an input to code which generates an SGX Quote (for OpenEnclave, that would be the [oe_get_evidence](https://openenclave.io/apidocs/v0.14/attester_8h_a7d197e42468636e95a6ab97b8e74c451.html#a7d197e42468636e95a6ab97b8e74c451) or [oe_get_report](https://openenclave.io/apidocs/v0.14/enclave_8h_aefcb89c91a9078d595e255bd7901ac71.html#aefcb89c91a9078d595e255bd7901ac71)).
 
 The client then sends the SGX quote and the serialized key to the attestation service. The attestation service will validate the quote and ensure that the hash of the key is present in the quote and will issue an "Attestation Token".
 
@@ -259,11 +261,9 @@ This example shows one common pattern of calling into the attestation service to
 This example assumes that you have an existing `AttestationClient` object which is configured with the base URI for your endpoint. It also assumes that you have an SGX Quote (`quote`) generated from within the SGX enclave you are attesting, and "Runtime Data" (`binaryRuntimeData`) which is referenced in the SGX Quote.
 
 ```ts
-    const attestationResult = await client.attestOpenEnclave(
-      quote, 
-      {
-        runTimeData: new AttestationData(binaryRuntimeData, false),
-      });
+const attestationResult = await client.attestOpenEnclave(quote, {
+  runTimeData: new AttestationData(binaryRuntimeData, false)
+});
 ```
 
 If the `isJson` parameter to the `AttestationData` constructor is not provided,
@@ -323,17 +323,18 @@ If you encounter any bugs or have suggestions, please file an issue in the
 section of the project.
 
 <!-- LINKS -->
+
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/attestation
 [azure_identity]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/2.0.0-beta.3/index.html
-[DefaultAzureCredential]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/2.0.0-beta.3/classes/defaultazurecredential.html
-[attestation_policy_result]:https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/interfaces/policyresult.html
+[defaultazurecredential]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/2.0.0-beta.3/classes/defaultazurecredential.html
+[attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/interfaces/policyresult.html
 [attestation_client]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestationclient.html
 [attestation_admin_client]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestationclient.html
 [attestation_response]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/interfaces/attestationresponse.html
 [attestation_policy_result_parameters]: https://www.microsoft.com/
 [attest_sgx]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestation.html#attestsgxenclave
 [attestation_npm]: https://www.npmjs.com/package/@azure/attestation
-[API_reference]:https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/index.html
+[api_reference]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/index.html
 [style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
 [microsoft_code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
@@ -341,7 +342,7 @@ section of the project.
 [azure_sub]: https://azure.microsoft.com/free/
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [json_web_token]: https://tools.ietf.org/html/rfc7519
-[JWK]: https://tools.ietf.org/html/rfc7517
+[jwk]: https://tools.ietf.org/html/rfc7517
 [base64url_encoding]: https://tools.ietf.org/html/rfc4648#section-5
 [contributing]: https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/

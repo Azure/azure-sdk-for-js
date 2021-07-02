@@ -12,7 +12,7 @@ Schema Registry schema identifiers and Avro-encoded data.
 
 ## Getting started
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 

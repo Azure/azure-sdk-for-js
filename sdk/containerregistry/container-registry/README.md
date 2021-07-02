@@ -20,11 +20,15 @@ Use the client library for Azure Container Registry to:
 
 ### Currently supported environments
 
-- Node.js version 8.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
-You need an [Azure subscription][azure_sub] and a [Container Registry account][container_registry_docs] to use this package.
+- An [Azure Subscription](https://azure.microsoft.com)
+- A [Container Registry account][container_registry_docs]
 
 To create a new Container Registry, you can use the [Azure Portal][container_registry_create_portal],
 [Azure PowerShell][container_registry_create_ps], or the [Azure CLI][container_registry_create_cli].
@@ -199,12 +203,14 @@ async function main() {
     // Delete images older than the first three.
     for await (const manifest of imageManifests) {
       if (imageCount++ > imagesToKeep) {
+        const image = repository.getArtifact(manifest.digest);
         console.log(`Deleting image with digest ${manifest.digest}`);
-        console.log(`  This image has the following tags:`);
+        console.log(`  Deleting the following tags from the image:`);
         for (const tagName of manifest.tags) {
           console.log(`    ${manifest.repositoryName}:${tagName}`);
+          image.deleteTag(tagName);
         }
-        await repository.getArtifact(manifest.digest).delete();
+        await image.delete();
       }
     }
   }
