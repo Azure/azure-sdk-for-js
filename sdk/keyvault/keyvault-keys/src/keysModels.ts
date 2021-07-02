@@ -572,6 +572,7 @@ export enum KnownKeyExportEncryptionAlgorithm {
   RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
 }
 
+/* eslint-disable tsdoc/syntax */
 /**
  * Defines values for KeyEncryptionAlgorithm.
  * {@link KnownKeyExportEncryptionAlgorithm} can be used interchangeably with KeyEncryptionAlgorithm,
@@ -582,3 +583,4 @@ export enum KnownKeyExportEncryptionAlgorithm {
  * **RSA_AES_KEY_WRAP_384**
  */
 export type KeyExportEncryptionAlgorithm = string;
+/* eslint-enable tsdoc/syntax */
