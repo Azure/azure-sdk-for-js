@@ -119,9 +119,9 @@
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
+/eng/   @weshaggard @praveenkuttappan @mikeharder @danieljurek
 /**/tests.yml   @benbp
-/**/ci.yml      @mitchdenny
+/**/ci.yml      @praveenkuttappan
 
 ###########
 # Config
