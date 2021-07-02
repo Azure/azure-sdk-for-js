@@ -1,10 +1,10 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2021-07-01)
 
 ### Features Added
 
-- The `include-render` header can now be specified via `QueryLogsOption.includeVisualization`, allowing 
+- The `include-render` header can now be specified via `QueryLogsOption.includeVisualization`, allowing
   visualization information to be returned in `QueryLogsResult.visualization`. The results are currently
   unmodeled and reflect the underlying JSON structure.
 
