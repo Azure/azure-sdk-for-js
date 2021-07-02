@@ -3907,6 +3907,12 @@ export const RestorePointSourceMetadata: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SecurityProfile"
         }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -13386,36 +13392,8 @@ export const RestorePoint: coreClient.CompositeMapper = {
     className: "RestorePoint",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      sourceMetadata: {
-        serializedName: "sourceMetadata",
-        type: {
-          name: "Composite",
-          className: "RestorePointSourceMetadata"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      consistencyMode: {
-        serializedName: "consistencyMode",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningDetails: {
-        serializedName: "provisioningDetails",
-        type: {
-          name: "Composite",
-          className: "RestorePointProvisioningDetails"
-        }
-      },
       excludeDisks: {
-        serializedName: "excludeDisks",
+        serializedName: "properties.excludeDisks",
         type: {
           name: "Sequence",
           element: {
@@ -13424,6 +13402,34 @@ export const RestorePoint: coreClient.CompositeMapper = {
               className: "ApiEntityReference"
             }
           }
+        }
+      },
+      sourceMetadata: {
+        serializedName: "properties.sourceMetadata",
+        type: {
+          name: "Composite",
+          className: "RestorePointSourceMetadata"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      consistencyMode: {
+        serializedName: "properties.consistencyMode",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningDetails: {
+        serializedName: "properties.provisioningDetails",
+        type: {
+          name: "Composite",
+          className: "RestorePointProvisioningDetails"
         }
       }
     }

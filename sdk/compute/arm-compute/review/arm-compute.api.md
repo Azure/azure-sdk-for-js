@@ -4181,11 +4181,11 @@ export interface ResourceUriList {
 
 // @public
 export type RestorePoint = ProxyResource & {
+    excludeDisks?: ApiEntityReference[];
     readonly sourceMetadata?: RestorePointSourceMetadata;
     readonly provisioningState?: string;
     readonly consistencyMode?: ConsistencyModeTypes;
     readonly provisioningDetails?: RestorePointProvisioningDetails;
-    excludeDisks?: ApiEntityReference[];
 };
 
 // @public
@@ -4330,6 +4330,7 @@ export interface RestorePointSourceMetadata {
     diagnosticsProfile?: DiagnosticsProfile;
     hardwareProfile?: HardwareProfile;
     licenseType?: string;
+    location?: string;
     osProfile?: OSProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: RestorePointSourceVMStorageProfile;

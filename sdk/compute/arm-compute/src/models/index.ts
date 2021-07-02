@@ -1399,6 +1399,8 @@ export interface RestorePointSourceMetadata {
   vmId?: string;
   /** Gets the security profile. */
   securityProfile?: SecurityProfile;
+  /** Location of the VM from which the restore point was created. */
+  location?: string;
 }
 
 /** Describes the storage profile. */
@@ -5172,6 +5174,8 @@ export type ImageDataDisk = ImageDisk & {
 
 /** Restore Point details. */
 export type RestorePoint = ProxyResource & {
+  /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
+  excludeDisks?: ApiEntityReference[];
   /**
    * Gets the details of the VM captured at the time of the restore point creation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5192,8 +5196,6 @@ export type RestorePoint = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningDetails?: RestorePointProvisioningDetails;
-  /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
-  excludeDisks?: ApiEntityReference[];
 };
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
