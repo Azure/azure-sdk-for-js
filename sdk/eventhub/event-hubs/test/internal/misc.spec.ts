@@ -410,6 +410,9 @@ describe("extractSpanContextFromEventData", function() {
       partitionKey: null,
       properties: {
         [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
+      },
+      getRawAmqpMessage() {
+        return {} as any;
       }
     };
 
@@ -437,6 +440,9 @@ describe("extractSpanContextFromEventData", function() {
       partitionKey: null,
       properties: {
         [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
+      },
+      getRawAmqpMessage() {
+        return {} as any;
       }
     };
 
@@ -454,7 +460,10 @@ describe("extractSpanContextFromEventData", function() {
       enqueuedTimeUtc: new Date(),
       offset: 0,
       sequenceNumber: 0,
-      partitionKey: null
+      partitionKey: null,
+      getRawAmqpMessage() {
+        return {} as any;
+      }
     };
 
     const spanContext = extractSpanContextFromEventData(eventData);
