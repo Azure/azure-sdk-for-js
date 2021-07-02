@@ -30,7 +30,6 @@ export {
   RecoverableServerResource,
   Resource,
   Server,
-  ServerListResult,
   ServerPrivateEndpointConnection,
   ServerPrivateEndpointConnectionProperties,
   ServerPrivateLinkServiceConnectionStateProperty,

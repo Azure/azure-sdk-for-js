@@ -30,7 +30,6 @@ export {
   RecoverableServerResource,
   Resource,
   Server,
-  ServerListResult,
   ServerPrivateEndpointConnection,
   ServerPrivateEndpointConnectionProperties,
   ServerPrivateLinkServiceConnectionStateProperty,
@@ -39,5 +38,7 @@ export {
   StorageProfile,
   TrackedResource,
   VirtualNetworkRule,
-  WaitStatistic
+  WaitStatistic,
+  WaitStatisticsInput,
+  WaitStatisticsResultList
 } from "../models/mappers";
