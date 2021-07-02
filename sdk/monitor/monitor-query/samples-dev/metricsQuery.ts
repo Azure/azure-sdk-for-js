@@ -21,12 +21,22 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
+  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
+
+  for (const definition of result.definitions) {
+    console.log(`Definition = ${definition.name}`);
+  }
+
+  const firstMetric = result.definitions[0];
+
+  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    Durations.lastDay,
+    Durations.last5Minutes,
     {
-      metricNames: ["SuccessfulRequests"],
-      interval: "P1D"
+      metricNames: [firstMetric.name!],
+      interval: "PT1M"
     }
   );
 
