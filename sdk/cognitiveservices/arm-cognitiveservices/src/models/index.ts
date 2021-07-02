@@ -899,7 +899,8 @@ export interface PrivateLinkResourceListResult {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * The resource model definition for an Azure Resource Manager tracked top level resource which has
@@ -1104,7 +1105,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type SkuTier = "Free" | "Basic" | "Standard" | "Premium" | "Enterprise";
+export type SkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium' | 'Enterprise';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1113,11 +1114,7 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium" | "Enterprise";
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+export type ResourceIdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
  * Defines values for CreatedByType.
@@ -1125,7 +1122,7 @@ export type ResourceIdentityType =
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ProvisioningState.
@@ -1134,14 +1131,7 @@ export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState =
-  | "Accepted"
-  | "Creating"
-  | "Deleting"
-  | "Moving"
-  | "Failed"
-  | "Succeeded"
-  | "ResolvingDNS";
+export type ProvisioningState = 'Accepted' | 'Creating' | 'Deleting' | 'Moving' | 'Failed' | 'Succeeded' | 'ResolvingDNS';
 
 /**
  * Defines values for NetworkRuleAction.
@@ -1149,7 +1139,7 @@ export type ProvisioningState =
  * @readonly
  * @enum {string}
  */
-export type NetworkRuleAction = "Allow" | "Deny";
+export type NetworkRuleAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for KeySource.
@@ -1157,7 +1147,7 @@ export type NetworkRuleAction = "Allow" | "Deny";
  * @readonly
  * @enum {string}
  */
-export type KeySource = "Microsoft.CognitiveServices" | "Microsoft.KeyVault";
+export type KeySource = 'Microsoft.CognitiveServices' | 'Microsoft.KeyVault';
 
 /**
  * Defines values for PrivateEndpointServiceConnectionStatus.
@@ -1165,7 +1155,7 @@ export type KeySource = "Microsoft.CognitiveServices" | "Microsoft.KeyVault";
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -1173,11 +1163,7 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionProvisioningState =
-  | "Succeeded"
-  | "Creating"
-  | "Deleting"
-  | "Failed";
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -1185,7 +1171,7 @@ export type PrivateEndpointConnectionProvisioningState =
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = "Enabled" | "Disabled";
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for KeyName.
@@ -1193,7 +1179,7 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type KeyName = "Key1" | "Key2";
+export type KeyName = 'Key1' | 'Key2';
 
 /**
  * Defines values for UnitType.
@@ -1202,14 +1188,7 @@ export type KeyName = "Key1" | "Key2";
  * @readonly
  * @enum {string}
  */
-export type UnitType =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "Percent"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Milliseconds";
+export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond' | 'Milliseconds';
 
 /**
  * Defines values for QuotaUsageStatus.
@@ -1217,7 +1196,7 @@ export type UnitType =
  * @readonly
  * @enum {string}
  */
-export type QuotaUsageStatus = "Included" | "Blocked" | "InOverage" | "Unknown";
+export type QuotaUsageStatus = 'Included' | 'Blocked' | 'InOverage' | 'Unknown';
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -1225,7 +1204,7 @@ export type QuotaUsageStatus = "Included" | "Blocked" | "InOverage" | "Unknown";
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsType = "Location" | "Zone";
+export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
@@ -1233,7 +1212,7 @@ export type ResourceSkuRestrictionsType = "Location" | "Zone";
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
+export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Defines values for Origin.
@@ -1241,7 +1220,7 @@ export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubs
  * @readonly
  * @enum {string}
  */
-export type Origin = "user" | "system" | "user,system";
+export type Origin = 'user' | 'system' | 'user,system';
 
 /**
  * Defines values for ActionType.
@@ -1249,7 +1228,7 @@ export type Origin = "user" | "system" | "user,system";
  * @readonly
  * @enum {string}
  */
-export type ActionType = "Internal";
+export type ActionType = 'Internal';
 
 /**
  * Contains response data for the create operation.
@@ -1259,16 +1238,16 @@ export type AccountsCreateResponse = Account & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Account;
+    };
 };
 
 /**
@@ -1279,16 +1258,16 @@ export type AccountsUpdateResponse = Account & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Account;
+    };
 };
 
 /**
@@ -1299,16 +1278,16 @@ export type AccountsGetResponse = Account & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Account;
+    };
 };
 
 /**
@@ -1319,16 +1298,16 @@ export type AccountsListByResourceGroupResponse = AccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountListResult;
+    };
 };
 
 /**
@@ -1339,16 +1318,16 @@ export type AccountsListResponse = AccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountListResult;
+    };
 };
 
 /**
@@ -1359,16 +1338,16 @@ export type AccountsListKeysResponse = ApiKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApiKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKeys;
+    };
 };
 
 /**
@@ -1379,16 +1358,16 @@ export type AccountsRegenerateKeyResponse = ApiKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApiKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKeys;
+    };
 };
 
 /**
@@ -1399,16 +1378,16 @@ export type AccountsListSkusResponse = AccountSkuListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountSkuListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountSkuListResult;
+    };
 };
 
 /**
@@ -1419,16 +1398,16 @@ export type AccountsListUsagesResponse = UsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsageListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageListResult;
+    };
 };
 
 /**
@@ -1439,16 +1418,16 @@ export type AccountsBeginCreateResponse = Account & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Account;
+    };
 };
 
 /**
@@ -1459,16 +1438,16 @@ export type AccountsBeginUpdateResponse = Account & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Account;
+    };
 };
 
 /**
@@ -1479,16 +1458,16 @@ export type AccountsListByResourceGroupNextResponse = AccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountListResult;
+    };
 };
 
 /**
@@ -1499,16 +1478,16 @@ export type AccountsListNextResponse = AccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountListResult;
+    };
 };
 
 /**
@@ -1519,16 +1498,16 @@ export type DeletedAccountsGetResponse = Account & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Account;
+    };
 };
 
 /**
@@ -1539,16 +1518,16 @@ export type DeletedAccountsListResponse = AccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountListResult;
+    };
 };
 
 /**
@@ -1559,16 +1538,16 @@ export type DeletedAccountsListNextResponse = AccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountListResult;
+    };
 };
 
 /**
@@ -1579,16 +1558,16 @@ export type ResourceSkusListResponse = ResourceSkuListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ResourceSkuListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuListResult;
+    };
 };
 
 /**
@@ -1599,16 +1578,16 @@ export type ResourceSkusListNextResponse = ResourceSkuListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ResourceSkuListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuListResult;
+    };
 };
 
 /**
@@ -1619,16 +1598,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -1639,16 +1618,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -1659,16 +1638,16 @@ export type CheckSkuAvailabilityResponse = SkuAvailabilityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SkuAvailabilityListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SkuAvailabilityListResult;
+    };
 };
 
 /**
@@ -1679,16 +1658,16 @@ export type CheckDomainAvailabilityResponse = DomainAvailability & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DomainAvailability;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainAvailability;
+    };
 };
 
 /**
@@ -1699,16 +1678,16 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
 };
 
 /**
@@ -1719,16 +1698,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -1739,16 +1718,16 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -1759,16 +1738,16 @@ export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -1779,14 +1758,14 @@ export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
 };
