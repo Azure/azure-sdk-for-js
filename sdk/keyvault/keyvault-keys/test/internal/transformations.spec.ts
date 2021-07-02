@@ -12,12 +12,12 @@ import {
 import { stringToUint8Array } from "../utils/crypto";
 
 describe("Transformations", () => {
+  const releasePolicy = {
+    contentType: "content type",
+    data: stringToUint8Array("release policy")
+  };
   it("KeyBundle to KeyVaultKey", () => {
     const date = new Date();
-    const releasePolicy = {
-      contentType: "content type",
-      data: stringToUint8Array("release policy")
-    };
     const bundle: KeyBundle = {
       key: {
         kid:
@@ -96,13 +96,15 @@ describe("Transformations", () => {
         notBefore: date,
         expires: date,
         created: date,
-        updated: date
+        updated: date,
+        exportable: false
       },
       tags: {
         tag_name: "tag_value"
       },
       managed: false,
       recoveryId: "recovery-id",
+      releasePolicy,
       scheduledPurgeDate: date,
       deletedDate: date
     };
@@ -131,6 +133,8 @@ describe("Transformations", () => {
         tags: {
           tag_name: "tag_value"
         },
+        releasePolicy,
+        exportable: false,
         createdOn: date,
         updatedOn: date,
         recoveryLevel: "Recoverable",
