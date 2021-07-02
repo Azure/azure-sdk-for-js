@@ -133,7 +133,7 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       rushPackages[depName].newVer !== undefined
     ) {
 
-      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alpha  so that this automatically matches 
+      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alphb so that this automatically matches 
       // with the latest dev version published on npm
       const versionPrefix = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}`;
       dependencySection[depName] = `>=${versionPrefix}-alpha <${versionPrefix}-alphb`;
