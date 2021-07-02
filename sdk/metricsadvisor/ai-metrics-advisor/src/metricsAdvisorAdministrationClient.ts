@@ -936,13 +936,14 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const { hookType, name, description, externalLink, hookParameter } = hookInfo;
+      const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
       const result = await this.client.createHook(
         {
           hookType,
           name,
           description,
           externalLink,
+          admins,
           hookParameter
         } as HookInfoUnion,
         requestOptions

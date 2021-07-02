@@ -97,8 +97,8 @@ export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 // @public
 export type AzureApplicationInsightsDataFeedSource = {
     dataSourceType: "AzureApplicationInsights";
-    azureCloud?: string;
-    applicationId?: string;
+    azureCloud: string;
+    applicationId: string;
     apiKey?: string;
     query: string;
     authenticationType: "Basic";
@@ -994,7 +994,7 @@ export type MySqlDataFeedSource = {
 
 // @public
 export interface NotificationHook {
-    readonly admins?: string[];
+    admins?: string[];
     description?: string;
     externalLink?: string;
     readonly id?: string;

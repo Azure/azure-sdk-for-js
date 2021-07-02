@@ -931,8 +931,8 @@ export function fromServiceDataFeedDetailUnion(
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
-          azureCloud: orig.dataSourceParameter.azureCloud,
-          applicationId: orig.dataSourceParameter.applicationId,
+          azureCloud: orig.dataSourceParameter.azureCloud!,
+          applicationId: orig.dataSourceParameter.applicationId!,
           apiKey: orig.dataSourceParameter.apiKey,
           query: orig.dataSourceParameter.query,
           authenticationType: "Basic"
