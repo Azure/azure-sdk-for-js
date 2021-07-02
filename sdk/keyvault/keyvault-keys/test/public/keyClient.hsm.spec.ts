@@ -74,6 +74,7 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
+      const attestationUrl = "https://malegerskr4.azurewebsites.net/";
       const releasePolicy = {
         anyOf: [
           {
@@ -84,7 +85,7 @@ onVersions({ minVer: "7.2" }).describe(
                 value: "true"
               }
             ],
-            authority: "https://malegeskr5.azurewebsites.net/"
+            authority: attestationUrl
           }
         ],
         version: "1.0"
@@ -95,7 +96,7 @@ onVersions({ minVer: "7.2" }).describe(
       beforeEach(async () => {
         const client = new DefaultHttpClient();
         const response = await client.sendRequest(
-          new WebResource("https://malegeskr5.azurewebsites.net/generate-test-token")
+          new WebResource(`${attestationUrl}/generate-test-token`)
         );
         attestation = JSON.parse(response.bodyAsText!).token;
       });
