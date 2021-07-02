@@ -35,6 +35,22 @@ export interface ProcessErrorArgs {
 }
 
 /**
+ * @internal
+ */
+export interface InternalProcessErrorArgs extends Omit<ProcessErrorArgs, "errorSource"> {
+  /**
+   * The operation where the error originated.
+   *
+   * 'abandon': Errors that occur when if `abandon` is triggered automatically.
+   * 'complete': Errors that occur when autoComplete completes a message.
+   * 'processMessageCallback': Errors thrown from the user's `processMessage` callback passed to `subscribe`.
+   * 'receive': Errors thrown when receiving messages.
+   * 'renewLock': Errors thrown when automatic lock renewal fails.
+   */
+  errorSource: ProcessErrorArgs["errorSource"] | "internal";
+}
+
+/**
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers {
@@ -57,11 +73,22 @@ export interface MessageHandlers {
  */
 export interface InternalMessageHandlers extends MessageHandlers {
   /**
-   * Called when the connection is initialized but before we subscribe to messages or add credits.
-   *
+   * Called when the connection is initialized but before we've added credits.
    * NOTE: This handler is completely internal and only used for tests.
    */
-  processInitialize?: () => Promise<void>;
+  postInitialize?: () => Promise<void>;
+
+  /**
+   * Called before we actually initialize the link itself.
+   * NOTE: This handler is completely internal and only used for tests.
+   */
+  preInitialize?: () => Promise<void>;
+
+  /**
+   * Forwards internal errors that are not normally reported to the customer to `processError`.
+   * (defaults to false)
+   */
+  forwardInternalErrors?: boolean;
 }
 
 /**
@@ -150,9 +177,14 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
  */
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
-   * Indicates whether the message should be settled using the `completeMessage()`
-   * method on the receiver automatically after it executes the user provided message callback.
-   * Doing so removes the message from the queue/subscription.
+   * Indicates whether the message should be settled automatically based on the result from the
+   * user provided `processMessage` callback.
+   *
+   * - If an error is thrown from the `processMessage` callback the message will be abandoned
+   *   using `receiver.abandonMessage()`. Doing so will make the message available again from the
+   *   queue/subscription and the delivery count will be incremented.
+   * - If NO error is thrown from `processMessage` the message will be completed
+   *   using `receiver.completeMessage()`. Doing so removes the message from the queue/subscription.
    *
    * This option is ignored if messages are received in the `receiveAndDelete` receive mode or if
    * the message is already settled in the user provided message callback.

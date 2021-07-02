@@ -8,29 +8,53 @@ import {
   createPipelineRequest,
   SendRequest,
   PipelineResponse,
-  createHttpHeaders
+  createHttpHeaders,
+  RestError
 } from "../src";
 import {
   setTracer,
   NoOpTracer,
-  NoOpSpan,
   SpanContext,
   TraceFlags,
+  Span,
   TraceState,
   context,
-  setSpan
+  setSpan,
+  SpanStatus,
+  SpanStatusCode,
+  SpanAttributes,
+  Tracer,
+  SpanAttributeValue
 } from "@azure/core-tracing";
 
-class MockSpan extends NoOpSpan {
+class MockSpan implements Span {
   private _endCalled = false;
+  private _status: SpanStatus = {
+    code: SpanStatusCode.UNSET
+  };
+  private _attributes: SpanAttributes = {};
 
   constructor(
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
     private state: string
-  ) {
-    super();
+  ) {}
+
+  addEvent(): this {
+    throw new Error("Method not implemented.");
+  }
+
+  isRecording(): boolean {
+    return true;
+  }
+
+  recordException(): void {
+    throw new Error("Method not implemented.");
+  }
+
+  updateName(): this {
+    throw new Error("Method not implemented.");
   }
 
   didEnd(): boolean {
@@ -41,7 +65,30 @@ class MockSpan extends NoOpSpan {
     this._endCalled = true;
   }
 
-  context(): SpanContext {
+  getStatus() {
+    return this._status;
+  }
+
+  setStatus(status: SpanStatus) {
+    this._status = status;
+    return this;
+  }
+
+  setAttributes(attributes: SpanAttributes): this {
+    this._attributes = attributes;
+    return this;
+  }
+
+  setAttribute(key: string, value: SpanAttributeValue) {
+    this._attributes[key] = value;
+    return this;
+  }
+
+  getAttribute(key: string) {
+    return this._attributes[key];
+  }
+
+  spanContext(): SpanContext {
     const state = this.state;
 
     const traceState = {
@@ -70,7 +117,7 @@ class MockSpan extends NoOpSpan {
   }
 }
 
-class MockTracer extends NoOpTracer {
+class MockTracer implements Tracer {
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
@@ -79,9 +126,7 @@ class MockTracer extends NoOpTracer {
     private spanId = "",
     private flags = TraceFlags.NONE,
     private state = ""
-  ) {
-    super();
-  }
+  ) {}
 
   getStartedSpans(): MockSpan[] {
     return this.spans;
@@ -149,6 +194,8 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+    assert.equal(span.getAttribute("http.status_code"), 200);
 
     const expectedFlag = "01";
 
@@ -186,6 +233,8 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+    assert.equal(span.getAttribute("http.status_code"), 200);
 
     const expectedFlag = "00";
 
@@ -223,6 +272,7 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
 
     const expectedFlag = "01";
 
@@ -246,14 +296,9 @@ describe("tracingPolicy", function() {
         tracingContext: setSpan(context.active(), ROOT_SPAN)
       }
     });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 404
-    };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.reject(response));
+    next.rejects(new RestError("Bad Request.", { statusCode: 400 }));
 
     try {
       await policy.sendRequest(request, next);
@@ -264,6 +309,11 @@ describe("tracingPolicy", function() {
       assert.lengthOf(mockTracer.getStartedSpans(), 1);
       const span = mockTracer.getStartedSpans()[0];
       assert.isTrue(span.didEnd());
+      assert.deepEqual(span.getStatus(), {
+        code: SpanStatusCode.ERROR,
+        message: "Bad Request."
+      });
+      assert.equal(span.getAttribute("http.status_code"), 400);
 
       const expectedFlag = "01";
 

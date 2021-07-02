@@ -7,7 +7,9 @@
  */
 
 export {
+  AsyncOperationResult,
   ErrorResponse,
+  Errors,
   RuntimeScriptAction,
   RuntimeScriptActionDetail,
   ScriptActionExecutionSummary,

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ServiceBusMessage,
-  toRheaMessage,
-  getMessagePropertyTypeMismatchError
-} from "./serviceBusMessage";
+import { ServiceBusMessage, toRheaMessage } from "./serviceBusMessage";
 import {
   errorInvalidMessageTypeSingle,
   throwIfNotValidServiceBusMessage,
@@ -256,16 +252,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message, defaultDataTransformer);
 
-    let encodedMessage: Buffer;
-    try {
-      encodedMessage = RheaMessageUtil.encode(amqpMessage);
-    } catch (error) {
-      if (error instanceof TypeError || error.name === "TypeError") {
-        throw getMessagePropertyTypeMismatchError(message) || error;
-      }
-      throw error;
-    }
-
+    let encodedMessage = RheaMessageUtil.encode(amqpMessage);
     let currentSize = this._sizeInBytes;
 
     // The first time an event is added, we need to calculate

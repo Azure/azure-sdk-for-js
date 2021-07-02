@@ -1,29 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth";
+
 import fs from "fs";
 import os from "os";
 import path from "path";
 
-let keytar: any;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  keytar = require("keytar");
-} catch (er) {
-  keytar = null;
-}
-
 import { CredentialUnavailableError } from "../client/errors";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialExtension";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
-const VSCodeUserName = "VS Code Azure";
 const logger = credentialLogger("VisualStudioCodeCredential");
+
+let findCredentials: VSCodeCredentialFinder | undefined = undefined;
+
+export const vsCodeCredentialControl = {
+  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
+    findCredentials = finder;
+  }
+};
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
@@ -101,6 +103,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
   private cloudName: VSCodeCloudNames;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -126,6 +129,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -151,10 +155,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * Runs preparations for any further getToken, but only once.
    */
   private prepareOnce(): Promise<void> | undefined {
-    if (this.preparePromise) {
-      return this.preparePromise;
+    if (!this.preparePromise) {
+      this.preparePromise = this.prepare();
     }
-    this.preparePromise = this.prepare();
     return this.preparePromise;
   }
 
@@ -168,12 +171,17 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    _options?: GetTokenOptions
+    options?: GetTokenOptions
   ): Promise<AccessToken> {
     await this.prepareOnce();
-    if (!keytar) {
+
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
+    if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
-        "Visual Studio Code credential requires the optional dependency 'keytar' to work correctly"
+        "No implementation of VisualStudioCodeCredential is available (do you need to install and use the `@azure/identity-vscode` extension package?)"
       );
     }
 
@@ -198,20 +206,15 @@ export class VisualStudioCodeCredential implements TokenCredential {
     //   },
     //   /* ... */
     // ]
-    const credentials = await keytar.findCredentials(VSCodeUserName);
+    const credentials = await findCredentials();
 
     // If we can't find the credential based on the name, we'll pick the first one available.
-    const { password } =
-      credentials.find((cred: { account: string }) => cred.account === this.cloudName) ||
-      credentials[0] ||
-      {};
-
-    // Assuming we found something, the refresh token is the "password" property.
-    const refreshToken = password;
+    const { password: refreshToken } =
+      credentials.find(({ account }) => account === this.cloudName) ?? credentials[0] ?? {};
 
     if (refreshToken) {
       const tokenResponse = await this.identityClient.refreshAccessToken(
-        this.tenantId,
+        tenantId,
         AzureAccountClientId,
         scopeString,
         refreshToken,

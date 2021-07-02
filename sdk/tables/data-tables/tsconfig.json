@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "paths": {
+      "@azure/data-tables": ["./src/index"]
+    }
   },
   "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }

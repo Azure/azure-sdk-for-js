@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
+import {
+  AccessToken,
+  delay,
+  GetTokenOptions,
+  RequestPrepareOptions,
+  RestError
+} from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { AuthenticationError } from "../../client/errors";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
@@ -37,7 +44,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: imdsEndpoint,
+    url: process.env.AZURE_POD_IDENTITY_TOKEN_URL ?? imdsEndpoint,
     method: "GET",
     queryParameters,
     headers: {
@@ -46,6 +53,13 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
     }
   };
 }
+
+// 800ms -> 1600ms -> 3200ms
+export const imdsMsiRetryConfig = {
+  maxRetries: 3,
+  startDelayInMs: 800,
+  intervalIncrement: 2
+};
 
 export const imdsMsi: MSI = {
   async isAvailable(
@@ -58,6 +72,11 @@ export const imdsMsi: MSI = {
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
+
+    // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
+    if (process.env.AZURE_POD_IDENTITY_TOKEN_URL) {
+      return true;
+    }
 
     const request = prepareRequestOptions(resource, clientId);
 
@@ -76,10 +95,13 @@ export const imdsMsi: MSI = {
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
-      webResource.timeout = updatedOptions?.requestOptions?.timeout || 500;
+
+      // In Kubernetes pods, node-fetch (used by core-http) takes longer than 2 seconds to begin sending the network request,
+      // So smaller timeouts will cause this credential to be immediately aborted.
+      // This won't be a problem once we move Identity to core-rest-pipeline.
+      webResource.timeout = updatedOptions?.requestOptions?.timeout || 3000;
 
       try {
-        logger.info(`Pinging IMDS endpoint`);
         await identityClient.sendRequest(webResource);
       } catch (err) {
         if (
@@ -90,19 +112,17 @@ export const imdsMsi: MSI = {
         ) {
           // If the request failed, or NodeJS was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
-          logger.info(`IMDS endpoint unavailable`);
+          logger.info(`The Azure IMDS endpoint is unavailable`);
           span.setStatus({
             code: SpanStatusCode.ERROR,
             message: err.message
           });
-
-          // IMDS MSI unavailable.
           return false;
         }
       }
 
       // If we received any response, the endpoint is available
-      logger.info(`IMDS endpoint is available`);
+      logger.info(`The Azure IMDS endpoint is available`);
 
       // IMDS MSI available!
       return true;
@@ -129,11 +149,28 @@ export const imdsMsi: MSI = {
       `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(resource, clientId),
-      expiresInParser,
-      getTokenOptions
+    let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
+    for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
+      try {
+        return await msiGenericGetToken(
+          identityClient,
+          prepareRequestOptions(resource, clientId),
+          expiresInParser,
+          getTokenOptions
+        );
+      } catch (error) {
+        if (error.statusCode === 404) {
+          await delay(nextDelayInMs);
+          nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
+          continue;
+        }
+        throw error;
+      }
+    }
+
+    throw new AuthenticationError(
+      404,
+      `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
   }
 };

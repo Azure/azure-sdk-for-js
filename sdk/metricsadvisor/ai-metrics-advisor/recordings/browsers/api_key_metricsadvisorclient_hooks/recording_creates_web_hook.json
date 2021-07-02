@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/hooks",
    "query": {},
-   "requestBody": "{\"hookType\":\"Webhook\",\"hookName\":\"js-test-webHook-161116815711803040\",\"description\":\"description\",\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\"}}",
+   "requestBody": "{\"hookType\":\"Webhook\",\"hookName\":\"js-test-webHook-162266598935904075\",\"description\":\"description\",\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user\",\"password\":\"pass\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "0c5fd9c0-b4f2-44ef-817b-ee65facb4410",
+    "apim-request-id": "ee8c8a32-6e85-4373-8d84-6f9d4985ce70",
     "content-length": "0",
-    "date": "Wed, 20 Jan 2021 18:42:39 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/hooks/7d15bcf9-b229-4356-b1cd-145b5759de6a",
+    "date": "Wed, 02 Jun 2021 20:33:10 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "858",
-    "x-request-id": "0c5fd9c0-b4f2-44ef-817b-ee65facb4410"
+    "x-envoy-upstream-service-time": "797",
+    "x-request-id": "ee8c8a32-6e85-4373-8d84-6f9d4985ce70"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/7d15bcf9-b229-4356-b1cd-145b5759de6a",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"hookId\":\"7d15bcf9-b229-4356-b1cd-145b5759de6a\",\"hookName\":\"js-test-webHook-161116815711803040\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "response": "{\"hookId\":\"9c105aba-f8ad-4b80-a7d5-ab86e3f81b30\",\"hookName\":\"js-test-webHook-162266598935904075\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user\",\"password\":\"pass\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
    "responseHeaders": {
-    "apim-request-id": "5b684653-3bdf-4c67-8f8f-560f3aaccabc",
-    "content-length": "349",
+    "apim-request-id": "f2c7af72-f021-4e94-9e86-92da68d1739d",
+    "content-length": "376",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:42:39 GMT",
+    "date": "Wed, 02 Jun 2021 20:33:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "163",
-    "x-request-id": "5b684653-3bdf-4c67-8f8f-560f3aaccabc"
+    "x-envoy-upstream-service-time": "159",
+    "x-request-id": "f2c7af72-f021-4e94-9e86-92da68d1739d"
    }
   }
  ],
@@ -41,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1f8921dcf55208b82049411c2dbb3964"
+ "hash": "36d1e8c0d68e21ba2e6a1ada1169f12c"
 }

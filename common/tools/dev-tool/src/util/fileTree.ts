@@ -104,5 +104,9 @@ export function file(name: string, contents: FileContents): FileTreeFactory {
       : Buffer.from(immediateContents, "utf8");
   };
 
-  return async (basePath) => fs.writeFile(path.join(basePath, name), getContentsAsBuffer());
+  return async (basePath) => {
+    const dirName = path.resolve(basePath, path.dirname(name));
+    await fs.ensureDir(dirName);
+    return fs.writeFile(path.join(basePath, name), getContentsAsBuffer());
+  };
 }

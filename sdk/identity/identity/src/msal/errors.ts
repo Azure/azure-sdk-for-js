@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions } from "@azure/core-http";
+import { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * Error used to enforce authentication after trying to retrieve a token silently.

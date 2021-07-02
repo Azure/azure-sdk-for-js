@@ -112,7 +112,11 @@ export class ClientContext {
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
+    getReadEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
     getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoints(): Promise<readonly string[]>;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -174,7 +178,7 @@ export class ClientSideMetrics {
 
 // @public
 export class Conflict {
-    constructor(container: Container, id: string, clientContext: ClientContext);
+    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete(options?: RequestOptions): Promise<ConflictResponse>;
@@ -235,7 +239,9 @@ export enum ConnectionMode {
 // @public
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
+    enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
+    endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -376,6 +382,7 @@ export const Constants: {
         CollectionSize: string;
     };
     Path: {
+        Root: string;
         DatabasesPathSegment: string;
         CollectionsPathSegment: string;
         UsersPathSegment: string;
@@ -398,7 +405,7 @@ export const Constants: {
         MaxExclusive: string;
         min: string;
     };
-    EffectiveParitionKeyConstants: {
+    EffectivePartitionKeyConstants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
@@ -407,7 +414,7 @@ export const Constants: {
 // @public
 export class Container {
     constructor(database: Database, id: string, clientContext: ClientContext);
-    conflict(id: string): Conflict;
+    conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
     readonly database: Database;
@@ -485,9 +492,12 @@ export class CosmosClient {
     constructor(options: CosmosClientOptions);
     database(id: string): Database;
     readonly databases: Databases;
+    dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     getReadEndpoint(): Promise<string>;
+    getReadEndpoints(): Promise<readonly string[]>;
     getWriteEndpoint(): Promise<string>;
+    getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
 }
@@ -1544,6 +1554,8 @@ export interface StatusCodesType {
     Conflict: 409;
     // (undocumented)
     Created: 201;
+    // (undocumented)
+    ENOTFOUND: "ENOTFOUND";
     // (undocumented)
     Forbidden: 403;
     // (undocumented)

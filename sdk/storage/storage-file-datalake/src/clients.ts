@@ -9,7 +9,7 @@ import { BufferScheduler } from "../../storage-common/src";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { PathOperations } from "./generated/src/operations";
+import { Path } from "./generated/src/operations";
 import {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
@@ -105,7 +105,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * pathContext provided by protocol layer.
    */
-  private pathContext: PathOperations;
+  private pathContext: Path;
 
   /**
    * blobClient provided by `@azure/storage-blob` package.
@@ -256,7 +256,7 @@ export class DataLakePathClient extends StorageClient {
       super(url, pipeline);
     }
 
-    this.pathContext = new PathOperations(this.storageClientContext);
+    this.pathContext = new Path(this.storageClientContext);
     this.blobClient = new BlobClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -427,7 +427,7 @@ export class DataLakePathClient extends StorageClient {
 
       // How to handle long delete loop?
       do {
-        response = await this.pathContext.deleteMethod({
+        response = await this.pathContext.delete({
           continuation,
           recursive,
           leaseAccessConditions: options.conditions,
@@ -1066,12 +1066,12 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * pathContextInternal provided by protocol layer.
    */
-  private pathContextInternal: PathOperations;
+  private pathContextInternal: Path;
 
   /**
    * pathContextInternal provided by protocol layer, with its url pointing to the Blob endpoint.
    */
-  private pathContextInternalToBlobEndpoint: PathOperations;
+  private pathContextInternalToBlobEndpoint: Path;
 
   /**
    * blockBlobClientInternal provided by `@azure/storage-blob` package.
@@ -1127,11 +1127,9 @@ export class DataLakeFileClient extends DataLakePathClient {
       super(url, pipeline);
     }
 
-    this.pathContextInternal = new PathOperations(this.storageClientContext);
+    this.pathContextInternal = new Path(this.storageClientContext);
     this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline);
-    this.pathContextInternalToBlobEndpoint = new PathOperations(
-      this.storageClientContextToBlobEndpoint
-    );
+    this.pathContextInternalToBlobEndpoint = new Path(this.storageClientContextToBlobEndpoint);
   }
 
   /**
@@ -1367,7 +1365,9 @@ export class DataLakeFileClient extends DataLakePathClient {
         position: offset,
         contentLength: length,
         leaseAccessConditions: options.conditions,
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {

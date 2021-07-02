@@ -32,7 +32,7 @@ import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   SourcePath,
   OperationStatus,
-  ReadingOrder
+  FormReadingOrder
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -89,7 +89,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * The BCP-47 language code of the text in the document.
    *
-   * See the `KnownLanguage` type for a list of known langauges that the
+   * See the `KnownFormLanguage` type for a list of known languages that the
    * service supports.
    *
    * Handwritten text is only supported in English ('en').
@@ -99,7 +99,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * override the service's default behavior and force the document to be
    * processed using a specific language.
    *
-   * @see KnownLanguage
+   * @see KnownFormLanguage
    */
   language?: string;
   /**
@@ -113,7 +113,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * The "natural" reading order uses positional information and heuristics to
    * keep nearby lines together.
    */
-  readingOrder?: ReadingOrder;
+  readingOrder?: FormReadingOrder;
   /**
    * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
    * provided, content information will only be provided for the selected
@@ -194,7 +194,14 @@ export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOption
   /**
    * Locale of the document.
    *
-   * Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US (default if none provided).
+   * Supported locales include:
+   * - "en-AU"
+   * - "en-CA"
+   * - "en-GB"
+   * - "en-IN"
+   * - "en-US" (default if none provided)
+   *
+   * @see KnownFormLocale
    */
   locale?: string;
 }
@@ -217,7 +224,7 @@ export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 /**
  * Options for starting the ID document recognition operation
  */
-export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
+export type BeginRecognizeIdentityDocumentsOptions = BeginRecognizePrebuiltOptions;
 
 // #endregion
 
@@ -832,7 +839,7 @@ export class FormRecognizerClient {
 
   // #endregion
 
-  // #region prebuilt::idDocument
+  // #region prebuilt::identityDocument
 
   /**
    * Recognizes data from identification documents using a pre-built ID
@@ -857,29 +864,29 @@ export class FormRecognizerClient {
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeIdDocuments(readStream, {
+   * const poller = await client.beginRecognizeIdentityDocuments(readStream, {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
-   * const [idDocument] = await poller.pollUntilDone();
+   * const [identityDocument] = await poller.pollUntilDone();
    * ```
    *
-   * @param idDocument - Input document
+   * @param identityDocument - Input document
    * @param options - Options for the recognition operation
    */
-  public async beginRecognizeIdDocuments(
-    idDocument: FormRecognizerRequestBody,
-    options: BeginRecognizeIdDocumentsOptions = {}
+  public async beginRecognizeIdentityDocuments(
+    identityDocument: FormRecognizerRequestBody,
+    options: BeginRecognizeIdentityDocumentsOptions = {}
   ): Promise<FormPollerLike> {
-    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocuments", {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdentityDocuments", {
       ...options,
       includeTextDetails: options.includeFieldElements
     });
 
     const poller = new FormRecognitionPoller({
       expectedDocType: "prebuilt:idDocument",
-      createOperation: span("idDocumentsInternal", async (finalOptions) => {
-        const requestBody = await toRequestBody(idDocument);
+      createOperation: span("identityDocumentsInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(identityDocument);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
         return processOperationLocation(
           await this.client.analyzeIdDocumentAsync(
@@ -889,7 +896,7 @@ export class FormRecognizerClient {
           )
         );
       }),
-      getResult: span("getIdDocuments", async (finalOptions, resultId) =>
+      getResult: span("getIdentityDocuments", async (finalOptions, resultId) =>
         this.client.getAnalyzeIdDocumentResult(
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
@@ -923,30 +930,30 @@ export class FormRecognizerClient {
    * const url = "<url to the identity document>";
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeIdDocumentsFromUrl(url, {
+   * const poller = await client.beginRecognizeIdentityDocumentsFromUrl(url, {
    *   includeFieldElements: true,
    *   onProgress: (state) => {
    *     console.log(`analyzing status: ${state.status}`);
    *   }
    * });
    *
-   * const [idDocument] = await poller.pollUntilDone();
+   * const [identityDocument] = await poller.pollUntilDone();
    * ```
    *
-   * @param idDocumentUrl - Url to an identity document that is accessible from
+   * @param identityDocumentUrl - Url to an identity document that is accessible from
    * the service. Must be a valid, encoded URL to a document of a supported
    * content type.
    * @param options - Options for the recognition operation
    */
-  public async beginRecognizeIdDocumentsFromUrl(
-    idDocumentUrl: string,
-    options: BeginRecognizeIdDocumentsOptions = {}
+  public async beginRecognizeIdentityDocumentsFromUrl(
+    identityDocumentUrl: string,
+    options: BeginRecognizeIdentityDocumentsOptions = {}
   ): Promise<FormPollerLike> {
     if (options.contentType) {
       logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
     }
 
-    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocumentsFromUrl", {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdentityDocumentsFromUrl", {
       ...options,
       contentType: undefined,
       includeTextDetails: options.includeFieldElements
@@ -954,11 +961,11 @@ export class FormRecognizerClient {
 
     const poller = new FormRecognitionPoller({
       expectedDocType: "prebuilt:idDocument",
-      createOperation: span("idDocumentsInternal", async (finalOptions) => {
+      createOperation: span("identityDocumentsInternal", async (finalOptions) => {
         return processOperationLocation(
           await this.client.analyzeIdDocumentAsync("application/json", {
             fileStream: {
-              source: idDocumentUrl
+              source: identityDocumentUrl
             },
             ...operationOptionsToRequestOptionsBase(finalOptions)
           })

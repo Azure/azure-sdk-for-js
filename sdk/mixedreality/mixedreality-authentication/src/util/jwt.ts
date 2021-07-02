@@ -36,5 +36,6 @@ export function retrieveJwtExpirationTimestamp(jwtValue: string): number {
     throw new Error("Invalid JWT payload structure. No expiration.");
   }
 
-  return Number.parseInt(jwtPayload.exp);
+  // The JWT expiry value is in seconds-since-epoch whereas JS Dates are in milliseconds-since-epoch.
+  return 1000 * Number.parseInt(jwtPayload.exp);
 }

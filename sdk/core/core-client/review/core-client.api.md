@@ -37,6 +37,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
+    allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }
 
@@ -232,6 +233,7 @@ export interface OperationRequestInfo {
 
 // @public
 export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
     customHeaders?: {
         [key: string]: string;
     };

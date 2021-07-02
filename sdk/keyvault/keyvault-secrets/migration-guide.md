@@ -188,14 +188,14 @@ await client.purgeDeletedSecret(deletedSecret.name);
 
 ## Additional samples
 
-* [Key Vault Secrets samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/javascript)
-* [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
-* [Key Vault Secrets samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
-* [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
+- [Key Vault Secrets samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples/v4/javascript)
+- [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
+- [Key Vault Secrets samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript)
+- [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
 [kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates
 [ts-guidelines]: https://azure.github.io/azure-sdk/typescript_introduction.html
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
-[identity-readme-DAC]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential
+[identity-readme-DAC]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential

@@ -74,28 +74,44 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * content.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  async getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId> {
-    const response = await this.client.schema.queryIdByContent(
-      schema.group,
-      schema.name,
-      schema.serializationType,
-      schema.content,
-      options
-    );
-    return convertSchemaIdResponse(response);
+  async getSchemaId(
+    schema: SchemaDescription,
+    options?: GetSchemaIdOptions
+  ): Promise<SchemaId | undefined> {
+    try {
+      const response = await this.client.schema.queryIdByContent(
+        schema.group,
+        schema.name,
+        schema.serializationType,
+        schema.content,
+        options
+      );
+      return convertSchemaIdResponse(response);
+    } catch (error) {
+      if (typeof error === "object" && error?.statusCode === 404) {
+        return undefined;
+      }
+      throw error;
+    }
   }
 
   /**
-   * Gets the ID of an existing schema with matching name, group, type, and
-   * content.
+   * Gets an existing schema by ID.
    *
-   * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @param id - Unique schema ID.
+   * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema> {
-    const response = await this.client.schema.getById(id, options);
-    return convertSchemaResponse(response);
+  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
+    try {
+      const response = await this.client.schema.getById(id, options);
+      return convertSchemaResponse(response);
+    } catch (error) {
+      if (typeof error === "object" && error?.statusCode === 404) {
+        return undefined;
+      }
+      throw error;
+    }
   }
 }

@@ -498,7 +498,7 @@ const beginMigrateTableToAutoscaleOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -525,7 +525,7 @@ const beginMigrateTableToManualThroughputOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

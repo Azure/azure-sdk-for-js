@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { ConsistencyLevel, CosmosClient } from "../../dist";
 import config from "./config";
 import { ConflictWorker } from "./ConflictWorker";
@@ -46,7 +48,7 @@ export class MultiRegionWriteScenario {
 
     console.log("1) Starting insert loops across multiple regions");
 
-    await Promise.all(this.basicWorkers.map((worker) => worker.RunLoop(100)));
+    await Promise.all(this.basicWorkers.map((worker) => worker.RunLoop(500)));
 
     console.log("2) Reading from every region...");
 

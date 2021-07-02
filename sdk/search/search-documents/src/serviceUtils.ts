@@ -449,13 +449,15 @@ export function generatedSearchResultToPublicSearchResult<T>(
   results: GeneratedSearchResult[]
 ): SearchResult<T>[] {
   const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
-    const { _score, _highlights, ...restProps } = result;
+    const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
     const doc: { [key: string]: any } = {
       ...restProps
     };
     const obj = {
       score: _score,
       highlights: _highlights,
+      rerankerScore,
+      captions,
       document: doc
     };
     return obj as SearchResult<T>;
@@ -518,6 +520,7 @@ export function generatedSkillsetToPublicSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
+    knowledgeStore: generatedSkillset.knowledgeStore,
     etag: generatedSkillset.etag,
     encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey)
   };
@@ -534,6 +537,7 @@ export function publicSkillsetToGeneratedSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount
     ),
+    knowledgeStore: skillset.knowledgeStore,
     encryptionKey: convertEncryptionKeyToGenerated(skillset.encryptionKey)
   };
 }

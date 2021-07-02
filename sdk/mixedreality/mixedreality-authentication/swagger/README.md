@@ -19,6 +19,7 @@ add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210121.2"
 hide-clients: true
+package-version: 1.0.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator

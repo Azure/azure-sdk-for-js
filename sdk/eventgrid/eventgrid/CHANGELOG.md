@@ -1,7 +1,32 @@
 # Release History
 
-## 4.1.1 (Unreleased)
+## 4.4.0 (Unreleased)
 
+### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+## 4.3.0 (2021-06-08)
+
+### New Features
+
+- Added new System Event: `Microsoft.Storage.BlobInventoryPolicyCompleted`
+
+### Key Bug Fixes
+
+- The `Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners` event was incorrectly listed with the name of `Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener`.
+  This has been corrected. When using TypeScript, you will need to replace any calls to `isSystemEvent("Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener")` with
+  `isSystemEvent("Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners")`.
+
+## 4.2.0 (2021-05-11)
+
+### New Features
+
+- Added new System Events: "Microsoft.PolicyInsights.PolicyStateCreated", "Microsoft.PolicyInsights.PolicyStateChanged", "Microsoft.PolicyInsights.PolicyStateDeleted",
+  "Microsoft.Storage.AsyncOperationInitiated", "Microsoft.Storage.BlobTierChanged".
 
 ## 4.1.0 (2021-03-23)
 

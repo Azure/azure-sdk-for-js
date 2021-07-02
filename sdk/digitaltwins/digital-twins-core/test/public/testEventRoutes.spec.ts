@@ -13,7 +13,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;

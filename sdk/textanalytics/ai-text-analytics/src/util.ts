@@ -5,6 +5,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { StringIndexType as GeneratedStringIndexType } from "./generated";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
 
 /**
  * @internal
@@ -94,7 +95,7 @@ const jsEncodingUnit = "Utf16CodeUnit";
 /**
  * Measurement units that can used to calculate the offset and length properties.
  */
-export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 /**
  * @internal
@@ -116,11 +117,40 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
   return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
+export function setStrEncodingParamValue(
+  stringIndexType?: GeneratedStringIndexType
+): GeneratedStringIndexType {
+  return stringIndexType || jsEncodingUnit;
+}
+
+/**
+ * Set the opinion mining property
+ * @internal
+ */
+export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
+  x: X
+): X & { opinionMining?: boolean } {
+  return { ...x, opinionMining: x.includeOpinionMining };
+}
+
+/**
+ * Set the pii categories property
+ * @internal
+ */
+export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
+  x: X
+): X & { piiCategories?: string[] } {
+  return { ...x, piiCategories: x.categoriesFilter };
+}
+
 /**
  * @internal
  */
-export function AddParamsToTask<X>(action: X): { parameters?: X } {
-  return { parameters: action };
+export function addParamsToTask<X extends TextAnalyticsAction>(
+  action: X
+): { parameters?: Omit<X, "actionName">; taskName?: string } {
+  const { actionName, ...params } = action;
+  return { parameters: params, taskName: actionName };
 }
 
 /**

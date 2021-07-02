@@ -1,10 +1,21 @@
 # Release History
 
+## 1.1.0 (Unreleased)
+
+### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
 ## 1.0.0 (2021-03-29)
 
 - Stable release of `@azure/communication-sms`.
 
-## 1.0.0-beta.4 (2020-03-09)
+## 1.0.0-beta.4 (2021-03-09)
 
 ### Added
 

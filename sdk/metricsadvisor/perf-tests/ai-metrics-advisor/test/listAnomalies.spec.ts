@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
-interface MetricsAdvisorTestOptions {}
+type MetricsAdvisorTestOptions = Record<string, unknown>;
 
 export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   alertId: string;
@@ -19,6 +19,7 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
       alertConfigId: this.alertConfigId,
       id: this.alertId
     });
+    // eslint-disable-next-line no-empty
     for await (const _anomaly of listIterator) {
     }
   }

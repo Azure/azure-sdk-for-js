@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/sms",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"from\":\"+1425555012345\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "status": 400,
+   "response": "{\"From\":[\"Invalid From phone number format\"]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:52:53 GMT",
+    "ms-cv": "rD6ustT2CkSDMUR116HyDA.0",
+    "request-context": "appId=",
+    "status": "400",
+    "x-azure-ref": "09nmDYAAAAAD7F6OU/oGkRYIC1qwVN6wQWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "13ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "f90fd00200508634c1acae0fd4a9d9c7"
+}

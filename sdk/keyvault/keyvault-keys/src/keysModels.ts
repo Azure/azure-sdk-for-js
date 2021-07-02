@@ -6,17 +6,16 @@ import {
   DeletionRecoveryLevel,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation,
-  KnownJsonWebKeyOperation as KnownKeyOperations
+  JsonWebKeyOperation as KeyOperation
 } from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
-export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
+export { KeyType, KnownKeyTypes, KeyOperation };
 
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -300,6 +299,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
   curve?: KeyCurveName;
+  /**
+   * Whether to import as a hardware key (HSM) or software key.
+   */
+  hsm?: boolean;
 }
 
 /**
@@ -333,23 +336,13 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
  * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
-export interface CreateEcKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to import as a hardware key (HSM) or software key.
-   */
-  hsm?: boolean;
-}
+export interface CreateEcKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to import as a hardware key (HSM) or software key.
-   */
-  hsm?: boolean;
-
   /** The public exponent for a RSA key. */
   publicExponent?: number;
 }
@@ -358,12 +351,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link createOctKey}
  */
-export interface CreateOctKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to create a hardware-protected key in a hardware security module (HSM).
-   */
-  hsm?: boolean;
-}
+export interface CreateOctKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
@@ -486,3 +474,26 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
 export interface CryptographyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link KeyClient.getRandomBytes}
+ */
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
+
+/** Known values of {@link KeyOperation} that the service accepts. */
+export enum KnownKeyOperations {
+  /** Key operation - encrypt */
+  Encrypt = "encrypt",
+  /** Key operation - encrypt */
+  Decrypt = "decrypt",
+  /** Key operation - encrypt */
+  Sign = "sign",
+  /** Key operation - encrypt */
+  Verify = "verify",
+  /** Key operation - encrypt */
+  WrapKey = "wrapKey",
+  /** Key operation - encrypt */
+  UnwrapKey = "unwrapKey",
+  /** Key operation - encrypt */
+  Import = "import"
+}

@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { RequestPrepareOptions } from "@azure/core-http";
+
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
@@ -36,7 +39,11 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
 
 export const cloudShellMsi: MSI = {
   async isAvailable(): Promise<boolean> {
-    return Boolean(process.env.MSI_ENDPOINT);
+    const result = Boolean(process.env.MSI_ENDPOINT);
+    if (!result) {
+      logger.info("The Azure Cloud Shell MSI is unavailable.");
+    }
+    return result;
   },
   async getToken(
     identityClient: IdentityClient,

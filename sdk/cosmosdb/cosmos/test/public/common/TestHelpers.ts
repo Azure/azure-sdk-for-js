@@ -17,7 +17,11 @@ import { endpoint, masterKey } from "./_testConfig";
 import { DatabaseRequest } from "../../../src";
 import { ContainerRequest } from "../../../src";
 
-const defaultClient = new CosmosClient({ endpoint, key: masterKey });
+const defaultClient = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 export function addEntropy(name: string): string {
   return name + getEntropy();
@@ -42,7 +46,6 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
       )
     );
   } catch (err) {
-    // TODO: remove console logging for errors and add ts-lint flag back
     console.log("An error occured", err);
     assert.fail(err);
     throw err;

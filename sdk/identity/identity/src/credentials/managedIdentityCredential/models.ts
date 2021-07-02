@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+
 import { IdentityClient } from "../../client/identityClient";
 
 export type MSIExpiresInParser = (requestBody: any) => number;

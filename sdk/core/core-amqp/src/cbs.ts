@@ -16,7 +16,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
 import { StandardAbortMessage, translate } from "./errors";
-import { defaultLock } from "./util/utils";
+import { defaultCancellableLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
 
 /**
@@ -76,8 +76,8 @@ export class CbsClient {
    *    For example, `abortSignal` can be passed to allow cancelling an in-progress `init` invocation.
    * @returns Promise<void>.
    */
-  async init(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    const { abortSignal } = options;
+  async init(options: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}): Promise<void> {
+    const { abortSignal, timeoutInMs } = options;
 
     try {
       if (abortSignal?.aborted) {
@@ -87,12 +87,16 @@ export class CbsClient {
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this.connection.isOpen()) {
         logger.verbose("The CBS client is trying to establish an AMQP connection.");
-        await defaultLock.acquire(this.connectionLock, () => {
-          return this.connection.open({ abortSignal });
-        });
+        await defaultCancellableLock.acquire(
+          this.connectionLock,
+          () => {
+            return this.connection.open({ abortSignal });
+          },
+          { abortSignal: abortSignal, timeoutInMs: timeoutInMs }
+        );
       }
 
-      if (!this._isCbsSenderReceiverLinkOpen()) {
+      if (!this.isOpen()) {
         const rxOpt: ReceiverOptions = {
           source: {
             address: this.endpoint
@@ -199,9 +203,9 @@ export class CbsClient {
     audience: string,
     token: string,
     tokenType: TokenType,
-    options: { abortSignal?: AbortSignalLike } = {}
+    options: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}
   ): Promise<CbsResponse> {
-    const { abortSignal } = options;
+    const { abortSignal, timeoutInMs } = options;
     try {
       if (abortSignal?.aborted) {
         throw new AbortError(StandardAbortMessage);
@@ -224,6 +228,7 @@ export class CbsClient {
       };
       const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request, {
         abortSignal,
+        timeoutInMs,
         requestName: "negotiateClaim"
       });
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
@@ -246,7 +251,7 @@ export class CbsClient {
    */
   async close(): Promise<void> {
     try {
-      if (this._isCbsSenderReceiverLinkOpen()) {
+      if (this.isOpen()) {
         const cbsLink = this._cbsSenderReceiverLink;
         this._cbsSenderReceiverLink = undefined;
         await cbsLink!.close();
@@ -284,8 +289,8 @@ export class CbsClient {
    * Indicates whether the cbs sender receiver link is open or closed.
    * @returns `true` open, `false` closed.
    */
-  private _isCbsSenderReceiverLinkOpen(): boolean {
-    return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
+  public isOpen(): boolean {
+    return Boolean(this._cbsSenderReceiverLink?.isOpen());
   }
 
   private _fromRheaMessageResponse(msg: RheaMessage): CbsResponse {

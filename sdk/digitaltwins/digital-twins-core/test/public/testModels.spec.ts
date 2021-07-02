@@ -60,7 +60,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
@@ -73,11 +73,15 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteModel failure during test setup or cleanup");
+    }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteModel failure during test setup or cleanup");
+    }
   }
 
   async function createModel(): Promise<void> {

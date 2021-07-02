@@ -38,7 +38,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export type AuthMethod = "APIKey" | "AAD";
+export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 
 export function createClient(
   authMethod: AuthMethod,
@@ -58,11 +58,19 @@ export function createClient(
       );
       break;
     }
+    case "DummyAPIKey": {
+      credential = new AzureKeyCredential("whatever");
+      break;
+    }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  return new TextAnalyticsClient(env.ENDPOINT, credential, options);
+  return new TextAnalyticsClient(
+    env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
+    credential,
+    options
+  );
 }
 
 /**

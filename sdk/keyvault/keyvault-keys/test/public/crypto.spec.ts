@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
@@ -14,6 +14,7 @@ import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "../utils/utils.common";
+import { isNode } from "@azure/core-http";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
@@ -40,7 +41,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     keySuffix = authentication.keySuffix;
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     keyVaultKey = await client.createKey(keyName, "RSA");
-    cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+    cryptoClient = new CryptographyClient(keyVaultKey, credential);
   });
 
   afterEach(async function(this: Context) {
@@ -282,5 +283,13 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const verifyResult = await hsmCryptoClient.verify("RS384", digest, signature.result);
     assert.ok(verifyResult);
     await testClient.flushKey(hsmKeyName);
+  });
+
+  it("supports tracing", async function() {
+    await supportsTracing(
+      (tracingOptions) =>
+        cryptoClient.encrypt("RSA1_5", stringToUint8Array("data"), { tracingOptions }),
+      ["Azure.KeyVault.Keys.CryptographyClient.encrypt"]
+    );
   });
 });

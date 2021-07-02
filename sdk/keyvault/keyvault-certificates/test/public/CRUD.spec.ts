@@ -6,6 +6,7 @@ import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
 import { assert } from "chai";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
@@ -18,7 +19,6 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { setTracer, TestTracer } from "@azure/core-tracing";
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -95,26 +95,6 @@ describe("Certificates client - create, read, update and delete", () => {
         }
       });
     });
-  });
-
-  it("supports tracing", async function(this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const tracer = new TestTracer();
-    setTracer(tracer);
-    const poller = await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    await poller.pollUntilDone();
-
-    const span = tracer
-      .getKnownSpans()
-      .find((s) => s.name.includes("CreateCertificatePoller.getCertificate"));
-
-    assert.exists(span);
-    assert.isTrue(span!.endCalled);
-    await testClient.flushCertificate(certificateName);
   });
 
   it("cannot create a certificate with an empty name", async function() {
@@ -661,5 +641,29 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.code, "ContactsNotFound");
+  });
+
+  it("supports tracing", async function(this: Context) {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await supportsTracing(
+      async (tracingOptions) => {
+        const poller = await client.beginCreateCertificate(
+          certificateName,
+          basicCertificatePolicy,
+          {
+            ...testPollerProperties,
+            tracingOptions
+          }
+        );
+        await poller.pollUntilDone();
+        await client.getCertificate(certificateName, { tracingOptions });
+      },
+      [
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.createCertificate",
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.getPlainCertificateOperation",
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.getCertificate",
+        "Azure.KeyVault.Certificates.CertificateClient.getCertificate"
+      ]
+    );
   });
 });

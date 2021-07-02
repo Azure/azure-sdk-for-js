@@ -149,19 +149,14 @@ export interface VerifyResult {
 }
 
 /**
- * Common optional properties for encrypt, decrypt, wrap and unwrap.
- */
-export interface KeyOperationsOptions extends CryptographyOptions {}
-
-/**
  * Options for {@link encrypt}.
  */
-export interface EncryptOptions extends KeyOperationsOptions {}
+export interface EncryptOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link decrypt}.
  */
-export interface DecryptOptions extends KeyOperationsOptions {}
+export interface DecryptOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link sign}.
@@ -181,12 +176,12 @@ export interface VerifyDataOptions extends CryptographyOptions {}
 /**
  * Options for {@link wrapKey}.
  */
-export interface WrapKeyOptions extends KeyOperationsOptions {}
+export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link unwrapKey}.
  */
-export interface UnwrapKeyOptions extends KeyOperationsOptions {}
+export interface UnwrapKeyOptions extends CryptographyOptions {}
 
 /**
  * A union type representing all supported RSA encryption algorithms.
@@ -301,7 +296,7 @@ export interface AesGcmDecryptParameters {
   /**
    * The authentication tag generated during encryption.
    */
-  authenticationTag?: Uint8Array;
+  authenticationTag: Uint8Array;
   /**
    * Optional data that is authenticated but not encrypted.
    */

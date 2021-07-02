@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import {
-  UpdateChatMessageRequest as RestUpdateMessageOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
@@ -12,7 +11,6 @@ import {
 import { ChatParticipant } from "./models";
 
 export {
-  RestUpdateMessageOptions,
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
@@ -47,12 +45,19 @@ export interface SendMessageOptions extends OperationOptions {
   senderDisplayName?: string;
   /** The chat message type. */
   type?: ChatMessageType;
+  /** Message metadata. */
+  metadata?: Record<string, string>;
 }
 
 /**
  * Options to update a chat message.
  */
-export interface UpdateMessageOptions extends RestUpdateMessageOptions, OperationOptions {}
+export interface UpdateMessageOptions extends OperationOptions {
+  /** Chat message content. */
+  content?: string;
+  /** Message metadata. */
+  metadata?: Record<string, string>;
+}
 
 /**
  * Options to list chat messages.
@@ -107,7 +112,10 @@ export type RemoveParticipantOptions = OperationOptions;
 /**
  * Options to send typing notifications.
  */
-export type SendTypingNotificationOptions = OperationOptions;
+export interface SendTypingNotificationOptions extends OperationOptions {
+  /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+}
 
 /**
  * Options to send read receipt.

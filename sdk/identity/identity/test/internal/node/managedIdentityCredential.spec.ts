@@ -3,7 +3,10 @@
 
 import qs from "qs";
 import assert from "assert";
-import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
+import { WebResource, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
@@ -11,6 +14,14 @@ import {
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { OAuthErrorResponse } from "../../../src/client/errors";
+import Sinon from "sinon";
+import {
+  imdsMsi,
+  imdsMsiRetryConfig
+} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import { join } from "path";
+import { tmpdir } from "os";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -18,11 +29,9 @@ interface AuthRequestDetails {
 }
 
 describe("ManagedIdentityCredential", function() {
-  // There are no types available for this dependency, at least at the time this test file was written.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const mockFs = require("mock-fs");
-
   let envCopy: string = "";
+  let sandbox: Sinon.SinonSandbox;
+
   beforeEach(() => {
     envCopy = JSON.stringify(process.env);
     delete process.env.IDENTITY_ENDPOINT;
@@ -30,15 +39,20 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
+    delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_POD_IDENTITY_TOKEN_URL;
+    sandbox = Sinon.createSandbox();
   });
   afterEach(() => {
-    mockFs.restore();
     const env = JSON.parse(envCopy);
     process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
     process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
     process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
     process.env.MSI_SECRET = env.MSI_SECRET;
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
+    process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
+    process.env.AZURE_POD_IDENTITY_TOKEN_URL = env.AZURE_POD_IDENTITY_TOKEN_URL;
+    sandbox.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -171,6 +185,119 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
+  it("IMDS MSI retries and succeeds on 404", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        // First response says the IMDS endpoint is available.
+        { status: 200 },
+        { status: 404 },
+        // Retries one time and fails
+        { status: 404 },
+        // Retries a second time and succeeds
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const response = await credential.getToken("scopes");
+    assert.equal(response.token, "token");
+  });
+
+  it("IMDS MSI retries up to a limit on 404", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 200 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const clock = sandbox.useFakeTimers();
+
+    let errorMessage: string = "";
+    credential.getToken("scopes").catch((error) => {
+      errorMessage = error.message;
+    });
+
+    // From the retry code of the IMDS MSI,
+    // the timeouts increase exponentially until we reach the limit:
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    await clock.tickAsync(6400);
+
+    assert.ok(
+      errorMessage.indexOf(
+        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+      ) > -1
+    );
+
+    clock?.restore();
+  });
+
+  it("IMDS MSI retries also retries on 503s", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
+        // { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 200 },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(
+      "errclient",
+      mockHttpClient.tokenCredentialOptions
+    );
+
+    const clock = sandbox.useFakeTimers();
+    const promise = credential.getToken("scopes");
+
+    // From the retry code of the IMDS MSI,
+    // the timeouts increase exponentially until we reach the limit:
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    // Plus four 503s: 20s * 6 from the 503 responses.
+    clock.tickAsync(6400 + 2000 * 6);
+
+    assert.equal((await promise).token, "token");
+    clock.restore();
+  });
+
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_TOKEN_URL environment variable is available", async function() {
+    process.env.AZURE_POD_IDENTITY_TOKEN_URL = "token URL";
+
+    assert.ok(await imdsMsi.isAvailable());
+  });
+
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
   // it("can extend timeout for IMDS endpoint", async function() {
   //   // Mock a timeout so that the endpoint ping fails
@@ -263,70 +390,67 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async () => {
+  it("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const filePath = "path/to/file";
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
+    writeFileSync(tempFile, key, { encoding: "utf8" });
 
-    mockFs({
-      [`${filePath}`]: key
-    });
-
-    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
-      authResponse: [
-        {
-          status: 401,
-          headers: new HttpHeaders({
-            "www-authenticate": `we don't pay much attention about this format=${filePath}`
-          })
-        },
-        {
-          status: 200,
-          parsedBody: {
-            token: "token",
-            expires_in: 1
+    try {
+      const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
+        authResponse: [
+          {
+            status: 401,
+            headers: new HttpHeaders({
+              "www-authenticate": `we don't pay much attention about this format=${tempFile}`
+            })
+          },
+          {
+            status: 200,
+            parsedBody: {
+              token: "token",
+              expires_in: 1
+            }
           }
-        }
-      ]
-    });
+        ]
+      });
 
-    // File request
-    const validationRequest = authDetails.requests[0];
-    assert.ok(validationRequest.query, "No query string parameters on request");
+      // File request
+      const validationRequest = authDetails.requests[0];
+      assert.ok(validationRequest.query, "No query string parameters on request");
 
-    assert.equal(validationRequest.method, "GET");
-    assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
+      assert.equal(validationRequest.method, "GET");
+      assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
 
-    assert.ok(
-      validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    // Authorization request, which comes after getting the file path, for now at least.
-    const authRequest = authDetails.requests[1];
-    assert.ok(authRequest.query, "No query string parameters on request");
-
-    assert.equal(authRequest.method, "GET");
-    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
-
-    assert.ok(
-      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
-    if (authDetails.token) {
-      // We use Date.now underneath.
-      assert.equal(
-        Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-        Math.floor(Date.now() / 1000000)
+      assert.ok(
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
       );
-    } else {
-      assert.fail("No token was returned!");
+
+      // Authorization request, which comes after getting the file path, for now at least.
+      const authRequest = authDetails.requests[1];
+      assert.ok(authRequest.query, "No query string parameters on request");
+
+      assert.equal(authRequest.method, "GET");
+      assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
+      assert.ok(authDetails.token?.expiresOnTimestamp);
+    } finally {
+      unlinkSync(tempFile);
+      rmdirSync(tempDir);
     }
   });
 

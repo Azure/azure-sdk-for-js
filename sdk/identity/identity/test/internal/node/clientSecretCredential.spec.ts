@@ -5,13 +5,12 @@
 
 import Sinon from "sinon";
 import assert from "assert";
-import { env } from "@azure/test-utils-recorder";
+import { AbortController } from "@azure/abort-controller";
+import { env, delay } from "@azure/test-utils-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../src";
+import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode15, isNode8 } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential (internal)", function() {
@@ -44,99 +43,40 @@ describe("ClientSecretCredential (internal)", function() {
       env.AZURE_CLIENT_SECRET
     );
 
-    await credential.getToken(scope);
+    const { token: firstToken } = await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
 
-    await credential.getToken(scope);
+    const { token: secondToken } = await credential.getToken(scope);
+    assert.strictEqual(firstToken, secondToken);
     assert.equal(getTokenSilentSpy.callCount, 2);
 
-    // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-    // The Client Secret flow does not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    assert.equal(doGetTokenSpy.callCount, 2);
+    assert.equal(doGetTokenSpy.callCount, 1);
   });
 
-  // To test this, please install @azure/msal-node-extensions and un-skip these tests.
-  describe("Persistent tests", function() {
+  it("supports specifying the regional authority", async function() {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      {
+        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+      }
+    );
+
+    // We'll abort since we only want to ensure the parameters are sent appropriately.
+    const controller = new AbortController();
+    const getTokenPromise = credential.getToken(scope, {
+      abortSignal: controller.signal
+    });
+    await delay(5);
+    controller.abort();
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
-      require("@azure/msal-node-extensions");
+      await getTokenPromise;
     } catch (e) {
-      return;
+      // Nothing to do here.
     }
 
-    it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
-        this.skip();
-      }
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform === "darwin") {
-        this.skip();
-      }
-
-      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-        allowUnencryptedStorage: true
-      };
-
-      // Emptying the token cache before we start.
-      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-      const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
-
-      const credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET,
-        { tokenCachePersistenceOptions }
-      );
-
-      await credential.getToken(scope);
-      const result = await persistence?.load();
-      const parsedResult = JSON.parse(result!);
-      assert.ok(parsedResult.AccessToken);
-    });
-
-    it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
-        this.skip();
-      }
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform === "darwin") {
-        this.skip();
-      }
-
-      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-        allowUnencryptedStorage: true
-      };
-
-      // Emptying the token cache before we start.
-      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-      const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
-
-      const credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET,
-        { tokenCachePersistenceOptions }
-      );
-
-      await credential.getToken(scope);
-      assert.equal(getTokenSilentSpy.callCount, 1);
-      assert.equal(doGetTokenSpy.callCount, 1);
-
-      await credential.getToken(scope);
-      assert.equal(getTokenSilentSpy.callCount, 2);
-
-      // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-      // The Client Secret flow does not return the account information from the authentication service,
-      // so each time getToken gets called, we will have to acquire a new token through the service.
-      assert.equal(doGetTokenSpy.callCount, 2);
-    });
+    assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
   });
 });

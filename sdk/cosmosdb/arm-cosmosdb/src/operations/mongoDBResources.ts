@@ -861,7 +861,7 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -888,7 +888,7 @@ const beginMigrateMongoDBDatabaseToAutoscaleOperationSpec: msRest.OperationSpec 
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -915,7 +915,7 @@ const beginMigrateMongoDBDatabaseToManualThroughputOperationSpec: msRest.Operati
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1039,7 +1039,7 @@ const beginMigrateMongoDBCollectionToAutoscaleOperationSpec: msRest.OperationSpe
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1067,7 +1067,7 @@ const beginMigrateMongoDBCollectionToManualThroughputOperationSpec: msRest.Opera
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

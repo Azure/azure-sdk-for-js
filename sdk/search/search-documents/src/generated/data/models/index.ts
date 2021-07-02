@@ -48,7 +48,7 @@ export interface SearchDocumentsResult {
    * The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly answers?: { [propertyName: string]: AnswerResult[] } | null;
+  readonly answers?: AnswerResult[] | null;
   /**
    * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested results in a single Search response. You can use this JSON along with @odata.nextLink to formulate another POST Search request to get the next part of the search response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -85,17 +85,17 @@ export interface AnswerResult {
    * The score value represents how relevant the answer is to the the query relative to other answers returned for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly score?: number;
+  readonly score: number;
   /**
    * The key of the document the answer was extracted from.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly key?: string;
+  readonly key: string;
   /**
    * The text passage extracted from the document contents as the answer.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly text?: string;
+  readonly text: string;
   /**
    * Same text passage as in the Text property with highlighted text phrases most relevant to the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -174,7 +174,7 @@ export interface SearchResult {
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly captions?: { [propertyName: string]: CaptionResult[] } | null;
+  readonly captions?: CaptionResult[] | null;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.. */

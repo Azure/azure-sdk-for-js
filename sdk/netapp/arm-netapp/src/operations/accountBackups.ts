@@ -60,7 +60,7 @@ export class AccountBackups {
   }
 
   /**
-   * Get Backup for a Netapp Account
+   * Gets the specified backup for a Netapp Account
    * @summary Get Backup for a Netapp Account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -97,7 +97,7 @@ export class AccountBackups {
   }
 
   /**
-   * Delete Backup for a Netapp Account
+   * Delete the specified Backup for a Netapp Account
    * @summary Delete Backup for a Netapp Account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -111,7 +111,7 @@ export class AccountBackups {
   }
 
   /**
-   * Delete Backup for a Netapp Account
+   * Delete the specified Backup for a Netapp Account
    * @summary Delete Backup for a Netapp Account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account

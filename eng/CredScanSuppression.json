@@ -28,6 +28,7 @@
     {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
+        "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
         "azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
         "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
         "SecretBaseUnion",

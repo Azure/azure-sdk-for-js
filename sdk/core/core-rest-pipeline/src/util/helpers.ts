@@ -3,12 +3,14 @@
 
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.
+ * @internal
  */
 export const isNode =
   typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @internal
  * @param t - The number of milliseconds to be delayed.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @returns Resolved promise
@@ -35,4 +37,23 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   // in order to be inclusive of the maximum value after we take the floor.
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
+}
+
+/**
+ * @internal
+ */
+export type UnknownObject = { [s: string]: unknown };
+
+/**
+ * @internal
+ * @returns true when input is an object type that is not null, Array, RegExp, or Date.
+ */
+export function isObject(input: unknown): input is UnknownObject {
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    !Array.isArray(input) &&
+    !(input instanceof RegExp) &&
+    !(input instanceof Date)
+  );
 }

@@ -563,7 +563,7 @@ export const MonitorProperties: msRest.CompositeMapper = {
       },
       monitoringStatus: {
         serializedName: "monitoringStatus",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -721,7 +721,7 @@ export const MonitorUpdateProperties: msRest.CompositeMapper = {
     modelProperties: {
       monitoringStatus: {
         serializedName: "monitoringStatus",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -752,6 +752,13 @@ export const DatadogMonitorResourceUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ResourceSku"
         }
       }
     }

@@ -175,5 +175,11 @@ export {
   DeviceTwin,
   DeviceTwinMetadata,
   AppServicePlanAction,
-  KnownAppServicePlanAction
+  KnownAppServicePlanAction,
+  PolicyInsightsPolicyStateChangedEventData,
+  PolicyInsightsPolicyStateCreatedEventData,
+  PolicyInsightsPolicyStateDeletedEventData,
+  StorageAsyncOperationInitiatedEventData,
+  StorageBlobTierChangedEventData,
+  StorageBlobInventoryPolicyCompletedEventData
 } from "./generated/models";

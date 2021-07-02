@@ -1,6 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
@@ -29,9 +29,6 @@ module.exports = function(config) {
     ],
 
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
@@ -48,7 +45,6 @@ module.exports = function(config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "KEYVAULT_NAME",
       "KEYVAULT_URI",
       "TEST_MODE"
     ],

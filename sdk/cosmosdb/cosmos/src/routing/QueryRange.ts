@@ -55,8 +55,8 @@ export class QueryRange {
 
   public isFullRange(): boolean {
     return (
-      this.min === Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
-      this.max === Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
+      this.min === Constants.EffectivePartitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
+      this.max === Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
       this.isMinInclusive === true &&
       this.isMaxInclusive === false
     );

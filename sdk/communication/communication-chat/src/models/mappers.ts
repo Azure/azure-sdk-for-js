@@ -58,6 +58,22 @@ export const mapToAddChatParticipantsRequestRestModel = (
 
 /**
  * @internal
+ * Mapping chat participant REST model to chat participant SDK model
+ */
+export const mapToChatParticipantSdkModel = (
+  chatParticipant: RestModel.ChatParticipant
+): ChatParticipant => {
+  const { communicationIdentifier, ...rest } = chatParticipant;
+  return {
+    ...rest,
+    id: deserializeCommunicationIdentifier(
+      communicationIdentifier as SerializedCommunicationIdentifier
+    )
+  };
+};
+
+/**
+ * @internal
  */
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent
@@ -85,21 +101,20 @@ export const mapToChatContentSdkModel = (
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
   const { content, senderCommunicationIdentifier, ...otherChatMessage } = chatMessage;
-  const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
-  if (senderCommunicationIdentifier) {
-    return {
-      sender: deserializeCommunicationIdentifier(
-        senderCommunicationIdentifier as SerializedCommunicationIdentifier
-      ),
-      content: contentSdkModel,
-      ...otherChatMessage
-    };
-  } else {
-    return {
-      content: contentSdkModel,
-      ...otherChatMessage
+  let result: ChatMessage = { ...otherChatMessage };
+  if (content) {
+    result = {
+      ...result,
+      content: mapToChatContentSdkModel(content)
     };
   }
+  if (senderCommunicationIdentifier) {
+    const sender = deserializeCommunicationIdentifier(
+      senderCommunicationIdentifier as SerializedCommunicationIdentifier
+    );
+    result = { ...result, sender };
+  }
+  return result;
 };
 
 /**
@@ -109,23 +124,7 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
 export const mapToChatMessagesSdkModelArray = (
   chatMessagesCollection: RestModel.ChatMessagesCollection
 ): ChatMessage[] => {
-  return chatMessagesCollection.value?.map((chatMessage) => mapToChatMessageSdkModel(chatMessage))!;
-};
-
-/**
- * @internal
- * Mapping chat participant REST model to chat participant SDK model
- */
-export const mapToChatParticipantSdkModel = (
-  chatParticipant: RestModel.ChatParticipant
-): ChatParticipant => {
-  const { communicationIdentifier, ...rest } = chatParticipant;
-  return {
-    ...rest,
-    id: deserializeCommunicationIdentifier(
-      communicationIdentifier as SerializedCommunicationIdentifier
-    )
-  };
+  return chatMessagesCollection.value?.map((chatMessage) => mapToChatMessageSdkModel(chatMessage));
 };
 
 /**

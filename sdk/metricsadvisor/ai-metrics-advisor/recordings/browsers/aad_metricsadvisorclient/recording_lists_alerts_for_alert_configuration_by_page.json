@@ -11,56 +11,58 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:01 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:18 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11419.13 - KRSLR1 ProdSlices",
-    "x-ms-request-id": "75b1142b-87bd-459c-bf45-04cdf59e8200"
+    "x-ms-ests-server": "2.1.11722.26 - EUS ProdSlices",
+    "x-ms-request-id": "fc0ea750-0e69-404f-aff4-96973c47b500"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query",
    "query": {
-    "$top": "1"
+    "$maxpagesize": "1"
    },
    "requestBody": "{\"startTime\":\"2020-11-01T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"timeMode\":\"AnomalyTime\"}",
    "status": 200,
-   "response": "{\"value\":[{\"alertId\":\"175908d9800\",\"timestamp\":\"2020-11-04T00:00:00Z\",\"createdTime\":\"2020-11-05T00:56:55.458Z\",\"modifiedTime\":\"2020-11-10T20:27:22.216Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query?$top=1&$skip=1\"}",
+   "response": "{\"value\":[{\"alertId\":\"175908d9800\",\"timestamp\":\"2020-11-04T00:00:00Z\",\"createdTime\":\"2020-11-05T00:56:55.458Z\",\"modifiedTime\":\"2020-11-10T20:27:22.216Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query?$maxpagesize=1&$skip=1\"}",
    "responseHeaders": {
-    "apim-request-id": "0f08bc2c-69df-4ea9-bbf2-9c5d553f4fd0",
-    "content-length": "342",
+    "apim-request-id": "beef03c8-0328-4297-a86e-727bf41da780",
+    "content-length": "350",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:02 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:17 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "40",
-    "x-request-id": "0f08bc2c-69df-4ea9-bbf2-9c5d553f4fd0"
+    "x-envoy-upstream-service-time": "82",
+    "x-request-id": "beef03c8-0328-4297-a86e-727bf41da780"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query",
    "query": {
-    "$top": "1",
+    "$maxpagesize": "1",
     "$skip": "1"
    },
    "requestBody": "{\"startTime\":\"2020-11-01T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"timeMode\":\"AnomalyTime\"}",
    "status": 200,
-   "response": "{\"value\":[{\"alertId\":\"1758b673c00\",\"timestamp\":\"2020-11-03T00:00:00Z\",\"createdTime\":\"2020-11-04T00:06:13.262Z\",\"modifiedTime\":\"2020-11-09T00:07:02.44Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query?$top=1&$skip=2\"}",
+   "response": "{\"value\":[{\"alertId\":\"1758b673c00\",\"timestamp\":\"2020-11-03T00:00:00Z\",\"createdTime\":\"2020-11-04T00:06:13.262Z\",\"modifiedTime\":\"2020-11-09T00:07:02.44Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query?$maxpagesize=1&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "7a9244bc-e1d3-4bcd-b68e-c5c48024944b",
-    "content-length": "341",
+    "apim-request-id": "16d55889-3282-4a59-abbc-750f9e9506ff",
+    "content-length": "349",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:02 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "42",
-    "x-request-id": "7a9244bc-e1d3-4bcd-b68e-c5c48024944b"
+    "x-envoy-upstream-service-time": "72",
+    "x-request-id": "16d55889-3282-4a59-abbc-750f9e9506ff"
    }
   }
  ],
@@ -68,5 +70,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "636d0cce6e899b1e5a8117dffe41e91d"
+ "hash": "1980c16fcab7c93cac4e49e4e2c22b2d"
 }

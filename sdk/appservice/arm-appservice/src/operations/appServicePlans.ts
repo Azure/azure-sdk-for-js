@@ -32,7 +32,9 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListResponse>
    */
-  list(options?: Models.AppServicePlansListOptionalParams): Promise<Models.AppServicePlansListResponse>;
+  list(
+    options?: Models.AppServicePlansListOptionalParams
+  ): Promise<Models.AppServicePlansListResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.AppServicePlansListOptionalParams, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  list(options?: Models.AppServicePlansListOptionalParams | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListResponse> {
+  list(
+    options: Models.AppServicePlansListOptionalParams,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
+  list(
+    options?:
+      | Models.AppServicePlansListOptionalParams
+      | msRest.ServiceCallback<Models.AppServicePlanCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): Promise<Models.AppServicePlansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AppServicePlansListResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListResponse>;
   }
 
   /**
@@ -58,26 +69,41 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): Promise<Models.AppServicePlansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AppServicePlansListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListByResourceGroupResponse>;
   }
 
   /**
@@ -88,21 +114,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetResponse>
    */
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetResponse>;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.AppServicePlan>): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.AppServicePlan>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlan>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlan>, callback?: msRest.ServiceCallback<Models.AppServicePlan>): Promise<Models.AppServicePlansGetResponse> {
+  get(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServicePlan>
+  ): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlan>,
+    callback?: msRest.ServiceCallback<Models.AppServicePlan>
+  ): Promise<Models.AppServicePlansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +154,8 @@ export class AppServicePlans {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetResponse>;
   }
 
   /**
@@ -122,9 +167,20 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlan, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,name,appServicePlan,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppServicePlansCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: Models.AppServicePlan,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      name,
+      appServicePlan,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AppServicePlansCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -135,21 +191,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +231,8 @@ export class AppServicePlans {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -169,14 +244,24 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansUpdateResponse>
    */
-  update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: Models.AppServicePlanPatchResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, callback: msRest.ServiceCallback<Models.AppServicePlan>): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: Models.AppServicePlanPatchResource,
+    callback: msRest.ServiceCallback<Models.AppServicePlan>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -184,8 +269,20 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlan>): void;
-  update(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlanPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlan>, callback?: msRest.ServiceCallback<Models.AppServicePlan>): Promise<Models.AppServicePlansUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: Models.AppServicePlanPatchResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServicePlan>
+  ): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: Models.AppServicePlanPatchResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlan>,
+    callback?: msRest.ServiceCallback<Models.AppServicePlan>
+  ): Promise<Models.AppServicePlansUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +291,8 @@ export class AppServicePlans {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AppServicePlansUpdateResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansUpdateResponse>;
   }
 
   /**
@@ -205,21 +303,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListCapabilitiesResponse>
    */
-  listCapabilities(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListCapabilitiesResponse>;
+  listCapabilities(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListCapabilitiesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  listCapabilities(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.Capability[]>): void;
+  listCapabilities(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.Capability[]>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCapabilities(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Capability[]>): void;
-  listCapabilities(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Capability[]>, callback?: msRest.ServiceCallback<Models.Capability[]>): Promise<Models.AppServicePlansListCapabilitiesResponse> {
+  listCapabilities(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Capability[]>
+  ): void;
+  listCapabilities(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Capability[]>,
+    callback?: msRest.ServiceCallback<Models.Capability[]>
+  ): Promise<Models.AppServicePlansListCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +343,8 @@ export class AppServicePlans {
         options
       },
       listCapabilitiesOperationSpec,
-      callback) as Promise<Models.AppServicePlansListCapabilitiesResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListCapabilitiesResponse>;
   }
 
   /**
@@ -240,7 +357,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetHybridConnectionResponse>
    */
-  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetHybridConnectionResponse>;
+  getHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetHybridConnectionResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -248,7 +371,13 @@ export class AppServicePlans {
    * @param relayName Name of the Service Bus relay.
    * @param callback The callback
    */
-  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
+  getHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    callback: msRest.ServiceCallback<Models.HybridConnection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -257,8 +386,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.AppServicePlansGetHybridConnectionResponse> {
+  getHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnection>
+  ): void;
+  getHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>,
+    callback?: msRest.ServiceCallback<Models.HybridConnection>
+  ): Promise<Models.AppServicePlansGetHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -268,7 +411,8 @@ export class AppServicePlans {
         options
       },
       getHybridConnectionOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetHybridConnectionResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetHybridConnectionResponse>;
   }
 
   /**
@@ -281,7 +425,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -289,7 +439,13 @@ export class AppServicePlans {
    * @param relayName Name of the Service Bus relay.
    * @param callback The callback
    */
-  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -298,8 +454,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -309,7 +479,8 @@ export class AppServicePlans {
         options
       },
       deleteHybridConnectionOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -322,7 +493,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListHybridConnectionKeysResponse>
    */
-  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListHybridConnectionKeysResponse>;
+  listHybridConnectionKeys(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListHybridConnectionKeysResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -330,7 +507,13 @@ export class AppServicePlans {
    * @param relayName The name of the Service Bus relay.
    * @param callback The callback
    */
-  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, callback: msRest.ServiceCallback<Models.HybridConnectionKey>): void;
+  listHybridConnectionKeys(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    callback: msRest.ServiceCallback<Models.HybridConnectionKey>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -339,8 +522,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionKey>): void;
-  listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionKey>, callback?: msRest.ServiceCallback<Models.HybridConnectionKey>): Promise<Models.AppServicePlansListHybridConnectionKeysResponse> {
+  listHybridConnectionKeys(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnectionKey>
+  ): void;
+  listHybridConnectionKeys(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionKey>,
+    callback?: msRest.ServiceCallback<Models.HybridConnectionKey>
+  ): Promise<Models.AppServicePlansListHybridConnectionKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -350,7 +547,8 @@ export class AppServicePlans {
         options
       },
       listHybridConnectionKeysOperationSpec,
-      callback) as Promise<Models.AppServicePlansListHybridConnectionKeysResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListHybridConnectionKeysResponse>;
   }
 
   /**
@@ -363,7 +561,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse>
    */
-  listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse>;
+  listWebAppsByHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -371,7 +575,13 @@ export class AppServicePlans {
    * @param relayName Name of the Hybrid Connection relay.
    * @param callback The callback
    */
-  listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, callback: msRest.ServiceCallback<Models.ResourceCollection>): void;
+  listWebAppsByHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    callback: msRest.ServiceCallback<Models.ResourceCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -380,8 +590,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceCollection>): void;
-  listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceCollection>, callback?: msRest.ServiceCallback<Models.ResourceCollection>): Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse> {
+  listWebAppsByHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceCollection>
+  ): void;
+  listWebAppsByHybridConnection(
+    resourceGroupName: string,
+    name: string,
+    namespaceName: string,
+    relayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceCollection>
+  ): Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -391,7 +615,8 @@ export class AppServicePlans {
         options
       },
       listWebAppsByHybridConnectionOperationSpec,
-      callback) as Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListWebAppsByHybridConnectionResponse>;
   }
 
   /**
@@ -402,21 +627,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse>
    */
-  getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse>;
+  getHybridConnectionPlanLimit(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  getHybridConnectionPlanLimit(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.HybridConnectionLimits>): void;
+  getHybridConnectionPlanLimit(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.HybridConnectionLimits>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionLimits>): void;
-  getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionLimits>, callback?: msRest.ServiceCallback<Models.HybridConnectionLimits>): Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse> {
+  getHybridConnectionPlanLimit(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnectionLimits>
+  ): void;
+  getHybridConnectionPlanLimit(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionLimits>,
+    callback?: msRest.ServiceCallback<Models.HybridConnectionLimits>
+  ): Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -424,7 +667,8 @@ export class AppServicePlans {
         options
       },
       getHybridConnectionPlanLimitOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetHybridConnectionPlanLimitResponse>;
   }
 
   /**
@@ -435,21 +679,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListHybridConnectionsResponse>
    */
-  listHybridConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListHybridConnectionsResponse>;
+  listHybridConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListHybridConnectionsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  listHybridConnections(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.HybridConnectionCollection>): void;
+  listHybridConnections(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.HybridConnectionCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHybridConnections(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionCollection>): void;
-  listHybridConnections(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionCollection>, callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>): Promise<Models.AppServicePlansListHybridConnectionsResponse> {
+  listHybridConnections(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnectionCollection>
+  ): void;
+  listHybridConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionCollection>,
+    callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>
+  ): Promise<Models.AppServicePlansListHybridConnectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -457,7 +719,8 @@ export class AppServicePlans {
         options
       },
       listHybridConnectionsOperationSpec,
-      callback) as Promise<Models.AppServicePlansListHybridConnectionsResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListHybridConnectionsResponse>;
   }
 
   /**
@@ -468,21 +731,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restartWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansRestartWebAppsOptionalParams): Promise<msRest.RestResponse>;
+  restartWebApps(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.AppServicePlansRestartWebAppsOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  restartWebApps(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  restartWebApps(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restartWebApps(resourceGroupName: string, name: string, options: Models.AppServicePlansRestartWebAppsOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  restartWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansRestartWebAppsOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  restartWebApps(
+    resourceGroupName: string,
+    name: string,
+    options: Models.AppServicePlansRestartWebAppsOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  restartWebApps(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.AppServicePlansRestartWebAppsOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -490,7 +771,8 @@ export class AppServicePlans {
         options
       },
       restartWebAppsOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -501,21 +783,41 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListWebAppsResponse>
    */
-  listWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansListWebAppsOptionalParams): Promise<Models.AppServicePlansListWebAppsResponse>;
+  listWebApps(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.AppServicePlansListWebAppsOptionalParams
+  ): Promise<Models.AppServicePlansListWebAppsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  listWebApps(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
+  listWebApps(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.WebAppCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listWebApps(resourceGroupName: string, name: string, options: Models.AppServicePlansListWebAppsOptionalParams, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listWebApps(resourceGroupName: string, name: string, options?: Models.AppServicePlansListWebAppsOptionalParams | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServicePlansListWebAppsResponse> {
+  listWebApps(
+    resourceGroupName: string,
+    name: string,
+    options: Models.AppServicePlansListWebAppsOptionalParams,
+    callback: msRest.ServiceCallback<Models.WebAppCollection>
+  ): void;
+  listWebApps(
+    resourceGroupName: string,
+    name: string,
+    options?:
+      | Models.AppServicePlansListWebAppsOptionalParams
+      | msRest.ServiceCallback<Models.WebAppCollection>,
+    callback?: msRest.ServiceCallback<Models.WebAppCollection>
+  ): Promise<Models.AppServicePlansListWebAppsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -523,7 +825,8 @@ export class AppServicePlans {
         options
       },
       listWebAppsOperationSpec,
-      callback) as Promise<Models.AppServicePlansListWebAppsResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListWebAppsResponse>;
   }
 
   /**
@@ -534,21 +837,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetServerFarmSkusResponse>
    */
-  getServerFarmSkus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetServerFarmSkusResponse>;
+  getServerFarmSkus(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetServerFarmSkusResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param callback The callback
    */
-  getServerFarmSkus(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<any>): void;
+  getServerFarmSkus(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServerFarmSkus(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getServerFarmSkus(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AppServicePlansGetServerFarmSkusResponse> {
+  getServerFarmSkus(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  getServerFarmSkus(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.AppServicePlansGetServerFarmSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -556,7 +877,8 @@ export class AppServicePlans {
         options
       },
       getServerFarmSkusOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetServerFarmSkusResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetServerFarmSkusResponse>;
   }
 
   /**
@@ -567,21 +889,41 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListUsagesResponse>
    */
-  listUsages(resourceGroupName: string, name: string, options?: Models.AppServicePlansListUsagesOptionalParams): Promise<Models.AppServicePlansListUsagesResponse>;
+  listUsages(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.AppServicePlansListUsagesOptionalParams
+  ): Promise<Models.AppServicePlansListUsagesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
+  listUsages(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, name: string, options: Models.AppServicePlansListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsages(resourceGroupName: string, name: string, options?: Models.AppServicePlansListUsagesOptionalParams | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServicePlansListUsagesResponse> {
+  listUsages(
+    resourceGroupName: string,
+    name: string,
+    options: Models.AppServicePlansListUsagesOptionalParams,
+    callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>
+  ): void;
+  listUsages(
+    resourceGroupName: string,
+    name: string,
+    options?:
+      | Models.AppServicePlansListUsagesOptionalParams
+      | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>,
+    callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>
+  ): Promise<Models.AppServicePlansListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -589,7 +931,8 @@ export class AppServicePlans {
         options
       },
       listUsagesOperationSpec,
-      callback) as Promise<Models.AppServicePlansListUsagesResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListUsagesResponse>;
   }
 
   /**
@@ -600,21 +943,39 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListVnetsResponse>
    */
-  listVnets(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListVnetsResponse>;
+  listVnets(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListVnetsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param callback The callback
    */
-  listVnets(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.VnetInfo[]>): void;
+  listVnets(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.VnetInfo[]>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVnets(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo[]>): void;
-  listVnets(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo[]>, callback?: msRest.ServiceCallback<Models.VnetInfo[]>): Promise<Models.AppServicePlansListVnetsResponse> {
+  listVnets(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetInfo[]>
+  ): void;
+  listVnets(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo[]>,
+    callback?: msRest.ServiceCallback<Models.VnetInfo[]>
+  ): Promise<Models.AppServicePlansListVnetsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -622,7 +983,8 @@ export class AppServicePlans {
         options
       },
       listVnetsOperationSpec,
-      callback) as Promise<Models.AppServicePlansListVnetsResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListVnetsResponse>;
   }
 
   /**
@@ -634,14 +996,24 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetVnetFromServerFarmResponse>
    */
-  getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetVnetFromServerFarmResponse>;
+  getVnetFromServerFarm(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetVnetFromServerFarmResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
    * @param callback The callback
    */
-  getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
+  getVnetFromServerFarm(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    callback: msRest.ServiceCallback<Models.VnetInfo>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -649,8 +1021,20 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetInfo>): void;
-  getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>, callback?: msRest.ServiceCallback<Models.VnetInfo>): Promise<Models.AppServicePlansGetVnetFromServerFarmResponse> {
+  getVnetFromServerFarm(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetInfo>
+  ): void;
+  getVnetFromServerFarm(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetInfo>,
+    callback?: msRest.ServiceCallback<Models.VnetInfo>
+  ): Promise<Models.AppServicePlansGetVnetFromServerFarmResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -659,7 +1043,8 @@ export class AppServicePlans {
         options
       },
       getVnetFromServerFarmOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetVnetFromServerFarmResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetVnetFromServerFarmResponse>;
   }
 
   /**
@@ -672,7 +1057,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetVnetGatewayResponse>
    */
-  getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetVnetGatewayResponse>;
+  getVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetVnetGatewayResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -680,7 +1071,13 @@ export class AppServicePlans {
    * @param gatewayName Name of the gateway. Only the 'primary' gateway is supported.
    * @param callback The callback
    */
-  getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
+  getVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    callback: msRest.ServiceCallback<Models.VnetGateway>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -689,8 +1086,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.AppServicePlansGetVnetGatewayResponse> {
+  getVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetGateway>
+  ): void;
+  getVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>,
+    callback?: msRest.ServiceCallback<Models.VnetGateway>
+  ): Promise<Models.AppServicePlansGetVnetGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -700,7 +1111,8 @@ export class AppServicePlans {
         options
       },
       getVnetGatewayOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetVnetGatewayResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetVnetGatewayResponse>;
   }
 
   /**
@@ -714,7 +1126,14 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansUpdateVnetGatewayResponse>
    */
-  updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansUpdateVnetGatewayResponse>;
+  updateVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    connectionEnvelope: Models.VnetGateway,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansUpdateVnetGatewayResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -723,7 +1142,14 @@ export class AppServicePlans {
    * @param connectionEnvelope Definition of the gateway.
    * @param callback The callback
    */
-  updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
+  updateVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    connectionEnvelope: Models.VnetGateway,
+    callback: msRest.ServiceCallback<Models.VnetGateway>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -733,8 +1159,24 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetGateway>): void;
-  updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: Models.VnetGateway, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>, callback?: msRest.ServiceCallback<Models.VnetGateway>): Promise<Models.AppServicePlansUpdateVnetGatewayResponse> {
+  updateVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    connectionEnvelope: Models.VnetGateway,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetGateway>
+  ): void;
+  updateVnetGateway(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    gatewayName: string,
+    connectionEnvelope: Models.VnetGateway,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetGateway>,
+    callback?: msRest.ServiceCallback<Models.VnetGateway>
+  ): Promise<Models.AppServicePlansUpdateVnetGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -745,7 +1187,8 @@ export class AppServicePlans {
         options
       },
       updateVnetGatewayOperationSpec,
-      callback) as Promise<Models.AppServicePlansUpdateVnetGatewayResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansUpdateVnetGatewayResponse>;
   }
 
   /**
@@ -758,14 +1201,24 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListRoutesForVnetResponse>
    */
-  listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListRoutesForVnetResponse>;
+  listRoutesForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListRoutesForVnetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
    * @param callback The callback
    */
-  listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, callback: msRest.ServiceCallback<Models.VnetRoute[]>): void;
+  listRoutesForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    callback: msRest.ServiceCallback<Models.VnetRoute[]>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -773,8 +1226,20 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute[]>): void;
-  listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute[]>, callback?: msRest.ServiceCallback<Models.VnetRoute[]>): Promise<Models.AppServicePlansListRoutesForVnetResponse> {
+  listRoutesForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetRoute[]>
+  ): void;
+  listRoutesForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute[]>,
+    callback?: msRest.ServiceCallback<Models.VnetRoute[]>
+  ): Promise<Models.AppServicePlansListRoutesForVnetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -783,7 +1248,8 @@ export class AppServicePlans {
         options
       },
       listRoutesForVnetOperationSpec,
-      callback) as Promise<Models.AppServicePlansListRoutesForVnetResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListRoutesForVnetResponse>;
   }
 
   /**
@@ -796,7 +1262,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansGetRouteForVnetResponse>
    */
-  getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansGetRouteForVnetResponse>;
+  getRouteForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansGetRouteForVnetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -804,7 +1276,13 @@ export class AppServicePlans {
    * @param routeName Name of the Virtual Network route.
    * @param callback The callback
    */
-  getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, callback: msRest.ServiceCallback<Models.VnetRoute[]>): void;
+  getRouteForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    callback: msRest.ServiceCallback<Models.VnetRoute[]>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -813,8 +1291,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute[]>): void;
-  getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute[]>, callback?: msRest.ServiceCallback<Models.VnetRoute[]>): Promise<Models.AppServicePlansGetRouteForVnetResponse> {
+  getRouteForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetRoute[]>
+  ): void;
+  getRouteForVnet(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute[]>,
+    callback?: msRest.ServiceCallback<Models.VnetRoute[]>
+  ): Promise<Models.AppServicePlansGetRouteForVnetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -824,7 +1316,8 @@ export class AppServicePlans {
         options
       },
       getRouteForVnetOperationSpec,
-      callback) as Promise<Models.AppServicePlansGetRouteForVnetResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansGetRouteForVnetResponse>;
   }
 
   /**
@@ -838,7 +1331,14 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse>
    */
-  createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse>;
+  createOrUpdateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -847,7 +1347,14 @@ export class AppServicePlans {
    * @param route Definition of the Virtual Network route.
    * @param callback The callback
    */
-  createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, callback: msRest.ServiceCallback<Models.VnetRoute>): void;
+  createOrUpdateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    callback: msRest.ServiceCallback<Models.VnetRoute>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -857,8 +1364,24 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute>): void;
-  createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute>, callback?: msRest.ServiceCallback<Models.VnetRoute>): Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse> {
+  createOrUpdateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetRoute>
+  ): void;
+  createOrUpdateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute>,
+    callback?: msRest.ServiceCallback<Models.VnetRoute>
+  ): Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -869,7 +1392,8 @@ export class AppServicePlans {
         options
       },
       createOrUpdateVnetRouteOperationSpec,
-      callback) as Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansCreateOrUpdateVnetRouteResponse>;
   }
 
   /**
@@ -882,7 +1406,13 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -890,7 +1420,13 @@ export class AppServicePlans {
    * @param routeName Name of the Virtual Network route.
    * @param callback The callback
    */
-  deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -899,8 +1435,22 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -910,7 +1460,8 @@ export class AppServicePlans {
         options
       },
       deleteVnetRouteOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -924,7 +1475,14 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansUpdateVnetRouteResponse>
    */
-  updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansUpdateVnetRouteResponse>;
+  updateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansUpdateVnetRouteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -933,7 +1491,14 @@ export class AppServicePlans {
    * @param route Definition of the Virtual Network route.
    * @param callback The callback
    */
-  updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, callback: msRest.ServiceCallback<Models.VnetRoute>): void;
+  updateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    callback: msRest.ServiceCallback<Models.VnetRoute>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -943,8 +1508,24 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetRoute>): void;
-  updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: Models.VnetRoute, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute>, callback?: msRest.ServiceCallback<Models.VnetRoute>): Promise<Models.AppServicePlansUpdateVnetRouteResponse> {
+  updateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetRoute>
+  ): void;
+  updateVnetRoute(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    routeName: string,
+    route: Models.VnetRoute,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetRoute>,
+    callback?: msRest.ServiceCallback<Models.VnetRoute>
+  ): Promise<Models.AppServicePlansUpdateVnetRouteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -955,7 +1536,8 @@ export class AppServicePlans {
         options
       },
       updateVnetRouteOperationSpec,
-      callback) as Promise<Models.AppServicePlansUpdateVnetRouteResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansUpdateVnetRouteResponse>;
   }
 
   /**
@@ -967,14 +1549,24 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rebootWorker(resourceGroupName: string, name: string, workerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  rebootWorker(
+    resourceGroupName: string,
+    name: string,
+    workerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param workerName Name of worker machine, which typically starts with RD.
    * @param callback The callback
    */
-  rebootWorker(resourceGroupName: string, name: string, workerName: string, callback: msRest.ServiceCallback<void>): void;
+  rebootWorker(
+    resourceGroupName: string,
+    name: string,
+    workerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -982,8 +1574,20 @@ export class AppServicePlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  rebootWorker(resourceGroupName: string, name: string, workerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  rebootWorker(resourceGroupName: string, name: string, workerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rebootWorker(
+    resourceGroupName: string,
+    name: string,
+    workerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  rebootWorker(
+    resourceGroupName: string,
+    name: string,
+    workerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -992,7 +1596,8 @@ export class AppServicePlans {
         options
       },
       rebootWorkerOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -1004,7 +1609,12 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, name: string, appServicePlan: Models.AppServicePlan, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: Models.AppServicePlan,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1013,7 +1623,8 @@ export class AppServicePlans {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -1023,26 +1634,43 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.AppServicePlansListNextOptionalParams): Promise<Models.AppServicePlansListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.AppServicePlansListNextOptionalParams
+  ): Promise<Models.AppServicePlansListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.AppServicePlansListNextOptionalParams, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listNext(nextPageLink: string, options?: Models.AppServicePlansListNextOptionalParams | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.AppServicePlansListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.AppServicePlansListNextOptionalParams
+      | msRest.ServiceCallback<Models.AppServicePlanCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): Promise<Models.AppServicePlansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListNextResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListNextResponse>;
   }
 
   /**
@@ -1052,26 +1680,41 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServicePlanCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>, callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>): Promise<Models.AppServicePlansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServicePlanCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServicePlanCollection>
+  ): Promise<Models.AppServicePlansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListByResourceGroupNextResponse>;
   }
 
   /**
@@ -1081,26 +1724,41 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse>
    */
-  listWebAppsByHybridConnectionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse>;
+  listWebAppsByHybridConnectionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listWebAppsByHybridConnectionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceCollection>): void;
+  listWebAppsByHybridConnectionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listWebAppsByHybridConnectionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceCollection>): void;
-  listWebAppsByHybridConnectionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceCollection>, callback?: msRest.ServiceCallback<Models.ResourceCollection>): Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse> {
+  listWebAppsByHybridConnectionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceCollection>
+  ): void;
+  listWebAppsByHybridConnectionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceCollection>
+  ): Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listWebAppsByHybridConnectionNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListWebAppsByHybridConnectionNextResponse>;
   }
 
   /**
@@ -1110,26 +1768,41 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListHybridConnectionsNextResponse>
    */
-  listHybridConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListHybridConnectionsNextResponse>;
+  listHybridConnectionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServicePlansListHybridConnectionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listHybridConnectionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.HybridConnectionCollection>): void;
+  listHybridConnectionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.HybridConnectionCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHybridConnectionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionCollection>): void;
-  listHybridConnectionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionCollection>, callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>): Promise<Models.AppServicePlansListHybridConnectionsNextResponse> {
+  listHybridConnectionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnectionCollection>
+  ): void;
+  listHybridConnectionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionCollection>,
+    callback?: msRest.ServiceCallback<Models.HybridConnectionCollection>
+  ): Promise<Models.AppServicePlansListHybridConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listHybridConnectionsNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListHybridConnectionsNextResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListHybridConnectionsNextResponse>;
   }
 
   /**
@@ -1139,26 +1812,43 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListWebAppsNextResponse>
    */
-  listWebAppsNext(nextPageLink: string, options?: Models.AppServicePlansListWebAppsNextOptionalParams): Promise<Models.AppServicePlansListWebAppsNextResponse>;
+  listWebAppsNext(
+    nextPageLink: string,
+    options?: Models.AppServicePlansListWebAppsNextOptionalParams
+  ): Promise<Models.AppServicePlansListWebAppsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listWebAppsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
+  listWebAppsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WebAppCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listWebAppsNext(nextPageLink: string, options: Models.AppServicePlansListWebAppsNextOptionalParams, callback: msRest.ServiceCallback<Models.WebAppCollection>): void;
-  listWebAppsNext(nextPageLink: string, options?: Models.AppServicePlansListWebAppsNextOptionalParams | msRest.ServiceCallback<Models.WebAppCollection>, callback?: msRest.ServiceCallback<Models.WebAppCollection>): Promise<Models.AppServicePlansListWebAppsNextResponse> {
+  listWebAppsNext(
+    nextPageLink: string,
+    options: Models.AppServicePlansListWebAppsNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.WebAppCollection>
+  ): void;
+  listWebAppsNext(
+    nextPageLink: string,
+    options?:
+      | Models.AppServicePlansListWebAppsNextOptionalParams
+      | msRest.ServiceCallback<Models.WebAppCollection>,
+    callback?: msRest.ServiceCallback<Models.WebAppCollection>
+  ): Promise<Models.AppServicePlansListWebAppsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listWebAppsNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListWebAppsNextResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListWebAppsNextResponse>;
   }
 
   /**
@@ -1168,26 +1858,43 @@ export class AppServicePlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListUsagesNextResponse>
    */
-  listUsagesNext(nextPageLink: string, options?: Models.AppServicePlansListUsagesNextOptionalParams): Promise<Models.AppServicePlansListUsagesNextResponse>;
+  listUsagesNext(
+    nextPageLink: string,
+    options?: Models.AppServicePlansListUsagesNextOptionalParams
+  ): Promise<Models.AppServicePlansListUsagesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listUsagesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
+  listUsagesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsagesNext(nextPageLink: string, options: Models.AppServicePlansListUsagesNextOptionalParams, callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): void;
-  listUsagesNext(nextPageLink: string, options?: Models.AppServicePlansListUsagesNextOptionalParams | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>, callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>): Promise<Models.AppServicePlansListUsagesNextResponse> {
+  listUsagesNext(
+    nextPageLink: string,
+    options: Models.AppServicePlansListUsagesNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>
+  ): void;
+  listUsagesNext(
+    nextPageLink: string,
+    options?:
+      | Models.AppServicePlansListUsagesNextOptionalParams
+      | msRest.ServiceCallback<Models.CsmUsageQuotaCollection>,
+    callback?: msRest.ServiceCallback<Models.CsmUsageQuotaCollection>
+  ): Promise<Models.AppServicePlansListUsagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listUsagesNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListUsagesNextResponse>;
+      callback
+    ) as Promise<Models.AppServicePlansListUsagesNextResponse>;
   }
 }
 
@@ -1196,16 +1903,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.detailed,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.detailed, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServicePlanCollection
@@ -1219,17 +1919,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServicePlanCollection
@@ -1243,18 +1937,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServicePlan
@@ -1269,18 +1956,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -1293,18 +1973,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "appServicePlan",
     mapper: {
@@ -1328,18 +2001,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listCapabilitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/capabilities",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/capabilities",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1364,7 +2030,8 @@ const listCapabilitiesOperationSpec: msRest.OperationSpec = {
 
 const getHybridConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1372,12 +2039,8 @@ const getHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.relayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnection
@@ -1391,7 +2054,8 @@ const getHybridConnectionOperationSpec: msRest.OperationSpec = {
 
 const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1399,12 +2063,8 @@ const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.relayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -1417,7 +2077,8 @@ const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
 
 const listHybridConnectionKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1425,12 +2086,8 @@ const listHybridConnectionKeysOperationSpec: msRest.OperationSpec = {
     Parameters.relayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionKey
@@ -1444,7 +2101,8 @@ const listHybridConnectionKeysOperationSpec: msRest.OperationSpec = {
 
 const listWebAppsByHybridConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}/sites",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}/sites",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1452,12 +2110,8 @@ const listWebAppsByHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.relayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceCollection
@@ -1471,18 +2125,11 @@ const listWebAppsByHybridConnectionOperationSpec: msRest.OperationSpec = {
 
 const getHybridConnectionPlanLimitOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionPlanLimits/limit",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionPlanLimits/limit",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionLimits
@@ -1496,18 +2143,11 @@ const getHybridConnectionPlanLimitOperationSpec: msRest.OperationSpec = {
 
 const listHybridConnectionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionRelays",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionRelays",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionCollection
@@ -1521,19 +2161,11 @@ const listHybridConnectionsOperationSpec: msRest.OperationSpec = {
 
 const restartWebAppsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/restartSites",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.softRestart,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/restartSites",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.softRestart, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -1545,21 +2177,11 @@ const restartWebAppsOperationSpec: msRest.OperationSpec = {
 
 const listWebAppsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/sites",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.skipToken,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/sites",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebAppCollection
@@ -1573,18 +2195,11 @@ const listWebAppsOperationSpec: msRest.OperationSpec = {
 
 const getServerFarmSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/skus",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/skus",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1603,19 +2218,11 @@ const getServerFarmSkusOperationSpec: msRest.OperationSpec = {
 
 const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/usages",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/usages",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CsmUsageQuotaCollection
@@ -1629,18 +2236,11 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
 
 const listVnetsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1665,19 +2265,16 @@ const listVnetsOperationSpec: msRest.OperationSpec = {
 
 const getVnetFromServerFarmOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.vnetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VnetInfo
@@ -1692,7 +2289,8 @@ const getVnetFromServerFarmOperationSpec: msRest.OperationSpec = {
 
 const getVnetGatewayOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1700,12 +2298,8 @@ const getVnetGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.gatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VnetGateway
@@ -1719,7 +2313,8 @@ const getVnetGatewayOperationSpec: msRest.OperationSpec = {
 
 const updateVnetGatewayOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1727,12 +2322,8 @@ const updateVnetGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.gatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "connectionEnvelope",
     mapper: {
@@ -1753,19 +2344,16 @@ const updateVnetGatewayOperationSpec: msRest.OperationSpec = {
 
 const listRoutesForVnetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.vnetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1790,7 +2378,8 @@ const listRoutesForVnetOperationSpec: msRest.OperationSpec = {
 
 const getRouteForVnetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1798,12 +2387,8 @@ const getRouteForVnetOperationSpec: msRest.OperationSpec = {
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1829,7 +2414,8 @@ const getRouteForVnetOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateVnetRouteOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1837,12 +2423,8 @@ const createOrUpdateVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "route",
     mapper: {
@@ -1865,7 +2447,8 @@ const createOrUpdateVnetRouteOperationSpec: msRest.OperationSpec = {
 
 const deleteVnetRouteOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1873,12 +2456,8 @@ const deleteVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     404: {},
@@ -1891,7 +2470,8 @@ const deleteVnetRouteOperationSpec: msRest.OperationSpec = {
 
 const updateVnetRouteOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1899,12 +2479,8 @@ const updateVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "route",
     mapper: {
@@ -1927,19 +2503,16 @@ const updateVnetRouteOperationSpec: msRest.OperationSpec = {
 
 const rebootWorkerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/workers/{workerName}/reboot",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/workers/{workerName}/reboot",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.workerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -1951,18 +2524,11 @@ const rebootWorkerOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "appServicePlan",
     mapper: {
@@ -1988,16 +2554,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.detailed,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.detailed, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServicePlanCollection
@@ -2013,15 +2572,9 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServicePlanCollection
@@ -2037,15 +2590,9 @@ const listWebAppsByHybridConnectionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceCollection
@@ -2061,15 +2608,9 @@ const listHybridConnectionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionCollection
@@ -2085,18 +2626,9 @@ const listWebAppsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.skipToken,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebAppCollection
@@ -2112,16 +2644,9 @@ const listUsagesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CsmUsageQuotaCollection

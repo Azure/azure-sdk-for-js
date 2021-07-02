@@ -2,8 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to manage the custom models in
- * a cognitive service account.
+ * This sample demonstrates how to get information about a Form Recognizer
+ * account and its trained models. We show the status of the account, including
+ * its custom model training limit, and we display some information about the
+ * first model in the account.
+ *
+ * @summary display information about your account and its models
  */
 
 const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
@@ -14,45 +18,41 @@ dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   // First, we see how many custom models we have, and what our limit is
   const accountProperties = await client.getAccountProperties();
   console.log(
-    `Our account has ${accountProperties.customModelCount} custom models, and we can have at most ${accountProperties.customModelLimit} custom models`
+    `Our account has ${accountProperties.customModelCount} custom models, and we can have at most ${accountProperties.customModelLimit} custom models.`
   );
 
-  // Next, we get a paged async iterator of all of our custom models
-  const result = client.listCustomModels();
+  // We get a paged async iterator of all of our custom models and request the
+  // first page using the `next()` method.
+  const firstPage = await client
+    .listCustomModels()
+    .byPage()
+    .next();
 
-  // We can iterate over all the models and print their ID
-  // We'll also save the first model to get some detailed information
-  // in the next step;
-  let firstModel = undefined;
-  for await (const model of result) {
-    console.log(`- Model:`, model.modelId);
-    if (firstModel === undefined) {
-      firstModel = model;
-    }
-  }
-
-  if (!firstModel) {
-    // See trainModels.ts and trainModelWithLabels.ts for creating and training models.
+  // If we didn't get any items, then there is nothing to do! See trainModels.ts
+  // and trainModelWithLabels.ts for creating and training models.
+  if (firstPage.done || !firstPage.value.modelList) {
     throw new Error(
-      "There are no custom models in this account. Please ensure to create and train models first."
+      "There are no custom models in this account. Please ensure at least one model has been created and trained."
     );
   }
+
+  const firstModel = firstPage.value.modelList[0];
 
   // Now we'll get the first custom model in the paged list
   const model = await client.getCustomModel(firstModel.modelId);
   console.log("--- First Custom Model ---");
   console.log(`Model Id: ${model.modelId}`);
-  console.log(`Status: ${model.status}`);
+  console.log(`Status  : ${model.status}`);
   console.log("Documents used in training:");
-  for (const doc of model.trainingDocuments || []) {
+  for (const doc of model.trainingDocuments ?? []) {
     console.log(`- ${doc.name}`);
   }
 

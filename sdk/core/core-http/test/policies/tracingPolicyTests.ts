@@ -12,26 +12,49 @@ import {
 import {
   setTracer,
   NoOpTracer,
-  NoOpSpan,
   SpanOptions,
   SpanContext,
   TraceFlags,
   TraceState,
   setSpan,
-  context
+  context,
+  SpanStatusCode,
+  SpanStatus,
+  Span,
+  SpanAttributes,
+  SpanAttributeValue,
+  Tracer
 } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
-class MockSpan extends NoOpSpan {
+class MockSpan implements Span {
   private _endCalled = false;
+  private _status: SpanStatus = {
+    code: SpanStatusCode.UNSET
+  };
+  private _attributes: SpanAttributes = {};
 
   constructor(
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
     private state: string
-  ) {
-    super();
+  ) {}
+
+  addEvent(): this {
+    throw new Error("Not implemented.");
+  }
+
+  isRecording(): boolean {
+    return true;
+  }
+
+  recordException(): void {
+    throw new Error("Not implemented.");
+  }
+
+  updateName(): this {
+    throw new Error("Not implemented.");
   }
 
   didEnd(): boolean {
@@ -42,7 +65,30 @@ class MockSpan extends NoOpSpan {
     this._endCalled = true;
   }
 
-  context(): SpanContext {
+  getStatus() {
+    return this._status;
+  }
+
+  setStatus(status: SpanStatus) {
+    this._status = status;
+    return this;
+  }
+
+  setAttributes(attributes: SpanAttributes): this {
+    this._attributes = attributes;
+    return this;
+  }
+
+  setAttribute(key: string, value: SpanAttributeValue) {
+    this._attributes[key] = value;
+    return this;
+  }
+
+  getAttribute(key: string) {
+    return this._attributes[key];
+  }
+
+  spanContext(): SpanContext {
     const state = this.state;
 
     const traceState = {
@@ -71,7 +117,7 @@ class MockSpan extends NoOpSpan {
   }
 }
 
-class MockTracer extends NoOpTracer {
+class MockTracer implements Tracer {
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
@@ -80,9 +126,7 @@ class MockTracer extends NoOpTracer {
     private spanId = "",
     private flags = TraceFlags.NONE,
     private state = ""
-  ) {
-    super();
-  }
+  ) {}
 
   getStartedSpans(): MockSpan[] {
     return this.spans;
@@ -166,6 +210,8 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+    assert.equal(span.getAttribute("http.status_code"), 200);
 
     const expectedFlag = "00";
 
@@ -192,6 +238,8 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+    assert.equal(span.getAttribute("http.status_code"), 200);
 
     const expectedFlag = "01";
 
@@ -216,8 +264,9 @@ describe("tracingPolicy", function() {
         sendRequest(requestParam: WebResource): Promise<HttpOperationResponse> {
           return Promise.reject({
             request: requestParam,
-            status: 404,
-            headers: new HttpHeaders()
+            statusCode: 400,
+            headers: new HttpHeaders(),
+            message: "Bad Request."
           });
         }
       },
@@ -232,6 +281,11 @@ describe("tracingPolicy", function() {
       assert.lengthOf(mockTracer.getStartedSpans(), 1);
       const span = mockTracer.getStartedSpans()[0];
       assert.isTrue(span.didEnd());
+      assert.deepEqual(span.getStatus(), {
+        code: SpanStatusCode.ERROR,
+        message: "Bad Request."
+      });
+      assert.equal(span.getAttribute("http.status_code"), 400);
 
       const expectedFlag = "01";
 

@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/7d15bcf9-b229-4356-b1cd-145b5759de6a",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "55093d0a-7a63-4e37-9e05-f733ea41342b",
+    "apim-request-id": "fb6573c4-f14a-4f02-b70e-376b3726baf4",
     "content-length": "0",
-    "date": "Wed, 20 Jan 2021 18:42:44 GMT",
+    "date": "Wed, 02 Jun 2021 20:33:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "221",
-    "x-request-id": "55093d0a-7a63-4e37-9e05-f733ea41342b"
+    "x-envoy-upstream-service-time": "210",
+    "x-request-id": "fb6573c4-f14a-4f02-b70e-376b3726baf4"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/7d15bcf9-b229-4356-b1cd-145b5759de6a",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
    "query": {},
    "requestBody": null,
    "status": 404,
-   "response": "{\"code\":\"ERROR_INVALID_PARAMETER\",\"message\":\"hookId is invalid.\"}",
+   "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"hookId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "355e0a90-edea-4121-ab7a-911d4e4da77c",
-    "content-length": "65",
+    "apim-request-id": "3f77a321-571d-4a16-8c8b-561fb78f0b6f",
+    "content-length": "55",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:42:44 GMT",
+    "date": "Wed, 02 Jun 2021 20:33:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "67",
-    "x-request-id": "355e0a90-edea-4121-ab7a-911d4e4da77c"
+    "x-envoy-upstream-service-time": "106",
+    "x-request-id": "3f77a321-571d-4a16-8c8b-561fb78f0b6f"
    }
   }
  ],
@@ -40,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "2233e1019d8a2cd512b31dae00c50b35"
+ "hash": "4b001e1328e4794fd3d15d49a9f94d13"
 }

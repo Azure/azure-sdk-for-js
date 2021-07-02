@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { TokenCredential, AccessToken } from "@azure/core-auth";
-import {} from "../src/policies/bearerTokenAuthenticationPolicy";
 import {
   PipelinePolicy,
   createPipelineRequest,
@@ -222,6 +221,28 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const exceptionMessage =
       "the total time passed should be in the refresh room, plus the many getTokens that have happened so far";
     assert.equal(expireDelayMs + 2 * getTokenDelay, Date.now() - startTime, exceptionMessage);
+  });
+
+  it("throws if the target URI doesn't start with 'https'", async () => {
+    const expireDelayMs = defaultRefreshWindow + 5000;
+    const tokenExpiration = Date.now() + expireDelayMs;
+    const credential = new MockRefreshAzureCredential(tokenExpiration);
+
+    const request = createPipelineRequest({ url: "http://example.com" });
+    const policy = createBearerTokenPolicy("test-scope", credential);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+
+    let error: Error | undefined;
+    try {
+      await policy.sendRequest(request, next);
+    } catch (e) {
+      error = e;
+    }
+
+    assert.equal(
+      error?.message,
+      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+    );
   });
 
   function createBearerTokenPolicy(

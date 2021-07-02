@@ -153,6 +153,7 @@ describe("Multi-region tests", function(this: Suite) {
       .item("foo", undefined)
       .read();
     assert.equal(lastEndpointCalled, "https://failovertest-australiaeast.documents.azure.com:443/");
+    client.dispose();
   });
 
   it("Preferred locations should be honored for writeEndpoint", async function() {
@@ -193,5 +194,6 @@ describe("Multi-region tests", function(this: Suite) {
       .container("foo")
       .items.upsert({ id: "foo", _partitionKey: "bar" });
     assert.equal(lastEndpointCalled, "https://failovertest-australiaeast.documents.azure.com:443/");
+    client.dispose();
   });
 });

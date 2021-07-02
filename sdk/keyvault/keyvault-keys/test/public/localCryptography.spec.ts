@@ -55,7 +55,7 @@ describe("Local cryptography public tests", () => {
 
     it("the CryptographyClient can be created from a local JsonWebKey object", async function() {
       assert.isEmpty(cryptoClientFromKey.vaultUrl);
-      assert.equal(cryptoClientFromKey.keyId, customKeyVaultKey.id);
+      assert.equal(cryptoClientFromKey.keyID, customKeyVaultKey.id);
     });
 
     describe("when using an unsupported algorithm", function() {

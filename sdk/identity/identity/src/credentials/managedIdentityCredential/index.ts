@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
 import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
@@ -32,9 +33,9 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
-   * user-assigned identity.
+   * user-assigned identity, or app registration (when working with AKS pod-identity).
    *
-   * @param clientId - The client ID of the user-assigned identity.
+   * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
@@ -115,10 +116,9 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
+   * If an unexpected error occurs, an {@link AuthenticationError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this

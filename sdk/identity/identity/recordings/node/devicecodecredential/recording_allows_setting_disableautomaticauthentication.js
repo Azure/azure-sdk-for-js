@@ -77,7 +77,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/organizations/oauth2/v2.0/devicecode', "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46")
-  .reply(200, {"user_code":"USER_CODE","device_code":"DEVICE_CODE","verification_uri":"https://microsoft.com/devicelogin","expires_in":900,"interval":5,"message":"To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."}, [
+  .reply(200, {"user_code":"USER_CODE","device_code":"DEVICE_CODE","verification_uri":"https://microsoft.com/devicelogin","expires_in":900,"interval":1,"message":"To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',

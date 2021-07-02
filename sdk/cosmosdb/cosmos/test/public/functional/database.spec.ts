@@ -12,7 +12,11 @@ import {
 } from "../common/TestHelpers";
 import { DatabaseRequest } from "../../../src";
 
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -174,7 +178,6 @@ describe("database.create", function() {
     };
     const database = await getTestDatabase("autoscale db", undefined, databaseRequest);
     const { resource: offer } = await database.readOffer();
-    console.log({ offer: offer.content });
     const settings = offer.content.offerAutopilotSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });

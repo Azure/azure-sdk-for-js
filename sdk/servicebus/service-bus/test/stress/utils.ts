@@ -29,6 +29,13 @@ export interface SnapshotOptions {
     | "close-info"
   )[];
   snapshotIntervalInMs?: number;
+  /**
+   * Snapshot information is automatically sent to Azure Monitor.
+   * This allows you also print the same information to the console.
+   *
+   * Disabled by default.
+   */
+  writeSnapshotInfoToConsole?: boolean;
 }
 
 export interface TrackedMessageIdsInfo {

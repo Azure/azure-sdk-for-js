@@ -73,7 +73,7 @@ export function serializeHeaders(
   if (operationSpec.headerParameters) {
     for (const headerParameter of operationSpec.headerParameters) {
       let headerValue = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
-      if (headerValue !== null && headerValue !== undefined) {
+      if ((headerValue !== null && headerValue !== undefined) || headerParameter.mapper.required) {
         headerValue = operationSpec.serializer.serialize(
           headerParameter.mapper,
           headerValue,

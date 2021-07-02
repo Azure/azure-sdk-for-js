@@ -1,0 +1,32 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities/sanitized/:revokeAccessTokens",
+   "query": {
+    "api-version": "2021-03-31-preview1"
+   },
+   "requestBody": null,
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
+   "responseHeaders": {
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "content-type": "application/json",
+    "date": "Tue, 01 Jun 2021 22:01:08 GMT",
+    "ms-cv": "VM976wefqE+zLrB6v6jNjA.0",
+    "request-context": "appId=",
+    "status": "401",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0JK62YAAAAACVemrJp1JGSotBhQGubIx3WVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-ms-client-request-id": "sanitized",
+    "x-processing-time": "21ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a45c47ef620295325043c46111d4724b"
+}

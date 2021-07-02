@@ -98,15 +98,18 @@ export interface SchemaRegistry {
    * content.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+  getSchemaId(
+    schema: SchemaDescription,
+    options?: GetSchemaIdOptions
+  ): Promise<SchemaId | undefined>;
 
   /**
    * Gets an existing schema by ID.
    *
    * @param id - Unique schema ID.
-   * @returns Schema with given ID.
+   * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
 }

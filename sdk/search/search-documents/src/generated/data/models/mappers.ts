@@ -82,13 +82,11 @@ export const SearchDocumentsResult: coreHttp.CompositeMapper = {
         readOnly: true,
         nullable: true,
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
-              name: "Sequence",
-              element: {
-                type: { name: "Composite", className: "AnswerResult" }
-              }
+              name: "Composite",
+              className: "AnswerResult"
             }
           }
         }
@@ -150,6 +148,7 @@ export const AnswerResult: coreHttp.CompositeMapper = {
     modelProperties: {
       score: {
         serializedName: "score",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -157,6 +156,7 @@ export const AnswerResult: coreHttp.CompositeMapper = {
       },
       key: {
         serializedName: "key",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -164,6 +164,7 @@ export const AnswerResult: coreHttp.CompositeMapper = {
       },
       text: {
         serializedName: "text",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -372,13 +373,11 @@ export const SearchResult: coreHttp.CompositeMapper = {
         readOnly: true,
         nullable: true,
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
-              name: "Sequence",
-              element: {
-                type: { name: "Composite", className: "CaptionResult" }
-              }
+              name: "Composite",
+              className: "CaptionResult"
             }
           }
         }

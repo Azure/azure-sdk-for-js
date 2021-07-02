@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
-interface MetricsAdvisorTestOptions {}
+type MetricsAdvisorTestOptions = Record<string, unknown>;
 
 export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   detectionConfigId: string;
@@ -16,6 +16,7 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
 
   async runAsync(): Promise<void> {
     const result = await this.client.getIncidentRootCauses(this.detectionConfigId, this.incidentId);
+    // eslint-disable-next-line no-empty
     for (const _rootcause of result.rootCauses) {
     }
   }

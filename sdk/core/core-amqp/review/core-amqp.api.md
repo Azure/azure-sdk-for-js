@@ -7,7 +7,6 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
-import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
@@ -21,6 +20,12 @@ import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
 import { WebSocketImpl } from 'rhea-promise';
+
+// @public
+export interface AcquireLockProperties {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number | undefined;
+}
 
 // @public
 export interface AmqpAnnotatedMessage {
@@ -45,6 +50,7 @@ export interface AmqpAnnotatedMessage {
 // @public
 export const AmqpAnnotatedMessage: {
     fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
+    toRheaMessage(msg: AmqpAnnotatedMessage): Message;
 };
 
 // @public
@@ -84,7 +90,10 @@ export const AmqpMessageProperties: {
     fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
 };
 
-export { AsyncLock }
+// @public
+export interface CancellableAsyncLock {
+    acquire<T = void>(key: string, task: (...args: any[]) => Promise<T>, properties: AcquireLockProperties): Promise<T>;
+}
 
 // @public
 export class CbsClient {
@@ -96,9 +105,12 @@ export class CbsClient {
     readonly endpoint: string;
     init(options?: {
         abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
     }): Promise<void>;
+    isOpen(): boolean;
     negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
         abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
     }): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
@@ -351,7 +363,7 @@ export function createSasTokenProvider(data: {
 } | NamedKeyCredential | SASCredential): SasTokenProvider;
 
 // @public
-export const defaultLock: AsyncLock;
+export const defaultCancellableLock: CancellableAsyncLock;
 
 // @public
 export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
@@ -511,6 +523,8 @@ export enum RetryOperationType {
     connection = "connection",
     // (undocumented)
     management = "management",
+    // (undocumented)
+    messageSettlement = "settlement",
     // (undocumented)
     receiveMessage = "receiveMessage",
     // (undocumented)

@@ -9,182 +9,317 @@
 import * as coreHttp from "@azure/core-http";
 
 export interface DetectRequest {
-  /**
-   * Time series data points. Points should be sorted by timestamp in ascending order to match the anomaly detection result. If the data is not sorted correctly or there is duplicated timestamp, the API will not work. In such case, an error message will be returned.
-   */
+  /** Time series data points. Points should be sorted by timestamp in ascending order to match the anomaly detection result. If the data is not sorted correctly or there is duplicated timestamp, the API will not work. In such case, an error message will be returned. */
   series: TimeSeriesPoint[];
-  /**
-   * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid.
-   */
-  granularity: TimeGranularity;
-  /**
-   * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
-   */
+  /** Optional argument, can be one of yearly, monthly, weekly, daily, hourly, minutely, secondly, microsecond or none. If granularity is not present, it will be none by default. If granularity is none, the timestamp property in time series point can be absent. */
+  granularity?: TimeGranularity;
+  /** Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}. */
   customInterval?: number;
-  /**
-   * Optional argument, periodic value of a time series. If the value is null or does not present, the API will determine the period automatically.
-   */
+  /** Optional argument, periodic value of a time series. If the value is null or does not present, the API will determine the period automatically. */
   period?: number;
-  /**
-   * Optional argument, advanced model parameter, max anomaly ratio in a time series.
-   */
+  /** Optional argument, advanced model parameter, max anomaly ratio in a time series. */
   maxAnomalyRatio?: number;
-  /**
-   * Optional argument, advanced model parameter, between 0-99, the lower the value is, the larger the margin value will be which means less anomalies will be accepted.
-   */
+  /** Optional argument, advanced model parameter, between 0-99, the lower the value is, the larger the margin value will be which means less anomalies will be accepted. */
   sensitivity?: number;
 }
 
 export interface TimeSeriesPoint {
-  /**
-   * Timestamp of a data point (ISO8601 format).
-   */
-  timestamp: Date;
-  /**
-   * The measurement of that point, should be float.
-   */
+  /** Optional argument, timestamp of a data point (ISO8601 format). */
+  timestamp?: Date;
+  /** The measurement of that point, should be float. */
   value: number;
 }
 
 export interface DetectEntireResponse {
-  /**
-   * Frequency extracted from the series, zero means no recurrent pattern has been found.
-   */
+  /** Frequency extracted from the series, zero means no recurrent pattern has been found. */
   period: number;
-  /**
-   * ExpectedValues contain expected value for each input point. The index of the array is consistent with the input series.
-   */
+  /** ExpectedValues contain expected value for each input point. The index of the array is consistent with the input series. */
   expectedValues: number[];
-  /**
-   * UpperMargins contain upper margin of each input point. UpperMargin is used to calculate upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin. Anomalies in response can be filtered by upperBoundary and lowerBoundary. By adjusting marginScale value, less significant anomalies can be filtered in client side. The index of the array is consistent with the input series.
-   */
+  /** UpperMargins contain upper margin of each input point. UpperMargin is used to calculate upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin. Anomalies in response can be filtered by upperBoundary and lowerBoundary. By adjusting marginScale value, less significant anomalies can be filtered in client side. The index of the array is consistent with the input series. */
   upperMargins: number[];
-  /**
-   * LowerMargins contain lower margin of each input point. LowerMargin is used to calculate lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin. Points between the boundary can be marked as normal ones in client side. The index of the array is consistent with the input series.
-   */
+  /** LowerMargins contain lower margin of each input point. LowerMargin is used to calculate lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin. Points between the boundary can be marked as normal ones in client side. The index of the array is consistent with the input series. */
   lowerMargins: number[];
-  /**
-   * IsAnomaly contains anomaly properties for each input point. True means an anomaly either negative or positive has been detected. The index of the array is consistent with the input series.
-   */
+  /** IsAnomaly contains anomaly properties for each input point. True means an anomaly either negative or positive has been detected. The index of the array is consistent with the input series. */
   isAnomaly: boolean[];
-  /**
-   * IsNegativeAnomaly contains anomaly status in negative direction for each input point. True means a negative anomaly has been detected. A negative anomaly means the point is detected as an anomaly and its real value is smaller than the expected one. The index of the array is consistent with the input series.
-   */
+  /** IsNegativeAnomaly contains anomaly status in negative direction for each input point. True means a negative anomaly has been detected. A negative anomaly means the point is detected as an anomaly and its real value is smaller than the expected one. The index of the array is consistent with the input series. */
   isNegativeAnomaly: boolean[];
-  /**
-   * IsPositiveAnomaly contain anomaly status in positive direction for each input point. True means a positive anomaly has been detected. A positive anomaly means the point is detected as an anomaly and its real value is larger than the expected one. The index of the array is consistent with the input series.
-   */
+  /** IsPositiveAnomaly contain anomaly status in positive direction for each input point. True means a positive anomaly has been detected. A positive anomaly means the point is detected as an anomaly and its real value is larger than the expected one. The index of the array is consistent with the input series. */
   isPositiveAnomaly: boolean[];
 }
 
-/**
- * Error information returned by the API.
- */
+/** Error information returned by the API. */
 export interface AnomalyDetectorError {
-  /**
-   * The error code.
-   */
+  /** The error code. */
   code?: AnomalyDetectorErrorCodes;
-  /**
-   * A message explaining the error reported by the service.
-   */
+  /** A message explaining the error reported by the service. */
   message?: string;
 }
 
 export interface DetectLastPointResponse {
-  /**
-   * Frequency extracted from the series, zero means no recurrent pattern has been found.
-   */
+  /** Frequency extracted from the series, zero means no recurrent pattern has been found. */
   period: number;
-  /**
-   * Suggested input series points needed for detecting the latest point.
-   */
+  /** Suggested input series points needed for detecting the latest point. */
   suggestedWindow: number;
-  /**
-   * Expected value of the latest point.
-   */
+  /** Expected value of the latest point. */
   expectedValue: number;
-  /**
-   * Upper margin of the latest point. UpperMargin is used to calculate upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin. If the value of latest point is between upperBoundary and lowerBoundary, it should be treated as normal value. By adjusting marginScale value, anomaly status of latest point can be changed.
-   */
+  /** Upper margin of the latest point. UpperMargin is used to calculate upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin. If the value of latest point is between upperBoundary and lowerBoundary, it should be treated as normal value. By adjusting marginScale value, anomaly status of latest point can be changed. */
   upperMargin: number;
-  /**
-   * Lower margin of the latest point. LowerMargin is used to calculate lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin.
-   */
+  /** Lower margin of the latest point. LowerMargin is used to calculate lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin. */
   lowerMargin: number;
-  /**
-   * Anomaly status of the latest point, true means the latest point is an anomaly either in negative direction or positive direction.
-   */
+  /** Anomaly status of the latest point, true means the latest point is an anomaly either in negative direction or positive direction. */
   isAnomaly: boolean;
-  /**
-   * Anomaly status in negative direction of the latest point. True means the latest point is an anomaly and its real value is smaller than the expected one.
-   */
+  /** Anomaly status in negative direction of the latest point. True means the latest point is an anomaly and its real value is smaller than the expected one. */
   isNegativeAnomaly: boolean;
-  /**
-   * Anomaly status in positive direction of the latest point. True means the latest point is an anomaly and its real value is larger than the expected one.
-   */
+  /** Anomaly status in positive direction of the latest point. True means the latest point is an anomaly and its real value is larger than the expected one. */
   isPositiveAnomaly: boolean;
 }
 
 export interface DetectChangePointRequest {
-  /**
-   * Time series data points. Points should be sorted by timestamp in ascending order to match the change point detection result.
-   */
+  /** Time series data points. Points should be sorted by timestamp in ascending order to match the change point detection result. */
   series: TimeSeriesPoint[];
-  /**
-   * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid.
-   */
+  /** Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid. */
   granularity: TimeGranularity;
-  /**
-   * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
-   */
+  /** Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}. */
   customInterval?: number;
-  /**
-   * Optional argument, periodic value of a time series. If the value is null or does not present, the API will determine the period automatically.
-   */
+  /** Optional argument, periodic value of a time series. If the value is null or does not present, the API will determine the period automatically. */
   period?: number;
-  /**
-   * Optional argument, advanced model parameter, a default stableTrendWindow will be used in detection.
-   */
+  /** Optional argument, advanced model parameter, a default stableTrendWindow will be used in detection. */
   stableTrendWindow?: number;
-  /**
-   * Optional argument, advanced model parameter, between 0.0-1.0, the lower the value is, the larger the trend error will be which means less change point will be accepted.
-   */
+  /** Optional argument, advanced model parameter, between 0.0-1.0, the lower the value is, the larger the trend error will be which means less change point will be accepted. */
   threshold?: number;
 }
 
 export interface DetectChangePointResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  period: number;
+  readonly period?: number;
+  /** isChangePoint contains change point properties for each input point. True means an anomaly either negative or positive has been detected. The index of the array is consistent with the input series. */
+  isChangePoint?: boolean[];
+  /** the change point confidence of each point */
+  confidenceScores?: number[];
+}
+
+/** Train result of a model including status, errors and diagnose info for model and variables. */
+export interface ModelInfo {
+  /** An optional field, indicates how many history points will be used to determine the anomaly score of one subsequent point. */
+  slidingWindow?: number;
+  /** An optional field, since those multivariate need to be aligned in the same timestamp before starting the detection. */
+  alignPolicy?: AlignPolicy;
+  /** source file link of the input variables, each variable will be a csv with two columns, the first column will be timestamp, the second column will be value.Besides these variable csv files, an extra meta.json can be included in th zip file if you would like to rename a variable.Be default, the file name of the variable will be used as the variable name. */
+  source: string;
+  /** require field, start time of data be used for generating multivariate anomaly detection model, should be data-time */
+  startTime: Date;
+  /** require field, end time of data be used for generating multivariate anomaly detection model, should be data-time */
+  endTime: Date;
+  /** optional field, name of the model */
+  displayName?: string;
   /**
-   * isChangePoint contains change point properties for each input point. True means an anomaly either negative or positive has been detected. The index of the array is consistent with the input series.
+   * Model training status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  isChangePoint: boolean[];
+  readonly status?: ModelStatus;
   /**
-   * the change point confidence of each point
+   * Error message when fails to create a model.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  confidenceScores: number[];
+  readonly errors?: ErrorResponse[];
+  /**
+   * Used for deep analysis model and variables
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diagnosticsInfo?: DiagnosticsInfo;
+}
+
+export interface AlignPolicy {
+  /** An optional field, indicates how we align different variables into the same time-range which is required by the model.{Inner, Outer} */
+  alignMode?: AlignMode;
+  /** An optional field, indicates how missed values will be filled with. Can not be set to NotFill, when alignMode is Outer.{Previous, Subsequent, Linear, Zero, Fix, NotFill} */
+  fillNAMethod?: FillNAMethod;
+  /** optional field, only be useful if FillNAMethod is set to Pad. */
+  paddingValue?: number;
+}
+
+export interface ErrorResponse {
+  /** The error Code */
+  code: string;
+  /** A message explaining the error reported by the service. */
+  message: string;
+}
+
+export interface DiagnosticsInfo {
+  modelState?: ModelState;
+  variableStates?: VariableState[];
+}
+
+export interface ModelState {
+  /** Epoch id */
+  epochIds?: number[];
+  trainLosses?: number[];
+  validationLosses?: number[];
+  latenciesInSeconds?: number[];
+}
+
+export interface VariableState {
+  /** Variable name. */
+  variable?: string;
+  /** Merged NA ratio of a variable. */
+  filledNARatio?: number;
+  /** Effective time-series points count. */
+  effectiveCount?: number;
+  /** Start time of a variable */
+  startTime?: Date;
+  /** End time of a variable */
+  endTime?: Date;
+  /** Error message when parse variable */
+  errors?: ErrorResponse[];
+}
+
+/** Response of get model. */
+export interface Model {
+  /** Model identifier. */
+  modelId: string;
+  /** Date and time (UTC) when the model was created. */
+  createdTime: Date;
+  /** Date and time (UTC) when the model was last updated. */
+  lastUpdatedTime: Date;
+  /** Training Status of the model. */
+  modelInfo?: ModelInfo;
+}
+
+/** Request to submit a detection. */
+export interface DetectionRequest {
+  /** source file link of the input variables, each variable will be a csv with two columns, the first column will be timestamp, the second column will be value.Besides these variable csv files, a extra meta.json can be included in th zip file if you would like to rename a variable.Be default, the file name of the variable will be used as the variable name. The variables used in detection should be consistent with variables in the model used for detection. */
+  source: string;
+  /** A require field, start time of data be used for detection, should be date-time. */
+  startTime: Date;
+  /** A require field, end time of data be used for detection, should be date-time. */
+  endTime: Date;
+}
+
+/** Anomaly Response of one detection corresponds to a resultId. */
+export interface DetectionResult {
+  resultId: string;
+  /** Multivariate anomaly detection status */
+  summary: DetectionResultSummary;
+  /** anomaly status of each timestamp */
+  results: AnomalyState[];
+}
+
+export interface DetectionResultSummary {
+  /** Multivariate anomaly detection status */
+  status: DetectionStatus;
+  /** Error message when creating or training model fails. */
+  errors?: ErrorResponse[];
+  variableStates?: VariableState[];
+  /** Request when creating the model. */
+  setupInfo: DetectionRequest;
+}
+
+export interface AnomalyState {
+  /** timestamp */
+  timestamp: Date;
+  value?: AnomalyValue;
+  /** Error message when inference this timestamp */
+  errors?: ErrorResponse[];
+}
+
+export interface AnomalyValue {
+  /** If current timestamp is an anomaly, contributors will show potential root cause for thus anomaly. Contributors can help us understand why current timestamp has been detected as an anomaly. */
+  contributors?: AnomalyContributor[];
+  /** To indicate whether current timestamp is anomaly or not */
+  isAnomaly: boolean;
+  /** anomaly score of the current timestamp, the more significant an anomaly is, the higher the score will be */
+  severity: number;
+  /** anomaly score of the current timestamp, the more significant an anomaly is, the higher the score will be, score measures global significance */
+  score?: number;
+}
+
+export interface AnomalyContributor {
+  /** The higher the contribution score is, the more likely the variable to be the root cause of a anomaly. */
+  contributionScore?: number;
+  /** Variable name of a contributor */
+  variable?: string;
+}
+
+/** Response to the list models operation. */
+export interface ModelList {
+  /** List of models */
+  models: ModelSnapshot[];
+  /** Current count of trained multivariate models. */
+  currentCount: number;
+  /** Max number of models that can be trained for this subscription. */
+  maxCount: number;
+  /** next link to fetch more models */
+  nextLink?: string;
+}
+
+export interface ModelSnapshot {
+  /** Model identifier. */
+  modelId: string;
+  /** Date and time (UTC) when the model was created. */
+  createdTime: Date;
+  /** Date and time (UTC) when the model was last updated. */
+  lastUpdatedTime: Date;
+  /**
+   * Model training status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status: ModelStatus;
+  displayName?: string;
+  /** Count of variables */
+  variablesCount: number;
+}
+
+/** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
+export interface AnomalyDetectorTrainMultivariateModelHeaders {
+  /** Location and ID of the model being saved. */
+  location?: string;
+}
+
+/** Defines headers for AnomalyDetector_detectAnomaly operation. */
+export interface AnomalyDetectorDetectAnomalyHeaders {
+  /** Location and ID of the detection result being saved. */
+  location?: string;
+}
+
+/** Defines headers for AnomalyDetector_exportModel operation. */
+export interface AnomalyDetectorExportModelHeaders {
+  /** application/zip */
+  contentType?: string;
+}
+
+/** Known values of {@link AnomalyDetectorErrorCodes} that the service accepts. */
+export const enum KnownAnomalyDetectorErrorCodes {
+  InvalidCustomInterval = "InvalidCustomInterval",
+  BadArgument = "BadArgument",
+  InvalidGranularity = "InvalidGranularity",
+  InvalidPeriod = "InvalidPeriod",
+  InvalidModelArgument = "InvalidModelArgument",
+  InvalidSeries = "InvalidSeries",
+  InvalidJsonFormat = "InvalidJsonFormat",
+  RequiredGranularity = "RequiredGranularity",
+  RequiredSeries = "RequiredSeries"
 }
 
 /**
- * Defines values for AnomalyDetectorErrorCodes.
+ * Defines values for AnomalyDetectorErrorCodes. \
+ * {@link KnownAnomalyDetectorErrorCodes} can be used interchangeably with AnomalyDetectorErrorCodes,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **InvalidCustomInterval** \
+ * **BadArgument** \
+ * **InvalidGranularity** \
+ * **InvalidPeriod** \
+ * **InvalidModelArgument** \
+ * **InvalidSeries** \
+ * **InvalidJsonFormat** \
+ * **RequiredGranularity** \
+ * **RequiredSeries**
  */
-export type AnomalyDetectorErrorCodes =
-  | "InvalidCustomInterval"
-  | "BadArgument"
-  | "InvalidGranularity"
-  | "InvalidPeriod"
-  | "InvalidModelArgument"
-  | "InvalidSeries"
-  | "InvalidJsonFormat"
-  | "RequiredGranularity"
-  | "RequiredSeries"
-  | string;
-/**
- * Defines values for TimeGranularity.
- */
+export type AnomalyDetectorErrorCodes = string;
+/** Defines values for TimeGranularity. */
 export type TimeGranularity =
   | "yearly"
   | "monthly"
@@ -192,75 +327,171 @@ export type TimeGranularity =
   | "daily"
   | "hourly"
   | "minutely"
-  | "secondly";
+  | "secondly"
+  | "microsecond"
+  | "none";
+/** Defines values for AlignMode. */
+export type AlignMode = "Inner" | "Outer";
+/** Defines values for FillNAMethod. */
+export type FillNAMethod =
+  | "Previous"
+  | "Subsequent"
+  | "Linear"
+  | "Zero"
+  | "Pad"
+  | "NotFill";
+/** Defines values for ModelStatus. */
+export type ModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
+/** Defines values for DetectionStatus. */
+export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 
-/**
- * Contains response data for the detectEntireSeries operation.
- */
-export type GeneratedClientDetectEntireSeriesResponse = DetectEntireResponse & {
-  /**
-   * The underlying HTTP response.
-   */
+/** Contains response data for the detectEntireSeries operation. */
+export type AnomalyDetectorDetectEntireSeriesResponse = DetectEntireResponse & {
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DetectEntireResponse;
   };
 };
 
-/**
- * Contains response data for the detectLastPoint operation.
- */
-export type GeneratedClientDetectLastPointResponse = DetectLastPointResponse & {
-  /**
-   * The underlying HTTP response.
-   */
+/** Contains response data for the detectLastPoint operation. */
+export type AnomalyDetectorDetectLastPointResponse = DetectLastPointResponse & {
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DetectLastPointResponse;
   };
 };
 
-/**
- * Contains response data for the detectChangePoint operation.
- */
-export type GeneratedClientDetectChangePointResponse = DetectChangePointResponse & {
-  /**
-   * The underlying HTTP response.
-   */
+/** Contains response data for the detectChangePoint operation. */
+export type AnomalyDetectorDetectChangePointResponse = DetectChangePointResponse & {
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DetectChangePointResponse;
   };
 };
 
-/**
- * Optional parameters.
- */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+/** Contains response data for the trainMultivariateModel operation. */
+export type AnomalyDetectorTrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: AnomalyDetectorTrainMultivariateModelHeaders;
+  };
+};
+
+/** Contains response data for the getMultivariateModel operation. */
+export type AnomalyDetectorGetMultivariateModelResponse = Model & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: Model;
+  };
+};
+
+/** Contains response data for the detectAnomaly operation. */
+export type AnomalyDetectorDetectAnomalyResponse = AnomalyDetectorDetectAnomalyHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: AnomalyDetectorDetectAnomalyHeaders;
+  };
+};
+
+/** Contains response data for the getDetectionResult operation. */
+export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: DetectionResult;
+  };
+};
+
+/** Contains response data for the exportModel operation. */
+export type AnomalyDetectorExportModelResponse = AnomalyDetectorExportModelHeaders & {
   /**
-   * Overrides client endpoint.
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
    */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: AnomalyDetectorExportModelHeaders;
+  };
+};
+
+/** Optional parameters. */
+export interface AnomalyDetectorListMultivariateModelOptionalParams
+  extends coreHttp.OperationOptions {
+  /** $skip indicates how many models will be skipped. */
+  skip?: number;
+  /** $top indicates how many models will be fetched. */
+  top?: number;
+}
+
+/** Contains response data for the listMultivariateModel operation. */
+export type AnomalyDetectorListMultivariateModelResponse = ModelList & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ModelList;
+  };
+};
+
+/** Optional parameters. */
+export interface AnomalyDetectorListMultivariateModelNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** $skip indicates how many models will be skipped. */
+  skip?: number;
+  /** $top indicates how many models will be fetched. */
+  top?: number;
+}
+
+/** Contains response data for the listMultivariateModelNext operation. */
+export type AnomalyDetectorListMultivariateModelNextResponse = ModelList & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ModelList;
+  };
+};
+
+/** Optional parameters. */
+export interface AnomalyDetectorOptionalParams
+  extends coreHttp.ServiceClientOptions {
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

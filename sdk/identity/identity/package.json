@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -11,22 +11,22 @@
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
     "./dist-esm/src/credentials/managedIdentityCredential/index.js": "./dist-esm/src/credentials/managedIdentityCredential/index.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
+    "./dist-esm/src/credentials/clientSecretCredential.js": "./dist-esm/src/credentials/clientSecretCredential.browser.js",
     "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
     "./dist-esm/src/credentials/authorizationCodeCredential.js": "./dist-esm/src/credentials/authorizationCodeCredential.browser.js",
     "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
     "./dist-esm/src/credentials/visualStudioCodeCredential.js": "./dist-esm/src/credentials/visualStudioCodeCredential.browser.js",
+    "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
+    "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
-    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js"
+    "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
+    "./dist-esm/src/extensions/consumer.js": "./dist-esm/src/extensions/consumer.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo skipped",
-    "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
-    "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "tsc -p . && rollup -c rollup.config.js 2>&1",
     "build": "npm run extract-api && tsc -p . && rollup -c 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples/**/*.{js,json}\"",
     "clean": "rimraf dist dist-* typings *.tgz *.log",
@@ -43,8 +43,9 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"test-dist/**/*.js\"",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 300000 --full-trace --exclude \"test/**/browser/**/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node:no-timeouts": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js  --no-timeouts --full-trace --exclude \"test/**/browser/**/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -56,7 +57,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -75,44 +76,34 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engine": {
-    "node": ">=8.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-http": "^2.0.0",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
     "@azure/abort-controller": "^1.0.0",
-    "@azure/msal-common": "~4.0.1",
-    "@azure/msal-node": "^1.0.0",
-    "@azure/msal-browser": "2.9.0",
+    "@azure/msal-common": "^4.3.0",
+    "@azure/msal-node": "^1.1.0",
+    "@azure/msal-browser": "^2.0.0",
     "@types/stoppable": "^1.1.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "open": "^7.0.0",
     "qs": "^6.7.0",
     "stoppable": "^1.1.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "uuid": "^8.3.0"
-  },
-  "optionalDependencies": {
-    "keytar": "^7.6.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
-    "@rollup/plugin-commonjs": "11.0.2",
-    "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-replace": "^2.2.0",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/qs": "^6.5.3",
     "@types/uuid": "^8.0.0",
     "assert": "^1.4.1",
@@ -134,14 +125,10 @@
     "puppeteer": "^3.3.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
-    "mock-fs": "^4.10.4",
     "typedoc": "0.15.2"
   }
 }

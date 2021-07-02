@@ -6,32 +6,43 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClient } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-export class GeneratedClientContext extends ServiceClient {
+/** @internal */
+export class GeneratedClientContext extends coreClient.ServiceClient {
   apiVersion: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
    * @param options The parameter options
    */
-  constructor(options: GeneratedClientOptionalParams = {}) {
+  constructor(options?: GeneratedClientOptionalParams) {
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
     const defaults: GeneratedClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const { endpoint, apiVersion, ...restOptions } = options;
+    const packageDetails = `azsdk-js-eventgrid/4.3.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    const optionsWithDefaults: GeneratedClientOptionalParams = {
+    const optionsWithDefaults = {
       ...defaults,
-      ...restOptions,
-      baseUri: endpoint || "{topicHostname}"
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{topicHostname}"
     };
-
     super(optionsWithDefaults);
 
     // Assigning values to Constant parameters
-    this.apiVersion = apiVersion || "2018-01-01";
+    this.apiVersion = options.apiVersion || "2018-01-01";
   }
 }

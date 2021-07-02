@@ -11,7 +11,6 @@ import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 import { setSpan, context } from "@azure/core-tracing";
 const env = getEnvVars();
 
-import { AbortController } from "@azure/abort-controller";
 import { SpanGraph } from "@azure/core-tracing";
 import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
 
@@ -67,32 +66,6 @@ describe("RuntimeInformation", function(): void {
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     });
 
-    it("EventHubProducerClient respects cancellationTokens", async function(): Promise<void> {
-      try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 1);
-        await producerClient.getPartitionIds({
-          abortSignal: controller.signal
-        });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal("The operation was aborted.");
-      }
-    });
-
-    it("EventHubConsumerClient respects cancellationTokens", async function(): Promise<void> {
-      try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 1);
-        await consumerClient.getPartitionIds({
-          abortSignal: controller.signal
-        });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal("The operation was aborted.");
-      }
-    });
-
     it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
@@ -123,7 +96,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -158,7 +131,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -185,36 +158,6 @@ describe("RuntimeInformation", function(): void {
         arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
       );
       hubRuntimeInfo.createdOn.should.be.instanceof(Date);
-    });
-
-    it("EventHubProducerClient can cancel a request for hub runtime information", async function(): Promise<
-      void
-    > {
-      try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 1);
-        await producerClient.getEventHubProperties({
-          abortSignal: controller.signal
-        });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal("The operation was aborted.");
-      }
-    });
-
-    it("EventHubConsumerClient can cancel a request for hub runtime information", async function(): Promise<
-      void
-    > {
-      try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 1);
-        await consumerClient.getEventHubProperties({
-          abortSignal: controller.signal
-        });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal("The operation was aborted.");
-      }
     });
 
     it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
@@ -249,7 +192,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -286,7 +229,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -395,36 +338,6 @@ describe("RuntimeInformation", function(): void {
       }
     });
 
-    it("EventHubProducerClient can cancel a request for getPartitionInformation", async function(): Promise<
-      void
-    > {
-      try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 1);
-        await producerClient.getPartitionProperties("0", {
-          abortSignal: controller.signal
-        });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal("The operation was aborted.");
-      }
-    });
-
-    it("EventHubConsumerClient can cancel a request for getPartitionInformation", async function(): Promise<
-      void
-    > {
-      try {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 1);
-        await consumerClient.getPartitionProperties("0", {
-          abortSignal: controller.signal
-        });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal("The operation was aborted.");
-      }
-    });
-
     it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
@@ -459,7 +372,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -498,7 +411,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });

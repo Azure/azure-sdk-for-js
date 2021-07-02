@@ -39,11 +39,31 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const commandId: msRest.OperationURLParameter = {
+  parameterPath: "commandId",
+  mapper: {
+    required: true,
+    serializedName: "commandId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const configName: msRest.OperationURLParameter = {
   parameterPath: "configName",
   mapper: {
     required: true,
     serializedName: "configName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
     type: {
       name: "String"
     }
@@ -93,6 +113,18 @@ export const resourceName: msRest.OperationURLParameter = {
       MinLength: 1,
       Pattern: /^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "resourceType"
+  ],
+  mapper: {
+    serializedName: "resource-type",
     type: {
       name: "String"
     }

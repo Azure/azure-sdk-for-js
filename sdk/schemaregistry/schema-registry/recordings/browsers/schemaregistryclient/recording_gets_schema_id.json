@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
    "status": 200,
@@ -24,7 +24,7 @@
   },
   {
    "method": "PUT",
-   "url": "https://endpoint/$schemagroups/group/schemas/azsdk_js_test",
+   "url": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test",
    "query": {
     "api-version": "2020-09-01-preview"
    },
@@ -34,11 +34,11 @@
    "responseHeaders": {
     "content-type": "application/json",
     "date": "Mon, 28 Dec 2020 22:21:22 GMT",
-    "location": "https://endpoint/$schemagroups/group/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
+    "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
     "schema-id": "f1675059e3c9410d8b06564af2eb4645",
     "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/f1675059e3c9410d8b06564af2eb4645?api-version=2020-09-01-preview",
     "schema-version": "1",
-    "schema-versions-location": "https://endpoint/$schemagroups/group/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
+    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
     "serialization-type": "Avro",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
@@ -47,7 +47,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint/$schemagroups/group/schemas/azsdk_js_test",
+   "url": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test",
    "query": {
     "api-version": "2020-09-01-preview"
    },
@@ -57,11 +57,11 @@
    "responseHeaders": {
     "content-type": "application/json",
     "date": "Mon, 28 Dec 2020 22:21:22 GMT",
-    "location": "https://endpoint/$schemagroups/group/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
+    "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
     "schema-id": "f1675059e3c9410d8b06564af2eb4645",
     "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/f1675059e3c9410d8b06564af2eb4645?api-version=2020-09-01-preview",
     "schema-version": "1",
-    "schema-versions-location": "https://endpoint/$schemagroups/group/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
+    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
     "serialization-type": "Avro",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",

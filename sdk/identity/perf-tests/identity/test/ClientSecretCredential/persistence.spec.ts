@@ -1,5 +1,8 @@
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-import { ClientSecretCredential } from "@azure/identity";
+import { useIdentityExtension, ClientSecretCredential } from "@azure/identity";
+
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+useIdentityExtension(cachePersistenceExtension);
 
 const scope = `https://servicebus.azure.net/.default`;
 
@@ -19,6 +22,7 @@ export class ClientSecretCredentialPersistenceTest extends PerfStressTest {
     // Other tests should not be required to set up this credential.
     const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
       tokenCachePersistenceOptions: {
+        enabled: true,
         name: "nodeTestSilent",
         allowUnencryptedStorage: true
       }

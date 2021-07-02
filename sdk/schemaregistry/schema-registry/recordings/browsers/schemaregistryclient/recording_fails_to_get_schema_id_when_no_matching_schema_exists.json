@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
    "status": 200,
@@ -24,7 +24,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint/$schemagroups/group/schemas/never-registered",
+   "url": "https://endpoint/$schemagroups/group-1/schemas/never-registered",
    "query": {
     "api-version": "2020-09-01-preview"
    },

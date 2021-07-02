@@ -618,28 +618,20 @@ describe("Event Processor", function(): void {
     // errors that occur within the user's own event handlers will get
     // routed to their processError() handler
     eventProcessor.start();
-    console.log("event processor started");
     try {
       await loopUntil({
         name: "waiting for errors thrown from user's handlers",
         timeBetweenRunsMs: 1000,
         maxTimes: 30,
         until: async () => {
-          console.log(partitionIds.length);
-          console.dir(errors);
           return errors.size >= partitionIds.length * 3;
         }
       });
-      console.log("event processor loop completed");
       const messages = [...errors].map((e) => e.message);
       messages.sort();
-      console.dir(messages);
-      console.dir(expectedErrorMessages);
       messages.should.deep.equal(expectedErrorMessages);
     } finally {
-      console.log("attempting to stop");
       await eventProcessor.stop();
-      console.log("stopped");
     }
   });
 

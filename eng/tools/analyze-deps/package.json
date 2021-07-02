@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "argparse": "^2.0.1",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "jju": "^1.4.0",
     "js-yaml": "^4.0.0",
     "semver": "^7.3.4",

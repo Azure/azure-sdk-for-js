@@ -56,13 +56,11 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "CONTAINTER_REGISTRY_ENDPOINT",
+      "CONTAINER_REGISTRY_ENDPOINT",
+      "CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
-      "RESOURCE_GROUP",
-      "REGISTRY",
-      "SUBSCRIPTION_ID"
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use

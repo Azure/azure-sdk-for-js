@@ -19,7 +19,9 @@ import {
   Constants,
   MessagingError,
   RequestResponseLink,
-  SendRequestOptions
+  SendRequestOptions,
+  RetryOptions,
+  AmqpAnnotatedMessage
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -27,9 +29,10 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
   ServiceBusMessageImpl,
-  getMessagePropertyTypeMismatchError,
   toRheaMessage,
-  fromRheaMessage
+  fromRheaMessage,
+  updateScheduledTime,
+  updateMessageId
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
@@ -168,6 +171,10 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
    * This should only be provided if `session` is enabled for a Queue or Topic.
    */
   sessionId?: string;
+  /**
+   * Retry options.
+   */
+  retryOptions: RetryOptions | undefined;
 }
 
 /**
@@ -581,7 +588,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: ServiceBusMessage[],
+    messages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -591,20 +598,28 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
-      if (!item.messageId) item.messageId = generate_uuid();
-      item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = toRheaMessage(item, defaultDataTransformer);
 
       try {
-        const entry: any = {
-          message: RheaMessageUtil.encode(amqpMessage),
-          "message-id": item.messageId
+        const rheaMessage = toRheaMessage(item, defaultDataTransformer);
+        updateMessageId(rheaMessage, rheaMessage.message_id || generate_uuid());
+        updateScheduledTime(rheaMessage, scheduledEnqueueTimeUtc);
+
+        const entry: {
+          message: Buffer;
+          ["message-id"]: ServiceBusMessage["messageId"];
+          ["partition-key"]?: ServiceBusMessage["partitionKey"];
+          [Constants.sessionIdMapKey]?: string | undefined;
+        } = {
+          message: RheaMessageUtil.encode(rheaMessage),
+          "message-id": rheaMessage.message_id
         };
-        if (item.sessionId) {
-          entry[Constants.sessionIdMapKey] = item.sessionId;
+
+        if (rheaMessage.group_id) {
+          entry[Constants.sessionIdMapKey] = rheaMessage.group_id;
         }
-        if (item.partitionKey) {
-          entry["partition-key"] = item.partitionKey;
+
+        if (rheaMessage.message_annotations?.[Constants.partitionKey]) {
+          entry["partition-key"] = rheaMessage.message_annotations[Constants.partitionKey];
         }
 
         // Will be required later for implementing Transactions
@@ -615,16 +630,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
-        let error: Error;
-        if (err instanceof TypeError || err.name === "TypeError") {
-          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user-friendly message or call stack
-          // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = translateServiceBusError(getMessagePropertyTypeMismatchError(item) || err);
-        } else {
-          error = translateServiceBusError(err);
-        }
+        const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the messages array`
@@ -831,7 +837,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async updateDispositionStatus(
     lockToken: string,
     dispositionType: DispositionType,
-    options?: DispositionStatusOptions & SendManagementRequestOptions
+    // TODO: mgmt link retry<> will come in the next PR.
+    options?: Omit<DispositionStatusOptions, "retryOptions"> & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};
@@ -1321,4 +1328,46 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       throw error;
     }
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.managementClients[this.name];
+  }
+}
+
+/**
+ * Converts an AmqpAnnotatedMessage or ServiceBusMessage into a properly formatted
+ * message for sending to the mgmt link for scheduling.
+ *
+ * @internal
+ * @hidden
+ */
+export function toScheduleableMessage(
+  item: ServiceBusMessage | AmqpAnnotatedMessage,
+  scheduledEnqueueTimeUtc: Date
+) {
+  const rheaMessage = toRheaMessage(item, defaultDataTransformer);
+  updateMessageId(rheaMessage, rheaMessage.message_id || generate_uuid());
+  updateScheduledTime(rheaMessage, scheduledEnqueueTimeUtc);
+
+  const entry: any = {
+    message: RheaMessageUtil.encode(rheaMessage),
+    "message-id": rheaMessage.message_id
+  };
+
+  rheaMessage.message_annotations = {
+    ...rheaMessage.message_annotations,
+    [Constants.scheduledEnqueueTime]: scheduledEnqueueTimeUtc
+  };
+
+  if (rheaMessage.group_id) {
+    entry[Constants.sessionIdMapKey] = rheaMessage.group_id;
+  }
+
+  const partitionKey =
+    rheaMessage.message_annotations && rheaMessage.message_annotations[Constants.partitionKey];
+
+  if (partitionKey) {
+    entry["partition-key"] = partitionKey;
+  }
+  return entry;
 }
