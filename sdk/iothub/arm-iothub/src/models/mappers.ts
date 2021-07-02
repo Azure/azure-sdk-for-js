@@ -351,7 +351,10 @@ export const IpFilterRule: msRest.CompositeMapper = {
         serializedName: "action",
         type: {
           name: "Enum",
-          allowedValues: ["Accept", "Reject"]
+          allowedValues: [
+            "Accept",
+            "Reject"
+          ]
         }
       },
       ipMask: {
@@ -380,7 +383,7 @@ export const NetworkRuleSetIpRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: "Allow",
+        defaultValue: 'Allow',
         type: {
           name: "String"
         }
@@ -404,7 +407,7 @@ export const NetworkRuleSetProperties: msRest.CompositeMapper = {
     modelProperties: {
       defaultAction: {
         serializedName: "defaultAction",
-        defaultValue: "Deny",
+        defaultValue: 'Deny',
         type: {
           name: "String"
         }
@@ -1047,7 +1050,7 @@ export const FallbackRouteProperties: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "source",
-        defaultValue: "DeviceMessages",
+        defaultValue: 'DeviceMessages',
         type: {
           name: "String"
         }
@@ -1312,6 +1315,78 @@ export const CloudToDeviceProperties: msRest.CompositeMapper = {
   }
 };
 
+export const IotHubPropertiesDeviceStreams: msRest.CompositeMapper = {
+  serializedName: "IotHubProperties_deviceStreams",
+  type: {
+    name: "Composite",
+    className: "IotHubPropertiesDeviceStreams",
+    modelProperties: {
+      streamingEndpoints: {
+        serializedName: "streamingEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultKeyProperties: msRest.CompositeMapper = {
+  serializedName: "KeyVaultKeyProperties",
+  type: {
+    name: "Composite",
+    className: "KeyVaultKeyProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionPropertiesDescription: msRest.CompositeMapper = {
+  serializedName: "EncryptionPropertiesDescription",
+  type: {
+    name: "Composite",
+    className: "EncryptionPropertiesDescription",
+    modelProperties: {
+      keySource: {
+        serializedName: "keySource",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyVaultKeyProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const IotHubLocationDescription: msRest.CompositeMapper = {
   serializedName: "IotHubLocationDescription",
   type: {
@@ -1348,6 +1423,41 @@ export const IotHubProperties: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SharedAccessSignatureAuthorizationRule"
+            }
+          }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "disableLocalAuth",
+        type: {
+          name: "Boolean"
+        }
+      },
+      disableDeviceSAS: {
+        serializedName: "disableDeviceSAS",
+        type: {
+          name: "Boolean"
+        }
+      },
+      disableModuleSAS: {
+        serializedName: "disableModuleSAS",
+        type: {
+          name: "Boolean"
+        }
+      },
+      restrictOutboundNetworkAccess: {
+        serializedName: "restrictOutboundNetworkAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowedFqdnList: {
+        serializedName: "allowedFqdnList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }
@@ -1478,10 +1588,24 @@ export const IotHubProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      deviceStreams: {
+        serializedName: "deviceStreams",
+        type: {
+          name: "Composite",
+          className: "IotHubPropertiesDeviceStreams"
+        }
+      },
       features: {
         serializedName: "features",
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionPropertiesDescription"
         }
       },
       locations: {
@@ -1519,7 +1643,11 @@ export const IotHubSkuInfo: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: ["Free", "Standard", "Basic"]
+          allowedValues: [
+            "Free",
+            "Standard",
+            "Basic"
+          ]
         }
       },
       capacity: {
@@ -1679,7 +1807,12 @@ export const ArmIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
         }
       },
       userAssignedIdentities: {
@@ -2036,7 +2169,14 @@ export const JobResponse: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: ["unknown", "enqueued", "running", "completed", "failed", "cancelled"]
+          allowedValues: [
+            "unknown",
+            "enqueued",
+            "running",
+            "completed",
+            "failed",
+            "cancelled"
+          ]
         }
       },
       failureReason: {
@@ -2100,7 +2240,11 @@ export const IotHubCapacity: msRest.CompositeMapper = {
         serializedName: "scaleType",
         type: {
           name: "Enum",
-          allowedValues: ["Automatic", "Manual", "None"]
+          allowedValues: [
+            "Automatic",
+            "Manual",
+            "None"
+          ]
         }
       }
     }
@@ -2280,7 +2424,10 @@ export const IotHubNameAvailabilityInfo: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: ["Invalid", "AlreadyExists"]
+          allowedValues: [
+            "Invalid",
+            "AlreadyExists"
+          ]
         }
       },
       message: {
