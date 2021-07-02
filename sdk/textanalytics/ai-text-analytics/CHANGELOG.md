@@ -5,6 +5,7 @@
 ### New Features
 
 - We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
+- `beginAnalyzeHealthcareEntities` now works with Azure Active Directory credentials.
 - `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
 
 ### Breaking Changes
