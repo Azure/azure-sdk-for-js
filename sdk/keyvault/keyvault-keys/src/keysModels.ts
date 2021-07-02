@@ -573,7 +573,7 @@ export enum KnownKeyExportEncryptionAlgorithm {
 }
 
 /**
- * Defines values for KeyEncryptionAlgorithm. \
+ * Defines values for KeyEncryptionAlgorithm.
  * {@link KnownKeyExportEncryptionAlgorithm} can be used interchangeably with KeyEncryptionAlgorithm,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service

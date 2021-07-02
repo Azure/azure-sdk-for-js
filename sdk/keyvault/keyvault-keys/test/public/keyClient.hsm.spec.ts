@@ -111,7 +111,7 @@ onVersions({ minVer: "7.2" }).describe(
 
         assert.exists(importedKey.properties.releasePolicy?.data);
         assert.isNotEmpty(
-          JSON.parse(uint8ArrayToString(importedKey.properties.releasePolicy?.data!))
+          JSON.parse(uint8ArrayToString(importedKey.properties.releasePolicy!.data!))
         );
         const releaseResult = await hsmClient.releaseKey(
           keyName,
