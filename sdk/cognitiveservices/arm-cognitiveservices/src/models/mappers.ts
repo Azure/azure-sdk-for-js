@@ -87,7 +87,12 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["None", "SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"]
+          allowedValues: [
+            "None",
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned"
+          ]
         }
       },
       tenantId: {
@@ -351,7 +356,7 @@ export const Encryption: msRest.CompositeMapper = {
       },
       keySource: {
         serializedName: "keySource",
-        defaultValue: "Microsoft.KeyVault",
+        defaultValue: 'Microsoft.KeyVault',
         type: {
           name: "String"
         }
@@ -1075,7 +1080,10 @@ export const RegenerateKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyName",
         type: {
           name: "Enum",
-          allowedValues: ["Key1", "Key2"]
+          allowedValues: [
+            "Key1",
+            "Key2"
+          ]
         }
       }
     }
@@ -1428,7 +1436,10 @@ export const ResourceSkuRestrictions: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["Location", "Zone"]
+          allowedValues: [
+            "Location",
+            "Zone"
+          ]
         }
       },
       values: {
