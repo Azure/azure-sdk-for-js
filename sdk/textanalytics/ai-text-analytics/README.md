@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
-**Note:** This SDK targets Azure Text Analytics service API version 3.1.0-preview.5.
+**Note:** This SDK targets Azure Text Analytics service API version 3.1.0.
 
 - Language Detection
 - Sentiment Analysis
@@ -254,10 +254,7 @@ There is a separate endpoint and operation for recognizing Personally Identifiab
 
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 const documents = [
   "The employee's SSN is 555-55-5555.",
   "The employee's phone number is (555) 555-5555."
@@ -500,11 +497,6 @@ async function main() {
 
 main();
 ```
-
-## Known Issues
-
-- `beginAnalyzeHealthcareEntities` is still in gated preview and can not be used with AAD credentials. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
-- At time of this SDK release, the `modelVersion` option to `beginAnalyzeHealthcareEntities` is ignored by the service. The service always processes the operation using the "latest" model.
 
 ## Troubleshooting
 

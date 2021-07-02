@@ -51,10 +51,10 @@ export function ensureValidMsalToken(
 }
 
 /**
- * Generates a valid authorityHost by combining a host with a tenantId.
+ * Generates a valid authority by combining a host with a tenantId.
  * @internal
  */
-export function getAuthorityHost(tenantId: string, host: string = DefaultAuthorityHost): string {
+export function getAuthority(tenantId: string, host: string = DefaultAuthorityHost): string {
   if (host.endsWith("/")) {
     return host + tenantId;
   } else {
@@ -204,7 +204,7 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
 
 export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
   const record = {
-    authority: getAuthorityHost(account.tenantId, account.environment),
+    authority: getAuthority(account.tenantId, account.environment),
     homeAccountId: account.homeAccountId,
     tenantId: account.tenantId || DefaultTenantId,
     username: account.username,
