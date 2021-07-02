@@ -120,6 +120,7 @@ pr:
     - sdk/policy/arm-policy-profile-hybrid-2019-03-01
     - sdk/policyinsights/arm-policyinsights
     - sdk/postgresql/arm-postgresql
+    - sdk/postgresql/arm-postgresql-flexible
     - sdk/powerbidedicated/arm-powerbidedicated
     - sdk/powerbiembedded/arm-powerbiembedded
     - sdk/privatedns/arm-privatedns
