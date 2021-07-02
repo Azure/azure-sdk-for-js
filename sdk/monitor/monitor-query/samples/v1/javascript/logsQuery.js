@@ -5,8 +5,8 @@
  * @summary Demonstrates how to run a query against a Log Analytics workspace
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { Durations, LogsQueryClient } = require("@azure/monitor-query");
+const { DefaultAzureCredential } = require("c:/code/azure-sdk-for-js/sdk/identity/identity/dist/index");
+const { Durations, LogsQueryClient } = require("../../../dist/index");
 const dotenv = require("dotenv");
 dotenv.config();
 

@@ -5,8 +5,8 @@
  * @summary Demonstrates how to query metrics using the MetricsClient.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { Durations, MetricsQueryClient } = require("@azure/monitor-query");
+const { DefaultAzureCredential } = require("c:/code/azure-sdk-for-js/sdk/identity/identity/dist/index");
+const { Durations, MetricsQueryClient } = require("../../../dist/index");
 const dotenv = require("dotenv");
 
 dotenv.config();
