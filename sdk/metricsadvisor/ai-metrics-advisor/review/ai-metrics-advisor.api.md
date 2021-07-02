@@ -287,8 +287,8 @@ export type DataFeedPatch = {
     rollupSettings?: DataFeedRollupSettings;
     missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
     accessMode?: DataFeedAccessMode;
-    adminEmails?: string[];
-    viewerEmails?: string[];
+    admins?: string[];
+    viewers?: string[];
     actionLinkTemplate?: string;
     status?: DataFeedDetailStatus;
 };
@@ -928,8 +928,8 @@ export type MetricsAdvisorDataFeed = {
     rollupSettings?: DataFeedRollupSettings;
     missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
     accessMode?: DataFeedAccessMode;
-    adminEmails?: string[];
-    viewerEmails?: string[];
+    admins?: string[];
+    viewers?: string[];
     actionLinkTemplate?: string;
 };
 
@@ -994,7 +994,7 @@ export type MySqlDataFeedSource = {
 
 // @public
 export interface NotificationHook {
-    readonly adminEmails?: string[];
+    readonly admins?: string[];
     description?: string;
     externalLink?: string;
     readonly id?: string;
