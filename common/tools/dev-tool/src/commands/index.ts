@@ -28,5 +28,6 @@ export const baseCommand = async (...args: string[]) => {
 
   if (!status) {
     log.error("Errors occured. See the output above.")
+    process.exit(1);
   }
 }
