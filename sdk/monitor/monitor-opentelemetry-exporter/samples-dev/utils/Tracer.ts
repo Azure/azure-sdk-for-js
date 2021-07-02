@@ -46,7 +46,7 @@ export function tracer(serviceName: string, exampleName: string) {
 
   registerInstrumentations({
     instrumentations: [
-      getInstrumentation(exampleName),
+      getInstrumentation(exampleName) as any,
     ],
   });
 

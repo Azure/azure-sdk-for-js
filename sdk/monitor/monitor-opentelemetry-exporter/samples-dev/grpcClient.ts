@@ -38,7 +38,7 @@ function main() {
       user = 'world';
     }
     request.setName(user);
-    client.sayHello(request, (err, response) => {
+    client.sayHello(request, (err: any, response: any) => {
       span.end();
       if (err) throw err;
       console.log('Greeting:', response.getMessage());
