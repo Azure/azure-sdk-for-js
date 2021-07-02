@@ -9,6 +9,7 @@
 export {
   discriminators,
   Advisor,
+  AdvisorsResultList,
   AzureEntityResource,
   BaseResource,
   CloudError,
@@ -35,7 +36,6 @@ export {
   ServerPrivateEndpointConnectionProperties,
   ServerPrivateLinkServiceConnectionStateProperty,
   ServerSecurityAlertPolicy,
-  ServerSecurityAlertPolicyListResult,
   Sku,
   StorageProfile,
   TrackedResource,
