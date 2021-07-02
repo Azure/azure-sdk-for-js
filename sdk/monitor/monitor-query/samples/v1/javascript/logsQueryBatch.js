@@ -5,8 +5,8 @@
  * @summary Demonstrates how to run a batch query against a Log Analytics workspace
  */
 
-const { DefaultAzureCredential } = require("c:/code/azure-sdk-for-js/sdk/identity/identity/dist/index");
-const { LogsQueryClient } = require("../../../dist/index");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsQueryClient } = require("@azure/monitor-query");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -20,7 +20,7 @@ async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
 
   const result = await logsQueryClient.queryLogsBatch({
     queries: [

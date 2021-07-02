@@ -5,8 +5,8 @@
  * @summary Demonstrates how to run a query against a Log Analytics workspace
  */
 
-const { DefaultAzureCredential } = require("c:/code/azure-sdk-for-js/sdk/identity/identity/dist/index");
-const { Durations, LogsQueryClient } = require("../../../dist/index");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { Durations, LogsQueryClient } = require("@azure/monitor-query");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -30,7 +30,7 @@ async function main() {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.last5Minutes,
+    Durations.lastHour,
     {
       // optionally enable returning additional statistics about the query's execution.
       // (by default this is off)
