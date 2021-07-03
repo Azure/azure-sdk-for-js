@@ -1,8 +1,8 @@
 parameters:
-  - name: Location
-    displayName: Location
-    type: string
-    default: westus2
+- name: Location
+  displayName: Location
+  type: string
+  default: westus2
 
 trigger: none
 
