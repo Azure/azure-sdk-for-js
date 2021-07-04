@@ -2,10 +2,10 @@ let nock = require('nock');
 
 module.exports.hash = "911230e858263a0086ce3c1d50fc429c";
 
-module.exports.testInfo = {"uniqueName":{"EC-key":"EC-key162535645569803984"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"EC":"EC162542139619007515"},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/EC-key162535645569803984/create')
+  .post('/keys/EC162542139619007515/create')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"AKV10000: Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -21,11 +21,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/12345678-1234-1234-1234-123456789012", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'b50f39d1-d0ac-40c4-94e5-e61836fcee53',
+  '8882f8bc-1f51-467b-884e-69aa56a2071a',
   'x-ms-request-id',
-  '992b8aeb-9124-47fe-b202-cab9a5ac2b36',
+  'ea44a442-4fe2-463e-8f65-8dad7317e2a0',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT'
+  'Sun, 04 Jul 2021 17:56:36 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -59,19 +59,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'adbd6608-3661-4809-9464-bb279c698501',
+  '979d71d5-bfd0-447c-a1f6-137e40ef8e01',
   'x-ms-ests-server',
-  '2.1.11829.9 - SCUS ProdSlices',
+  '2.1.11829.9 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsSHl_MEjq1HnrHqwxeK3kD1qjVDAQAAAEvvctgOAAAA; expires=Mon, 02-Aug-2021 23:54:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjVrzuzuZ8RJklET2I9vRLL1qjVDAQAAABztc9gOAAAA; expires=Tue, 03-Aug-2021 17:56:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevripBG57SQG4nRjbgAhCIE5Bx07eJh-idjft_38-fUTkGavdzVpYKn9QbSVyanrAbxP6YIA7XODl0z9nSECKqIdN8lk_KpfD9tJD1p994fFIK_mjHFjzQNP9QBYdN2vOz1lth8gdp6_OoF-BixCEx2Exg576W401gfhuMeD6ibTIIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrf4uG-KzOPW8A5Y3BR0ofoySo2AoixyQUsq-xWv085Z1uTQZ_g7HXL_valBxO2MSvYmmiLsimKC3ZLNWVCR-Uc7LjhHpgH8s0CnIdv51NEMvCZLvI2TnFf6ttJwQL4zDhFm0s5bv-9p8GSvKr2mDXyraP1fxqaHo6j7Og7F2YSWMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
   '980'
 ]);
@@ -94,25 +94,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '77ec49a3-73cc-4e5e-841b-1712e0745502',
+  '04923b22-c5b5-4349-b2d4-c550e58f6302',
   'x-ms-ests-server',
   '2.1.11829.9 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsSHl_MEjq1HnrHqwxeK3kD1qjVDAQAAAEvvctgOAAAA; expires=Mon, 02-Aug-2021 23:54:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjVrzuzuZ8RJklET2I9vRLL1qjVDAQAAABztc9gOAAAA; expires=Tue, 03-Aug-2021 17:56:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrHdnuEwEiufFuvBlN3GXkLj8Wi-05sCjlyHV2WxhV0wOn1VxOiwGoW0PSR3DzAHUiYP63EVERO_5vSxTsv_9SfQ2Zo9V1e_JajbPHV5hpngiAe8t5L5vNYfxNjglJ0cEXdrA_4rfIljmRw-prJkQnHTDW3L9naXspADaZ4hf7j8MgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrzgaA-kzq9l7m3ErMRInnWvX0id283uBIywLnxz9wVrH4dGX51fxcXdA_1yWLDk0-_VgU9gaYMfDgD-lEMfuRmaYVY7PSZC27lrz0p6_HpVwV6EZhUVkxKTfw4rrxMmNWk6ZmA8qwEWFFsqgc1fMUAOyiK23IaZsc-FIUKKOtaIYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=8c68a755-90a6-4c77-a6c0-ce92eb5729e1&client_secret=azure_client_secret")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=97182b35-6eac-48d2-80e2-3bb35cebaf18&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -129,27 +129,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '65fb77e2-cd78-4330-9c4e-6eb6e41e8e00',
+  'c19e3cf4-d853-423c-83e5-5de396fed901',
   'x-ms-ests-server',
   '2.1.11829.9 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AsSHl_MEjq1HnrHqwxeK3kD1qjVDAQAAAEvvctgOAAAA; expires=Mon, 02-Aug-2021 23:54:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjVrzuzuZ8RJklET2I9vRLL1qjVDAgAAABztc9gOAAAA; expires=Tue, 03-Aug-2021 17:56:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/EC-key162535645569803984/create', {"kty":"EC","attributes":{},"crv":"P-256K"})
+  .post('/keys/EC162542139619007515/create', {"kty":"EC","attributes":{},"crv":"P-256K"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"yQLoX12eDwXE92vA_CZ42laXc1YFT4HQyXz7V3EHtv4","y":"aT_a89-MWyCVuZyKVsffBQgzEP4mgJZzZuRlCyOrr9o"},"attributes":{"enabled":true,"created":1625356456,"updated":1625356456,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"WVBsV3Yp8w4N13MTbiR1lGRqt1al32t7Cwh3iLOCQU0","y":"lbmnNH8AfhrSq1weWWwT_lTOTRhbe7YEh1cyK2skS5A"},"attributes":{"enabled":true,"created":1625421397,"updated":1625421397,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -159,11 +159,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'b50f39d1-d0ac-40c4-94e5-e61836fcee53',
+  '8882f8bc-1f51-467b-884e-69aa56a2071a',
   'x-ms-request-id',
-  '6ab1be2a-65be-4bd2-9f23-10e0b4c5838e',
+  'd8b9f0ba-3318-48de-919f-b282db625deb',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -175,13 +175,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
-  '412'
+  '397'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0')
+  .get('/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"AKV10000: Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -197,11 +197,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/12345678-1234-1234-1234-123456789012", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '6767ee53-7f23-4d81-a139-91c037b28f13',
+  'ae6f2fd3-ce44-467d-9eb2-5a9fb579e945',
   'x-ms-request-id',
-  'e9b6f759-e0ad-4002-9a30-47376242ad54',
+  'c31b035c-ab1c-4903-8371-faad9c151d5c',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -213,13 +213,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT'
+  'Sun, 04 Jul 2021 17:56:36 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0')
+  .get('/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"yQLoX12eDwXE92vA_CZ42laXc1YFT4HQyXz7V3EHtv4","y":"aT_a89-MWyCVuZyKVsffBQgzEP4mgJZzZuRlCyOrr9o"},"attributes":{"enabled":true,"created":1625356456,"updated":1625356456,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"WVBsV3Yp8w4N13MTbiR1lGRqt1al32t7Cwh3iLOCQU0","y":"lbmnNH8AfhrSq1weWWwT_lTOTRhbe7YEh1cyK2skS5A"},"attributes":{"enabled":true,"created":1625421397,"updated":1625421397,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -229,11 +229,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '6767ee53-7f23-4d81-a139-91c037b28f13',
+  'ae6f2fd3-ce44-467d-9eb2-5a9fb579e945',
   'x-ms-request-id',
-  'adf33fb0-8fc3-4ac7-90ab-59ecb5efd8c7',
+  'd39fb291-9f80-44b6-9974-f2e6fc4949c3',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -245,15 +245,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
-  '412'
+  '397'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0/sign', {"alg":"ES256K","value":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s"})
+  .post('/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6/sign', {"alg":"ES256K","value":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s"})
   .query(true)
-  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0","value":"rH8nmHVXCggNHuOnHG0gfcXZtVjngU2l3icjOIot-Xobs1lFWpkg6lFrMrkPe0nDjUDdVOo-36rHuEGk8Cs9EQ"}, [
+  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6","value":"05x3RQfWJvuhp_Vdr3I3U1iG_xdMgy65hm3l8YvfYTRkMAYtCNHgu4Qt6L5giZAMk1d_BTeRg1KL0LvNTETVmg"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -263,11 +263,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '65511dd7-2a62-4e20-9c46-09c8f99834d1',
+  '9581ab51-0ec4-4bbd-80ea-a7c7cffeb557',
   'x-ms-request-id',
-  '69ac32c2-a0e6-4f86-a311-a3d4931238e3',
+  '4799d162-dcf1-4160-949e-9dc8883c25ae',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -279,81 +279,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
-  '205'
+  '199'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0/verify', {"alg":"ES256K","digest":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s","value":"rH8nmHVXCggNHuOnHG0gfcXZtVjngU2l3icjOIot-Xobs1lFWpkg6lFrMrkPe0nDjUDdVOo-36rHuEGk8Cs9EQ"})
-  .query(true)
-  .reply(200, {"value":true}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'b968094d-1d95-4633-a88a-fcd51a72aed9',
-  'x-ms-request-id',
-  '97d62730-966f-4b1c-820b-940eec1f0427',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
-  'Content-Length',
-  '14'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0/sign', {"alg":"ES256K","value":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s"})
-  .query(true)
-  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0","value":"CO0y0CuekkwWgVn4NcGSUiHDuOEULt5caFZq90mMIc5SJrhQu94ttRR96iHj3n2jSbAbC_4n4jSDf4YXg-eP0w"}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '725b6cca-cb0b-4ee5-8a3f-34dd72492bd4',
-  'x-ms-request-id',
-  '2dc3ae70-fdc7-4a76-8966-1cd272a2f9f0',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
-  'Content-Length',
-  '205'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0/verify', {"alg":"ES256K","digest":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s","value":"CO0y0CuekkwWgVn4NcGSUiHDuOEULt5caFZq90mMIc5SJrhQu94ttRR96iHj3n2jSbAbC_4n4jSDf4YXg-eP0w"})
+  .post('/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6/verify', {"alg":"ES256K","digest":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s","value":"05x3RQfWJvuhp_Vdr3I3U1iG_xdMgy65hm3l8YvfYTRkMAYtCNHgu4Qt6L5giZAMk1d_BTeRg1KL0LvNTETVmg"})
   .query(true)
   .reply(200, {"value":true}, [
   'Cache-Control',
@@ -365,11 +297,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'c67cbe67-cc08-4ed0-af9e-49f9448a02fe',
+  'f7312294-14ab-4cd9-99f3-5ed34da2f141',
   'x-ms-request-id',
-  'c0fe1b1c-1b1b-4487-9340-d5cfe6637cb9',
+  'b850ba20-092c-4b00-a457-ff7c299a6652',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -381,15 +313,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:16 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
   '14'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/EC-key162535645569803984')
+  .post('/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6/sign', {"alg":"ES256K","value":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s"})
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/EC-key162535645569803984","deletedDate":1625356457,"scheduledPurgeDate":1625961257,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"yQLoX12eDwXE92vA_CZ42laXc1YFT4HQyXz7V3EHtv4","y":"aT_a89-MWyCVuZyKVsffBQgzEP4mgJZzZuRlCyOrr9o"},"attributes":{"enabled":true,"created":1625356456,"updated":1625356456,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6","value":"-X_iYcCqTiZGF5XEWFdvnVHzMbsH-BfToCVTKKEroA9kTZxw5glemhT_B09XiQTvI9qeFo1e3ni3Y26BA2hhtg"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -399,11 +331,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'b7a49998-4ee0-44b6-a0b7-b9f2dca7a1e8',
+  'b53dd420-ce23-45c4-9f5c-6fb098bfb7f1',
   'x-ms-request-id',
-  'a7b6402e-71aa-4e82-9972-ba3cbf8d6f83',
+  '7a167699-24d0-4adb-99da-15f2986165d5',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -415,1085 +347,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:54:17 GMT',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
-  '557'
+  '199'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .post('/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6/verify', {"alg":"ES256K","digest":"6jjjD3V2fX5sIeuoWxQBZkajtgreQmypZtrJQKXbG6s","value":"-X_iYcCqTiZGF5XEWFdvnVHzMbsH-BfToCVTKKEroA9kTZxw5glemhT_B09XiQTvI9qeFo1e3ni3Y26BA2hhtg"})
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(200, {"value":true}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'c842a342-f54b-432a-9f6a-da6aa14c58dc',
-  'x-ms-request-id',
-  '48f382ee-e15f-4134-9187-d92313477e90',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:17 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '14b32077-a3a4-4fa9-929f-9b231464e16c',
-  'x-ms-request-id',
-  '973241df-6860-429c-83a3-b47327d5c726',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:17 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'e4c33787-4773-4cda-8815-ce337c5dfdde',
-  'x-ms-request-id',
-  'b5373fd6-80e2-442d-b10b-d41b74f43012',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:18 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'd90f7c53-7862-4cc4-a2a7-215c36857e04',
-  'x-ms-request-id',
-  '8dc9953d-d337-4d1e-a712-0801efb9a8cf',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:20 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '53c0d1f6-9d75-4d9e-9cca-65fada6e5af7',
-  'x-ms-request-id',
-  '539502f8-08e6-436b-9958-0b2252d3976b',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:22 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '431f668d-6084-4038-9c42-6f9b6e155bb4',
-  'x-ms-request-id',
-  '96cb5b5a-d06e-4cf4-b4c2-3e6f402a7836',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:24 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'f283f2f4-898d-4893-9302-4319f1e88939',
-  'x-ms-request-id',
-  '88b2677a-4ec9-4d21-b91a-56d9d265adfe',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:26 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'ac282c35-14c2-40b0-9282-c3e61530aead',
-  'x-ms-request-id',
-  '02c81da1-ff76-44c3-a6e8-0e8223763af5',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:29 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '654e3fac-4669-4393-9247-a1e082605b03',
-  'x-ms-request-id',
-  'd0ee8d18-0ee9-49cd-b1bf-c02dcd5be0d0',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:31 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '50761849-83e5-4f59-a711-a17514607633',
-  'x-ms-request-id',
-  '6c0806cb-b26d-4657-8ea8-8e0387b80901',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:33 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'ca015a46-7803-405c-8725-38104dc7355b',
-  'x-ms-request-id',
-  'd0873db3-1448-4d26-b016-e80205f0f867',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:35 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'b8f20420-0f1c-4b60-b4ff-d5fd1991dcc8',
-  'x-ms-request-id',
-  'f86ebe18-378c-4be4-993f-b4ced7d0e9a0',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:37 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '303b63cc-756f-4533-9331-23df41a9398f',
-  'x-ms-request-id',
-  '6c7b5830-36bd-4be5-8629-3e0a9c37c2eb',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:39 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '4cea2519-cf49-4cb1-9e5f-d8b105cfad1b',
-  'x-ms-request-id',
-  '7d64b731-9be6-4029-b29f-46e9ef103cc0',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:41 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '4130ebea-f55a-4c4d-97eb-baa05ab3f850',
-  'x-ms-request-id',
-  'b14bd19d-85f4-41b6-b40e-f7d61e4f2363',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:43 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '0a260b6e-7684-47f6-b4a9-5fd94236f4dc',
-  'x-ms-request-id',
-  'bd38d263-024e-472e-aa7c-9f9fc6117328',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:45 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'd1d08823-cf15-4896-a667-ca4fc8c442bf',
-  'x-ms-request-id',
-  '4ad56b44-61a3-4c7f-9adf-4e6b699095a0',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:47 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'f703bfba-9bbb-47bc-ae07-96169c17e25a',
-  'x-ms-request-id',
-  '65d73854-c279-4eb0-8f7a-32f89e6688b3',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:49 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '4a233bac-aa5f-4c68-862c-2b9842fd8a78',
-  'x-ms-request-id',
-  '6841c7a4-8ede-48d1-bd68-9bbd876de47b',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:51 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'e35f5e01-1d5a-4ebc-9aa1-53a6c20e896f',
-  'x-ms-request-id',
-  'f9a63f62-cead-42c3-8627-92e7e767fdf0',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:53 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '30943a38-111b-4758-a707-66fb0a7718b4',
-  'x-ms-request-id',
-  'f830c8ae-24a9-48ab-a8d2-19286841ff36',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:55 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '6e810edb-e993-4f6a-8df5-126082b972c7',
-  'x-ms-request-id',
-  'b4dfc225-94de-4ee2-a2a8-54c26695ddf3',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:54:58 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '1c00dfc6-039f-4f81-8270-e2f79426c555',
-  'x-ms-request-id',
-  'be80ed26-e89e-498b-8077-6ce46ed0689e',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:00 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'ee63cb90-c6cf-4d35-9e9c-ad7fc7f5ab85',
-  'x-ms-request-id',
-  '199a1dc2-3e3b-40d9-b5a2-01ca08441e39',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:01 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '6a6b7c8c-6f00-4379-a3cc-e9f0008bb9e6',
-  'x-ms-request-id',
-  '500b3ba3-4974-4587-9ed2-e022ed6c3d44',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:03 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '3f69d70f-4596-48a8-9a1e-43699f78e73d',
-  'x-ms-request-id',
-  '7fa0d1b9-607e-49ce-873f-420da1252e11',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:05 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '5d63992e-3782-42f4-b2ce-e14ba4bc5185',
-  'x-ms-request-id',
-  '8a3718cf-4d3f-4db4-b785-47834f142cfc',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:07 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '7bd17f03-e903-4dc3-a98e-6a045cc48625',
-  'x-ms-request-id',
-  'cafb3a53-3919-43dd-a90a-210bde382bc6',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:09 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '967005ff-86ce-40b9-b093-ffcdda9d91b0',
-  'x-ms-request-id',
-  '50069144-a695-4023-b40a-dd9905cec860',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:12 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '4cd74a63-43b6-407b-8044-b5302eaaa2ff',
-  'x-ms-request-id',
-  '88962a74-a402-4c04-9523-8cb17f136991',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:14 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '840d79d3-77ec-4851-aaad-fbc970e6f42d',
-  'x-ms-request-id',
-  'c059698d-7a35-4a57-932e-0d58bbf1c818',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:15 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '92',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '4fed6e09-c646-423d-9495-26a298ac6d18',
+  '9d640cc1-c4a7-48fb-a275-c5f738e625f3',
   'x-ms-request-id',
-  'c719e993-3ca5-4f04-8509-b17c36edd197',
+  '5d66dd84-2fbf-4440-a194-b309da9402f1',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1505,63 +381,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:17 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Sun, 04 Jul 2021 17:56:36 GMT',
   'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  'ee2a1671-8ffe-428c-acff-a65fdc493c12',
-  'x-ms-request-id',
-  '591e2ad0-7aae-430c-954e-40784de822bb',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:20 GMT'
+  '14'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .delete('/keys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/EC162542139619007515","deletedDate":1625421397,"scheduledPurgeDate":1633197397,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"WVBsV3Yp8w4N13MTbiR1lGRqt1al32t7Cwh3iLOCQU0","y":"lbmnNH8AfhrSq1weWWwT_lTOTRhbe7YEh1cyK2skS5A"},"attributes":{"enabled":true,"created":1625421397,"updated":1625421397,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '92',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'ce535039-9edf-4ca0-98b7-de062b0668d3',
+  '9ffdde66-a710-4d50-8373-e7533ec38949',
   'x-ms-request-id',
-  'a29d7440-84c2-46ea-951e-6bbf02c19e31',
+  '0c6ff8a5-f2a1-4ebf-96be-5ac8f4df071e',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1573,63 +415,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:22 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
-  .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Sun, 04 Jul 2021 17:56:37 GMT',
   'Content-Length',
-  '92',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-client-request-id',
-  '9aed6efc-61f5-425a-a4e7-57e70d1ad1a1',
-  'x-ms-request-id',
-  '6376d8fd-187e-4026-8531-dc4cde179b28',
-  'x-ms-keyvault-service-version',
-  '1.9.12.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Sat, 03 Jul 2021 23:55:24 GMT'
+  '536'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '7b8075c9-d81b-4541-a061-b39a18b4ff63',
+  '6a14d203-d434-4c17-8402-397d9d2a1166',
   'x-ms-request-id',
-  'e44a2591-5bd5-4a8b-adc0-275b09a69533',
+  '7c306f45-3118-4bf2-82f0-6d6ff49be036',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1641,29 +451,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:26 GMT'
+  'Sun, 04 Jul 2021 17:56:37 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'e4c0fb46-b411-4b65-bc59-1300b788d691',
+  '54e45344-0900-4450-82a4-23cebc7ee8d3',
   'x-ms-request-id',
-  '7d482f1d-93a6-4a03-b368-765546e11f80',
+  'adecc988-316b-4439-9077-dfbf9ba99db1',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1675,29 +485,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:27 GMT'
+  'Sun, 04 Jul 2021 17:56:37 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'bfdcd4ce-b7a6-4946-a2fb-c1499952b20b',
+  '76ac87bd-474f-466a-9643-aaf52dcde415',
   'x-ms-request-id',
-  '694f7b86-47a4-427d-a29d-48dc17f50ad7',
+  '74457056-b01a-4cd9-8c8f-e10ef549fc7a',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1709,29 +519,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:29 GMT'
+  'Sun, 04 Jul 2021 17:56:38 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '389c805b-0c24-4671-9906-bfb62fd6acfd',
+  'cc24212a-84cd-4ca4-887e-39172c6e6e9d',
   'x-ms-request-id',
-  '422607b0-7fd1-4611-976a-47804fcba29a',
+  '9587598d-ec42-47ab-909a-848195e5e7b2',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1743,29 +553,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:32 GMT'
+  'Sun, 04 Jul 2021 17:56:41 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'd8569683-9d1f-495a-8117-49bd973ede81',
+  'fa2ee6c5-0864-4527-b02d-e0422b15355a',
   'x-ms-request-id',
-  '4eeea36a-18dd-489c-ae15-d2d8b64765c1',
+  '8ef22fda-6cea-48ac-968d-72e69890b94f',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1777,29 +587,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:34 GMT'
+  'Sun, 04 Jul 2021 17:56:43 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '5b83a783-1541-43ac-bd66-34d5881956e2',
+  '1a1ad4e8-cb3b-4fa7-96bd-e219bdaa273d',
   'x-ms-request-id',
-  '22bdc1b2-c4ff-4744-9acb-5578573c0768',
+  '728564dd-7fe5-46c0-ad8c-0bf1a8f66a26',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1811,29 +621,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:36 GMT'
+  'Sun, 04 Jul 2021 17:56:45 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'b60adc02-20c4-4a5d-a625-849c062acbd9',
+  '156c292c-9d40-41e6-b205-6d6162f95329',
   'x-ms-request-id',
-  '1fa84243-147a-4d29-b79e-7444df778cbb',
+  'f9b00a3e-b59a-4f73-9d83-42500b388098',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1845,29 +655,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:38 GMT'
+  'Sun, 04 Jul 2021 17:56:47 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '7827596a-9f04-4800-a41b-9273a41eac85',
+  'cd3aa4a1-874e-4e6f-80cc-85252162f35b',
   'x-ms-request-id',
-  'b4101f8c-f360-4e13-b649-ba7c5b9b6382',
+  'c7e7bc59-30ba-42a3-9af2-1fe105c988f2',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1879,29 +689,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:41 GMT'
+  'Sun, 04 Jul 2021 17:56:50 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '0471197d-aa26-4540-bc15-5e6021f7890e',
+  'cefb2d1b-8cbc-453c-8f29-f992f0317424',
   'x-ms-request-id',
-  'ad9d0100-faf6-4939-8a56-d9e80d14110c',
+  '3322238c-2c2c-46a1-9592-db226676f066',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1913,29 +723,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:42 GMT'
+  'Sun, 04 Jul 2021 17:56:51 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '2422b69d-7cdb-47e4-a868-25e1f7c7dc81',
+  'd5044ed7-a714-4801-90ac-a6272aefc048',
   'x-ms-request-id',
-  '3fd58dd1-96dc-4d5c-a7d5-c1efdeed361b',
+  '46fe383a-4aa2-46a3-ad26-52c3867d7894',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1947,29 +757,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:44 GMT'
+  'Sun, 04 Jul 2021 17:56:53 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '6a997621-c2fb-447e-9115-fc38280a0f7d',
+  '83412941-d97a-475a-9f32-a46b350895a3',
   'x-ms-request-id',
-  '26c95fd5-df36-442f-adee-d5c91248d3c3',
+  '8f5b4111-0b91-4b3e-9191-3615aeca694d',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -1981,29 +791,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:46 GMT'
+  'Sun, 04 Jul 2021 17:56:56 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '86e73a1a-b21d-4787-ba0c-bbfa2954c7c9',
+  'd69f86c4-865e-4538-979f-ea6b431385ae',
   'x-ms-request-id',
-  '540084cb-8b6c-47ce-a872-c8f2068f671e',
+  'c23c0e80-330f-4d0a-94e5-63dd060059a7',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2015,29 +825,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:49 GMT'
+  'Sun, 04 Jul 2021 17:56:57 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '12701968-f574-46d5-b904-525f866febc7',
+  '0072b5f1-71c0-4bb4-bc24-33594753a994',
   'x-ms-request-id',
-  'cf2607fb-c37b-4ed9-ac39-8ddd24b1f8f0',
+  'd4feb859-0e2c-4c22-aab4-5561dc7d3938',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2049,29 +859,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:51 GMT'
+  'Sun, 04 Jul 2021 17:57:00 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '868321a3-a108-4e74-b831-320bda2d8cf2',
+  'ccf56b50-a2c4-4dee-8ac6-659f5cf38f73',
   'x-ms-request-id',
-  '97906095-5f53-4505-81bc-52c68c32beb3',
+  'd2f7b921-98d3-4d51-91c4-fffeb5c96504',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2083,29 +893,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:52 GMT'
+  'Sun, 04 Jul 2021 17:57:02 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '147252d4-87cb-4fc5-aba9-10d75a909453',
+  'f387677d-fe26-497a-b82d-f6f1ebb5637f',
   'x-ms-request-id',
-  'd23dd30f-661d-4bc5-8594-551a98924125',
+  '7315e463-9e31-44d5-af08-c00cebdf2686',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2117,29 +927,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:54 GMT'
+  'Sun, 04 Jul 2021 17:57:03 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '6337afc5-c131-4d09-bf40-c6465149d36b',
+  '99f6499a-95ec-4e59-8b5a-29fc97d4c7ba',
   'x-ms-request-id',
-  '93e6f189-29b8-4443-92ea-76f725d6beb0',
+  '2d742ef5-1988-4040-acaa-922cfe7b447c',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2151,29 +961,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:57 GMT'
+  'Sun, 04 Jul 2021 17:57:06 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'a06edbcb-87c8-4d51-aa9d-bb9126b190b8',
+  '9fec0300-d288-4f3c-81a8-0a1b4219dfed',
   'x-ms-request-id',
-  '66df39f2-7912-460e-94e5-359b8d6d4ac8',
+  'bfb12384-6088-4570-989e-84a31d9cf720',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2185,29 +995,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:55:59 GMT'
+  'Sun, 04 Jul 2021 17:57:08 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'b45de754-bec5-4ca5-810a-3e9683be13c4',
+  'bb6cba4c-afde-40a1-be8f-fb5f70ea2370',
   'x-ms-request-id',
-  '2e27b447-0a96-476b-a869-8fa7cc4e3925',
+  'f364a5d7-8577-4666-a447-b216fec45f07',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2219,29 +1029,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:00 GMT'
+  'Sun, 04 Jul 2021 17:57:09 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'd534a2ff-4810-483e-b74f-611f76b85a65',
+  '386a0c79-75e8-4d91-96f7-00558b0ebc1e',
   'x-ms-request-id',
-  'b706f55f-e7fb-484b-9056-7c2b55f312ce',
+  '994b8b1d-5181-48bf-8ae8-958f92304d16',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2253,29 +1063,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:02 GMT'
+  'Sun, 04 Jul 2021 17:57:11 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'baab8245-4cac-4d4b-a3ac-7e728e50e8e0',
+  '0b520c34-eeb9-42c3-85a8-2f94855f08a7',
   'x-ms-request-id',
-  'bb4df4e3-e2f9-48b4-ab88-155af3c18fb2',
+  '4f5cbc5b-9cb4-4c27-b9b4-866e2e8de851',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2287,29 +1097,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:05 GMT'
+  'Sun, 04 Jul 2021 17:57:14 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '88cc84f5-7fef-4b0e-8a9a-870bca99c3e9',
+  '8ee9bb94-f0ad-4fa7-b086-ef1888f17337',
   'x-ms-request-id',
-  '138573b8-bceb-4435-8983-47b1b3b5ad08',
+  'bce2fb84-2b71-4fd5-be02-e1f5295caff9',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2321,29 +1131,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:07 GMT'
+  'Sun, 04 Jul 2021 17:57:15 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'd6b0c140-61cb-42b4-a6ad-37bd4b6ce588',
+  '4a8d3bb4-adff-4ef7-92ff-dd9c0e1e3c42',
   'x-ms-request-id',
-  'd24a5665-d670-44d3-9bfe-687ff7fc428d',
+  '22d9d5a2-e06f-4a70-9d91-6ed076c3a70d',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2355,29 +1165,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:09 GMT'
+  'Sun, 04 Jul 2021 17:57:19 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '413d2669-8753-49bd-98dc-334e6b29931a',
+  '45090e61-0858-4b4c-af1d-5339ce388706',
   'x-ms-request-id',
-  '366ea4d6-3d7e-4758-87ad-5d6070606c14',
+  '741d88ff-8871-4b76-9c6d-2653055b57dc',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2389,29 +1199,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:11 GMT'
+  'Sun, 04 Jul 2021 17:57:20 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'a04cb7bf-700c-4867-9884-7f391e4d9b40',
+  'cfdce676-db58-436c-be83-e7b49b1c4820',
   'x-ms-request-id',
-  'c0f73eba-f56c-446a-8773-da9c8af0ca6c',
+  'e5a0f62a-f525-4c82-bb46-a4faf90df73a',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2423,29 +1233,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:12 GMT'
+  'Sun, 04 Jul 2021 17:57:23 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '56ef1418-b644-422e-9fca-36ce6dc67e6e',
+  '2fe5f556-7042-461f-9ff4-f6022209c223',
   'x-ms-request-id',
-  '3fb637c7-423e-466a-bf88-ad693fc85ccf',
+  '2d8f4aa8-e56f-4a59-9a7a-803cb3ee63b6',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2457,29 +1267,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:14 GMT'
+  'Sun, 04 Jul 2021 17:57:24 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '80956dc2-22a2-48de-95e0-81fda3d482be',
+  'cc522f28-9d5c-4a58-b693-f45342cf64a0',
   'x-ms-request-id',
-  '7da6ec23-bb8a-4c04-899d-80dfab796e58',
+  '76a93da8-f19b-4078-872b-c207ffda2c10',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2491,29 +1301,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:17 GMT'
+  'Sun, 04 Jul 2021 17:57:26 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '647cc7e0-2a1f-423c-a4a3-b9fc25ef6250',
+  'aae4e2fe-20c7-4fea-b1b6-cbaca2b4bc20',
   'x-ms-request-id',
-  'dcdea6ed-ed82-403b-be4e-53f5c36197c2',
+  'ec6deb0e-6e58-4c74-bac6-d349040521cd',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2525,29 +1335,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:19 GMT'
+  'Sun, 04 Jul 2021 17:57:29 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '109f1b12-6779-4929-8397-b57aadb9f691',
+  '882620df-f3c2-44ab-b7d0-3ffc63832461',
   'x-ms-request-id',
-  'aaf3a1a6-638a-4a6e-9f40-72f6dd896ac5',
+  '83f2f6c7-710e-4ff6-964a-4c4feac43ff9',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2559,29 +1369,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:21 GMT'
+  'Sun, 04 Jul 2021 17:57:31 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '13f36677-493f-405c-b2fd-acb7b87d39b0',
+  '6e5cdaae-67b8-47fb-b675-f2a5e7e42df7',
   'x-ms-request-id',
-  '677e3895-70a7-4dca-87cd-85e83db716a0',
+  'c8130f0e-abaf-4c5a-a2a4-9fc83c5df999',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2593,29 +1403,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:23 GMT'
+  'Sun, 04 Jul 2021 17:57:33 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '538cd29a-3c1a-451b-a26b-dd97b09e458f',
+  '44a5f5b5-670f-45e7-ab79-71c7a09f4236',
   'x-ms-request-id',
-  '97183d5d-4669-4140-8f5a-572943a100aa',
+  'ba3ca8fc-3cc6-4b5c-9b37-9ec20e3ba108',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2627,29 +1437,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:25 GMT'
+  'Sun, 04 Jul 2021 17:57:34 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC-key162535645569803984"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: EC162542139619007515"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '92',
+  '88',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '0df29946-b80b-4e70-9110-dcc39f44800b',
+  '5910f470-814f-46f9-82f1-5f2e39f907ee',
   'x-ms-request-id',
-  '20925309-346f-4c26-b50e-13085f448f36',
+  'fd34c672-3dfc-45d5-9a07-55c9a3e3e245',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2661,13 +1471,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:27 GMT'
+  'Sun, 04 Jul 2021 17:57:37 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/EC-key162535645569803984')
+  .get('/deletedkeys/EC162542139619007515')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/EC-key162535645569803984","deletedDate":1625356457,"scheduledPurgeDate":1625961257,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC-key162535645569803984/c21d3e6282fe42eab1c48dbef465a5b0","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"yQLoX12eDwXE92vA_CZ42laXc1YFT4HQyXz7V3EHtv4","y":"aT_a89-MWyCVuZyKVsffBQgzEP4mgJZzZuRlCyOrr9o"},"attributes":{"enabled":true,"created":1625356456,"updated":1625356456,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/EC162542139619007515","deletedDate":1625421397,"scheduledPurgeDate":1633197397,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/EC162542139619007515/ca9d690612804336b055f471b37b7bf6","kty":"EC","key_ops":["sign","verify"],"crv":"P-256K","x":"WVBsV3Yp8w4N13MTbiR1lGRqt1al32t7Cwh3iLOCQU0","y":"lbmnNH8AfhrSq1weWWwT_lTOTRhbe7YEh1cyK2skS5A"},"attributes":{"enabled":true,"created":1625421397,"updated":1625421397,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2677,11 +1487,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  '93ef2f1c-efee-4355-bcd7-b6572c95ea04',
+  '94b6a90e-c64a-4e42-9507-4b9ab7c7a5f4',
   'x-ms-request-id',
-  'b0868ff4-294f-49fd-9fa2-f3a0f38593b5',
+  '696c29af-b73f-4409-aa31-89a4baece161',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2693,13 +1503,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:29 GMT',
+  'Sun, 04 Jul 2021 17:57:39 GMT',
   'Content-Length',
-  '557'
+  '536'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/EC-key162535645569803984')
+  .delete('/deletedkeys/EC162542139619007515')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -2709,11 +1519,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-client-request-id',
-  'b18b6cc7-1a0a-4c35-9be8-12eaf8790000',
+  '4cd8a8fe-8289-42fc-b6f7-0241e22cc715',
   'x-ms-request-id',
-  '9df1bf99-89e8-483d-92d0-52fecc61ec91',
+  '67ebba81-aa4d-4cf4-adf0-0244d80463c4',
   'x-ms-keyvault-service-version',
   '1.9.12.0',
   'x-ms-keyvault-network-info',
@@ -2725,5 +1535,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 23:56:30 GMT'
+  'Sun, 04 Jul 2021 17:57:39 GMT'
 ]);

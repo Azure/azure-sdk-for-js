@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
-import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isLiveMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
@@ -54,7 +54,7 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
 
     // The tests follow
 
-    if (!isPlaybackMode()) {
+    if (isLiveMode()) {
       it("encrypt & decrypt with RSA1_5", async function(this: Context) {
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
@@ -135,6 +135,32 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
         const decryptedText = uint8ArrayToString(decryptResult.result);
         assert.equal(text, decryptedText);
       });
+
+      it("wrap and unwrap with rsa1_5", async function() {
+        recorder.skip(
+          undefined,
+          "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+        );
+        const text = "arepa";
+        const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
+        const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
+        const unwrappedText = uint8ArrayToString(unwrappedResult.result);
+        assert.equal(text, unwrappedText);
+        assert.equal("RSA1_5", unwrappedResult.algorithm);
+      });
+
+      it("wrap and unwrap with RSA-OAEP", async function(this: Context) {
+        recorder.skip(
+          undefined,
+          "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+        );
+        const text = this.test!.title;
+        const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
+        const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
+        const unwrappedText = uint8ArrayToString(unwrappedResult.result);
+        assert.equal(text, unwrappedText);
+        assert.equal("RSA-OAEP", unwrappedResult.algorithm);
+      });
     }
 
     it("sign and verify with RS256", async function(): Promise<void> {
@@ -155,32 +181,6 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
       assert.ok(verifyResult.result);
     });
 
-    it("wrap and unwrap with rsa1_5", async function() {
-      recorder.skip(
-        undefined,
-        "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
-      );
-      const text = "arepa";
-      const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
-      const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
-      const unwrappedText = uint8ArrayToString(unwrappedResult.result);
-      assert.equal(text, unwrappedText);
-      assert.equal("RSA1_5", unwrappedResult.algorithm);
-    });
-
-    it("wrap and unwrap with RSA-OAEP", async function(this: Context) {
-      recorder.skip(
-        undefined,
-        "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
-      );
-      const text = this.test!.title;
-      const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
-      const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
-      const unwrappedText = uint8ArrayToString(unwrappedResult.result);
-      assert.equal(text, unwrappedText);
-      assert.equal("RSA-OAEP", unwrappedResult.algorithm);
-    });
-
     it("supports tracing", async function() {
       await supportsTracing(
         (tracingOptions) =>
@@ -190,7 +190,7 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
     });
   });
 
-  describe.only("RSA-HSM keys", () => {
+  describe("RSA-HSM keys", () => {
     beforeEach(async function(this: Context) {
       const authentication = await authenticate(this, getServiceVersion());
       client = authentication.client;
