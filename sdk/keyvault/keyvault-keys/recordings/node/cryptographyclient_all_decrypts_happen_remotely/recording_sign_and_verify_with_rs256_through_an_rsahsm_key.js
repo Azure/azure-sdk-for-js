@@ -5,7 +5,7 @@ module.exports.hash = "86610b23cd805f6af0db6f94daf686aa";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test/create')
+  .post('/keys/RSA-HSM162542011990103178/create')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -150,9 +150,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test/create', {"kty":"RSA"})
+  .post('/keys/RSA-HSM162542011990103178/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/e4976d1ff1b54c6792d88da55d5e122e","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"l41oVBHxcCNusaPDYrzCgwiXt94Nstz6R0dDFSSCvirs7-o7giiAujfbj_LgxUEnEDr0x3sAYnfBKk8IdI8wZI9kaCtb-lPn-7PFMVbp54LE4M-Y-Cead4lp_TgU93T49c1QKr_X50l61iYcsong8VjhZrAVeIhDtvRYyqGlb7mP805wVLFy-SvyrDYk-fpkGxM6PM8Eb52UVFHm_IGoik78ycrHI2lFrMGlDnlJ4hrRNGfRkEP8GfNHOL8dgM4ASJIrPx2g0-of3n9U_sk1QBFs9uhlgPF4jZ_0GVrpz9kb2Lg9r-nmhmabdNXmzU7eoDS4zv4lcdC5tvVjwpoXEQ","e":"AQAB"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM162542011990103178/e4976d1ff1b54c6792d88da55d5e122e","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"l41oVBHxcCNusaPDYrzCgwiXt94Nstz6R0dDFSSCvirs7-o7giiAujfbj_LgxUEnEDr0x3sAYnfBKk8IdI8wZI9kaCtb-lPn-7PFMVbp54LE4M-Y-Cead4lp_TgU93T49c1QKr_X50l61iYcsong8VjhZrAVeIhDtvRYyqGlb7mP805wVLFy-SvyrDYk-fpkGxM6PM8Eb52UVFHm_IGoik78ycrHI2lFrMGlDnlJ4hrRNGfRkEP8GfNHOL8dgM4ASJIrPx2g0-of3n9U_sk1QBFs9uhlgPF4jZ_0GVrpz9kb2Lg9r-nmhmabdNXmzU7eoDS4zv4lcdC5tvVjwpoXEQ","e":"AQAB"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -184,9 +184,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test2/create', {"kty":"RSA-HSM"})
+  .post('/keys/RSA-HSM1625420119901031782/create', {"kty":"RSA-HSM"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -218,7 +218,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570')
+  .get('/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -254,9 +254,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570')
+  .get('/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -288,9 +288,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570/sign', {"alg":"RS256","value":"VPSPcX0VRhWMFjpWyQ-RALlAGoaEJkxnOpiSe6NKnNs"})
+  .post('/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570/sign', {"alg":"RS256","value":"VPSPcX0VRhWMFjpWyQ-RALlAGoaEJkxnOpiSe6NKnNs"})
   .query(true)
-  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570","value":"CHqRj9ukKItRjtiGTcFdyZgZw1XWJfk7LQV7KyMuqzwo_GKbbm4HSHpDmIMYCKdCj07eXo553f52a02BtQWyWeWhqZOMlhpN_geOLhZu_85MoSJN6aodrFzKwC7U5TbpI5boPxMxa-E3Sj4XSGK-wlOUqRCoeNNLnWXoaNAW9iaX7q-0H2wf0UVFEEvtCQjKvBwcXQOeTT81-qfLxrsbVY-cPeEoP8IQBK6TRsa7qN0j5pXIwSt9wwAjp-U9S7sPdQ55uc2xgEl8l0HAbwnwPVXyavrAT_aRAySx2wN-O3j71cOE0_K8gnoSH07MseDrV-21GODMAw5K0Jl_7RV1Ww"}, [
+  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570","value":"CHqRj9ukKItRjtiGTcFdyZgZw1XWJfk7LQV7KyMuqzwo_GKbbm4HSHpDmIMYCKdCj07eXo553f52a02BtQWyWeWhqZOMlhpN_geOLhZu_85MoSJN6aodrFzKwC7U5TbpI5boPxMxa-E3Sj4XSGK-wlOUqRCoeNNLnWXoaNAW9iaX7q-0H2wf0UVFEEvtCQjKvBwcXQOeTT81-qfLxrsbVY-cPeEoP8IQBK6TRsa7qN0j5pXIwSt9wwAjp-U9S7sPdQ55uc2xgEl8l0HAbwnwPVXyavrAT_aRAySx2wN-O3j71cOE0_K8gnoSH07MseDrV-21GODMAw5K0Jl_7RV1Ww"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -322,7 +322,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570/verify', {"alg":"RS256","digest":"VPSPcX0VRhWMFjpWyQ-RALlAGoaEJkxnOpiSe6NKnNs","value":"CHqRj9ukKItRjtiGTcFdyZgZw1XWJfk7LQV7KyMuqzwo_GKbbm4HSHpDmIMYCKdCj07eXo553f52a02BtQWyWeWhqZOMlhpN_geOLhZu_85MoSJN6aodrFzKwC7U5TbpI5boPxMxa-E3Sj4XSGK-wlOUqRCoeNNLnWXoaNAW9iaX7q-0H2wf0UVFEEvtCQjKvBwcXQOeTT81-qfLxrsbVY-cPeEoP8IQBK6TRsa7qN0j5pXIwSt9wwAjp-U9S7sPdQ55uc2xgEl8l0HAbwnwPVXyavrAT_aRAySx2wN-O3j71cOE0_K8gnoSH07MseDrV-21GODMAw5K0Jl_7RV1Ww"})
+  .post('/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570/verify', {"alg":"RS256","digest":"VPSPcX0VRhWMFjpWyQ-RALlAGoaEJkxnOpiSe6NKnNs","value":"CHqRj9ukKItRjtiGTcFdyZgZw1XWJfk7LQV7KyMuqzwo_GKbbm4HSHpDmIMYCKdCj07eXo553f52a02BtQWyWeWhqZOMlhpN_geOLhZu_85MoSJN6aodrFzKwC7U5TbpI5boPxMxa-E3Sj4XSGK-wlOUqRCoeNNLnWXoaNAW9iaX7q-0H2wf0UVFEEvtCQjKvBwcXQOeTT81-qfLxrsbVY-cPeEoP8IQBK6TRsa7qN0j5pXIwSt9wwAjp-U9S7sPdQ55uc2xgEl8l0HAbwnwPVXyavrAT_aRAySx2wN-O3j71cOE0_K8gnoSH07MseDrV-21GODMAw5K0Jl_7RV1Ww"})
   .query(true)
   .reply(200, {"value":true}, [
   'Cache-Control',
@@ -356,9 +356,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/cryptography-client-test2')
+  .delete('/keys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test2","deletedDate":1619645369,"scheduledPurgeDate":1620250169,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/RSA-HSM1625420119901031782","deletedDate":1619645369,"scheduledPurgeDate":1620250169,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -390,9 +390,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test2')
+  .get('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test2"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM1625420119901031782"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -424,9 +424,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test2')
+  .get('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test2"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM1625420119901031782"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -458,9 +458,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test2')
+  .get('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test2"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM1625420119901031782"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -492,9 +492,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test2')
+  .get('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test2"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM1625420119901031782"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -526,9 +526,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test2')
+  .get('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test2"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM1625420119901031782"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -560,9 +560,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test2')
+  .get('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test2","deletedDate":1619645369,"scheduledPurgeDate":1620250169,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test2/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/RSA-HSM1625420119901031782","deletedDate":1619645369,"scheduledPurgeDate":1620250169,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM1625420119901031782/2fed26835b934614958f028e1190f570","kty":"RSA-HSM","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"iowzNoilVwccOEcDR5azR1V22oT0cDaTY2C2wht0z2br56J3DHwY3Hl7gYCvR67UsFz-a4vWdP5Zgb4n_P1QHaDj2n4S2Fn0eCJK-RT0VmraYLsG-trUet0cNRn6-XUJ_P5w15Q9f5xGBG9MRqagNQFp6gFM7zI6AkQYG1nepczDY9eeS7xwO01ve-CJ4bOEW6gX_sjKduhPXjLIFb4LuuS3EsnpqE2XOEGQz1E3wLrXWJVgPmyQzqritSDxPGnbBgbSRMvUmfr4vAR8svgPlyh5-fVE9Y5Kx1PSt5hOb4dmbgVcQbUHBZST5mkmOkPe7He9kqbV0aoVxKK9De9wNw","e":"AAEAAQ"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -594,7 +594,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/cryptography-client-test2')
+  .delete('/deletedkeys/RSA-HSM1625420119901031782')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -624,9 +624,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/cryptography-client-test')
+  .delete('/keys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test","deletedDate":1619645378,"scheduledPurgeDate":1620250178,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/e4976d1ff1b54c6792d88da55d5e122e","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"l41oVBHxcCNusaPDYrzCgwiXt94Nstz6R0dDFSSCvirs7-o7giiAujfbj_LgxUEnEDr0x3sAYnfBKk8IdI8wZI9kaCtb-lPn-7PFMVbp54LE4M-Y-Cead4lp_TgU93T49c1QKr_X50l61iYcsong8VjhZrAVeIhDtvRYyqGlb7mP805wVLFy-SvyrDYk-fpkGxM6PM8Eb52UVFHm_IGoik78ycrHI2lFrMGlDnlJ4hrRNGfRkEP8GfNHOL8dgM4ASJIrPx2g0-of3n9U_sk1QBFs9uhlgPF4jZ_0GVrpz9kb2Lg9r-nmhmabdNXmzU7eoDS4zv4lcdC5tvVjwpoXEQ","e":"AQAB"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/RSA-HSM162542011990103178","deletedDate":1619645378,"scheduledPurgeDate":1620250178,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM162542011990103178/e4976d1ff1b54c6792d88da55d5e122e","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"l41oVBHxcCNusaPDYrzCgwiXt94Nstz6R0dDFSSCvirs7-o7giiAujfbj_LgxUEnEDr0x3sAYnfBKk8IdI8wZI9kaCtb-lPn-7PFMVbp54LE4M-Y-Cead4lp_TgU93T49c1QKr_X50l61iYcsong8VjhZrAVeIhDtvRYyqGlb7mP805wVLFy-SvyrDYk-fpkGxM6PM8Eb52UVFHm_IGoik78ycrHI2lFrMGlDnlJ4hrRNGfRkEP8GfNHOL8dgM4ASJIrPx2g0-of3n9U_sk1QBFs9uhlgPF4jZ_0GVrpz9kb2Lg9r-nmhmabdNXmzU7eoDS4zv4lcdC5tvVjwpoXEQ","e":"AQAB"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -658,9 +658,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM162542011990103178"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -692,9 +692,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM162542011990103178"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -726,9 +726,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM162542011990103178"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -760,9 +760,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM162542011990103178"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -794,9 +794,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM162542011990103178"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -828,9 +828,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: cryptography-client-test"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: RSA-HSM162542011990103178"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -862,9 +862,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/cryptography-client-test')
+  .get('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test","deletedDate":1619645378,"scheduledPurgeDate":1620250178,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/e4976d1ff1b54c6792d88da55d5e122e","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"l41oVBHxcCNusaPDYrzCgwiXt94Nstz6R0dDFSSCvirs7-o7giiAujfbj_LgxUEnEDr0x3sAYnfBKk8IdI8wZI9kaCtb-lPn-7PFMVbp54LE4M-Y-Cead4lp_TgU93T49c1QKr_X50l61iYcsong8VjhZrAVeIhDtvRYyqGlb7mP805wVLFy-SvyrDYk-fpkGxM6PM8Eb52UVFHm_IGoik78ycrHI2lFrMGlDnlJ4hrRNGfRkEP8GfNHOL8dgM4ASJIrPx2g0-of3n9U_sk1QBFs9uhlgPF4jZ_0GVrpz9kb2Lg9r-nmhmabdNXmzU7eoDS4zv4lcdC5tvVjwpoXEQ","e":"AQAB"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/RSA-HSM162542011990103178","deletedDate":1619645378,"scheduledPurgeDate":1620250178,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/RSA-HSM162542011990103178/e4976d1ff1b54c6792d88da55d5e122e","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"l41oVBHxcCNusaPDYrzCgwiXt94Nstz6R0dDFSSCvirs7-o7giiAujfbj_LgxUEnEDr0x3sAYnfBKk8IdI8wZI9kaCtb-lPn-7PFMVbp54LE4M-Y-Cead4lp_TgU93T49c1QKr_X50l61iYcsong8VjhZrAVeIhDtvRYyqGlb7mP805wVLFy-SvyrDYk-fpkGxM6PM8Eb52UVFHm_IGoik78ycrHI2lFrMGlDnlJ4hrRNGfRkEP8GfNHOL8dgM4ASJIrPx2g0-of3n9U_sk1QBFs9uhlgPF4jZ_0GVrpz9kb2Lg9r-nmhmabdNXmzU7eoDS4zv4lcdC5tvVjwpoXEQ","e":"AQAB"},"attributes":{"enabled":true,"created":1619645368,"updated":1619645368,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -896,7 +896,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/cryptography-client-test')
+  .delete('/deletedkeys/RSA-HSM162542011990103178')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
