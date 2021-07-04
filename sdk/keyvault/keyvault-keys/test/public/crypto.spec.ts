@@ -253,7 +253,7 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
       await testClient.flushKey(keyName);
     });
 
-    it.only("sign and verify with RS256 through an RSA-HSM key", async function(this: Context): Promise<
+    it("sign and verify with RS256 through an RSA-HSM key", async function(this: Context): Promise<
       void
     > {
       const signatureValue = Buffer.from("My Message");
