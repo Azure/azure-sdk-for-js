@@ -16,7 +16,7 @@ import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyP
 import { getServiceVersion } from "../utils/utils.common";
 import { isNode } from "@azure/core-http";
 
-describe.only("CryptographyClient (all decrypts happen remotely)", () => {
+describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
@@ -51,8 +51,6 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
       }
       await recorder.stop();
     });
-
-    // The tests follow
 
     if (isLiveMode()) {
       it("encrypt & decrypt with RSA1_5", async function(this: Context) {
