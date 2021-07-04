@@ -7,15 +7,10 @@
  */
 
 export {
-  AccessKeys,
   ArmDisasterRecovery,
-  ArmDisasterRecoveryListResult,
   AuthorizationRule,
-  AuthorizationRuleListResult,
   BaseResource,
   CaptureDescription,
-  CheckNameAvailabilityParameter,
-  CheckNameAvailabilityResult,
   Cluster,
   ClusterSku,
   ConnectionState,
@@ -35,6 +30,7 @@ export {
   NWRuleSetVirtualNetworkRules,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
   Resource,
   Sku,
   Subnet,
