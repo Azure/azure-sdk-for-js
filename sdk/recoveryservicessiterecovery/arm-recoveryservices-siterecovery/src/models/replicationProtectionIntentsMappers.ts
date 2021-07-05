@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  A2ACreateProtectionIntentInput,
   A2ACrossClusterMigrationReplicationDetails,
   A2AEventDetails,
   A2APolicyDetails,
@@ -36,6 +37,9 @@ export {
   CloudError,
   ConfigurationSettings,
   ConsistencyCheckTaskDetails,
+  CreateProtectionIntentInput,
+  CreateProtectionIntentProperties,
+  CreateProtectionIntentProviderSpecificDetails,
   CurrentJobDetails,
   CurrentScenarioDetails,
   DataStore,
@@ -181,7 +185,6 @@ export {
   RecoveryPlanScriptActionDetails,
   RecoveryPlanShutdownGroupTaskDetails,
   RecoveryPoint,
-  RecoveryPointCollection,
   RecoveryPointProperties,
   RecoveryProximityPlacementGroupCustomDetails,
   RecoveryResourceGroupCustomDetails,
@@ -193,6 +196,7 @@ export {
   ReplicationProtectedItem,
   ReplicationProtectedItemProperties,
   ReplicationProtectionIntent,
+  ReplicationProtectionIntentCollection,
   ReplicationProtectionIntentProperties,
   ReplicationProtectionIntentProviderSpecificSettings,
   ReplicationProviderSpecificSettings,
