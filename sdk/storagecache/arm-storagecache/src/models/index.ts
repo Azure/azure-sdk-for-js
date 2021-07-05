@@ -346,7 +346,8 @@ export interface CacheNetworkSettings {
    */
   dnsSearchDomain?: string;
   /**
-   * NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
+   * NTP server IP Address or FQDN for the cache to use. The default is time.windows.com. Default
+   * value: 'time.windows.com'.
    */
   ntpServer?: string;
 }
@@ -718,7 +719,7 @@ export interface NamespaceJunction {
    */
   nfsExport?: string;
   /**
-   * Name of the access policy applied to this junction.
+   * Name of the access policy applied to this junction. Default value: 'default'.
    */
   nfsAccessPolicy?: string;
 }

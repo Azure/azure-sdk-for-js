@@ -565,6 +565,7 @@ export const CacheNetworkSettings: msRest.CompositeMapper = {
       },
       ntpServer: {
         serializedName: "ntpServer",
+        defaultValue: 'time.windows.com',
         type: {
           name: "String"
         }
@@ -1144,6 +1145,7 @@ export const NamespaceJunction: msRest.CompositeMapper = {
       },
       nfsAccessPolicy: {
         serializedName: "nfsAccessPolicy",
+        defaultValue: 'default',
         type: {
           name: "String"
         }
