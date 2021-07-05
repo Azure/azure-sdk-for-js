@@ -81,7 +81,7 @@ describe("RemoteRenderingClient construction", () => {
 
     assert.throws(
       () => new RemoteRenderingClient(serviceEndpoint, accountId, undefined!, keyCredential),
-      "Argument 3 is invalid."
+      "Argument 3 cannot be null or empty."
     );
 
     assert.throws(
@@ -96,7 +96,7 @@ describe("RemoteRenderingClient construction", () => {
 
     assert.throws(
       () => new RemoteRenderingClient(serviceEndpoint, accountId, null!, keyCredential),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument 3 cannot be null or empty."
     );
   });
 });

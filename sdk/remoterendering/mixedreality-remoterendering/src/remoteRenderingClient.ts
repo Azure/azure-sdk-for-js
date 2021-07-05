@@ -228,7 +228,9 @@ export class RemoteRenderingClient {
     let options: RemoteRenderingClientOptions = {};
 
     if (args.length == 0 || args.length > 3) {
-      throw new Error("Wrong number of arguments");
+      throw new Error("Wrong number of arguments.");
+    } else if (!args[0]) {
+      throw new Error("Argument 3 cannot be null or empty.");
     } else if (typeof args[0] === "object" && args.length <= 2) {
       tokenCredential = new StaticAccessTokenCredential(args[0] as AccessToken);
       if (args.length == 2) {
@@ -244,7 +246,7 @@ export class RemoteRenderingClient {
       } else if (isTokenCredential(args[1])) {
         credential = args[1];
       } else {
-        throw new Error("Argument 4 is not a supported type of credential");
+        throw new Error("Argument 4 is not a supported type of credential.");
       }
 
       const authenticationEndpoint =
