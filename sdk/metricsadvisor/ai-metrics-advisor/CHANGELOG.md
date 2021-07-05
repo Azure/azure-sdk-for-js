@@ -11,6 +11,7 @@ The Metrics Advisor library is now in GA with this release.
 - Removed support for granularity type `PerSecond`
 - Renamed "createFeedback" to "addFeedback"
 - `seriesToFilter` parameter renamed to `seriesKey` in methods `getmetricenrichedseriesdata` and `getmetricseriesdata` and ordering updated
+- Renamed `adminEmails` to `admins` in `MetricsAdvisorDataFeed` and `NotificationHook` and `viewerEmails` to `viewers` in `MetricsAdvisorDataFeed`
 - Renamed type `DetectionConditionsOperator` to `DetectionConditionOperator`
 - Renamed property `splitAlertByDimension` to `dimensionsToSplitAlert` in `AnomalyAlertConfiguration`
 - Renamed `datasource` to `DataSource`

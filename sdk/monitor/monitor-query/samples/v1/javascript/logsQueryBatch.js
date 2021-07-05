@@ -20,7 +20,7 @@ async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
 
   const result = await logsQueryClient.queryLogsBatch({
     queries: [
