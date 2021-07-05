@@ -1017,6 +1017,8 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
+    // Warning: (ae-forgotten-export) The symbol "HttpAuthorization" needs to be exported by the entry point index.d.ts
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: SourceModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     timeoutInSeconds?: number;

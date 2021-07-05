@@ -142,6 +142,8 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     conditions?: AppendBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    // Warning: (ae-forgotten-export) The symbol "HttpAuthorization" needs to be exported by the entry point index.d.ts
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -564,6 +566,10 @@ export interface BlobDownloadHeaders {
     errorCode?: string;
     etag?: string;
     immutabilityPolicyExpiresOn?: Date;
+<<<<<<< HEAD
+=======
+    // Warning: (ae-forgotten-export) The symbol "BlobImmutabilityPolicyMode" needs to be exported by the entry point index.d.ts
+>>>>>>> 4ff95296c (Add support for bearer authorization in copying source.)
     immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isSealed?: boolean;
@@ -1347,6 +1353,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     immutabilityPolicy?: BlobImmutabilityPolicy;
     legalHold?: boolean;
     metadata?: Metadata;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
@@ -1560,6 +1567,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     range?: Range;
+    sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -1612,6 +1620,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
@@ -2722,6 +2731,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     conditions?: PageBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;

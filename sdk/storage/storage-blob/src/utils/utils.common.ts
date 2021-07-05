@@ -15,7 +15,8 @@ import {
   Tags,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
-  ObjectReplicationStatus
+  ObjectReplicationStatus,
+  HttpAuthorization
 } from "../models";
 
 /**
@@ -735,4 +736,12 @@ export function parseObjectReplicationRecord(
 export function attachCredential<T>(thing: T, credential: TokenCredential): T {
   (thing as any).credential = credential;
   return thing;
+}
+
+export function httpAuthorizationToString(
+  httpAuthorization?: HttpAuthorization
+): string | undefined {
+  return httpAuthorization
+    ? httpAuthorization.scheme + " " + httpAuthorization.parameter
+    : undefined;
 }
