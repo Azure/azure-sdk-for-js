@@ -9,7 +9,8 @@
 export {
   discriminators,
   CloudError,
-  Display,
-  OperationsDiscovery,
-  OperationsDiscoveryCollection
+  ReplicationEligibilityResults,
+  ReplicationEligibilityResultsCollection,
+  ReplicationEligibilityResultsErrorInfo,
+  ReplicationEligibilityResultsProperties
 } from "../models/mappers";
