@@ -242,7 +242,7 @@ export class RemoteRenderingClient {
       let credential: TokenCredential;
 
       if (args[1] instanceof AzureKeyCredential) {
-        credential = new MixedRealityAccountKeyCredential(accountId, args[0]);
+        credential = new MixedRealityAccountKeyCredential(accountId, args[1]);
       } else if (isTokenCredential(args[1])) {
         credential = args[1];
       } else {
