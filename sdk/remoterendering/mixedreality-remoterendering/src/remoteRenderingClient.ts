@@ -227,17 +227,17 @@ export class RemoteRenderingClient {
     let tokenCredential: TokenCredential | null = null;
     let options: RemoteRenderingClientOptions = {};
 
-    if (args.length == 0 || args.length > 3) {
+    if (args.length === 0 || args.length > 3) {
       throw new Error("Wrong number of arguments.");
     } else if (!args[0]) {
       throw new Error("Argument 3 cannot be null or empty.");
     } else if (typeof args[0] === "object" && args.length <= 2) {
       tokenCredential = new StaticAccessTokenCredential(args[0] as AccessToken);
-      if (args.length == 2) {
+      if (args.length === 2) {
         options = args[1];
       }
     } else if (typeof args[0] === "string" && args.length >= 2 && args.length <= 3) {
-      let accountDomain: string = args[0];
+      const accountDomain: string = args[0];
 
       let credential: TokenCredential;
 
@@ -259,7 +259,7 @@ export class RemoteRenderingClient {
         credential,
         stsOptions
       );
-      if (args.length == 3) {
+      if (args.length === 3) {
         options = args[2];
       }
     } else {
