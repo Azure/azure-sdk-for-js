@@ -32,6 +32,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const attachedDatabaseConfigurationName: msRest.OperationURLParameter = {
+  parameterPath: "attachedDatabaseConfigurationName",
+  mapper: {
+    required: true,
+    serializedName: "attachedDatabaseConfigurationName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const baselineName: msRest.OperationURLParameter = {
   parameterPath: "baselineName",
   mapper: {
@@ -85,6 +95,26 @@ export const connectionPolicyName: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "connectionPolicyName",
     defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const databaseName: msRest.OperationURLParameter = {
+  parameterPath: "databaseName",
+  mapper: {
+    required: true,
+    serializedName: "databaseName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "dataConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "dataConnectionName",
     type: {
       name: "String"
     }
@@ -229,6 +259,16 @@ export const keyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const kustoPoolName: msRest.OperationURLParameter = {
+  parameterPath: "kustoPoolName",
+  mapper: {
+    required: true,
+    serializedName: "kustoPoolName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const libraryName: msRest.OperationURLParameter = {
   parameterPath: "libraryName",
   mapper: {
@@ -244,6 +284,19 @@ export const linkId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "linkId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -300,6 +353,16 @@ export const operationId: msRest.OperationURLParameter = {
     }
   }
 };
+export const principalAssignmentName: msRest.OperationURLParameter = {
+  parameterPath: "principalAssignmentName",
+  mapper: {
+    required: true,
+    serializedName: "principalAssignmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const privateEndpointConnectionName: msRest.OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -337,8 +400,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     serializedName: "resourceGroupName",
     constraints: {
       MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
