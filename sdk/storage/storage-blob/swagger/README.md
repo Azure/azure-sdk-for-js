@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/cfa0f1465475f1a64e8bcb814ed356dc6f624426/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-10-02/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8c1f9b739165035d9ced32761cebb19125bce233/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-06-12/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1280,6 +1280,15 @@ directive:
     where: $.definitions.RetentionPolicy
     transform: >
       delete $.properties["AllowPermanentDelete"];
+```
+
+### Update service version from "2020-06-12" to "2020-08-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-08-04" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)
