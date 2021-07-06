@@ -25,17 +25,18 @@ Use the library to:
 - Close connections
 - Grant/revoke/check permissions for an existing connection
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub) |
-[API reference documentation](https://aka.ms/awps/sdk/js) |
-[Product documentation](https://aka.ms/awps/doc) |
-[Samples][samples_ref]
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub)
+- [API reference documentation](https://aka.ms/awps/sdk/js)
+- [Product documentation](https://aka.ms/awps/doc)
+- [Samples][samples_ref]
 
 ## Getting started
 
 ### Currently supported environments
 
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 
@@ -116,6 +117,18 @@ const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName
 
 const payload = new Uint8Array(10);
 await serviceClient.sendToAll(payload.buffer);
+```
+
+### Access the raw HTTP response for an operation
+
+```js
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+
+function onResponse(rawResponse: FullOperationResponse): void {
+  console.log(rawResponse);
+}
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+await serviceClient.sendToAll({ message: "Hello world!" }, { onResponse });
 ```
 
 ## Troubleshooting

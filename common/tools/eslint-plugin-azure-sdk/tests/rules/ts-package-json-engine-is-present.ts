@@ -257,7 +257,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
   valid: [
     {
       // only the fields we care about
-      code: '{"engines": { "node": ">=8.0.0" }}',
+      code: '{"engines": { "node": ">=12.0.0" }}',
       filename: "package.json"
     },
     {

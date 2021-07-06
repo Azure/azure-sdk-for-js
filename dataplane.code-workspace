@@ -271,6 +271,12 @@
     {
       "name": "iot-device-update",
       "path": "sdk/deviceupdate/iot-device-update"
+    },
+    {
+      "path": "sdk/web-pubsub/web-pubsub"
+    },
+    {
+      "path": "sdk/web-pubsub/web-pubsub-express"
     }
   ],
   "settings": {

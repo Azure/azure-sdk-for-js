@@ -1,10 +1,27 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
+## 1.1.0 (2021-06-30)
 
 ### Fixed
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+
+### Features Added
+
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- The `ExponentialRetryPolicy` will now ignore `503` responses if they have the `Retry-After` header.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
 
 ### Breaking Changes
 

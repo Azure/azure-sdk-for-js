@@ -7,11 +7,12 @@ Use the client library for Azure Monitor to:
 - Query logs using the [Kusto query language][kusto_query_language]
 - Query metrics
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) |
-[API reference documentation][msdocs_apiref]|
-[Product documentation][azure_monitor_product_documentation]
-[Samples][samples]
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) 
+- [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) 
+- [API reference documentation][msdocs_apiref]
+- [Product documentation][azure_monitor_product_documentation]
+- [Samples][samples]
 
 ## Getting started
 
@@ -21,10 +22,17 @@ Use the client library for Azure Monitor to:
 npm install @azure/monitor-query
 ```
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-- You must have an [Azure Subscription](https://azure.microsoft.com) and an [Azure Monitor][azure_monitor_product_documentation] resource to use this package.
-- Node.js version 8.x.x or higher
+- An [Azure Subscription](https://azure.microsoft.com)
+- An [Azure Monitor][azure_monitor_product_documentation] resource 
 
 ### Create an Azure Monitor resource
 

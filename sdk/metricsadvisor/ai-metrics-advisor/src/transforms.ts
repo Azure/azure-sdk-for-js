@@ -548,8 +548,8 @@ export function toServiceDataFeedSource(
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
-            tenantId: source.tenantId!,
-            clientId: source.clientId!,
+            tenantId: source.tenantId,
+            clientId: source.clientId,
             clientSecret: source.clientSecret!,
             workspaceId: source.workspaceId,
             query: source.query
@@ -560,9 +560,6 @@ export function toServiceDataFeedSource(
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
-            tenantId: source.tenantId!,
-            clientId: source.clientId!,
-            clientSecret: source.clientSecret!,
             workspaceId: source.workspaceId,
             query: source.query
           },
@@ -827,9 +824,6 @@ export function toServiceDataFeedSourcePatch(
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
-            tenantId: source.tenantId,
-            clientId: source.clientId,
-            clientSecret: source.clientSecret,
             workspaceId: source.workspaceId,
             query: source.query!
           },
@@ -927,8 +921,8 @@ export function fromServiceDataFeedDetailUnion(
             fillType: original.fillMissingPointType!
           },
     accessMode: original.viewMode,
-    adminEmails: original.admins,
-    viewerEmails: original.viewers
+    admins: original.admins,
+    viewers: original.viewers
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
@@ -937,8 +931,8 @@ export function fromServiceDataFeedDetailUnion(
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
-          azureCloud: orig.dataSourceParameter.azureCloud,
-          applicationId: orig.dataSourceParameter.applicationId,
+          azureCloud: orig.dataSourceParameter.azureCloud!,
+          applicationId: orig.dataSourceParameter.applicationId!,
           apiKey: orig.dataSourceParameter.apiKey,
           query: orig.dataSourceParameter.query,
           authenticationType: "Basic"
@@ -1183,9 +1177,9 @@ export function fromServiceDataFeedDetailUnion(
         ...common,
         source: {
           dataSourceType: "AzureLogAnalytics",
-          clientId: orig14.dataSourceParameter.clientId,
+          clientId: orig14.dataSourceParameter.clientId!,
           clientSecret: orig14.dataSourceParameter.clientSecret,
-          tenantId: orig14.dataSourceParameter.tenantId,
+          tenantId: orig14.dataSourceParameter.tenantId!,
           query: orig14.dataSourceParameter.query,
           workspaceId: orig14.dataSourceParameter.workspaceId,
           authenticationType: "Basic"
@@ -1211,7 +1205,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
     name: original.name,
     description: original.description,
     externalLink: original.externalLink,
-    adminEmails: original.admins
+    admins: original.admins
   };
   switch (original.hookType) {
     case "Email": {

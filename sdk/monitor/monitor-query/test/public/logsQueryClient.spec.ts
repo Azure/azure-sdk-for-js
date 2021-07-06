@@ -119,7 +119,7 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeQueryStatistics", async () => {
-    const query = await createClient().queryLogs(
+    const results = await createClient().queryLogs(
       monitorWorkspaceId,
       "AppEvents | limit 1",
       Durations.last24Hours,
@@ -130,8 +130,28 @@ describe("LogsQueryClient live tests", function() {
 
     // TODO: statistics are not currently modeled in the generated code but
     // the executionTime field is pretty useful.
-    assert.isOk(query.statistics);
-    assert.isNumber(query.statistics?.query?.executionTime);
+    assert.isOk(results.statistics);
+    assert.isNumber(results.statistics?.query?.executionTime);
+  });
+
+  it("includeRender/includeVisualization", async () => {
+    const results = await createClient().queryLogs(
+      monitorWorkspaceId,
+      `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
+      Durations.last24Hours,
+      {
+        includeVisualization: true
+      }
+    );
+
+    // TODO: render/visualizations are not currently modeled in the generated
+    // code
+    assert.deepNestedInclude(results.visualization, {
+      // an example of the data (not currently modeled)
+      visualization: "columnchart",
+      xTitle: "the x axis title",
+      title: "the chart title"
+    });
   });
 
   it("query with types", async () => {

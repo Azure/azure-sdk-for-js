@@ -73,7 +73,10 @@ describe("PartitionPump", () => {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         partitionKey: null,
-        sequenceNumber: 0
+        sequenceNumber: 0,
+        getRawAmqpMessage() {
+          return {} as any;
+        }
       };
 
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());

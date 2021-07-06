@@ -4,10 +4,11 @@ Mixed Reality services, like Azure Spatial Anchors, Azure Remote Rendering, and 
 token service (STS) for authentication. This package supports exchanging Mixed Reality account credentials for an access
 token from the STS that can be used to access Mixed Reality services.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/mixedreality-authentication/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/mixedreality-authentication) |
-[API reference documentation](https://aka.ms/azsdk/js/mixedreality-authentication/docs) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixedreality-authentication/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/mixedreality-authentication/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/mixedreality-authentication)
+- [API reference documentation](https://aka.ms/azsdk/js/mixedreality-authentication/docs)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixedreality-authentication/samples)
 
 ![Mixed Reality service authentication diagram](https://docs.microsoft.com/azure/spatial-anchors/concepts/media/spatial-anchors-authentication-overview.png)
 
@@ -15,7 +16,7 @@ token from the STS that can be used to access Mixed Reality services.
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 

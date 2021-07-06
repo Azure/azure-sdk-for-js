@@ -8,12 +8,13 @@ import { AccessToken } from "@azure/core-auth";
 import { DefaultTenantId } from "../../constants";
 import { resolveTenantId } from "../../util/resolveTenantId";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
-import { getAuthorityHost, getKnownAuthorities, MsalBaseUtilities } from "../utils";
+import { getAuthority, getKnownAuthorities, MsalBaseUtilities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { AuthenticationRequiredError } from "../errors";
 import { CredentialUnavailableError } from "../../client/errors";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -22,6 +23,8 @@ import { CredentialUnavailableError } from "../../client/errors";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
+  allowMultiTenantAuthentication?: boolean;
+  loginHint?: string;
 }
 
 /**
@@ -41,12 +44,12 @@ export function defaultBrowserMsalConfig(
   options: MsalBrowserFlowOptions
 ): msalBrowser.Configuration {
   const tenantId = options.tenantId || DefaultTenantId;
-  const authorityHost = getAuthorityHost(tenantId, options.authorityHost);
+  const authority = getAuthority(tenantId, options.authorityHost);
   return {
     auth: {
       clientId: options.clientId!,
-      authority: authorityHost,
-      knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
+      authority,
+      knownAuthorities: getKnownAuthorities(tenantId, authority),
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.
@@ -68,6 +71,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected loginStyle: BrowserLoginStyle;
   protected clientId: string;
   protected tenantId: string;
+  protected allowMultiTenantAuthentication?: boolean;
+  protected authorityHost?: string;
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
@@ -82,6 +87,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     }
     this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
+    this.authorityHost = options.authorityHost;
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
 
@@ -137,8 +144,16 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
    */
   public async getToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
+    if (!options.authority) {
+      options.authority = getAuthority(tenantId, this.authorityHost);
+    }
+
     // We ensure that redirection is handled at this point.
     await this.handleRedirect();
 

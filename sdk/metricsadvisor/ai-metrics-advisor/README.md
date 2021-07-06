@@ -7,17 +7,21 @@ Metrics Advisor is a part of Azure Cognitive Services that uses AI perform data 
 - Configure and fine-tune the anomaly detection model used on your data
 - Diagnose anomalies and help with root cause analysis.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor)
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
 
 ## Getting started
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
@@ -188,10 +192,8 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     name: "test_datafeed_" + new Date().getTime().toString(),
     source: {
       dataSourceType: "SqlServer",
-      dataSourceParameter: {
-        connectionString: sqlServerConnectionString,
-        query: sqlServerQuery
-      },
+      connectionString: sqlServerConnectionString,
+      query: sqlServerQuery,
       authenticationType: "Basic"
     },
     granularity: {
@@ -232,7 +234,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    adminEmails: ["xyz@example.com"]
+    admins: ["xyz@example.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 

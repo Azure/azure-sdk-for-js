@@ -9,16 +9,27 @@ Use the client libraries in this package to:
 - Create/List/Delete File Systems
 - Create/Read/List/Update/Delete Paths, Directories and Files
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake) |
-[Product documentation](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples) |
-[Azure Storage Data Lake REST APIs](https://docs.microsoft.com/rest/api/storageservices/data-lake-storage-gen2)
+key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake)
+- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples)
+- [Azure Storage Data Lake REST APIs](https://docs.microsoft.com/rest/api/storageservices/data-lake-storage-gen2)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-quickstart-create-account?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#create-an-account-using-the-azure-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/) 
+- A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
 

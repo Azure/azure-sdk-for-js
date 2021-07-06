@@ -7,7 +7,11 @@ Azure Quantum is a Microsoft Azure service that you can use to run quantum compu
 - Create, enumerate, and cancel quantum jobs
 - Enumerate provider status and quotas
 
-  [Source code][source] | [API reference documentation](https://docs.microsoft.com/qsharp/api/) | [Product documentation](https://docs.microsoft.com/azure/quantum/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
+Key links:
+- [Source code][source]
+- [API reference documentation](https://docs.microsoft.com/qsharp/api/)
+- [Product documentation](https://docs.microsoft.com/azure/quantum/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
 
 ## Getting started
 
@@ -23,7 +27,7 @@ npm install @azure/quantum-jobs
 
 ### Prerequisites
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - [Azure subscription](https://azure.microsoft.com/free/)
 - [Azure Quantum Workspace][workspaces]
 

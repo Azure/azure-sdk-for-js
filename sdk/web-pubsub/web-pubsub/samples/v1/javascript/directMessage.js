@@ -20,4 +20,7 @@ async function main() {
   await chatHub.sendToUser("Tn3XcrAbHI0OE36XvbWwige4ac096c1", "Hi there!");
 }
 
-main();
+main().catch((e) => {
+  console.error("Sample encountered an error", e);
+  process.exit(1);
+});

@@ -10,7 +10,10 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 - Create, read, update, and delete the items (JSON documents) in your containers
 - Query the documents in your database using SQL-like syntax
 
-[Package (npm)][npm] | [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates) | [Product documentation][cosmos_docs]
+Key links:
+- [Package (npm)][npm]
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates)
+- [Product documentation][cosmos_docs]
 
 ## Getting started
 
@@ -203,7 +206,7 @@ try {
 
 ### Transpiling
 
-The Azure SDKs are designed to support ES5 JavaScript syntax and a minimum version of Node 8. If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
+The Azure SDKs are designed to support ES5 JavaScript syntax and [LTS versions of Node.js](https://nodejs.org/about/releases/). If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
 
 ### Handle transient errors with retries
 

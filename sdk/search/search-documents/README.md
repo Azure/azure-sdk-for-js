@@ -19,12 +19,13 @@ Use the @azure/search-documents client library to:
 - Create and manage analyzers for advanced text analysis or multi-lingual content.
 - Optimize results through scoring profiles to factor in business logic or freshness.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/search-documents) |
-[REST API documentation](https://docs.microsoft.com/rest/api/searchservice/) |
-[Product documentation](https://docs.microsoft.com/azure/search/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/search-documents)
+- [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/)
+- [Product documentation](https://docs.microsoft.com/azure/search/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
 
 ## Getting started
 
@@ -34,8 +35,17 @@ Use the @azure/search-documents client library to:
 npm install @azure/search-documents
 ```
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
-This package supports [Node.js](https://nodejs.org/) version 8.x.x or higher. You need an [Azure subscription][azure_sub] and a [search service][create_search_service_docs] to use this package.
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Search service][create_search_service_docs]
 
 To create a new search service, you can use the [Azure portal][create_search_service_docs], [Azure PowerShell][create_search_service_ps], or the [Azure CLI][create_search_service_cli]. Here's an example using the Azure CLI to create a free instance for getting started:
 

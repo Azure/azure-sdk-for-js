@@ -13,7 +13,7 @@ import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
  * definition of LTS Node versions
  * * needs updating as definitions change
  */
-const LTS = ">=8.0.0";
+const LTS = ">=12.0.0";
 
 //------------------------------------------------------------------------------
 // Rule Definition

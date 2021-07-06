@@ -8,22 +8,23 @@ Use the client library to:
 - Decode and process events which were delivered to an Event Grid handler
 - Generate Shared Access Signatures for Event Grid topics
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid/v/next) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/) |
-[Product documentation](https://docs.microsoft.com/azure/event-grid/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/) 
+- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid/v/next)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
+- [Product documentation](https://docs.microsoft.com/azure/event-grid/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
 
 ## Getting started
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
-  - Apple Safari: latest two versions
-  - Google Chrome: latest two versions
-  - Microsoft Edge: all supported versions
-  - Mozilla FireFox: latest two versions
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 

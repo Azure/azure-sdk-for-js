@@ -81,12 +81,6 @@ export interface GetMetricNamespacesResult {
 }
 
 // @public
-export interface LogsColumn {
-    name?: string;
-    type?: ColumnDataType;
-}
-
-// @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
@@ -101,7 +95,7 @@ export interface LogsQueryClientOptions extends PipelineOptions {
 
 // @public
 export interface LogsTable {
-    columns: LogsColumn[];
+    columns: MetricColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
@@ -114,7 +108,7 @@ export interface MetadataValue {
 
 // @public
 export interface Metric {
-    displayDescription: string;
+    displayDescription?: string;
     errorCode?: string;
     id: string;
     name: string;
@@ -130,6 +124,15 @@ export interface MetricAvailability {
 }
 
 // @public
+export type MetricClass = string;
+
+// @public
+export interface MetricColumn {
+    name?: string;
+    type?: ColumnDataType;
+}
+
+// @public
 export interface MetricDefinition {
     category?: string;
     dimensions?: string[];
@@ -140,6 +143,23 @@ export interface MetricDefinition {
     name?: string;
     primaryAggregationType?: AggregationType;
     resourceId?: string;
+    unit?: MetricUnit;
+}
+
+// @public
+export interface MetricDefinition {
+    category?: string;
+    dimensions?: string[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: string;
+    namespace?: string;
+    primaryAggregationType?: AggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: AggregationType[];
     unit?: MetricUnit;
 }
 
@@ -207,6 +227,7 @@ export interface QueryLogsBatchResult {
 // @public
 export interface QueryLogsOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
 }
 
@@ -214,6 +235,7 @@ export interface QueryLogsOptions extends OperationOptions {
 export interface QueryLogsResult {
     statistics?: any;
     tables: LogsTable[];
+    visualization?: any;
 }
 
 // @public
