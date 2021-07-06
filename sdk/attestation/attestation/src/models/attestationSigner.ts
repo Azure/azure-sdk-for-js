@@ -16,16 +16,16 @@ import { base64DecodeString } from "../utils/base64";
  */
 export class AttestationSigner {
   /**
-   * @internal
+   * @hideconstructor
    *
    * @param key - JSON Web Key describing the attestation signer.
    */
-  constructor(key?: JsonWebKey) {
-    if (key?.kid) {
-      this.keyId = key.kid.toString();
+  constructor(args: any) {
+    if (args.keyId) {
+      this.keyId = args.keyId.toString();
     }
 
-    this.certificates = key?.x5C?.map(base64DecodeString) ?? [];
+    this.certificates = args.certificates;
   }
 
   /**
@@ -41,4 +41,18 @@ export class AttestationSigner {
    */
 
   certificates: Uint8Array[];
+}
+
+/**
+ *
+ * @param key  - JsonWebKey for signing key.
+ * @returns AttestationSigner created from the JsonWebKey.
+ *
+ * @internal
+ */
+export function _attestationSignerFromGenerated(key: JsonWebKey) {
+  return new AttestationSigner({
+    keyId: key?.kid,
+    certificates: key?.x5C?.map(base64DecodeString) ?? []
+  });
 }

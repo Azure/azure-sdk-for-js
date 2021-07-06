@@ -24,11 +24,12 @@ import {
   AttestationTokenValidationOptions,
   AttestationType,
   AttestationSigningKey,
-  StoredAttestationPolicy,
   PolicyResult,
   AttestationSigner,
   PolicyCertificatesModificationResult
 } from "./models";
+import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
+
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer";
@@ -38,6 +39,8 @@ import * as Mappers from "./generated/models/mappers";
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 import { hexToBase64 } from "./utils/base64";
+import { _policyResultFromGenerated } from "./models/policyResult";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner";
 
 /**
  * Attestation Client Construction Options.
@@ -156,7 +159,7 @@ export class AttestationAdministrationClient {
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      const policyResult = PolicyResult.create(token.getBody());
+      const policyResult = _policyResultFromGenerated(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an
@@ -237,7 +240,7 @@ export class AttestationAdministrationClient {
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      const policyResult = PolicyResult.create(token.getBody());
+      const policyResult = _policyResultFromGenerated(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an
@@ -297,7 +300,7 @@ export class AttestationAdministrationClient {
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      const policyResult = PolicyResult.create(token.getBody());
+      const policyResult = _policyResultFromGenerated(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an
@@ -311,6 +314,14 @@ export class AttestationAdministrationClient {
     }
   }
 
+  /** Returns the set of policy management certificates for this attestation instance.
+   *
+   * @remarks If the attestation instance is not in `Isolated` mode, this list will
+   *    always be empty.
+   *
+   * @param options Options for the call to the attestation service.
+   * @returns AttestationResponse wrapping a list of Attestation Signers.
+   */
   public async getPolicyManagementCertificates(
     options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<AttestationSigner[]>> {
@@ -342,7 +353,7 @@ export class AttestationAdministrationClient {
 
       let policyCertificates = new Array<AttestationSigner>();
       jwks.policyCertificates.keys.forEach((jwk) => {
-        policyCertificates.push(new AttestationSigner(jwk));
+        policyCertificates.push(_attestationSignerFromGenerated(jwk));
       });
 
       return new AttestationResponse<AttestationSigner[]>(token, policyCertificates);
@@ -354,6 +365,20 @@ export class AttestationAdministrationClient {
     }
   }
 
+  /** Add a new certificate chain to the set of policy management certificates.
+   *
+   * @param pemCertificate - PEM encoded certificate to add to the set of policy management certificates.
+   * @param signingKey - Existing attestation signing key used to sign the incoming request.
+   * @param options - Options used in the call to the service.
+   * @returns An attestation response including a PolicyCertificatesModificationResult
+   *
+   * @remarks This API is only supported on `isolated` attestation instances.
+   *
+   * The signing key MUST be one of the existing attestation signing certificates. The
+   * new pemCertificate is signed using the signingKey and the service will validate the
+   * signature before allowing the addition.
+   *
+   */
   public async addPolicyManagementCertificate(
     pemCertificate: string,
     signingKey: AttestationSigningKey,
@@ -440,6 +465,20 @@ export class AttestationAdministrationClient {
     return kty;
   }
 
+  /** Add a new certificate chain to the set of policy management certificates.
+   *
+   * @param pemCertificate - PEM encoded certificate to add to the set of policy management certificates.
+   * @param signingKey - Existing attestation signing key used to sign the incoming request.
+   * @param options - Options used in the call to the service.
+   * @returns An attestation response including a PolicyCertificatesModificationResult
+   *
+   * @remarks This API is only supported on `isolated` attestation instances.
+   *
+   * The signing key MUST be one of the existing attestation signing certificates. The
+   * new pemCertificate is signed using the signingKey and the service will validate the
+   * signature before allowing the addition.
+   *
+   */
   public async removePolicyManagementCertificate(
     pemCertificate: string,
     signingKey: AttestationSigningKey,
@@ -514,7 +553,7 @@ export class AttestationAdministrationClient {
     const jwks = await this._client.signingCertificates.get();
     const signers: AttestationSigner[] = new Array();
     jwks.keys?.forEach((element) => {
-      signers.push(new AttestationSigner(element));
+      signers.push(_attestationSignerFromGenerated(element));
     });
     this._signers = signers;
     return this._signers;

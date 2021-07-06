@@ -15,8 +15,3 @@ export {
   AttestationAdministrationClientOptions,
   AttestationAdministrationClientOperationOptions
 } from "./attestationAdministrationClient";
-
-/**
- * REMOVE THIS DECLARATION BEFORE SHIPPING, IT EXISTS ONLY TO MAKE API-Extractor HAPPY.
- */
-export { GeneratedClient, GeneratedClientContext } from "./generated";

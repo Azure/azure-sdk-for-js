@@ -46,9 +46,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
-    options.userAgentOptions = {
-      userAgentPrefix: userAgentPrefix
-    };
 
     if (!options.credentialScopes) {
       options.credentialScopes = ["https://attest.azure.net/.default"];
@@ -56,6 +53,9 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     const optionsWithDefaults = {
       ...defaults,
       ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
       baseUri: options.endpoint || "{instanceUrl}"
     };
     super(optionsWithDefaults);

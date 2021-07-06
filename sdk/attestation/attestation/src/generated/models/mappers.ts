@@ -517,10 +517,10 @@ export const PolicyResult: coreClient.CompositeMapper = {
   }
 };
 
-export const AttestationResult: coreClient.CompositeMapper = {
+export const GeneratedAttestationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AttestationResult",
+    className: "GeneratedAttestationResult",
     modelProperties: {
       jti: {
         serializedName: "jti",
@@ -530,6 +530,7 @@ export const AttestationResult: coreClient.CompositeMapper = {
       },
       iss: {
         serializedName: "iss",
+        required: true,
         type: {
           name: "String"
         }
@@ -555,7 +556,8 @@ export const AttestationResult: coreClient.CompositeMapper = {
       cnf: {
         serializedName: "cnf",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       nonce: {
@@ -566,6 +568,7 @@ export const AttestationResult: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-ver",
+        required: true,
         type: {
           name: "String"
         }
@@ -573,19 +576,22 @@ export const AttestationResult: coreClient.CompositeMapper = {
       runtimeClaims: {
         serializedName: "x-ms-runtime",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       inittimeClaims: {
         serializedName: "x-ms-inittime",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       policyClaims: {
         serializedName: "x-ms-policy",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       verifierType: {
@@ -603,36 +609,42 @@ export const AttestationResult: coreClient.CompositeMapper = {
       },
       policyHash: {
         serializedName: "x-ms-policy-hash",
+        required: true,
         type: {
           name: "Base64Url"
         }
       },
       isDebuggable: {
         serializedName: "x-ms-sgx-is-debuggable",
+        required: true,
         type: {
           name: "Boolean"
         }
       },
       productId: {
         serializedName: "x-ms-sgx-product-id",
+        required: true,
         type: {
           name: "Number"
         }
       },
       mrEnclave: {
         serializedName: "x-ms-sgx-mrenclave",
+        required: true,
         type: {
           name: "String"
         }
       },
       mrSigner: {
         serializedName: "x-ms-sgx-mrsigner",
+        required: true,
         type: {
           name: "String"
         }
       },
       svn: {
         serializedName: "x-ms-sgx-svn",
+        required: true,
         type: {
           name: "Number"
         }
@@ -646,7 +658,8 @@ export const AttestationResult: coreClient.CompositeMapper = {
       sgxCollateral: {
         serializedName: "x-ms-sgx-collateral",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       deprecatedVersion: {
@@ -664,7 +677,8 @@ export const AttestationResult: coreClient.CompositeMapper = {
       deprecatedSgxCollateral: {
         serializedName: "maa-attestationcollateral",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       deprecatedEnclaveHeldData: {

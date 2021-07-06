@@ -6,10 +6,15 @@
 
 ### Breaking Changes
 
+- Removed `policyCertificates` from `AttestationAdministrationClient`, replaced with
+`getPolicyManagementCertificates`, `addPolicyManagementCertificate` and `removePolicyManagementCertificate`.
+- Removed `StoredAttestationPolicy` and replaced it with `AttestationPolicyToken`.
+- Removed `AttestationData` type. Instead of specifying an `AttestationData` for `initTimeData` and `runTimeData` to the Attest APIs, the attest APIs take an `initTimeJson`, `initTimeData`, `runTimeData` and `runTimeJson` object and determine
+the `DataType` to send to the server based on that.
+
 ### Key Bugs Fixed
 
 ### Fixed
-
 
 ## 1.0.0-beta.4 (2021-06-15)
 
@@ -20,7 +25,6 @@
 ### Key Bugs Fixed
 
 - Fixes the location of types definition in package.json
-
 
 ## 1.0.0-beta.3 (2021-06-08)
 

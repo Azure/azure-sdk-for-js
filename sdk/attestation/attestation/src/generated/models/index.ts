@@ -219,11 +219,11 @@ export interface PolicyResult {
 }
 
 /** A Microsoft Azure Attestation response token body - the body of a response token issued by MAA */
-export interface AttestationResult {
+export interface GeneratedAttestationResult {
   /** Unique Identifier for the token */
   jti?: string;
   /** The Principal who issued the token */
-  iss?: string;
+  iss: string;
   /** The time at which the token was issued, in the number of seconds since 1970-01-0T00:00:00Z UTC */
   iat?: number;
   /** The expiration time after which the token is no longer valid, in the number of seconds since 1970-01-0T00:00:00Z UTC */
@@ -231,43 +231,43 @@ export interface AttestationResult {
   /** The not before time before which the token cannot be considered valid, in the number of seconds since 1970-01-0T00:00:00Z UTC */
   nbf?: number;
   /** An RFC 7800 Proof of Possession Key */
-  cnf?: any;
+  cnf?: Record<string, unknown>;
   /** The Nonce input to the attestation request, if provided. */
   nonce?: string;
   /** The Schema version of this structure. Current Value: 1.0 */
-  version?: string;
+  version: string;
   /** Runtime Claims */
-  runtimeClaims?: any;
+  runtimeClaims?: Record<string, unknown>;
   /** Inittime Claims */
-  inittimeClaims?: any;
+  inittimeClaims?: Record<string, unknown>;
   /** Policy Generated Claims */
-  policyClaims?: any;
+  policyClaims?: Record<string, unknown>;
   /** The Attestation type being attested. */
   verifierType?: string;
   /** The certificate used to sign the policy object, if specified. */
   policySigner?: JsonWebKey;
   /** The SHA256 hash of the BASE64URL encoded policy text used for attestation */
-  policyHash?: Uint8Array;
+  policyHash: Uint8Array;
   /** True if the enclave is debuggable, false otherwise */
-  isDebuggable?: boolean;
+  isDebuggable: boolean;
   /** The SGX Product ID for the enclave. */
-  productId?: number;
+  productId: number;
   /** The HEX encoded SGX MRENCLAVE value for the enclave. */
-  mrEnclave?: string;
+  mrEnclave: string;
   /** The HEX encoded SGX MRSIGNER value for the enclave. */
-  mrSigner?: string;
+  mrSigner: string;
   /** The SGX SVN value for the enclave. */
-  svn?: number;
+  svn: number;
   /** A copy of the RuntimeData specified as an input to the attest call. */
   enclaveHeldData?: Uint8Array;
   /** The SGX SVN value for the enclave. */
-  sgxCollateral?: any;
+  sgxCollateral?: Record<string, unknown>;
   /** DEPRECATED: Private Preview version of x-ms-ver claim. */
   deprecatedVersion?: string;
   /** DEPRECATED: Private Preview version of x-ms-sgx-is-debuggable claim. */
   deprecatedIsDebuggable?: boolean;
   /** DEPRECATED: Private Preview version of x-ms-sgx-collateral claim. */
-  deprecatedSgxCollateral?: any;
+  deprecatedSgxCollateral?: Record<string, unknown>;
   /** DEPRECATED: Private Preview version of x-ms-sgx-ehd claim. */
   deprecatedEnclaveHeldData?: Uint8Array;
   /** DEPRECATED: Private Preview version of x-ms-sgx-ehd claim. */
@@ -439,10 +439,7 @@ export interface MetadataConfigurationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MetadataConfigurationGetResponse = {
-  /** The parsed response body. */
-  body: any;
-};
+export type MetadataConfigurationGetResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

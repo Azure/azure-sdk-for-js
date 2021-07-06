@@ -9,7 +9,7 @@ import { JsonWebKey } from "../generated/models";
 import { base64UrlDecodeString, hexToBase64 } from "../utils/base64";
 import { AttestationSigningKey } from "./attestationSigningKey";
 import { bytesToString } from "../utils/utf8";
-import { AttestationSigner } from "./attestationSigner";
+import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
 
 import * as Mappers from "../generated/models/mappers";
 import { TypeDeserializer } from "../utils/typeDeserializer";
@@ -378,7 +378,7 @@ export class AttestationToken {
         "JsonWebKey"
       ) as JsonWebKey;
     }
-    return new AttestationSigner(jwk);
+    return _attestationSignerFromGenerated(jwk);
   }
 
   /** ********* JSON WEB TOKEN (RFC 7519) PROPERTIES */

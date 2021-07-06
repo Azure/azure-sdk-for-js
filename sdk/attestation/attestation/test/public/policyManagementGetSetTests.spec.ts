@@ -79,16 +79,36 @@ describe("PolicyManagementTests ", function() {
 
     const expectedThumbprint = byteArrayToHex(generateSha1Hash(cert.hex)).toUpperCase();
 
-    // Add a new signing certificate.
-    const setResult = await client.addPolicyManagementCertificate(rsaCertificate, signingKeys);
-    assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
-    assert(setResult.value.certificateThumbprint === expectedThumbprint);
+    {
+      // Add a new signing certificate.
+      const setResult = await client.addPolicyManagementCertificate(rsaCertificate, signingKeys);
+      assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
+      assert(setResult.value.certificateThumbprint === expectedThumbprint);
+    }
 
-    const removeResult = await client.removePolicyManagementCertificate(
-      rsaCertificate,
-      signingKeys
-    );
-    assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
-    assert(setResult.value.certificateThumbprint === expectedThumbprint);
+    {
+      // Do it a second time, since these operations are idempotent.
+      const setResult = await client.addPolicyManagementCertificate(rsaCertificate, signingKeys);
+      assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
+      assert(setResult.value.certificateThumbprint === expectedThumbprint);
+    }
+
+    {
+      const removeResult = await client.removePolicyManagementCertificate(
+        rsaCertificate,
+        signingKeys
+      );
+      assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
+      assert(removeResult.value.certificateThumbprint === expectedThumbprint);
+    }
+
+    {
+      const removeResult = await client.removePolicyManagementCertificate(
+        rsaCertificate,
+        signingKeys
+      );
+      assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
+      assert(removeResult.value.certificateThumbprint === expectedThumbprint);
+    }
   });
 });

@@ -21,8 +21,7 @@ import {
 import {
   AttestationSigningKey,
   KnownAttestationType,
-  AttestationToken,
-  StoredAttestationPolicy,
+  AttestationPolicyToken,
   AttestationType
 } from "../../src";
 import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
@@ -122,10 +121,7 @@ describe("PolicyGetSetTests ", function() {
 
     assert.equal(KnownPolicyModification.Updated, policyResult.value.policyResolution);
 
-    const expectedPolicy = AttestationToken.create({
-      body: new StoredAttestationPolicy(minimalPolicy).serialize(),
-      signer: signer
-    });
+    const expectedPolicy = new AttestationPolicyToken(minimalPolicy, signer);
 
     const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 

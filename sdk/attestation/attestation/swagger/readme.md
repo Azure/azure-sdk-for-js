@@ -59,6 +59,24 @@ directive:
 ```yaml
 directive:
   from: swagger-document
+  where: $.definitions.AttestationResult
+  transform: >
+    $["x-ms-client-name"] = "GeneratedAttestationResult";
+    $.required = [ 
+      "iss",
+      "x-ms-ver",
+      "x-ms-policy-hash", 
+      "x-ms-sgx-mrsigner", 
+      "x-ms-sgx-is-debuggable",
+      "x-ms-sgx-mrenclave",
+      "x-ms-sgx-product-id",
+      "x-ms-sgx-svn"
+    ]
+```
+
+```yaml
+directive:
+  from: swagger-document
   where: $.definitions.PolicyCertificatesModifyResponse
   transform: >
     $.required = [ "token" ];

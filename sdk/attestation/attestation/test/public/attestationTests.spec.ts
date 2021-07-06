@@ -16,8 +16,8 @@ import {
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
-import { AttestationData } from "../../src";
 import { KnownAttestationType } from "../../src/generated";
+import { stringToBytes } from "../../src/utils/utf8";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -141,6 +141,7 @@ describe("[AAD] Attestation Client", function() {
     "RHZvOGgyazVkdTFpV0RkQmtBbiswaWlBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0" +
     "tLQoA";
 
+
   it("#AttestOpenEnclaveShared", async () => {
     await testOpenEnclave("Shared");
   });
@@ -198,10 +199,43 @@ describe("[AAD] Attestation Client", function() {
     const client = createRecordedClient(endpointType);
 
     {
+      try {
+        await client.attestOpenEnclave(
+          base64url.decodeString(_openEnclaveReport),
+          {
+            runTimeData: binaryRuntimeData,
+            runTimeJson: binaryRuntimeData,
+          }
+        );
+        assert.fail("Expected attest call to throw.")
+      } catch (TypeError) {
+        
+      };
+      
+    }
+    
+    {
+
+      // If you say you're handing JSON to the service, it should be JSON.
+      try {
+        await client.attestSgxEnclave(
+          base64url.decodeString(_openEnclaveReport).subarray(0x10),
+          {
+            runTimeJson: stringToBytes("{ xx: abcdefg, }"),
+          }
+        );
+        assert.fail("Expected attest call to throw.")
+      } catch (TypeError) {
+        
+      };
+    }
+
+
+    {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, false)
+          runTimeData: binaryRuntimeData
         }
       );
 
@@ -217,7 +251,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, true)
+          runTimeJson: binaryRuntimeData
         }
       );
 
@@ -241,13 +275,47 @@ describe("[AAD] Attestation Client", function() {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
     {
+      // You can't specify both runtimeData and runtimeJson.
+      try {
+        await client.attestSgxEnclave(
+          base64url.decodeString(_openEnclaveReport).subarray(0x10),
+          {
+            runTimeData: binaryRuntimeData,
+            runTimeJson: binaryRuntimeData,
+          }
+        );
+        assert.fail("Expected attest call to throw.")
+      } catch (TypeError) {
+        
+      };
+      
+    }
+
+    
+    {
+      // If you say you're handing JSON to the service, it should be JSON.
+      try {
+        await client.attestSgxEnclave(
+          base64url.decodeString(_openEnclaveReport).subarray(0x10),
+          {
+            runTimeJson: stringToBytes("{ xx: abcdefg, }"),
+          }
+        );
+        assert.fail("Expected attest call to throw.")
+      } catch (TypeError) {
+        
+      };
+    }
+
+
+    {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
       //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
       //  16 bytes from the report.
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, false)
+          runTimeData: binaryRuntimeData
         }
       );
 
@@ -266,7 +334,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, true)
+          runTimeJson: binaryRuntimeData
         }
       );
 
