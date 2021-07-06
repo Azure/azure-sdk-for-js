@@ -534,6 +534,9 @@ export interface BlobDownloadHeaders {
     encryptionScope?: string;
     errorCode?: string;
     etag?: string;
+    immutabilityPolicyExpiresOn?: Date;
+    // Warning: (ae-forgotten-export) The symbol "BlobImmutabilityPolicyMode" needs to be exported by the entry point index.d.ts
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
@@ -542,6 +545,7 @@ export interface BlobDownloadHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -664,6 +668,8 @@ export interface BlobGetPropertiesHeaders {
     errorCode?: string;
     etag?: string;
     expiresOn?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isIncrementalCopy?: boolean;
     isSealed?: boolean;
@@ -673,6 +679,7 @@ export interface BlobGetPropertiesHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -790,6 +797,8 @@ export interface BlobItemInternal {
     // (undocumented)
     deleted: boolean;
     // (undocumented)
+    hasVersionsOnly?: boolean;
+    // (undocumented)
     isCurrentVersion?: boolean;
     metadata?: {
         [propertyName: string]: string;
@@ -877,6 +886,10 @@ export interface BlobProperties {
     // (undocumented)
     expiresOn?: Date;
     // (undocumented)
+    immutabilityPolicyExpiresOn?: Date;
+    // (undocumented)
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    // (undocumented)
     incrementalCopy?: boolean;
     // (undocumented)
     isSealed?: boolean;
@@ -890,6 +903,8 @@ export interface BlobProperties {
     leaseState?: LeaseStateType;
     // (undocumented)
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    legalHold?: boolean;
     rehydratePriority?: RehydratePriority;
     // (undocumented)
     remainingRetentionDays?: number;
@@ -1775,6 +1790,7 @@ export interface ContainerGetPropertiesHeaders {
     etag?: string;
     hasImmutabilityPolicy?: boolean;
     hasLegalHold?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -1877,6 +1893,7 @@ export interface ContainerProperties {
     hasImmutabilityPolicy?: boolean;
     // (undocumented)
     hasLegalHold?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
     // (undocumented)
     lastModified: Date;
     // (undocumented)
@@ -2250,7 +2267,7 @@ export interface ListBlobsHierarchySegmentResponseModel {
 }
 
 // @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
+export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
 
 // @public
 export type ListContainersIncludeType = "metadata" | "deleted";

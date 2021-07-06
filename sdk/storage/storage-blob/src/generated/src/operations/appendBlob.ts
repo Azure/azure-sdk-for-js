@@ -157,8 +157,11 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.blobTagsString,
+    Parameters.legalHold1,
     Parameters.blobType1
   ],
   isXML: true,
@@ -177,7 +180,7 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp20],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp22],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -215,7 +218,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AppendBlobAppendBlockFromUrlExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp20],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp22],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -237,6 +240,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifTags,
     Parameters.encryptionScope,
     Parameters.sourceContentMD5,
+    Parameters.copySourceAuthorization,
     Parameters.transactionalContentMD5,
     Parameters.sourceUrl,
     Parameters.sourceContentCrc64,
@@ -259,7 +263,7 @@ const sealOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AppendBlobSealExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp21],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp23],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,

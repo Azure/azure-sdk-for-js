@@ -279,9 +279,12 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.tier,
     Parameters.blobTagsString,
+    Parameters.legalHold1,
     Parameters.blobType,
     Parameters.blobContentLength,
     Parameters.blobSequenceNumber
@@ -302,7 +305,7 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp17],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -343,7 +346,7 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobClearPagesExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp17],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -381,7 +384,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobUploadPagesFromURLExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp17],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -403,6 +406,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifTags,
     Parameters.encryptionScope,
     Parameters.sourceContentMD5,
+    Parameters.copySourceAuthorization,
     Parameters.pageWrite,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
@@ -431,7 +435,7 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp18
+    Parameters.comp20
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -465,7 +469,7 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp18,
+    Parameters.comp20,
     Parameters.prevsnapshot
   ],
   urlParameters: [Parameters.url],
@@ -560,7 +564,7 @@ const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobCopyIncrementalExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp21],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
