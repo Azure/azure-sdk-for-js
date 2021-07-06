@@ -204,7 +204,9 @@ describe("[AAD] Attestation Client", function() {
           runTimeJson: binaryRuntimeData
         });
         assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {}
+      } catch (TypeError) {
+        assert.isTrue(true);
+      }
     }
 
     {
@@ -214,7 +216,9 @@ describe("[AAD] Attestation Client", function() {
           runTimeJson: stringToBytes("{ xx: abcdefg, }")
         });
         assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {}
+      } catch (TypeError) {
+        assert.isTrue(true);
+      }
     }
 
     {
@@ -268,7 +272,9 @@ describe("[AAD] Attestation Client", function() {
           runTimeJson: binaryRuntimeData
         });
         assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {}
+      } catch (TypeError) {
+        assert.isTrue(true);
+      }
     }
 
     {
@@ -278,7 +284,9 @@ describe("[AAD] Attestation Client", function() {
           runTimeJson: stringToBytes("{ xx: abcdefg, }")
         });
         assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {}
+      } catch (TypeError) {
+        assert.isTrue(true);
+      }
     }
 
     {

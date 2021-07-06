@@ -70,7 +70,9 @@ directive:
       "x-ms-sgx-is-debuggable",
       "x-ms-sgx-mrenclave",
       "x-ms-sgx-product-id",
-      "x-ms-sgx-svn"
+      "x-ms-sgx-svn",
+      "jti",
+      "x-ms-attestation-type",
     ]
 ```
 

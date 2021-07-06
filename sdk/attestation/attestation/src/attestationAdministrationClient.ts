@@ -319,7 +319,7 @@ export class AttestationAdministrationClient {
    * @remarks If the attestation instance is not in `Isolated` mode, this list will
    *    always be empty.
    *
-   * @param options Options for the call to the attestation service.
+   * @param options - Options for the call to the attestation service.
    * @returns AttestationResponse wrapping a list of Attestation Signers.
    */
   public async getPolicyManagementCertificates(
@@ -351,7 +351,7 @@ export class AttestationAdministrationClient {
         "PolicyCertificatesResult"
       ) as PolicyCertificatesResult;
 
-      let policyCertificates = new Array<AttestationSigner>();
+      const policyCertificates = new Array<AttestationSigner>();
       jwks.policyCertificates.keys.forEach((jwk) => {
         policyCertificates.push(_attestationSignerFromGenerated(jwk));
       });
@@ -393,7 +393,7 @@ export class AttestationAdministrationClient {
       cert.readCertPEM(pemCertificate);
       const kty = this.keyTypeFromCertificate(cert);
 
-      let jwk: JsonWebKey = {
+      const jwk: JsonWebKey = {
         x5C: [hexToBase64(cert.hex)],
         kty: kty
       };
@@ -493,7 +493,7 @@ export class AttestationAdministrationClient {
       cert.readCertPEM(pemCertificate);
       const kty = this.keyTypeFromCertificate(cert);
 
-      let jwk: JsonWebKey = {
+      const jwk: JsonWebKey = {
         x5C: [hexToBase64(cert.hex)],
         kty: kty
       };

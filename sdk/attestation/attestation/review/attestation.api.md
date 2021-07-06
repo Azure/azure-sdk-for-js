@@ -63,7 +63,25 @@ export class AttestationResponse<T> {
 
 // @public
 export class AttestationResult {
-    constructor(params: any);
+    constructor(params: {
+        issuer: string;
+        version: string;
+        nonce?: string;
+        uniqueId: string;
+        runtimeClaims?: any;
+        inittimeClaims?: any;
+        policyClaims?: any;
+        verifierType: string;
+        policySigner?: AttestationSigner;
+        policyHash: Uint8Array;
+        isDebuggable?: boolean;
+        productId?: number;
+        mrEnclave?: string;
+        mrSigner?: string;
+        svn?: number;
+        enclaveHeldData?: Uint8Array;
+        sgxCollateral?: any;
+    });
     get enclaveHeldData(): Uint8Array | undefined;
     get inittimeClaims(): any;
     get isDebuggable(): boolean | undefined;
@@ -85,7 +103,10 @@ export class AttestationResult {
 
 // @public
 export class AttestationSigner {
-    constructor(args: any);
+    constructor(args: {
+        keyId?: string;
+        certificates: Uint8Array[];
+    });
     certificates: Uint8Array[];
     keyId?: string;
 }
@@ -193,7 +214,12 @@ export type PolicyModification = string;
 
 // @public
 export class PolicyResult {
-    constructor(result: any);
+    constructor(result: {
+        policyResolution?: PolicyModification;
+        policyTokenHash?: Uint8Array;
+        policy?: string;
+        policySigner?: AttestationSigner;
+    });
     policy?: string;
     policyResolution?: PolicyModification;
     policySigner?: AttestationSigner;

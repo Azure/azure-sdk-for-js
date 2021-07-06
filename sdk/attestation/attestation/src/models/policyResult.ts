@@ -21,17 +21,19 @@ import { AttestationSigner, _attestationSignerFromGenerated } from "./attestatio
 export class PolicyResult {
   /**
    *
-   * @param result Generated PolicyResult from service.
+   * @param result - Generated PolicyResult from service.
    *
-   * @hideconstructor
    */
-  constructor(result: any) {
+  constructor(result: {
+    policyResolution?: PolicyModification;
+    policyTokenHash?: Uint8Array;
+    policy?: string;
+    policySigner?: AttestationSigner;
+  }) {
     this.policyResolution = result.policyResolution;
     this.policyTokenHash = result.policyTokenHash;
     this.policy = result.policy;
-    this.policySigner = result.policySigner
-      ? _attestationSignerFromGenerated(result.policySigner)
-      : undefined;
+    this.policySigner = result.policySigner ?? undefined;
   }
 
   /**
@@ -59,11 +61,17 @@ export class PolicyResult {
  *  the attestation service.
  */
 export function _policyResultFromGenerated(rawJson: unknown): PolicyResult {
-  return new PolicyResult(
-    TypeDeserializer.deserialize(
-      rawJson,
-      { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey },
-      "PolicyResult"
-    ) as GeneratedPolicyResult
-  );
+  const policyResult: GeneratedPolicyResult = TypeDeserializer.deserialize(
+    rawJson,
+    { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey },
+    "PolicyResult"
+  ) as GeneratedPolicyResult;
+  return new PolicyResult({
+    policyResolution: policyResult.policyResolution,
+    policyTokenHash: policyResult.policyTokenHash,
+    policy: policyResult.policy,
+    policySigner: policyResult.policySigner
+      ? _attestationSignerFromGenerated(policyResult.policySigner)
+      : undefined
+  });
 }

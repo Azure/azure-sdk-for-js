@@ -524,6 +524,7 @@ export const GeneratedAttestationResult: coreClient.CompositeMapper = {
     modelProperties: {
       jti: {
         serializedName: "jti",
+        required: true,
         type: {
           name: "String"
         }
@@ -596,6 +597,7 @@ export const GeneratedAttestationResult: coreClient.CompositeMapper = {
       },
       verifierType: {
         serializedName: "x-ms-attestation-type",
+        required: true,
         type: {
           name: "String"
         }

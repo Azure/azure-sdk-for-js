@@ -221,7 +221,7 @@ export interface PolicyResult {
 /** A Microsoft Azure Attestation response token body - the body of a response token issued by MAA */
 export interface GeneratedAttestationResult {
   /** Unique Identifier for the token */
-  jti?: string;
+  jti: string;
   /** The Principal who issued the token */
   iss: string;
   /** The time at which the token was issued, in the number of seconds since 1970-01-0T00:00:00Z UTC */
@@ -243,7 +243,7 @@ export interface GeneratedAttestationResult {
   /** Policy Generated Claims */
   policyClaims?: Record<string, unknown>;
   /** The Attestation type being attested. */
-  verifierType?: string;
+  verifierType: string;
   /** The certificate used to sign the policy object, if specified. */
   policySigner?: JsonWebKey;
   /** The SHA256 hash of the BASE64URL encoded policy text used for attestation */

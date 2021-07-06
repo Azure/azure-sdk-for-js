@@ -91,7 +91,7 @@ export function generateSha256Hash(buffer: string): Uint8Array {
 
 /** Generate the SHA1 hash of the specified buffer.
  *
- * @param buffer HEX encoded buffer to be hashed.
+ * @param buffer - HEX encoded buffer to be hashed.
  * @returns SHA1 hash of the buffer.
  */
 export function generateSha1Hash(buffer: string): Uint8Array {

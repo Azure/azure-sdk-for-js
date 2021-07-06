@@ -12,9 +12,28 @@ export class AttestationResult {
   /**
    *
    * @param params - The parameters for the constructor.
-   * @hideconstructor
+   *
+   * @hidden
    */
-  constructor(params: any) {
+  constructor(params: {
+    issuer: string;
+    version: string;
+    nonce?: string;
+    uniqueId: string;
+    runtimeClaims?: any;
+    inittimeClaims?: any;
+    policyClaims?: any;
+    verifierType: string;
+    policySigner?: AttestationSigner;
+    policyHash: Uint8Array;
+    isDebuggable?: boolean;
+    productId?: number;
+    mrEnclave?: string;
+    mrSigner?: string;
+    svn?: number;
+    enclaveHeldData?: Uint8Array;
+    sgxCollateral?: any;
+  }) {
     this._issuer = params.issuer;
     this._nonce = params.nonce;
     this._version = params.version;
@@ -54,8 +73,9 @@ export class AttestationResult {
 
   /**
    * Unique Identifier for the token
+   *
    */
-  get uniqueId() {
+  get uniqueId(): string {
     return this._uniqueId;
   }
 
@@ -84,80 +104,80 @@ export class AttestationResult {
   /**
    * Runtime Claims
    */
-  get runtimeClaims() {
+  get runtimeClaims(): any {
     return this._runtimeClaims;
   }
   /**
    * Inittime Claims
    */
-  get inittimeClaims() {
+  get inittimeClaims(): any {
     return this._inittimeClaims;
   }
 
   /**
    * Policy Generated Claims
    */
-  get policyClaims() {
+  get policyClaims(): any {
     return this._policyClaims;
   }
   /**
    * The Attestation type being attested.
    */
-  get verifierType() {
+  get verifierType(): string {
     return this._verifierType;
   }
   /**
    * The certificate used to sign the policy object, if specified.
    */
-  get policySigner() {
+  get policySigner(): AttestationSigner | undefined {
     return this._policySigner;
   }
   /**
    * The SHA256 hash of the BASE64URL encoded policy text used for attestation
    */
-  get policyHash() {
+  get policyHash(): Uint8Array {
     return this._policyHash;
   }
   /**
    * True if the enclave is debuggable, false otherwise
    */
-  get isDebuggable() {
+  get isDebuggable(): boolean | undefined {
     return this._isDebuggable;
   }
   /**
    * The SGX Product ID for the enclave.
    */
-  get productId() {
+  get productId(): number | undefined {
     return this._productId;
   }
   /**
    * The HEX encoded SGX MRENCLAVE value for the enclave.
    */
-  get mrEnclave() {
+  get mrEnclave(): string | undefined {
     return this._mrEnclave;
   }
   /**
    * The HEX encoded SGX MRSIGNER value for the enclave.
    */
-  get mrSigner() {
+  get mrSigner(): string | undefined {
     return this._mrSigner;
   }
   /**
    * The SGX SVN value for the enclave.
    */
-  get svn() {
+  get svn(): number | undefined {
     return this._svn;
   }
   /**
    * A copy of the RuntimeData specified as an input to the attest call.
    */
-  get enclaveHeldData() {
+  get enclaveHeldData(): Uint8Array | undefined {
     return this._enclaveHeldData;
   }
   /**
    * The SGX SVN value for the enclave.
    */
-  get sgxCollateral() {
+  get sgxCollateral(): any {
     return this._sgxCollateral;
   }
 }
