@@ -8,7 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
-  ApiVersion20200630Preview,
+  ApiVersion20210430Preview,
   SearchServiceClientOptionalParams
 } from "./models";
 
@@ -18,7 +18,7 @@ const packageVersion = "11.3.0-beta.1";
 /** @internal */
 export class SearchServiceClientContext extends coreHttp.ServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20200630Preview;
+  apiVersion: ApiVersion20210430Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClientContext class.
@@ -28,7 +28,7 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20200630Preview,
+    apiVersion: ApiVersion20210430Preview,
     options?: SearchServiceClientOptionalParams
   ) {
     if (endpoint === undefined) {

@@ -10,6 +10,8 @@ import * as coreHttp from "@azure/core-http";
 
 export type DataChangeDetectionPolicyUnion =
   | DataChangeDetectionPolicy
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity
   | HighWaterMarkChangeDetectionPolicy
   | SqlIntegratedChangeTrackingPolicy;
 export type DataDeletionDetectionPolicyUnion =
@@ -26,6 +28,10 @@ export type SearchIndexerSkillUnion =
   | MergeSkill
   | EntityRecognitionSkill
   | SentimentSkill
+  | SentimentSkillV3
+  | EntityLinkingSkill
+  | EntityRecognitionSkillV3
+  | PIIDetectionSkill
   | SplitSkill
   | CustomEntityLookupSkill
   | TextTranslationSkill
@@ -107,6 +113,8 @@ export interface SearchIndexerDataSource {
   credentials: DataSourceCredentials;
   /** The data container for the datasource. */
   container: SearchIndexerDataContainer;
+  /** An explicit managed identity to use for this datasource. If not specified and the connection string is a managed identity, the system-assigned managed identity is used. If not specified, the value remains unchanged. If "none" is specified, the value of this property is cleared. */
+  identity?: SearchIndexerDataIdentity | null;
   /** The data change detection policy for the datasource. */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null;
   /** The data deletion detection policy for the datasource. */
@@ -131,10 +139,18 @@ export interface SearchIndexerDataContainer {
   query?: string;
 }
 
+/** Base type for data identities. */
+export interface SearchIndexerDataIdentity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "undefined";
+}
+
 /** Base type for data change detection policies. */
 export interface DataChangeDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
+    | "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
+    | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity"
     | "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
     | "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
@@ -155,6 +171,8 @@ export interface SearchResourceEncryptionKey {
   vaultUri: string;
   /** Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not required if using managed identity instead. */
   accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+  /** An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified, the value of this property is cleared. */
+  identity?: SearchIndexerDataIdentity | null;
 }
 
 /** Credentials of a registered application created for your search service, used for authenticated access to the encryption keys stored in Azure Key Vault. */
@@ -496,6 +514,10 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Text.MergeSkill"
     | "#Microsoft.Skills.Text.EntityRecognitionSkill"
     | "#Microsoft.Skills.Text.SentimentSkill"
+    | "#Microsoft.Skills.Text.V3.SentimentSkill"
+    | "#Microsoft.Skills.Text.V3.EntityLinkingSkill"
+    | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill"
+    | "#Microsoft.Skills.Text.PIIDetectionSkill"
     | "#Microsoft.Skills.Text.SplitSkill"
     | "#Microsoft.Skills.Text.CustomEntityLookupSkill"
     | "#Microsoft.Skills.Text.TranslationSkill"
@@ -993,6 +1015,20 @@ export interface CustomEntityAlias {
   fuzzyEditDistance?: number | null;
 }
 
+/** Clears the identity property of a datasource. */
+export type SearchIndexerDataNoneIdentity = DataChangeDetectionPolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity";
+};
+
+/** Specifies the identity for a datasource to use. */
+export type SearchIndexerDataUserAssignedIdentity = DataChangeDetectionPolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
+  /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
+  userAssignedIdentity: string;
+};
+
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
 export type HighWaterMarkChangeDetectionPolicy = DataChangeDetectionPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1043,6 +1079,8 @@ export type OcrSkill = SearchIndexerSkill & {
   defaultLanguageCode?: OcrSkillLanguage;
   /** A value indicating to turn orientation detection on or not. Default is false. */
   shouldDetectOrientation?: boolean;
+  /** Defines the sequence of characters to use between the lines of text recognized by the OCR skill. The default value is "space". */
+  lineEnding?: LineEnding;
 };
 
 /** A skill that analyzes image files. It extracts a rich set of visual features based on the image content. */
@@ -1103,6 +1141,64 @@ export type SentimentSkill = SearchIndexerSkill & {
   odatatype: "#Microsoft.Skills.Text.SentimentSkill";
   /** A value indicating which language code to use. Default is en. */
   defaultLanguageCode?: SentimentSkillLanguage;
+};
+
+/** Using the Text Analytics API, evaluates unstructured text and for each record, provides sentiment labels (such as "negative", "neutral" and "positive") based on the highest confidence score found by the service at a sentence and document-level. */
+export type SentimentSkillV3 = SearchIndexerSkill & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: string | null;
+  /** If set to true, the skill output will include information from Text Analytics for opinion mining, namely targets (nouns or verbs) and their associated assessment (adjective) in the text. Default is false. */
+  includeOpinionMining?: boolean;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string | null;
+};
+
+/** Using the Text Analytics API, extracts linked entities from text. */
+export type EntityLinkingSkill = SearchIndexerSkill & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: string | null;
+  /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
+  minimumPrecision?: number | null;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string | null;
+};
+
+/** Using the Text Analytics API, extracts entities of different types from text. */
+export type EntityRecognitionSkillV3 = SearchIndexerSkill & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
+  /** A list of entity categories that should be extracted. */
+  categories?: string[];
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: string | null;
+  /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
+  minimumPrecision?: number | null;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string | null;
+};
+
+/** Using the Text Analytics API, extracts personal information from an input text and gives you the option of masking it. */
+export type PIIDetectionSkill = SearchIndexerSkill & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: string | null;
+  /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
+  minimumPrecision?: number | null;
+  /** A parameter that provides various ways to mask the personal information detected in the input text. Default is 'none'. */
+  maskingMode?: PIIDetectionSkillMaskingMode;
+  /** The character used to mask the text if the maskingMode parameter is set to replace. Default is '*'. */
+  maskingCharacter?: string | null;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string | null;
+  /** A list of PII entity categories that should be extracted and masked. */
+  piiCategories?: string[];
+  /** If specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'phi', 'none'. Default is 'none'. */
+  domain?: string | null;
 };
 
 /** A skill to split a string into chunks of text. */
@@ -1737,20 +1833,20 @@ export interface RequestOptions {
   xMsClientRequestId?: string;
 }
 
-/** Known values of {@link ApiVersion20200630Preview} that the service accepts. */
-export const enum KnownApiVersion20200630Preview {
-  /** Api Version '2020-06-30-Preview' */
-  TwoThousandTwenty0630Preview = "2020-06-30-Preview"
+/** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
+export const enum KnownApiVersion20210430Preview {
+  /** Api Version '2021-04-30-Preview' */
+  TwoThousandTwentyOne0430Preview = "2021-04-30-Preview"
 }
 
 /**
- * Defines values for ApiVersion20200630Preview. \
- * {@link KnownApiVersion20200630Preview} can be used interchangeably with ApiVersion20200630Preview,
+ * Defines values for ApiVersion20210430Preview. \
+ * {@link KnownApiVersion20210430Preview} can be used interchangeably with ApiVersion20210430Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **2020-06-30-Preview**: Api Version '2020-06-30-Preview'
+ * **2021-04-30-Preview**: Api Version '2021-04-30-Preview'
  */
-export type ApiVersion20200630Preview = string;
+export type ApiVersion20210430Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export const enum KnownSearchIndexerDataSourceType {
@@ -2410,6 +2506,30 @@ export const enum KnownOcrSkillLanguage {
  */
 export type OcrSkillLanguage = string;
 
+/** Known values of {@link LineEnding} that the service accepts. */
+export const enum KnownLineEnding {
+  /** Lines are separated by a single space character. */
+  Space = "space",
+  /** Lines are separated by a carriage return ('\r') character. */
+  CarriageReturn = "carriageReturn",
+  /** Lines are separated by a single line feed ('\n') character. */
+  LineFeed = "lineFeed",
+  /** Lines are separated by a carriage return and a line feed ('\r\n') character. */
+  CarriageReturnLineFeed = "carriageReturnLineFeed"
+}
+
+/**
+ * Defines values for LineEnding. \
+ * {@link KnownLineEnding} can be used interchangeably with LineEnding,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **space**: Lines are separated by a single space character. \
+ * **carriageReturn**: Lines are separated by a carriage return ('\r') character. \
+ * **lineFeed**: Lines are separated by a single line feed ('\n') character. \
+ * **carriageReturnLineFeed**: Lines are separated by a carriage return and a line feed ('\r\n') character.
+ */
+export type LineEnding = string;
+
 /** Known values of {@link ImageAnalysisSkillLanguage} that the service accepts. */
 export const enum KnownImageAnalysisSkillLanguage {
   /** English */
@@ -2659,6 +2779,24 @@ export const enum KnownSentimentSkillLanguage {
  */
 export type SentimentSkillLanguage = string;
 
+/** Known values of {@link PIIDetectionSkillMaskingMode} that the service accepts. */
+export const enum KnownPIIDetectionSkillMaskingMode {
+  /** No masking occurs and the maskedText output will not be returned. */
+  None = "none",
+  /** Replaces the detected entities with the character given in the maskingCharacter parameter. The character will be repeated to the length of the detected entity so that the offsets will correctly correspond to both the input text as well as the output maskedText. */
+  Replace = "replace"
+}
+
+/**
+ * Defines values for PIIDetectionSkillMaskingMode. \
+ * {@link KnownPIIDetectionSkillMaskingMode} can be used interchangeably with PIIDetectionSkillMaskingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **none**: No masking occurs and the maskedText output will not be returned. \
+ * **replace**: Replaces the detected entities with the character given in the maskingCharacter parameter. The character will be repeated to the length of the detected entity so that the offsets will correctly correspond to both the input text as well as the output maskedText.
+ */
+export type PIIDetectionSkillMaskingMode = string;
+
 /** Known values of {@link SplitSkillLanguage} that the service accepts. */
 export const enum KnownSplitSkillLanguage {
   /** Danish */
@@ -2821,6 +2959,10 @@ export const enum KnownTextTranslationSkillLanguage {
   Sw = "sw",
   /** Klingon */
   Tlh = "tlh",
+  /** Klingon (Latin script) */
+  TlhLatn = "tlh-Latn",
+  /** Klingon (Klingon script) */
+  TlhPiqd = "tlh-Piqd",
   /** Korean */
   Ko = "ko",
   /** Latvian */
@@ -2841,6 +2983,10 @@ export const enum KnownTextTranslationSkillLanguage {
   Pl = "pl",
   /** Portuguese */
   Pt = "pt",
+  /** Portuguese (Brazil) */
+  PtBr = "pt-br",
+  /** Portuguese (Portugal) */
+  PtPT = "pt-PT",
   /** Queretaro Otomi */
   Otq = "otq",
   /** Romanian */
@@ -2882,7 +3028,17 @@ export const enum KnownTextTranslationSkillLanguage {
   /** Welsh */
   Cy = "cy",
   /** Yucatec Maya */
-  Yua = "yua"
+  Yua = "yua",
+  /** Irish */
+  Ga = "ga",
+  /** Kannada */
+  Kn = "kn",
+  /** Maori */
+  Mi = "mi",
+  /** Malayalam */
+  Ml = "ml",
+  /** Punjabi */
+  Pa = "pa"
 }
 
 /**
@@ -2922,6 +3078,8 @@ export const enum KnownTextTranslationSkillLanguage {
  * **ja**: Japanese \
  * **sw**: Kiswahili \
  * **tlh**: Klingon \
+ * **tlh-Latn**: Klingon (Latin script) \
+ * **tlh-Piqd**: Klingon (Klingon script) \
  * **ko**: Korean \
  * **lv**: Latvian \
  * **lt**: Lithuanian \
@@ -2932,6 +3090,8 @@ export const enum KnownTextTranslationSkillLanguage {
  * **fa**: Persian \
  * **pl**: Polish \
  * **pt**: Portuguese \
+ * **pt-br**: Portuguese (Brazil) \
+ * **pt-PT**: Portuguese (Portugal) \
  * **otq**: Queretaro Otomi \
  * **ro**: Romanian \
  * **ru**: Russian \
@@ -2952,7 +3112,12 @@ export const enum KnownTextTranslationSkillLanguage {
  * **ur**: Urdu \
  * **vi**: Vietnamese \
  * **cy**: Welsh \
- * **yua**: Yucatec Maya
+ * **yua**: Yucatec Maya \
+ * **ga**: Irish \
+ * **kn**: Kannada \
+ * **mi**: Maori \
+ * **ml**: Malayalam \
+ * **pa**: Punjabi
  */
 export type TextTranslationSkillLanguage = string;
 

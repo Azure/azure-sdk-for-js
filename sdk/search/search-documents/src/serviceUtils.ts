@@ -19,6 +19,8 @@ import {
   DataChangeDetectionPolicyUnion,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   DataDeletionDetectionPolicyUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
   LexicalAnalyzerName,
@@ -39,6 +41,10 @@ import {
   DocumentExtractionSkill,
   CustomEntityLookupSkill,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
   LuceneStandardAnalyzer,
@@ -78,6 +84,8 @@ import {
   SearchResult as GeneratedSearchResult
 } from "./generated/data/models";
 
+export const DEFAULT_SEARCH_SCOPE = "https://search.azure.com/.default";
+
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
     return skills;
@@ -115,6 +123,18 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
+        break;
+      case "#Microsoft.Skills.Text.PIIDetectionSkill":
+        result.push(skill as PIIDetectionSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
+        result.push(skill as EntityRecognitionSkillV3);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityLinkingSkill":
+        result.push(skill as EntityLinkingSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.SentimentSkill":
+        result.push(skill as SentimentSkillV3);
         break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
@@ -392,7 +412,8 @@ export function convertEncryptionKeyToPublic(
   const result: SearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUrl: encryptionKey.vaultUri
+    vaultUrl: encryptionKey.vaultUri,
+    identity: encryptionKey.identity
   };
 
   if (encryptionKey.accessCredentials) {
@@ -413,7 +434,8 @@ export function convertEncryptionKeyToGenerated(
   const result: GeneratedSearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUri: encryptionKey.vaultUrl
+    vaultUri: encryptionKey.vaultUrl,
+    identity: encryptionKey.identity
   };
 
   if (encryptionKey.applicationId) {
@@ -600,6 +622,7 @@ export function publicDataSourceToGeneratedDataSource(
       connectionString: dataSource.connectionString
     },
     container: dataSource.container,
+    identity: dataSource.identity,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -616,6 +639,7 @@ export function generatedDataSourceToPublicDataSource(
     type: dataSource.type,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
+    identity: dataSource.identity,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
@@ -639,8 +663,18 @@ export function convertDataChangeDetectionPolicyToPublic(
     "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
   ) {
     return dataChangeDetectionPolicy as HighWaterMarkChangeDetectionPolicy;
-  } else {
+  } else if (
+    dataChangeDetectionPolicy.odatatype ===
+    "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy"
+  ) {
     return dataChangeDetectionPolicy as SqlIntegratedChangeTrackingPolicy;
+  } else if (
+    dataChangeDetectionPolicy.odatatype ===
+    "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity"
+  ) {
+    return dataChangeDetectionPolicy as SearchIndexerDataUserAssignedIdentity;
+  } else {
+    return dataChangeDetectionPolicy as SearchIndexerDataNoneIdentity;
   }
 }
 
