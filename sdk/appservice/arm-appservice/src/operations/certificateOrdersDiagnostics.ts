@@ -34,43 +34,21 @@ export class CertificateOrdersDiagnostics {
    * @returns
    * Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse>
    */
-  listAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<
-    Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse
-  >;
+  listAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
    * @param callback The callback
    */
-  listAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
-  ): void;
+  listAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
-  ): void;
-  listAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
-    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
-  ): Promise<
-    Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse
-  > {
+  listAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,10 +56,7 @@ export class CertificateOrdersDiagnostics {
         options
       },
       listAppServiceCertificateOrderDetectorResponseOperationSpec,
-      callback
-    ) as Promise<
-      Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse
-    >;
+      callback) as Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse>;
   }
 
   /**
@@ -94,26 +69,14 @@ export class CertificateOrdersDiagnostics {
    * @returns
    * Promise<Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse>
    */
-  getAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    detectorName: string,
-    options?: Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams
-  ): Promise<
-    Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse
-  >;
+  getAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, detectorName: string, options?: Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams): Promise<Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
    * @param detectorName The detector name which needs to be run.
    * @param callback The callback
    */
-  getAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    detectorName: string,
-    callback: msRest.ServiceCallback<Models.DetectorResponse>
-  ): void;
+  getAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, detectorName: string, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
@@ -121,24 +84,8 @@ export class CertificateOrdersDiagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    detectorName: string,
-    options: Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
-    callback: msRest.ServiceCallback<Models.DetectorResponse>
-  ): void;
-  getAppServiceCertificateOrderDetectorResponse(
-    resourceGroupName: string,
-    certificateOrderName: string,
-    detectorName: string,
-    options?:
-      | Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams
-      | msRest.ServiceCallback<Models.DetectorResponse>,
-    callback?: msRest.ServiceCallback<Models.DetectorResponse>
-  ): Promise<
-    Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse
-  > {
+  getAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, detectorName: string, options: Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
+  getAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, detectorName: string, options?: Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams | msRest.ServiceCallback<Models.DetectorResponse>, callback?: msRest.ServiceCallback<Models.DetectorResponse>): Promise<Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,10 +94,7 @@ export class CertificateOrdersDiagnostics {
         options
       },
       getAppServiceCertificateOrderDetectorResponseOperationSpec,
-      callback
-    ) as Promise<
-      Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse
-    >;
+      callback) as Promise<Models.CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse>;
   }
 
   /**
@@ -161,47 +105,26 @@ export class CertificateOrdersDiagnostics {
    * @returns
    * Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse>
    */
-  listAppServiceCertificateOrderDetectorResponseNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<
-    Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse
-  >;
+  listAppServiceCertificateOrderDetectorResponseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAppServiceCertificateOrderDetectorResponseNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
-  ): void;
+  listAppServiceCertificateOrderDetectorResponseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAppServiceCertificateOrderDetectorResponseNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
-  ): void;
-  listAppServiceCertificateOrderDetectorResponseNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
-    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
-  ): Promise<
-    Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse
-  > {
+  listAppServiceCertificateOrderDetectorResponseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listAppServiceCertificateOrderDetectorResponseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAppServiceCertificateOrderDetectorResponseNextOperationSpec,
-      callback
-    ) as Promise<
-      Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse
-    >;
+      callback) as Promise<Models.CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse>;
   }
 }
 
@@ -209,15 +132,18 @@ export class CertificateOrdersDiagnostics {
 const serializer = new msRest.Serializer(Mappers);
 const listAppServiceCertificateOrderDetectorResponseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -231,8 +157,7 @@ const listAppServiceCertificateOrderDetectorResponseOperationSpec: msRest.Operat
 
 const getAppServiceCertificateOrderDetectorResponseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors/{detectorName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors/{detectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
@@ -245,7 +170,9 @@ const getAppServiceCertificateOrderDetectorResponseOperationSpec: msRest.Operati
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponse
@@ -261,9 +188,15 @@ const listAppServiceCertificateOrderDetectorResponseNextOperationSpec: msRest.Op
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
