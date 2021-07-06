@@ -21,7 +21,7 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
       try {
         return JSON.parse(serializedState).state;
       } catch (e) {
-        throw new Error(`LroEngine: Unable to deserialize state: ${resumeFrom}`);
+        throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
       }
     }
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
