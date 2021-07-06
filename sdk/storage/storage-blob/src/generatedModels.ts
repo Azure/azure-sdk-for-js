@@ -13,6 +13,7 @@ export {
   AppendBlobCreateHeaders,
   ArchiveStatus,
   ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseModel,
+  BlobImmutabilityPolicyMode,
   BlobItemInternal,
   BlobFlatListSegment as BlobFlatListSegmentModel,
   BlobAbortCopyFromURLHeaders,
