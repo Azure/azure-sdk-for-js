@@ -2470,11 +2470,11 @@ export const SearchIndexerDataNoneIdentity: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerDataNoneIdentity",
-    uberParent: "DataChangeDetectionPolicy",
+    uberParent: "SearchIndexerDataIdentity",
     polymorphicDiscriminator:
-      DataChangeDetectionPolicy.type.polymorphicDiscriminator,
+      SearchIndexerDataIdentity.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DataChangeDetectionPolicy.type.modelProperties
+      ...SearchIndexerDataIdentity.type.modelProperties
     }
   }
 };
@@ -2485,11 +2485,11 @@ export const SearchIndexerDataUserAssignedIdentity: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerDataUserAssignedIdentity",
-    uberParent: "DataChangeDetectionPolicy",
+    uberParent: "SearchIndexerDataIdentity",
     polymorphicDiscriminator:
-      DataChangeDetectionPolicy.type.polymorphicDiscriminator,
+      SearchIndexerDataIdentity.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DataChangeDetectionPolicy.type.modelProperties,
+      ...SearchIndexerDataIdentity.type.modelProperties,
       userAssignedIdentity: {
         serializedName: "userAssignedIdentity",
         required: true,
@@ -5103,7 +5103,7 @@ export const SearchIndexerKnowledgeStoreFileProjectionSelector: coreHttp.Composi
 };
 
 export let discriminators = {
-  "SearchIndexerDataIdentity.undefined": SearchIndexerDataIdentity,
+  SearchIndexerDataIdentity: SearchIndexerDataIdentity,
   DataChangeDetectionPolicy: DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy: DataDeletionDetectionPolicy,
   SearchIndexerSkill: SearchIndexerSkill,
@@ -5115,8 +5115,8 @@ export let discriminators = {
   CharFilter: CharFilter,
   LexicalNormalizer: LexicalNormalizer,
   Similarity: Similarity,
-  "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity": SearchIndexerDataNoneIdentity,
-  "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
+  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity": SearchIndexerDataNoneIdentity,
+  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy": HighWaterMarkChangeDetectionPolicy,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy": SqlIntegratedChangeTrackingPolicy,
   "DataDeletionDetectionPolicy.#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy": SoftDeleteColumnDeletionDetectionPolicy,

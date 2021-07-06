@@ -111,7 +111,8 @@ export {
   SearchIndexStatistics,
   SearchServiceStatistics,
   SearchIndexer,
-  LexicalNormalizer
+  LexicalNormalizer,
+  SearchIndexerDataIdentity
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -310,7 +311,7 @@ export {
   KnownPIIDetectionSkillMaskingMode,
   LineEnding,
   KnownLineEnding,
-  SearchIndexerDataIdentity
+  SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

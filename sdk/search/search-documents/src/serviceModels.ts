@@ -82,8 +82,7 @@ import {
   IndexingSchedule,
   LexicalNormalizerName,
   CustomNormalizer,
-  SearchIndexerKnowledgeStore,
-  SearchIndexerDataIdentity
+  SearchIndexerKnowledgeStore
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -1793,9 +1792,14 @@ export enum KnownAnalyzerNames {
  */
 export type DataChangeDetectionPolicy =
   | HighWaterMarkChangeDetectionPolicy
-  | SqlIntegratedChangeTrackingPolicy
-  | SearchIndexerDataUserAssignedIdentity
-  | SearchIndexerDataNoneIdentity;
+  | SqlIntegratedChangeTrackingPolicy;
+
+/**
+ * Contains the possible cases for SearchIndexerDataIdentity.
+ */
+export type SearchIndexerDataIdentity =
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity;
 
 /**
  * Contains the possible cases for DataDeletionDetectionPolicy.

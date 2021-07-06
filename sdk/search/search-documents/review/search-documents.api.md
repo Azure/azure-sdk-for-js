@@ -107,7 +107,7 @@ export interface BaseCognitiveServicesAccount {
 
 // @public
 export interface BaseDataChangeDetectionPolicy {
-    odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity" | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity" | "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy" | "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
+    odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy" | "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
 
 // @public
@@ -139,6 +139,11 @@ export interface BaseScoringFunction {
     fieldName: string;
     interpolation?: ScoringFunctionInterpolation;
     type: "distance" | "freshness" | "magnitude" | "tag";
+}
+
+// @public
+export interface BaseSearchIndexerDataIdentity {
+    odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity" | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
 }
 
 // @public
@@ -353,7 +358,7 @@ export type CustomNormalizer = BaseLexicalNormalizer & {
 };
 
 // @public
-export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy | SearchIndexerDataUserAssignedIdentity | SearchIndexerDataNoneIdentity;
+export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
 
 // @public
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
@@ -1791,12 +1796,10 @@ export interface SearchIndexerDataContainer {
 }
 
 // @public
-export interface SearchIndexerDataIdentity {
-    odatatype: "undefined";
-}
+export type SearchIndexerDataIdentity = SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity;
 
 // @public
-export type SearchIndexerDataNoneIdentity = BaseDataChangeDetectionPolicy & {
+export type SearchIndexerDataNoneIdentity = BaseSearchIndexerDataIdentity & {
     odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity";
 };
 
@@ -1818,7 +1821,7 @@ export interface SearchIndexerDataSourceConnection {
 export type SearchIndexerDataSourceType = string;
 
 // @public
-export type SearchIndexerDataUserAssignedIdentity = BaseDataChangeDetectionPolicy & {
+export type SearchIndexerDataUserAssignedIdentity = BaseSearchIndexerDataIdentity & {
     odatatype: "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
     userAssignedIdentity: string;
 };

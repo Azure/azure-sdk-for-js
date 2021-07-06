@@ -52,7 +52,8 @@ import {
   PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
   PatternTokenizer,
-  LexicalNormalizerName
+  LexicalNormalizerName,
+  SearchIndexerDataIdentityUnion
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -76,7 +77,8 @@ import {
   SimilarityAlgorithm,
   SearchResourceEncryptionKey,
   PatternAnalyzer,
-  LexicalNormalizer
+  LexicalNormalizer,
+  SearchIndexerDataIdentity
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
@@ -413,7 +415,7 @@ export function convertEncryptionKeyToPublic(
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
     vaultUrl: encryptionKey.vaultUri,
-    identity: encryptionKey.identity
+    identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity)
   };
 
   if (encryptionKey.accessCredentials) {
@@ -639,7 +641,7 @@ export function generatedDataSourceToPublicDataSource(
     type: dataSource.type,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
-    identity: dataSource.identity,
+    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
@@ -649,6 +651,22 @@ export function generatedDataSourceToPublicDataSource(
     ),
     encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey)
   };
+}
+
+export function convertSearchIndexerDataIdentityToPublic(
+  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion | null
+): SearchIndexerDataIdentity | undefined | null {
+  if (!searchIndexerDataIdentity) {
+    return searchIndexerDataIdentity;
+  }
+
+  if (
+    searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
+  ) {
+    return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
+  } else {
+    return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
+  }
 }
 
 export function convertDataChangeDetectionPolicyToPublic(
@@ -663,18 +681,8 @@ export function convertDataChangeDetectionPolicyToPublic(
     "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
   ) {
     return dataChangeDetectionPolicy as HighWaterMarkChangeDetectionPolicy;
-  } else if (
-    dataChangeDetectionPolicy.odatatype ===
-    "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy"
-  ) {
-    return dataChangeDetectionPolicy as SqlIntegratedChangeTrackingPolicy;
-  } else if (
-    dataChangeDetectionPolicy.odatatype ===
-    "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity"
-  ) {
-    return dataChangeDetectionPolicy as SearchIndexerDataUserAssignedIdentity;
   } else {
-    return dataChangeDetectionPolicy as SearchIndexerDataNoneIdentity;
+    return dataChangeDetectionPolicy as SqlIntegratedChangeTrackingPolicy;
   }
 }
 

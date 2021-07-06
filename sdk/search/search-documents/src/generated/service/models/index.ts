@@ -8,10 +8,12 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export type SearchIndexerDataIdentityUnion =
+  | SearchIndexerDataIdentity
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity;
 export type DataChangeDetectionPolicyUnion =
   | DataChangeDetectionPolicy
-  | SearchIndexerDataNoneIdentity
-  | SearchIndexerDataUserAssignedIdentity
   | HighWaterMarkChangeDetectionPolicy
   | SqlIntegratedChangeTrackingPolicy;
 export type DataDeletionDetectionPolicyUnion =
@@ -114,7 +116,7 @@ export interface SearchIndexerDataSource {
   /** The data container for the datasource. */
   container: SearchIndexerDataContainer;
   /** An explicit managed identity to use for this datasource. If not specified and the connection string is a managed identity, the system-assigned managed identity is used. If not specified, the value remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentity | null;
+  identity?: SearchIndexerDataIdentityUnion | null;
   /** The data change detection policy for the datasource. */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null;
   /** The data deletion detection policy for the datasource. */
@@ -139,18 +141,18 @@ export interface SearchIndexerDataContainer {
   query?: string;
 }
 
-/** Base type for data identities. */
+/** Abstract base type for data identities. */
 export interface SearchIndexerDataIdentity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "undefined";
+  odatatype:
+    | "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
+    | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
 }
 
 /** Base type for data change detection policies. */
 export interface DataChangeDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
-    | "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
-    | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity"
     | "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
     | "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
@@ -172,7 +174,7 @@ export interface SearchResourceEncryptionKey {
   /** Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not required if using managed identity instead. */
   accessCredentials?: AzureActiveDirectoryApplicationCredentials;
   /** An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentity | null;
+  identity?: SearchIndexerDataIdentityUnion | null;
 }
 
 /** Credentials of a registered application created for your search service, used for authenticated access to the encryption keys stored in Azure Key Vault. */
@@ -1016,13 +1018,13 @@ export interface CustomEntityAlias {
 }
 
 /** Clears the identity property of a datasource. */
-export type SearchIndexerDataNoneIdentity = DataChangeDetectionPolicy & {
+export type SearchIndexerDataNoneIdentity = SearchIndexerDataIdentity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity";
 };
 
 /** Specifies the identity for a datasource to use. */
-export type SearchIndexerDataUserAssignedIdentity = DataChangeDetectionPolicy & {
+export type SearchIndexerDataUserAssignedIdentity = SearchIndexerDataIdentity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
