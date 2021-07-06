@@ -11,6 +11,7 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 - Query the documents in your database using SQL-like syntax
 
 Key links:
+
 - [Package (npm)][npm]
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates)
 - [Product documentation][cosmos_docs]
