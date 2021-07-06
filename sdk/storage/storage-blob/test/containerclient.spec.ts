@@ -233,6 +233,30 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsFlat with includeDeletedwithVersions", async () => {
+    const blockBlobName = recorder.getUniqueName(`blockblob`);
+    const blobClient = containerClient.getBlobClient(blockBlobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload("", 0);
+
+    await blobClient.delete();
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeletedwithVersions: true
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
+    assert.deepStrictEqual(result.segment.blobItems![0].name, blockBlobName);
+    assert.ok(result.segment.blobItems![0].hasVersionsOnly);
+  });
+
   it("listBlobFlat with blobs encrypted with CPK", async () => {
     const blobURLs = [];
     const prefix = "blockblob";

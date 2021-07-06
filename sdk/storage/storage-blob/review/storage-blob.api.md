@@ -534,6 +534,8 @@ export interface BlobDownloadHeaders {
     encryptionScope?: string;
     errorCode?: string;
     etag?: string;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
@@ -542,6 +544,7 @@ export interface BlobDownloadHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -664,6 +667,8 @@ export interface BlobGetPropertiesHeaders {
     errorCode?: string;
     etag?: string;
     expiresOn?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isIncrementalCopy?: boolean;
     isSealed?: boolean;
@@ -673,6 +678,7 @@ export interface BlobGetPropertiesHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -761,9 +767,14 @@ export interface BlobHTTPHeaders {
 }
 
 // @public
+export type BlobImmutabilityPolicyMode = "Unlocked" | "Locked" | "Mutable";
+
+// @public
 export interface BlobItem {
     // (undocumented)
     deleted: boolean;
+    // (undocumented)
+    hasVersionsOnly?: boolean;
     // (undocumented)
     isCurrentVersion?: boolean;
     // (undocumented)
@@ -789,6 +800,8 @@ export interface BlobItemInternal {
     blobTags?: BlobTags;
     // (undocumented)
     deleted: boolean;
+    // (undocumented)
+    hasVersionsOnly?: boolean;
     // (undocumented)
     isCurrentVersion?: boolean;
     metadata?: {
@@ -877,6 +890,10 @@ export interface BlobProperties {
     // (undocumented)
     expiresOn?: Date;
     // (undocumented)
+    immutabilityPolicyExpiresOn?: Date;
+    // (undocumented)
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    // (undocumented)
     incrementalCopy?: boolean;
     // (undocumented)
     isSealed?: boolean;
@@ -890,6 +907,8 @@ export interface BlobProperties {
     leaseState?: LeaseStateType;
     // (undocumented)
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    legalHold?: boolean;
     rehydratePriority?: RehydratePriority;
     // (undocumented)
     remainingRetentionDays?: number;
@@ -1775,6 +1794,7 @@ export interface ContainerGetPropertiesHeaders {
     etag?: string;
     hasImmutabilityPolicy?: boolean;
     hasLegalHold?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -1857,6 +1877,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeCopy?: boolean;
     includeDeleted?: boolean;
+    includeDeletedwithVersions?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     includeTags?: boolean;
@@ -1877,6 +1898,7 @@ export interface ContainerProperties {
     hasImmutabilityPolicy?: boolean;
     // (undocumented)
     hasLegalHold?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
     // (undocumented)
     lastModified: Date;
     // (undocumented)
@@ -2250,7 +2272,7 @@ export interface ListBlobsHierarchySegmentResponseModel {
 }
 
 // @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
+export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
 
 // @public
 export type ListContainersIncludeType = "metadata" | "deleted";
