@@ -7,6 +7,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -8404,6 +8405,26 @@ packages:
       integrity: sha512-5dSzEE5J07mG8wEtrtJe9vFXVuzETnPaFTLje83k+m2ZFCVeShG9663Y5vFADKD1KeneKw6OsV/1HfpPk24zjg==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
+  file:projects/arm-policy.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.9
+    dev: false
+    name: '@rush-temp/arm-policy'
+    resolution:
+      integrity: sha512-TeTpYFHNYzM6b3b+J/gMlMy7i/CEE57mW5UIgT7K1n1aW0cBKhlSVZhDxI18qDf6w6mabSP5YCZFQlpRzZ95Gg==
+      tarball: file:projects/arm-policy.tgz
+    version: 0.0.0
   file:projects/attestation.tgz:
     dependencies:
       '@azure/core-rest-pipeline': 1.0.4
@@ -8512,7 +8533,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-Zrv5MfblAHH1GYcs+5bTuPmEYRD6tDkcUgB5Rjeg+OhC48BszFG0h9/IkmvzFd3faEz2bcoT2kVs7Vu5sScqtw==
+      integrity: sha512-GDOadpliZYN+OiPeJjC+Qlkqfdn54RTyMDJa3dlRr7InySirAWqKQnnChD91kyzPfAhiL14YfFNDabe3HWeMYA==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8619,7 +8640,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-xINCgL/y263SN7BOXKfj3mpP3p2UYFeoxKuZ2ShcO5gk+d4lIDL//sV8xmTyW6LF86qJJbEgyzlkLhwP16HYFw==
+      integrity: sha512-8lVXhrAiPBOmEPvV92PGcQ9q0z2VfI8EJ/jvTkbkbMbAxRKwFVKk4NNIn8OcKbQvt6pmc3K34yhkYjSwIrxRIg==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-network-traversal.tgz:
@@ -8673,7 +8694,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-network-traversal'
     resolution:
-      integrity: sha512-FH3q9n+VPL8B4O05Rqya+bclybcXv04VBH/VkVkgUCUa3TBf/gn+PNSEawmp27KNSrEjZ3RA6tyal+xs+lpNcQ==
+      integrity: sha512-V1qMlIMDSXa3bsk7+gImtrwjjyD1RFNJuDllLCng98I2dDia6jDOzbrbNjjoDvy2KEx6FcUNRy7f7aGSQItU0w==
       tarball: file:projects/communication-network-traversal.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -8726,7 +8747,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-zi9RGOsp2ahuJ+PLsIE9SIbhWicaypGwOldIs8zaj1/D2mrKhghu328aOOwSvMRveWUoQU8bRi9buGxkTr66NA==
+      integrity: sha512-NVKSFUcAhZSvv/hxHbIldOMGzhxSswTNDfEWwWtiWv+lvUsjwIc56C624TzE+k73REXQwxOV0QfnxUo/nVumMg==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8778,7 +8799,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-PeresdLGSvIw3+ulHdXyY1JdFJnpoJ5b6jJRYksiFHp2be101Jx5bZEv5XU8lf9k4HrIXKHCvVuBWo6N66LJBA==
+      integrity: sha512-sEmHR4tCKo+EjHiv4no8r8IQCYTJC4MpKmIsA49gOfkvSUUyf7dKSPdUkJ5+V8n/YX2rj5URH2PQOsxVDYbPvQ==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/confidential-ledger.tgz:
@@ -11969,6 +11990,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz

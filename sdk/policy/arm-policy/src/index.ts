@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dataPolicyManifests";
-export * from "./policyAssignments";
-export * from "./policyDefinitions";
-export * from "./policySetDefinitions";
-export * from "./policyExemptions";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { PolicyClient } from "./policyClient";
+export { PolicyClientContext } from "./policyClientContext";
+export * from "./operationsInterfaces";
