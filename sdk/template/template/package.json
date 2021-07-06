@@ -18,7 +18,7 @@
       }
     ]
   },
-  "types": "types/latest/template.d.ts",
+  "types": "types/template.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
