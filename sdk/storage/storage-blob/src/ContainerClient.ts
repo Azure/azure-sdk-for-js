@@ -421,7 +421,6 @@ export interface BlobItem {
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
   objectReplicationSourceProperties?: ObjectReplicationPolicy[];
-  hasVersionsOnly?: boolean;
 }
 
 /**
@@ -517,10 +516,6 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob tags be returned in the response.
    */
   includeTags?: boolean;
-  /**
-   * Specifies whether deleted blob with versions be returned in the response.
-   */
-  includeDeletedwithVersions?: boolean;
 }
 
 /**
@@ -1478,9 +1473,6 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
-    if (options.includeDeletedwithVersions) {
-      include.push("deletedwithversions");
-    }
     if (options.prefix === "") {
       options.prefix = undefined;
     }
@@ -1688,9 +1680,6 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeTags) {
       include.push("tags");
-    }
-    if (options.includeDeletedwithVersions) {
-      include.push("deletedwithversions");
     }
     if (options.prefix === "") {
       options.prefix = undefined;

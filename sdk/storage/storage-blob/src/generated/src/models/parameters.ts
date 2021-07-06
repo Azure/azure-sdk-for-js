@@ -103,7 +103,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-10-02",
+    defaultValue: "2020-08-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -673,10 +673,7 @@ export const include1: OperationQueryParameter = {
             "snapshots",
             "uncommittedblobs",
             "versions",
-            "tags",
-            "immutabilitypolicy",
-            "legalhold",
-            "deletedwithversions"
+            "tags"
           ]
         }
       }
@@ -1214,65 +1211,6 @@ export const blobContentDisposition: OperationParameter = {
   }
 };
 
-export const comp12: OperationQueryParameter = {
-  parameterPath: "comp",
-  mapper: {
-    defaultValue: "immutabilityPolicies",
-    isConstant: true,
-    serializedName: "comp",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const immutabilityPolicyExpiry: OperationParameter = {
-  parameterPath: ["options", "immutabilityPolicyExpiry"],
-  mapper: {
-    serializedName: "x-ms-immutability-policy-until-date",
-    xmlName: "x-ms-immutability-policy-until-date",
-    type: {
-      name: "DateTimeRfc1123"
-    }
-  }
-};
-
-export const immutabilityPolicyMode: OperationParameter = {
-  parameterPath: ["options", "immutabilityPolicyMode"],
-  mapper: {
-    serializedName: "x-ms-immutability-policy-mode",
-    xmlName: "x-ms-immutability-policy-mode",
-    type: {
-      name: "Enum",
-      allowedValues: ["Unlocked", "Locked", "Mutable"]
-    }
-  }
-};
-
-export const comp13: OperationQueryParameter = {
-  parameterPath: "comp",
-  mapper: {
-    defaultValue: "legalhold",
-    isConstant: true,
-    serializedName: "comp",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const legalHold: OperationParameter = {
-  parameterPath: "legalHold",
-  mapper: {
-    serializedName: "x-ms-legal-hold",
-    required: true,
-    xmlName: "x-ms-legal-hold",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
 export const encryptionScope: OperationParameter = {
   parameterPath: ["options", "encryptionScope"],
   mapper: {
@@ -1284,7 +1222,7 @@ export const encryptionScope: OperationParameter = {
   }
 };
 
-export const comp14: OperationQueryParameter = {
+export const comp12: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "snapshot",
@@ -1380,17 +1318,6 @@ export const sealBlob: OperationParameter = {
   }
 };
 
-export const legalHold1: OperationParameter = {
-  parameterPath: ["options", "legalHold"],
-  mapper: {
-    serializedName: "x-ms-legal-hold",
-    xmlName: "x-ms-legal-hold",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
 export const xMsRequiresSync: OperationParameter = {
   parameterPath: "xMsRequiresSync",
   mapper: {
@@ -1414,18 +1341,7 @@ export const sourceContentMD5: OperationParameter = {
   }
 };
 
-export const copySourceAuthorization: OperationParameter = {
-  parameterPath: ["options", "copySourceAuthorization"],
-  mapper: {
-    serializedName: "x-ms-copy-source-authorization",
-    xmlName: "x-ms-copy-source-authorization",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const comp15: OperationQueryParameter = {
+export const comp13: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "copy",
@@ -1461,7 +1377,7 @@ export const copyId: OperationQueryParameter = {
   }
 };
 
-export const comp16: OperationQueryParameter = {
+export const comp14: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "tier",
@@ -1506,7 +1422,7 @@ export const queryRequest: OperationParameter = {
   mapper: QueryRequestMapper
 };
 
-export const comp17: OperationQueryParameter = {
+export const comp15: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "query",
@@ -1518,7 +1434,7 @@ export const comp17: OperationQueryParameter = {
   }
 };
 
-export const comp18: OperationQueryParameter = {
+export const comp16: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "tags",
@@ -1628,7 +1544,7 @@ export const accept2: OperationParameter = {
   }
 };
 
-export const comp19: OperationQueryParameter = {
+export const comp17: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "page",
@@ -1756,7 +1672,7 @@ export const range1: OperationParameter = {
   }
 };
 
-export const comp20: OperationQueryParameter = {
+export const comp18: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "pagelist",
@@ -1803,7 +1719,7 @@ export const sequenceNumberAction: OperationParameter = {
   }
 };
 
-export const comp21: OperationQueryParameter = {
+export const comp19: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "incrementalcopy",
@@ -1827,7 +1743,7 @@ export const blobType1: OperationParameter = {
   }
 };
 
-export const comp22: OperationQueryParameter = {
+export const comp20: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "appendblock",
@@ -1876,7 +1792,7 @@ export const sourceRange1: OperationParameter = {
   }
 };
 
-export const comp23: OperationQueryParameter = {
+export const comp21: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "seal",
@@ -1911,7 +1827,7 @@ export const copySourceBlobProperties: OperationParameter = {
   }
 };
 
-export const comp24: OperationQueryParameter = {
+export const comp22: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "block",
@@ -1940,7 +1856,7 @@ export const blocks: OperationParameter = {
   mapper: BlockLookupListMapper
 };
 
-export const comp25: OperationQueryParameter = {
+export const comp23: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "blocklist",
