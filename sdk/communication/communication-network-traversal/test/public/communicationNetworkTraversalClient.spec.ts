@@ -4,7 +4,7 @@
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Recorder, env } from "@azure/test-utils-recorder";
-import { CommunicationRelayClient } from "../../src";
+import { CommunicationRelayClient, CommunicationRelayConfigurationRequest } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {
   createRecordedCommunicationRelayClient,
@@ -36,14 +36,15 @@ matrix([[true, false]], async function(useAad) {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
-
-      const turnCredentialResponse = await client.getRelayConfiguration(user);
+      
+      const bodyRelayRequest : CommunicationRelayConfigurationRequest = { id: user.communicationUserId }
+      const turnCredentialResponse = await client.getRelayConfiguration(bodyRelayRequest);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
       assert.isNotNull(turnTokenExpiresOn);
 
-      const turnServers = turnCredentialResponse.turnServers;
+      const turnServers = turnCredentialResponse.iceServers;
 
       for (const iceServer of turnServers) {
         for (const url of iceServer.urls) {

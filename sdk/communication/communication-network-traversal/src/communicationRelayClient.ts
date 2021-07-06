@@ -5,7 +5,6 @@ import {
   createCommunicationAuthPolicy,
   parseClientArguments,
   isKeyCredential,
-  CommunicationUserIdentifier
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -24,7 +23,9 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
 import { CommunicationRelayClientOptions } from "./models";
-import { CommunicationRelayConfiguration } from "./generated/src/models";
+import { CommunicationRelayConfiguration, 
+  CommunicationRelayConfigurationRequest 
+  } from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -122,16 +123,16 @@ export class CommunicationRelayClient {
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    user: CommunicationUserIdentifier,
+    body: CommunicationRelayConfigurationRequest,
     options: OperationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     const { span, updatedOptions } = createSpan(
-      "CommunicationNetworkTraversal_IssueTurnCredentials",
+      "CommunicationNetworkTraversal_IssueRelayConfiguration",
       options
     );
     try {
-      const { _response, ...result } = await this.client.issueTurnCredentials(
-        user.communicationUserId,
+      const { _response, ...result } = await this.client.issueRelayConfiguration(
+        body,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

@@ -8,13 +8,13 @@
 package-name: azure-communication-network-traversal
 override-client-name: NetworkRelayRestClient
 description: Communication Network Traversal Client
-package-version: 1.0.0-beta.1
+package-version: package-2021-06-21-preview
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2021-02-22-preview1
+tag: package-2021-06-21-preview
 require:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/60be518b4fa1a9fb011a0cb69ae7ca3e1cee06b1/specification/communication/data-plane/Microsoft.CommunicationServicesTurn/readme.md
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/86408a8777e623f5f41e260472ed831309b85086/specification/communication/data-plane/Turn/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
