@@ -1,15 +1,19 @@
 # Release History
 
-## 11.3.0-beta.1 (Unreleased)
+## 11.3.0-beta.1 (2021-07-07)
 
-### Features Added
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
-### Breaking Changes
+- Regenerated the search SDK with the latest swaggers that includes the following changes:
 
-### Key Bugs Fixed
-
-### Fixed
+  - Support for `TokenCredential` has been added.
+  - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
+  - The following new skills have been added:
+    - SentimentSkill(V3)
+    - EntityLinkingSkill(V3)
+    - EntityRecognitionSkill(V3)
+    - PIIDetectionSkill
+  - A new property `lineEnding` has been added to the skill `OcrSkill`.
 
 ## 11.2.0 (2021-06-08)
 
