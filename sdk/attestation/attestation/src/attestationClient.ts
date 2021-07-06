@@ -229,8 +229,10 @@ export class AttestationClient {
 
       const initData = options.initTimeData ?? options.initTimeJson;
       const initTimeData: InitTimeData | undefined = initData
-        ? { data: initData, dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
-        }
+        ? {
+            data: initData,
+            dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+          }
         : undefined;
 
       const runData = options.runTimeData ?? options.runTimeJson;
@@ -238,7 +240,7 @@ export class AttestationClient {
         ? {
             data: runData,
             dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
-        }
+          }
         : undefined;
 
       const attestationResponse = await this._client.attestation.attestOpenEnclave(
@@ -317,8 +319,10 @@ export class AttestationClient {
 
       const initData = options.initTimeData ?? options.initTimeJson;
       const initTimeData: InitTimeData | undefined = initData
-        ? { data: initData, dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
-        }
+        ? {
+            data: initData,
+            dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+          }
         : undefined;
 
       const runData = options.runTimeData ?? options.runTimeJson;
@@ -326,7 +330,7 @@ export class AttestationClient {
         ? {
             data: runData,
             dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
-        }
+          }
         : undefined;
 
       const attestationResponse = await this._client.attestation.attestSgxEnclave(
