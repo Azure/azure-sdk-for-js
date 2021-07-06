@@ -17,8 +17,7 @@ const client = new CosmosClient({
 })
 ```
 
-- Added `client.dispose()` for closing the endpoint refresher verbosely. Necessary when destroying the CosmosClient inside existing processes like an express web server, or
-when you want to destroy the client and create a new one in the same process.
+- Added `client.dispose()` for closing the endpoint refresher verbosely. Necessary when destroying the CosmosClient inside existing processes like an express web server, or when you want to destroy the client and create a new one in the same process.
 ```js
 const client = new CosmosClient()
 client.dispose() // cancels background endpoint refreshing
