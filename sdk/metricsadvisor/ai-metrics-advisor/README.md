@@ -7,11 +7,12 @@ Metrics Advisor is a part of Azure Cognitive Services that uses AI perform data 
 - Configure and fine-tune the anomaly detection model used on your data
 - Diagnose anomalies and help with root cause analysis.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor)
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
 
 ## Getting started
 
