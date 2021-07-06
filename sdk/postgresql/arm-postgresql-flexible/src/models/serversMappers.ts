@@ -19,7 +19,6 @@ export {
   MaintenanceWindow,
   Plan,
   ProxyResource,
-  RecoverableServerResource,
   Resource,
   ResourceModelWithAllowedPropertySet,
   ResourceModelWithAllowedPropertySetIdentity,

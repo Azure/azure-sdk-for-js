@@ -12,17 +12,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serversMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
+import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
 /** Class representing a Servers. */
 export class Servers {
-  private readonly client: PostgreSQLFlexibleManagementClientContext;
+  private readonly client: PostgreSQLManagementClientContext;
 
   /**
    * Create a Servers.
-   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
+   * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLFlexibleManagementClientContext) {
+  constructor(client: PostgreSQLManagementClientContext) {
     this.client = client;
   }
 
@@ -366,7 +366,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -390,7 +390,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -413,7 +413,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -438,7 +438,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -474,7 +474,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -507,7 +507,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -532,7 +532,7 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -556,7 +556,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -580,7 +580,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -603,7 +603,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -627,7 +627,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
