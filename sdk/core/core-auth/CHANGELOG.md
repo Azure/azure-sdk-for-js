@@ -1,37 +1,12 @@
 # Release History
 
-<<<<<<< HEAD
 ## 1.3.3 (Unreleased)
-=======
-## 1.3.2 (Unreleased)
-
-<<<<<<< HEAD
-### Features Added
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
-
-## 1.3.1 (Unreleased)
->>>>>>> cf4e6ae91 (Version increment due to accidental core package release)
 
 ### Features Added
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
 
 ## 1.3.2 (2021-07-01)
 
 - Added `tenantId` optional property to the `GetTokenOptions` interface. If `tenantId` is set, credentials will be able to use multi-tenant authentication, in the cases when it's enabled.
-=======
->>>>>>> 3aaf03621 (Updated change log)
 
 ## 1.3.0 (2021-03-30)
 
