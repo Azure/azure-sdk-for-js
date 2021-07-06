@@ -205,4 +205,48 @@ export class Item {
       this
     );
   }
+
+  /**
+   * Perform a JSONPatch on the item.
+   *
+   * Any provided type, T, is not necessarily enforced by the SDK.
+   * You may get more or less properties and it's up to your logic to enforce it.
+   *
+   * @param options - Additional options for the request
+   */
+   public async patch<T extends ItemDefinition = any>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
+    if (this.partitionKey === undefined) {
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
+      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    }
+
+    const err = {};
+    if (!isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+
+    const response = await this.clientContext.patch<T>({
+      body,
+      path,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      options,
+      partitionKey: this.partitionKey
+    });
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      this
+    );
+  }
 }

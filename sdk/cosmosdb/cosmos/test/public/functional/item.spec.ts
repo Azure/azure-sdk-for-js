@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container } from "../../../src";
+import { Container, CosmosClient, Database } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -18,6 +18,7 @@ import {
   getTestContainer
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
+import { endpoint, masterKey } from "../common/_testConfig";
 
 interface TestItem {
   id?: string;
@@ -520,6 +521,45 @@ describe("bulk item operations", function() {
 
       const deleteResponse = await container.items.bulk([operation]);
       assert.equal(deleteResponse[0].statusCode, 204);
+    });
+  });
+});
+describe.only("patch operations", function() {
+  describe("various mixed operations", function() {
+    let container: Container;
+    const addItemId: string = "addItem4961";
+    let database: Database;
+    before(async function() {
+      const client = new CosmosClient({ key: masterKey, endpoint: endpoint })
+      database = await client.database("patch")
+      container = await database.container("patch")
+      await container.items.upsert({
+        id: addItemId,
+        first: 1,
+        last: "a"
+      });
+    });
+    after(async () => {
+      // await container.database.delete();
+    });
+    it("handles add, remove, replace", async function() {
+      const operations = [
+        {
+          op: "add",
+          path: "/laster",
+          value: "c"
+        },
+        {
+          op: "replace",
+          path: "/last",
+          value: "b"
+        },
+      ];
+      console.log(container)
+      const item = await container.item(addItemId, 1).read();
+      console.log(item)
+      const response = await container.item(addItemId, 1).patch(operations);
+      console.log(response)
     });
   });
 });
