@@ -601,7 +601,6 @@ describe("patch operations", function() {
         }
       ];
       const condition = "from c where NOT IS_DEFINED(c.newImproved)";
-      const item = await container.item(conditionItemId, 1).read();
       const { resource: conditionItem } = await container
         .item(conditionItemId, 1)
         .patch({ condition, operations });

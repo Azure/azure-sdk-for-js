@@ -843,7 +843,6 @@ export class Item {
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
     readonly id: string;
-    // Warning: (ae-forgotten-export) The symbol "PatchRequestBody" needs to be exported by the entry point index.d.ts
     patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1090,6 +1089,12 @@ export const PatchOperationType: {
     readonly set: "set";
     readonly incr: "incr";
 };
+
+// @public (undocumented)
+export type PatchRequestBody = {
+    operations: PatchOperation[];
+    condition: string;
+} | PatchOperation[];
 
 // @public
 export class Permission {
