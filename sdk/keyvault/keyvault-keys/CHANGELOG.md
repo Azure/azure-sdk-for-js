@@ -12,8 +12,6 @@
 
 - Fixed an issue where `CryptographyClient.signData` and `CryptographyClient.verifyData` convenience methods would fail to find a valid hashing algorithm when using Elliptic Curve keys.
 
-### Fixed
-
 ## 4.2.1 (2021-06-15)
 
 ### Bug Fixes
