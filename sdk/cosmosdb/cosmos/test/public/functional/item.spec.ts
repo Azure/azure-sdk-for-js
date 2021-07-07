@@ -524,7 +524,7 @@ describe("bulk item operations", function() {
     });
   });
 });
-describe.only("patch operations", function() {
+describe("patch operations", function() {
   describe("various mixed operations", function() {
     let container: Container;
     let addItemId: string;
