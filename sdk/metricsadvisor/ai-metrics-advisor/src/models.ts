@@ -258,14 +258,25 @@ export type MetricsAdvisorDataFeed = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * The administrators of this {@link MetricsAdvisorDataFeed }.
+   * Administrators have total control over a data feed, being allowed to update, delete, or pause them.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -280,10 +291,10 @@ export type MetricsAdvisorDataFeed = {
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  /** The Azure cloud that this Azure Application Insights in. Required by user for Create*/
-  azureCloud?: string;
-  /** The application id of this Azure Application Insights. Required by user for Create*/
-  applicationId?: string;
+  /** The Azure cloud that this Azure Application Insights in.*/
+  azureCloud: string;
+  /** The application id of this Azure Application Insights.*/
+  applicationId: string;
   /** The API Key that can access this Azure Application Insights. Required by user for Create. Not returned by service */
   apiKey?: string;
   /** The statement to query this Azure Application Insights */
@@ -774,14 +785,25 @@ export type DataFeedPatch = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * The administrators of this {@link MetricsAdvisorDataFeed }.
+   * Administrators have total control over a data feed, being allowed to update, delete, or pause them.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -795,9 +817,6 @@ export type DataFeedPatch = {
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
- *
- * When not changing the data source type, the dataSourceParameter is not required.
- * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
   /** dataSource type for patch */
@@ -1121,9 +1140,15 @@ export interface NotificationHook {
    */
   externalLink?: string;
   /**
-   * email addresses of hook administrators
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  readonly adminEmails?: string[];
+  admins?: string[];
 }
 
 /**
@@ -1165,6 +1190,16 @@ export type NotificationHookPatch = {
    * new hook external link
    */
   externalLink?: string;
+  /**
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
+   */
+  admins?: string[];
 };
 
 /**

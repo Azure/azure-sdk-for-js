@@ -13,7 +13,8 @@ import {
   Speller,
   Answers,
   CaptionResult,
-  AnswerResult
+  AnswerResult,
+  Captions
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -289,6 +290,10 @@ export interface SearchRequest {
    * Search request for the next page of results.
    */
   top?: number;
+  /** A value that specifies whether captions should be returned as part of the search response. */
+  captions?: Captions;
+  /** The comma-separated list of field names used for semantic search. */
+  semanticFields?: string;
 }
 
 /**
