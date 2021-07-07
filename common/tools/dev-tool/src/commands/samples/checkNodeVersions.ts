@@ -224,7 +224,7 @@ export const commandInfo = makeCommandInfo(
     "node-versions": {
       kind: "string",
       description: "A comma separated list of node versions to use",
-      default: "8,10,12"
+      default: "12,14,15"
     },
     "node-version": {
       kind: "string",
