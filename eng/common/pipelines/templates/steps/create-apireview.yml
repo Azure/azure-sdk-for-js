@@ -21,6 +21,7 @@ steps:
           -SourceBranch $(Build.SourceBranchName)
           -DefaultBranch $(DefaultBranch)
           -ConfigFileDir '${{parameters.ConfigFileDir}}'
+          -IsReleaseBuild $(IsReleaseBuild)
         pwsh: true
         workingDirectory: $(Pipeline.Workspace)
       displayName: Create API Review for ${{ artifact.name}}

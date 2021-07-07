@@ -11,7 +11,8 @@ Param (
   [string] $PackageName,
   [string] $SourceBranch,
   [string] $DefaultBranch,
-  [string] $ConfigFileDir = ""
+  [string] $ConfigFileDir = "",
+  [bool]  $IsReleaseBuild
 )
 
 # Submit API review request and return status whether current revision is approved or pending or failed to create review
@@ -35,15 +36,14 @@ function Submit-APIReview($packagename, $filePath, $uri, $apiKey, $apiLabel)
     $multipartContent.Add($stringContent)
     Write-Host "Request param, label: $apiLabel"
 
-    if (("$(Build.Reason)" -eq "Manual") -and ("$(System.TeamProject)" -eq 'internal'))
+    if ($IsReleaseBuild)
     {
-        $IsManualBuild = $true
         $compareAllParam = [System.Net.Http.Headers.ContentDispositionHeaderValue]::new("form-data")
         $compareAllParam.Name = "compareAllRevisions"
-        $compareAllParamContent = [System.Net.Http.StringContent]::new($IsManualBuild)
+        $compareAllParamContent = [System.Net.Http.StringContent]::new($IsReleaseBuild)
         $compareAllParamContent.Headers.ContentDisposition = $compareAllParam
         $multipartContent.Add($compareAllParamContent)
-        Write-Host "Request param, compareAllRevisions: $IsManualBuild"
+        Write-Host "Request param, compareAllRevisions: $IsReleaseBuild"
     }
 
     $headers = @{
