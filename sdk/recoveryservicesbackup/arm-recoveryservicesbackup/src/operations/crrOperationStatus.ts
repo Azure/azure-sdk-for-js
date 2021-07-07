@@ -31,39 +31,21 @@ export class CrrOperationStatus {
    * @param [options] The optional parameters
    * @returns Promise<Models.CrrOperationStatusGetResponse>
    */
-  get(
-    azureRegion: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CrrOperationStatusGetResponse>;
+  get(azureRegion: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.CrrOperationStatusGetResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param operationId
    * @param callback The callback
    */
-  get(
-    azureRegion: string,
-    operationId: string,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
+  get(azureRegion: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param azureRegion Azure region to hit Api
    * @param operationId
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    azureRegion: string,
-    operationId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
-  get(
-    azureRegion: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
-    callback?: msRest.ServiceCallback<Models.OperationStatus>
-  ): Promise<Models.CrrOperationStatusGetResponse> {
+  get(azureRegion: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  get(azureRegion: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.CrrOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -71,8 +53,7 @@ export class CrrOperationStatus {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.CrrOperationStatusGetResponse>;
+      callback) as Promise<Models.CrrOperationStatusGetResponse>;
   }
 }
 
@@ -80,11 +61,18 @@ export class CrrOperationStatus {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrOperationsStatus/{operationId}",
-  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId, Parameters.operationId],
-  queryParameters: [Parameters.apiVersion1],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrOperationsStatus/{operationId}",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.subscriptionId,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus

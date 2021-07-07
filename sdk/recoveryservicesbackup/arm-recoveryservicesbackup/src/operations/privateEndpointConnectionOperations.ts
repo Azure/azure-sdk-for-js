@@ -35,12 +35,7 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionGetResponse>
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PrivateEndpointConnectionGetResponse>;
+  get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -48,12 +43,7 @@ export class PrivateEndpointConnectionOperations {
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
-  ): void;
+  get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -62,22 +52,8 @@ export class PrivateEndpointConnectionOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
-  ): void;
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>,
-    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
-  ): Promise<Models.PrivateEndpointConnectionGetResponse> {
+  get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
+  get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): Promise<Models.PrivateEndpointConnectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -86,8 +62,7 @@ export class PrivateEndpointConnectionOperations {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.PrivateEndpointConnectionGetResponse>;
+      callback) as Promise<Models.PrivateEndpointConnectionGetResponse>;
   }
 
   /**
@@ -100,22 +75,9 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionPutResponse>
    */
-  put(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    parameters: Models.PrivateEndpointConnectionResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PrivateEndpointConnectionPutResponse> {
-    return this.beginPut(
-      vaultName,
-      resourceGroupName,
-      privateEndpointConnectionName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.PrivateEndpointConnectionPutResponse
-    >;
+  put(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnectionResource, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionPutResponse> {
+    return this.beginPut(vaultName,resourceGroupName,privateEndpointConnectionName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionPutResponse>;
   }
 
   /**
@@ -127,18 +89,9 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      vaultName,
-      resourceGroupName,
-      privateEndpointConnectionName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(vaultName,resourceGroupName,privateEndpointConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -151,13 +104,7 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPut(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    parameters: Models.PrivateEndpointConnectionResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginPut(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnectionResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         vaultName,
@@ -167,8 +114,7 @@ export class PrivateEndpointConnectionOperations {
         options
       },
       beginPutOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -180,12 +126,7 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    privateEndpointConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         vaultName,
@@ -194,8 +135,7 @@ export class PrivateEndpointConnectionOperations {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -203,16 +143,19 @@ export class PrivateEndpointConnectionOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionResource
@@ -226,16 +169,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginPutOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -259,16 +205,19 @@ const beginPutOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
