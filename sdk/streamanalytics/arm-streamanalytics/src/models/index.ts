@@ -455,6 +455,56 @@ export interface AggregateFunctionProperties {
 }
 
 /**
+ * Common error details representation.
+ */
+export interface ErrorDetails {
+  /**
+   * Error code.
+   */
+  code?: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Error message.
+   */
+  message?: string;
+}
+
+/**
+ * Error definition properties.
+ */
+export interface ErrorError {
+  /**
+   * Error code.
+   */
+  code?: string;
+  /**
+   * Error message.
+   */
+  message?: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Error details.
+   */
+  details?: ErrorDetails[];
+}
+
+/**
+ * Common error representation.
+ */
+export interface ErrorModel {
+  /**
+   * Error definition properties.
+   */
+  error?: ErrorError;
+}
+
+/**
  * Describes the error that occurred.
  */
 export interface ErrorResponse {
@@ -597,7 +647,7 @@ export interface Input extends SubResource {
 /**
  * Contains the possible cases for StreamInputDataSource.
  */
-export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource;
+export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource | RawStreamInputDataSource;
 
 /**
  * Describes an input data source that contains stream data.
@@ -650,7 +700,7 @@ export interface StreamInputProperties {
 /**
  * Contains the possible cases for ReferenceInputDataSource.
  */
-export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
+export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | RawReferenceInputDataSource | AzureSqlReferenceInputDataSource;
 
 /**
  * Describes an input data source that contains reference data.
@@ -857,6 +907,28 @@ export interface IoTHubStreamInputDataSource {
 }
 
 /**
+ * Describes a raw input data source that contains stream data. This data source type is only
+ * applicable/usable when using the query testing API. You cannot create a job with this data
+ * source type or add an input of this data source type to an existing job.
+ */
+export interface RawStreamInputDataSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Raw";
+  /**
+   * The JSON serialized content of the input data. Either payload or payloadUri must be set, but
+   * not both.
+   */
+  payload?: string;
+  /**
+   * The SAS URL to a blob containing the JSON serialized content of the input data. Either payload
+   * or payloadUri must be set, but not both.
+   */
+  payloadUri?: string;
+}
+
+/**
  * Describes a blob input data source that contains reference data.
  */
 export interface BlobReferenceInputDataSource {
@@ -892,6 +964,28 @@ export interface BlobReferenceInputDataSource {
    * the time format instead.
    */
   timeFormat?: string;
+}
+
+/**
+ * Describes a raw input data source that contains reference data. This data source type is only
+ * applicable/usable when using the query testing API. You cannot create a job with this data
+ * source type or add an input of this data source type to an existing job.
+ */
+export interface RawReferenceInputDataSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Raw";
+  /**
+   * The JSON serialized content of the input data. Either payload or payloadUri must be set, but
+   * not both.
+   */
+  payload?: string;
+  /**
+   * The SAS URL to a blob containing the JSON serialized content of the input data. Either payload
+   * or payloadUri must be set, but not both.
+   */
+  payloadUri?: string;
 }
 
 /**
@@ -1089,7 +1183,7 @@ export interface Identity {
 }
 
 /**
- * An interface representing AzureSqlReferenceInputDataSourceProperties.
+ * Describes Azure SQL database reference input data source properties.
  */
 export interface AzureSqlReferenceInputDataSourceProperties {
   /**
@@ -1155,7 +1249,7 @@ export interface AzureSqlReferenceInputDataSource {
 /**
  * Contains the possible cases for OutputDataSource.
  */
-export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
+export type OutputDataSourceUnion = OutputDataSource | RawOutputDatasource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
 
 /**
  * Describes the data source that output will be written to.
@@ -1197,6 +1291,24 @@ export interface Output extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+}
+
+/**
+ * Describes a raw output data source. This data source type is only applicable/usable when using
+ * the query testing API. You cannot create a job with this data source type or add an output of
+ * this data source type to an existing job.
+ */
+export interface RawOutputDatasource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Raw";
+  /**
+   * The SAS URL to a blob where the output should be written. If this property is not set, output
+   * data will be written into a temporary storage, and a SAS URL to that temporary storage will be
+   * included in the result.
+   */
+  payloadUri?: string;
 }
 
 /**
@@ -1803,48 +1915,6 @@ export interface External {
 }
 
 /**
- * Contains the localized display information for this particular operation / action.
- */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly form of the resource type related to this action/operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * The localized friendly name for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The localized friendly description for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * A Stream Analytics REST API operation
- */
-export interface Operation {
-  /**
-   * The name of the operation being performed on this particular object.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Contains the localized display information for this particular operation / action.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly display?: OperationDisplay;
-}
-
-/**
  * The properties that are associated with a SKU.
  */
 export interface StreamingJobSku {
@@ -1900,7 +1970,7 @@ export interface ClusterInfo {
 }
 
 /**
- * An interface representing Resource.
+ * The base resource definition
  */
 export interface Resource extends BaseResource {
   /**
@@ -2136,6 +2206,309 @@ export interface SubscriptionQuotasListResult {
 }
 
 /**
+ * Diagnostics information related to query testing.
+ */
+export interface TestQueryDiagnostics {
+  /**
+   * The SAS URI to the container or directory.
+   */
+  writeUri: string;
+  /**
+   * The path to the subdirectory.
+   */
+  path?: string;
+}
+
+/**
+ * The request object for query testing.
+ */
+export interface TestQuery {
+  /**
+   * Diagnostics information related to query testing.
+   */
+  diagnostics?: TestQueryDiagnostics;
+  /**
+   * Stream analytics job object which defines the input, output, and transformation for the query
+   * testing.
+   */
+  streamingJob: StreamingJob;
+}
+
+/**
+ * The result of the query testing request.
+ */
+export interface QueryTestingResult extends ErrorModel {
+  /**
+   * The status of the query testing request. Possible values include: 'Started', 'Success',
+   * 'CompilerError', 'RuntimeError', 'Timeout', 'UnknownError'
+   */
+  status?: QueryTestingResultStatus;
+  /**
+   * The SAS URL to the outputs payload.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly outputUri?: string;
+}
+
+/**
+ * An input for the query compilation.
+ */
+export interface QueryInput {
+  /**
+   * The name of the input.
+   */
+  name: string;
+  /**
+   * The type of the input, can be Stream or Reference.
+   */
+  type: string;
+}
+
+/**
+ * A function for the query compilation.
+ */
+export interface QueryFunction {
+  /**
+   * The name of the function.
+   */
+  name: string;
+  /**
+   * The type of the function.
+   */
+  type: string;
+  /**
+   * The type of the function binding.
+   */
+  bindingType: string;
+  /**
+   * The inputs for the function.
+   */
+  inputs: FunctionInput[];
+  /**
+   * An output for the function.
+   */
+  output: FunctionOutput;
+}
+
+/**
+ * The query compilation object which defines the input, output, and transformation for the query
+ * compilation.
+ */
+export interface CompileQuery {
+  /**
+   * The query to compile.
+   */
+  query: string;
+  /**
+   * The inputs for the query compilation.
+   */
+  inputs?: QueryInput[];
+  /**
+   * The functions for the query compilation.
+   */
+  functions?: QueryFunction[];
+  /**
+   * Describes the type of the job. Valid values are `Cloud` and 'Edge'. Possible values include:
+   * 'Cloud', 'Edge'
+   */
+  jobType: JobType;
+  /**
+   * The query to compile. Possible values include: '1.0'
+   */
+  compatibilityLevel?: CompatibilityLevel;
+}
+
+/**
+ * An error produced by the compiler.
+ */
+export interface QueryCompilationError {
+  /**
+   * The content of the error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startLine?: number;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startColumn?: number;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endLine?: number;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endColumn?: number;
+  /**
+   * Whether the error is not for a specific part but for the entire query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isGlobal?: boolean;
+}
+
+/**
+ * The result of the query compilation request.
+ */
+export interface QueryCompilationResult {
+  /**
+   * Error messages produced by the compiler.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: QueryCompilationError[];
+  /**
+   * Warning messages produced by the compiler.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly warnings?: string[];
+  /**
+   * All input names used by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly inputs?: string[];
+  /**
+   * All output names used by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly outputs?: string[];
+  /**
+   * All function names used by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly functions?: string[];
+}
+
+/**
+ * The stream analytics input to sample.
+ */
+export interface SampleInput {
+  /**
+   * The stream analytics input to sample.
+   */
+  input?: Input;
+  /**
+   * Defaults to the default ASA job compatibility level. Today it is 1.2
+   */
+  compatibilityLevel?: string;
+  /**
+   * The SAS URI of the storage blob for service to write the sampled events to. If this parameter
+   * is not provided, service will write events to he system account and share a temporary SAS URI
+   * to it.
+   */
+  eventsUri?: string;
+  /**
+   * Defaults to en-US.
+   */
+  dataLocale?: string;
+}
+
+/**
+ * The result of the sample input request.
+ */
+export interface SampleInputResult extends ErrorModel {
+  /**
+   * The status of the sample input request. Possible values include: 'ReadAllEventsInRange',
+   * 'NoEventsFoundInRange', 'ErrorConnectingToInput'
+   */
+  status?: SampleInputResultStatus;
+  /**
+   * Diagnostics messages. E.g. message indicating some partitions from the input have no data.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diagnostics?: string[];
+  /**
+   * A SAS URL to download the sampled input data.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventsDownloadUrl?: string;
+  /**
+   * The timestamp for the last event in the data. It is in DateTime format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastArrivalTime?: string;
+}
+
+/**
+ * A stream analytics input.
+ */
+export interface TestInput {
+  /**
+   * The stream analytics input to test.
+   */
+  input: Input;
+}
+
+/**
+ * A stream analytics output.
+ */
+export interface TestOutput {
+  /**
+   * The stream analytics output to test.
+   */
+  output: Output;
+}
+
+/**
+ * The result of the test input or output request.
+ */
+export interface TestDatasourceResult extends ErrorModel {
+  /**
+   * The status of the sample output request. Possible values include: 'TestSucceeded',
+   * 'TestFailed'
+   */
+  status?: TestDatasourceResultStatus;
+}
+
+/**
+ * Contains the localized display information for this particular operation / action.
+ */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly form of the resource type related to this action/operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resource?: string;
+  /**
+   * The localized friendly name for the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operation?: string;
+  /**
+   * The localized friendly description for the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+}
+
+/**
+ * A Stream Analytics REST API operation
+ */
+export interface Operation {
+  /**
+   * The name of the operation being performed on this particular object.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Contains the localized display information for this particular operation / action.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly display?: OperationDisplay;
+}
+
+/**
  * The SKU of the cluster. This determines the size/capacity of the cluster. Required on PUT
  * (CreateOrUpdate) requests.
  */
@@ -2221,56 +2594,6 @@ export interface ClusterJob {
    * 'Failed', 'Degraded', 'Restarting', 'Scaling'
    */
   jobState?: JobState;
-}
-
-/**
- * Common error details representation.
- */
-export interface ErrorDetails {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-}
-
-/**
- * Error definition properties.
- */
-export interface ErrorError {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Error details.
-   */
-  details?: ErrorDetails[];
-}
-
-/**
- * Common error representation.
- */
-export interface ErrorModel {
-  /**
-   * Error definition properties.
-   */
-  error?: ErrorError;
 }
 
 /**
@@ -3216,6 +3539,32 @@ export type CompatibilityLevel = '1.0';
 export type ContentStoragePolicy = 'SystemAccount' | 'JobStorageAccount';
 
 /**
+ * Defines values for QueryTestingResultStatus.
+ * Possible values include: 'Started', 'Success', 'CompilerError', 'RuntimeError', 'Timeout',
+ * 'UnknownError'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryTestingResultStatus = 'Started' | 'Success' | 'CompilerError' | 'RuntimeError' | 'Timeout' | 'UnknownError';
+
+/**
+ * Defines values for SampleInputResultStatus.
+ * Possible values include: 'ReadAllEventsInRange', 'NoEventsFoundInRange',
+ * 'ErrorConnectingToInput'
+ * @readonly
+ * @enum {string}
+ */
+export type SampleInputResultStatus = 'ReadAllEventsInRange' | 'NoEventsFoundInRange' | 'ErrorConnectingToInput';
+
+/**
+ * Defines values for TestDatasourceResultStatus.
+ * Possible values include: 'TestSucceeded', 'TestFailed'
+ * @readonly
+ * @enum {string}
+ */
+export type TestDatasourceResultStatus = 'TestSucceeded' | 'TestFailed';
+
+/**
  * Defines values for ClusterSkuName.
  * Possible values include: 'Default'
  * @readonly
@@ -3897,6 +4246,186 @@ export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SubscriptionQuotasListResult;
+    };
+};
+
+/**
+ * Contains response data for the testQueryMethod operation.
+ */
+export type SubscriptionsTestQueryMethodResponse = QueryTestingResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryTestingResult;
+    };
+};
+
+/**
+ * Contains response data for the compileQueryMethod operation.
+ */
+export type SubscriptionsCompileQueryMethodResponse = QueryCompilationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryCompilationResult;
+    };
+};
+
+/**
+ * Contains response data for the sampleInputMethod operation.
+ */
+export type SubscriptionsSampleInputMethodResponse = SampleInputResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SampleInputResult;
+    };
+};
+
+/**
+ * Contains response data for the testInputMethod operation.
+ */
+export type SubscriptionsTestInputMethodResponse = TestDatasourceResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TestDatasourceResult;
+    };
+};
+
+/**
+ * Contains response data for the testOutputMethod operation.
+ */
+export type SubscriptionsTestOutputMethodResponse = TestDatasourceResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TestDatasourceResult;
+    };
+};
+
+/**
+ * Contains response data for the beginTestQueryMethod operation.
+ */
+export type SubscriptionsBeginTestQueryMethodResponse = QueryTestingResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryTestingResult;
+    };
+};
+
+/**
+ * Contains response data for the beginSampleInputMethod operation.
+ */
+export type SubscriptionsBeginSampleInputMethodResponse = SampleInputResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SampleInputResult;
+    };
+};
+
+/**
+ * Contains response data for the beginTestInputMethod operation.
+ */
+export type SubscriptionsBeginTestInputMethodResponse = TestDatasourceResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TestDatasourceResult;
+    };
+};
+
+/**
+ * Contains response data for the beginTestOutputMethod operation.
+ */
+export type SubscriptionsBeginTestOutputMethodResponse = TestDatasourceResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TestDatasourceResult;
     };
 };
 
