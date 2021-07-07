@@ -117,12 +117,7 @@ describe("AuthorizationCodeCredential", function() {
           children: [
             {
               name: "Azure.Identity.AuthorizationCodeCredential-getToken",
-              children: [
-                {
-                  children: [],
-                  name: "/tenant/oauth2/v2.0/token"
-                }
-              ]
+              children: []
             }
           ]
         }

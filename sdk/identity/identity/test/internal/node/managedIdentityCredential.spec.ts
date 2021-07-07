@@ -17,7 +17,7 @@ interface AuthRequestDetails {
   token: AccessToken | null;
 }
 
-describe("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function() {
   afterEach(() => {
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
@@ -26,7 +26,7 @@ describe("ManagedIdentityCredential", function () {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
   });
 
-  it("sends an authorization request with a modified resource name", async function () {
+  it("sends an authorization request with a modified resource name", async function() {
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
       authResponse: [
         { status: 200 }, // Respond to IMDS isAvailable
@@ -83,7 +83,7 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
-  it("returns error when no MSI is available", async function () {
+  it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const imdsError: RestError = new RestError("Request Timeout", "REQUEST_SEND_ERROR", 408);
@@ -100,7 +100,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function () {
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -121,7 +121,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the network was unreachable", async function () {
+  it("returns expected error when the network was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", "ENETUNREACH", 408);
@@ -138,7 +138,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the host was unreachable", async function () {
+  it("returns expected error when the host was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const hostError: RestError = new RestError("Request Timeout", "EHOSTUNREACH", 408);
