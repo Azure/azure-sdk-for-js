@@ -4,7 +4,7 @@
 /**
  * A function which handles requests and send response.
  *
- * @summary a https server
+ * @summary a https server does / shows what with respect to the library and its most important scenarios.
  */
 
 // Load the .env file if it exists
@@ -13,7 +13,7 @@ dotenv.config();
 
 import * as api from "@opentelemetry/api";
 // Tracer MUST be setup first to correctly apply module patching!
-import { tracer } from "./utils/Tracer";
+import { tracer } from "./httpTracer";
 import express from 'express';
 
 const app = express();
@@ -23,7 +23,7 @@ app.get("/helloworld", (_req, res) => {
   const currentSpan = api.trace.getSpan(api.context.active()) as api.Span;
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.spanContext().traceId}`);
-  const span = tracer("example-https-server", "https-example").startSpan("handleRequest", {
+  const span = tracer("example-https-server").startSpan("handleRequest", {
     kind: 1, // server
     attributes: { key: "value" }
   });

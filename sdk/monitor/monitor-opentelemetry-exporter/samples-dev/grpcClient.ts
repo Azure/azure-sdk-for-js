@@ -7,10 +7,10 @@
  * to the backend of choice (we can use Zipkin or Jaeger for this example), 
  * to give observability to distributed systems.
  *
- * @summary OpenTelemetry gRPC Instrumentation
+ * @summary demonstrates OpenTelemetry gRPC Instrumentation
  */
 
-import { tracer } from "./utils/Tracer";
+import { tracer } from "./grpcTracer";
 import grpc from "grpc";
 import api from "@opentelemetry/api";
 import messages from "./utils/helloworld_pb";
@@ -23,7 +23,7 @@ function main() {
   // span corresponds to outgoing requests. Here, we have manually created
   // the span, which is created to track work that happens outside of the
   // request lifecycle entirely.
-  const span = tracer("example-grpc-client", "grpc-example").startSpan('client.js:main()');
+  const span = tracer("example-grpc-client").startSpan('client.js:main()');
   api.context.with(api.trace.setSpan(api.context.active(), span), () => {
     console.log('Client traceId ', span.spanContext().traceId);
     const client = new services.GreeterClient(

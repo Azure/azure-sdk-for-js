@@ -8,7 +8,7 @@
  * Then initialize and register a trace exporter.
  * If you want to see a completed trace, you need to register an exporter to send traces to a tracing backend.
  *
- * @azsdk-util true
+ * @summary Returns a tracer from the global tracer provider and demonstrates how to enable exporting trace data to Azure Monitor.
  */
 
 import * as opentelemetry from "@opentelemetry/api";
@@ -18,12 +18,11 @@ import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter
 import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { Resource } from "@opentelemetry/resources";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { GrpcInstrumentation } from "@opentelemetry/instrumentation-grpc";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-export function tracer(serviceName: string, exampleName: string) {
+export function tracer(serviceName: string) {
   const provider = new NodeTracerProvider({
     resource: new Resource({
       [ResourceAttributes.SERVICE_NAME]: serviceName,
@@ -46,20 +45,9 @@ export function tracer(serviceName: string, exampleName: string) {
 
   registerInstrumentations({
     instrumentations: [
-      getInstrumentation(exampleName) as any,
+      new GrpcInstrumentation(),
     ],
   });
 
-  return opentelemetry.trace.getTracer(exampleName);
+  return opentelemetry.trace.getTracer("grpc-example");
 };
-
-function getInstrumentation(exampleName: string) {
-  switch (exampleName) {
-    case "https-example":
-      return new HttpInstrumentation();
-    case "grpc-example":
-      return new GrpcInstrumentation();
-    default:
-      return;
-  }
-}

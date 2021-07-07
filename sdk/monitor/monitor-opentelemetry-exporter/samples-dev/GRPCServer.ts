@@ -4,11 +4,11 @@
 /**
  * A gRPC server that receives requests on sample server port.
  *
- * @summary a gRPC server
+ * @summary a gRPC server does / shows what with respect to the library and its most important scenarios.
  */
 
 import * as api from "@opentelemetry/api";
-import { tracer } from "./utils/Tracer";
+import { tracer } from "./grpcTracer";
 import grpc from "grpc";
 
 import messages from './utils/helloworld_pb';
@@ -30,7 +30,7 @@ function sayHello(call: any, callback: Function) {
   const currentSpan = api.trace.getSpan(api.context.active()) as api.Span;
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.spanContext().traceId}`);
-  const span = tracer("example-grpc-server", "grpc-example").startSpan('server.js:sayHello()', {
+  const span = tracer("example-grpc-server").startSpan('server.js:sayHello()', {
     kind: 1, // server
     attributes: { key: 'value' },
   });

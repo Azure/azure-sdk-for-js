@@ -16,10 +16,10 @@
  * - Span Events
  * - Span Attributes
  *
- * @summary OpenTelemetry https Instrumentation
+ * @summary demonstrates OpenTelemetry https Instrumentation. It is about how OpenTelemetry will instrument the Node.js native https module.
  */
 
-import { tracer } from "./utils/Tracer";
+import { tracer } from "./httpTracer";
 import * as api from "@opentelemetry/api";
 import https from "https";
 
@@ -28,7 +28,7 @@ function makeRequest() {
   // span corresponds to outgoing requests. Here, we have manually created
   // the span, which is created to track work that happens outside of the
   // request lifecycle entirely.
-  const span = tracer("example-https-client", "https-example").startSpan('makeRequest');
+  const span = tracer("example-https-client").startSpan('makeRequest');
   api.context.with(api.trace.setSpan(api.context.active(), span), () => {
     https.get({
       host: 'localhost',

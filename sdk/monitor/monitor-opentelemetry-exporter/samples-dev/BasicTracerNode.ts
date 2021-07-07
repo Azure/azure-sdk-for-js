@@ -6,7 +6,7 @@
  * [@opentelemetry/tracing](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing) 
  * to instrument a simple Node.js application - e.g. a batch job.
  *
- * @summary use @opentelemetry/tracing to instrument a Node.js application
+ * @summary use @opentelemetry/tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
  */
 
 import * as opentelemetry from '@opentelemetry/api';
@@ -39,16 +39,18 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 provider.register();
 const tracer = opentelemetry.trace.getTracer('example-basic-tracer-node');
 
-// Create a span. A span must be closed.
-const parentSpan = tracer.startSpan('main');
-for (let i = 0; i < 10; i += 1) {
-  doWork(parentSpan);
-}
-// Be sure to end the span.
-parentSpan.end();
+export async function main() {
+  // Create a span. A span must be closed.
+  const parentSpan = tracer.startSpan('main');
+  for (let i = 0; i < 10; i += 1) {
+    doWork(parentSpan);
+  }
+  // Be sure to end the span.
+  parentSpan.end();
 
-// flush and close the connection.
-exporter.shutdown();
+  // flush and close the connection.
+  exporter.shutdown();
+}
 
 function doWork(parent: opentelemetry.Span) {
   // Start another span. In this example, the main method already started a
@@ -69,3 +71,8 @@ function doWork(parent: opentelemetry.Span) {
 
   span.end();
 }
+
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
+});
