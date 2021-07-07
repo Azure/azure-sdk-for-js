@@ -9,6 +9,7 @@
 export {
   ErrorResponse,
   InternalError,
+  MultiSlotRewardRequest,
   PersonalizerError,
-  RewardRequest
+  SlotReward
 } from "../models/mappers";

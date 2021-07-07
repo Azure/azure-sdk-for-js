@@ -10,5 +10,5 @@ export {
   ErrorResponse,
   InternalError,
   PersonalizerError,
-  RewardRequest
+  PolicyContract
 } from "../models/mappers";

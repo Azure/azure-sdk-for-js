@@ -10,5 +10,6 @@ export {
   ErrorResponse,
   InternalError,
   PersonalizerError,
-  RewardRequest
+  PolicyReferenceContract,
+  ServiceConfiguration
 } from "../models/mappers";

@@ -9,6 +9,10 @@
 export {
   ErrorResponse,
   InternalError,
+  MultiSlotRankRequest,
+  MultiSlotRankResponse,
   PersonalizerError,
-  RewardRequest
+  RankableAction,
+  SlotRequest,
+  SlotResponse
 } from "../models/mappers";
