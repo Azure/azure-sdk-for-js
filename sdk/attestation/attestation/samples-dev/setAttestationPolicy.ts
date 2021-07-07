@@ -18,7 +18,7 @@
  *  2) ATTESTATION_ISOLATED_URL - the base URL for an attestation service instance in Isolated mode.
  *  3) ATTESTATION_ISOLATED_SIGNING_CERTIFICATE - A Base64 encoded DER X.509 certificate which is one of the Isolated
  *      mode signing certificates.
- *  4) ATTESTATION_ISOLATED_SIGNING_KEY - A Base64 encoded DER RSA Private key which 
+ *  4) ATTESTATION_ISOLATED_SIGNING_KEY - A Base64 encoded DER RSA Private key which
  *      corresponds to the ATTESTATION_ISOLATED_SIGNING_CERTIFICATE.
  *
  * To authorize access to the service, this sample also depends on the following
@@ -40,7 +40,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { write_banner, PemType, pemFromBase64} from "./utils/helpers";
+import { write_banner, PemType, pemFromBase64 } from "./utils/helpers";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils";
 
 import { X509 } from "jsrsasign";
@@ -149,7 +149,10 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = new AttestationPolicyToken(newPolicy, new AttestationSigningKey(privateKey, certificate));
+  const expectedPolicy = new AttestationPolicyToken(
+    newPolicy,
+    new AttestationSigningKey(privateKey, certificate)
+  );
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -161,7 +164,6 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   const policySetCertificate = new X509();
   policySetCertificate.readCertPEM(setPolicyResult.value.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
-
 
   // Now reset the policy to the default policy. Note that we use an unsecured
   // attestation token - that is because AAD instances do not require a signed
@@ -175,25 +177,25 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
 }
 
 async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
-    write_banner("Set SGX Enclave Attestation Policy - Secured policy");
-  
-    // Use the customer specified attestion URL, or use the West US shared instance.
-    const endpoint = process.env.ATTESTATION_ISOLATED_URL;
-    if (endpoint === undefined) {
-      throw new Error("ATTESTATION_ISOLATED_URL must be defined.");
-    }
-    const base64PrivateKey = process.env.ATTESTATION_ISOLATED_SIGNING_KEY;
-    if (base64PrivateKey === undefined) {
-        throw new Error("ATTESTATION_ISOLATED_SIGNING_KEY must be provided.");
-    }
-    const base64Certificate = process.env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
-    if (base64Certificate === undefined) {
-        throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
-    }
-  
-    const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
-  
-    const newPolicy = `version= 1.0;
+  write_banner("Set SGX Enclave Attestation Policy - Secured policy");
+
+  // Use the customer specified attestion URL, or use the West US shared instance.
+  const endpoint = process.env.ATTESTATION_ISOLATED_URL;
+  if (endpoint === undefined) {
+    throw new Error("ATTESTATION_ISOLATED_URL must be defined.");
+  }
+  const base64PrivateKey = process.env.ATTESTATION_ISOLATED_SIGNING_KEY;
+  if (base64PrivateKey === undefined) {
+    throw new Error("ATTESTATION_ISOLATED_SIGNING_KEY must be provided.");
+  }
+  const base64Certificate = process.env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
+  if (base64Certificate === undefined) {
+    throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
+  }
+
+  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+
+  const newPolicy = `version= 1.0;
       authorizationrules
       {
           [ type=="x-ms-sgx-is-debuggable", value==false ] &&
@@ -205,54 +207,56 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
       issuancerules {
           c:[type=="x-ms-sgx-mrsigner"] => issue(type="My-MrSigner", value=c.value);
       };`;
-  
-    // Set the new attestation policy. Set the policy as an secured policy.
-    //
-    // Because this is an isolated instance, we need to sign policy requests with
-    // one of the configured signing certificates/keys. 
-    
-    // Load them from the environment.
-    const privateKey = pemFromBase64(base64PrivateKey, PemType.PrivateKey);
-    const certificate = pemFromBase64(base64Certificate, PemType.Certificate);
-    const attestationSigner = new AttestationSigningKey(privateKey, certificate);
-  
-    const setPolicyResult = await client.setPolicy(
-      KnownAttestationType.SgxEnclave,
-      newPolicy,
-      attestationSigner
-    );
-  
-    // Verify that the attestation service received the new policy.
-    console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
-  
-    // And verify that the policy received by the service was the one we sent.
-    const expectedPolicy = new AttestationPolicyToken(newPolicy, attestationSigner);
-    const expectedHash = generateSha256Hash(expectedPolicy.serialize());
-  
-    console.log("Expected token hash: ", expectedHash);
-    console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.value.policyTokenHash));
-  
-    // Also verify that the signer of the certificate recevied by the service was
-    // the certificate sent in the request.
-  
-    const policySetCertificate = new X509();
-    policySetCertificate.readCertPEM(setPolicyResult.value.policySigner?.certificates[0]);
-    console.log("Signer subject name: ", policySetCertificate.getSubjectString());
-  
-    // Now reset the policy to the default policy.
-    const resetPolicyResult = await client.resetPolicy(KnownAttestationType.SgxEnclave, attestationSigner);
-  
-    console.log(
-      "Reset attestation policy. Policy status: ",
-      resetPolicyResult.value.policyResolution
-    );
-  }
-  
+
+  // Set the new attestation policy. Set the policy as an secured policy.
+  //
+  // Because this is an isolated instance, we need to sign policy requests with
+  // one of the configured signing certificates/keys.
+
+  // Load them from the environment.
+  const privateKey = pemFromBase64(base64PrivateKey, PemType.PrivateKey);
+  const certificate = pemFromBase64(base64Certificate, PemType.Certificate);
+  const attestationSigner = new AttestationSigningKey(privateKey, certificate);
+
+  const setPolicyResult = await client.setPolicy(
+    KnownAttestationType.SgxEnclave,
+    newPolicy,
+    attestationSigner
+  );
+
+  // Verify that the attestation service received the new policy.
+  console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
+
+  // And verify that the policy received by the service was the one we sent.
+  const expectedPolicy = new AttestationPolicyToken(newPolicy, attestationSigner);
+  const expectedHash = generateSha256Hash(expectedPolicy.serialize());
+
+  console.log("Expected token hash: ", expectedHash);
+  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.value.policyTokenHash));
+
+  // Also verify that the signer of the certificate recevied by the service was
+  // the certificate sent in the request.
+
+  const policySetCertificate = new X509();
+  policySetCertificate.readCertPEM(setPolicyResult.value.policySigner?.certificates[0]);
+  console.log("Signer subject name: ", policySetCertificate.getSubjectString());
+
+  // Now reset the policy to the default policy.
+  const resetPolicyResult = await client.resetPolicy(
+    KnownAttestationType.SgxEnclave,
+    attestationSigner
+  );
+
+  console.log(
+    "Reset attestation policy. Policy status: ",
+    resetPolicyResult.value.policyResolution
+  );
+}
+
 export async function main() {
   await setOpenEnclaveAttestationPolicyAadUnsecured();
   await setOpenEnclaveAttestationPolicyAadSecured();
   await setSgxEnclaveAttestationPolicyIsolatedSecured();
-
 }
 
 main().catch((err) => {
