@@ -30,6 +30,7 @@ export {
   FileUploadRangeFromURLOptionalParams,
   FileUploadRangeFromURLResponse,
   FileUploadRangeResponse,
+  PermissionCopyModeType,
   HandleItem,
   ListSharesIncludeType,
   FileRange as RangeModel,

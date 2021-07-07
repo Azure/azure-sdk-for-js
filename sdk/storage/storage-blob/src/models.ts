@@ -295,6 +295,8 @@ export interface BlobImmutabilityPolicy {
    */
   policyMode?: BlobImmutabilityPolicyMode;
 }
+
+/**
  * Represents authentication information in Authorization, ProxyAuthorization,
  * WWW-Authenticate, and Proxy-Authenticate header values.
  */

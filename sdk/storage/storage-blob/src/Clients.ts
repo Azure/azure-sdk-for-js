@@ -79,7 +79,7 @@ import {
   ModificationConditions,
   ModifiedAccessConditions,
   BlobQueryArrowField,
-  BlobImmutabilityPolicy
+  BlobImmutabilityPolicy,
   HttpAuthorization
 } from "./models";
 import {
