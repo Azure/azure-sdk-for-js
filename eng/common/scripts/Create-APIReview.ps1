@@ -33,6 +33,18 @@ function Submit-APIReview($packagename, $filePath, $uri, $apiKey, $apiLabel)
     $StringContent = [System.Net.Http.StringContent]::new($apiLabel)
     $StringContent.Headers.ContentDisposition = $stringHeader
     $multipartContent.Add($stringContent)
+    Write-Host "Request param, label: $apiLabel"
+
+    if (($(Build.Reason) -eq "Manual") -and ($(System.TeamProject) -eq 'internal') -and ($SourceBranch -eq $DefaultBranch))
+    {
+        $IsManualBuild = $true
+        $compareAllParam = [System.Net.Http.Headers.ContentDispositionHeaderValue]::new("form-data")
+        $compareAllParam.Name = "compareAllRevisions"
+        $compareAllParamContent = [System.Net.Http.StringContent]::new($IsManualBuild)
+        $compareAllParamContent.Headers.ContentDisposition = $compareAllParam
+        $multipartContent.Add($compareAllParamContent)
+        Write-Host "Request param, compareAllRevisions: $IsManualBuild"
+    }
 
     $headers = @{
         "ApiKey" = $apiKey;
@@ -71,7 +83,7 @@ else
 {
     Write-Host "The function for 'FindArtifactForApiReviewFn' was not found.`
     Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
-    See https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/common_engsys.md#code-structure"
+    See https://github.com/Azure/azure-sdk-tools/blob/master/doc/common/common_engsys.md#code-structure"
     exit(1)
 }
 
@@ -104,7 +116,7 @@ if ($packages)
         Write-Host "Version: $($version)"
         Write-Host "SDK Type: $($pkgInfo.SdkType)"
 
-        # Run create review step only if build is triggered from main branch or if version is GA.
+        # Run create review step only if build is triggered from master branch or if version is GA.
         # This is to avoid invalidating review status by a build triggered from feature branch
         if ( ($SourceBranch -eq $DefaultBranch) -or (-not $version.IsPrerelease))
         {
@@ -120,10 +132,6 @@ if ($packages)
             {
                 # Ignore API review status for prerelease version
                 Write-Host "Package version is not GA. Ignoring API view approval status"
-            }
-            elseif (!$pkgInfo.ReleaseStatus -or $pkgInfo.ReleaseStatus -eq "Unreleased")
-            {
-                Write-Host "Release date is not set for current version in change log file for package. Ignoring API review approval status since package is not yet ready for release."
             }
             else
             {
