@@ -12,10 +12,6 @@
 
   More information about the AMQP message body type can be found in the AMQP specification: [link](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format)
 
-### Breaking Changes
-
-### Key Bugs Fixed
-
 ## 5.5.2 (2021-06-10)
 
 ### Bug fixes
