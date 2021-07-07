@@ -35,7 +35,7 @@ function Submit-APIReview($packagename, $filePath, $uri, $apiKey, $apiLabel)
     $multipartContent.Add($stringContent)
     Write-Host "Request param, label: $apiLabel"
 
-    if (($(Build.Reason) -eq "Manual") -and ($(System.TeamProject) -eq 'internal') -and ($SourceBranch -eq $DefaultBranch))
+    if (("$(Build.Reason)" -eq "Manual") -and ("$(System.TeamProject)" -eq 'internal'))
     {
         $IsManualBuild = $true
         $compareAllParam = [System.Net.Http.Headers.ContentDispositionHeaderValue]::new("form-data")
