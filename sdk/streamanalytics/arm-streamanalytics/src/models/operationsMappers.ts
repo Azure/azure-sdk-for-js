@@ -8,8 +8,13 @@
 
 export {
   discriminators,
-  CloudError,
+  ErrorDetails,
+  ErrorError,
+  ErrorModel,
   Operation,
   OperationDisplay,
-  OperationListResult
+  OperationListResult,
+  QueryTestingResult,
+  SampleInputResult,
+  TestDatasourceResult
 } from "../models/mappers";

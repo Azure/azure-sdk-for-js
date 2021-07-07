@@ -372,7 +372,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.StreamingJobsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.StreamingJobsUpdateHeaders
     }
   },
@@ -400,7 +400,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.StreamingJobsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.StreamingJobsGetHeaders
     }
   },
@@ -426,7 +426,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingJobListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -450,7 +450,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingJobListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -489,7 +489,7 @@ const beginCreateOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.StreamingJobsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.StreamingJobsCreateOrReplaceHeaders
     }
   },
@@ -515,7 +515,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -546,7 +546,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -570,7 +570,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -595,7 +595,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingJobListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -620,7 +620,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingJobListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer

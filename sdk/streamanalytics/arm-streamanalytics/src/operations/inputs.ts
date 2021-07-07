@@ -324,7 +324,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.InputsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.InputsCreateOrReplaceHeaders
     }
   },
@@ -360,7 +360,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.InputsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.InputsUpdateHeaders
     }
   },
@@ -386,7 +386,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -413,7 +413,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.InputsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.InputsGetHeaders
     }
   },
@@ -440,7 +440,7 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.InputListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -474,7 +474,7 @@ const beginTestOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -499,7 +499,7 @@ const listByStreamingJobNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.InputListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
