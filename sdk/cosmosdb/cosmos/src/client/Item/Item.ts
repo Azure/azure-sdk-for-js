@@ -12,6 +12,7 @@ import {
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
+import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
@@ -214,8 +215,8 @@ export class Item {
    *
    * @param options - Additional options for the request
    */
-   public async patch<T extends ItemDefinition = any>(
-    body: T,
+  public async patch<T extends ItemDefinition = any>(
+    body: PatchRequestBody,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
@@ -223,11 +224,6 @@ export class Item {
         resource: partitionKeyDefinition
       } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-    }
-
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
     }
 
     const path = getPathFromLink(this.url);

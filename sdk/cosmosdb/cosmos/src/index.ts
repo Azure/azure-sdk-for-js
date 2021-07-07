@@ -24,6 +24,12 @@ export {
   DeleteOperationInput
 } from "./utils/batch";
 export {
+  PatchOperation,
+  PatchOperationType,
+  ExistingKeyOperation,
+  RemoveOperation
+} from "./utils/patch";
+export {
   ConnectionMode,
   ConsistencyLevel,
   ConnectionPolicy,

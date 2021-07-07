@@ -122,6 +122,15 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: any;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
+    // (undocumented)
     queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
         path: string;
         resourceType: ResourceType;
@@ -686,6 +695,13 @@ export interface ErrorResponse extends Error {
 }
 
 // @public (undocumented)
+export type ExistingKeyOperation = {
+    op: keyof typeof PatchOperationType;
+    value: any;
+    path: string;
+};
+
+// @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
@@ -770,6 +786,8 @@ export enum HTTPMethod {
     // (undocumented)
     get = "GET",
     // (undocumented)
+    patch = "PATCH",
+    // (undocumented)
     post = "POST",
     // (undocumented)
     put = "PUT"
@@ -825,6 +843,8 @@ export class Item {
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
     readonly id: string;
+    // Warning: (ae-forgotten-export) The symbol "PatchRequestBody" needs to be exported by the entry point index.d.ts
+    patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -994,6 +1014,8 @@ export enum OperationType {
     // (undocumented)
     Execute = "execute",
     // (undocumented)
+    Patch = "patch",
+    // (undocumented)
     Query = "query",
     // (undocumented)
     Read = "read",
@@ -1056,6 +1078,18 @@ export interface PartitionKeyRangePropertiesNames {
     // (undocumented)
     MinInclusive: "minInclusive";
 }
+
+// @public (undocumented)
+export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+
+// @public (undocumented)
+export const PatchOperationType: {
+    readonly add: "add";
+    readonly replace: "replace";
+    readonly remove: "remove";
+    readonly set: "set";
+    readonly incr: "incr";
+};
 
 // @public
 export class Permission {
@@ -1291,6 +1325,12 @@ export interface ReadOperationInput {
     // (undocumented)
     partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
 }
+
+// @public (undocumented)
+export type RemoveOperation = {
+    op: "remove";
+    path: string;
+};
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {

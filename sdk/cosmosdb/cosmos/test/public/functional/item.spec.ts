@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, CosmosClient, Database } from "../../../src";
+import { Container, CosmosClient, PatchOperation } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -527,23 +527,39 @@ describe("bulk item operations", function() {
 describe.only("patch operations", function() {
   describe("various mixed operations", function() {
     let container: Container;
-    const addItemId: string = "addItem4961";
-    let database: Database;
+    let addItemId: string;
+    let conditionItemId: string;
     before(async function() {
-      const client = new CosmosClient({ key: masterKey, endpoint: endpoint })
-      database = await client.database("patch")
-      container = await database.container("patch")
+      addItemId = addEntropy("addItemId");
+      conditionItemId = addEntropy("conditionItemId");
+      const client = new CosmosClient({ key: masterKey, endpoint: endpoint });
+      container = await getTestContainer("patch", client);
       await container.items.upsert({
         id: addItemId,
         first: 1,
-        last: "a"
+        last: "a",
+        removable: "yes",
+        existingObj: {
+          key: "val"
+        },
+        num: 0
+      });
+      await container.items.upsert({
+        id: conditionItemId,
+        first: 1,
+        last: "a",
+        removable: "no",
+        existingObj: {
+          key: "val"
+        },
+        num: 0
       });
     });
     after(async () => {
-      // await container.database.delete();
+      await container.database.delete();
     });
-    it("handles add, remove, replace", async function() {
-      const operations = [
+    it("handles add, remove, replace, set, incr", async function() {
+      const operations: PatchOperation[] = [
         {
           op: "add",
           path: "/laster",
@@ -554,12 +570,42 @@ describe.only("patch operations", function() {
           path: "/last",
           value: "b"
         },
+        {
+          op: "remove",
+          path: "/removable"
+        },
+        {
+          op: "set",
+          path: "/existingObj/newKey",
+          value: "newVal"
+        },
+        {
+          op: "incr",
+          path: "/num",
+          value: 5
+        }
       ];
-      console.log(container)
-      const item = await container.item(addItemId, 1).read();
-      console.log(item)
-      const response = await container.item(addItemId, 1).patch(operations);
-      console.log(response)
+      const { resource: addItem } = await container.item(addItemId).patch(operations);
+      assert.equal(addItem.num, 5);
+      assert.equal(addItem.existingObj.newKey, "newVal");
+      assert.equal(addItem.laster, "c");
+      assert.equal(addItem.last, "b");
+      assert.equal(addItem.removable, undefined);
+    });
+    it("conditionally patches", async function() {
+      const operations: PatchOperation[] = [
+        {
+          op: "add",
+          path: "/newImproved",
+          value: "it works"
+        }
+      ];
+      const condition = "from c where NOT IS_DEFINED(c.newImproved)";
+      const item = await container.item(conditionItemId, 1).read();
+      const { resource: conditionItem } = await container
+        .item(conditionItemId, 1)
+        .patch({ condition, operations });
+      assert.equal(conditionItem.newImproved, "it works");
     });
   });
 });

@@ -265,7 +265,7 @@ export enum OperationType {
   Query = "query",
   Execute = "execute",
   Batch = "batch",
-  Patch = "patch",
+  Patch = "patch"
 }
 
 /**
