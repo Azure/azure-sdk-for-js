@@ -77,6 +77,19 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
+export function getImmutableContainerName(): string {
+  const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
+  let immutableContainerName: string | undefined;
+
+  immutableContainerName = (self as any).__env__[immutableContainerEnvVar];
+
+  if (!immutableContainerName || immutableContainerName === "") {
+    throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
+  }
+
+  return immutableContainerName;
+}
+
 export function getBSU(): BlobServiceClient {
   return getGenericBSU("");
 }

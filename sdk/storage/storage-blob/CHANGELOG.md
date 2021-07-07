@@ -4,6 +4,11 @@
 
 ### Features Added
 
+- Added support for service version 2020-10-02.
+- Added support for Immutable Storage with Versioning
+  - Added BlobClient.setImmutibilityPolicy()
+  - Added BlobClient.seleteImmutabilityPolicy()
+  - Added BlobClient.setLegalHold()
 - Added support for listing deleted root blobs with versions `ContainerClient.listBlobFlat()` and `ContainerClient.listBlobHierarchy()`.
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features

@@ -1368,7 +1368,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         xmlName: "ImmutabilityPolicyMode",
         type: {
           name: "Enum",
-          allowedValues: ["Unlocked", "Locked", "Mutable"]
+          allowedValues: ["Mutable", "Unlocked", "Locked"]
         }
       },
       legalHold: {
@@ -1881,7 +1881,6 @@ export const DelimitedTextConfiguration: coreHttp.CompositeMapper = {
     modelProperties: {
       columnSeparator: {
         serializedName: "ColumnSeparator",
-        required: true,
         xmlName: "ColumnSeparator",
         type: {
           name: "String"
@@ -1889,7 +1888,6 @@ export const DelimitedTextConfiguration: coreHttp.CompositeMapper = {
       },
       fieldQuote: {
         serializedName: "FieldQuote",
-        required: true,
         xmlName: "FieldQuote",
         type: {
           name: "String"
@@ -1897,7 +1895,6 @@ export const DelimitedTextConfiguration: coreHttp.CompositeMapper = {
       },
       recordSeparator: {
         serializedName: "RecordSeparator",
-        required: true,
         xmlName: "RecordSeparator",
         type: {
           name: "String"
@@ -1905,7 +1902,6 @@ export const DelimitedTextConfiguration: coreHttp.CompositeMapper = {
       },
       escapeChar: {
         serializedName: "EscapeChar",
-        required: true,
         xmlName: "EscapeChar",
         type: {
           name: "String"
@@ -1913,7 +1909,6 @@ export const DelimitedTextConfiguration: coreHttp.CompositeMapper = {
       },
       headersPresent: {
         serializedName: "HeadersPresent",
-        required: true,
         xmlName: "HasHeaders",
         type: {
           name: "Boolean"
@@ -1932,7 +1927,6 @@ export const JsonTextConfiguration: coreHttp.CompositeMapper = {
     modelProperties: {
       recordSeparator: {
         serializedName: "RecordSeparator",
-        required: true,
         xmlName: "RecordSeparator",
         type: {
           name: "String"
@@ -4566,7 +4560,7 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-immutability-policy-mode",
         type: {
           name: "Enum",
-          allowedValues: ["Unlocked", "Locked", "Mutable"]
+          allowedValues: ["Mutable", "Unlocked", "Locked"]
         }
       },
       legalHold: {
@@ -4967,7 +4961,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-immutability-policy-mode",
         type: {
           name: "Enum",
-          allowedValues: ["Unlocked", "Locked", "Mutable"]
+          allowedValues: ["Mutable", "Unlocked", "Locked"]
         }
       },
       legalHold: {
@@ -5597,7 +5591,7 @@ export const BlobSetImmutabilityPolicyHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-immutability-policy-mode",
         type: {
           name: "Enum",
-          allowedValues: ["Unlocked", "Locked", "Mutable"]
+          allowedValues: ["Mutable", "Unlocked", "Locked"]
         }
       }
     }

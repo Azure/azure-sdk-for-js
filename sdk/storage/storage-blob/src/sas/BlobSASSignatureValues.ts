@@ -758,6 +758,14 @@ function SASSignatureValuesSanityCheckAndAutofill(
 
   if (
     blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.setImmutabilityPolicy &&
+    version < "2020-08-04"
+  ) {
+    throw RangeError("'version' must be >= '2020-08-04' when provided 'i' permission.");
+  }
+
+  if (
+    blobSASSignatureValues.permissions &&
     blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
