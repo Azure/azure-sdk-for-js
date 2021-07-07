@@ -6,7 +6,7 @@
 
 - Regenerated the search SDK with the latest swaggers that includes the following changes:
 
-  - Support for `TokenCredential` has been added.
+  - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
   - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
   - The following new skills have been added:
     - SentimentSkill(V3)
