@@ -7,7 +7,7 @@ Run `rushx generate:client` to generate code.
 ## Configuration
 
 ```yaml
-package-name: "@azure/mixedreality-authentication"
+package-name: "@azure/mixed-reality-authentication"
 title: MixedRealityStsRestClient
 description: Mixed Reality Authentication client
 generate-metadata: false

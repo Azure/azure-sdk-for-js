@@ -6,7 +6,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth"
 import {
   MixedRealityStsClient,
   MixedRealityStsClientOptions
-} from "@azure/mixedreality-authentication";
+} from "@azure/mixed-reality-authentication";
 
 /**
  * Represents a token credential that can be used to access a Mixed Reality service.

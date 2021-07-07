@@ -8,4 +8,4 @@ import { createClientLogger, AzureLogger } from "@azure/logger";
  *
  * @internal
  */
-export const logger: AzureLogger = createClientLogger("mixedreality-authentication");
+export const logger: AzureLogger = createClientLogger("mixed-reality-authentication");

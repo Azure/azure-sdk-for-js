@@ -3,7 +3,7 @@ trigger: none
 stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
-      PackageName: "@azure/mixedreality-authentication"
+      PackageName: "@azure/mixed-reality-authentication"
       ServiceDirectory: mixedreality
       Location: eastus2
       MatrixFilters:

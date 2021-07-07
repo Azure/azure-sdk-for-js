@@ -4,7 +4,7 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/mixedreality-authentication": ["./src/index"]
+      "@azure/mixed-reality-authentication": ["./src/index"]
     }
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]

@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { MixedRealityStsRestClientOptionalParams } from "./models";
 
-const packageName = "@azure/mixedreality-authentication";
+const packageName = "@azure/mixed-reality-authentication";
 const packageVersion = "1.0.0";
 
 /** @hidden */

@@ -7,7 +7,7 @@
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
-const { MixedRealityStsClient } = require("@azure/mixedreality-authentication");
+const { MixedRealityStsClient } = require("@azure/mixed-reality-authentication");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
