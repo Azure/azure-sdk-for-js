@@ -108,40 +108,31 @@ stages:
               dependsOn: PublishPackage
 
               pool:
-                name: azsdk-pool-mms-win-2019-general
-                vmImage: MMS2019
-              variables:
-                CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest'}]}"
+                name: azsdk-pool-mms-ubuntu-2004-general
+                vmImage: MMSUbuntu20.04
 
               strategy:
                 runOnce:
                   deploy:
                     steps:
-                      - checkout: self
-                      - pwsh: |
-                          Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
-                        workingDirectory: $(Pipeline.Workspace)
-                        displayName: Output Visible Artifacts
-                      - template: /eng/common/pipelines/templates/steps/get-pr-owners.yml
+                      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
                         parameters:
-                          TargetVariable: "OwningGHUser"
-                          ServiceDirectory: ${{parameters.ServiceDirectory}}
-                      - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
+                          SkipDefaultCheckout: true 
+                          Paths:
+                            - sdk/**/*.md
+                      - download: current
+                      - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
-                          ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                          PackageRepository: NPM
-                          ReleaseSha: $(Build.SourceVersion)
+                          PackageInfoLocations: 
+                            - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
                           TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
                           TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-                          PRBranchName: onboarding-${{artifact.name}}-$(Build.BuildId)
-                          ArtifactName: ${{artifact.name}}
                           Language: 'javascript'
-                          DocRepoDestinationPath: 'docs-ref-services/'
-                          GHReviewersVariable: 'OwningGHUser'
-                          CIConfigs: $(CIConfigs)
-                          CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
+                          SparseCheckoutPaths:
+                            - docs-ref-services/
+                            - metadata/
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -236,6 +227,12 @@ stages:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
                 $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
+                Write-Host "Detected package name: $($detectedPackageName)"
+                if ($detectedPackageName -notmatch "-alpha")
+                {
+                  Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step. VersionPolicy should be client or core in rush.json to get alpha version build."
+                  exit 1
+                }
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"
@@ -255,3 +252,34 @@ stages:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
+
+    - job: PublishDocsToNightlyBranch
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      pool:
+        name: azsdk-pool-mms-ubuntu-2004-general
+        vmImage: MMSUbuntu20.04
+      steps:
+        - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+          parameters:
+            SkipDefaultCheckout: true 
+            Paths:
+              - sdk/**/*.md
+        - download: current
+        - pwsh: |
+            Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
+          displayName: Show visible artifacts
+
+        - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
+          parameters:
+            PackageInfoLocations:
+              - ${{ each artifact in parameters.Artifacts }}:
+                - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+            RepoId: Azure/azure-sdk-for-js
+            WorkingDirectory: $(System.DefaultWorkingDirectory)
+            TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+            TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+            Language: 'javascript'
+            DailyDocsBuild: true
+            SparseCheckoutPaths:
+              - docs-ref-services/
+              - metadata/

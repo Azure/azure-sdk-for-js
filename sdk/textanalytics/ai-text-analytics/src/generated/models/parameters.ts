@@ -58,6 +58,19 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion: OperationURLParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "v3.1",
+    isConstant: true,
+    serializedName: "ApiVersion",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const jobId: OperationURLParameter = {
   parameterPath: "jobId",
   mapper: {

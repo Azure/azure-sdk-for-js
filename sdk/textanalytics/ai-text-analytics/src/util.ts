@@ -5,6 +5,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { StringIndexType as GeneratedStringIndexType } from "./generated";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
 
 /**
  * @internal
@@ -133,10 +134,23 @@ export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
 }
 
 /**
+ * Set the pii categories property
  * @internal
  */
-export function AddParamsToTask<X>(action: X): { parameters?: X } {
-  return { parameters: action };
+export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
+  x: X
+): X & { piiCategories?: string[] } {
+  return { ...x, piiCategories: x.categoriesFilter };
+}
+
+/**
+ * @internal
+ */
+export function addParamsToTask<X extends TextAnalyticsAction>(
+  action: X
+): { parameters?: Omit<X, "actionName">; taskName?: string } {
+  const { actionName, ...params } = action;
+  return { parameters: params, taskName: actionName };
 }
 
 /**
