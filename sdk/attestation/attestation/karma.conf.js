@@ -57,8 +57,8 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "AAD_ATTESTATION_URL",
-      "ISOLATED_ATTESTATION_URL",
+      "ATTESTATION_AAD_URL",
+      "ATTESTATION_ISOLATED_URL",
       "ATTESTATION_LOCATION_SHORT_NAME",
       "policySigningCertificate0",
       "policySigningCertificate1",

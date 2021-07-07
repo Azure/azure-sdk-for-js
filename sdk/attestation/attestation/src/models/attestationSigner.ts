@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
+import { encodeByteArray } from "../../test/utils/base64url";
 
 import { JsonWebKey } from "../generated/models";
 import { base64DecodeString } from "../utils/base64";
@@ -23,7 +19,15 @@ export class AttestationSigner {
       this.keyId = args.keyId.toString();
     }
 
-    this.certificates = args.certificates;
+    this.certificates = [];
+    args.certificates.forEach(cert => {
+      let pemCert: string;
+      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+      pemCert += encodeByteArray(cert);
+      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+
+      this.certificates.push(pemCert);
+      });
   }
 
   /**
@@ -38,7 +42,7 @@ export class AttestationSigner {
    * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.7 | RFC 7517 section 4.7}
    */
 
-  certificates: Uint8Array[];
+  certificates: string[];
 }
 
 /**

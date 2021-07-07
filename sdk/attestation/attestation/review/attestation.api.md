@@ -107,7 +107,7 @@ export class AttestationSigner {
         keyId?: string;
         certificates: Uint8Array[];
     });
-    certificates: Uint8Array[];
+    certificates: string[];
     keyId?: string;
 }
 

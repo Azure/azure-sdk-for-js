@@ -26,7 +26,6 @@ import {
 } from "../../src";
 import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { KnownPolicyModification } from "../../src/generated";
-import { encodeByteArray } from "../utils/base64url";
 
 describe("PolicyGetSetTests ", function() {
   let recorder: Recorder;
@@ -137,16 +136,11 @@ describe("PolicyGetSetTests ", function() {
       assert.isNotNull(policyResult.value.policySigner);
 
       if (policyResult.value.policySigner) {
-        let pemCert: string;
-        pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-        pemCert += encodeByteArray(policyResult.value.policySigner.certificates[0]);
-        pemCert += "\r\n-----END CERTIFICATE-----\r\n";
-
         const expectedCert = new jsrsasign.X509();
         expectedCert.readCertPEM(signer.certificate);
 
         const actualCert = new jsrsasign.X509();
-        actualCert.readCertPEM(pemCert);
+        actualCert.readCertPEM(policyResult.value.policySigner.certificates[0]);
 
         // The signer in the response should match the signer we set in the request.
         assert.equal(expectedCert.hex, actualCert.hex);

@@ -13,8 +13,6 @@ import { decode } from "./decodeJWT";
 
 import { EndpointType, getAttestationUri } from "./recordedClient";
 
-import { encodeByteArray } from "./base64url";
-
 export function decodeJWT(
   attestationToken: string,
   instanceUri: string
@@ -41,7 +39,7 @@ export async function verifyAttestationToken(
   const decoded = decodeJWT(attestationToken, getAttestationUri(endpointType));
   const keyId = decoded?.header.kid;
 
-  let signingCert: Uint8Array[] = [];
+  let signingCert: string[] = [];
   for (const key of signers) {
     if (key.keyId === keyId) {
       signingCert = key.certificates;
@@ -49,12 +47,8 @@ export async function verifyAttestationToken(
   }
   if (signingCert.length) {
     // Convert the inbound certificate to PEM format so the verify function is happy.
-    let pemCert: string;
-    pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-    pemCert += encodeByteArray(signingCert[0]);
-    pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-    const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
+    const pubKeyObj = jsrsasign.KEYUTIL.getKey(signingCert[0]);
     const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(attestationToken, pubKeyObj, {
       iss: [getAttestationUri(endpointType)],
       alg: ["RS256"]

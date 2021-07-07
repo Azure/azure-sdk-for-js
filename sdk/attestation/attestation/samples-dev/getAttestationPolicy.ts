@@ -8,7 +8,14 @@
 import { AttestationAdministrationClient, KnownAttestationType } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
-export async function main() {
+// Load environment from a .env file if it exists.
+import * as dotenv from "dotenv";
+import { write_banner } from "./utils/helpers";
+dotenv.config();
+
+async function getCurrentAttestationPolicy() {
+  write_banner("getCurrentAttestationPolicy");
+
   // Use the customer specified attestion URL, or use the West US shared instance.
   const endpoint = process.env.ATTESTATION_AAD_URL ?? "https://sharedwus.wus.attest.azure.net";
 
@@ -19,6 +26,11 @@ export async function main() {
   console.log("The SGX policy for ", endpoint, " has a value of:", policy.value);
 }
 
+export async function main() {
+  await getCurrentAttestationPolicy();
+}
+
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+

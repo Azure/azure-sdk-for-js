@@ -25,8 +25,8 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
   ATTESTATION_LOCATION_SHORT_NAME: "wus",
-  ISOLATED_ATTESTATION_URL: "https://isolated_attestation_url.wus.attest.azure.net",
-  AAD_ATTESTATION_URL: "https://aad_attestation_url.wus.attest.azure.net",
+  ATTESTATION_ISOLATED_URL: "https://isolated_attestation_url.wus.attest.azure.net",
+  ATTESTATION_AAD_URL: "https://aad_attestation_url.wus.attest.azure.net",
   policySigningCertificate0: "policy_signing_certificate0",
   policySigningCertificate1: "policy_signing_certificate1",
   policySigningCertificate2: "policy_signing_certificate2",
@@ -62,10 +62,10 @@ export type EndpointType = "AAD" | "Isolated" | "Shared";
 export function getAttestationUri(endpointType: EndpointType): string {
   switch (endpointType) {
     case "AAD": {
-      return env.AAD_ATTESTATION_URL;
+      return env.ATTESTATION_AAD_URL;
     }
     case "Isolated": {
-      return env.ISOLATED_ATTESTATION_URL;
+      return env.ATTESTATION_ISOLATED_URL;
     }
     case "Shared": {
       return (

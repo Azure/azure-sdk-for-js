@@ -13,7 +13,6 @@ import { AttestationSigner, _attestationSignerFromGenerated } from "./attestatio
 
 import * as Mappers from "../generated/models/mappers";
 import { TypeDeserializer } from "../utils/typeDeserializer";
-import { base64EncodeByteArray } from "../utils/base64";
 
 /**
  * Options used to validate attestation tokens.
@@ -226,17 +225,8 @@ export class AttestationToken {
   }
 
   private certFromSigner(signer: AttestationSigner): string {
-    let pemCert: string;
-
-    // PEM encode the certificate.
-    pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-    pemCert += base64EncodeByteArray(signer.certificates[0]);
-    pemCert += "\r\n-----END CERTIFICATE-----\r\n";
-
-    //      const cert = new X509();
-    //
-    //      cert.readCertPEM(pemCert);
-    return pemCert;
+    // return the PEM encoded certificate.
+    return signer.certificates[0]; 
   }
 
   private getCandidateSigners(
