@@ -4,9 +4,7 @@
 import * as openTelemetry from "@opentelemetry/api";
 import * as coreAuth from "@azure/core-auth";
 import * as coreTracing from "../src/interfaces";
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+import { assert } from "chai";
 
 type coreAuthTracingOptions = Required<coreAuth.GetTokenOptions>["tracingOptions"];
 

@@ -4,9 +4,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+import { assert } from "chai";
 import { delay, WebResource, HttpHeaders, isNode } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { PollerStoppedError, PollerCancelledError } from "../src";

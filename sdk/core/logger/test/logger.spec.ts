@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import * as Logger from "../src";
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+import { assert } from "chai";
+
 const testLogger = Logger.createClientLogger("test");
 
 describe("AzureLogger", function() {

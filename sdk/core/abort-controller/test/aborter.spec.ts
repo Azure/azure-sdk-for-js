@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+import { assert } from "chai";
 import { AbortController, AbortSignal, AbortError } from "../src";
 
 describe("AbortController", () => {
