@@ -16,7 +16,7 @@ steps:
   ignoreLASTEXITCODE: true
 
 - pwsh: |
-    $IsReleaseBuild = '$(Build.Reason)' -eq 'manual' -and '$(System.TeamProject)'' -eq 'internal'
+    $IsReleaseBuild = '$(Build.Reason)' -eq 'Manual' -and '$(System.TeamProject)' -eq 'internal'
     Write-Host "Setting IsReleaseBuild=$IsReleaseBuild"
     Write-Host "##vso[task.setvariable variable=IsReleaseBuild]$IsReleaseBuild"
   displayName: "Set Release Build variable"
