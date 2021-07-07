@@ -25,8 +25,8 @@ export class PolicyResult {
    *
    */
   constructor(result: {
-    policyResolution?: PolicyModification;
-    policyTokenHash?: Uint8Array;
+    policyResolution: PolicyModification;
+    policyTokenHash: Uint8Array;
     policy?: string;
     policySigner?: AttestationSigner;
   }) {
@@ -39,11 +39,11 @@ export class PolicyResult {
   /**
    * The result of the operation
    */
-  policyResolution?: PolicyModification;
+  policyResolution: PolicyModification;
   /**
    * The SHA256 hash of the policy object modified
    */
-  policyTokenHash?: Uint8Array;
+  policyTokenHash: Uint8Array;
   /**
    * The certificate used to sign the policy object, if specified
    */

@@ -209,9 +209,9 @@ export interface StoredAttestationPolicy {
 /** The result of a policy certificate modification */
 export interface PolicyResult {
   /** The result of the operation */
-  policyResolution?: PolicyModification;
+  policyResolution: PolicyModification;
   /** The SHA256 hash of the policy object modified */
-  policyTokenHash?: Uint8Array;
+  policyTokenHash: Uint8Array;
   /** The certificate used to sign the policy object, if specified */
   policySigner?: JsonWebKey;
   /** A JSON Web Token containing a StoredAttestationPolicy object with the attestation policy */

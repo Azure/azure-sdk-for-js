@@ -485,12 +485,14 @@ export const PolicyResult: coreClient.CompositeMapper = {
     modelProperties: {
       policyResolution: {
         serializedName: "x-ms-policy-result",
+        required: true,
         type: {
           name: "String"
         }
       },
       policyTokenHash: {
         serializedName: "x-ms-policy-token-hash",
+        required: true,
         type: {
           name: "Base64Url"
         }

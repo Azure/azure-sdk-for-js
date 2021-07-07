@@ -79,6 +79,17 @@ directive:
 ```yaml
 directive:
   from: swagger-document
+  where: $.definitions.PolicyResult
+  transform: >
+    $.required = [ 
+     "x-ms-policy-result",
+     "x-ms-policy-token-hash"
+    ]
+```
+
+```yaml
+directive:
+  from: swagger-document
   where: $.definitions.PolicyCertificatesModifyResponse
   transform: >
     $.required = [ "token" ];

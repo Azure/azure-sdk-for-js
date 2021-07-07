@@ -19,6 +19,7 @@ import {
   AttestationSigningKey
 } from "../../src/";
 import "./env";
+import { pemFromBase64, PemType } from "../utils/helpers";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -85,14 +86,10 @@ export function getAttestationUri(endpointType: EndpointType): string {
 export function getIsolatedSigningKey(): AttestationSigningKey {
   const signingCert = env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
 
-  let pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-  pemCert += signingCert + "\r\n";
-  pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+  const pemCert = pemFromBase64(signingCert, PemType.Certificate);
 
   const signingKey = env.ATTESTATION_ISOLATED_SIGNING_KEY;
-  let pemKey = "-----BEGIN PRIVATE KEY-----\r\n";
-  pemKey += signingKey + "\r\n";
-  pemKey += "-----END PRIVATE KEY-----\r\n";
+  const pemKey = pemFromBase64(signingKey, PemType.PrivateKey);
 
   return new AttestationSigningKey(pemKey, pemCert);
 }

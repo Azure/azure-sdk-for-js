@@ -180,13 +180,27 @@ InitTime data refers to data which is used to configure the SGX enclave being at
 Creates an instance of the Attestation Client at uri `endpoint`.
 
 ```ts
-<FILL THIS IN>
+  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+
+  // Retrieve the set of attestation policy signers from the attestation client.
+  const attestationSigners = await client.getAttestationSigners();
+
+```
+
+Creates an instance of the Attestation Administration Client at uri `endpoint`.
+
+```ts
+  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+
+  // Retrieve the SGX policy from the specified attestation instance.
+  const policyResponse = await client.getPolicy(KnownAttestationType.SgxEnclave);
+
 ```
 
 ### Get attestation policy
 
 The `getPolicy` method retrieves the attestation policy from the service.
-Attestation Policies are instanced on a per-attestation type basis, the `AttestationType` parameter defines the type to retrieve.
+Attestation Policies are instanced on a per-attestation type basis, the `AttestationType` parameter defines the type of instance to retrieve.
 
 ```js
 const policyResult = await adminClient.getPolicy(attestationType);

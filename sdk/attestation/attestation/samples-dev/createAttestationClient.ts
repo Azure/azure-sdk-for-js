@@ -16,7 +16,7 @@ import { write_banner } from "./utils/helpers";
 dotenv.config();
 
 async function getOpenIdMetadata() {
-  write_banner("getOpenIdMetadata")
+  write_banner("getOpenIdMetadata");
   const endpoint = process.env.ATTESTATION_AAD_URL ?? "https://sharedwus.wus.attest.azure.net";
 
   console.log("Retrieve OpenID metadata from: ", endpoint);
@@ -28,7 +28,7 @@ async function getOpenIdMetadata() {
 }
 
 async function getSigningCertificates() {
-  write_banner("getSigningCertificates")
+  write_banner("getSigningCertificates");
   const endpoint = process.env.ATTESTATION_AAD_URL ?? "https://sharedwus.wus.attest.azure.net";
 
   console.log("Retrieve attestation signing certificates for: ", endpoint);
@@ -38,20 +38,18 @@ async function getSigningCertificates() {
 
   console.log(`There are ${attestationSigners.length} signers`);
 
-  attestationSigners.forEach(element => {
+  // Now print the Key ID and certificate subject for each signer.
+  attestationSigners.forEach((element) => {
     console.log(`  Element Key ID: ${element.keyId};`);
     const cert = new X509();
     cert.readCertPEM(element.certificates[0]);
-    console.log(`    Certificate subject: ${cert.subject_name}`);
+    console.log(`    Certificate subject: ${cert.getSubjectString()}`);
   });
 }
 
-
 export async function main() {
-
   await getOpenIdMetadata();
   await getSigningCertificates();
-
 }
 
 main().catch((err) => {

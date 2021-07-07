@@ -226,7 +226,7 @@ export class AttestationToken {
 
   private certFromSigner(signer: AttestationSigner): string {
     // return the PEM encoded certificate.
-    return signer.certificates[0]; 
+    return signer.certificates[0];
   }
 
   private getCandidateSigners(

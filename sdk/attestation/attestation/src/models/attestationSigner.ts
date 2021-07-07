@@ -4,7 +4,7 @@
 import { encodeByteArray } from "../../test/utils/base64url";
 
 import { JsonWebKey } from "../generated/models";
-import { base64DecodeString } from "../utils/base64";
+import { base64DecodeString, pemFromBase64, PemType } from "../utils/base64";
 
 /**
  * An AttestationSigner represents a signing certificate chain/Key ID combination
@@ -20,14 +20,11 @@ export class AttestationSigner {
     }
 
     this.certificates = [];
-    args.certificates.forEach(cert => {
-      let pemCert: string;
-      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-      pemCert += encodeByteArray(cert);
-      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+    args.certificates.forEach((cert) => {
+      const pemCert = pemFromBase64(encodeByteArray(cert), PemType.Certificate);
 
       this.certificates.push(pemCert);
-      });
+    });
   }
 
   /**

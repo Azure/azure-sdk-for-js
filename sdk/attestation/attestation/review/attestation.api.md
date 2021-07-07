@@ -215,15 +215,15 @@ export type PolicyModification = string;
 // @public
 export class PolicyResult {
     constructor(result: {
-        policyResolution?: PolicyModification;
-        policyTokenHash?: Uint8Array;
+        policyResolution: PolicyModification;
+        policyTokenHash: Uint8Array;
         policy?: string;
         policySigner?: AttestationSigner;
     });
     policy?: string;
-    policyResolution?: PolicyModification;
+    policyResolution: PolicyModification;
     policySigner?: AttestationSigner;
-    policyTokenHash?: Uint8Array;
+    policyTokenHash: Uint8Array;
 }
 
 

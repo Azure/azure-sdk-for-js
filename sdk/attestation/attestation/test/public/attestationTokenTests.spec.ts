@@ -113,7 +113,7 @@ describe("AttestationTokenTests", function() {
     assert.notEqual("none", token.algorithm);
     assert.equal(1, token.certificateChain?.certificates.length);
     if (token.certificateChain) {
-      let pemCert: string = token.certificateChain.certificates[0];
+      const pemCert: string = token.certificateChain.certificates[0];
 
       const expectedCert = new jsrsasign.X509();
       expectedCert.readCertPEM(cert);
