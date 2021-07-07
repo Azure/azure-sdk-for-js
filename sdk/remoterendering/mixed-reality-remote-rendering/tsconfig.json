@@ -4,7 +4,7 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/mixedreality-remoterendering": ["./src/index"]
+      "@azure/mixed-reality-remote-rendering": ["./src/index"]
     }
   },
   "exclude": [

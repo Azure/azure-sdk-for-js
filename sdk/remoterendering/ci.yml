@@ -28,5 +28,5 @@ extends:
   parameters:
     ServiceDirectory: remoterendering
     Artifacts:
-      - name: azure-mixedreality-remoterendering
+      - name: azure-mixed-reality-remote-rendering
         safeName: azuremixedrealityremoterendering

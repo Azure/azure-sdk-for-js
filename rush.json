@@ -791,8 +791,8 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixedreality-remoterendering",
-      "projectFolder": "sdk/remoterendering/mixedreality-remoterendering",
+      "packageName": "@azure/mixed-reality-remote-rendering",
+      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
     }
   ]

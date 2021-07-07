@@ -1,5 +1,5 @@
 {
-  "name": "@azure/mixedreality-remoterendering",
+  "name": "@azure/mixed-reality-remote-rendering",
   "version": "1.0.0-beta.1",
   "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
@@ -8,7 +8,7 @@
   "browser": {
     "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
   },
-  "types": "types/mixedreality-remoterendering.d.ts",
+  "types": "types/mixed-reality-remote-rendering.d.ts",
   "//metadata": {
     "constantPaths": [
       {
@@ -52,7 +52,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/mixedreality-remoterendering.d.ts",
+    "types/mixed-reality-remote-rendering.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -70,7 +70,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/remoterendering/mixedreality-remoterendering/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/remoterendering/mixed-reality-remote-rendering/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -130,7 +130,7 @@
     "productName": "Azure Remote Rendering",
     "productSlugs": [
       "azure",
-      "azure-mixedreality-remoterendering"
+      "azure-mixed-reality-remote-rendering"
     ],
     "requiredResources": {
       "Azure Remote Rendering account": "https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account",

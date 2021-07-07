@@ -16,7 +16,7 @@ import {
   AssetConversionSettings,
   AssetConversionPollerLike,
   AssetConversion
-} from "@azure/mixedreality-remoterendering";
+} from "@azure/mixed-reality-remote-rendering";
 import {
   DeviceCodeCredential,
   DeviceCodeInfo,

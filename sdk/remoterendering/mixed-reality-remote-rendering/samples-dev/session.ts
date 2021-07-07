@@ -14,7 +14,7 @@ import {
   RenderingSessionSettings,
   RenderingSessionPollerLike,
   RenderingSession
-} from "@azure/mixedreality-remoterendering";
+} from "@azure/mixed-reality-remote-rendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists

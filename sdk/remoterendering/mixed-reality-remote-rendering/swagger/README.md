@@ -6,7 +6,7 @@
 
 ```yaml
 v3: true
-package-name: "@azure/mixedreality-remoterendering"
+package-name: "@azure/mixed-reality-remote-rendering"
 title: RemoteRenderingRestClient
 description: Azure Remote Rendering Client
 generate-metadata: false

@@ -7,7 +7,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { RemoteRenderingClient } from "@azure/mixedreality-remoterendering";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists

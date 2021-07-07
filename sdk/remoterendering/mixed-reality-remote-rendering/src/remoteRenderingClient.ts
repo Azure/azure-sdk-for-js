@@ -277,7 +277,7 @@ export class RemoteRenderingClient {
     this.accountId = accountId;
 
     // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-mixedreality-remoterendering/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-mixed-reality-remote-rendering/${SDK_VERSION}`;
 
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
