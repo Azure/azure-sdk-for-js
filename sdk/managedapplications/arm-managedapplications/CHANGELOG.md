@@ -8,7 +8,7 @@ This version uses a next-generation code generator that introduces important bre
 
 - Authentication system has been completely revamped:
 
-  - Package `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported, use package `@azure/identity` instead: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+  - Package `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported, use package `@azure/identity` instead: https://www.npmjs.com/package/@azure/identity
 
 - Operations with prefix `begin` like `beginXXX` that used to return a `Promise<Models.XXX>` now returns a poller that implements the `PollerLike` interface, and if you want to get previous result, please use operation name with prefix `begin` and suffix `AndWait`, such as `beginXXXAndWait`.
 - Operation `list` used to return `Promise<Models.XXX>` now returns an iterable result: `PagedAsyncIterableIterator`.
