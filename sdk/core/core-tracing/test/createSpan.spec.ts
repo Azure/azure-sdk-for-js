@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert, use as chaiUse } from "chai";
+import chaiPromises from "chai-as-promised";
+chaiUse(chaiPromises);
 import sinon from "sinon";
 import {
   setSpan,
