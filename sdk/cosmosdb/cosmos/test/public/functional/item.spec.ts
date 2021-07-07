@@ -602,7 +602,7 @@ describe("patch operations", function() {
       ];
       const condition = "from c where NOT IS_DEFINED(c.newImproved)";
       const { resource: conditionItem } = await container
-        .item(conditionItemId, 1)
+        .item(conditionItemId)
         .patch({ condition, operations });
       assert.equal(conditionItem.newImproved, "it works");
     });

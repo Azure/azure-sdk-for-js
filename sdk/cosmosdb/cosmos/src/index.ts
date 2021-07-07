@@ -28,7 +28,7 @@ export {
   PatchOperationType,
   ExistingKeyOperation,
   RemoveOperation,
-  PatchRequestBody,
+  PatchRequestBody
 } from "./utils/patch";
 export {
   ConnectionMode,
