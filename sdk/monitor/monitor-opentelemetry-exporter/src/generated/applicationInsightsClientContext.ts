@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ApplicationInsightsClientOptionalParams } from "./models";
 
 const packageName = "@azure/monitor-opentelemetry-exporter";
-const packageVersion = "1.0.0-beta.2";
+const packageVersion = "1.0.0-beta.5";
 
 export class ApplicationInsightsClientContext extends coreHttp.ServiceClient {
   host: string;
