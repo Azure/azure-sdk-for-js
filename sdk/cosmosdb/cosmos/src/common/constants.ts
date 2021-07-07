@@ -220,7 +220,7 @@ export const Constants = {
 
   /**
    * @deprecated Use EffectivePartitionKeyConstants instead
-  */
+   */
   EffectiveParitionKeyConstants: {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF"
