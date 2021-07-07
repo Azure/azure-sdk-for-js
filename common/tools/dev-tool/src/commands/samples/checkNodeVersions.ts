@@ -230,7 +230,7 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       description:
         "A node version to use. You can specify multiple versions by having multiple arguments",
-      default: "14",
+      default: "",
       allowMultiple: true
     },
     "context-directory-path": {
