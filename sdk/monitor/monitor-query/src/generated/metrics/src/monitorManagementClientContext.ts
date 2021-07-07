@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ApiVersion201801, MonitorManagementClientOptionalParams } from "./models";
 
 const packageName = "monitor-metrics";
-const packageVersion = "1.0.0-beta.3";
+const packageVersion = "1.0.0-beta.4";
 
 /** @hidden */
 export class MonitorManagementClientContext extends coreHttp.ServiceClient {
