@@ -189,6 +189,7 @@
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
     "events": "^3.0.0",
-    "typedoc": "0.15.2"
+    "typedoc": "0.15.2",
+    "@azure/test-utils": "^1.0.0"
   }
 }

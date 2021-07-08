@@ -8,7 +8,8 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 
-import { TestTracer, setTracer } from "@azure/core-tracing";
+import { setTracer } from "@azure/core-tracing";
+import { TestTracer } from "@azure/test-utils";
 
 import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
 
