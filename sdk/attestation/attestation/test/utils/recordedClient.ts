@@ -112,6 +112,7 @@ export function createRecordedClient(
         validateExpirationTime: !isPlaybackMode(),
         validateNotBeforeTime: !isPlaybackMode(),
         validateIssuer: !isPlaybackMode(),
+        timeValidationSlack: 10, // 10 seconds slack in validation time.
         expectedIssuer: getAttestationUri(endpointType)
       }
     };
@@ -138,6 +139,7 @@ export function createRecordedAdminClient(
         validateToken: true,
         validateExpirationTime: !isPlaybackMode(),
         validateNotBeforeTime: !isPlaybackMode(),
+        timeValidationSlack: 10, // 10 seconds slack in validation time.
         validateIssuer: !isPlaybackMode(),
         expectedIssuer: getAttestationUri(endpointType)
       }
