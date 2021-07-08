@@ -2,7 +2,7 @@
 
 ## 1.3.1 (2021-04-05)
 
-- Updated the default timeout of the first request of the IMDS MSI to three seconds to compensate for a situational issue caused by one of our dependencies in which the timeout would end before the first request was sent.
+- Updated the default timeout of the first request of the IMDS MSI from half a second to three seconds to compensate for the slowness caused by `node-fetch` for initial requests in certain environments like kubernetes pods.
 ## 1.3.0 (2021-04-05)
 
 ### Breaking Changes
