@@ -18,6 +18,8 @@ export class ConfigurationClient {
 // @public
 export interface ConfigurationClientOptions extends PipelineOptions {
 }
+/*
+*/
 
 // @public (undocumented)
 export interface ConfigurationSetting {
