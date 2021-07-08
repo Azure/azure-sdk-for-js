@@ -262,30 +262,30 @@ Clients need to be able to verify that the attestation policy document was not m
 
 There are two properties provided in the [PolicyResult][attestation_policy_result] that can be used to verify that the service received the policy document:
 
-- [`policy_signer`][attestation_policy_result_parameters] - if the `setPolicy` call included a signing certificate, this will be the certificate provided at the time of the `setPolicy` call. If no policy signer was set, this will be null.
-- [`policy_token_hash`][attestation_policy_result_parameters] - this is the hash of the [JSON Web Signature][json_web_token] sent to the service for the setPolicy API.
+- [`policySsigner`][attestation_policy_result_parameters] - if the `setPolicy` call included a signing certificate, this will be the certificate provided at the time of the `setPolicy` call. If no policy signer was set, this will be null.
+- [`policyTokenHash`][attestation_policy_result_parameters] - this is the hash of the [JSON Web Signature][json_web_token] sent to the service for the setPolicy API.
 
-To verify the hash, clients can generate an attestation token and verify the hash generated from that token:
+To verify the hash, clients can create an attestation policy token (a helper class which represents the token used to set the attestation policy) and verify the hash generated from that token:
 
 ```js
-const expectedPolicy = new AttestationPolicyToken(
+const expectedPolicy = createAttestationPolicyToken(
   `<Policy Document>`,
   privateKey,
   certificate);
 
 // Use your favorite SHA256 hash generator function to create a hash of the
-// stringized JWS. The tests in this package use `KJUR.crypto.Util.hashString(buffer, "sha256")`
+// stringized JWS. The code in this package uses `KJUR.crypto.Util.hashString(buffer, "sha256")`
 // from the `jsrsasign` library, but any crypto library will
 // work.
 const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
 // The hash returned in expectedHash will match the value in
-// `setResult.value.policy_token_hash.
+// `setResult.value.policyTokenHash`.
 ```
 
 ### Attest SGX Enclave
 
-Use the [`attest_sgx`][attest_sgx] method to attest an SGX enclave.
+Use the [`attestSgxEnclave`][attest_sgx] method to attest an SGX enclave.
 
 One of the core challenges customers have interacting with encrypted environments is how to ensure that you can securely communicate with the code running in the environment ("enclave code").
 
@@ -317,18 +317,29 @@ Additional information on how to perform attestation token validation can be fou
 
 ### Retrieve Token Certificates
 
-Use `get_signing_certificates` to retrieve the certificates which can be used to validate the token returned from the attestation service.
+Use `getSigningCertificates` to retrieve the certificates which can be used to validate the token returned from the attestation service.
 
 ```ts
-<FILL THIS IN>
+const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+
+const attestationSigners = await client.getAttestationSigners();
+
+console.log(`There are ${attestationSigners.length} signers`);
+
 ```
 
 ## Troubleshooting
 
-Most Attestation service operations will raise exceptions defined in [Azure Core](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/README.md). The attestation service APIs will throw a `HttpResponseError` on failure with helpful error codes. Many of these errors are recoverable.
+Most Attestation service operations will raise exceptions defined in [Azure Core](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/README.md). The attestation service APIs will throw a `RestError` on failure with helpful error codes. Many of these errors are recoverable.
 
 ```ts
-<Fill this in>
+try {
+  await client.attestSgxEnclave(_openEnclaveReport, {
+    runTimeJson: stringToBytes('{"bogus": 10 }')
+  });
+} catch (error) {
+  console.log(`Expected Exception thrown for invalid request: ${error.message}`);
+}
 ```
 
 ### Logging

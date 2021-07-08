@@ -320,5 +320,18 @@ describe("[AAD] Attestation Client", function() {
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
+
+    {
+      try {
+        // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
+        //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
+        //  16 bytes from the report.
+        await client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+          runTimeJson: stringToBytes('{"bogus": 10 }')
+        });
+      } catch (error) {
+        console.log(`Expected Exception thrown for invalid request: ${error.message}`);
+      }
+    }
   }
 });
