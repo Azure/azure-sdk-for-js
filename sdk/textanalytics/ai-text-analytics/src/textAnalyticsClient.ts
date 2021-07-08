@@ -298,6 +298,42 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 }
 
 /**
+ * A type representing how to sort sentences for the summarization extraction action.
+ */
+export type KnownSentencesSortBy = "Offset" | "Rank";
+
+/**
+ * A type representing how to sort sentences for the summarization extraction action.
+ */
+export type SentencesSortBy = string;
+
+/**
+ * Options for an extract summary action.
+ */
+export interface ExtractSummaryAction extends TextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+  /**
+   * Specifies the number of sentences to return. The default number of sentences is 3.
+   */
+  sentenceCount?: number;
+  /**
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSentencesSortBy} for possible values.
+   */
+  sortBy: SentencesSortBy;
+}
+
+/**
  * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
  */
 export interface TextAnalyticsActions {
@@ -321,6 +357,10 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of sentiment analysis actions. However, currently, the service can accept up to one action only for `analyzeSentiment`.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
+  /**
+   * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
+   */
+  extractSummaryActions?: ExtractSummaryAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1025,6 +1065,7 @@ function validateActions(actions: TextAnalyticsActions): void {
   validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
   validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
   validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
+  validateActionType(actions.extractSummaryActions, `extractSummary`);
 }
 
 /**
@@ -1044,6 +1085,9 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
       compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
+    ),
+    extractiveSummarizationTasks: actions.extractSummaryActions?.map(
+      compose(setStrEncodingParam, addParamsToTask)
     )
   };
 }

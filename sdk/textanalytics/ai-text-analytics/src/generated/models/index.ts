@@ -46,6 +46,7 @@ export interface JobManifestTasks {
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
   entityLinkingTasks?: EntityLinkingTask[];
   sentimentAnalysisTasks?: SentimentAnalysisTask[];
+  extractiveSummarizationTasks?: ExtractiveSummarizationTask[];
 }
 
 export interface EntitiesTask {
@@ -99,6 +100,17 @@ export interface SentimentAnalysisTaskParameters {
   loggingOptOut?: boolean;
   opinionMining?: boolean;
   stringIndexType?: StringIndexType;
+}
+
+export interface ExtractiveSummarizationTask {
+  parameters?: ExtractiveSummarizationTaskParameters;
+}
+
+export interface ExtractiveSummarizationTaskParameters {
+  modelVersion?: string;
+  stringIndexType?: StringIndexType;
+  sentenceCount?: number;
+  sortBy?: ExtractiveSummarizationTaskParametersSortBy;
 }
 
 export interface ErrorResponse {
@@ -158,6 +170,7 @@ export interface TasksStateTasks {
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
   sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
+  summarizationExtractionTasks?: TasksStateTasksSummarizationExtractionTasksItem[];
 }
 
 export interface TaskState {
@@ -167,6 +180,10 @@ export interface TaskState {
 
 export interface EntitiesTaskResult {
   results?: EntitiesResult;
+}
+
+export interface ExtractSummaryTaskResult {
+  results?: ExtractiveSummarizationResult;
 }
 
 export interface EntitiesResult {
@@ -587,6 +604,39 @@ export interface DetectedLanguage {
   confidenceScore: number;
 }
 
+export interface ExtractiveSummarizationResult {
+  /** Response by document */
+  documents: ExtractedDocumentSummary[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
+
+export interface ExtractedDocumentSummary {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** A ranked list of sentences representing the extracted summary. */
+  sentences: ExtractedSummarySentence[];
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
+
+export interface ExtractedSummarySentence {
+  /** The extracted sentence text. */
+  text: string;
+  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
+  rankScore: number;
+  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
+  offset: number;
+  /** The length of the sentence. */
+  length: number;
+}
+
 export type AnalyzeBatchInput = JobDescriptor &
   AnalysisInput &
   JobManifest & {};
@@ -604,6 +654,9 @@ export type AnalyzeJobState = AnalyzeJobMetadata &
 
 export type TasksStateTasksEntityRecognitionTasksItem = TaskState &
   EntitiesTaskResult & {};
+
+export type TasksStateTasksSummarizationExtractionTasksItem = TaskState &
+  ExtractSummaryTaskResult & {};
 
 export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
   PiiTaskResult & {};
@@ -1029,6 +1082,22 @@ export const enum KnownPiiCategory {
  * **Default**
  */
 export type PiiCategory = string;
+
+/** Known values of {@link ExtractiveSummarizationTaskParametersSortBy} that the service accepts. */
+export const enum KnownExtractiveSummarizationTaskParametersSortBy {
+  Offset = "offset",
+  Rank = "rank"
+}
+
+/**
+ * Defines values for ExtractiveSummarizationTaskParametersSortBy. \
+ * {@link KnownExtractiveSummarizationTaskParametersSortBy} can be used interchangeably with ExtractiveSummarizationTaskParametersSortBy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **offset** \
+ * **rank**
+ */
+export type ExtractiveSummarizationTaskParametersSortBy = string;
 
 /** Known values of {@link ErrorCodeValue} that the service accepts. */
 export const enum KnownErrorCodeValue {

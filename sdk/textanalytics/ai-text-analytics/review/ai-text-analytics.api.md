@@ -36,6 +36,7 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
+    extractSummaryResults: ExtractSummaryActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -211,6 +212,14 @@ export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 export type ErrorCodeValue = string;
 
 // @public
+export interface ExtractedSummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
+
+// @public
 export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
 }
@@ -245,6 +254,42 @@ export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesRes
 // @public
 export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
     keyPhrases: string[];
+}
+
+// @public
+export interface ExtractSummaryAction extends TextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    sentenceCount?: number;
+    sortBy: SentencesSortBy;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type ExtractSummaryActionResult = ExtractSummaryActionSuccessResult | ExtractSummaryActionErrorResult;
+
+// @public
+export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ExtractSummaryResultArray;
+}
+
+// @public
+export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
+
+// @public
+export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
+    sentences: ExtractedSummarySentence[];
 }
 
 // @public
@@ -356,6 +401,9 @@ export const enum KnownInnerErrorCodeValue {
     // (undocumented)
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
 }
+
+// @public
+export type KnownSentencesSortBy = "Offset" | "Rank";
 
 // @public
 export const enum KnownWarningCode {
@@ -573,6 +621,9 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
+export type SentencesSortBy = string;
+
+// @public
 export interface SentimentConfidenceScores {
     // (undocumented)
     negative: number;
@@ -618,6 +669,7 @@ export interface TextAnalyticsActionErrorResult {
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+    extractSummaryActions?: ExtractSummaryAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
