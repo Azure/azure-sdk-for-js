@@ -8,6 +8,12 @@ You can find examples for these various credentials in [Azure Identity Examples 
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+  - Note: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one that is supported in the browser.
+
 ### Install the package
 
 Install Azure Identity with `npm`:
