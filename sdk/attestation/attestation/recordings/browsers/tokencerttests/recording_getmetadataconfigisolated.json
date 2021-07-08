@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Jul 2021 17:34:31 GMT",
+    "date": "Thu, 08 Jul 2021 22:48:11 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - WUS2 ProdSlices",
-    "x-ms-request-id": "0ffdd403-930f-494e-9ca6-f06592ee2800"
+    "x-ms-ests-server": "2.1.11898.8 - EUS ProdSlices",
+    "x-ms-request-id": "f025594b-2997-4fd7-8660-051b8e263900"
    }
   },
   {
@@ -34,10 +34,10 @@
    "responseHeaders": {
     "content-length": "612",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Jul 2021 17:34:31 GMT",
+    "date": "Thu, 08 Jul 2021 22:48:10 GMT",
     "server": "Kestrel",
     "x-ms-maa-service-version": "1.10.01643.0004",
-    "x-ms-request-id": "00-4b89bf5fdcaf149b8cbab580463350da-0000000000000000-00"
+    "x-ms-request-id": "00-66918c3dad90b2f2a56e0256b67ea0b5-0000000000000000-00"
    }
   }
  ],

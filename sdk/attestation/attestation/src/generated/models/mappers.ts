@@ -449,12 +449,14 @@ export const PolicyCertificatesModificationResult: coreClient.CompositeMapper = 
     modelProperties: {
       certificateThumbprint: {
         serializedName: "x-ms-certificate-thumbprint",
+        required: true,
         type: {
           name: "String"
         }
       },
       certificateResolution: {
         serializedName: "x-ms-policycertificates-result",
+        required: true,
         type: {
           name: "String"
         }

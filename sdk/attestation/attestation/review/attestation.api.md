@@ -170,8 +170,8 @@ export const enum KnownPolicyModification {
 
 // @public
 export interface PolicyCertificatesModificationResult {
-    certificateResolution?: CertificateModification;
-    certificateThumbprint?: string;
+    certificateResolution: CertificateModification;
+    certificateThumbprint: string;
 }
 
 // @public

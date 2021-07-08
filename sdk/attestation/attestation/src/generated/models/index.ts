@@ -196,9 +196,9 @@ export interface PolicyCertificatesResult {
 /** The result of a policy certificate modification */
 export interface PolicyCertificatesModificationResult {
   /** Hex encoded SHA1 Hash of the binary representation certificate which was added or removed */
-  certificateThumbprint?: string;
+  certificateThumbprint: string;
   /** The result of the operation */
-  certificateResolution?: CertificateModification;
+  certificateResolution: CertificateModification;
 }
 
 export interface StoredAttestationPolicy {

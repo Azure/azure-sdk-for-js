@@ -6,12 +6,12 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86398,\"ext_expires_in\":86398,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Jul 2021 17:34:31 GMT",
+    "date": "Thu, 08 Jul 2021 22:48:11 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - NCUS ProdSlices",
-    "x-ms-request-id": "0a8a50c9-189f-4537-b9ca-243027231f00"
+    "x-ms-ests-server": "2.1.11898.8 - EUS ProdSlices",
+    "x-ms-request-id": "49c89edf-861e-4fee-8e0c-493601fd3b00"
    }
   },
   {
@@ -34,10 +34,10 @@
    "responseHeaders": {
     "content-length": "573",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Jul 2021 17:34:31 GMT",
+    "date": "Thu, 08 Jul 2021 22:48:11 GMT",
     "server": "Kestrel",
     "x-ms-maa-service-version": "1.10.01643.0004",
-    "x-ms-request-id": "00-ad79cf433ac2c9f52f125f1227789943-0000000000000000-00"
+    "x-ms-request-id": "00-0faa238ace839090b54f2ebff91232e2-0000000000000000-00"
    }
   }
  ],

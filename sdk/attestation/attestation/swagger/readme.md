@@ -90,6 +90,14 @@ directive:
 ```yaml
 directive:
   from: swagger-document
+  where: $.definitions.PolicyCertificatesModificationResult
+  transform: >
+    $.required = [ "x-ms-certificate-thumbprint", "x-ms-policycertificates-result" ]
+```
+
+```yaml
+directive:
+  from: swagger-document
   where: $.definitions.PolicyCertificatesModifyResponse
   transform: >
     $.required = [ "token" ];

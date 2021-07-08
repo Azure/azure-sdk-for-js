@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '58ee146c-fc34-4da4-89af-3cb693162500',
+  '980cbf32-a7f6-4f2f-9674-0c3d848f3100',
   'x-ms-ests-server',
-  '2.1.11898.8 - SCUS ProdSlices',
+  '2.1.11898.8 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AhDg2MRqkZNMmaPkiWK1PIcinVqPCwAAAL4tedgOAAAA; expires=Sat, 07-Aug-2021 17:33:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aj3aR69f_XxEk8xdQwa3N6MinVqPDgAAADt3edgOAAAA; expires=Sat, 07-Aug-2021 22:47:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 08 Jul 2021 17:33:28 GMT',
+  'Thu, 08 Jul 2021 22:47:17 GMT',
   'Content-Length',
   '1317'
 ]);
@@ -41,7 +41,7 @@ nock('https://sharedwus.wus.attest.azure.net:443', {"encodedQueryParams":true})
   .get('/.well-known/openid-configuration')
   .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://sharedwus.wus.attest.azure.net/revoke","issuer":"https://sharedwus.wus.attest.azure.net","jwks_uri":"https://sharedwus.wus.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
   'Date',
-  'Thu, 08 Jul 2021 17:33:28 GMT',
+  'Thu, 08 Jul 2021 22:47:17 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -49,7 +49,7 @@ nock('https://sharedwus.wus.attest.azure.net:443', {"encodedQueryParams":true})
   'Content-Length',
   '573',
   'x-ms-request-id',
-  '00-0ac11b56ee8d3024c94e9d6e431bc6ed-0000000000000000-00',
+  '00-afb824a5f3b45139dd8ba0603b92d8ba-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01643.0004'
 ]);
