@@ -74,7 +74,7 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
-      const attestationUrl = "https://malegerskr4.azurewebsites.net/";
+      const attestationUrl = "https://skrattestation.azurewebsites.net/";
       const releasePolicy = {
         anyOf: [
           {
@@ -93,6 +93,7 @@ onVersions({ minVer: "7.2" }).describe(
       const encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
 
       let attestation: string;
+
       beforeEach(async () => {
         const client = new DefaultHttpClient();
         const response = await client.sendRequest(
