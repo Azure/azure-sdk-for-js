@@ -206,16 +206,23 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
+$PackageExclusions = @{ 
+  '@azure/identity-vscode' = $true # Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303
+}
+
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
+
+  $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
+
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
-    $DocsMetadata 
+    $FilteredMetadata 
 
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
-    $DocsMetadata
+    $FilteredMetadata
 }
 
 function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
