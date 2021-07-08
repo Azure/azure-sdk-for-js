@@ -103,11 +103,7 @@ export class AttestationResult {
     }
 
 // @public
-export class AttestationSigner {
-    constructor(args: {
-        keyId?: string;
-        certificates: Uint8Array[];
-    });
+export interface AttestationSigner {
     certificates: string[];
     keyId?: string;
 }
