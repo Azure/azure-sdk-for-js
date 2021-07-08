@@ -6,7 +6,7 @@ lockfileVersion: 5.2
 packages:
   /@azure/abort-controller/1.0.2:
     dependencies:
-      tslib: 2.1.0
+      tslib: 2.3.0
     dev: false
     engines:
       node: '>=8.0.0'
@@ -47,16 +47,6 @@ packages:
       node: '>=12.0.0'
     resolution:
       integrity: sha512-VBOfUh0z9ZF1WVqrLCtiGWMjkKic171p6mLXRkJKu+p5wuQTb4cU3bPq7nB6UuGAK17LI7hnU0SzydlCQrBuOw==
-  /@azure/core-tracing/1.0.0-preview.11:
-    dependencies:
-      '@opencensus/web-types': 0.0.7
-      '@opentelemetry/api': 1.0.0-rc.0
-      tslib: 2.1.0
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-frF0pJc9HTmKncVokhBxCqipjbql02DThQ1ZJ9wLi7SDMLdPAFyDI5xZNzX5guLz+/DtPkY+SGK2li9FIXqshQ==
   /@azure/core-tracing/1.0.0-preview.12:
     dependencies:
       '@opentelemetry/api': 1.0.1
@@ -68,7 +58,7 @@ packages:
       integrity: sha512-nvo2Wc4EKZGN6eFu9n3U7OXmASmL8VxoPIH7xaD6OlQqi44bouF0YIi9ID5rEsKLiAU59IYx6M297nqWVMWPDg==
   /@azure/logger/1.0.1:
     dependencies:
-      tslib: 2.1.0
+      tslib: 2.3.0
     dev: false
     engines:
       node: '>=8.0.0'
@@ -337,12 +327,6 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-8Broas6vTtW4GIXTAHDoE32hnN2M5ykgCpWGbuXHQ15vEMqr23pB76e/GZcYsZCHALv50ktd24qhEyKr6wBtow==
-  /@opencensus/web-types/0.0.7:
-    dev: false
-    engines:
-      node: '>=6.0'
-    resolution:
-      integrity: sha512-xB+w7ZDAu3YBzqH44rCmG9/RlrOmFuDPt/bpf17eJr8eZSrLt7nc7LnWdxM9Mmoj/YKMHpxRg28txu3TcpiL+g==
   /@opentelemetry/api/0.10.2:
     dependencies:
       '@opentelemetry/context-base': 0.10.2
@@ -351,12 +335,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==
-  /@opentelemetry/api/1.0.0-rc.0:
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-iXKByCMfrlO5S6Oh97BuM56tM2cIBB0XsL/vWF/AtJrJEKx4MC/Xdu0xDsGXMGcNWpqF7ujMsjjnp0+UHBwnDQ==
   /@opentelemetry/api/1.0.1:
     dev: false
     engines:
@@ -4486,10 +4464,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
-  /tslib/2.1.0:
-    dev: false
-    resolution:
-      integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
   /tslib/2.3.0:
     dev: false
     resolution:
@@ -5008,7 +4982,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       source-map-support: 0.5.19
-      tslib: 2.1.0
+      tslib: 2.3.0
       typedoc: 0.15.2
       typescript: 4.1.2
     dev: false
@@ -5021,7 +4995,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.0.2
       '@azure/core-http': 2.0.0
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.1
       '@azure/msal-node': 1.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
@@ -5075,7 +5049,7 @@ packages:
       rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
       sinon: 9.2.4
       stoppable: 1.1.0
-      tslib: 2.1.0
+      tslib: 2.3.0
       typedoc: 0.15.2
       typescript: 4.1.2
       util: 0.12.3
@@ -5085,7 +5059,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-7AVOLP8ISXT/DX/sYXHU5QyxP1eRMaCrSs8JODhPCUW+iai8kHenq49MBcUB8DiWd9Rn317DOf50UgcSgbKjnQ==
+      integrity: sha512-T+8AeUtmtH1AG6a0IygS0sUh8FlDuYF3qzo3Y1b/0ca25N7pfjZxkDCqEZt5t1clJEnyarQjhN3MM2LBMpglMA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
 registry: ''

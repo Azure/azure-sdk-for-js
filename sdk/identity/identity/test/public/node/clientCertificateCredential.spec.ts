@@ -206,14 +206,19 @@ describe("ClientCertificateCredential", function() {
           children: [
             {
               name: "Azure.Identity.ClientCertificateCredential-getToken",
-              children: []
+              children: [
+                {
+                  children: [],
+                  name: "/tenantId/oauth2/v2.0/token"
+                }
+              ]
             }
           ]
         }
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });
