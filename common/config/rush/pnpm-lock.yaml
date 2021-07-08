@@ -50,7 +50,8 @@ dependencies:
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
-  '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
+  '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
+  '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
@@ -10423,7 +10424,7 @@ packages:
       integrity: sha512-nYl70rSzi6HROwq6Tby45FL6Wfr0bIIL75bIBdgOoNqZ4Jbjrtghfx+iElia55MMylPZ5Zc+yYaBwOKf2wld4Q==
       tarball: file:projects/logger.tgz
     version: 0.0.0
-  file:projects/mixedreality-authentication.tgz:
+  file:projects/mixed-reality-authentication.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.12
       '@microsoft/api-extractor': 7.7.11
@@ -10461,10 +10462,54 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    name: '@rush-temp/mixedreality-authentication'
+    name: '@rush-temp/mixed-reality-authentication'
     resolution:
       integrity: sha512-Dah2yhabK5HI4F06xOEqvf+iUXgLPdtJXFBVgIQy1+KFICPCqM0PMc0olF3nG/4KEo2t3Q2397KQLdRlfeUm2w==
-      tarball: file:projects/mixedreality-authentication.tgz
+      tarball: file:projects/mixed-reality-authentication.tgz
+    version: 0.0.0
+  file:projects/mixed-reality-remote-rendering.tgz:
+    dependencies:
+      '@azure/identity': 1.3.0
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.19
+      '@types/chai-as-promised': 7.1.4
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.15
+      '@types/uuid': 8.3.0
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.29.0
+      inherits: 2.0.4
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      tslib: 2.3.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.4
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/mixed-reality-remote-rendering'
+    resolution:
+      integrity: sha512-C8rmlojMOh5Fei9q15a3kKN3kNioe/SJLK+JtmVMdz3vNUnaotSRGNvSnZ9xCDBeSpujnjiNOY2YbAF12iOGBA==
+      tarball: file:projects/mixed-reality-remote-rendering.tgz
     version: 0.0.0
   file:projects/mock-hub.tgz:
     dependencies:
@@ -11956,7 +12001,7 @@ packages:
     dev: false
     name: '@rush-temp/web-pubsub'
     resolution:
-      integrity: sha512-KzxOCN28tIw0iRDU4HUJ3S3wEcHv/WdKeA29HKgcFMb2DxK2EFvuX6Ih+jAI/M9LYp5Kpwni26AoZTW3KBlENw==
+      integrity: sha512-NEgAqwtqpS48OPZ9oNnVcyOUBN9+cdG8bmcyFPVcH69lHkGVUKUTWlYQKAer1xuBZbdvZrw7l8UjrFtpnVCqaw==
       tarball: file:projects/web-pubsub.tgz
     version: 0.0.0
 registry: ''
@@ -12012,7 +12057,8 @@ specifiers:
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
-  '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
+  '@rush-temp/mixed-reality-authentication': file:./projects/mixed-reality-authentication.tgz
+  '@rush-temp/mixed-reality-remote-rendering': file:./projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
