@@ -7,8 +7,10 @@
  */
 
 export {
+  AssociatedWorkspace,
   AzureEntityResource,
   BaseResource,
+  CapacityReservationProperties,
   CloudError,
   Cluster,
   ClusterPatch,
@@ -30,6 +32,7 @@ export {
   Table,
   Tag,
   TrackedResource,
+  UserIdentityProperties,
   Workspace,
   WorkspaceCapping,
   WorkspacePatch,

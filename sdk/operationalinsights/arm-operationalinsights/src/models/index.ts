@@ -321,42 +321,6 @@ export interface ManagementGroup {
 }
 
 /**
- * Display metadata associated with the operation.
- */
-export interface OperationDisplay {
-  /**
-   * Service provider: Microsoft OperationsManagement.
-   */
-  provider?: string;
-  /**
-   * Resource on which the operation is performed etc.
-   */
-  resource?: string;
-  /**
-   * Type of operation: get, read, delete, etc.
-   */
-  operation?: string;
-  /**
-   * Description of operation
-   */
-  description?: string;
-}
-
-/**
- * Supported operation of OperationalInsights resource provider.
- */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * Display metadata associated with the operation.
-   */
-  display?: OperationDisplay;
-}
-
-/**
  * The status of operation.
  */
 export interface OperationStatus {
@@ -442,302 +406,6 @@ export interface UsageMetric {
    * The quota period that determines the length of time between value resets.
    */
   quotaPeriod?: string;
-}
-
-/**
- * The SKU (tier) of a workspace.
- */
-export interface WorkspaceSku {
-  /**
-   * The name of the SKU. Possible values include: 'Free', 'Standard', 'Premium', 'PerNode',
-   * 'PerGB2018', 'Standalone', 'CapacityReservation', 'LACluster'
-   */
-  name: WorkspaceSkuNameEnum;
-  /**
-   * The capacity reservation level for this workspace, when CapacityReservation sku is selected.
-   */
-  capacityReservationLevel?: number;
-  /**
-   * The maximum capacity reservation level available for this workspace, when CapacityReservation
-   * sku is selected.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxCapacityReservationLevel?: number;
-  /**
-   * The last time when the sku was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastSkuUpdate?: string;
-}
-
-/**
- * The daily volume cap for ingestion.
- */
-export interface WorkspaceCapping {
-  /**
-   * The workspace daily quota for ingestion.
-   */
-  dailyQuotaGb?: number;
-  /**
-   * The time when the quota will be rest.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotaNextResetTime?: string;
-  /**
-   * The status of data ingestion for this workspace. Possible values include: 'RespectQuota',
-   * 'ForceOn', 'ForceOff', 'OverQuota', 'SubscriptionSuspended', 'ApproachingQuota'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataIngestionStatus?: DataIngestionStatus;
-}
-
-/**
- * The private link scope resource reference.
- */
-export interface PrivateLinkScopedResource {
-  /**
-   * The full resource Id of the private link scope resource.
-   */
-  resourceId?: string;
-  /**
-   * The private link scope unique Identifier.
-   */
-  scopeId?: string;
-}
-
-/**
- * The top level Workspace resource container.
- */
-export interface Workspace extends TrackedResource {
-  /**
-   * The provisioning state of the workspace. Possible values include: 'Creating', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleting', 'ProvisioningAccount', 'Updating'
-   */
-  provisioningState?: WorkspaceEntityStatus;
-  /**
-   * This is a read-only property. Represents the ID associated with the workspace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly customerId?: string;
-  /**
-   * The SKU of the workspace.
-   */
-  sku?: WorkspaceSku;
-  /**
-   * The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-   * documentation for details.
-   */
-  retentionInDays?: number;
-  /**
-   * The daily volume cap for ingestion.
-   */
-  workspaceCapping?: WorkspaceCapping;
-  /**
-   * Workspace creation date.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdDate?: string;
-  /**
-   * Workspace modification date.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedDate?: string;
-  /**
-   * The network access type for accessing Log Analytics ingestion. Possible values include:
-   * 'Enabled', 'Disabled'. Default value: 'Enabled'.
-   */
-  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
-  /**
-   * The network access type for accessing Log Analytics query. Possible values include: 'Enabled',
-   * 'Disabled'. Default value: 'Enabled'.
-   */
-  publicNetworkAccessForQuery?: PublicNetworkAccessType;
-  /**
-   * Indicates whether customer managed storage is mandatory for query management.
-   */
-  forceCmkForQuery?: boolean;
-  /**
-   * List of linked private link scope resources.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-  /**
-   * Workspace features.
-   */
-  features?: { [propertyName: string]: any };
-  /**
-   * The ETag of the workspace.
-   */
-  eTag?: string;
-}
-
-/**
- * The top level Workspace resource container.
- */
-export interface WorkspacePatch extends AzureEntityResource {
-  /**
-   * The provisioning state of the workspace. Possible values include: 'Creating', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleting', 'ProvisioningAccount', 'Updating'
-   */
-  provisioningState?: WorkspaceEntityStatus;
-  /**
-   * This is a read-only property. Represents the ID associated with the workspace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly customerId?: string;
-  /**
-   * The SKU of the workspace.
-   */
-  sku?: WorkspaceSku;
-  /**
-   * The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-   * documentation for details.
-   */
-  retentionInDays?: number;
-  /**
-   * The daily volume cap for ingestion.
-   */
-  workspaceCapping?: WorkspaceCapping;
-  /**
-   * Workspace creation date.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdDate?: string;
-  /**
-   * Workspace modification date.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedDate?: string;
-  /**
-   * The network access type for accessing Log Analytics ingestion. Possible values include:
-   * 'Enabled', 'Disabled'. Default value: 'Enabled'.
-   */
-  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
-  /**
-   * The network access type for accessing Log Analytics query. Possible values include: 'Enabled',
-   * 'Disabled'. Default value: 'Enabled'.
-   */
-  publicNetworkAccessForQuery?: PublicNetworkAccessType;
-  /**
-   * Indicates whether customer managed storage is mandatory for query management.
-   */
-  forceCmkForQuery?: boolean;
-  /**
-   * List of linked private link scope resources.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-  /**
-   * Workspace features.
-   */
-  features?: { [propertyName: string]: any };
-  /**
-   * Resource tags. Optional.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * The key vault properties.
- */
-export interface KeyVaultProperties {
-  /**
-   * The Key Vault uri which holds they key associated with the Log Analytics cluster.
-   */
-  keyVaultUri?: string;
-  /**
-   * The name of the key associated with the Log Analytics cluster.
-   */
-  keyName?: string;
-  /**
-   * The version of the key associated with the Log Analytics cluster.
-   */
-  keyVersion?: string;
-}
-
-/**
- * The cluster sku definition.
- */
-export interface ClusterSku {
-  /**
-   * The capacity value
-   */
-  capacity?: number;
-  /**
-   * The name of the SKU. Possible values include: 'CapacityReservation'
-   */
-  name?: ClusterSkuNameEnum;
-}
-
-/**
- * The top level Log Analytics cluster resource container.
- */
-export interface ClusterPatch extends BaseResource {
-  /**
-   * The associated key properties.
-   */
-  keyVaultProperties?: KeyVaultProperties;
-  /**
-   * The sku properties.
-   */
-  sku?: ClusterSku;
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Identity for the resource.
- */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The identity type. Possible values include: 'SystemAssigned', 'None'
-   */
-  type: IdentityType;
-}
-
-/**
- * The top level Log Analytics cluster resource container.
- */
-export interface Cluster extends TrackedResource {
-  /**
-   * The identity of the resource.
-   */
-  identity?: Identity;
-  /**
-   * The sku properties.
-   */
-  sku?: ClusterSku;
-  /**
-   * The link used to get the next page of recommendations.
-   */
-  nextLink?: string;
-  /**
-   * The ID associated with the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clusterId?: string;
-  /**
-   * The provisioning state of the cluster. Possible values include: 'Creating', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleting', 'ProvisioningAccount', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ClusterEntityStatus;
-  /**
-   * The associated key properties.
-   */
-  keyVaultProperties?: KeyVaultProperties;
 }
 
 /**
@@ -1146,6 +814,442 @@ export interface Table extends ProxyResource {
 }
 
 /**
+ * The key vault properties.
+ */
+export interface KeyVaultProperties {
+  /**
+   * The Key Vault uri which holds they key associated with the Log Analytics cluster.
+   */
+  keyVaultUri?: string;
+  /**
+   * The name of the key associated with the Log Analytics cluster.
+   */
+  keyName?: string;
+  /**
+   * The version of the key associated with the Log Analytics cluster.
+   */
+  keyVersion?: string;
+  /**
+   * Selected key minimum required size.
+   */
+  keyRsaSize?: number;
+}
+
+/**
+ * The list of Log Analytics workspaces associated with the cluster.
+ */
+export interface AssociatedWorkspace {
+  /**
+   * The id of the assigned workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly workspaceId?: string;
+  /**
+   * The name id the assigned workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly workspaceName?: string;
+  /**
+   * The ResourceId id the assigned workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceId?: string;
+  /**
+   * The time of workspace association.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly associateDate?: string;
+}
+
+/**
+ * The Capacity Reservation properties.
+ */
+export interface CapacityReservationProperties {
+  /**
+   * The last time Sku was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSkuUpdate?: string;
+  /**
+   * Minimum CapacityReservation value in GB.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minCapacity?: number;
+  /**
+   * Maximum CapacityReservation value in GB.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxCapacity?: number;
+}
+
+/**
+ * User assigned identity properties.
+ */
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * Type of managed service identity. Possible values include: 'SystemAssigned', 'UserAssigned',
+   * 'None'
+   */
+  type: IdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity dictionary key
+   * references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+/**
+ * The cluster sku definition.
+ */
+export interface ClusterSku {
+  /**
+   * The capacity value
+   */
+  capacity?: number;
+  /**
+   * The name of the SKU. Possible values include: 'CapacityReservation'
+   */
+  name?: ClusterSkuNameEnum;
+}
+
+/**
+ * The top level Log Analytics cluster resource container.
+ */
+export interface ClusterPatch extends BaseResource {
+  /**
+   * The associated key properties.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The identity of the resource.
+   */
+  identity?: Identity;
+  /**
+   * The sku properties.
+   */
+  sku?: ClusterSku;
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * The top level Log Analytics cluster resource container.
+ */
+export interface Cluster extends TrackedResource {
+  /**
+   * The identity of the resource.
+   */
+  identity?: Identity;
+  /**
+   * The sku properties.
+   */
+  sku?: ClusterSku;
+  /**
+   * The ID associated with the cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clusterId?: string;
+  /**
+   * The provisioning state of the cluster. Possible values include: 'Creating', 'Succeeded',
+   * 'Failed', 'Canceled', 'Deleting', 'ProvisioningAccount', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ClusterEntityStatus;
+  /**
+   * Configures whether cluster will use double encryption. This Property can not be modified after
+   * cluster creation. Default value is 'true'
+   */
+  isDoubleEncryptionEnabled?: boolean;
+  /**
+   * Sets whether the cluster will support availability zones. This can be set as true only in
+   * regions where Azure Data Explorer support Availability Zones. This Property can not be
+   * modified after cluster creation. Default value is 'true' if region supports Availability
+   * Zones.
+   */
+  isAvailabilityZonesEnabled?: boolean;
+  /**
+   * Configures whether billing will be only on the cluster or each workspace will be billed by its
+   * proportional use. This does not change the overall billing, only how it will be distributed.
+   * Default value is 'Cluster'. Possible values include: 'Cluster', 'Workspaces'
+   */
+  billingType?: BillingType;
+  /**
+   * The associated key properties.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The last time the cluster was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedDate?: string;
+  /**
+   * The cluster creation time
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdDate?: string;
+  /**
+   * The list of Log Analytics workspaces associated with the cluster
+   */
+  associatedWorkspaces?: AssociatedWorkspace[];
+  /**
+   * Additional properties for capacity reservation
+   */
+  capacityReservationProperties?: CapacityReservationProperties;
+}
+
+/**
+ * Display metadata associated with the operation.
+ */
+export interface OperationDisplay {
+  /**
+   * Service provider: Microsoft OperationsManagement.
+   */
+  provider?: string;
+  /**
+   * Resource on which the operation is performed etc.
+   */
+  resource?: string;
+  /**
+   * Type of operation: get, read, delete, etc.
+   */
+  operation?: string;
+  /**
+   * Description of operation
+   */
+  description?: string;
+}
+
+/**
+ * Supported operation of OperationalInsights resource provider.
+ */
+export interface Operation {
+  /**
+   * Operation name: {provider}/{resource}/{operation}
+   */
+  name?: string;
+  /**
+   * Display metadata associated with the operation.
+   */
+  display?: OperationDisplay;
+}
+
+/**
+ * The SKU (tier) of a workspace.
+ */
+export interface WorkspaceSku {
+  /**
+   * The name of the SKU. Possible values include: 'Free', 'Standard', 'Premium', 'PerNode',
+   * 'PerGB2018', 'Standalone', 'CapacityReservation', 'LACluster'
+   */
+  name: WorkspaceSkuNameEnum;
+  /**
+   * The capacity reservation level for this workspace, when CapacityReservation sku is selected.
+   */
+  capacityReservationLevel?: number;
+  /**
+   * The last time when the sku was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSkuUpdate?: string;
+}
+
+/**
+ * The daily volume cap for ingestion.
+ */
+export interface WorkspaceCapping {
+  /**
+   * The workspace daily quota for ingestion.
+   */
+  dailyQuotaGb?: number;
+  /**
+   * The time when the quota will be rest.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly quotaNextResetTime?: string;
+  /**
+   * The status of data ingestion for this workspace. Possible values include: 'RespectQuota',
+   * 'ForceOn', 'ForceOff', 'OverQuota', 'SubscriptionSuspended', 'ApproachingQuota'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataIngestionStatus?: DataIngestionStatus;
+}
+
+/**
+ * The private link scope resource reference.
+ */
+export interface PrivateLinkScopedResource {
+  /**
+   * The full resource Id of the private link scope resource.
+   */
+  resourceId?: string;
+  /**
+   * The private link scope unique Identifier.
+   */
+  scopeId?: string;
+}
+
+/**
+ * The top level Workspace resource container.
+ */
+export interface Workspace extends TrackedResource {
+  /**
+   * The provisioning state of the workspace. Possible values include: 'Creating', 'Succeeded',
+   * 'Failed', 'Canceled', 'Deleting', 'ProvisioningAccount', 'Updating'
+   */
+  provisioningState?: WorkspaceEntityStatus;
+  /**
+   * This is a read-only property. Represents the ID associated with the workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly customerId?: string;
+  /**
+   * The SKU of the workspace.
+   */
+  sku?: WorkspaceSku;
+  /**
+   * The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+   * documentation for details.
+   */
+  retentionInDays?: number;
+  /**
+   * The daily volume cap for ingestion.
+   */
+  workspaceCapping?: WorkspaceCapping;
+  /**
+   * Workspace creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdDate?: string;
+  /**
+   * Workspace modification date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modifiedDate?: string;
+  /**
+   * The network access type for accessing Log Analytics ingestion. Possible values include:
+   * 'Enabled', 'Disabled'. Default value: 'Enabled'.
+   */
+  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
+  /**
+   * The network access type for accessing Log Analytics query. Possible values include: 'Enabled',
+   * 'Disabled'. Default value: 'Enabled'.
+   */
+  publicNetworkAccessForQuery?: PublicNetworkAccessType;
+  /**
+   * Indicates whether customer managed storage is mandatory for query management.
+   */
+  forceCmkForQuery?: boolean;
+  /**
+   * List of linked private link scope resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /**
+   * Workspace features.
+   */
+  features?: { [propertyName: string]: any };
+  /**
+   * The ETag of the workspace.
+   */
+  eTag?: string;
+}
+
+/**
+ * The top level Workspace resource container.
+ */
+export interface WorkspacePatch extends AzureEntityResource {
+  /**
+   * The provisioning state of the workspace. Possible values include: 'Creating', 'Succeeded',
+   * 'Failed', 'Canceled', 'Deleting', 'ProvisioningAccount', 'Updating'
+   */
+  provisioningState?: WorkspaceEntityStatus;
+  /**
+   * This is a read-only property. Represents the ID associated with the workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly customerId?: string;
+  /**
+   * The SKU of the workspace.
+   */
+  sku?: WorkspaceSku;
+  /**
+   * The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+   * documentation for details.
+   */
+  retentionInDays?: number;
+  /**
+   * The daily volume cap for ingestion.
+   */
+  workspaceCapping?: WorkspaceCapping;
+  /**
+   * Workspace creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdDate?: string;
+  /**
+   * Workspace modification date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modifiedDate?: string;
+  /**
+   * The network access type for accessing Log Analytics ingestion. Possible values include:
+   * 'Enabled', 'Disabled'. Default value: 'Enabled'.
+   */
+  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
+  /**
+   * The network access type for accessing Log Analytics query. Possible values include: 'Enabled',
+   * 'Disabled'. Default value: 'Enabled'.
+   */
+  publicNetworkAccessForQuery?: PublicNetworkAccessType;
+  /**
+   * Indicates whether customer managed storage is mandatory for query management.
+   */
+  forceCmkForQuery?: boolean;
+  /**
+   * List of linked private link scope resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /**
+   * Workspace features.
+   */
+  features?: { [propertyName: string]: any };
+  /**
+   * Resource tags. Optional.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
  * Optional Parameters.
  */
 export interface DataSourcesListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
@@ -1250,43 +1354,10 @@ export interface WorkspaceListManagementGroupsResult extends Array<ManagementGro
 
 /**
  * @interface
- * Result of the request to list solution operations.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * The list workspace usages operation response.
  * @extends Array<UsageMetric>
  */
 export interface WorkspaceListUsagesResult extends Array<UsageMetric> {
-}
-
-/**
- * @interface
- * The list workspaces operation response.
- * @extends Array<Workspace>
- */
-export interface WorkspaceListResult extends Array<Workspace> {
-}
-
-/**
- * @interface
- * The list clusters operation response.
- * @extends Array<Cluster>
- */
-export interface ClusterListResult extends Array<Cluster> {
-  /**
-   * The link used to get the next page of recommendations.
-   */
-  nextLink?: string;
 }
 
 /**
@@ -1307,6 +1378,39 @@ export interface StorageInsightListResult extends Array<StorageInsight> {
  * @extends Array<Table>
  */
 export interface TablesListResult extends Array<Table> {
+}
+
+/**
+ * @interface
+ * The list clusters operation response.
+ * @extends Array<Cluster>
+ */
+export interface ClusterListResult extends Array<Cluster> {
+  /**
+   * The link used to get the next page of recommendations.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list solution operations.
+ * @extends Array<Operation>
+ */
+export interface OperationListResult extends Array<Operation> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list workspaces operation response.
+ * @extends Array<Workspace>
+ */
+export interface WorkspaceListResult extends Array<Workspace> {
 }
 
 /**
@@ -1352,6 +1456,72 @@ export type LinkedServiceEntityStatus = 'Succeeded' | 'Deleting' | 'Provisioning
 export type DataSourceType = 'CustomLogs' | 'AzureWatson' | 'Query' | 'Alerts';
 
 /**
+ * Defines values for StorageInsightState.
+ * Possible values include: 'OK', 'ERROR'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageInsightState = 'OK' | 'ERROR';
+
+/**
+ * Defines values for SkuNameEnum.
+ * Possible values include: 'Free', 'Standard', 'Premium', 'PerNode', 'PerGB2018', 'Standalone',
+ * 'CapacityReservation'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone' | 'CapacityReservation';
+
+/**
+ * Defines values for SearchSortEnum.
+ * Possible values include: 'asc', 'desc'
+ * @readonly
+ * @enum {string}
+ */
+export type SearchSortEnum = 'asc' | 'desc';
+
+/**
+ * Defines values for PurgeState.
+ * Possible values include: 'pending', 'completed'
+ * @readonly
+ * @enum {string}
+ */
+export type PurgeState = 'pending' | 'completed';
+
+/**
+ * Defines values for ClusterEntityStatus.
+ * Possible values include: 'Creating', 'Succeeded', 'Failed', 'Canceled', 'Deleting',
+ * 'ProvisioningAccount', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleting' | 'ProvisioningAccount' | 'Updating';
+
+/**
+ * Defines values for BillingType.
+ * Possible values include: 'Cluster', 'Workspaces'
+ * @readonly
+ * @enum {string}
+ */
+export type BillingType = 'Cluster' | 'Workspaces';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'SystemAssigned' | 'UserAssigned' | 'None';
+
+/**
+ * Defines values for ClusterSkuNameEnum.
+ * Possible values include: 'CapacityReservation'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterSkuNameEnum = 'CapacityReservation';
+
+/**
  * Defines values for WorkspaceSkuNameEnum.
  * Possible values include: 'Free', 'Standard', 'Premium', 'PerNode', 'PerGB2018', 'Standalone',
  * 'CapacityReservation', 'LACluster'
@@ -1385,64 +1555,6 @@ export type WorkspaceEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Cance
  * @enum {string}
  */
 export type PublicNetworkAccessType = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for ClusterEntityStatus.
- * Possible values include: 'Creating', 'Succeeded', 'Failed', 'Canceled', 'Deleting',
- * 'ProvisioningAccount', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type ClusterEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleting' | 'ProvisioningAccount' | 'Updating';
-
-/**
- * Defines values for ClusterSkuNameEnum.
- * Possible values include: 'CapacityReservation'
- * @readonly
- * @enum {string}
- */
-export type ClusterSkuNameEnum = 'CapacityReservation';
-
-/**
- * Defines values for IdentityType.
- * Possible values include: 'SystemAssigned', 'None'
- * @readonly
- * @enum {string}
- */
-export type IdentityType = 'SystemAssigned' | 'None';
-
-/**
- * Defines values for StorageInsightState.
- * Possible values include: 'OK', 'ERROR'
- * @readonly
- * @enum {string}
- */
-export type StorageInsightState = 'OK' | 'ERROR';
-
-/**
- * Defines values for SkuNameEnum.
- * Possible values include: 'Free', 'Standard', 'Premium', 'PerNode', 'PerGB2018', 'Standalone',
- * 'CapacityReservation'
- * @readonly
- * @enum {string}
- */
-export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone' | 'CapacityReservation';
-
-/**
- * Defines values for SearchSortEnum.
- * Possible values include: 'asc', 'desc'
- * @readonly
- * @enum {string}
- */
-export type SearchSortEnum = 'asc' | 'desc';
-
-/**
- * Defines values for PurgeState.
- * Possible values include: 'pending', 'completed'
- * @readonly
- * @enum {string}
- */
-export type PurgeState = 'pending' | 'completed';
 
 /**
  * Contains response data for the listByWorkspace operation.
@@ -1805,46 +1917,6 @@ export type ManagementGroupsListResponse = WorkspaceListManagementGroupsResult &
 };
 
 /**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type OperationStatusesGetResponse = OperationStatus & {
@@ -1921,326 +1993,6 @@ export type UsagesListResponse = WorkspaceListUsagesResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: WorkspaceListUsagesResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspacesListResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WorkspacesCreateOrUpdateResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspacesGetResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type WorkspacesUpdateResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type DeletedWorkspacesListResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type DeletedWorkspacesListByResourceGroupResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ClustersListByResourceGroupResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ClustersListResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ClustersCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ClustersGetResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ClustersUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ClustersBeginCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ClustersListNextResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
     };
 };
 
@@ -2526,5 +2278,365 @@ export type TablesGetResponse = Table & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ClustersListByResourceGroupResponse = ClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ClustersListResponse = ClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ClustersCreateOrUpdateResponse = Cluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ClustersGetResponse = Cluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ClustersUpdateResponse = Cluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ClustersBeginCreateOrUpdateResponse = Cluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ClustersListNextResponse = ClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationsListNextResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspacesListResponse = WorkspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkspacesCreateOrUpdateResponse = Workspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Workspace;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspacesGetResponse = Workspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Workspace;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type WorkspacesUpdateResponse = Workspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Workspace;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Workspace;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DeletedWorkspacesListResponse = WorkspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DeletedWorkspacesListByResourceGroupResponse = WorkspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceListResult;
     };
 };

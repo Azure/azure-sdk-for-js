@@ -182,7 +182,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.savedSearchId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -206,7 +206,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.savedSearchId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -239,7 +239,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.savedSearchId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -264,7 +264,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

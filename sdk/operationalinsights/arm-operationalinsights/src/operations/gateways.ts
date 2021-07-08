@@ -73,7 +73,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.gatewayId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
