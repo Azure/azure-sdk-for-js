@@ -10,13 +10,14 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-operations";
-const packageVersion = "0.1.0";
+const packageVersion = "2.2.0";
 
 export class OperationsManagementClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
   apiVersion?: string;
   providerName: string;
@@ -25,7 +26,12 @@ export class OperationsManagementClientContext extends msRestAzure.AzureServiceC
 
   /**
    * Initializes a new instance of the OperationsManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param providerName Provider name for the parent resource.
@@ -33,7 +39,7 @@ export class OperationsManagementClientContext extends msRestAzure.AzureServiceC
    * @param resourceName Parent resource name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, providerName: string, resourceType: string, resourceName: string, options?: Models.OperationsManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, providerName: string, resourceType: string, resourceName: string, options?: Models.OperationsManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
