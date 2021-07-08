@@ -174,20 +174,20 @@ export interface AttestTpmOptions extends AttestationClientOperationOptions {
 export type CertificateModification = string;
 
 // @public
-export enum KnownAttestationType {
+export const enum KnownAttestationType {
     OpenEnclave = "OpenEnclave",
     SgxEnclave = "SgxEnclave",
     Tpm = "Tpm"
 }
 
 // @public
-export enum KnownCertificateModification {
+export const enum KnownCertificateModification {
     IsAbsent = "IsAbsent",
     IsPresent = "IsPresent"
 }
 
 // @public
-export enum KnownPolicyModification {
+export const enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
 }
