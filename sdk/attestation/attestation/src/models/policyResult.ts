@@ -18,24 +18,7 @@ import { AttestationSigner, _attestationSignerFromGenerated } from "./attestatio
 /**
  * The result of a policy certificate modification
  */
-export class PolicyResult {
-  /**
-   *
-   * @param result - Generated PolicyResult from service.
-   *
-   */
-  constructor(result: {
-    policyResolution: PolicyModification;
-    policyTokenHash: Uint8Array;
-    policy?: string;
-    policySigner?: AttestationSigner;
-  }) {
-    this.policyResolution = result.policyResolution;
-    this.policyTokenHash = result.policyTokenHash;
-    this.policy = result.policy;
-    this.policySigner = result.policySigner ?? undefined;
-  }
-
+export interface PolicyResult {
   /**
    * The result of the operation
    */
@@ -66,12 +49,12 @@ export function _policyResultFromGenerated(rawJson: unknown): PolicyResult {
     { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey },
     "PolicyResult"
   ) as GeneratedPolicyResult;
-  return new PolicyResult({
+  return {
     policyResolution: policyResult.policyResolution,
     policyTokenHash: policyResult.policyTokenHash,
     policy: policyResult.policy,
     policySigner: policyResult.policySigner
       ? _attestationSignerFromGenerated(policyResult.policySigner)
       : undefined
-  });
+  };
 }

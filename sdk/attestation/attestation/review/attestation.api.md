@@ -55,9 +55,7 @@ export class AttestationPolicyToken extends AttestationToken {
 }
 
 // @public
-export class AttestationResponse<T> {
-    // @internal
-    constructor(token: AttestationToken, value: T);
+export interface AttestationResponse<T> {
     token: AttestationToken;
     value: T;
 }
@@ -176,20 +174,20 @@ export interface AttestTpmOptions extends AttestationClientOperationOptions {
 export type CertificateModification = string;
 
 // @public
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
     OpenEnclave = "OpenEnclave",
     SgxEnclave = "SgxEnclave",
     Tpm = "Tpm"
 }
 
 // @public
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
     IsAbsent = "IsAbsent",
     IsPresent = "IsPresent"
 }
 
 // @public
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
 }
@@ -204,13 +202,7 @@ export interface PolicyCertificatesModificationResult {
 export type PolicyModification = string;
 
 // @public
-export class PolicyResult {
-    constructor(result: {
-        policyResolution: PolicyModification;
-        policyTokenHash: Uint8Array;
-        policy?: string;
-        policySigner?: AttestationSigner;
-    });
+export interface PolicyResult {
     policy?: string;
     policyResolution: PolicyModification;
     policySigner?: AttestationSigner;

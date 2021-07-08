@@ -24,7 +24,7 @@ import { GeneratedClientOptionalParams } from "./generated/models";
 import * as Mappers from "./generated/models/mappers";
 
 import { SpanStatusCode } from "@azure/core-tracing";
-import { AttestationResponse } from "./models/attestationResponse";
+import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
 
 import { TypeDeserializer } from "./utils/typeDeserializer";
 import { TokenCredential } from "@azure/core-auth";
@@ -268,7 +268,7 @@ export class AttestationClient {
         "GeneratedAttestationResult"
       ) as GeneratedAttestationResult;
 
-      return new AttestationResponse<AttestationResult>(
+      return createAttestationResponse<AttestationResult>(
         token,
         _attestationResultFromGenerated(attestationResult)
       );
@@ -358,7 +358,7 @@ export class AttestationClient {
         "GeneratedAttestationResult"
       ) as GeneratedAttestationResult;
 
-      return new AttestationResponse<AttestationResult>(
+      return createAttestationResponse<AttestationResult>(
         token,
         _attestationResultFromGenerated(attestationResult)
       );

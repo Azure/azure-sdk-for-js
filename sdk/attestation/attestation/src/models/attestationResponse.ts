@@ -11,19 +11,7 @@ import { AttestationToken } from "./attestationToken";
  * @typeparam value - The body of the token returned by the attestation service.
  *
  */
-export class AttestationResponse<T> {
-  /**
-   * @internal
-   *
-   * @param token - The attestation token returned by the attestation service.
-   * @param value - The value returned by the service. Normally derived from the
-   *  body of the attestation token.
-   */
-  constructor(token: AttestationToken, value: T) {
-    this.token = token;
-    this.value = value;
-  }
-
+export interface AttestationResponse<T> {
   /**
    * The Attestation Token returned from the attestation service.
    */
@@ -34,4 +22,14 @@ export class AttestationResponse<T> {
    */
 
   value: T;
+}
+
+/** Create an AttestationResponse object.
+ *
+ * @param token - Token which was returned from the attestation service.
+ * @param value - Value for the response. Typically represents the body of the token returned by the service.
+ * @returns - A newly created AttestationResponse object.
+ */
+export function createAttestationResponse<T>(token: AttestationToken, value: T) : AttestationResponse<T> {
+  return { token: token, value: value };
 }

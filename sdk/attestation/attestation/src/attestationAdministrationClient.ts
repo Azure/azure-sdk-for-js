@@ -41,6 +41,7 @@ import { hexToBase64 } from "./utils/helpers";
 import { _policyResultFromGenerated } from "./models/policyResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
 import { verifyAttestationSigningKey } from "./utils/helpers";
+import { createAttestationResponse } from "./models/attestationResponse";
 
 /**
  * Attestation Client Construction Options.
@@ -175,7 +176,7 @@ export class AttestationAdministrationClient {
       // Finally, retrieve the stored attestationPolicy value and return that
       // as the AttestationResponse to the caller.
       if (storedPolicy.attestationPolicy) {
-        return new AttestationResponse<string>(
+        return createAttestationResponse<string>(
           token,
           bytesToString(storedPolicy.attestationPolicy)
         );
@@ -258,7 +259,7 @@ export class AttestationAdministrationClient {
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an
       // AttestationToken object so we can access the body properties on the token.
-      return new AttestationResponse<PolicyResult>(token, policyResult);
+      return createAttestationResponse<PolicyResult>(token, policyResult);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -333,7 +334,7 @@ export class AttestationAdministrationClient {
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an
       // AttestationToken object so we can access the body properties on the token.
-      return new AttestationResponse<PolicyResult>(token, policyResult);
+      return createAttestationResponse<PolicyResult>(token, policyResult);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -384,7 +385,7 @@ export class AttestationAdministrationClient {
         policyCertificates.push(_attestationSignerFromGenerated(jwk));
       });
 
-      return new AttestationResponse<AttestationSigner[]>(token, policyCertificates);
+      return createAttestationResponse<AttestationSigner[]>(token, policyCertificates);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -478,7 +479,7 @@ export class AttestationAdministrationClient {
         "PolicyCertificatesModificationResult"
       ) as PolicyCertificatesModificationResult;
 
-      return new AttestationResponse<PolicyCertificatesModificationResult>(token, result);
+      return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -591,7 +592,7 @@ export class AttestationAdministrationClient {
         "PolicyCertificatesModificationResult"
       ) as PolicyCertificatesModificationResult;
 
-      return new AttestationResponse<PolicyCertificatesModificationResult>(token, result);
+      return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
