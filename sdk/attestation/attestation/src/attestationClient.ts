@@ -4,12 +4,7 @@
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 
-import {
-  AttestationSigner,
-  AttestationToken,
-  AttestationTokenValidationOptions,
-  AttestationResult
-} from "./models";
+import { AttestationSigner, AttestationTokenValidationOptions, AttestationResult } from "./models";
 
 import {
   GeneratedAttestationResult,
@@ -32,6 +27,7 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { bytesToString, stringToBytes } from "./utils/utf8";
 import { _attestationResultFromGenerated } from "./models/attestationResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
+import { AttestationTokenImpl } from "./models/attestationToken";
 /**
  * Attestation Client Construction Options.
  */
@@ -253,7 +249,7 @@ export class AttestationClient {
         updatedOptions
       );
 
-      const token = new AttestationToken(attestationResponse.token);
+      const token = new AttestationTokenImpl(attestationResponse.token);
       token.validateToken(
         await this._signingKeys(),
         options.validationOptions ?? this._validationOptions
@@ -343,7 +339,7 @@ export class AttestationClient {
         updatedOptions
       );
 
-      const token = new AttestationToken(attestationResponse.token);
+      const token = new AttestationTokenImpl(attestationResponse.token);
       token.validateToken(
         await this._signingKeys(),
         options.validationOptions ?? this._validationOptions

@@ -57,7 +57,7 @@ describe("PolicyManagementTests ", function() {
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
     assert(policyResult.value !== undefined);
-    assert(policyResult.value?.length !== 0);
+    assert(policyResult.value.length !== 0);
   });
 
   it("Add Policy Certificates failure conditions", async () => {

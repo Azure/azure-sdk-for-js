@@ -32,7 +32,7 @@
 
 import {
   AttestationAdministrationClient,
-  AttestationPolicyToken,
+  createAttestationPolicyToken,
   KnownAttestationType
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -52,7 +52,7 @@ dotenv.config();
 async function setOpenEnclaveAttestationPolicyAadUnsecured() {
   writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
-  // Use the customer specified attestion URL, or use the West US shared instance.
+  // Use the customer specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
@@ -86,7 +86,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
   console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = new AttestationPolicyToken(newPolicy);
+  const expectedPolicy = createAttestationPolicyToken(newPolicy);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -108,7 +108,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
 async function setOpenEnclaveAttestationPolicyAadSecured() {
   writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
-  // Use the customer specified attestion URL, or use the West US shared instance.
+  // Use the customer specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
@@ -149,7 +149,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = new AttestationPolicyToken(newPolicy, privateKey, certificate);
+  const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -176,7 +176,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
 async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
-  // Use the customer specified attestion URL, or use the West US shared instance.
+  // Use the customer specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_ISOLATED_URL must be defined.");
@@ -225,7 +225,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = new AttestationPolicyToken(newPolicy, privateKey, certificate);
+  const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);

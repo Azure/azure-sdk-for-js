@@ -219,14 +219,43 @@ If the attestation service instance is running in Isolated mode, the set_policy 
 Under the covers, the setPolicy APIs create a [JSON Web Token][json_web_token] based on the policy document and signing information which is sent to the attestation service.
 
 ```js
-<FILL THIS IN>
+  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+
+  const newPolicy = `<New Policy Document>`;
+
+  // Set the new attestation policy. Set the policy as an secured policy.
+
+  // Start by creating an RSA Key and Certificate (note: normally the key would
+  // be stored securely in Key Value or other location. For the purposes of this
+  // sample, an ephemeral key and self-signed certificate is sufficient).
+
+  const [privateKey, publicKey] = createRSAKey();
+  const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
+
+  const setPolicyResult = await client.setPolicy(
+    KnownAttestationType.OpenEnclave,
+    newPolicy,
+    privateKey,
+    certificate
+  );
 ```
 
 If the service instance is running in AAD mode, the call to setPolicy can be
 simplified:
 
 ```js
-<FILL THIS IN>
+  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+
+  // This attestation policy blocks all non-debug SGX enclaves,
+  // and requires that the product ID be 1, the SVN be greater than 0,
+  // and that the enclave is signed with the specified signer value.
+  //
+  // It also issues a claim named "My-MrSigner" whose value matches the MRSIGNER
+  // SGX property.
+  const newPolicy = `<New Attestation Policy>`;
+
+  // Set the new attestation policy. Set the policy as an unsecured policy.
+  const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy);
 ```
 
 Clients need to be able to verify that the attestation policy document was not modified before the policy document was received by the attestation service's enclave.
@@ -239,10 +268,10 @@ There are two properties provided in the [PolicyResult][attestation_policy_resul
 To verify the hash, clients can generate an attestation token and verify the hash generated from that token:
 
 ```js
-const expectedPolicy = AttestationToken.create({
-  body: new StoredAttestationPolicy(minimalPolicy).serialize(),
-  signer: signer
-});
+const expectedPolicy = new AttestationPolicyToken(
+  `<Policy Document>`,
+  privateKey,
+  certificate);
 
 // Use your favorite SHA256 hash generator function to create a hash of the
 // stringized JWS. The tests in this package use `KJUR.crypto.Util.hashString(buffer, "sha256")`

@@ -19,7 +19,7 @@ import {
   EndpointType,
   getIsolatedSigningKey
 } from "../utils/recordedClient";
-import { KnownAttestationType, AttestationPolicyToken, AttestationType } from "../../src";
+import { KnownAttestationType, AttestationType, createAttestationPolicyToken } from "../../src";
 import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { KnownPolicyModification } from "../../src/generated";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers";
@@ -189,7 +189,7 @@ describe("PolicyGetSetTests ", function() {
 
     assert.equal(KnownPolicyModification.Updated, policyResult.value.policyResolution);
 
-    const expectedPolicy = new AttestationPolicyToken(
+    const expectedPolicy = createAttestationPolicyToken(
       minimalPolicy,
       signer?.privateKey,
       signer?.certificate

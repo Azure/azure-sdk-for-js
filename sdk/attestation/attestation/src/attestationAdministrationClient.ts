@@ -20,7 +20,6 @@ import { bytesToString } from "./utils/utf8";
 
 import {
   AttestationResponse,
-  AttestationToken,
   AttestationTokenValidationOptions,
   AttestationType,
   PolicyResult,
@@ -42,6 +41,7 @@ import { _policyResultFromGenerated } from "./models/policyResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
 import { verifyAttestationSigningKey } from "./utils/helpers";
 import { createAttestationResponse } from "./models/attestationResponse";
+import { AttestationTokenImpl } from "./models/attestationToken";
 
 /**
  * Attestation Client Construction Options.
@@ -150,7 +150,7 @@ export class AttestationAdministrationClient {
 
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
-      const token = new AttestationToken(getPolicyResult.token);
+      const token = new AttestationTokenImpl(getPolicyResult.token);
 
       // Validate the token returned from the service.
       token.validateToken(
@@ -169,7 +169,7 @@ export class AttestationAdministrationClient {
         throw Error("Server returned an invalid getPolicy response!");
       }
 
-      const policyToken = new AttestationToken(policyResult.policy);
+      const policyToken = new AttestationTokenImpl(policyResult.policy);
 
       const storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody());
 
@@ -232,7 +232,7 @@ export class AttestationAdministrationClient {
       }
 
       const storedAttestationPolicy = new StoredAttestationPolicy(newPolicyDocument).serialize();
-      const setPolicyToken = AttestationToken.create({
+      const setPolicyToken = AttestationTokenImpl.create({
         body: storedAttestationPolicy,
         privateKey: privateKey,
         certificate: certificate
@@ -246,7 +246,7 @@ export class AttestationAdministrationClient {
 
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
-      const token = new AttestationToken(setPolicyResult.token);
+      const token = new AttestationTokenImpl(setPolicyResult.token);
       token.validateToken(
         await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
@@ -308,7 +308,7 @@ export class AttestationAdministrationClient {
         verifyAttestationSigningKey(privateKey, certificate);
       }
 
-      const resetPolicyToken = AttestationToken.create({
+      const resetPolicyToken = AttestationTokenImpl.create({
         privateKey: privateKey,
         certificate: certificate
       });
@@ -321,7 +321,7 @@ export class AttestationAdministrationClient {
 
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
-      const token = new AttestationToken(resetPolicyResult.token);
+      const token = new AttestationTokenImpl(resetPolicyResult.token);
       token.validateToken(
         await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
@@ -362,7 +362,7 @@ export class AttestationAdministrationClient {
       const getCertificatesResult = await this._client.policyCertificates.get(updatedOptions);
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
-      const token = new AttestationToken(getCertificatesResult.token);
+      const token = new AttestationTokenImpl(getCertificatesResult.token);
       token.validateToken(
         await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
@@ -443,7 +443,7 @@ export class AttestationAdministrationClient {
         policyCertificate: jwk
       };
 
-      const addCertToken = AttestationToken.create({
+      const addCertToken = AttestationTokenImpl.create({
         body: TypeDeserializer.serialize(
           addBody,
           {
@@ -462,7 +462,7 @@ export class AttestationAdministrationClient {
       );
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
-      const token = new AttestationToken(addCertificateResult.token);
+      const token = new AttestationTokenImpl(addCertificateResult.token);
       token.validateToken(
         await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
@@ -556,7 +556,7 @@ export class AttestationAdministrationClient {
         policyCertificate: jwk
       };
 
-      const removeCertToken = AttestationToken.create({
+      const removeCertToken = AttestationTokenImpl.create({
         body: TypeDeserializer.serialize(
           addBody,
           {
@@ -575,7 +575,7 @@ export class AttestationAdministrationClient {
       );
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
-      const token = new AttestationToken(removeCertificateResult.token);
+      const token = new AttestationTokenImpl(removeCertificateResult.token);
       token.validateToken(
         await this.signingKeys(),
         options.validationOptions ?? this._validationOptions

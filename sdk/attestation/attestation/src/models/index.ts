@@ -11,7 +11,7 @@ export {
   KnownCertificateModification,
   KnownPolicyModification
 } from "../generated/models/index";
-export { AttestationPolicyToken } from "./attestationPolicyToken";
+export { AttestationPolicyToken, createAttestationPolicyToken } from "./attestationPolicyToken";
 
 /**
  * The result of a policy certificate modification

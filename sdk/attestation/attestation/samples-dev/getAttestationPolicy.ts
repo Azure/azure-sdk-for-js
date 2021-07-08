@@ -35,7 +35,7 @@ dotenv.config();
 async function getCurrentAttestationPolicyAad() {
   writeBanner("Get Current Attestation Policy - AAD instance.");
 
-  // Use the customer specified attestion URL, or use the West US shared instance.
+  // Use the customer specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (endpoint === undefined) {
     throw new Error("Attestation endpoint must be provided.");

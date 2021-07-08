@@ -50,8 +50,7 @@ export interface AttestationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export class AttestationPolicyToken extends AttestationToken {
-    constructor(policy: string, privateKey?: string, certificate?: string);
+export interface AttestationPolicyToken extends AttestationToken {
 }
 
 // @public
@@ -61,44 +60,25 @@ export interface AttestationResponse<T> {
 }
 
 // @public
-export class AttestationResult {
-    constructor(params: {
-        issuer: string;
-        version: string;
-        nonce?: string;
-        uniqueId: string;
-        runtimeClaims?: any;
-        inittimeClaims?: any;
-        policyClaims?: any;
-        verifierType: string;
-        policySigner?: AttestationSigner;
-        policyHash: Uint8Array;
-        isDebuggable?: boolean;
-        productId?: number;
-        mrEnclave?: string;
-        mrSigner?: string;
-        svn?: number;
-        enclaveHeldData?: Uint8Array;
-        sgxCollateral?: any;
-    });
-    get enclaveHeldData(): Uint8Array | undefined;
-    get inittimeClaims(): any;
-    get isDebuggable(): boolean | undefined;
-    get issuer(): string;
-    get mrEnclave(): string | undefined;
-    get mrSigner(): string | undefined;
-    get nonce(): string | undefined;
-    get policyClaims(): any;
-    get policyHash(): Uint8Array;
-    get policySigner(): AttestationSigner | undefined;
-    get productId(): number | undefined;
-    get runtimeClaims(): any;
-    get sgxCollateral(): any;
-    get svn(): number | undefined;
-    get uniqueId(): string;
-    get verifierType(): string;
-    get version(): string;
-    }
+export interface AttestationResult {
+    enclaveHeldData: Uint8Array | undefined;
+    inittimeClaims: any;
+    isDebuggable: boolean | undefined;
+    issuer: string;
+    mrEnclave: string | undefined;
+    mrSigner: string | undefined;
+    nonce: string | undefined;
+    policyClaims: any;
+    policyHash: Uint8Array;
+    policySigner: AttestationSigner | undefined;
+    productId: number | undefined;
+    runtimeClaims: any;
+    sgxCollateral: any | undefined;
+    svn: number | undefined;
+    uniqueId: string;
+    verifierType: string;
+    version: string;
+}
 
 // @public
 export interface AttestationSigner {
@@ -107,31 +87,24 @@ export interface AttestationSigner {
 }
 
 // @public
-export class AttestationToken {
-    // @internal
-    constructor(token: string);
-    get algorithm(): string;
-    get certificateChain(): AttestationSigner | undefined;
-    get certificateSha256Thumbprint(): string | undefined;
-    get certificateThumbprint(): string | undefined;
-    get contentType(): string | undefined;
-    static create(params: {
-        body?: string;
-        privateKey?: string;
-        certificate?: string;
-    }): AttestationToken;
-    get critical(): boolean | undefined;
-    get expirationTime(): Date | undefined;
+export interface AttestationToken {
+    algorithm: string;
+    certificateChain: AttestationSigner | undefined;
+    certificateSha256Thumbprint: string | undefined;
+    certificateThumbprint: string | undefined;
+    contentType: string | undefined;
+    critical: boolean | undefined;
+    expiresOn: Date | undefined;
     getBody(): any;
-    get issuedAtTime(): Date | undefined;
-    get issuer(): string | undefined;
-    get keyId(): string | undefined;
-    get keyUrl(): string | undefined;
-    get notBeforeTime(): Date | undefined;
+    issuedAt: Date | undefined;
+    issuer: string | undefined;
+    keyId: string | undefined;
+    keyUrl: string | undefined;
+    notBefore: Date | undefined;
     serialize(): string;
-    get type(): string | undefined;
+    type: string | undefined;
     validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
-    get x509Url(): string | undefined;
+    x509Url: string | undefined;
 }
 
 // @public
@@ -172,6 +145,9 @@ export interface AttestTpmOptions extends AttestationClientOperationOptions {
 
 // @public
 export type CertificateModification = string;
+
+// @public
+export function createAttestationPolicyToken(policy: string, privateKey?: string, certificate?: string): AttestationPolicyToken;
 
 // @public
 export const enum KnownAttestationType {

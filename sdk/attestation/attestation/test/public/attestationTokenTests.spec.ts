@@ -16,9 +16,9 @@ import { createRecorder } from "../utils/recordedClient";
 
 import { bytesToString, stringToBytes } from "../../src/utils/utf8";
 
-import { AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers";
+import { AttestationTokenImpl } from "../../src/models/attestationToken";
 
 describe("AttestationTokenTests", function() {
   let recorder: Recorder;
@@ -82,7 +82,7 @@ describe("AttestationTokenTests", function() {
    */
   it("#createUnsecuredAttestationToken", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
-    const token = AttestationToken.create({ body: sourceObject });
+    const token = AttestationTokenImpl.create({ body: sourceObject });
 
     const body = token.getBody();
     assert.deepEqual({ foo: "foo", bar: 10 }, body);
@@ -93,7 +93,7 @@ describe("AttestationTokenTests", function() {
    * Creates an unsecured empty attestation token.
    */
   it("#createUnsecuredEmptyAttestationToken", async () => {
-    const token = AttestationToken.create({});
+    const token = AttestationTokenImpl.create({});
 
     // An empty unsecured attestation token has a well known value, check it.
     assert("eyJhbGciOiJub25lIn0..", token.serialize());
@@ -109,7 +109,7 @@ describe("AttestationTokenTests", function() {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-    const token = AttestationToken.create({ privateKey: privKey, certificate: cert });
+    const token = AttestationTokenImpl.create({ privateKey: privKey, certificate: cert });
 
     assert.notEqual("none", token.algorithm);
     assert.equal(1, token.certificateChain?.certificates.length);
@@ -149,7 +149,7 @@ describe("AttestationTokenTests", function() {
     };
 
     const sourceJson = JSON.stringify(sourceObject);
-    const token = AttestationToken.create({
+    const token = AttestationTokenImpl.create({
       body: sourceJson,
       privateKey: privKey,
       certificate: cert
@@ -162,16 +162,16 @@ describe("AttestationTokenTests", function() {
     assert.deepEqual(sourceObject, body);
     assert.notEqual("none", token.algorithm);
 
-    expect(token.issuedAtTime?.getTime()).to.equal(currentDate.getTime());
-    expect(token.notBeforeTime?.getTime()).to.equal(currentDate.getTime());
-    expect(token.expirationTime?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
+    expect(token.issuedAt?.getTime()).to.equal(currentDate.getTime());
+    expect(token.notBefore?.getTime()).to.equal(currentDate.getTime());
+    expect(token.expiresOn?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
     expect(token.issuer).to.equal("this is an issuer");
   });
 
   it("#verifyAttestationTokenCallback", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
 
-    const token = AttestationToken.create({ body: sourceObject });
+    const token = AttestationTokenImpl.create({ body: sourceObject });
 
     expect(() =>
       token.validateToken(undefined, {
@@ -208,7 +208,7 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
 
       expect(() =>
         token.validateToken(undefined, {
@@ -241,7 +241,7 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
 
       expect(() =>
         token.validateToken(undefined, {
@@ -262,7 +262,7 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
 
       expect(() =>
         token.validateToken(undefined, {
@@ -294,7 +294,7 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
       expect(() =>
         token.validateToken(undefined, {
           validateToken: true,
