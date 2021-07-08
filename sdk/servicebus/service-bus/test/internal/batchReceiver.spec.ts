@@ -328,11 +328,14 @@ describe("Batching Receiver", () => {
         : TestMessage.getSample();
       await sender.sendMessages(testMessages);
 
+      // we need to validate that the message has arrived (peek will just return immediately
+      // if the queue/subscription is empty)
+      const [receivedMessage] = await receiver.receiveMessages(1);
+      assert.ok(receivedMessage);
+      await receiver.abandonMessage(receivedMessage); // put the message back
+
       const [peekedMsg] = await receiver.peekMessages(1);
-      if (!peekedMsg) {
-        // Sometimes the peek call does not return any messages :(
-        return;
-      }
+      assert.ok(peekedMsg);
 
       should.equal(
         !peekedMsg.lockToken,
