@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TestSpan } from "./testSpan";
-import { NoOpTracer } from "../noop/noOpTracer";
 import {
   SpanContext,
   SpanKind,
@@ -10,8 +9,9 @@ import {
   TraceFlags,
   Context as OTContext,
   context as otContext,
-  getSpanContext
-} from "../../interfaces";
+  getSpanContext,
+  Tracer
+} from "../src/interfaces";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -42,7 +42,7 @@ export interface SpanGraph {
 /**
  * A mock tracer useful for testing
  */
-export class TestTracer extends NoOpTracer {
+export class TestTracer implements Tracer {
   private traceIdCounter = 0;
   private getNextTraceId(): string {
     this.traceIdCounter++;

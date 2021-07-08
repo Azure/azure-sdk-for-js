@@ -9,14 +9,14 @@ import {
   SpanContext,
   SpanAttributes,
   SpanStatusCode,
-  SpanAttributeValue
-} from "../../interfaces";
-import { NoOpSpan } from "../noop/noOpSpan";
+  SpanAttributeValue,
+  Span
+} from "@azure/core-tracing";
 
 /**
  * A mock span useful for testing.
  */
-export class TestSpan extends NoOpSpan {
+export class TestSpan implements Span {
   /**
    * The Span's current name
    */
@@ -72,7 +72,6 @@ export class TestSpan extends NoOpSpan {
     parentSpanId?: string,
     startTime: TimeInput = Date.now()
   ) {
-    super();
     this._tracer = parentTracer;
     this.name = name;
     this.kind = kind;
@@ -144,5 +143,17 @@ export class TestSpan extends NoOpSpan {
       this.attributes[key] = attributes[key];
     }
     return this;
+  }
+
+  addEvent(): this {
+    throw new Error("Method not implemented.");
+  }
+
+  recordException(): void {
+    throw new Error("Method not implemented.");
+  }
+
+  updateName(): this {
+    throw new Error("Method not implemented.");
   }
 }
