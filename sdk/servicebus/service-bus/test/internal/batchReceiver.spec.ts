@@ -26,7 +26,7 @@ import {
 import { LinkEntity } from "../../src/core/linkEntity";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { disableCommonLoggers, enableCommonLoggers, testLogger } from "./utils/misc";
+import { testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -810,13 +810,11 @@ describe("Batching Receiver", () => {
   describe("Batch Receiver - disconnects", () => {
     describe("Batch Receiver - disconnects (non-session)", function(): void {
       before(() => {
-        enableCommonLoggers();
         console.log(`Entity type: ${noSessionTestClientType}`);
         serviceBusClient = createServiceBusClientForTests();
       });
 
       after(() => {
-        disableCommonLoggers();
         return serviceBusClient.test.after();
       });
 
