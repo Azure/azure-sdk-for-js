@@ -29,7 +29,7 @@
  *  AZURE_CLIENT_SECRET - AAD Secret used to authenticate the client.
  */
 
-import { AttestationAdministrationClient, KnownCertificateModification } from "@azure/attestation";
+import { AttestationAdministrationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createRSAKey, createX509Certificate, generateSha1Hash } from "./utils/cryptoUtils";
 import { X509 } from "jsrsasign";

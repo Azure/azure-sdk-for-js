@@ -379,16 +379,16 @@ section of the project.
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/attestation
-[azure_identity]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/2.0.0-beta.3/index.html
-[defaultazurecredential]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/2.0.0-beta.3/classes/defaultazurecredential.html
-[attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/interfaces/policyresult.html
-[attestation_client]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestationclient.html
-[attestation_admin_client]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestationclient.html
-[attestation_response]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/interfaces/attestationresponse.html
-[attestation_policy_result_parameters]: https://www.microsoft.com/
-[attest_sgx]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestation.html#attestsgxenclave
+[azure_identity]: https://docs.microsoft.com/javascript/api/@azure/identity
+[defaultazurecredential]: https://docs.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
+[attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.4/interfaces/policyresult.html
+[attestation_client]: https://docs.microsoft.com/en-us/javascript/api/@azure/attestation/attestationclient
+[attestation_admin_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
+[attestation_response]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationresponse
+[attestation_policy_result_parameters]: https://docs.microsoft.com/javascript/api/@azure/attestation/policyresult#properties
+[attest_sgx]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationclient#attestSgxEnclave_Uint8Array__AttestSgxEnclaveOptions_
 [attestation_npm]: https://www.npmjs.com/package/@azure/attestation
-[api_reference]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/index.html
+[api_reference]: https://docs.microsoft.com/javascript/api/@azure/attestation
 [style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
 [microsoft_code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
