@@ -30,7 +30,7 @@ export async function main() {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.last5Minutes,
+    Durations.lastHour,
     {
       // optionally enable returning additional statistics about the query's execution.
       // (by default this is off)

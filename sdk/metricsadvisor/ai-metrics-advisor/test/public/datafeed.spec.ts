@@ -343,7 +343,7 @@ matrix([[true, false]] as const, async (useAad) => {
               fillType: "PreviousValue"
             },
             accessMode: "Public",
-            viewerEmails: ["viewer1@example.com"],
+            viewers: ["viewer1@example.com"],
             actionLinkTemplate: "Updated Azure Blob action link template"
           };
           const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
@@ -364,7 +364,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal((updated.rollupSettings! as any).rollupIdentificationValue, "__Existing__");
           assert.equal(updated.missingDataPointFillSettings?.fillType, "PreviousValue");
           assert.equal(updated.accessMode, "Public");
-          assert.deepStrictEqual(updated.viewerEmails, ["viewer1@example.com"]);
+          assert.deepStrictEqual(updated.viewers, ["viewer1@example.com"]);
           assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
         });
 

@@ -8,11 +8,12 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 
 **Note:** This package targets Azure Form Recognizer service API version 2.x.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/) |
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer) |
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples)
 
 ## Getting started
 

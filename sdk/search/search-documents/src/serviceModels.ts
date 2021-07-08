@@ -54,6 +54,10 @@ import {
   EntityRecognitionSkill,
   SentimentSkill,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
   CustomEntityLookupSkill,
   DocumentExtractionSkill,
   TextTranslationSkill,
@@ -62,6 +66,8 @@ import {
   CognitiveServicesAccountKey,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   SoftDeleteColumnDeletionDetectionPolicy,
   SearchIndexerDataSourceType,
   SearchIndexerDataContainer,
@@ -458,6 +464,10 @@ export type SearchIndexerSkill =
   | EntityRecognitionSkill
   | SentimentSkill
   | SplitSkill
+  | PIIDetectionSkill
+  | EntityRecognitionSkillV3
+  | EntityLinkingSkill
+  | SentimentSkillV3
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
@@ -1056,6 +1066,13 @@ export interface SearchResourceEncryptionKey {
    * The authentication key of the specified AAD application.
    */
   applicationSecret?: string;
+  /**
+   * An explicit managed identity to use for this encryption key. If not specified and the access
+   * credentials property is null, the system-assigned managed identity is used. On update to the
+   * resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified,
+   * the value of this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity | null;
 }
 
 /**
@@ -1778,6 +1795,13 @@ export type DataChangeDetectionPolicy =
   | SqlIntegratedChangeTrackingPolicy;
 
 /**
+ * Contains the possible cases for SearchIndexerDataIdentity.
+ */
+export type SearchIndexerDataIdentity =
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity;
+
+/**
  * Contains the possible cases for DataDeletionDetectionPolicy.
  */
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
@@ -1807,6 +1831,12 @@ export interface SearchIndexerDataSourceConnection {
    * The data container for the datasource.
    */
   container: SearchIndexerDataContainer;
+  /**
+   * An explicit managed identity to use for this datasource. If not specified and the connection
+   * string is a managed identity, the system-assigned managed identity is used. If not specified,
+   * the value remains unchanged. If "none" is specified, the value of this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity | null;
   /**
    * The data change detection policy for the datasource.
    */

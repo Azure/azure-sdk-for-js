@@ -1,6 +1,16 @@
 # Release History
 
-## 4.3.0-beta.1 (Unreleased)
+## 4.3.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.3.0-beta.1 (2021-07-07)
 
 ### Features Added
 
@@ -8,11 +18,9 @@
 - Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
 - Updated the service version to 7.3-preview.
 
-### Breaking Changes
-
 ### Key Bugs Fixed
 
-### Fixed
+- Fixed an issue where `CryptographyClient.signData` and `CryptographyClient.verifyData` convenience methods would fail to find a valid hashing algorithm when using Elliptic Curve keys.
 
 ## 4.2.1 (2021-06-15)
 

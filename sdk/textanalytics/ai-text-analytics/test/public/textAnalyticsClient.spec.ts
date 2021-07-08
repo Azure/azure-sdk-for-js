@@ -764,16 +764,16 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          // it("family emoji wit skin tone modifier", async function(this: Context) {
-          //   await checkOffsetAndLength(
-          //     client,
-          //     "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-          //     "Utf16CodeUnit",
-          //     25,
-          //     11,
-          //     checkEntityTextOffset
-          //   );
-          // });
+          it("family emoji with skin tone modifier", async function(this: Context) {
+            await checkOffsetAndLength(
+              client,
+              "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+              "Utf16CodeUnit",
+              25,
+              11,
+              checkEntityTextOffset
+            );
+          });
 
           it("diacritics nfc", async function() {
             await checkOffsetAndLength(
@@ -843,15 +843,15 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
           });
 
-          // it("family emoji wit skin tone modifier", async function() {
-          //   await checkOffsetAndLength(
-          //     client,
-          //     "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-          //     "UnicodeCodePoint",
-          //     17,
-          //     11
-          //   ); // offset was 25 with UTF16
-          // });
+          it("family emoji with skin tone modifier", async function() {
+            await checkOffsetAndLength(
+              client,
+              "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+              "UnicodeCodePoint",
+              17,
+              11
+            ); // offset was 25 with UTF16
+          });
 
           it("diacritics nfc", async function() {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
@@ -886,15 +886,15 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
           });
 
-          // it("family emoji wit skin tone modifier", async function() {
-          //   await checkOffsetAndLength(
-          //     client,
-          //     "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
-          //     "TextElement_v8",
-          //     17,
-          //     11
-          //   ); // offset was 25 with UTF16
-          // });
+          it("family emoji with skin tone modifier", async function() {
+            await checkOffsetAndLength(
+              client,
+              "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+              "TextElement_v8",
+              17,
+              11
+            ); // offset was 25 with UTF16
+          });
 
           it("diacritics nfc", async function() {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElement_v8", 9, 11);
@@ -1138,6 +1138,66 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                 //   assert.equal(doc3.entities[0].text, "998.214.865-68");
                 //   assert.equal(doc3.entities[0].category, "Brazil CPF Number");
                 // }
+                for (const doc of actionResults) {
+                  if (!doc.error) {
+                    for (const entity of doc.entities) {
+                      assert.isDefined(entity.text);
+                      assert.isDefined(entity.category);
+                      assert.isDefined(entity.offset);
+                      assert.isDefined(entity.confidenceScore);
+                    }
+                  }
+                }
+              }
+            } else {
+              assert.fail("expected an array of pii entities results but did not get one.");
+            }
+          }
+        });
+
+        it("single pii entities recognition action with categories filtered", async function() {
+          const docs = [
+            {
+              id: "1",
+              text:
+                "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+            },
+            {
+              id: "2",
+              text:
+                "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizePiiEntitiesActions: [
+                { modelVersion: "latest", categoriesFilter: ["USSocialSecurityNumber"] }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const result = await poller.pollUntilDone();
+          for await (const page of result) {
+            const entitiesResult = page.recognizePiiEntitiesResults;
+            if (entitiesResult.length === 1) {
+              const action = entitiesResult[0];
+              if (!action.error) {
+                const actionResults = action.results;
+                assert.equal(actionResults.length, 2);
+                const doc1 = actionResults[0];
+                const doc2 = actionResults[1];
+                if (!doc1.error) {
+                  assert.equal(doc1.entities.length, 1);
+                  assert.equal(doc1.entities[0].text, "859-98-0987");
+                  assert.equal(doc1.entities[0].category, "USSocialSecurityNumber");
+                }
+                if (!doc2.error) {
+                  assert.equal(doc2.entities.length, 0);
+                }
                 for (const doc of actionResults) {
                   if (!doc.error) {
                     for (const entity of doc.entities) {
