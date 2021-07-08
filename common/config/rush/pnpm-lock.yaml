@@ -9943,7 +9943,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-H5ZQjjIZkd6UiDE1UL1WHFvbL9oPELOvb6pFbwghgnm34SM+AwwIAZH9D/oJWZwCQrKky68DTwqjL62/7fJlXg==
+      integrity: sha512-ZbTYmUpsTQoYJzB3dYD3p/97f5h49sMXMd3Sqqw87qukePibqPUs9lLoU2TfLuNOxnkKazbDRki3C3LJfGQw7w==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity-cache-persistence.tgz:
@@ -10744,7 +10744,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-search-documents'
     resolution:
-      integrity: sha512-iibP34ojTvPCkl+YNT4hI2iorHZkUrrDcndmDX6vS2Eujikl92GzdTU8Pal46C7fxLH71ZhYgXuPaY7hNs7Fsg==
+      integrity: sha512-ZzlIQDVRV20eEi3n4v2RlhM0UP25fIXbTTLO8yLDcxpMRvjngYuYRguAT+bJDkCuTJ8Id1MCJQXaXWkbfAToQw==
       tarball: file:projects/perf-search-documents.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
