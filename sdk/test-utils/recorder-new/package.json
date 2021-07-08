@@ -1,5 +1,5 @@
 {
-  "name": "@azure/test-utils-recorder-v2",
+  "name": "@azure/test-utils-recorder-new",
   "version": "1.0.0",
   "sdk-type": "client",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
