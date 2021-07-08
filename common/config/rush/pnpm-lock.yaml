@@ -91,7 +91,7 @@ dependencies:
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz
-  '@rush-temp/test-utils-recorder-v2': file:projects/test-utils-recorder-v2.tgz
+  '@rush-temp/test-utils-recorder-new': file:projects/test-utils-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -155,19 +155,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RVG1Ad3Afv9gwFFmpeCXQAm+Sa0L8KEZRJJAAZEGoYDb6EoO1iQDVmoBz720h8mdrGpi0D60xNU/KhriIwuZfQ==
-  /@azure/app-configuration/1.1.1:
-    dependencies:
-      '@azure/core-asynciterator-polyfill': 1.0.0
-      '@azure/core-http': 1.2.4
-      '@azure/core-paging': 1.1.3
-      '@azure/core-tracing': 1.0.0-preview.10
-      '@opentelemetry/api': 0.10.2
-      tslib: 2.2.0
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-APbjH3EeDmq+lMWDTFVD6T5xt7xkCMa+Ny2/WDJFlRgZAGjDdGJbrihgJEWjpBjp9EMw0QgbdE3YB9OaTaw3Zw==
   /@azure/arm-containerregistry/8.0.0:
     dependencies:
       '@azure/ms-rest-azure-js': 2.1.0
@@ -11946,10 +11933,8 @@ packages:
       integrity: sha512-IoXmWcVt9jDlI8ISTsLwpJHY9i3R73g/mpx9oEnBOwMnwfRxjkletLRvyDP/s8LtKHyUiYroRSWbYSryCqoYUQ==
       tarball: file:projects/test-utils-perfstress.tgz
     version: 0.0.0
-  file:projects/test-utils-recorder-v2.tgz:
+  file:projects/test-utils-recorder-new.tgz:
     dependencies:
-      '@azure/app-configuration': 1.1.1
-      '@azure/core-rest-pipeline': 1.0.3
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
@@ -11994,10 +11979,10 @@ packages:
       typescript: 4.2.4
       xhr-mock: 2.5.1
     dev: false
-    name: '@rush-temp/test-utils-recorder-v2'
+    name: '@rush-temp/test-utils-recorder-new'
     resolution:
-      integrity: sha512-G6QGsaoZoDH8hUiwTB6QrZfNtnEHGivnDOk/ELPK7sdUEc1gumnTjCFyiHUYzHPvZ0B6vYibUR46TEN62XYKqw==
-      tarball: file:projects/test-utils-recorder-v2.tgz
+      integrity: sha512-way/Z5NfxmKG95XE7cuqy9pYn96jUQEiV76VsQ/v5mtbuMMYgWS8kxJeS+WV4VJtP9++5GFV7TkE6bx8EhbPhg==
+      tarball: file:projects/test-utils-recorder-new.tgz
     version: 0.0.0
   file:projects/test-utils-recorder.tgz:
     dependencies:
@@ -12346,7 +12331,7 @@ specifiers:
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:./projects/test-utils-recorder.tgz
-  '@rush-temp/test-utils-recorder-v2': file:./projects/test-utils-recorder-v2.tgz
+  '@rush-temp/test-utils-recorder-new': file:./projects/test-utils-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
