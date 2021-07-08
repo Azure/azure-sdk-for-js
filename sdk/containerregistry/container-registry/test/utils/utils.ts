@@ -50,7 +50,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   ]
 };
 
-function getAuthority(endpoint: string): AzureAuthorityHosts {
+function getAuthority(endpoint: string): AzureAuthorityHosts | undefined {
   if (endpoint.endsWith(".azurecr.cn")) {
     return AzureAuthorityHosts.AzureChina;
   }
@@ -60,7 +60,7 @@ function getAuthority(endpoint: string): AzureAuthorityHosts {
   if (endpoint.endsWith(".azurecr.us")) {
     return AzureAuthorityHosts.AzureGovernment;
   }
-  return AzureAuthorityHosts.AzurePublicCloud;
+  return undefined;
 }
 
 /**
@@ -77,16 +77,16 @@ export enum KnownAuthScope {
   AzureGermany = "https://management.microsoftazure.de/"
 }
 
-function getAuthScope(authority: AzureAuthorityHosts): KnownAuthScope {
+function getAuthScope(authority?: AzureAuthorityHosts): KnownAuthScope {
   switch (authority) {
-    case AzureAuthorityHosts.AzurePublicCloud:
-      return KnownAuthScope.AzurePublicCloud;
     case AzureAuthorityHosts.AzureChina:
       return KnownAuthScope.AzureChina;
     case AzureAuthorityHosts.AzureGermany:
       return KnownAuthScope.AzureGermany;
     case AzureAuthorityHosts.AzureGovernment:
       return KnownAuthScope.AzureGovernment;
+    default:
+      return KnownAuthScope.AzurePublicCloud;
   }
 }
 
@@ -98,8 +98,10 @@ export function createRegistryClient(
     return new ContainerRegistryClient(endpoint);
   }
 
-  const authority = getAuthority(endpoint);
-  const authScope = getAuthScope(authority);
+  const authorityHost = getAuthority(endpoint);
+  const authenticationScope = getAuthScope(authorityHost);
+  const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
+  const clientOptions = { authenticationScope: `${authenticationScope}.default` };
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If
@@ -110,10 +112,8 @@ export function createRegistryClient(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
-    {
-      authorityHost: authority
-    }
+    tokenCredentialOptions
   );
 
-  return new ContainerRegistryClient(endpoint, credential, { authenticationScope: authScope });
+  return new ContainerRegistryClient(endpoint, credential, clientOptions);
 }
