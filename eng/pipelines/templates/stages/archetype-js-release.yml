@@ -103,9 +103,7 @@ stages:
           - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
             - deployment: PublishDocs
               displayName: Docs.MS Release
-              # Skip publishing metadata to default branch if this is a test 
-              # package (e.g. @azure/template)
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'), ne('${{ parameters.TestPipeline }}', 'true'))
+              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
               environment: githubio
               dependsOn: PublishPackage
 
