@@ -927,6 +927,48 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
       });
 
       describe("#analyze", function() {
+        it("single extract summary action", async function() {
+          const docs = [
+            { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
+            { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              extractSummaryActions: [{ modelVersion: "latest", sortBy: "Rank" }]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const extractSummaryResult = page.extractSummaryResults;
+            if (extractSummaryResult.length === 1) {
+              const action = extractSummaryResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.ok(result.id);
+                    assert.ok(result.sentences);
+                    for (const sentence of result.sentences) {
+                      assert.ok(sentence.text);
+                      assert.ok(sentence.rankScore);
+                      assert.ok(sentence.offset);
+                      assert.ok(sentence.length);
+                    }
+                  } else {
+                    assert.fail("did not expect document errors but got one.");
+                  }
+                }
+              }
+            } else {
+              assert.fail("expected an array of entities results but did not get one.");
+            }
+          }
+        });
+
         it("single entity recognition action", async function() {
           const docs = [
             { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
