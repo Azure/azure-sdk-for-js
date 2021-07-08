@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { ContainerRegistryClient } from "../../src";
 
@@ -50,6 +50,46 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   ]
 };
 
+function getAuthority(endpoint: string): AzureAuthorityHosts {
+  if (endpoint.endsWith(".azurecr.cn")) {
+    return AzureAuthorityHosts.AzureChina;
+  }
+  if (endpoint.endsWith("azurecr.de")) {
+    return AzureAuthorityHosts.AzureGermany;
+  }
+  if (endpoint.endsWith(".azurecr.us")) {
+    return AzureAuthorityHosts.AzureGovernment;
+  }
+  return AzureAuthorityHosts.AzurePublicCloud;
+}
+
+/**
+ * Defines known authentication scopes that the service supports for national clouds.
+ */
+export enum KnownAuthScope {
+  /** Audience for Azure Public Cloud. */
+  AzurePublicCloud = "https://management.azure.com/",
+  /** Audience for Azure China Cloud. */
+  AzureChina = "https://management.chinacloudapi.cn/",
+  /** Audience for US Government Cloud. */
+  AzureGovernment = "https://management.usgovcloudapi.net/",
+  /** Audience for Azure Germany Cloud. */
+  AzureGermany = "https://management.microsoftazure.de/"
+}
+
+function getAuthScope(authority: AzureAuthorityHosts): KnownAuthScope {
+  switch (authority) {
+    case AzureAuthorityHosts.AzurePublicCloud:
+      return KnownAuthScope.AzurePublicCloud;
+    case AzureAuthorityHosts.AzureChina:
+      return KnownAuthScope.AzureChina;
+    case AzureAuthorityHosts.AzureGermany:
+      return KnownAuthScope.AzureGermany;
+    case AzureAuthorityHosts.AzureGovernment:
+      return KnownAuthScope.AzureGovernment;
+  }
+}
+
 export function createRegistryClient(
   endpoint: string,
   options: { anonymous: boolean } = { anonymous: false }
@@ -57,6 +97,9 @@ export function createRegistryClient(
   if (options.anonymous) {
     return new ContainerRegistryClient(endpoint);
   }
+
+  const authority = getAuthority(endpoint);
+  const authScope = getAuthScope(authority);
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If
@@ -66,8 +109,11 @@ export function createRegistryClient(
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    {
+      authorityHost: authority
+    }
   );
 
-  return new ContainerRegistryClient(endpoint, credential);
+  return new ContainerRegistryClient(endpoint, credential, { authenticationScope: authScope });
 }
