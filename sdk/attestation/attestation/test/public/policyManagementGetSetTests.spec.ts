@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
+import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+import chaiAsPromised from "chai-as-promised";
+chaiUse(chaiAsPromised);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -60,6 +60,38 @@ describe("PolicyManagementTests ", function() {
     assert(policyResult.value?.length !== 0);
   });
 
+  it("Add Policy Certificates failure conditions", async () => {
+    const adminClient = createRecordedAdminClient("Isolated");
+
+    const [rsaKey, rsapubKey] = createRSAKey();
+    const [rsaKey2] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
+
+    await expect(
+      adminClient.addPolicyManagementCertificate(rsaCertificate, "Foo", "Bar")
+    ).to.be.rejectedWith("can't find PEM header");
+
+    await expect(
+      adminClient.addPolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate)
+    ).to.be.rejectedWith("Key does not match Certificate");
+  });
+
+  it("Remove Policy failure conditions", async () => {
+    const adminClient = createRecordedAdminClient("Isolated");
+
+    const [rsaKey, rsapubKey] = createRSAKey();
+    const [rsaKey2] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
+
+    await expect(
+      adminClient.removePolicyManagementCertificate(rsaCertificate, "Foo", "Bar")
+    ).to.be.rejectedWith("can't find PEM header");
+
+    await expect(
+      adminClient.removePolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate)
+    ).to.be.rejectedWith("Key does not match Certificate");
+  });
+
   it("setPolicyCertificates", async () => {
     recorder.skip(
       undefined,
@@ -81,14 +113,22 @@ describe("PolicyManagementTests ", function() {
 
     {
       // Add a new signing certificate.
-      const setResult = await client.addPolicyManagementCertificate(rsaCertificate, signingKeys);
+      const setResult = await client.addPolicyManagementCertificate(
+        rsaCertificate,
+        signingKeys.privateKey,
+        signingKeys.certificate
+      );
       assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
       assert(setResult.value.certificateThumbprint === expectedThumbprint);
     }
 
     {
       // Do it a second time, since these operations are idempotent.
-      const setResult = await client.addPolicyManagementCertificate(rsaCertificate, signingKeys);
+      const setResult = await client.addPolicyManagementCertificate(
+        rsaCertificate,
+        signingKeys.privateKey,
+        signingKeys.certificate
+      );
       assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
       assert(setResult.value.certificateThumbprint === expectedThumbprint);
     }
@@ -96,7 +136,8 @@ describe("PolicyManagementTests ", function() {
     {
       const removeResult = await client.removePolicyManagementCertificate(
         rsaCertificate,
-        signingKeys
+        signingKeys.privateKey,
+        signingKeys.certificate
       );
       assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
       assert(removeResult.value.certificateThumbprint === expectedThumbprint);
@@ -105,7 +146,8 @@ describe("PolicyManagementTests ", function() {
     {
       const removeResult = await client.removePolicyManagementCertificate(
         rsaCertificate,
-        signingKeys
+        signingKeys.privateKey,
+        signingKeys.certificate
       );
       assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
       assert(removeResult.value.certificateThumbprint === expectedThumbprint);

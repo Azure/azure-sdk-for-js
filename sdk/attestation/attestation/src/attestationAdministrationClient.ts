@@ -23,7 +23,6 @@ import {
   AttestationToken,
   AttestationTokenValidationOptions,
   AttestationType,
-  AttestationSigningKey,
   PolicyResult,
   AttestationSigner,
   PolicyCertificatesModificationResult
@@ -38,9 +37,10 @@ import * as Mappers from "./generated/models/mappers";
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-import { hexToBase64 } from "./utils/base64";
+import { hexToBase64 } from "./utils/helpers";
 import { _policyResultFromGenerated } from "./models/policyResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
+import { verifyAttestationSigningKey } from "./utils/helpers";
 
 /**
  * Attestation Client Construction Options.
@@ -195,7 +195,8 @@ export class AttestationAdministrationClient {
    *
    * @param attestationType - Attestation Type for which to set policy.
    * @param newPolicyDocument - Policy document to be set.
-   * @param signingKey - optional signing key used to sign the policy document
+   * @param privateKey - optional private key used to sign the policy document.
+   * @param certificate - optional certificate used to verify the policy document.
    * @param options - call options.
    * @returns An {@link AttestationResponse} wrapping a {@link PolicyResult}.
    *  Clients can use the PolicyResult to validate that the policy was actually
@@ -210,7 +211,8 @@ export class AttestationAdministrationClient {
   public async setPolicy(
     attestationType: AttestationType,
     newPolicyDocument: string,
-    signingKey?: AttestationSigningKey,
+    privateKey?: string,
+    certificate?: string,
     options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions } = createSpan(
@@ -218,10 +220,21 @@ export class AttestationAdministrationClient {
       options
     );
     try {
+      if ((!privateKey && certificate) || (privateKey && !certificate)) {
+        throw new TypeError(
+          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+        );
+      }
+
+      if (privateKey && certificate) {
+        verifyAttestationSigningKey(privateKey, certificate);
+      }
+
       const storedAttestationPolicy = new StoredAttestationPolicy(newPolicyDocument).serialize();
       const setPolicyToken = AttestationToken.create({
         body: storedAttestationPolicy,
-        signer: signingKey
+        privateKey: privateKey,
+        certificate: certificate
       });
 
       const setPolicyResult = await this._client.policy.set(
@@ -259,7 +272,8 @@ export class AttestationAdministrationClient {
    * the default value.
    *
    * @param attestationType - Attestation Type for which to set policy.
-   * @param signingKey - optional signing key used to sign the policy document
+   * @param privateKey - optional private key used to sign the policy document
+   * @param certificate - optional certificate used to verify the policy document.
    * @param options - call options.
    * @returns An {@link AttestationResponse} wrapping a {@link PolicyResult}.
    *  Clients can use the PolicyResult to validate that the policy was actually
@@ -274,7 +288,8 @@ export class AttestationAdministrationClient {
 
   public async resetPolicy(
     attestationType: AttestationType,
-    signingKey?: AttestationSigningKey,
+    privateKey?: string,
+    certificate?: string,
     options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions } = createSpan(
@@ -282,7 +297,20 @@ export class AttestationAdministrationClient {
       options
     );
     try {
-      const resetPolicyToken = AttestationToken.create({ signer: signingKey });
+      if ((!privateKey && certificate) || (privateKey && !certificate)) {
+        throw new TypeError(
+          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+        );
+      }
+
+      if (privateKey && certificate) {
+        verifyAttestationSigningKey(privateKey, certificate);
+      }
+
+      const resetPolicyToken = AttestationToken.create({
+        privateKey: privateKey,
+        certificate: certificate
+      });
 
       const resetPolicyResult = await this._client.policy.reset(
         attestationType,
@@ -368,7 +396,8 @@ export class AttestationAdministrationClient {
   /** Add a new certificate chain to the set of policy management certificates.
    *
    * @param pemCertificate - PEM encoded certificate to add to the set of policy management certificates.
-   * @param signingKey - Existing attestation signing key used to sign the incoming request.
+   * @param privateKey - Existing attestation private key used to sign the incoming request.
+   * @param certificate - Existing attestation certificate used to verify the incoming request.
    * @param options - Options used in the call to the service.
    * @returns An attestation response including a PolicyCertificatesModificationResult
    *
@@ -381,7 +410,8 @@ export class AttestationAdministrationClient {
    */
   public async addPolicyManagementCertificate(
     pemCertificate: string,
-    signingKey: AttestationSigningKey,
+    privateKey: string,
+    certificate: string,
     options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
     const { span, updatedOptions } = createSpan(
@@ -389,6 +419,16 @@ export class AttestationAdministrationClient {
       options
     );
     try {
+      if ((!privateKey && certificate) || (privateKey && !certificate)) {
+        throw new TypeError(
+          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+        );
+      }
+
+      if (privateKey && certificate) {
+        verifyAttestationSigningKey(privateKey, certificate);
+      }
+
       const cert = new jsrsasign.X509();
       cert.readCertPEM(pemCertificate);
       const kty = this.keyTypeFromCertificate(cert);
@@ -411,7 +451,8 @@ export class AttestationAdministrationClient {
           },
           Mappers.AttestationCertificateManagementBody
         ),
-        signer: signingKey
+        privateKey: privateKey,
+        certificate: certificate
       });
 
       const addCertificateResult = await this._client.policyCertificates.add(
@@ -468,7 +509,8 @@ export class AttestationAdministrationClient {
   /** Add a new certificate chain to the set of policy management certificates.
    *
    * @param pemCertificate - PEM encoded certificate to add to the set of policy management certificates.
-   * @param signingKey - Existing attestation signing key used to sign the incoming request.
+   * @param privateKey - Existing attestation private key used to sign the incoming request.
+   * @param certificate - Existing attestation certificate used to verify the incoming request.
    * @param options - Options used in the call to the service.
    * @returns An attestation response including a PolicyCertificatesModificationResult
    *
@@ -481,7 +523,8 @@ export class AttestationAdministrationClient {
    */
   public async removePolicyManagementCertificate(
     pemCertificate: string,
-    signingKey: AttestationSigningKey,
+    privateKey: string,
+    certificate: string,
     options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
     const { span, updatedOptions } = createSpan(
@@ -489,6 +532,16 @@ export class AttestationAdministrationClient {
       options
     );
     try {
+      if ((!privateKey && certificate) || (privateKey && !certificate)) {
+        throw new TypeError(
+          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+        );
+      }
+
+      if (privateKey && certificate) {
+        verifyAttestationSigningKey(privateKey, certificate);
+      }
+
       const cert = new jsrsasign.X509();
       cert.readCertPEM(pemCertificate);
       const kty = this.keyTypeFromCertificate(cert);
@@ -511,7 +564,8 @@ export class AttestationAdministrationClient {
           },
           Mappers.AttestationCertificateManagementBody
         ),
-        signer: signingKey
+        privateKey: privateKey,
+        certificate: certificate
       });
 
       const removeCertificateResult = await this._client.policyCertificates.remove(

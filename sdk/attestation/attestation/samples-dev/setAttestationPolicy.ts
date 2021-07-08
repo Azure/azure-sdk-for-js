@@ -33,14 +33,13 @@
 import {
   AttestationAdministrationClient,
   AttestationPolicyToken,
-  AttestationSigningKey,
   KnownAttestationType
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { write_banner, PemType, pemFromBase64 } from "./utils/helpers";
+import { writeBanner, pemFromBase64 } from "./utils/helpers";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils";
 
 import { X509 } from "jsrsasign";
@@ -51,7 +50,7 @@ dotenv.config();
  * Sets the OpenEnclave attestation policy using an Unsecured attestation policy.
  */
 async function setOpenEnclaveAttestationPolicyAadUnsecured() {
-  write_banner("Set OpenEnclave Attestation Policy - Unsecured policy");
+  writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
   // Use the customer specified attestion URL, or use the West US shared instance.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -107,7 +106,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
 }
 
 async function setOpenEnclaveAttestationPolicyAadSecured() {
-  write_banner("Set Open Enclave Attestation Policy - Secured policy");
+  writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
   // Use the customer specified attestion URL, or use the West US shared instance.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -142,17 +141,15 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   const setPolicyResult = await client.setPolicy(
     KnownAttestationType.OpenEnclave,
     newPolicy,
-    new AttestationSigningKey(privateKey, certificate)
+    privateKey,
+    certificate
   );
 
   // Verify that the attestation service received the new policy.
   console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = new AttestationPolicyToken(
-    newPolicy,
-    new AttestationSigningKey(privateKey, certificate)
-  );
+  const expectedPolicy = new AttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -177,7 +174,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
 }
 
 async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
-  write_banner("Set SGX Enclave Attestation Policy - Secured policy");
+  writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
   // Use the customer specified attestion URL, or use the West US shared instance.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
@@ -214,21 +211,21 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   // one of the configured signing certificates/keys.
 
   // Load them from the environment.
-  const privateKey = pemFromBase64(base64PrivateKey, PemType.PrivateKey);
-  const certificate = pemFromBase64(base64Certificate, PemType.Certificate);
-  const attestationSigner = new AttestationSigningKey(privateKey, certificate);
+  const privateKey = pemFromBase64(base64PrivateKey, "PRIVATE KEY");
+  const certificate = pemFromBase64(base64Certificate, "CERTIFICATE");
 
   const setPolicyResult = await client.setPolicy(
     KnownAttestationType.SgxEnclave,
     newPolicy,
-    attestationSigner
+    privateKey,
+    certificate
   );
 
   // Verify that the attestation service received the new policy.
   console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = new AttestationPolicyToken(newPolicy, attestationSigner);
+  const expectedPolicy = new AttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -244,7 +241,8 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   // Now reset the policy to the default policy.
   const resetPolicyResult = await client.resetPolicy(
     KnownAttestationType.SgxEnclave,
-    attestationSigner
+    privateKey,
+    certificate
   );
 
   console.log(

@@ -6,13 +6,13 @@
 import * as jsrsasign from "jsrsasign";
 
 import { JsonWebKey } from "../generated/models";
-import { base64UrlDecodeString, hexToBase64 } from "../utils/base64";
-import { AttestationSigningKey } from "./attestationSigningKey";
+import { base64UrlDecodeString } from "../utils/base64";
 import { bytesToString } from "../utils/utf8";
 import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
 
 import * as Mappers from "../generated/models/mappers";
 import { TypeDeserializer } from "../utils/typeDeserializer";
+import { verifyAttestationSigningKey, hexToBase64 } from "../utils/helpers";
 
 /**
  * Options used to validate attestation tokens.
@@ -417,16 +417,27 @@ export class AttestationToken {
    */
   public static create(params: {
     body?: string;
-    signer?: AttestationSigningKey;
+    privateKey?: string;
+    certificate?: string;
   }): AttestationToken {
     const header: {
       alg: string;
       [k: string]: any;
     } = { alg: "none" };
 
-    if (params.signer) {
+    if ((!params.privateKey && params.certificate) || (params.privateKey && !params.certificate)) {
+      throw new TypeError(
+        "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+      );
+    }
+
+    if (params.privateKey && params.certificate) {
+      verifyAttestationSigningKey(params.privateKey, params.certificate);
+    }
+
+    if (params.privateKey || params.certificate) {
       const x5c = new jsrsasign.X509();
-      x5c.readCertPEM(params.signer?.certificate);
+      x5c.readCertPEM(params.certificate);
       const pubKey = x5c.getPublicKey();
       if (pubKey instanceof jsrsasign.RSAKey) {
         header.alg = "RS256";
@@ -444,7 +455,7 @@ export class AttestationToken {
       header.alg,
       header,
       params.body ?? "",
-      params.signer?.key
+      params.privateKey
     );
     return new AttestationToken(encodedToken);
   }

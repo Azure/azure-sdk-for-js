@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export enum PemType {
-  Certificate = "CERTIFICATE",
-  PrivateKey = "PRIVATE KEY"
-}
+export type PemType = "CERTIFICATE" | "PRIVATE KEY";
+
 /**
  *
  * @param base64 - Base64 encoded DER object to encode as PEM.

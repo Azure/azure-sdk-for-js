@@ -29,11 +29,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { write_banner } from "./utils/helpers";
+import { writeBanner } from "./utils/helpers";
 dotenv.config();
 
 async function getCurrentAttestationPolicyAad() {
-  write_banner("Get Current Attestation Policy - AAD instance.");
+  writeBanner("Get Current Attestation Policy - AAD instance.");
 
   // Use the customer specified attestion URL, or use the West US shared instance.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -48,7 +48,7 @@ async function getCurrentAttestationPolicyAad() {
 }
 
 async function getCurrentAttestationPolicyShared() {
-  write_banner("Get Current Attestation Policy - Shared instance.");
+  writeBanner("Get Current Attestation Policy - Shared instance.");
 
   // Use the the West US shared instance.
   //

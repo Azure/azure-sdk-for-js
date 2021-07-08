@@ -16,8 +16,9 @@ import { createRecorder } from "../utils/recordedClient";
 
 import { bytesToString, stringToBytes } from "../../src/utils/utf8";
 
-import { AttestationSigningKey, AttestationToken } from "../../src";
+import { AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
+import { verifyAttestationSigningKey } from "../../src/utils/helpers";
 
 describe("AttestationTokenTests", function() {
   let recorder: Recorder;
@@ -48,7 +49,7 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(privKey, cert);
+    const signingKey = verifyAttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
@@ -58,7 +59,7 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(privKey, cert);
+    const signingKey = verifyAttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
@@ -73,7 +74,7 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    assert.throws(() => new AttestationSigningKey(key2, cert));
+    assert.throws(() => verifyAttestationSigningKey(key2, cert));
   });
 
   /**
@@ -108,7 +109,7 @@ describe("AttestationTokenTests", function() {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-    const token = AttestationToken.create({ signer: new AttestationSigningKey(privKey, cert) });
+    const token = AttestationToken.create({ privateKey: privKey, certificate: cert });
 
     assert.notEqual("none", token.algorithm);
     assert.equal(1, token.certificateChain?.certificates.length);
@@ -150,7 +151,8 @@ describe("AttestationTokenTests", function() {
     const sourceJson = JSON.stringify(sourceObject);
     const token = AttestationToken.create({
       body: sourceJson,
-      signer: new AttestationSigningKey(privKey, cert)
+      privateKey: privKey,
+      certificate: cert
     });
 
     // Let's look at some of the properties on the token and confirm they match

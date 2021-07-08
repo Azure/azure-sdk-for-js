@@ -11,12 +11,12 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class AttestationAdministrationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
-    addPolicyManagementCertificate(pemCertificate: string, signingKey: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
+    addPolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
     getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
-    removePolicyManagementCertificate(pemCertificate: string, signingKey: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
-    resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
-    setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    removePolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
+    resetPolicy(attestationType: AttestationType, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
     }
 
 // @public
@@ -51,11 +51,12 @@ export interface AttestationClientOptions extends CommonClientOptions {
 
 // @public
 export class AttestationPolicyToken extends AttestationToken {
-    constructor(policy: string, signer?: AttestationSigningKey);
+    constructor(policy: string, privateKey?: string, certificate?: string);
 }
 
 // @public
 export class AttestationResponse<T> {
+    // @internal
     constructor(token: AttestationToken, value: T);
     token: AttestationToken;
     value: T;
@@ -112,13 +113,6 @@ export class AttestationSigner {
 }
 
 // @public
-export class AttestationSigningKey {
-    constructor(key: string, certificate: string);
-    certificate: string;
-    key: string;
-}
-
-// @public
 export class AttestationToken {
     // @internal
     constructor(token: string);
@@ -129,7 +123,8 @@ export class AttestationToken {
     get contentType(): string | undefined;
     static create(params: {
         body?: string;
-        signer?: AttestationSigningKey;
+        privateKey?: string;
+        certificate?: string;
     }): AttestationToken;
     get critical(): boolean | undefined;
     get expirationTime(): Date | undefined;

@@ -2,7 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a Attestation Instance to retrieve an attestation policy.
+ * @summary Demonstrates the creation of a Attestation Client and Attestation
+ * Administration Client.
+ *
+ * FILE: createAttestationClient.ts
+ *
+ * DESCRIPTION:
+ *  This sample demonstrates creating a new attestation client.
+ *
+ *  Set the following environment variables with your own values before running
+ *  the samples:
+ *
+ *  1) ATTESTATION_AAD_URL - the base URL for an attestation service instance in AAD mode.
+ *
+ * To authorize access to the service, this sample also depends on the following
+ * environment variables:
+ *  AZURE_TENANT_ID - AAD Tenant ID used to authenticate the user.
+ *  AZURE_CLIENT_ID - AAD Client ID used to authenticate the user.
+ *  AZURE_CLIENT_SECRET - AAD Secret used to authenticate the client.
  */
 
 import { AttestationClient } from "@azure/attestation";
@@ -12,12 +29,16 @@ import { X509 } from "jsrsasign";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { write_banner } from "./utils/helpers";
+import { writeBanner } from "./utils/helpers";
 dotenv.config();
 
 async function getOpenIdMetadata() {
-  write_banner("getOpenIdMetadata");
-  const endpoint = process.env.ATTESTATION_AAD_URL ?? "https://sharedwus.wus.attest.azure.net";
+  writeBanner("getOpenIdMetadata");
+  const endpoint = process.env.ATTESTATION_AAD_URL;
+
+  if (!endpoint) {
+    throw new Error("ATTESTATION_AAD_URL must be provided.");
+  }
 
   console.log("Retrieve OpenID metadata from: ", endpoint);
   const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
@@ -28,8 +49,12 @@ async function getOpenIdMetadata() {
 }
 
 async function getSigningCertificates() {
-  write_banner("getSigningCertificates");
-  const endpoint = process.env.ATTESTATION_AAD_URL ?? "https://sharedwus.wus.attest.azure.net";
+  writeBanner("getSigningCertificates");
+  const endpoint = process.env.ATTESTATION_AAD_URL;
+
+  if (!endpoint) {
+    throw new Error("ATTESTATION_AAD_URL must be provided.");
+  }
 
   console.log("Retrieve attestation signing certificates for: ", endpoint);
   const client = new AttestationClient(new DefaultAzureCredential(), endpoint);

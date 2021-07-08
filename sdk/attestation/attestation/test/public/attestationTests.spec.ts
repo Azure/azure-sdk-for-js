@@ -198,27 +198,22 @@ describe("[AAD] Attestation Client", function() {
     const client = createRecordedClient(endpointType);
 
     {
-      try {
-        await client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport), {
+      // You can't specify both runtimeData and runtimeJson.
+      await expect(
+        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeData: binaryRuntimeData,
           runTimeJson: binaryRuntimeData
-        });
-        assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {
-        assert.isTrue(true);
-      }
+        })
+      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
       // If you say you're handing JSON to the service, it should be JSON.
-      try {
-        await client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+      await expect(
+        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeJson: stringToBytes("{ xx: abcdefg, }")
-        });
-        assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {
-        assert.isTrue(true);
-      }
+        })
+      ).to.eventually.be.rejectedWith("runTimeJson value cannot be parsed as JSON");
     }
 
     {
@@ -266,27 +261,21 @@ describe("[AAD] Attestation Client", function() {
 
     {
       // You can't specify both runtimeData and runtimeJson.
-      try {
-        await client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+      await expect(
+        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeData: binaryRuntimeData,
           runTimeJson: binaryRuntimeData
-        });
-        assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {
-        assert.isTrue(true);
-      }
+        })
+      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
       // If you say you're handing JSON to the service, it should be JSON.
-      try {
-        await client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+      await expect(
+        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeJson: stringToBytes("{ xx: abcdefg, }")
-        });
-        assert.fail("Expected attest call to throw.");
-      } catch (TypeError) {
-        assert.isTrue(true);
-      }
+        })
+      ).to.eventually.be.rejectedWith("runTimeJson value cannot be parsed as JSON");
     }
 
     {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export { AttestationSigner } from "./attestationSigner";
-export { AttestationSigningKey } from "./attestationSigningKey";
+// export { AttestationSigningKey, createAttestationSigningKey } from "./attestationSigningKey";
 export { AttestationToken, AttestationTokenValidationOptions } from "./attestationToken";
 export { AttestationResponse } from "./attestationResponse";
 export { PolicyResult } from "./policyResult";

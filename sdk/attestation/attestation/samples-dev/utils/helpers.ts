@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export function write_banner(banner: string): void {
+export function writeBanner(banner: string): void {
   const separator = "*".repeat(80);
 
   console.log("\n");
@@ -10,10 +10,8 @@ export function write_banner(banner: string): void {
   console.log(separator);
 }
 
-export enum PemType {
-  Certificate = "CERTIFICATE",
-  PrivateKey = "PRIVATE KEY"
-}
+export type PemType = "CERTIFICATE" | "PRIVATE KEY";
+
 /**
  *
  * @param base64 - Base64 encoded DER object to encode as PEM.
