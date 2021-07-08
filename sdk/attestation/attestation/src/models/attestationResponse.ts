@@ -30,6 +30,9 @@ export interface AttestationResponse<T> {
  * @param value - Value for the response. Typically represents the body of the token returned by the service.
  * @returns - A newly created AttestationResponse object.
  */
-export function createAttestationResponse<T>(token: AttestationToken, value: T) : AttestationResponse<T> {
+export function createAttestationResponse<T>(
+  token: AttestationToken,
+  value: T
+): AttestationResponse<T> {
   return { token: token, value: value };
 }
