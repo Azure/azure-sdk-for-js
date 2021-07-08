@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -54,6 +55,9 @@ export const earliestEventPosition: EventPosition;
 // @public
 export interface EventData {
     body: any;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    messageId?: string | number | Buffer;
     properties?: {
         [key: string]: any;
     };
@@ -72,7 +76,7 @@ export interface EventDataBatch {
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
-    tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
+    tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -129,7 +133,7 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventData[] | AmqpAnnotatedMessage[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
     }
 
@@ -239,7 +243,11 @@ export type ProcessInitializeHandler = (context: PartitionContext) => Promise<vo
 // @public
 export interface ReceivedEventData {
     body: any;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
     enqueuedTimeUtc: Date;
+    getRawAmqpMessage(): AmqpAnnotatedMessage;
+    messageId?: string | number | Buffer;
     offset: number;
     partitionKey: string | null;
     properties?: {

@@ -1,51 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "dd4b7f7e5ffa8c1b83244becc25ec6db";
+module.exports.hash = "fa3c76bf9f6192b425e9fdeaa7d98062";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/credentials/31392928-b87b-4975-9be2-cea71a6e814b', {"dataSourceCredentialType":"AzureSQLConnectionString","dataSourceCredentialName":"UpdatedSqlCred","dataSourceCredentialDescription":"updated description","parameters":{"connectionString":"updated-string"}})
-  .reply(200, {"dataSourceCredentialId":"31392928-b87b-4975-9be2-cea71a6e814b","dataSourceCredentialName":"UpdatedSqlCred","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}, [
+  .patch('/metricsadvisor/v1.0/credentials/c9d924ca-1f7d-4214-a8eb-59a1bfa7ed86', {"dataSourceCredentialType":"AzureSQLConnectionString","dataSourceCredentialName":"js-test-sqlServerCred-162527918841004036","dataSourceCredentialDescription":"updated description","parameters":{"connectionString":"updated-string"}})
+  .reply(200, {"dataSourceCredentialId":"c9d924ca-1f7d-4214-a8eb-59a1bfa7ed86","dataSourceCredentialName":"js-test-sqlServerCred-162527918841004036","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}, [
   'Content-Length',
-  '235',
+  '261',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '77e35cf5-304f-4793-9cfa-7d4a04a375aa',
+  'c4e4734c-7cc0-4112-96ae-4ad863640e79',
   'x-envoy-upstream-service-time',
-  '4109',
+  '1183',
   'apim-request-id',
-  '77e35cf5-304f-4793-9cfa-7d4a04a375aa',
+  'c4e4734c-7cc0-4112-96ae-4ad863640e79',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 04 Jun 2021 18:52:05 GMT',
-  'Connection',
-  'close'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/credentials/31392928-b87b-4975-9be2-cea71a6e814b')
-  .reply(200, {"dataSourceCredentialId":"31392928-b87b-4975-9be2-cea71a6e814b","dataSourceCredentialName":"UpdatedSqlCred","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}, [
-  'Content-Length',
-  '235',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-request-id',
-  '15a6a55f-7589-4abb-8c43-6cb1b156a3c5',
-  'x-envoy-upstream-service-time',
-  '119',
-  'apim-request-id',
-  '15a6a55f-7589-4abb-8c43-6cb1b156a3c5',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Fri, 04 Jun 2021 18:52:04 GMT',
-  'Connection',
-  'close'
+  'Sat, 03 Jul 2021 02:26:31 GMT'
 ]);

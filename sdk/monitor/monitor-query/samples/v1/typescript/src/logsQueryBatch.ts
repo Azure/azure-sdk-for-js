@@ -20,7 +20,7 @@ export async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
 
   const result = await logsQueryClient.queryLogsBatch({
     queries: [
@@ -39,15 +39,15 @@ export async function main() {
   for (const response of result.results) {
     console.log(`Results for query with id: ${response.id}`);
 
-    if (response?.error) {
-      console.log(` Query had errors:`, response?.error);
+    if (response.error) {
+      console.log(` Query had errors:`, response.error);
     } else {
-      if (response?.tables == null) {
+      if (response.tables == null) {
         console.log(`No results for query`);
       } else {
         console.log(`Printing results from query '${kqlQuery}' for 1 day.`);
 
-        for (const table of response?.tables) {
+        for (const table of response.tables) {
           const columnHeaderString = table.columns
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");

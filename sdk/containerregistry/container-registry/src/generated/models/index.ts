@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreHttps from "@azure/core-rest-pipeline";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 
 /** Acr error response describing why the operation failed */
 export interface AcrErrors {
@@ -230,12 +230,12 @@ export interface ManifestAttributesBase {
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture?: ArtifactArchitecture | null;
+  readonly architecture?: ArtifactArchitecture;
   /**
    * Operating system
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem?: ArtifactOperatingSystem | null;
+  readonly operatingSystem?: ArtifactOperatingSystem;
   /**
    * List of artifacts that are referenced by this manifest list, with information about the platform each supports.  This list will be empty if this is a leaf manifest and not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -331,12 +331,12 @@ export interface ArtifactManifestProperties {
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture?: ArtifactArchitecture | null;
+  readonly architecture?: ArtifactArchitecture;
   /**
    * Operating system
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem?: ArtifactOperatingSystem | null;
+  readonly operatingSystem?: ArtifactOperatingSystem;
   /**
    * List of artifacts that are referenced by this manifest list, with information about the platform each supports.  This list will be empty if this is a leaf manifest and not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -468,7 +468,7 @@ export interface Descriptor {
   /** Specifies a list of URIs from which this object may be downloaded. */
   urls?: string[];
   /** Additional information provided through arbitrary metadata. */
-  annotations?: Annotations | null;
+  annotations?: Annotations;
 }
 
 /** Additional information provided through arbitrary metadata. */
@@ -553,7 +553,7 @@ export type ManifestWrapper = Manifest & {
   /** (V2, OCI) List of V2 image layer information */
   layers?: Descriptor[];
   /** (OCI, OCIIndex) Additional metadata */
-  annotations?: Annotations | null;
+  annotations?: Annotations;
   /** (V1) CPU architecture */
   architecture?: string;
   /** (V1) Image name */
@@ -593,7 +593,7 @@ export type OCIManifest = Manifest & {
   /** List of V2 image layer information */
   layers?: Descriptor[];
   /** Additional information provided through arbitrary metadata. */
-  annotations?: Annotations | null;
+  annotations?: Annotations;
 };
 
 /** Returns the requested OCI index file */
@@ -601,7 +601,7 @@ export type OCIIndex = Manifest & {
   /** List of OCI image layer information */
   manifests?: ManifestListAttributes[];
   /** Additional information provided through arbitrary metadata. */
-  annotations?: Annotations | null;
+  annotations?: Annotations;
 };
 
 /** Returns the requested V1 manifest file */
@@ -773,7 +773,7 @@ export const enum KnownArtifactArchitecture {
  * Defines values for ArtifactArchitecture. \
  * {@link KnownArtifactArchitecture} can be used interchangeably with ArtifactArchitecture,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **386** \
  * **amd64** \
  * **arm** \
@@ -812,7 +812,7 @@ export const enum KnownArtifactOperatingSystem {
  * Defines values for ArtifactOperatingSystem. \
  * {@link KnownArtifactOperatingSystem} can be used interchangeably with ArtifactOperatingSystem,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **aix** \
  * **android** \
  * **darwin** \
@@ -837,6 +837,10 @@ export type ArtifactTagOrderBy = "none" | "timedesc" | "timeasc";
 export type ArtifactManifestOrderBy = "none" | "timedesc" | "timeasc";
 
 /** Optional parameters. */
+export interface ContainerRegistryCheckDockerV2SupportOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface ContainerRegistryGetManifestOptionalParams
   extends coreClient.OperationOptions {
   /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
@@ -846,11 +850,19 @@ export interface ContainerRegistryGetManifestOptionalParams
 /** Contains response data for the getManifest operation. */
 export type ContainerRegistryGetManifestResponse = Manifest;
 
+/** Optional parameters. */
+export interface ContainerRegistryCreateManifestOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the createManifest operation. */
 export type ContainerRegistryCreateManifestResponse = ContainerRegistryCreateManifestHeaders & {
   /** The parsed response body. */
   body: any;
 };
+
+/** Optional parameters. */
+export interface ContainerRegistryDeleteManifestOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesOptionalParams
@@ -865,8 +877,16 @@ export interface ContainerRegistryGetRepositoriesOptionalParams
 export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepositoriesHeaders &
   Repositories;
 
+/** Optional parameters. */
+export interface ContainerRegistryGetPropertiesOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the getProperties operation. */
 export type ContainerRegistryGetPropertiesResponse = ContainerRepositoryProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryDeleteRepositoryOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ContainerRegistryUpdatePropertiesOptionalParams
@@ -895,6 +915,10 @@ export interface ContainerRegistryGetTagsOptionalParams
 export type ContainerRegistryGetTagsResponse = ContainerRegistryGetTagsHeaders &
   TagList;
 
+/** Optional parameters. */
+export interface ContainerRegistryGetTagPropertiesOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the getTagProperties operation. */
 export type ContainerRegistryGetTagPropertiesResponse = ArtifactTagProperties;
 
@@ -907,6 +931,10 @@ export interface ContainerRegistryUpdateTagAttributesOptionalParams
 
 /** Contains response data for the updateTagAttributes operation. */
 export type ContainerRegistryUpdateTagAttributesResponse = ArtifactTagProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryDeleteTagOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ContainerRegistryGetManifestsOptionalParams
@@ -922,6 +950,10 @@ export interface ContainerRegistryGetManifestsOptionalParams
 /** Contains response data for the getManifests operation. */
 export type ContainerRegistryGetManifestsResponse = ContainerRegistryGetManifestsHeaders &
   AcrManifests;
+
+/** Optional parameters. */
+export interface ContainerRegistryGetManifestPropertiesOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getManifestProperties operation. */
 export type ContainerRegistryGetManifestPropertiesResponse = ArtifactManifestProperties;
@@ -981,6 +1013,10 @@ export interface ContainerRegistryGetManifestsNextOptionalParams
 export type ContainerRegistryGetManifestsNextResponse = ContainerRegistryGetManifestsNextHeaders &
   AcrManifests;
 
+/** Optional parameters. */
+export interface ContainerRegistryBlobGetBlobOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the getBlob operation. */
 export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {
   /**
@@ -999,8 +1035,16 @@ export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobH
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
+/** Optional parameters. */
+export interface ContainerRegistryBlobCheckBlobExistsOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the checkBlobExists operation. */
 export type ContainerRegistryBlobCheckBlobExistsResponse = ContainerRegistryBlobCheckBlobExistsHeaders;
+
+/** Optional parameters. */
+export interface ContainerRegistryBlobDeleteBlobOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteBlob operation. */
 export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders & {
@@ -1020,11 +1064,23 @@ export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDelet
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
+/** Optional parameters. */
+export interface ContainerRegistryBlobMountBlobOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the mountBlob operation. */
 export type ContainerRegistryBlobMountBlobResponse = ContainerRegistryBlobMountBlobHeaders;
 
+/** Optional parameters. */
+export interface ContainerRegistryBlobGetUploadStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the getUploadStatus operation. */
 export type ContainerRegistryBlobGetUploadStatusResponse = ContainerRegistryBlobGetUploadStatusHeaders;
+
+/** Optional parameters. */
+export interface ContainerRegistryBlobUploadChunkOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the uploadChunk operation. */
 export type ContainerRegistryBlobUploadChunkResponse = ContainerRegistryBlobUploadChunkHeaders;
@@ -1033,14 +1089,26 @@ export type ContainerRegistryBlobUploadChunkResponse = ContainerRegistryBlobUplo
 export interface ContainerRegistryBlobCompleteUploadOptionalParams
   extends coreClient.OperationOptions {
   /** Optional raw data of blob */
-  value?: coreHttps.RequestBodyType;
+  value?: coreRestPipeline.RequestBodyType;
 }
 
 /** Contains response data for the completeUpload operation. */
 export type ContainerRegistryBlobCompleteUploadResponse = ContainerRegistryBlobCompleteUploadHeaders;
 
+/** Optional parameters. */
+export interface ContainerRegistryBlobCancelUploadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContainerRegistryBlobStartUploadOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the startUpload operation. */
 export type ContainerRegistryBlobStartUploadResponse = ContainerRegistryBlobStartUploadHeaders;
+
+/** Optional parameters. */
+export interface ContainerRegistryBlobGetChunkOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getChunk operation. */
 export type ContainerRegistryBlobGetChunkResponse = ContainerRegistryBlobGetChunkHeaders & {
@@ -1059,6 +1127,10 @@ export type ContainerRegistryBlobGetChunkResponse = ContainerRegistryBlobGetChun
    */
   readableStreamBody?: NodeJS.ReadableStream;
 };
+
+/** Optional parameters. */
+export interface ContainerRegistryBlobCheckChunkExistsOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkChunkExists operation. */
 export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlobCheckChunkExistsHeaders;

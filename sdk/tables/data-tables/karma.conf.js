@@ -34,9 +34,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
       {
         pattern: `pattern: "dist-test/index.browser.js.map`,
@@ -69,7 +66,10 @@ module.exports = function(config) {
       "SAS_TOKEN",
       "TEST_MODE",
       "SAS_CONNECTION_STRING",
-      "ACCOUNT_CONNECTION_STRING"
+      "ACCOUNT_CONNECTION_STRING",
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET"
     ],
 
     // test results reporter to use
@@ -119,7 +119,15 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        //--no-sandbox allows our tests to run in Linux without having to change the system.
+        // --disable-web-security allows us to authenticate from the browser without setting up special CORS configuration
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

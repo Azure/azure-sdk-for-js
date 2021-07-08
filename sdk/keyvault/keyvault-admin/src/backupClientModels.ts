@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SUPPORTED_API_VERSIONS } from "./constants";
 
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */
-export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
+export interface KeyVaultBackupClientOptions extends CommonClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
@@ -18,7 +18,7 @@ export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link beginBackup}
  */
-export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
+export interface KeyVaultBackupPollerOptions extends OperationOptions {
   /**
    * Time between each polling
    */

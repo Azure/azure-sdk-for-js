@@ -6,7 +6,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
-import { base64decode } from "./base64";
+import { base64decode } from "./utils/base64";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {
   service: string;

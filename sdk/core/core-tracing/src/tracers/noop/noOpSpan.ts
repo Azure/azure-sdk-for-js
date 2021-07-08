@@ -18,7 +18,7 @@ export class NoOpSpan implements Span {
   /**
    * Returns the SpanContext associated with this Span.
    */
-  context(): SpanContext {
+  spanContext(): SpanContext {
     return {
       spanId: "",
       traceId: "",

@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+
 import { CredentialUnavailableError } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { processUtils } from "../util/processUtils";
+import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -91,12 +95,26 @@ if (isWindows) {
  * `Connect-AzAccount` from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
+  private tenantId?: string;
+  private allowMultiTenantAuthentication?: boolean;
+
+  /**
+   * Creates an instance of the {@link AzurePowershellCredential}.
+   *
+   * @param options - Options, to optionally allow multi-tenant requests.
+   */
+  constructor(options?: AzurePowerShellCredentialOptions) {
+    this.tenantId = options?.tenantId;
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
+  }
+
   /**
    * Gets the access token from Azure PowerShell
    * @param resource - The resource to use when getting the token
    */
   private async getAzurePowerShellAccessToken(
-    resource: string
+    resource: string,
+    tenantId?: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
@@ -108,6 +126,11 @@ export class AzurePowerShellCredential implements TokenCredential {
         continue;
       }
 
+      let tenantSection = "";
+      if (tenantId) {
+        tenantSection = `-TenantId "${tenantId}"`;
+      }
+
       const results = await runCommands([
         [
           powerShellCommand,
@@ -117,7 +140,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         [
           powerShellCommand,
           "-Command",
-          `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json`
+          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`
         ]
       ]);
 
@@ -133,10 +156,8 @@ export class AzurePowerShellCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful. If authentication cannot be performed at this time, this method may
-   * return null. If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this TokenCredential implementation might make.
@@ -146,15 +167,22 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
+      const tenantId = processMultiTenantRequest(
+        this.tenantId,
+        this.allowMultiTenantAuthentication,
+        options
+      );
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
+
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-
-      logger.getToken.info(`Using the scope ${scope}`);
-
       ensureValidScope(scope, logger);
+      logger.getToken.info(`Using the scope ${scope}`);
       const resource = getScopeResource(scope);
 
       try {
-        const response = await this.getAzurePowerShellAccessToken(resource);
+        const response = await this.getAzurePowerShellAccessToken(resource, tenantId);
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,

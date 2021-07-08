@@ -30,7 +30,7 @@ async function main() {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.last5Minutes,
+    Durations.lastHour,
     {
       // optionally enable returning additional statistics about the query's execution.
       // (by default this is off)
@@ -48,8 +48,13 @@ async function main() {
     return;
   }
 
+  const executionTime =
+    result.statistics && result.statistics.query && result.statistics.query.executionTime;
+
   console.log(
-    `Results for query '${kustoQuery}', execution time: ${result.statistics?.query?.executionTime}`
+    `Results for query '${kustoQuery}', execution time: ${
+      executionTime == null ? "unknown" : executionTime
+    }`
   );
 
   for (const table of tablesFromResult) {

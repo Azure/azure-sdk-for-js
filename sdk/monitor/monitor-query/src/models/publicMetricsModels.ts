@@ -7,6 +7,7 @@ import {
   MetricValue,
   ResultType,
   MetricUnit,
+  MetricClass,
   AggregationType,
   MetricAvailability
 } from "..";
@@ -50,7 +51,7 @@ export interface Metric {
   /** the name of the metric */
   name: string;
   /** Detailed description of this metric. */
-  displayDescription: string;
+  displayDescription?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
   /** the unit of the metric. */
@@ -158,4 +159,36 @@ export interface GetMetricNamespacesResult {
 
   /** The metric namespaces. */
   namespaces: MetricNamespace[];
+}
+
+/**
+ * Metric definition.
+ */
+export interface MetricDefinition {
+  /** Flag to indicate whether the dimension is required. */
+  isDimensionRequired?: boolean;
+  /** the resource identifier of the resource that emitted the metric. */
+  resourceId?: string;
+  /** the namespace the metric belongs to. */
+  namespace?: string;
+  /** the name and the display name of the metric, i.e. it is a localizable string. */
+  name?: string;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** Custom category name for this metric. */
+  category?: string;
+  /** The class of the metric. */
+  metricClass?: MetricClass;
+  /** The unit of the metric. */
+  unit?: MetricUnit;
+  /** the primary aggregation type value defining how to use the values for display. */
+  primaryAggregationType?: AggregationType;
+  /** the collection of what aggregation types are supported. */
+  supportedAggregationTypes?: AggregationType[];
+  /** the collection of what aggregation intervals are available to be queried. */
+  metricAvailabilities?: MetricAvailability[];
+  /** the resource identifier of the metric definition. */
+  id?: string;
+  /** the name and the display name of the dimension, i.e. it is a localizable string. */
+  dimensions?: string[];
 }

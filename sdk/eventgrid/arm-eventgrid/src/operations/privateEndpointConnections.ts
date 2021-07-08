@@ -27,13 +27,13 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Get a specific private endpoint connection under a topic or domain.
+   * Get a specific private endpoint connection under a topic, domain, or partner namespace.
    * @summary Get a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
@@ -41,20 +41,20 @@ export class PrivateEndpointConnections {
   get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param callback The callback
    */
   get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param options The optional parameters
    * @param callback The callback
@@ -74,13 +74,13 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Update a specific private endpoint connection under a topic or domain.
+   * Update a specific private endpoint connection under a topic, domain or partner namespace.
    * @summary Update a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param privateEndpointConnection The private endpoint connection object to update.
    * @param [options] The optional parameters
@@ -92,13 +92,13 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Delete a specific private endpoint connection under a topic or domain.
+   * Delete a specific private endpoint connection under a topic, domain, or partner namespace.
    * @summary Delete a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -109,32 +109,32 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Get all private endpoint connections under a topic or domain.
+   * Get all private endpoint connections under a topic, domain, or partner namespace.
    * @summary Lists all private endpoint connections under a resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListByResourceResponse>
    */
   listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams): Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param callback The callback
    */
   listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -152,13 +152,13 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Update a specific private endpoint connection under a topic or domain.
+   * Update a specific private endpoint connection under a topic, domain or partner namespace.
    * @summary Update a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param privateEndpointConnection The private endpoint connection object to update.
    * @param [options] The optional parameters
@@ -179,13 +179,13 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Delete a specific private endpoint connection under a topic or domain.
+   * Delete a specific private endpoint connection under a topic, domain, or partner namespace.
    * @summary Delete a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * Possible values include: 'topics', 'domains'
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain
-   * name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
+   * or \'partnerNamespaces\'. Possible values include: 'topics', 'domains', 'partnerNamespaces'
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
+   * or partner namespace name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -204,7 +204,7 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Get all private endpoint connections under a topic or domain.
+   * Get all private endpoint connections under a topic, domain, or partner namespace.
    * @summary Lists all private endpoint connections under a resource.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters

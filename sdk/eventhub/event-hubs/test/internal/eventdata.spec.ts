@@ -1,11 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
+import chai, { assert, should } from "chai";
 chai.should();
 
-import { EventData, fromRheaMessage, toRheaMessage } from "../../src/eventData";
+import { EventData, fromRheaMessage, ReceivedEventData, toRheaMessage } from "../../src/eventData";
 import { Message } from "rhea-promise";
+import {
+  dataSectionTypeCode,
+  sequenceSectionTypeCode,
+  valueSectionTypeCode
+} from "../../src/dataTransformer";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
@@ -42,6 +48,20 @@ describe("EventData", function(): void {
     it("populates body with the message body", function(): void {
       const testEventData = fromRheaMessage(testMessage);
       testEventData.body.should.equal(testBody);
+    });
+
+    it("populates top-level fields", () => {
+      const testEventData = fromRheaMessage({
+        ...testMessage,
+        ...{ content_type: "application/json", correlation_id: "cid", message_id: 1 }
+      });
+      should().equal(testEventData.messageId, 1, "Unexpected messageId found.");
+      should().equal(
+        testEventData.contentType,
+        "application/json",
+        "Unexpected contentType found."
+      );
+      should().equal(testEventData.correlationId, "cid", "Unexpected correlationId found.");
     });
 
     describe("properties", function(): void {
@@ -171,14 +191,125 @@ describe("EventData", function(): void {
       });
     });
   });
-
   describe("toAmqpMessage", function(): void {
-    it("populates body with the message body", function(): void {
-      messageFromED.body.should.equal(testBody);
+    it("populates body with the message body encoded", function(): void {
+      const expectedTestBodyContents = Buffer.from(JSON.stringify(testBody));
+      should().equal(
+        expectedTestBodyContents.equals(messageFromED.body.content),
+        true,
+        "Encoded body does not match expected result."
+      );
+      should().equal(
+        messageFromED.body.typecode,
+        dataSectionTypeCode,
+        "Unexpected typecode encountered on body."
+      );
+    });
+
+    it("populates top-level fields", () => {
+      const message = toRheaMessage({
+        ...testSourceEventData,
+        ...{ contentType: "application/json", correlationId: "cid", messageId: 1 }
+      });
+      should().equal(message.message_id, 1, "Unexpected message_id found.");
+      should().equal(message.content_type, "application/json", "Unexpected content_type found.");
+      should().equal(message.correlation_id, "cid", "Unexpected correlation_id found.");
     });
 
     it("populates application_properties of the message", function(): void {
       messageFromED.application_properties!.should.equal(properties);
+    });
+
+    it("AmqpAnnotatedMessage (explicit type)", () => {
+      const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
+        body: "hello",
+        bodyType: "value"
+      };
+
+      const rheaMessage = toRheaMessage(amqpAnnotatedMessage);
+
+      assert.equal(rheaMessage.body.typecode, valueSectionTypeCode);
+    });
+
+    it("AmqpAnnotatedMessage (implicit type)", () => {
+      const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
+        body: "hello",
+        bodyType: undefined
+      };
+
+      const rheaMessage = toRheaMessage(amqpAnnotatedMessage);
+
+      assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
+    });
+
+    it("EventData", () => {
+      const event: EventData = {
+        body: "hello"
+      };
+
+      const rheaMessage = toRheaMessage(event);
+
+      assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
+    });
+
+    it("ReceivedEventData (sequence)", () => {
+      const event: ReceivedEventData = {
+        enqueuedTimeUtc: new Date(),
+        offset: 100,
+        partitionKey: null,
+        sequenceNumber: 1,
+        body: ["foo", "bar"],
+        getRawAmqpMessage() {
+          return {
+            body: this.body,
+            bodyType: "sequence"
+          };
+        }
+      };
+
+      const rheaMessage = toRheaMessage(event);
+
+      assert.equal(rheaMessage.body.typecode, sequenceSectionTypeCode);
+    });
+
+    it("ReceivedEventData (data)", () => {
+      const event: ReceivedEventData = {
+        enqueuedTimeUtc: new Date(),
+        offset: 100,
+        partitionKey: null,
+        sequenceNumber: 1,
+        body: ["foo", "bar"],
+        getRawAmqpMessage() {
+          return {
+            body: this.body,
+            bodyType: "data"
+          };
+        }
+      };
+
+      const rheaMessage = toRheaMessage(event);
+
+      assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
+    });
+
+    it("ReceivedEventData (value)", () => {
+      const event: ReceivedEventData = {
+        enqueuedTimeUtc: new Date(),
+        offset: 100,
+        partitionKey: null,
+        sequenceNumber: 1,
+        body: ["foo", "bar"],
+        getRawAmqpMessage() {
+          return {
+            body: this.body,
+            bodyType: "value"
+          };
+        }
+      };
+
+      const rheaMessage = toRheaMessage(event);
+
+      assert.equal(rheaMessage.body.typecode, valueSectionTypeCode);
     });
   });
 });

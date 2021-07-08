@@ -46,6 +46,11 @@ describe("Non Partitioned Container", function() {
     container = client.database(npContainer.database.id).container(npContainer.id);
   });
 
+  after(async () => {
+    client.dispose();
+    legacyClient.dispose();
+  });
+
   it("should handle item CRUD", async () => {
     // read items
     const { resources: items } = await container.items.readAll().fetchAll();

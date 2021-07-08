@@ -99,7 +99,7 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     bugs: {
       url: "https://github.com/Azure/azure-sdk-for-js/issues"
     },
-    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}`,
+    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
     ...info.computeSampleDependencies(outputKind)
   };
 }
@@ -364,6 +364,8 @@ async function makeSampleGenerationInfo(
       {} as SampleConfiguration["customSnippets"]
     ),
     computeSampleDependencies(outputKind: OutputKind) {
+      // Store the `@types/*` packages the TS samples might need.
+      const typesDependencies: {[packageName: string]: string} = {};
       return {
         dependencies: moduleInfos.reduce((prev, source) => {
           const current: Record<string, string> = {};
@@ -383,6 +385,19 @@ async function makeSampleGenerationInfo(
               }
 
               current[dependency] = dependencyVersion;
+              // It would be really weird to depend on `@types/*` in a source file but if we did
+              // it'd be handled above.
+              if (dependency.indexOf("@types/") !== 0) {
+                const typeDependency = `@types/${dependency}`;
+                const typeDependencyVersion =
+                  sampleConfiguration.dependencyOverrides?.[typeDependency] ??
+                  packageJson.devDependencies[typeDependency] ??
+                  packageJson.dependencies[typeDependency];
+
+                if (typeDependencyVersion) {
+                  typesDependencies[typeDependency] = typeDependencyVersion;
+                }
+              }
             }
           }
           return {
@@ -395,6 +410,7 @@ async function makeSampleGenerationInfo(
               // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
               // in the package scripts.
               devDependencies: {
+                ...typesDependencies,
                 typescript: devToolPackageJson.dependencies.typescript,
                 rimraf: "latest"
               }

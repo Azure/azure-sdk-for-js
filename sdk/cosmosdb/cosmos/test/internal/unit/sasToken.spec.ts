@@ -31,7 +31,8 @@ describe.skip("SAS Token Authorization", function() {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const client = new CosmosClient({
       endpoint,
-      key: key
+      key: key,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     const database = client.database(sasTokenProperties.databaseName);
@@ -56,7 +57,8 @@ describe.skip("SAS Token Authorization", function() {
       "type=sas&ver=1.0&sig=pCgZFxV9JQN1i3vzYNTfQldW1No7I+MSgN628TZcJAI=;dXNlcjEKCi9kYnMvZGIxL2NvbGxzL2NvbGwxLwoKNUZFRTY2MDEKNjIxM0I3MDEKMAo2MAowCkZGRkZGRkZGCjAK";
     const sasTokenClient = new CosmosClient({
       endpoint,
-      key: userSasTokenKey
+      key: userSasTokenKey,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     const dbs = await sasTokenClient.databases.readAll().fetchAll();

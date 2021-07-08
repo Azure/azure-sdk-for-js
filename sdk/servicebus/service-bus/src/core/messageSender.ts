@@ -467,4 +467,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     context.senders[sbSender.name] = sbSender;
     return sbSender;
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.senders[this.name];
+  }
 }

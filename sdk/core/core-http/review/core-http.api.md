@@ -145,6 +145,7 @@ export const Constants: {
         };
         StatusCodes: {
             TooManyRequests: number;
+            ServiceUnavailable: number;
         };
     };
     HeaderConstants: {
@@ -181,7 +182,10 @@ export class DefaultHttpClient extends FetchHttpClient {
     }
 
 // @public
-export function delay<T>(t: number, value?: T): Promise<T | void>;
+export function delay<T>(delayInMs: number, value?: T, options?: {
+    abortSignal?: AbortSignalLike;
+    abortErrorMsg?: string;
+}): Promise<T | void>;
 
 // @public
 export interface DeserializationContentTypes {

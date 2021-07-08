@@ -484,4 +484,4 @@ This will emit a compiled version of `index.html`, as well as any included scrip
 
 ## Examples
 
-For real working examples of using each bundler with both TypeScript and JavaScript, please look at the [samples/Bundling](https://github.com/Azure/azure-sdk-for-js/tree/master/samples/Bundling) folder in this repository.
+For real working examples of using each bundler with both TypeScript and JavaScript, please look at the [samples/Bundling](https://github.com/Azure/azure-sdk-for-js/tree/main/samples/Bundling) folder in this repository.

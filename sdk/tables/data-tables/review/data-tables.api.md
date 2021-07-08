@@ -13,6 +13,7 @@ import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicy {
@@ -226,7 +227,9 @@ export interface SignedIdentifier {
 
 // @public
 export class TableClient {
-    constructor(url: string, tableName: string, credential: NamedKeyCredential | SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: TokenCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
     createTable(options?: OperationOptions): Promise<void>;
@@ -358,7 +361,9 @@ export interface TableSasSignatureValues {
 
 // @public
 export class TableServiceClient {
-    constructor(url: string, credential: NamedKeyCredential | SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createTable(name: string, options?: OperationOptions): Promise<void>;
     deleteTable(name: string, options?: OperationOptions): Promise<void>;

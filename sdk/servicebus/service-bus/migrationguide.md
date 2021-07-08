@@ -2,7 +2,7 @@
 
 This guide is intended to assist in the migration from version 1 of the Service Bus client library `@azure/service-bus` to version 7 of the same library. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-Familiarity with the version 1 of the `@azure/service-bus` library is assumed. For those new to the Service Bus client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/README.md) and [Service Bus samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples) for the `@azure/service-bus` library rather than this guide.
+Familiarity with the version 1 of the `@azure/service-bus` library is assumed. For those new to the Service Bus client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md) and [Service Bus samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples) for the `@azure/service-bus` library rather than this guide.
 
 ## Table of contents
 
@@ -46,7 +46,7 @@ We have a variety of new features in the version 7 of the Service Bus library.
 - Ability to configure the retry policy used by the operations on the client, sender and receivers.
 - Ability to cancel async operations on the client, sender and receivers and the management operations using the abort signal from `@azure/abort-controller`.
 - Authentication with AAD credentials using `@azure/identity`.
-  Refer to the [Changelog.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/CHANGELOG.md) for more new features, changes and bug fixes.
+  Refer to the [Changelog.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/CHANGELOG.md) for more new features, changes and bug fixes.
 
 ### Performance Improvements
 
@@ -265,4 +265,4 @@ Additionally, since a message cannot be settled if the receiver that was used to
 
 ## Additional samples
 
-More examples can be found at [Samples for @azure/service-bus](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/)
+More examples can be found at [Samples for @azure/service-bus](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples/)
