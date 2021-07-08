@@ -6,7 +6,8 @@ import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { setTracer } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
 import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
