@@ -61,20 +61,20 @@ export interface AttestationResponse<T> {
 
 // @public
 export interface AttestationResult {
-    enclaveHeldData: Uint8Array | undefined;
+    enclaveHeldData?: Uint8Array;
     inittimeClaims: any;
-    isDebuggable: boolean | undefined;
+    isDebuggable?: boolean;
     issuer: string;
-    mrEnclave: string | undefined;
-    mrSigner: string | undefined;
-    nonce: string | undefined;
+    mrEnclave?: string;
+    mrSigner?: string;
+    nonce?: string;
     policyClaims: any;
     policyHash: Uint8Array;
-    policySigner: AttestationSigner | undefined;
-    productId: number | undefined;
+    policySigner?: AttestationSigner;
+    productId?: number;
     runtimeClaims: any;
-    sgxCollateral: any | undefined;
-    svn: number | undefined;
+    sgxCollateral?: any;
+    svn?: number;
     uniqueId: string;
     verifierType: string;
     version: string;
@@ -89,22 +89,22 @@ export interface AttestationSigner {
 // @public
 export interface AttestationToken {
     algorithm: string;
-    certificateChain: AttestationSigner | undefined;
-    certificateSha256Thumbprint: string | undefined;
-    certificateThumbprint: string | undefined;
-    contentType: string | undefined;
-    critical: boolean | undefined;
-    expiresOn: Date | undefined;
+    certificateChain?: AttestationSigner;
+    certificateSha256Thumbprint?: string;
+    certificateThumbprint?: string;
+    contentType?: string;
+    critical?: boolean;
+    expiresOn?: Date;
     getBody(): any;
-    issuedAt: Date | undefined;
-    issuer: string | undefined;
-    keyId: string | undefined;
-    keyUrl: string | undefined;
-    notBefore: Date | undefined;
+    issuedAt?: Date;
+    issuer?: string;
+    keyId?: string;
+    keyUrl?: string;
+    notBefore?: Date;
     serialize(): string;
-    type: string | undefined;
+    type?: string;
     validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
-    x509Url: string | undefined;
+    x509Url?: string;
 }
 
 // @public

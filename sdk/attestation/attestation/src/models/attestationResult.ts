@@ -26,7 +26,7 @@ export interface AttestationResult {
   /**
    * Returns the "nonce" value if one was specified in the Attest request.
    */
-  nonce: string | undefined;
+  nonce?: string;
 
   /**
    * The Schema version of this structure. Current Value: 1.0
@@ -74,37 +74,37 @@ export interface AttestationResult {
   /**
    * The certificate used to sign the policy object, if specified.
    */
-  policySigner: AttestationSigner | undefined;
+  policySigner?: AttestationSigner;
   /**
    * The base64url encoded SHA256 hash of the BASE64URL encoded policy text
    * used for attestation.
    */
   policyHash: Uint8Array;
   /**
-   * True if the enclave is debuggable, false otherwise
+   * True if the enclave is debuggable, false otherwise. Only valid if `verifierType` is SGX.
    */
-  isDebuggable: boolean | undefined;
+  isDebuggable?: boolean;
 
   /**
    * The SGX Product ID for the enclave. Only valid if the `verifierType` field is "SGX"
    */
-  productId: number | undefined;
+  productId?: number;
   /**
    * The HEX encoded SGX MRENCLAVE value for the enclave. Only valid if the
    * `verifierType` field is "SGX"
    */
-  mrEnclave: string | undefined;
+  mrEnclave?: string;
 
   /**
    * The HEX encoded SGX MRSIGNER value for the enclave. Only valid if the
    * `verifierType` field is "SGX"
    */
-  mrSigner: string | undefined;
+  mrSigner?: string;
 
   /**
    * The SGX SVN value for the enclave. Only valid if the `verifierType` field is "SGX"
    */
-  svn: number | undefined;
+  svn?: number;
 
   /**
    * Returns the value of the runtime_data field specified as an input to the
@@ -115,13 +115,13 @@ export interface AttestationResult {
    * The `enclaveHeldData` property will only be populated if the
    * `runtimeData` parameter to the `Attest` API is specified.
    */
-  enclaveHeldData: Uint8Array | undefined;
+  enclaveHeldData?: Uint8Array;
 
   /**
    * Returns a set of information describing the complete set of inputs to the
    * Attestation validation logic.
    */
-  sgxCollateral: any | undefined;
+  sgxCollateral?: any;
 }
 
 /**

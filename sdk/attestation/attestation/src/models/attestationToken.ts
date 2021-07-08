@@ -124,7 +124,7 @@ export interface AttestationToken {
    *   See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.4 | RFC 7515 Section 4.1.4})
    *   for details.
    */
-  keyId: string | undefined;
+  keyId?: string;
 
   /**
    * Json Web Signature Header "crit".
@@ -133,14 +133,14 @@ export interface AttestationToken {
    *   for details.
    *
    */
-  critical: boolean | undefined;
+  critical?: boolean;
 
   /**
    * Json Web Token Header "content type".
    * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.10 | RFC 7515 Section 4.1.10})
    *
    */
-  contentType: string | undefined;
+  contentType?: string;
 
   /**
    * Json Web Token Header "key URL".
@@ -148,40 +148,40 @@ export interface AttestationToken {
    * @see {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.2 | RFC 7515 Section 4.1.2})
    *
    */
-  keyUrl: string | undefined;
+  keyUrl?: string;
 
   /**
    * Json Web Token Header "X509 Url".
    * @see {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.5 | RFC 7515 Section 4.1.5})
    *
    */
-  x509Url: string | undefined;
+  x509Url?: string;
 
   /** Json Web Token Header "Typ".
    *
    * @see {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.9 | RFC 7515 Section 4.1.9})
    *
    */
-  type: string | undefined;
+  type?: string;
   /**
    * Json Web Token Header "x509 thumprint".
    * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.7 | RFC 7515 Section 4.1.7})
    */
-  certificateThumbprint: string | undefined;
+  certificateThumbprint?: string;
 
   /** Json Web Token Header "x509 SHA256 thumprint".
    *
    * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.8 | RFC 7515 Section 4.1.8})
    *
    */
-  certificateSha256Thumbprint: string | undefined;
+  certificateSha256Thumbprint?: string;
 
   /** Json Web Token Header "x509 certificate chain".
    *
    * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.6 | RFC 7515 Section 4.1.6})
    *
    */
-  certificateChain: AttestationSigner | undefined;
+  certificateChain?: AttestationSigner;
 
   /** ********* JSON WEB TOKEN (RFC 7519) PROPERTIES */
 
@@ -189,21 +189,21 @@ export interface AttestationToken {
    * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.6 | RFC 7519 Section 4.1.6})
    *   for details.
    */
-  issuer: string | undefined;
+  issuer?: string;
 
   /** Expiration time for the token, from JWT body.
    *
    * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.4 | RFC 7519 Section 4.1.4})
    *   for details.
    */
-  expiresOn: Date | undefined;
+  expiresOn?: Date;
 
   /** Issuance time for the token, from JWT body.
    *
    * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.6 | RFC 7519 Section 4.1.6})
    *   for details.
    */
-  issuedAt: Date | undefined;
+  issuedAt?: Date;
 
   /**
    * Not Before time for the token, from JWT body.
@@ -211,7 +211,7 @@ export interface AttestationToken {
    * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.5 | RFC 7519 Section 4.1.5})
    *   for details.
    */
-  notBefore: Date | undefined;
+  notBefore?: Date;
 }
 
 /**
