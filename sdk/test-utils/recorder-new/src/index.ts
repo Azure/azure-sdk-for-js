@@ -40,7 +40,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
       request.headers.set("x-recording-mode", this._mode);
       const upstreamUrl = url.parse(request.url);
       const redirectedUrl = { ...upstreamUrl, host: "localhost:5000", protocol: "http" };
-      upstreamUrl.path = undefined;
+      upstreamUrl.path = null;
       request.headers.set("x-recording-upstream-base-uri", url.format(upstreamUrl));
       request.url = url.format(redirectedUrl);
       console.log(redirectedUrl);
