@@ -3,6 +3,7 @@
 
 import qs from "qs";
 import assert from "assert";
+import Sinon from "sinon";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
@@ -154,6 +155,47 @@ describe("ManagedIdentityCredential", function() {
       (error: AuthenticationError) =>
         error.message.indexOf("No managed identity endpoint found.") > -1
     );
+  });
+
+  it("IMDS MSI retries also retries on 503s", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
+        // { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 200 },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(
+      "errclient",
+      mockHttpClient.tokenCredentialOptions
+    );
+
+    const sandbox = Sinon.createSandbox();
+    const clock = sandbox.useFakeTimers();
+    const promise = credential.getToken("scopes");
+
+    // From the retry code of the IMDS MSI,
+    // the timeouts increase exponentially until we reach the limit:
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    // Plus four 503s: 20s * 6 from the 503 responses.
+    clock.tickAsync(6400 + 2000 * 6);
+
+    assert.equal((await promise)!.token, "token");
+    clock.restore();
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
