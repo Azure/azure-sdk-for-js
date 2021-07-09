@@ -5,7 +5,7 @@ export { AttestationSigner } from "./attestationSigner";
 export { AttestationToken, AttestationTokenValidationOptions } from "./attestationToken";
 export { AttestationResponse } from "./attestationResponse";
 export { PolicyResult } from "./policyResult";
-export { AttestationResult } from "./attestationResult";
+export { AttestationResult, AttestationSgxCollateralInfo } from "./attestationResult";
 export {
   KnownAttestationType,
   KnownCertificateModification,

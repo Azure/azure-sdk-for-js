@@ -46,8 +46,7 @@ npm install @azure/attestation
 In order to interact with the Microsoft Azure Attestation service, you'll need to create an instance of the [Attestation Client][attestation_client] or [Attestation Administration Client][attestation_admin_client] class. You need a **attestation instance url**, which you may see as "DNS Name" in the portal,
 and **client secret credentials (client id, client secret, tenant id)** to instantiate a client object.
 
-Client secret credential authentication is being used in this getting started section but you can find more ways to authenticate with [Azure identity][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
-or other credential providers provided with the Azure SDK, you should install the @azure/identity package:
+In this getting started section, we'll be authenticating using client secret credentials through the [DefaultAzureCredential][defaultazurecredential] provider, but we offer more authentication mechanisms through the [@azure/identity][azure_identity] package. To install the @azure/identity package:
 
 ```Powershell
 npm install @azure/identity

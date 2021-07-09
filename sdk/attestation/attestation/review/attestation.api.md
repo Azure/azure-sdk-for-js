@@ -73,11 +73,22 @@ export interface AttestationResult {
     policySigner?: AttestationSigner;
     productId?: number;
     runtimeClaims: any;
-    sgxCollateral?: any;
+    sgxCollateral?: AttestationSgxCollateralInfo;
     svn?: number;
     uniqueId: string;
     verifierType: string;
     version: string;
+}
+
+// @public (undocumented)
+export interface AttestationSgxCollateralInfo {
+    qeidcertshash?: string;
+    qeidcrlhash?: string;
+    qeidhash?: string;
+    quotehash?: string;
+    tcbinfocertshash?: string;
+    tcbinfocrlhash?: string;
+    tcbinfohash?: string;
 }
 
 // @public
