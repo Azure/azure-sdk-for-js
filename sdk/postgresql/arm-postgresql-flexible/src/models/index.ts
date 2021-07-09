@@ -66,6 +66,11 @@ export interface StorageMBCapability {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly storageSizeMB?: number;
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
@@ -92,6 +97,11 @@ export interface VcoreCapability {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly supportedMemoryPerVcoreMB?: number;
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
@@ -107,6 +117,11 @@ export interface ServerVersionCapability {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly supportedVcores?: VcoreCapability[];
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
@@ -122,25 +137,89 @@ export interface StorageEditionCapability {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly supportedStorageMB?: StorageMBCapability[];
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
- * Server edition capabilities.
+ * node type capability
  */
-export interface ServerEditionCapability {
+export interface NodeTypeCapability {
+  /**
+   * note type name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * note type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeType?: string;
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * Flexible server edition capabilities.
+ */
+export interface FlexibleServerEditionCapability {
   /**
    * Server edition name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
+   * The list of editions supported by this server edition.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly supportedStorageEditions?: StorageEditionCapability[];
   /**
+   * The list of server versions supported by this server edition.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly supportedServerVersions?: ServerVersionCapability[];
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * Hyperscale node edition capabilities.
+ */
+export interface HyperscaleNodeEditionCapability {
+  /**
+   * Server edition name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of editions supported by this server edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedStorageEditions?: StorageEditionCapability[];
+  /**
+   * The list of server versions supported by this server edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedServerVersions?: ServerVersionCapability[];
+  /**
+   * The list of Node Types supported by this server edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedNodeTypes?: NodeTypeCapability[];
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
@@ -153,27 +232,106 @@ export interface CapabilityProperties {
    */
   readonly zone?: string;
   /**
+   * A value indicating whether a new server in this region can have geo-backups to paired region.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly supportedFlexibleServerEditions?: ServerEditionCapability[];
+  readonly geoBackupSupported?: boolean;
+  /**
+   * A value indicating whether a new server in this region can support multi zone HA.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundantHaSupported?: boolean;
+  /**
+   * A value indicating whether a new server in this region can have geo-backups to paired region.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundantHaAndGeoBackupSupported?: boolean;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedFlexibleServerEditions?: FlexibleServerEditionCapability[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedHyperscaleNodeEditions?: HyperscaleNodeEditionCapability[];
+  /**
+   * The status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
- * Storage Profile properties of a server
+ * Storage properties of a server
  */
-export interface StorageProfile {
+export interface Storage {
+  /**
+   * Max storage allowed for a server.
+   */
+  storageSizeGB?: number;
+}
+
+/**
+ * Backup properties of a server
+ */
+export interface Backup {
   /**
    * Backup retention days for the server.
    */
   backupRetentionDays?: number;
   /**
-   * Max storage allowed for a server.
+   * A value indicating whether Geo-Redundant backup is enabled on the server. Possible values
+   * include: 'Enabled', 'Disabled'
    */
-  storageMB?: number;
+  geoRedundantBackup?: GeoRedundantBackupEnum;
+  /**
+   * The earliest restore point time (ISO8601 format) for server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly earliestRestoreDate?: Date;
 }
 
 /**
- * Maintenance window of a server.
+ * Network properties of a server
+ */
+export interface Network {
+  /**
+   * public network access is enabled or not. Possible values include: 'Enabled', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly publicNetworkAccess?: ServerPublicNetworkAccessState;
+  /**
+   * delegated subnet arm resource id.
+   */
+  delegatedSubnetResourceId?: string;
+  /**
+   * private dns zone arm resource id.
+   */
+  privateDnsZoneArmResourceId?: string;
+}
+
+/**
+ * High availability properties of a server
+ */
+export interface HighAvailability {
+  /**
+   * The HA mode for the server. Possible values include: 'Disabled', 'ZoneRedundant'
+   */
+  mode?: HighAvailabilityMode;
+  /**
+   * A state of a HA server that is visible to user. Possible values include: 'NotEnabled',
+   * 'CreatingStandby', 'ReplicatingData', 'FailingOver', 'Healthy', 'RemovingStandby'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: ServerHAState;
+  /**
+   * availability zone information of the standby.
+   */
+  standbyAvailabilityZone?: string;
+}
+
+/**
+ * Maintenance window properties of a server.
  */
 export interface MaintenanceWindow {
   /**
@@ -192,26 +350,6 @@ export interface MaintenanceWindow {
    * day of week for maintenance window
    */
   dayOfWeek?: number;
-}
-
-/**
- * An interface representing ServerPropertiesDelegatedSubnetArguments.
- */
-export interface ServerPropertiesDelegatedSubnetArguments {
-  /**
-   * delegated subnet arm resource id.
-   */
-  subnetArmResourceId?: string;
-}
-
-/**
- * An interface representing ServerPropertiesPrivateDnsZoneArguments.
- */
-export interface ServerPropertiesPrivateDnsZoneArguments {
-  /**
-   * private dns zone arm resource id.
-   */
-  privateDnsZoneArmResourceId?: string;
 }
 
 /**
@@ -247,6 +385,38 @@ export interface Sku {
    * 'GeneralPurpose', 'MemoryOptimized'
    */
   tier: SkuTier;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
 }
 
 /**
@@ -311,9 +481,14 @@ export interface Server extends TrackedResource {
    */
   administratorLoginPassword?: string;
   /**
-   * PostgreSQL Server version. Possible values include: '12', '11'
+   * PostgreSQL Server version. Possible values include: '13', '12', '11'
    */
   version?: ServerVersion;
+  /**
+   * The minor version of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minorVersion?: string;
   /**
    * A state of a server that is visible to user. Possible values include: 'Ready', 'Dropping',
    * 'Disabled', 'Starting', 'Stopping', 'Stopped', 'Updating'
@@ -321,79 +496,58 @@ export interface Server extends TrackedResource {
    */
   readonly state?: ServerState;
   /**
-   * A state of a HA server that is visible to user. Possible values include: 'NotEnabled',
-   * 'CreatingStandby', 'ReplicatingData', 'FailingOver', 'Healthy', 'RemovingStandby'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly haState?: ServerHAState;
-  /**
    * The fully qualified domain name of a server.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly fullyQualifiedDomainName?: string;
   /**
-   * The display name of a server.
+   * Storage properties of a server.
    */
-  displayName?: string;
+  storage?: Storage;
   /**
-   * Storage profile of a server.
+   * Backup properties of a server.
    */
-  storageProfile?: StorageProfile;
+  backup?: Backup;
   /**
-   * public network access is enabled or not. Possible values include: 'Enabled', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Network properties of a server.
    */
-  readonly publicNetworkAccess?: ServerPublicNetworkAccessState;
+  network?: Network;
   /**
-   * Maintenance window of a server.
+   * High availability properties of a server.
+   */
+  highAvailability?: HighAvailability;
+  /**
+   * Maintenance window properties of a server.
    */
   maintenanceWindow?: MaintenanceWindow;
   /**
-   * stand by count value can be either enabled or disabled. Possible values include: 'Enabled',
-   * 'Disabled'
+   * The source server resource ID to restore from. It's required when 'createMode' is
+   * 'PointInTimeRestore'.
    */
-  haEnabled?: HAEnabledEnum;
+  sourceServerResourceId?: string;
   /**
-   * The source PostgreSQL server name to restore from.
-   */
-  sourceServerName?: string;
-  /**
-   * The subscription id of source serve PostgreSQL server name to restore from.
-   */
-  sourceSubscriptionId?: string;
-  /**
-   * The resource group name of source serve PostgreSQL server name to restore from.
-   */
-  sourceResourceGroupName?: string;
-  /**
-   * Restore point creation time (ISO8601 format), specifying the time to restore from.
+   * Restore point creation time (ISO8601 format), specifying the time to restore from. It's
+   * required when 'createMode' is 'PointInTimeRestore'.
    */
   pointInTimeUTC?: Date;
   /**
-   * availability Zone information of the server.
+   * availability zone information of the server.
    */
   availabilityZone?: string;
   /**
-   * availability Zone information of the server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly standbyAvailabilityZone?: string;
-  /**
-   * Status showing whether the data encryption is enabled with customer-managed keys.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly byokEnforcement?: string;
-  delegatedSubnetArguments?: ServerPropertiesDelegatedSubnetArguments;
-  privateDnsZoneArguments?: ServerPropertiesPrivateDnsZoneArguments;
-  /**
-   * The mode to create a new PostgreSQL server. Possible values include: 'Default',
-   * 'PointInTimeRestore'
+   * The mode to create a new PostgreSQL server. Possible values include: 'Default', 'Create',
+   * 'Update', 'PointInTimeRestore'
    */
   createMode?: CreateMode;
   /**
    * Application-specific metadata in the form of key-value pairs.
    */
   serverTags?: { [propertyName: string]: string };
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -413,18 +567,25 @@ export interface ServerForUpdate {
    */
   administratorLoginPassword?: string;
   /**
-   * Storage profile of a server.
+   * Storage properties of a server.
    */
-  storageProfile?: StorageProfile;
+  storage?: Storage;
   /**
-   * stand by count value can be either enabled or disabled. Possible values include: 'Enabled',
-   * 'Disabled'
+   * Backup properties of a server.
    */
-  haEnabled?: HAEnabledEnum;
+  backup?: Backup;
   /**
-   * Maintenance window of a server.
+   * High availability properties of a server.
+   */
+  highAvailability?: HighAvailability;
+  /**
+   * Maintenance window properties of a server.
    */
   maintenanceWindow?: MaintenanceWindow;
+  /**
+   * The mode to update a new PostgreSQL server. Possible values include: 'Default', 'Update'
+   */
+  createMode?: CreateModeForUpdate;
   /**
    * Application-specific metadata in the form of key-value pairs.
    */
@@ -451,6 +612,11 @@ export interface FirewallRule extends ProxyResource {
    * The end IP address of the server firewall rule. Must be IPv4 format.
    */
   endIpAddress: string;
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -486,6 +652,11 @@ export interface Configuration extends ProxyResource {
    * Source of the configuration.
    */
   source?: string;
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -594,6 +765,20 @@ export interface NameAvailability {
    * type of the server
    */
   type?: string;
+}
+
+/**
+ * Represents server restart parameters.
+ */
+export interface RestartParameter {
+  /**
+   * Indicates whether to restart the server with failover.
+   */
+  restartWithFailover?: boolean;
+  /**
+   * Failover mode.
+   */
+  failoverMode?: string;
 }
 
 /**
@@ -772,6 +957,31 @@ export interface Database extends ProxyResource {
    * The collation of the database.
    */
   collation?: string;
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServersRestartOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The parameters for restarting a server.
+   */
+  parameters?: RestartParameter;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServersBeginRestartOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The parameters for restarting a server.
+   */
+  parameters?: RestartParameter;
 }
 
 /**
@@ -844,11 +1054,11 @@ export interface DatabaseListResult extends Array<Database> {
 
 /**
  * Defines values for ServerVersion.
- * Possible values include: '12', '11'
+ * Possible values include: '13', '12', '11'
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = '12' | '11';
+export type ServerVersion = '13' | '12' | '11';
 
 /**
  * Defines values for ServerState.
@@ -860,13 +1070,12 @@ export type ServerVersion = '12' | '11';
 export type ServerState = 'Ready' | 'Dropping' | 'Disabled' | 'Starting' | 'Stopping' | 'Stopped' | 'Updating';
 
 /**
- * Defines values for ServerHAState.
- * Possible values include: 'NotEnabled', 'CreatingStandby', 'ReplicatingData', 'FailingOver',
- * 'Healthy', 'RemovingStandby'
+ * Defines values for GeoRedundantBackupEnum.
+ * Possible values include: 'Enabled', 'Disabled'
  * @readonly
  * @enum {string}
  */
-export type ServerHAState = 'NotEnabled' | 'CreatingStandby' | 'ReplicatingData' | 'FailingOver' | 'Healthy' | 'RemovingStandby';
+export type GeoRedundantBackupEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ServerPublicNetworkAccessState.
@@ -877,20 +1086,29 @@ export type ServerHAState = 'NotEnabled' | 'CreatingStandby' | 'ReplicatingData'
 export type ServerPublicNetworkAccessState = 'Enabled' | 'Disabled';
 
 /**
- * Defines values for HAEnabledEnum.
- * Possible values include: 'Enabled', 'Disabled'
+ * Defines values for HighAvailabilityMode.
+ * Possible values include: 'Disabled', 'ZoneRedundant'
  * @readonly
  * @enum {string}
  */
-export type HAEnabledEnum = 'Enabled' | 'Disabled';
+export type HighAvailabilityMode = 'Disabled' | 'ZoneRedundant';
+
+/**
+ * Defines values for ServerHAState.
+ * Possible values include: 'NotEnabled', 'CreatingStandby', 'ReplicatingData', 'FailingOver',
+ * 'Healthy', 'RemovingStandby'
+ * @readonly
+ * @enum {string}
+ */
+export type ServerHAState = 'NotEnabled' | 'CreatingStandby' | 'ReplicatingData' | 'FailingOver' | 'Healthy' | 'RemovingStandby';
 
 /**
  * Defines values for CreateMode.
- * Possible values include: 'Default', 'PointInTimeRestore'
+ * Possible values include: 'Default', 'Create', 'Update', 'PointInTimeRestore'
  * @readonly
  * @enum {string}
  */
-export type CreateMode = 'Default' | 'PointInTimeRestore';
+export type CreateMode = 'Default' | 'Create' | 'Update' | 'PointInTimeRestore';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -909,6 +1127,22 @@ export type ResourceIdentityType = 'SystemAssigned';
 export type SkuTier = 'Burstable' | 'GeneralPurpose' | 'MemoryOptimized';
 
 /**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for CreateModeForUpdate.
+ * Possible values include: 'Default', 'Update'
+ * @readonly
+ * @enum {string}
+ */
+export type CreateModeForUpdate = 'Default' | 'Update';
+
+/**
  * Defines values for ConfigurationDataType.
  * Possible values include: 'Boolean', 'Numeric', 'Integer', 'Enumeration'
  * @readonly
@@ -923,14 +1157,6 @@ export type ConfigurationDataType = 'Boolean' | 'Numeric' | 'Integer' | 'Enumera
  * @enum {string}
  */
 export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
-
-/**
- * Defines values for Body.
- * Possible values include: 'PostgreSQL', 'PostgreSQLCitus', 'MySQL', 'MariaDb', 'Oracle'
- * @readonly
- * @enum {string}
- */
-export type Body = 'PostgreSQL' | 'PostgreSQLCitus' | 'MySQL' | 'MariaDb' | 'Oracle';
 
 /**
  * Contains response data for the create operation.
@@ -1273,9 +1499,49 @@ export type ConfigurationsUpdateResponse = Configuration & {
 };
 
 /**
+ * Contains response data for the put operation.
+ */
+export type ConfigurationsPutResponse = Configuration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Configuration;
+    };
+};
+
+/**
  * Contains response data for the beginUpdate operation.
  */
 export type ConfigurationsBeginUpdateResponse = Configuration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Configuration;
+    };
+};
+
+/**
+ * Contains response data for the beginPut operation.
+ */
+export type ConfigurationsBeginPutResponse = Configuration & {
   /**
    * The underlying HTTP response.
    */
