@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import { delay, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
