@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - master
+      - feature/*
   paths:
     include:
     - eng/pipelines/mgmt-pr.yml
@@ -119,6 +119,7 @@ trigger:
     - sdk/policy/arm-policy-profile-hybrid-2019-03-01
     - sdk/policyinsights/arm-policyinsights
     - sdk/postgresql/arm-postgresql
+    - sdk/postgresql/arm-postgresql-flexible
     - sdk/powerbidedicated/arm-powerbidedicated
     - sdk/powerbiembedded/arm-powerbiembedded
     - sdk/privatedns/arm-privatedns
@@ -207,7 +208,7 @@ jobs:
   - job: 'Build'
 
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - task: NodeTool@0
@@ -220,7 +221,7 @@ jobs:
         inputs:
           verbose: false
 
-      - script: 'gulp pack --base-reference=master --head-reference=master'
+      - script: 'gulp pack --base-reference=main --head-reference=main'
         displayName: 'gulp pack'
 
       - task: CopyFiles@2
@@ -236,7 +237,7 @@ jobs:
   - job: 'Analyze'
 
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - task: NodeTool@0

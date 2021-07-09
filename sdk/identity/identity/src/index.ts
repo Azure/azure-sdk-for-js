@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+export * from "./extensions/consumer";
+
+export { IdentityExtension } from "./extensions/provider";
+
+import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
 export { AuthenticationRecord } from "./msal/types";
 export { AuthenticationRequiredError } from "./msal/errors";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";
+export { RegionalAuthority } from "./regionalAuthority";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
@@ -15,12 +20,17 @@ export {
   DefaultAzureCredential,
   DefaultAzureCredentialOptions
 } from "./credentials/defaultAzureCredential";
-export { EnvironmentCredential } from "./credentials/environmentCredential";
+export {
+  EnvironmentCredential,
+  EnvironmentCredentialOptions
+} from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
+export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
+export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
   InteractiveBrowserCredentialOptions,
@@ -38,6 +48,14 @@ export { UsernamePasswordCredential } from "./credentials/usernamePasswordCreden
 export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
+export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
+
+export {
+  VisualStudioCodeCredential,
+  VisualStudioCodeCredentialOptions
+} from "./credentials/visualStudioCodeCredential";
+
+export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 
 export {
   AuthenticationError,
@@ -49,7 +67,7 @@ export {
   CredentialUnavailableErrorName
 } from "./client/errors";
 
-export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";
 
 export { AzureAuthorityHosts } from "./constants";

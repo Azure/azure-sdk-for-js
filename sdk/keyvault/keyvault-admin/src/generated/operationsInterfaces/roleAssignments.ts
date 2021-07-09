@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentCreateParameters,
@@ -34,7 +33,7 @@ export interface RoleAssignments {
     scope: string,
     roleAssignmentName: string,
     options?: RoleAssignmentsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Creates a role assignment.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.

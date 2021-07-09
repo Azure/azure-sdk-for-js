@@ -7,17 +7,20 @@ Metrics Advisor is a part of Azure Cognitive Services that uses AI perform data 
 - Configure and fine-tune the anomaly detection model used on your data
 - Diagnose anomalies and help with root cause analysis.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/samples)
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
 
 ## Getting started
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
@@ -113,9 +116,9 @@ const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credent
 
 `MetricsAdvisorAdministrationClient` is the interface responsible for managing entities in the Metrics Advisor resources, such as managing data feeds, anomaly detection configurations, anomaly alerting configurations.
 
-### DataFeed
+### Data Feed
 
-A `DataFeed` is what Metrics Advisor ingests from your data source, such as Cosmos DB or a SQL server. A data feed contains rows of:
+A data feed is what Metrics Advisor ingests from your data source, such as Cosmos DB or a SQL server. A data feed contains rows of:
 
 - timestamps
 - zero or more dimensions
@@ -123,7 +126,7 @@ A `DataFeed` is what Metrics Advisor ingests from your data source, such as Cosm
 
 ### Metric
 
-A `Metric` is a quantifiable measure that is used to monitor and assess the status of a specific business process. It can be a combination of multiple time series values divided into dimensions. For example a web health metric might contain dimensions for user count and the en-us market.
+A metric is a quantifiable measure that is used to monitor and assess the status of a specific business process. It can be a combination of multiple time series values divided into dimensions. For example a web health metric might contain dimensions for user count and the en-us market.
 
 ### AnomalyDetectionConfiguration
 
@@ -131,15 +134,15 @@ A `Metric` is a quantifiable measure that is used to monitor and assess the stat
 
 ### Anomaly & Incident
 
-After a detection configuration is applied to metrics, `Incident`s are generated whenever any series within it has an `Anomaly`.
+After a detection configuration is applied to metrics, `AnomalyIncident`s are generated whenever any series within it has an `DataPointAnomaly`.
 
 ### Alert
 
-You can configure which anomalies should trigger an `Alert`. You can set multiple alerts with different settings. For example, you could create an alert for anomalies with lower business impact, and another for more important alerts.
+You can configure which anomalies should trigger an `AnomalyAlert`. You can set multiple alerts with different settings. For example, you could create an alert for anomalies with lower business impact, and another for more important alerts.
 
 ### Hook
 
-Metrics Advisor lets you create and subscribe to real-time alerts. These alerts are sent over the internet, using a `Hook`.
+Metrics Advisor lets you create and subscribe to real-time alerts. These alerts are sent over the internet, using a notification hook.
 
 Please refer to [the Metrics Advisory Glossary][metrics_advisor_glossary] documentation page for a comprehensive list of concepts.
 
@@ -462,10 +465,10 @@ async function queryAnomaliesByAlert(client, alert) {
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  const iterator = client.listAnomalies(alert);
+  const iterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of iterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey} ${anomaly.timestamp}`
     );
   }
 }
@@ -483,17 +486,17 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test \
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test \
 the code.
 
 ## Related projects
@@ -506,7 +509,7 @@ the code.
 [azure_sub]: https://azure.microsoft.com/free/
 [cognitive_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [azure_portal]: https://portal.azure.com
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [metrics_advisor_glossary]: https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/glossary

@@ -1,8 +1,7 @@
 pr:
   branches:
     include:
-    - master
-    - main
+    - feature/*
     - '*-preview'
   paths:
     include:
@@ -121,6 +120,7 @@ pr:
     - sdk/policy/arm-policy-profile-hybrid-2019-03-01
     - sdk/policyinsights/arm-policyinsights
     - sdk/postgresql/arm-postgresql
+    - sdk/postgresql/arm-postgresql-flexible
     - sdk/powerbidedicated/arm-powerbidedicated
     - sdk/powerbiembedded/arm-powerbiembedded
     - sdk/privatedns/arm-privatedns
@@ -206,7 +206,7 @@ jobs:
 - job: Build
   displayName: Build auto-generated projects
   pool:
-    vmImage: Ubuntu 16.04
+    vmImage: Ubuntu 20.04
   steps:
   - task: NodeTool@0
     inputs:

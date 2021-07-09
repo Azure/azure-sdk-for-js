@@ -2,11 +2,13 @@
 
 [Azure AnomalyDetector](https://azure.microsoft.com/services/cognitive-services/anomaly-detector/) API enables you to monitor and detect abnormalities in your time series data with machine learning.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector)
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Key concepts
 
@@ -20,7 +22,10 @@ The `AnomalyDetectorClient` provides methods for anomaly detection:
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
@@ -153,7 +158,7 @@ main().catch((err) => {
 });
 ```
 
-More Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+More Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Troubleshooting
 
@@ -167,12 +172,12 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
@@ -189,4 +194,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.

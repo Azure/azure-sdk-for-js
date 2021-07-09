@@ -14,7 +14,7 @@ import * as url from "url";
  */
 export class PerfStressPolicy extends BaseRequestPolicy {
   private host: string;
-  private port?: string;
+  private port?: string | null;
 
   /**
    * It receives the common parameters sent to any core-http policy, plus the host and the port.
@@ -27,7 +27,7 @@ export class PerfStressPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     host: string,
-    port?: string
+    port?: string | null
   ) {
     super(nextPolicy, options);
     this.host = host;

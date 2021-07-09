@@ -129,6 +129,13 @@ class NodeHttpClient implements HttpClient {
             request
           };
 
+          // Responses to HEAD must not have a body.
+          // If they do return a body, that body must be ignored.
+          if (request.method === "HEAD") {
+            resolve(response);
+            return;
+          }
+
           responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
@@ -142,7 +149,11 @@ class NodeHttpClient implements HttpClient {
           if (request.streamResponseStatusCodes?.has(response.status)) {
             response.readableStreamBody = responseStream;
           } else {
-            response.bodyAsText = await streamToText(responseStream);
+            try {
+              response.bodyAsText = await streamToText(responseStream);
+            } catch (e) {
+              reject(e);
+            }
           }
 
           resolve(response);
@@ -157,7 +168,14 @@ class NodeHttpClient implements HttpClient {
         if (body && isReadableStream(body)) {
           body.pipe(req);
         } else if (body) {
-          req.end(body);
+          if (typeof body === "string" || Buffer.isBuffer(body)) {
+            req.end(body);
+          } else if (isArrayBuffer(body)) {
+            req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
+          } else {
+            logger.error("Unrecognized body type", body);
+            throw new RestError("Unrecognized body type");
+          }
         } else {
           // streams don't like "undefined" being passed as data
           req.end();
@@ -200,7 +218,7 @@ class NodeHttpClient implements HttpClient {
       throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
     }
 
-    const agent = request.agent ?? this.getOrCreateAgent(request, isInsecure);
+    const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
     const options: http.RequestOptions = {
       agent,
       hostname: url.hostname,

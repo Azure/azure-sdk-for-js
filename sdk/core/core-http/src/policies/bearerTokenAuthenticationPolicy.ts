@@ -11,7 +11,7 @@ import {
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/utils";
+import { delay } from "../util/delay";
 
 // #region Access Token Cycler
 
@@ -71,7 +71,7 @@ async function beginRefresh(
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
-  async function tryGetAccessToken() {
+  async function tryGetAccessToken(): Promise<AccessToken | null> {
     if (Date.now() < timeoutInMs) {
       try {
         return await getAccessToken();
@@ -240,6 +240,12 @@ export function bearerTokenAuthenticationPolicy(
     }
 
     public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
+      if (!webResource.url.toLowerCase().startsWith("https://")) {
+        throw new Error(
+          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+        );
+      }
+
       const { token } = await getToken({
         abortSignal: webResource.abortSignal,
         tracingOptions: {

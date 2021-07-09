@@ -119,6 +119,8 @@ export {
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
 
+export { TextAnalyticsAction } from "./textAnalyticsAction";
+
 // Models
 export {
   DetectedLanguage,
@@ -147,5 +149,7 @@ export {
   Association as EntityAssociation,
   Certainty as EntityCertainty,
   Conditionality as EntityConditionality,
-  RelationType as HealthcareEntityRelationType
+  RelationType as HealthcareEntityRelationType,
+  KnownHealthcareEntityCategory,
+  HealthcareEntityCategory
 } from "./generated/models";

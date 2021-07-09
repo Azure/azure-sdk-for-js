@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-import { AccessToken } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
@@ -36,7 +38,8 @@ export class MsalDeviceCode extends MsalNode {
         deviceCodeCallback: this.userPromptCallback,
         scopes,
         cancel: false,
-        correlationId: options?.correlationId
+        correlationId: options?.correlationId,
+        authority: options?.authority
       };
       const promise = this.publicApp!.acquireTokenByDeviceCode(requestOptions);
       // TODO:

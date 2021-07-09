@@ -1,15 +1,12 @@
 # Release History
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.1.0 (Unreleased)
 
 ### Key Bugs Fixed
 
-### Fixed
-
+- Updated to use the latest version of the `rhea` package.
+  Part of a fix for PR#15989, where draining messages could sometimes lead to message loss with `receiver.receiveMessages()`. 
+  [PR#15989](https://github.com/Azure/azure-sdk-for-js/pull/15989)
 
 ## 3.0.0 (2021-06-09)
 
@@ -161,7 +158,7 @@ We are cleaning the public API surface by
 ## 1.0.1 (2020-02-06)
 
 - Updated to use the latest version of the `rhea` package.
-  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md) this library.
 
 ## 1.0.0 (2020-01-08)
 

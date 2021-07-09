@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Keys client library samples for TypeScript",
-  "engine": {
+  "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
@@ -29,11 +29,11 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets",
   "dependencies": {
-    "@azure/keyvault-secrets": "next",
+    "@azure/keyvault-secrets": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0"
+    "@azure/identity": "2.0.0-beta.3"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

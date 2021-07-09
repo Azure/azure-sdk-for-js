@@ -8,7 +8,7 @@
  * @azsdk-weight 20
  */
 
-import FarmBeats, { Farmer } from "@azure-rest/agrifood-farming";
+import FarmBeats, { paginate } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -18,34 +18,18 @@ const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
   const farming = FarmBeats(endpoint, new DefaultAzureCredential());
+  const response = await farming.path("/farmers").get();
 
-  const result = await farming.path("/farmers").get();
-
-  if (result.status !== "200") {
-    throw result.body.error?.message;
+  if (response.status !== "200") {
+    throw response.body.error || new Error(`Unexpected status code ${response.status}`);
   }
 
-  let farmers: Farmer[] = result.body.value ?? [];
-  let skipToken = result.body.skipToken;
-
-  // Farmer results may be paginated. In case there are more than one page of farmers
-  // the service would return a skipToken that can be used for subsequent request to get
-  // the next page of farmers. Here we'll keep calling until the service stops returning a
-  // skip token which means that there are no more pages.
-  while (skipToken) {
-    const page = await farming.path("/farmers").get({ queryParameters: { $skipToken: skipToken } });
-    if (page.status !== "200") {
-      throw page.body.error;
-    }
-
-    farmers.concat(page.body.value ?? []);
-    skipToken = page.body.skipToken;
-  }
+  const farmers = paginate(farming, response);
 
   // Lof each farmer id
-  farmers.forEach((farmer) => {
+  for await (const farmer of farmers) {
     console.log(farmer.id);
-  });
+  }
 }
 
 main().catch(console.error);

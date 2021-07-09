@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "5488b0a78bc36e79038fb3ef4081a15d";
+module.exports.hash = "a4ca9b251b8b0633e16f9e0e17360a93";
 
-module.exports.testInfo = {"uniqueName":{"name-1":"name-1162163960704305092"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"name-1":"name-1162439657358703686"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/.appconfig.featureflag%2Fname-1162163960704305092', {"key":".appconfig.featureflag/name-1162163960704305092","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World"})
+  .put('/kv/.appconfig.featureflag%2Fname-1162439657358703686', {"key":".appconfig.featureflag/name-1162439657358703686","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World"})
   .query(true)
-  .reply(200, {"etag":"TUCsSpczvtslRMRZaZWzyKNRxXD","key":".appconfig.featureflag/name-1162163960704305092","label":null,"content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World","tags":{},"locked":false,"last_modified":"2021-05-21T23:26:46+00:00"}, [
+  .reply(200, {"etag":"xlVgpC7kEWSh6qtFl3qqBKmwG09","key":".appconfig.featureflag/name-1162439657358703686","label":null,"content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World","tags":{},"locked":false,"last_modified":"2021-06-22T21:16:13+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 21 May 2021 23:26:44 GMT',
+  'Tue, 22 Jun 2021 21:16:13 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 21 May 2021 23:26:46 GMT',
+  'Tue, 22 Jun 2021 21:16:13 GMT',
   'ETag',
-  '"TUCsSpczvtslRMRZaZWzyKNRxXD"',
+  '"xlVgpC7kEWSh6qtFl3qqBKmwG09"',
   'Sync-Token',
-  'zAJw6V16=NToxOSMzMzM2OTU1;sn=3336955',
+  'zAJw6V16=NToxOSMzNTkyMzc3;sn=3592377',
   'x-ms-request-id',
-  'd2dfac97-c176-4c65-a368-0f8db4d07ae4',
+  'cdf3317e-1160-4dac-ad1a-5c169796f5f6',
   'x-ms-correlation-request-id',
-  'd2dfac97-c176-4c65-a368-0f8db4d07ae4',
+  'cdf3317e-1160-4dac-ad1a-5c169796f5f6',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -39,13 +39,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .get('/kv/.appconfig.featureflag%2Fname-1162163960704305092')
+  .get('/kv/.appconfig.featureflag%2Fname-1162439657358703686')
   .query(true)
-  .reply(200, {"etag":"TUCsSpczvtslRMRZaZWzyKNRxXD","key":".appconfig.featureflag/name-1162163960704305092","label":null,"content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World","tags":{},"locked":false,"last_modified":"2021-05-21T23:26:46+00:00"}, [
+  .reply(200, {"etag":"xlVgpC7kEWSh6qtFl3qqBKmwG09","key":".appconfig.featureflag/name-1162439657358703686","label":null,"content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World","tags":{},"locked":false,"last_modified":"2021-06-22T21:16:13+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 21 May 2021 23:26:42 GMT',
+  'Tue, 22 Jun 2021 21:16:08 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -53,15 +53,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 21 May 2021 23:26:46 GMT',
+  'Tue, 22 Jun 2021 21:16:13 GMT',
   'ETag',
-  '"TUCsSpczvtslRMRZaZWzyKNRxXD"',
+  '"xlVgpC7kEWSh6qtFl3qqBKmwG09"',
   'Sync-Token',
-  'zAJw6V16=NToxOSMzMzM2OTU1;sn=3336955',
+  'zAJw6V16=NToxOSMzNTkyMzc3;sn=3592377',
   'x-ms-request-id',
-  'f356bd8d-0e7f-4fd3-9f75-f71b08295337',
+  '4b607f7a-ec53-4da0-a945-763d6f58d269',
   'x-ms-correlation-request-id',
-  'f356bd8d-0e7f-4fd3-9f75-f71b08295337',
+  '4b607f7a-ec53-4da0-a945-763d6f58d269',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -73,13 +73,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/.appconfig.featureflag%2Fname-1162163960704305092')
+  .delete('/kv/.appconfig.featureflag%2Fname-1162439657358703686')
   .query(true)
-  .reply(200, {"etag":"TUCsSpczvtslRMRZaZWzyKNRxXD","key":".appconfig.featureflag/name-1162163960704305092","label":null,"content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World","tags":{},"locked":false,"last_modified":"2021-05-21T23:26:46+00:00"}, [
+  .reply(200, {"etag":"xlVgpC7kEWSh6qtFl3qqBKmwG09","key":".appconfig.featureflag/name-1162439657358703686","label":null,"content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"Hello World","tags":{},"locked":false,"last_modified":"2021-06-22T21:16:13+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 21 May 2021 23:26:45 GMT',
+  'Tue, 22 Jun 2021 21:16:14 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -87,15 +87,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 21 May 2021 23:26:46 GMT',
+  'Tue, 22 Jun 2021 21:16:13 GMT',
   'ETag',
-  '"TUCsSpczvtslRMRZaZWzyKNRxXD"',
+  '"xlVgpC7kEWSh6qtFl3qqBKmwG09"',
   'Sync-Token',
-  'zAJw6V16=NToxOSMzMzM2OTU2;sn=3336956',
+  'zAJw6V16=NToxOSMzNTkyMzc4;sn=3592378',
   'x-ms-request-id',
-  '10ebc611-c1f1-4458-b594-a319fbbaa45b',
+  '4d6dc3d8-50fe-4f0e-a591-54d7782cfd81',
   'x-ms-correlation-request-id',
-  '10ebc611-c1f1-4458-b594-a319fbbaa45b',
+  '4d6dc3d8-50fe-4f0e-a591-54d7782cfd81',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

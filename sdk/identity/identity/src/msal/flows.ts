@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+
 import { CredentialLogger } from "../util/logging";
 import { AuthenticationRecord } from "./types";
 import { CredentialFlowGetTokenOptions } from "./credentials";
@@ -28,10 +29,6 @@ export interface MsalFlow {
    * Allows for any setup before any request is processed.
    */
   init(options?: CredentialFlowGetTokenOptions): Promise<void>;
-  /**
-   * Clears the MSAL cache.
-   */
-  logout(): Promise<void>;
   /**
    * Tries to load the active account, either from memory or from MSAL.
    */

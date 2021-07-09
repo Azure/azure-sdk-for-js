@@ -8,77 +8,78 @@ import { Durations, MetricsQueryClient } from "../../src";
 import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
 
 describe("MetricsClient live tests", function() {
-  let metricsArmResourceId: string;
+  let resourceId: string;
   let metricsQueryClient: MetricsQueryClient;
 
   beforeEach(function(this: Context) {
-    metricsArmResourceId = getMetricsArmResourceId(this);
+    ({ resourceId } = getMetricsArmResourceId(this));
     metricsQueryClient = new MetricsQueryClient(createTestClientSecretCredential());
   });
 
-  it("queryMetrics", async () => {
-    const metricDefinitions = await metricsQueryClient.getMetricDefinitions(metricsArmResourceId);
+  it("getMetricDefinitions -> queryMetrics", async () => {
+    const metricDefinitions = await metricsQueryClient.getMetricDefinitions(resourceId);
     assert.isNotEmpty(metricDefinitions.definitions);
 
+    // you can only query 20 metrics at a time.
     for (const definition of metricDefinitions.definitions) {
-      const result = await metricsQueryClient.queryMetrics(
-        metricsArmResourceId,
-        Durations.last24Hours,
-        {
-          metricNames: [definition.name || ""]
-        }
-      );
+      const result = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
+        metricNames: [definition.name || ""]
+      });
 
       assert.ok(result);
       assert.ok(result.interval);
       assert.isNotEmpty(result.metrics);
     }
 
-    const newResults = await metricsQueryClient.queryMetrics(
-      metricsArmResourceId,
+    // do a quick run through of all the individual metrics, in groups of 20
+    // which is the max.
+    for (let i = 0; i < metricDefinitions.definitions.length; i += 20) {
+      const definitionNames = metricDefinitions.definitions
+        .slice(i, i + 20)
+        // TODO: I think the 'name' being optional is incorrect in the swagger
+        // but just in case I'll check until we fix it.
+        .map((definition) => definition.name!);
+
+      for (const definitionName of definitionNames) {
+        if (definitionName == null) {
+          throw new Error("Definition name for a metric was undefined/null");
+        }
+      }
+
+      const newResults = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
+        metricNames: definitionNames
+      });
+
+      assert.ok(newResults);
+      assert.isNotEmpty(newResults.metrics);
+    }
+
+    // pick the first query and use the namespace as well.
+
+    const firstMetricDefinition = metricDefinitions.definitions[0];
+
+    assert.isNotNull(firstMetricDefinition);
+    assert.isNotEmpty(firstMetricDefinition.name);
+    assert.isNotEmpty(firstMetricDefinition.namespace);
+
+    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(
+      resourceId,
       Durations.last24Hours,
       {
-        metricNames: metricDefinitions.definitions.map((def) => def.name || "")
+        metricNames: [firstMetricDefinition.name!],
+        metricNamespace: firstMetricDefinition.namespace
       }
     );
 
-    assert.ok(newResults);
-    assert.isNotEmpty(newResults.metrics);
-
-    // {
-    //   "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/ripark/providers/Microsoft.ServiceBus/namespaces/riparkdev2/providers/Microsoft.Insights/metrics/SuccessfulRequests",
-    //   "type": "Microsoft.Insights/metrics",
-    //   "name": {
-    //     "value": "SuccessfulRequests",
-    //     "localizedValue": "Successful Requests"
-    //   },
-    //   "unit": "Count",
-    //   "timeseries": [
-    //     {
-    //       "metadatavalues": [],
-    //       "data": [
-    //         {
-    //           "timeStamp": "2021-05-03T18:06:00.000Z",
-    //           "total": 180
-    //         },
-    //         {
-    //           "timeStamp": "2021-05-03T19:05:00.000Z",
-    //           "total": 193
-    //         }
-    //       ]
-    //     }
-    //   ],
-    // }
-    // "displayDescription": "Total successful requests for a namespace",
-    // "errorCode": "Success"
+    assert.ok(individualMetricWithNamespace);
   });
 
   it("listNamespaces", async () => {
-    const result = await metricsQueryClient.getMetricNamespaces(metricsArmResourceId);
+    const result = await metricsQueryClient.getMetricNamespaces(resourceId);
     assert.ok(result);
   });
   it("listDefinitions", async () => {
-    const result = await metricsQueryClient.getMetricDefinitions(metricsArmResourceId);
+    const result = await metricsQueryClient.getMetricDefinitions(resourceId);
     assert.ok(result);
   });
 });

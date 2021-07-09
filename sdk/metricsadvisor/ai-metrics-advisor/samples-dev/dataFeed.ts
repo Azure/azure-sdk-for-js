@@ -13,7 +13,7 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  GetDataFeedResponse,
+  MetricsAdvisorDataFeed,
   DataFeedPatch,
   DataFeedDescriptor
 } from "@azure/ai-metrics-advisor";
@@ -73,7 +73,7 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 
 async function createDataFeed(
   client: MetricsAdvisorAdministrationClient
-): Promise<GetDataFeedResponse> {
+): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const feed: DataFeedDescriptor = {
     name: "test-datafeed-" + new Date().getTime().toString(),
@@ -164,8 +164,7 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
 
   try {
     console.log(`Updating datafeed ${dataFeedId}...`);
-    await client.updateDataFeed(dataFeedId, patch);
-    const updated = await client.getDataFeed(dataFeedId);
+    const updated = await client.updateDataFeed(dataFeedId, patch);
     console.dir(updated);
   } catch (err) {
     console.log("Error occurred when updating data feed");

@@ -14,10 +14,10 @@ import {
   TagOrderBy,
   TagPageResponse
 } from "./models";
-import { URL } from "./url";
+import { URL } from "./utils/url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
-import { extractNextLink, isDigest } from "./utils";
+import { extractNextLink, isDigest } from "./utils/helpers";
 import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations";
 
 /**
@@ -112,7 +112,7 @@ export interface RegistryArtifact {
    * @param options -
    */
   updateManifestProperties(
-    options?: UpdateManifestPropertiesOptions
+    options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
    * Retrieves properties of a tag.
@@ -130,15 +130,44 @@ export interface RegistryArtifact {
     options: UpdateTagPropertiesOptions
   ): Promise<ArtifactTagProperties>;
   /**
-   * Iterates tags.
+   * Returns an async iterable iterator to list tag properties.
    *
-   * Example usage:
-   * ```ts
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName);
    * const artifact = repository.getArtifact(digest)
    * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = artifact.listTagProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("tag properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = artifact.listTagProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const tagProperties of page.value) {
+   *      console.log(`  repository name: ${tagProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
@@ -286,7 +315,7 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async updateManifestProperties(
-    options: UpdateManifestPropertiesOptions = {}
+    options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-updateManifestProperties", {
       ...options,
@@ -379,15 +408,44 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Iterates tags.
+   * Returns an async iterable iterator to list tag properties.
    *
-   * Example usage:
-   * ```ts
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName);
    * const artifact = repository.getArtifact(digest)
    * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = artifact.listTagProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("tag properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = artifact.listTagProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const tagProperties of page.value) {
+   *      console.log(`  repository name: ${tagProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -

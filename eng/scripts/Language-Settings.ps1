@@ -3,7 +3,7 @@ $LanguageShort = "js"
 $LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
-$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
+$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
 function Confirm-NodeInstallation
@@ -120,6 +120,24 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   }
 
   return $resultObj
+}
+
+function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
+  New-Object PSObject -Property @{ 
+    DocsMsReadMeName = $PackageInfo.Name -replace "^@azure/" , ""
+    LatestReadMeLocation = 'docs-ref-services/latest'
+    PreviewReadMeLocation = 'docs-ref-services/preview'
+    Suffix = ''
+  }
+}
+
+# In the case of NPM packages, the "dev version" produced for the given build
+# may not have been published if the code is identical to the code already 
+# published at the "dev" tag. To prevent using a version which does not exist in 
+# NPM, use the "dev" tag instead.
+function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
+  $packageInfo.Version = 'dev'
+  return $packageInfo
 }
 
 # Stage and Upload Docs to blob Storage

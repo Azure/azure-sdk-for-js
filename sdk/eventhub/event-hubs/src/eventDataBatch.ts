@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, toRheaMessage } from "./eventData";
+import { EventData, isAmqpAnnotatedMessage, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Span, SpanContext } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { convertTryAddOptionsForCompatibility, createMessageSpan } from "./diagnostics/tracing";
-import { defaultDataTransformer } from "./dataTransformer";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
@@ -106,10 +106,10 @@ export interface EventDataBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData -  An individual event data object.
+   * @param eventData -  An individual event data object or AmqpAnnotatedMessage.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
+  tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -284,25 +284,26 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
+  public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
     options = convertTryAddOptionsForCompatibility(options);
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(
-      eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]
+      (isAmqpAnnotatedMessage(eventData)
+        ? eventData.applicationProperties
+        : eventData.properties)?.[TRACEPARENT_PROPERTY] // Event Data maps properties to applicationProperties.
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
       const { span: messageSpan } = createMessageSpan(options, this._context.config);
       eventData = instrumentEventData(eventData, messageSpan);
-      spanContext = messageSpan.context();
+      spanContext = messageSpan.spanContext();
       messageSpan.end();
     }
 
     // Convert EventData to RheaMessage.
     const amqpMessage = toRheaMessage(eventData, this._partitionKey);
-    amqpMessage.body = defaultDataTransformer.encode(eventData.body);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

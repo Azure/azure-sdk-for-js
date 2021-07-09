@@ -23,6 +23,7 @@ omitted_paths:
   - sdk/storage/storage-datalake/README.md
   - sdk/storage/storage-internal-avro/*
   - sdk/test-utils/perfstress/README.md
+  - sdk/test-utils/multi-version/README.md
 language: js
 root_check_enabled: True
 required_readme_sections:
@@ -35,17 +36,8 @@ required_readme_sections:
   - ^Contributing$
 
 known_content_issues:
-  - ["sdk/core/abort-controller/README.md",  "#14714"]
-  - ["sdk/core/core-amqp/README.md",  "#14715"]
-  - ["sdk/core/core-auth/README.md",  "#14716"]
-  - ["sdk/core/core-tracing/README.md",  "#14725"]
-  - ["sdk/core/logger/README.md",  "#14726"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
-  - ["sdk/test-utils/multi-version/README.md", "#14728"]
-
-known_presence_issues:
-  - ["sdk/keyvault/keyvault-common/README.md",  "#15587"]
 
 package_indexing_exclusion_list:
   - "@azure/template"

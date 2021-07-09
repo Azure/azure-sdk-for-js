@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MetricsNamespacesClient } from "../metricsNamespacesClient";
+import { MonitorManagementClient } from "../monitorManagementClient";
 import {
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
@@ -17,13 +17,13 @@ import {
 
 /** Class representing a MetricNamespaces. */
 export class MetricNamespaces {
-  private readonly client: MetricsNamespacesClient;
+  private readonly client: MonitorManagementClient;
 
   /**
    * Initialize a new instance of the class MetricNamespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: MetricsNamespacesClient) {
+  constructor(client: MonitorManagementClient) {
     this.client = client;
   }
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortError } from "@azure/abort-controller";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -10,7 +11,8 @@ import {
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
-import { delay } from "../util/utils";
+import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
+import { delay } from "../util/delay";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
@@ -26,6 +28,8 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
   };
 }
 
+const StandardAbortMessage = "The operation was aborted.";
+
 /**
  * To learn more, please refer to
  * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
@@ -34,6 +38,7 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
  */
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   private _handleResponse: ResponseHandler;
+  private numberOfRetries = 0;
 
   constructor(
     nextPolicy: RequestPolicy,
@@ -45,13 +50,15 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(httpRequest.clone()).then((response) => {
-      if (response.status !== StatusCodes.TooManyRequests) {
-        return response;
-      } else {
-        return this._handleResponse(httpRequest, response);
-      }
-    });
+    const response = await this._nextPolicy.sendRequest(httpRequest.clone());
+    if (
+      response.status !== StatusCodes.TooManyRequests &&
+      response.status !== StatusCodes.ServiceUnavailable
+    ) {
+      return response;
+    } else {
+      return this._handleResponse(httpRequest, response);
+    }
   }
 
   private async _defaultResponseHandler(
@@ -67,7 +74,22 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         retryAfterHeader
       );
       if (delayInMs) {
-        return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
+        this.numberOfRetries += 1;
+
+        await delay(delayInMs, undefined, {
+          abortSignal: httpRequest.abortSignal,
+          abortErrorMsg: StandardAbortMessage
+        });
+
+        if (httpRequest.abortSignal?.aborted) {
+          throw new AbortError(StandardAbortMessage);
+        }
+
+        if (this.numberOfRetries < DEFAULT_CLIENT_MAX_RETRY_COUNT) {
+          return this.sendRequest(httpRequest);
+        } else {
+          return this._nextPolicy.sendRequest(httpRequest);
+        }
       }
     }
 

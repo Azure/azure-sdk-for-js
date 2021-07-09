@@ -37,7 +37,7 @@ export class ClientContext {
   private readonly sessionContainer: SessionContainer;
   private connectionPolicy: ConnectionPolicy;
 
-  public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: ParitionKeyDefinitionCache
+  public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager
@@ -542,6 +542,14 @@ export class ClientContext {
 
   public getReadEndpoint(): Promise<string> {
     return this.globalEndpointManager.getReadEndpoint();
+  }
+
+  public getWriteEndpoints(): Promise<readonly string[]> {
+    return this.globalEndpointManager.getWriteEndpoints();
+  }
+
+  public getReadEndpoints(): Promise<readonly string[]> {
+    return this.globalEndpointManager.getReadEndpoints();
   }
 
   public async bulk<T>({

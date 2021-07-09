@@ -54,13 +54,13 @@ describe("Challenge based authentication tests", () => {
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
     const promises = keyNames.map((name) => {
-      const promise = client.createKey(name, "RSA");
+      const promise = client.listPropertiesOfKeys().next();
       return { promise, name };
     });
 
     for (const promise of promises) {
       await promise.promise;
-      await testClient.flushKey(promise.name);
+      // await testClient.flushKey(promise.name);
     }
 
     // Even though we had parallel requests, only one authentication should have happened.
@@ -84,17 +84,8 @@ describe("Challenge based authentication tests", () => {
     const sandbox = createSandbox();
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
 
-    // Now we run what would be a normal use of the client.
-    // Here we will create two keys, then flush them.
-    // testClient.flushKey deletes, then purges the keys.
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
-    for (const name of keyNames) {
-      await client.createKey(name, "RSA");
-    }
-    for (const name of keyNames) {
-      await testClient.flushKey(name);
-    }
+    await client.listDeletedKeys().next();
+    await client.listDeletedKeys().next();
 
     // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);

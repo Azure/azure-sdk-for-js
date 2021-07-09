@@ -57,7 +57,6 @@ export {
   PartnerNamespaceUpdateParameters,
   PartnerRegistration,
   PartnerTopic,
-  PartnerTopicType,
   PrivateEndpoint,
   PrivateEndpointConnection,
   Resource,

@@ -1,48 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { KeyCredential } from "@azure/core-auth";
 import {
-  BaseRequestPolicy,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse
-} from "@azure/core-http";
-import { AzureKeyCredential } from "@azure/core-auth";
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  PipelinePolicy
+} from "@azure/core-rest-pipeline";
 
 import jwt from "jsonwebtoken";
 
-export function webPubSubAzureKeyCredentialPolicyFactory(credential: AzureKeyCredential) {
+/**
+ * The programmatic identifier of the webPubSubKeyCredentialPolicy.
+ */
+export const webPubSubKeyCredentialPolicyName = "webPubSubKeyCredentialPolicy";
+
+/**
+ * Create an HTTP pipeline policy to authenticate a request
+ * using an `AzureKeyCredential` for Text Analytics
+ * @internal
+ */
+export function webPubSubKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new WebPubSubKeyCredentialPolicy(nextPolicy, options, credential);
+    name: webPubSubKeyCredentialPolicyName,
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const bearerToken = jwt.sign({}, credential.key, {
+        audience: request.url,
+        expiresIn: "1h",
+        algorithm: "HS256"
+      });
+      request.headers.set("Authorization", `Bearer ${bearerToken}`);
+      return next(request);
     }
   };
-}
-
-export class WebPubSubKeyCredentialPolicy extends BaseRequestPolicy {
-  public credential: AzureKeyCredential;
-
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    credential: AzureKeyCredential
-  ) {
-    super(nextPolicy, options);
-    this.credential = credential;
-  }
-
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    request.headers.set(
-      "Authorization",
-      "Bearer " +
-        jwt.sign({}, this.credential.key, {
-          audience: request.url,
-          expiresIn: "1h",
-          algorithm: "HS256"
-        })
-    );
-
-    return this._nextPolicy.sendRequest(request);
-  }
 }

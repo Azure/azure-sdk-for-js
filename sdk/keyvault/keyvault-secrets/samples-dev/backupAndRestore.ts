@@ -32,7 +32,7 @@ function readFile(filename: string): Promise<Uint8Array> {
   });
 }
 
-export function delay<T>(t: number, value?: T): Promise<T | void> {
+function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 

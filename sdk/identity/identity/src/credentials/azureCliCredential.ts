@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+
 import { createSpan } from "../util/tracing";
 import { CredentialUnavailableError } from "../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
+import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -34,13 +38,26 @@ export const cliCredentialInternals = {
    * @internal
    */
   async getAzureCliAccessToken(
-    resource: string
+    resource: string,
+    tenantId?: string
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
+    let tenantSection: string[] = [];
+    if (tenantId) {
+      tenantSection = ["--tenant", tenantId];
+    }
     return new Promise((resolve, reject) => {
       try {
         child_process.execFile(
           "az",
-          ["account", "get-access-token", "--output", "json", "--resource", resource],
+          [
+            "account",
+            "get-access-token",
+            "--output",
+            "json",
+            "--resource",
+            ...tenantSection,
+            resource
+          ],
           { cwd: cliCredentialInternals.getSafeWorkingDir() },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
@@ -64,11 +81,22 @@ const logger = credentialLogger("AzureCliCredential");
  * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
+  private tenantId?: string;
+  private allowMultiTenantAuthentication?: boolean;
+
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Creates an instance of the {@link AzureCliCredential}.
+   *
+   * @param options - Options, to optionally allow multi-tenant requests.
+   */
+  constructor(options?: AzureCliCredentialOptions) {
+    this.tenantId = options?.tenantId;
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
+  }
+
+  /**
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
@@ -78,9 +106,17 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
+    const tenantId = processMultiTenantRequest(
+      this.tenantId,
+      this.allowMultiTenantAuthentication,
+      options
+    );
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
+
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
-
     ensureValidScope(scope, logger);
     const resource = getScopeResource(scope);
 
@@ -89,7 +125,7 @@ export class AzureCliCredential implements TokenCredential {
     const { span } = createSpan("AzureCliCredential-getToken", options);
 
     try {
-      const obj = await cliCredentialInternals.getAzureCliAccessToken(resource);
+      const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
       if (obj.stderr) {
         const isLoginError = obj.stderr.match("(.*)az login(.*)");
         const isNotInstallError =

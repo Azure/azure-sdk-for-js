@@ -15,7 +15,7 @@ const TEST_NUMBER = "+14255550123";
 describe("[mocked] SmsClient", async () => {
   const baseUri = "https://contoso.api.fake:443";
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
-  const dateHeader = isNode ? "date" : "x-ms-date";
+  const dateHeader = "x-ms-date";
   let sendRequestSpy: sinon.SinonSpy;
   const mockHttpClient: HttpClient = new MockHttpClient(TEST_NUMBER);
 

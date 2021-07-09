@@ -19,12 +19,12 @@ Use the @azure/search-documents client library to:
 - Create and manage analyzers for advanced text analysis or multi-lingual content.
 - Optimize results through scoring profiles to factor in business logic or freshness.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search-documents/) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/search-documents) |
 [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/) |
 [Product documentation](https://docs.microsoft.com/azure/search/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
 
 ## Getting started
 
@@ -34,8 +34,17 @@ Use the @azure/search-documents client library to:
 npm install @azure/search-documents
 ```
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
-This package supports [Node.js](https://nodejs.org/) version 8.x.x or higher. You need an [Azure subscription][azure_sub] and a [search service][create_search_service_docs] to use this package.
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Search service][create_search_service_docs]
 
 To create a new search service, you can use the [Azure portal][create_search_service_docs], [Azure PowerShell][create_search_service_ps], or the [Azure CLI][create_search_service_cli]. Here's an example using the Azure CLI to create a free instance for getting started:
 
@@ -124,7 +133,7 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 ## Examples
 
-The following examples demonstrate the basics - please [check out our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples) for much more.
+The following examples demonstrate the basics - please [check out our samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples) for much more.
 
 * [Creating an index](#create-an-index)
 * [Retrieving a specific document from your index](#retrieve-a-specific-document-from-an-index)
@@ -404,16 +413,16 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
-* [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
+* [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
 * [Watch a demo or deep dive video](https://azure.microsoft.com/resources/videos/index/?services=search)
 * [Read more about the Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-what-is-azure-search)
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit [cla.microsoft.com][cla].
 
