@@ -12,50 +12,50 @@ import { _attestationSignerFromGenerated } from "./attestationSigner";
 export interface AttestationSgxCollateralInfo {
   /**
    * Hex encoded Sha256 hash of the Quoting Enclave Certificates.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
   qeidcertshash?: string;
   /**
    * Hex encoded Sha256 hash of the Quoting Enclave Certificate CRL.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
   qeidcrlhash?: string;
   /**
    * Hex encoded Sha256 hash of the Quoting Enclave Identity.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
   qeidhash?: string;
   /**
-   * Hex encoded Sha256 hash of the SGX Quote or OpenEnclave Report validated 
+   * Hex encoded Sha256 hash of the SGX Quote or OpenEnclave Report validated
    * by this token.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
   quotehash?: string;
   /**
    * Hex encoded Sha256 hash of the TCB Info Certificates.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
   tcbinfocertshash?: string;
   /**
    * Hex encoded Sha256 hash of the TCB Info Certificate CRL.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
   tcbinfocrlhash?: string;
   /**
    * Hex encoded Sha256 hash of the TCB Info for the device being attested.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
@@ -177,7 +177,7 @@ export interface AttestationResult {
   /**
    * Returns a set of information describing the complete set of inputs to the
    * Attestation validation logic.
-   * 
+   *
    * See the {@link https://software.intel.com/content/www/us/en/develop/articles/quote-verification-attestation-with-intel-sgx-dcap.html | Intel SGX documentation }
    *  for more information on quote validation.
    */
