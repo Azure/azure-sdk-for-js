@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-network";
-const packageVersion = "25.0.0";
+const packageVersion = "25.1.0";
 
 export class NetworkManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -32,16 +32,12 @@ export class NetworkManagementClientContext extends msRestAzure.AzureServiceClie
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.NetworkManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.NetworkManagementClientOptions) {
     if (credentials == undefined) {
-      throw new Error("'credentials' cannot be null.");
+      throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
-      throw new Error("'subscriptionId' cannot be null.");
+      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -54,7 +50,7 @@ export class NetworkManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
-    this.acceptLanguage = "en-US";
+    this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
@@ -64,10 +60,7 @@ export class NetworkManagementClientContext extends msRestAzure.AzureServiceClie
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (
-      options.longRunningOperationRetryTimeout !== null &&
-      options.longRunningOperationRetryTimeout !== undefined
-    ) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }
