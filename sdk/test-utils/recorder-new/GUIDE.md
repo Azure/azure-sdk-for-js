@@ -10,6 +10,7 @@
 Run this command
 
 - `docker run -v <your-volume-name-or-location>:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+  (Eventually, recorder will trigger this for you!)
 
 ## Running the test at test-utils\recorder-new
 
