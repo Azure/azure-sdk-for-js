@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a ContainerRegistryClient.
+ * @summary Lists repository names and deletes a repository.
  */
 
 const { ContainerRegistryClient } = require("@azure/container-registry");
@@ -15,27 +15,27 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
-  await listRepositories(client);
+  await listRepositoryNames(client);
 
   // Advanced: listing by pages
-  const pageSize = 2;
-  await listRepositoriesByPages(client, pageSize);
+  const pageSize = 1;
+  await listRepositoryNamesByPages(client, pageSize);
 
   const repositoryName = "repository-name-to-delete";
   await deleteRepository(client, repositoryName);
 }
 
-async function listRepositories(client) {
+async function listRepositoryNames(client) {
   console.log("Listing repositories");
-  const iterator = client.listRepositories();
+  const iterator = client.listRepositoryNames();
   for await (const repository of iterator) {
     console.log(`  repository: ${repository}`);
   }
 }
 
-async function listRepositoriesByPages(client, pageSize) {
+async function listRepositoryNamesByPages(client, pageSize) {
   console.log("Listing repositories by pages");
-  const pages = client.listRepositories().byPage({ maxPageSize: pageSize });
+  const pages = client.listRepositoryNames().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -48,19 +48,7 @@ async function listRepositoriesByPages(client, pageSize) {
 
 async function deleteRepository(client, repositoryName) {
   console.log("Deleting a repository");
-  const response = await client.deleteRepository(repositoryName);
-  console.log(
-    `Artifacts deleted: ${(response &&
-      response.deletedRegistryArtifactDigests &&
-      response.deletedRegistryArtifactDigests.length) ||
-      0}`
-  );
-  console.log(
-    `Tags deleted: ${(response &&
-      response.deletedRegistryArtifactDigests &&
-      response.deletedRegistryArtifactDigests.length) ||
-      0}`
-  );
+  await client.deleteRepository(repositoryName);
 }
 
 main().catch((err) => {

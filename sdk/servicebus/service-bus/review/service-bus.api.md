@@ -458,7 +458,7 @@ export interface ServiceBusSender {
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
+    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 

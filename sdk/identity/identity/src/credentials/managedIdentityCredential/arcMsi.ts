@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { RequestPrepareOptions } from "@azure/core-http";
+
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
@@ -70,7 +72,11 @@ async function filePathRequest(
 
 export const arcMsi: MSI = {
   async isAvailable(): Promise<boolean> {
-    return Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
+    const result = Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
+    if (!result) {
+      logger.info("The Azure Arc MSI is unavailable.");
+    }
+    return result;
   },
   async getToken(
     identityClient: IdentityClient,

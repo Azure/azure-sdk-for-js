@@ -24,7 +24,7 @@ import { WebResource } from "@azure/core-http";
 // we will be able to unit test the insides in detail.
 
 describe("Challenge based authentication tests", () => {
-  const secretPrefix = `challengeAuth${env.KEY_NAME || "SecretName"}`;
+  const secretPrefix = `challengeAuthSecretName`;
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;

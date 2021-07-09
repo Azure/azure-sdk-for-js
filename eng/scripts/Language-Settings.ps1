@@ -3,7 +3,7 @@ $LanguageShort = "js"
 $LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
-$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
+$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
 function Confirm-NodeInstallation
@@ -122,6 +122,24 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   return $resultObj
 }
 
+function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
+  New-Object PSObject -Property @{ 
+    DocsMsReadMeName = $PackageInfo.Name -replace "^@azure/" , ""
+    LatestReadMeLocation = 'docs-ref-services/latest'
+    PreviewReadMeLocation = 'docs-ref-services/preview'
+    Suffix = ''
+  }
+}
+
+# In the case of NPM packages, the "dev version" produced for the given build
+# may not have been published if the code is identical to the code already 
+# published at the "dev" tag. To prevent using a version which does not exist in 
+# NPM, use the "dev" tag instead.
+function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
+  $packageInfo.Version = 'dev'
+  return $packageInfo
+}
+
 # Stage and Upload Docs to blob Storage
 function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 {
@@ -172,58 +190,140 @@ function Get-javascript-GithubIoDocIndex()
   GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
 }
 
-# Updates a js CI configuration json.
-# For "latest", we simply set a target package name
-# For "preview", we add @next to the target package name
-function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $monikerId = $null)
-{
-  $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
+# "@azure/package-name@1.2.3" -> "@azure/package-name"
+function Get-PackageNameFromDocsMsConfig($DocsConfigName) { 
+  if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') { 
+    return $Matches['pkgName']
+  }
+  LogWarning "Could not find package name in ($DocsConfigName)"
+  return ''
+}
 
-  if (-not (Test-Path $pkgJsonLoc))
-  {
-    Write-Error "Unable to locate package json at location $pkgJsonLoc, exiting."
-    exit(1)
+# Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
+# return a package name with the version specified in $packageVersion
+# "@azure/package-name@1.2.3" "1.3.0" -> "@azure/package-name@1.3.0"
+function Get-DocsMsPackageName($packageName, $packageVersion) { 
+  return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
+}
+
+$PackageExclusions = @{ 
+  '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
+  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+}
+
+function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
+
+  Write-Host "Excluded packages:"
+  foreach ($excludedPackage in $PackageExclusions.Keys) {
+    Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
   }
 
-  $allJson = Get-Content $pkgJsonLoc | ConvertFrom-Json
+  $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
 
-  $visibleInCI = @{}
+  UpdateDocsMsPackages `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
+    'preview' `
+    $FilteredMetadata 
 
-  for ($i = 0; $i -lt $allJson.npm_package_sources.Length; $i++)
-  {
-    $pkgDef = $allJson.npm_package_sources[$i]
-    $accessor = ($pkgDef.name).Replace("`@next", "")
-    $visibleInCI[$accessor] = $i
+  UpdateDocsMsPackages `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
+    'latest' `
+    $FilteredMetadata
+}
+
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
+  Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
+  $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
+
+  $outputPackages = @()
+  foreach ($package in $packageConfig.npm_package_sources) {
+    $packageName = Get-PackageNameFromDocsMsConfig $package.name
+    # If Get-PackageNameFromDocsMsConfig cannot find the package name, keep the
+    # entry but do no additional processing on it.
+    if (!$packageName) {
+      LogWarning "Package name is not valid: ($($package.name)). Keeping entry in docs config but not updating."
+      $outputPackages += $package
+      continue
+    }
+
+    # Do not filter by GA/Preview status because we want differentiate between
+    # tracked and non-tracked packages
+    $matchingPublishedPackageArray = $DocsMetadata.Where( { $_.Package -eq $packageName })
+
+    # If this package does not match any published packages keep it in the list.
+    # This handles packages which are not tracked in metadata but still need to
+    # be built in Docs CI.
+    if ($matchingPublishedPackageArray.Count -eq 0) {
+      Write-Host "Keep non-tracked preview package: $($package.name)"
+      $outputPackages += $package
+      continue
+    }
+
+    if ($matchingPublishedPackageArray.Count -gt 1) { 
+      LogWarning "Found more than one matching published package in metadata for $(package.name); only updating first entry"
+    }
+    $matchingPublishedPackage = $matchingPublishedPackageArray[0]
+
+    if ($Mode -eq 'preview' -and !$matchingPublishedPackage.VersionPreview.Trim()) { 
+      # If we are in preview mode and the package does not have a superseding
+      # preview version, remove the package from the list. 
+      Write-Host "Remove superseded preview package: $($package.name)"
+      continue
+    }
+
+    $packageVersion = $matchingPublishedPackage.VersionGA
+    if ($Mode -eq 'preview') {
+      $packageVersion = $matchingPublishedPackage.VersionPreview
+    }
+
+    # Package name comes in the form "<package-name>@<version>". The version may 
+    # have changed. This parses the name of the package from the input and 
+    # appends the version specified in the metadata.
+    # Mutate the package name because there may be other properties of the
+    # package which are not accounted for in this code (e.g. "folder" in JS 
+    # packages)
+    $package.name = Get-DocsMsPackageName $package.name $packageVersion
+    Write-Host "Keep tracked package: $($package.name)"
+    $outputPackages += $package
   }
 
-  foreach ($releasingPkg in $pkgs)
-  {
-    $name = $releasingPkg.PackageId
-
-    if ($releasingPkg.IsPrerelease)
-    {
-      $name += "`@next"
-    }
-
-    if ($visibleInCI.ContainsKey($releasingPkg.PackageId))
-    {
-      $packagesIndex = $visibleInCI[$releasingPkg.PackageId]
-      $existingPackageDef = $allJson.npm_package_sources[$packagesIndex]
-      $existingPackageDef.name = $name
-    }
-    else
-    {
-      $newItem = New-Object PSObject -Property @{
-        name = $name
-      }
-
-      if ($newItem) { $allJson.npm_package_sources += $newItem }
-    }
+  $outputPackagesHash = @{}
+  foreach ($package in $outputPackages) {
+    $outputPackagesHash[(Get-PackageNameFromDocsMsConfig $package.name)] = $true
   }
 
-  $jsonContent = $allJson | ConvertTo-Json -Depth 10 | ForEach-Object { $_ -replace "(?m)  (?<=^(?:  )*)", "  " }
+  $remainingPackages = @() 
+  if ($Mode -eq 'preview') { 
+    $remainingPackages = $DocsMetadata.Where({ 
+      $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
+    })
+  } else { 
+    $remainingPackages = $DocsMetadata.Where({ 
+      $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
+    })
+  }
 
-  Set-Content -Path $pkgJsonLoc -Value $jsonContent
+  # Add packages that exist in the metadata but are not onboarded in docs config
+  foreach ($package in $remainingPackages) {
+    # If Get-PackageNameFromDocsMsConfig cannot find the package name, skip
+    # adding it to the packages
+    if (!(Get-PackageNameFromDocsMsConfig $package.Package)) {
+      LogWarning "Package name not valid: ($($package.Package)). Skipping adding from metadata to docs config"
+      continue
+    }
+
+
+    $packageVersion = $package.VersionGA
+    if ($Mode -eq 'preview') {
+      $packageVersion = $package.VersionPreview
+    }
+    $packageName = Get-DocsMsPackageName $package.Package $packageVersion
+    Write-Host "Add new package from metadata: $packageName"
+    $outputPackages += @{ name = $packageName }
+  }
+
+  $packageConfig.npm_package_sources = $outputPackages
+  $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
 }
 
 # function is used to auto generate API View

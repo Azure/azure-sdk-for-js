@@ -3,22 +3,24 @@
 
 import {
   getMessageIterator,
+  retryForever,
   settleMessage,
   settleMessageOperation,
   wrapProcessErrorHandler
 } from "../../../src/receivers/receiverCommon";
 import chai from "chai";
 import { ServiceBusReceiver } from "../../../src/receivers/receiver";
-import { ServiceBusLogger } from "../../../src/log";
+import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log";
 import { ProcessErrorArgs } from "../../../src/models";
 import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
-import { MessagingError } from "@azure/core-amqp";
+import { MessagingError, RetryOperationType } from "@azure/core-amqp";
 import { DispositionType, ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { DispositionStatusOptions } from "../../../src/core/managementClient";
 import { Delivery } from "rhea-promise";
 import { MessageAlreadySettled } from "../../../src/util/errors";
 import { assertThrows } from "../../public/utils/testUtils";
+import { AbortError } from "@azure/abort-controller";
 const assert = chai.assert;
 
 describe("shared receiver code", () => {
@@ -185,6 +187,104 @@ describe("shared receiver code", () => {
           message: MessageAlreadySettled
         }
       );
+    });
+  });
+
+  describe("retryForever", () => {
+    const logger = createServiceBusLogger("fake");
+
+    // retryForever retries forever on all exceptions _except_ AbortError
+    it("respects AbortError", async () => {
+      let onErrorError: Error | undefined;
+
+      const retryForeverPromise = retryForever({
+        logPrefix: "logPrefix",
+        logger: logger,
+        onError: (err) => {
+          onErrorError = err;
+        },
+        retryConfig: {
+          operation: () => {
+            throw new AbortError("Purposefully abort");
+          },
+          connectionId: "id",
+          operationType: RetryOperationType.connection
+        }
+      });
+
+      await assertThrows(() => retryForeverPromise, {
+        name: "AbortError",
+        message: "Purposefully abort"
+      });
+
+      assert.notOk(onErrorError?.message);
+    });
+
+    it("exits if operation is successful", async () => {
+      let errorMessages: string[] = [];
+      let numOperationCalls = 0;
+
+      await retryForever({
+        logPrefix: "logPrefix",
+        logger: logger,
+        onError: (err) => {
+          errorMessages.push(err.message);
+        },
+        retryConfig: {
+          operation: async () => {
+            ++numOperationCalls;
+          },
+          connectionId: "id",
+          operationType: RetryOperationType.connection
+        }
+      });
+
+      assert.isEmpty(errorMessages);
+      assert.equal(numOperationCalls, 1);
+    });
+
+    it("retries after each retry<> call exhausts _its_ retries", async () => {
+      let errorMessages: string[] = [];
+      let numRetryCalls = 0;
+
+      const fakeRetry = async <T>() => {
+        ++numRetryCalls;
+
+        if (numRetryCalls < 3) {
+          // force retry<> to get called three times (2x because
+          // we "failed" and threw exceptions and 1 more time where
+          // we succeed.
+          throw new Error(`Attempt ${numRetryCalls}: Force another call of retry<>`);
+        }
+
+        return Promise.resolve({} as T);
+      };
+
+      await retryForever(
+        {
+          logPrefix: "logPrefix",
+          logger: logger,
+          onError: (err) => {
+            errorMessages.push(err.message);
+          },
+          retryConfig: {
+            operation: async () => {
+              ++numRetryCalls;
+              return 1;
+            },
+            connectionId: "id",
+            operationType: RetryOperationType.connection
+          }
+        },
+        fakeRetry
+      );
+
+      assert.deepEqual(errorMessages, [
+        "Attempt 1: Force another call of retry<>",
+        "Attempt 2: Force another call of retry<>"
+      ]);
+
+      assert.equal(numRetryCalls, 2 + 1);
     });
   });
 });

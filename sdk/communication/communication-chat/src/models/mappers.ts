@@ -101,21 +101,20 @@ export const mapToChatContentSdkModel = (
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
   const { content, senderCommunicationIdentifier, ...otherChatMessage } = chatMessage;
-  const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
-  if (senderCommunicationIdentifier) {
-    return {
-      sender: deserializeCommunicationIdentifier(
-        senderCommunicationIdentifier as SerializedCommunicationIdentifier
-      ),
-      content: contentSdkModel,
-      ...otherChatMessage
-    };
-  } else {
-    return {
-      content: contentSdkModel,
-      ...otherChatMessage
+  let result: ChatMessage = { ...otherChatMessage };
+  if (content) {
+    result = {
+      ...result,
+      content: mapToChatContentSdkModel(content)
     };
   }
+  if (senderCommunicationIdentifier) {
+    const sender = deserializeCommunicationIdentifier(
+      senderCommunicationIdentifier as SerializedCommunicationIdentifier
+    );
+    result = { ...result, sender };
+  }
+  return result;
 };
 
 /**

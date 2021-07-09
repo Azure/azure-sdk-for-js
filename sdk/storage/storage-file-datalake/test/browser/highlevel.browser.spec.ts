@@ -10,7 +10,6 @@ import {
   blobToString,
   bodyToString,
   getBrowserFile,
-  isIE,
   blobToArrayBuffer,
   arrayBufferEqual
 } from "../utils/index.browser";
@@ -68,13 +67,6 @@ describe("Highlevel browser only", () => {
 
   it("upload should work for large data", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
-    if (isIE()) {
-      assert.ok(
-        true,
-        "Skip this case in IE11 which doesn't have enough memory for downloading validation"
-      );
-      this.skip();
-    }
     await fileClient.upload(tempFileLarge);
     const readResponse = await fileClient.read();
 

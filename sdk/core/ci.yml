@@ -3,7 +3,6 @@
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
@@ -19,7 +18,6 @@ trigger:
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
@@ -48,6 +46,10 @@ extends:
         safeName: azurecoreauth
       - name: azure-core-client
         safeName: azurecoreclient
+      - name: azure-rest-core-client
+        safeName: azurerestcoreclient
+      - name: azure-rest-core-client-paging
+        safeName: azurerestcoreclientpaging
       - name: azure-core-crypto
         safeName: azurecorecrypto
       - name: azure-core-http
@@ -62,5 +64,7 @@ extends:
         safeName: azurecoretracing
       - name: azure-core-xml
         safeName: azurecorexml
+      - name: azure-core-util
+        safeName: azurecoreutil
       - name: azure-logger
         safeName: azurelogger

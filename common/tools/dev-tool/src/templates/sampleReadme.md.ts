@@ -6,7 +6,6 @@ import YAML from "yaml";
 
 import prettier from "prettier";
 
-import { MIN_SUPPORTED_NODE_VERSION } from "../util/sampleConfiguration";
 import { SampleReadmeConfiguration } from "../util/sampleGenerationInfo";
 
 /**
@@ -37,10 +36,10 @@ function fence(language: string, ...contents: string[]): string {
  * Ex. recognizePii.ts -> recognizepii
  */
 function sampleLinkTag(filePath: string): string {
-  return path
-    .basename(filePath)
+  return filePath
+    .split(path.sep)
+    .join("_")
     .replace(/\.[a-z]*$/, "")
-    .replace(/\//, "_")
     .toLowerCase();
 }
 
@@ -55,13 +54,13 @@ function fileLinks(info: SampleReadmeConfiguration) {
   ].join("/");
 
   return filterModules(info)
-    .map(({ filePath, relativeSourcePath }) => {
+    .map(({ relativeSourcePath }) => {
       const sourcePath = info.useTypeScript
         ? relativeSourcePath
         : relativeSourcePath.replace(/\.ts$/, ".js");
       return `[${sampleLinkTag(
-        filePath
-      )}]: https://github.com/Azure/azure-sdk-for-js/blob/master/${packageSamplesPathFragment}/${sourcePath}`;
+        relativeSourcePath
+      )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
 }
@@ -115,11 +114,11 @@ function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfigurati
  * Renders the sample file table.
  */
 function table(info: SampleReadmeConfiguration) {
-  const contents = filterModules(info).map(({ filePath, summary, relativeSourcePath }) => {
+  const contents = filterModules(info).map(({ summary, relativeSourcePath }) => {
     const fileName = info.useTypeScript
       ? relativeSourcePath
       : relativeSourcePath.replace(/\.ts$/, ".js");
-    return `| [${fileName}][${sampleLinkTag(filePath)}] | ${summary} |`;
+    return `| [${fileName}][${sampleLinkTag(relativeSourcePath)}] | ${summary} |`;
   });
 
   return [
@@ -166,7 +165,7 @@ ${table(info)}
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=${MIN_SUPPORTED_NODE_VERSION}.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 ${(() => {
   if (info.useTypeScript) {
@@ -214,10 +213,8 @@ ${fence(
   "bash",
   `node ${(() => {
     const firstSource = filterModules(info)[0].relativeSourcePath;
-    const fileName = info.useTypeScript
-      ? "dist/" + firstSource
-      : firstSource.replace(/\.ts$/, ".js");
-    return fileName;
+    const filePath = info.useTypeScript ? "dist/" : "";
+    return filePath + firstSource.replace(/\.ts$/, ".js");
   })()}`
 )}
 
@@ -235,7 +232,7 @@ ${fileLinks(info)}
 [apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}/README.md
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
     {

@@ -16,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   APPCONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
   APPCONFIG_TEST_SETTING_KEY: "test-key",
   APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret"
 };

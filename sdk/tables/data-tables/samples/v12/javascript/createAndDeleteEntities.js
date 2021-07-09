@@ -7,8 +7,8 @@
  * @summary creates and deletes a entities in a table
  */
 
-const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
-const { v4 } = require("uuid");
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
@@ -16,20 +16,64 @@ dotenv.config();
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
-const tableSufix = v4().replace(/-/g, "");
+
+async function createSimpleDateEntity() {
+  // Note that this sample assumes that a table with tableName exists
+  const tableName = `createSimpleDateEntityTable`;
+
+  // See authenticationMethods sample for other options of creating a new client
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
+  const client = new TableClient(tablesUrl, tableName, creds);
+
+  await client.createTable();
+
+  const entity = {
+    partitionKey: "p1",
+    rowKey: "r1",
+    date: new Date()
+  };
+
+  await client.createEntity(entity);
+
+  await client.deleteTable();
+}
+
+async function createComplexDateEntity() {
+  // Note that this sample assumes that a table with tableName exists
+  const tableName = `createComplexDateEntityTable`;
+
+  // See authenticationMethods sample for other options of creating a new client
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
+  const client = new TableClient(tablesUrl, tableName, creds);
+
+  await client.createTable();
+
+  // For higher precision dates we need to pass the
+  const date = { type: "DateTime", value: "2016-06-10T21:42:24.7607389" };
+
+  const entity = {
+    partitionKey: "p2",
+    rowKey: "r2",
+    date
+  };
+
+  await client.createEntity(entity);
+
+  await client.deleteTable();
+}
 
 async function createAndDeleteEntities() {
   console.log("== Create and delete entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `createAndDeleteEntitiesTable${tableSufix}`;
+  const tableName = `createAndDeleteEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   // Create the table
-  await client.create();
+  await client.createTable();
 
   const entity = {
     partitionKey: "Stationery",
@@ -47,11 +91,13 @@ async function createAndDeleteEntities() {
 
   // Delete the table for cleanup
   // Create the table
-  await client.delete();
+  await client.deleteTable();
 }
 
 async function main() {
   await createAndDeleteEntities();
+  await createSimpleDateEntity();
+  await createComplexDateEntity();
 }
 
 main().catch((err) => {

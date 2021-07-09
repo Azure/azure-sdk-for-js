@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { uniqueString } from "./recorder";
-import { DefaultHttpClient } from "@azure/core-http";
 import { getEnvironmentVariable } from "./common";
 
 export async function authenticate(that: any): Promise<any> {
@@ -28,8 +27,7 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
+      AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       BLOB_CONTAINER_NAME: "uri",
       BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
@@ -68,11 +66,7 @@ export async function authenticate(that: any): Promise<any> {
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  // Passing a separate httpClient for every instance as a workaround
-  // for a caching issue when creating role assignments
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
-    httpClient: new DefaultHttpClient()
-  });
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
   const keyClient = new KeyClient(keyVaultHsmUrl, credential);
   const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 

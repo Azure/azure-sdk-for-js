@@ -30,7 +30,6 @@ import { SendOptions } from "./models/public";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
-import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -193,7 +192,7 @@ export class EventHubSender extends LinkEntity {
    * @returns boolean
    */
   isOpen(): boolean {
-    const result: boolean = this._sender! && this._sender!.isOpen();
+    const result = Boolean(this._sender && this._sender.isOpen());
     logger.verbose(
       "[%s] Sender '%s' with address '%s' is open? -> %s",
       this._context.connectionId,
@@ -216,9 +215,9 @@ export class EventHubSender extends LinkEntity {
       abortSignal?: AbortSignalLike;
     } = {}
   ): Promise<number> {
-    await this._createLinkIfNotOpen(options);
+    const sender = await this._getLink(options);
 
-    return this._sender!.maxMessageSize;
+    return sender.maxMessageSize;
   }
 
   /**
@@ -259,7 +258,6 @@ export class EventHubSender extends LinkEntity {
         // Convert EventData to RheaMessage.
         for (let i = 0; i < events.length; i++) {
           const rheaMessage = toRheaMessage(events[i], partitionKey);
-          rheaMessage.body = defaultDataTransformer.encode(events[i].body);
           messages[i] = rheaMessage;
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
@@ -303,7 +301,7 @@ export class EventHubSender extends LinkEntity {
     );
   }
 
-  private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
+  private _createSenderOptions(newName?: boolean): AwaitableSenderOptions {
     if (newName) this.name = `${uuid()}`;
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
@@ -313,8 +311,7 @@ export class EventHubSender extends LinkEntity {
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose,
-      sendTimeoutInSeconds: timeoutInMs / 1000
+      onSessionClose: this._onSessionClose
     };
     logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -339,21 +336,20 @@ export class EventHubSender extends LinkEntity {
     const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     retryOptions.timeoutInMs = timeoutInMs;
 
-    const initStartTime = Date.now();
-    await this._createLinkIfNotOpen(options);
-    const timeTakenByInit = Date.now() - initStartTime;
-
     const sendEventPromise = async (): Promise<void> => {
+      const initStartTime = Date.now();
+      const sender = await this._getLink(options);
+      const timeTakenByInit = Date.now() - initStartTime;
       logger.verbose(
         "[%s] Sender '%s', credit: %d available: %d",
         this._context.connectionId,
         this.name,
-        this._sender!.credit,
-        this._sender!.session.outgoing.available()
+        sender.credit,
+        sender.session.outgoing.available()
       );
 
       let waitTimeForSendable = 1000;
-      if (!this._sender!.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
+      if (!sender.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
         logger.verbose(
           "%s Sender '%s', waiting for 1 second for sender to become sendable",
           this._context.connectionId,
@@ -366,14 +362,14 @@ export class EventHubSender extends LinkEntity {
           "%s Sender '%s' after waiting for a second, credit: %d available: %d",
           this._context.connectionId,
           this.name,
-          this._sender!.credit,
-          this._sender!.session?.outgoing?.available()
+          sender.credit,
+          sender.session?.outgoing?.available()
         );
       } else {
         waitTimeForSendable = 0;
       }
 
-      if (!this._sender!.sendable()) {
+      if (!sender.sendable()) {
         // let us retry to send the message after some time.
         const msg =
           `[${this._context.connectionId}] Sender "${this.name}", ` +
@@ -404,10 +400,10 @@ export class EventHubSender extends LinkEntity {
         throw translate(e);
       }
 
-      this._sender!.sendTimeoutInSeconds =
-        (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
       try {
-        const delivery = await this._sender!.send(rheaMessage, undefined, 0x80013700, {
+        const delivery = await sender.send(rheaMessage, {
+          format: 0x80013700,
+          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
           abortSignal
         });
         logger.info(
@@ -444,22 +440,22 @@ export class EventHubSender extends LinkEntity {
     }
   }
 
-  private async _createLinkIfNotOpen(
+  private async _getLink(
     options: {
       retryOptions?: RetryOptions;
       abortSignal?: AbortSignalLike;
     } = {}
-  ): Promise<void> {
-    if (this.isOpen()) {
-      return;
+  ): Promise<AwaitableSender> {
+    if (this.isOpen() && this._sender) {
+      return this._sender;
     }
     const retryOptions = options.retryOptions || {};
     const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     retryOptions.timeoutInMs = timeoutInMs;
-    const senderOptions = this._createSenderOptions(timeoutInMs);
+    const senderOptions = this._createSenderOptions();
 
     const startTime = Date.now();
-    const createLinkPromise = async (): Promise<void> => {
+    const createLinkPromise = async (): Promise<AwaitableSender> => {
       return defaultCancellableLock.acquire(
         this.senderLock,
         () => {
@@ -475,7 +471,7 @@ export class EventHubSender extends LinkEntity {
       );
     };
 
-    const config: RetryConfig<void> = {
+    const config: RetryConfig<AwaitableSender> = {
       operation: createLinkPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,
@@ -484,7 +480,7 @@ export class EventHubSender extends LinkEntity {
     };
 
     try {
-      await retry<void>(config);
+      return await retry<AwaitableSender>(config);
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
@@ -500,6 +496,7 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Initializes the sender session on the connection.
+   * Should only be called from _createLinkIfNotOpen
    * @hidden
    */
   private async _init(
@@ -507,11 +504,9 @@ export class EventHubSender extends LinkEntity {
       abortSignal: AbortSignalLike | undefined;
       timeoutInMs: number;
     }
-  ): Promise<void> {
+  ): Promise<AwaitableSender> {
     try {
-      if (!this.isOpen() && !this.isConnecting) {
-        this.isConnecting = true;
-
+      if (!this.isOpen() || !this._sender) {
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
         await this._negotiateClaim({
@@ -526,33 +521,32 @@ export class EventHubSender extends LinkEntity {
           this.name
         );
 
-        this._sender = await this._context.connection.createAwaitableSender(options);
-        this.isConnecting = false;
+        const sender = await this._context.connection.createAwaitableSender(options);
+        this._sender = sender;
         logger.verbose(
           "[%s] Sender '%s' created with sender options: %O",
           this._context.connectionId,
           this.name,
           options
         );
-        this._sender.setMaxListeners(1000);
+        sender.setMaxListeners(1000);
 
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
+        return sender;
       } else {
         logger.verbose(
-          "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
+          "[%s] The sender '%s' with address '%s' is open -> %s. Hence not reconnecting.",
           this._context.connectionId,
           this.name,
           this.address,
-          this.isOpen(),
-          this.isConnecting
+          this.isOpen()
         );
+        return this._sender;
       }
     } catch (err) {
-      this.isConnecting = false;
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",

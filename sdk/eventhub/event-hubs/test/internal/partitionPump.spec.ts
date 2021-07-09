@@ -41,7 +41,7 @@ describe("PartitionPump", () => {
     }
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = setSpanContext(context.active(), new NoOpSpan().context());
+      const fakeParentSpanContext = setSpanContext(context.active(), new NoOpSpan().spanContext());
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
 
       await createProcessingSpan([], eventHubProperties, {
@@ -73,7 +73,10 @@ describe("PartitionPump", () => {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         partitionKey: null,
-        sequenceNumber: 0
+        sequenceNumber: 0,
+        getRawAmqpMessage() {
+          return {} as any;
+        }
       };
 
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
@@ -94,11 +97,11 @@ describe("PartitionPump", () => {
       tracer.spanOptions!.links!.length.should.equal(3 - 1);
       // the test tracer just hands out a string integer that just gets
       // incremented
-      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
+      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.spanContext().traceId);
       (tracer.spanOptions!.links![0]!.attributes!.enqueuedTime as number).should.equal(
         requiredEventProperties.enqueuedTimeUtc.getTime()
       );
-      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
+      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.spanContext().traceId);
       (tracer.spanOptions!.links![1]!.attributes!.enqueuedTime as number).should.equal(
         requiredEventProperties.enqueuedTimeUtc.getTime()
       );

@@ -13,9 +13,8 @@ export {
   OfferDetail,
   OrganizationResource,
   OrganizationResourceListResult,
-  OrganizationResourcePropertiesOfferDetail,
-  OrganizationResourcePropertiesUserDetail,
   OrganizationResourceUpdate,
   ResourceProviderDefaultErrorResponse,
+  SystemData,
   UserDetail
 } from "../models/mappers";

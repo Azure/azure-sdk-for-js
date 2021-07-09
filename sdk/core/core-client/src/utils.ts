@@ -7,7 +7,7 @@ import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./
  * The union of all possible types for a primitive response body.
  * @internal
  */
-export type BodyPrimitive = number | string | boolean | undefined | null;
+export type BodyPrimitive = number | string | boolean | Date | Uint8Array | undefined | null;
 
 /**
  * A type guard for a primitive response body.
@@ -15,13 +15,17 @@ export type BodyPrimitive = number | string | boolean | undefined | null;
  *
  * @internal
  */
-export function isPrimitiveBody(value: unknown): value is BodyPrimitive {
+export function isPrimitiveBody(value: unknown, mapperTypeName?: string): value is BodyPrimitive {
   return (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean" ||
-    value === undefined ||
-    value === null
+    mapperTypeName !== "Composite" &&
+    mapperTypeName !== "Dictionary" &&
+    (typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      mapperTypeName?.match(/^(Date|DateTime|DateTimeRfc1123|UnixTime|ByteArray|Base64Url)$/i) !==
+        null ||
+      value === undefined ||
+      value === null)
   );
 }
 
@@ -173,9 +177,6 @@ export function flattenResponse(
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    shouldWrapBody:
-      expectedBodyTypeName !== "Composite" &&
-      expectedBodyTypeName !== "Dictionary" &&
-      isPrimitiveBody(fullResponse.parsedBody)
+    shouldWrapBody: isPrimitiveBody(fullResponse.parsedBody, expectedBodyTypeName)
   });
 }

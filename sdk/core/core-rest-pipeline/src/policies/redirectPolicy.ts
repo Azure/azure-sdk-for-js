@@ -66,6 +66,7 @@ async function handleRedirect(
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
       request.method = "GET";
+      request.headers.delete("Content-Length");
       delete request.body;
     }
 

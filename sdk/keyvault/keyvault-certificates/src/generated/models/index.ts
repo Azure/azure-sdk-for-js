@@ -60,7 +60,7 @@ export interface KeyVaultError {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel;
+  readonly error?: ErrorModel | null;
 }
 
 /** The key vault server error. */
@@ -79,7 +79,7 @@ export interface ErrorModel {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel | null;
 }
 
 /** A certificate bundle consists of a certificate (X509) plus its attributes. */
@@ -142,7 +142,7 @@ export interface CertificatePolicy {
 
 /** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
-  /** Indicates if the private key can be exported. */
+  /** Not supported in this version. Indicates if the private key can be exported. */
   exportable?: boolean;
   /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
@@ -372,7 +372,7 @@ export interface CertificateOperation {
   /** The status details of the certificate operation. */
   statusDetails?: string;
   /** Error encountered, if any, during the certificate operation. */
-  error?: ErrorModel;
+  error?: ErrorModel | null;
   /** Location which contains the result of the certificate operation. */
   target?: string;
   /** Identifier for the certificate operation. */
@@ -503,20 +503,20 @@ export type DeletedCertificateBundle = CertificateBundle & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion72Preview} that the service accepts. */
-export const enum KnownApiVersion72Preview {
-  /** Api Version '7.2-preview' */
-  Seven2Preview = "7.2-preview"
+/** Known values of {@link ApiVersion72} that the service accepts. */
+export const enum KnownApiVersion72 {
+  /** Api Version '7.2' */
+  Seven2 = "7.2"
 }
 
 /**
- * Defines values for ApiVersion72Preview. \
- * {@link KnownApiVersion72Preview} can be used interchangeably with ApiVersion72Preview,
+ * Defines values for ApiVersion72. \
+ * {@link KnownApiVersion72} can be used interchangeably with ApiVersion72,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **7.2-preview**: Api Version '7.2-preview'
+ * **7.2**: Api Version '7.2'
  */
-export type ApiVersion72Preview = string;
+export type ApiVersion72 = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export const enum KnownDeletionRecoveryLevel {

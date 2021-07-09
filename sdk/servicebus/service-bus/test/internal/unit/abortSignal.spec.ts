@@ -20,7 +20,6 @@ import {
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { MessageSession } from "../../../src/session/messageSession";
@@ -78,12 +77,6 @@ describe("AbortSignal", () => {
 
       const batchMessage = new ServiceBusMessageBatchImpl(connectionContext, 1000);
       await sender.sendBatch(batchMessage, {
-        abortSignal
-      });
-
-      assert.equal(passedInOptions?.abortSignal, abortSignal);
-
-      await sender.sendMessages([testMessageThatDoesntMatter], {
         abortSignal
       });
 
@@ -162,6 +155,38 @@ describe("AbortSignal", () => {
         assert.isTrue((err as any).retryable);
       }
     });
+
+    it("_trySend passes abortSignal to awaitable sender", async () => {
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
+        timeoutInMs: 1
+      });
+      closeables.push(sender);
+
+      let wasAbortSignalPassed = false;
+      sender["_link"] = {
+        credit: 999,
+        isOpen: () => true,
+        session: {
+          outgoing: {
+            available: () => true
+          }
+        },
+        sendable() {
+          return true;
+        },
+        send(_msg, options) {
+          if (options?.abortSignal) {
+            wasAbortSignalPassed = true;
+          }
+          return Promise.resolve({});
+        }
+      } as AwaitableSender;
+
+      await sender["_trySend"]({} as Buffer, true, {
+        abortSignal: createAbortSignalForTest(false)
+      });
+      assert.isTrue(wasAbortSignalPassed, "abortSignal should have been passed to AwaitableSender");
+    });
   });
 
   describe("MessageSender.open() aborts after...", () => {
@@ -178,8 +203,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...afterLock", async () => {
@@ -195,8 +218,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...negotiateClaim", async () => {
@@ -225,8 +246,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...createAwaitableSender", async () => {
@@ -255,8 +274,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(sender));
     });
   });
 
@@ -278,8 +295,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after negotiateClaim", async () => {
@@ -304,8 +319,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after createReceiver", async () => {
@@ -331,8 +344,6 @@ describe("AbortSignal", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-
-      assert.isFalse(isLinkLocked(messageReceiver));
     });
   });
 

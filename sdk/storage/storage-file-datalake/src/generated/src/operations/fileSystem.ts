@@ -20,7 +20,9 @@ import {
   FileSystemDeleteOptionalParams,
   FileSystemDeleteResponse,
   FileSystemListPathsOptionalParams,
-  FileSystemListPathsResponse
+  FileSystemListPathsResponse,
+  FileSystemListBlobHierarchySegmentOptionalParams,
+  FileSystemListBlobHierarchySegmentResponse
 } from "../models";
 
 /** Class representing a FileSystem. */
@@ -128,8 +130,26 @@ export class FileSystem {
       listPathsOperationSpec
     ) as Promise<FileSystemListPathsResponse>;
   }
+
+  /**
+   * The List Blobs operation returns a list of the blobs under the specified container
+   * @param options The options parameters.
+   */
+  listBlobHierarchySegment(
+    options?: FileSystemListBlobHierarchySegmentOptionalParams
+  ): Promise<FileSystemListBlobHierarchySegmentResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listBlobHierarchySegmentOperationSpec
+    ) as Promise<FileSystemListBlobHierarchySegmentResponse>;
+  }
 }
 // Operation Specifications
+const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreHttp.OperationSpec = {
@@ -251,4 +271,37 @@ const listPathsOperationSpec: coreHttp.OperationSpec = {
     Parameters.version
   ],
   serializer
+};
+const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
+  path: "/{filesystem}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListBlobsHierarchySegmentResponse,
+      headersMapper: Mappers.FileSystemListBlobHierarchySegmentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileSystemListBlobHierarchySegmentExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.prefix,
+    Parameters.maxResults,
+    Parameters.timeout,
+    Parameters.restype,
+    Parameters.comp,
+    Parameters.delimiter,
+    Parameters.marker,
+    Parameters.include,
+    Parameters.showonly
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.requestId,
+    Parameters.version,
+    Parameters.accept1
+  ],
+  isXML: true,
+  serializer: xmlSerializer
 };

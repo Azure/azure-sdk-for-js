@@ -98,7 +98,7 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "sdk/package/package-a/api-extractor.json"
     },
     {
-      // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
+      // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: exampleConfigGood,
       filename: "sdk/template/template/api-extractor.json"
     },

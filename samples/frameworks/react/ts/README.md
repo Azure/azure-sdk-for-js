@@ -9,7 +9,7 @@ In this sample, we build a simple Todo application in React using [create-react-
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 
@@ -69,7 +69,7 @@ Additionally, you may open multiple instances of this sample application and wat
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are avaiable.
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available.
 
 [react]: https://create-react-app.dev/
 [typescript]: https://www.typescriptlang.org/docs/home.html

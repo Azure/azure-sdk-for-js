@@ -76,7 +76,8 @@ describe("Authorization", function(this: Suite) {
 
     const clientReadPermission = new CosmosClient({
       endpoint,
-      resourceTokens: rTokens
+      resourceTokens: rTokens,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     const { resource: coll } = await clientReadPermission
@@ -89,7 +90,8 @@ describe("Authorization", function(this: Suite) {
   it("Accessing container by permissionFeed", async function() {
     const clientReadPermission = new CosmosClient({
       endpoint,
-      permissionFeed: [collReadPermission]
+      permissionFeed: [collReadPermission],
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     // self link must be used to access a resource using permissionFeed
@@ -112,6 +114,7 @@ describe("Authorization", function(this: Suite) {
     } catch (err) {
       assert(err !== undefined); // TODO: should check that we get the right error message
     }
+    clientNoPermission.dispose();
   });
 
   it("Accessing document by permissionFeed of parent container", async function() {
@@ -120,7 +123,8 @@ describe("Authorization", function(this: Suite) {
     });
     const clientReadPermission = new CosmosClient({
       endpoint,
-      permissionFeed: [collReadPermission]
+      permissionFeed: [collReadPermission],
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
     assert.equal("document1", createdDoc.id, "invalid documnet create");
 
@@ -137,7 +141,8 @@ describe("Authorization", function(this: Suite) {
     rTokens[container.id] = collAllPermission._token;
     const clientAllPermission = new CosmosClient({
       endpoint,
-      resourceTokens: rTokens
+      resourceTokens: rTokens,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     // delete container
@@ -150,7 +155,8 @@ describe("Authorization", function(this: Suite) {
   it("Modifying container by permissionFeed", async function() {
     const clientAllPermission = new CosmosClient({
       endpoint,
-      permissionFeed: [collAllPermission]
+      permissionFeed: [collAllPermission],
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     // self link must be used to access a resource using permissionFeed

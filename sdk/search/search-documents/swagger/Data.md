@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e6fa7db931a3e5182e5685630971b64987719938/specification/search/data-plane/Azure.Search/preview/2020-06-30-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7601061bfbb72b2f19cb29c46cbf9a397c2d8893/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
@@ -84,4 +84,14 @@ modelerfour:
     override:
       Score: $DO_NOT_NORMALIZE$_score
       Highlights: $DO_NOT_NORMALIZE$_highlights
+```
+
+### Mark score, key and text fields as required in AnswerResult Object
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnswerResult
+    transform: >
+      $.required = ['score', 'key', 'text'];
 ```

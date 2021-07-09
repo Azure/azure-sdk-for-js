@@ -27,7 +27,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require Node.js >= 10.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and [an Azure Storage account][azstorage] to run these sample programs. Samples retrieve credentials to access the storage account from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -61,17 +61,17 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node bas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/basic.js
-[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/proxyAuth.js
-[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/withConnString.js
-[iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/iterators-files-and-directories.js
-[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/sharedKeyCred.js
-[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/anonymousCred.js
-[iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/iterators-handles.js
-[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/customPipeline.js
-[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/advanced.js
-[iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/iterators-shares.js
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/basic.js
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/proxyAuth.js
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/withConnString.js
+[iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/iterators-files-and-directories.js
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/sharedKeyCred.js
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/anonymousCred.js
+[iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/iterators-handles.js
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/customPipeline.js
+[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/advanced.js
+[iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/javascript/iterators-shares.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-share
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/README.md

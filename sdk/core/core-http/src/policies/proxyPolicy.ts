@@ -17,7 +17,9 @@ import { getEnvironmentValue } from "../util/utils";
 /**
  * @internal
  */
-export const noProxyList: string[] = loadNoProxy();
+export const noProxyList: string[] = [];
+
+let noProxyListLoaded: boolean = false;
 const byPassedList: Map<string, boolean> = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
@@ -70,6 +72,7 @@ function isBypassed(uri: string): boolean | undefined {
  */
 export function loadNoProxy(): string[] {
   const noProxy = getEnvironmentValue(Constants.NO_PROXY);
+  noProxyListLoaded = true;
   if (noProxy) {
     return noProxy
       .split(",")
@@ -102,6 +105,9 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
   if (!proxySettings) {
     proxySettings = getDefaultProxySettings();
+  }
+  if (!noProxyListLoaded) {
+    noProxyList.push(...loadNoProxy());
   }
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {

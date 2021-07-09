@@ -681,7 +681,7 @@ export class ShareServiceClient extends StorageClient {
       await new ShareClientInternal(shareClient.url, this.pipeline).restore({
         deletedShareName: deletedShareName,
         deletedShareVersion: deletedShareVersion,
-        aborterSignal: options.abortSignal,
+        abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       return shareClient;

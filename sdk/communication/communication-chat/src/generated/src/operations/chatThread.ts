@@ -27,6 +27,7 @@ import {
   ChatThreadAddChatParticipantsResponse,
   UpdateChatThreadRequest,
   ChatThreadGetChatThreadPropertiesResponse,
+  ChatThreadSendTypingNotificationOptionalParams,
   ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
   ChatThreadListChatMessagesNextOptionalParams,
@@ -199,25 +200,6 @@ export class ChatThread {
   }
 
   /**
-   * Posts a typing event to a thread, on behalf of a user.
-   * @param chatThreadId Id of the thread.
-   * @param options The options parameters.
-   */
-  sendTypingNotification(
-    chatThreadId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      chatThreadId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      sendTypingNotificationOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
    * Gets the participants of a thread.
    * @param chatThreadId Thread id to get participants for.
    * @param options The options parameters.
@@ -319,6 +301,25 @@ export class ChatThread {
       operationArguments,
       getChatThreadPropertiesOperationSpec
     ) as Promise<ChatThreadGetChatThreadPropertiesResponse>;
+  }
+
+  /**
+   * Posts a typing event to a thread, on behalf of a user.
+   * @param chatThreadId Id of the thread.
+   * @param options The options parameters.
+   */
+  sendTypingNotification(
+    chatThreadId: string,
+    options?: ChatThreadSendTypingNotificationOptionalParams
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      sendTypingNotificationOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -613,33 +614,6 @@ const deleteChatMessageOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const sendTypingNotificationOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/typing",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listChatParticipantsOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}/participants",
   httpMethod: "GET",
@@ -789,6 +763,35 @@ const getChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const sendTypingNotificationOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/typing",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.sendTypingNotificationRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listChatReadReceiptsNextOperationSpec: coreHttp.OperationSpec = {

@@ -8,7 +8,13 @@
  * @summary authenticates using different authentication methods
  * @azsdk-weight 40
  */
-import { TableServiceClient, TablesSharedKeyCredential } from "@azure/data-tables";
+import {
+  TableServiceClient,
+  AzureNamedKeyCredential,
+  AzureSASCredential
+} from "@azure/data-tables";
+
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -38,10 +44,23 @@ async function tableServiceClientWithSasConnectionString() {
 }
 
 /**
+ * Create a TableServiceCLient using a SAS connection String
+ */
+async function tableServiceClientWithAAD() {
+  // DefaultAzureCredential expects the following three environment variables:
+  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+  // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new DefaultAzureCredential();
+  const client = new TableServiceClient(tablesUrl, credential);
+  countTablesWithClient(client);
+}
+
+/**
  * Create a TableServiceCLient using a SAS token
  */
 async function tableServiceClientWithSasToken() {
-  const client = new TableServiceClient(`${tablesUrl}${sasToken}`);
+  const client = new TableServiceClient(tablesUrl, new AzureSASCredential(sasToken));
   countTablesWithClient(client);
 }
 
@@ -61,7 +80,7 @@ async function tableServiceClientWithAccountConnectionString() {
  * and it is not available for browsers
  */
 async function tableServiceClientWithAccountKey() {
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableServiceClient(tablesUrl, creds);
   countTablesWithClient(client);
 }
@@ -84,6 +103,8 @@ export async function main() {
 
   await tableServiceClientWithAccountConnectionString();
   await tableServiceClientWithAccountKey();
+
+  await tableServiceClientWithAAD();
 }
 
 main().catch((err) => {

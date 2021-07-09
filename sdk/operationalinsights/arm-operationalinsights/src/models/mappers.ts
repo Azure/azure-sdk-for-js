@@ -78,104 +78,6 @@ export const DataExport: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorAdditionalInfo: msRest.CompositeMapper = {
-  serializedName: "ErrorAdditionalInfo",
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        readOnly: true,
-        serializedName: "info",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorResponse"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        readOnly: true,
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DataExportErrorResponse: msRest.CompositeMapper = {
-  serializedName: "DataExportErrorResponse",
-  type: {
-    name: "Composite",
-    className: "DataExportErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponse"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -261,6 +163,104 @@ export const ProxyResource: msRest.CompositeMapper = {
     className: "ProxyResource",
     modelProperties: {
       ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: msRest.CompositeMapper = {
+  serializedName: "ErrorAdditionalInfo",
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        readOnly: true,
+        serializedName: "info",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: msRest.CompositeMapper = {
+  serializedName: "ErrorDetail",
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        readOnly: true,
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
     }
   }
 };
@@ -796,11 +796,8 @@ export const Workspace: msRest.CompositeMapper = {
         }
       },
       retentionInDays: {
+        nullable: true,
         serializedName: "properties.retentionInDays",
-        constraints: {
-          InclusiveMaximum: 730,
-          InclusiveMinimum: 30
-        },
         type: {
           name: "Number"
         }
@@ -810,6 +807,20 @@ export const Workspace: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WorkspaceCapping"
+        }
+      },
+      createdDate: {
+        readOnly: true,
+        serializedName: "properties.createdDate",
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDate: {
+        readOnly: true,
+        serializedName: "properties.modifiedDate",
+        type: {
+          name: "String"
         }
       },
       publicNetworkAccessForIngestion: {
@@ -826,6 +837,12 @@ export const Workspace: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      forceCmkForQuery: {
+        serializedName: "properties.forceCmkForQuery",
+        type: {
+          name: "Boolean"
+        }
+      },
       privateLinkScopedResources: {
         readOnly: true,
         serializedName: "properties.privateLinkScopedResources",
@@ -835,6 +852,17 @@ export const Workspace: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateLinkScopedResource"
+            }
+          }
+        }
+      },
+      features: {
+        serializedName: "properties\\.properties\\.features",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
             }
           }
         }
@@ -877,11 +905,8 @@ export const WorkspacePatch: msRest.CompositeMapper = {
         }
       },
       retentionInDays: {
+        nullable: true,
         serializedName: "properties.retentionInDays",
-        constraints: {
-          InclusiveMaximum: 730,
-          InclusiveMinimum: 30
-        },
         type: {
           name: "Number"
         }
@@ -891,6 +916,20 @@ export const WorkspacePatch: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WorkspaceCapping"
+        }
+      },
+      createdDate: {
+        readOnly: true,
+        serializedName: "properties.createdDate",
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDate: {
+        readOnly: true,
+        serializedName: "properties.modifiedDate",
+        type: {
+          name: "String"
         }
       },
       publicNetworkAccessForIngestion: {
@@ -907,6 +946,12 @@ export const WorkspacePatch: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      forceCmkForQuery: {
+        serializedName: "properties.forceCmkForQuery",
+        type: {
+          name: "Boolean"
+        }
+      },
       privateLinkScopedResources: {
         readOnly: true,
         serializedName: "properties.privateLinkScopedResources",
@@ -916,6 +961,17 @@ export const WorkspacePatch: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateLinkScopedResource"
+            }
+          }
+        }
+      },
+      features: {
+        serializedName: "properties\\.properties\\.features",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
             }
           }
         }
@@ -957,23 +1013,6 @@ export const KeyVaultProperties: msRest.CompositeMapper = {
         serializedName: "keyVersion",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ClusterErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ClusterErrorResponse",
-  type: {
-    name: "Composite",
-    className: "ClusterErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponse"
         }
       }
     }
@@ -1804,23 +1843,6 @@ export const Table: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorContract: msRest.CompositeMapper = {
-  serializedName: "ErrorContract",
-  type: {
-    name: "Composite",
-    className: "ErrorContract",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponse"
         }
       }
     }

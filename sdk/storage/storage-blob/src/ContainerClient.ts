@@ -904,7 +904,7 @@ export class ContainerClient extends StorageClient {
 
     const { span, updatedOptions } = createSpan("ContainerClient-delete", options);
     try {
-      return await this.containerContext.deleteMethod({
+      return await this.containerContext.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,

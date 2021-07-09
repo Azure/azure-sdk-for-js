@@ -2,7 +2,10 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/ai-metrics-advisor": ["./src/index"]
+    }
   },
   "exclude": [
     "node_modules",
@@ -14,5 +17,6 @@
     "./samples/**/*.ts",
     "./dist-samples/**/*.ts",
     "./dom-shims.d.ts"
-  ]
+  ],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

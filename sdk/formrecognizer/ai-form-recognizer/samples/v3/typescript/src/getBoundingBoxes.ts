@@ -2,14 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to get detailed information to visualize the outlines of
- * form content and fields, which can be used for manual validation and drawing UI as part of an application.
+ * This sample demonstrates how to get detailed information to visualize the
+ * outlines of form content and fields, which can be used for manual validation
+ * and drawing UI as part of an application.
+ *
+ * @summary display information about the outlines of form content and fields
+ * in a document
  */
 
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
-import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -17,15 +20,15 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+  const modelId = process.env["CUSTOM_MODEL_ID"] ?? "<custom model id>";
 
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const fileName = path.join(__dirname, "../assets/Form_1.jpg");
+  const fileName = "./assets/forms/Form_1.jpg";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
@@ -39,7 +42,7 @@ export async function main() {
   });
   const forms = await poller.pollUntilDone();
 
-  for (const form of forms || []) {
+  for (const form of forms ?? []) {
     console.log(`- Form has type ${form.formType}`);
     console.log("  Fields:");
     for (const [fieldName, field] of Object.entries(form.fields)) {
@@ -49,21 +52,22 @@ export async function main() {
           ? field.valueData.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
           : "N/A";
       console.log(
-        `    Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
+        `  - Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}.`
       );
     }
     console.log("  Pages:");
-    for (const page of form.pages || []) {
+    for (const page of form.pages ?? []) {
       console.log(
-        `    Page #${page.pageNumber} with width ${page.width}, height ${page.height}, and text angle ${page.textAngle}`
+        `  - Page #${page.pageNumber} with width ${page.width}, height ${page.height}, and text angle ${page.textAngle}`
       );
       console.log("    Tables");
-      for (const table of page.tables || []) {
+      for (const table of page.tables ?? []) {
+        console.log(`    - Table within bounding box ${table.boundingBox}`);
         for (const cell of table.cells) {
           console.log(
-            `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
+            `      - Cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
           );
-          for (const element of cell.fieldElements || []) {
+          for (const element of cell.fieldElements ?? []) {
             const boundingBox = element.boundingBox
               ? element.boundingBox.map((p) => `[$.2d{p.x},${p.y}]`).join(", ")
               : "N/A";

@@ -118,9 +118,11 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 
 // @public
 export interface AcsRecordingChunkInfo {
+    contentLocation: string;
     documentId: string;
     endReason: string;
     index: number;
+    metadataLocation: string;
 }
 
 // @public
@@ -900,6 +902,39 @@ export interface PhoneNumberIdentifierModel {
 }
 
 // @public
+export interface PolicyInsightsPolicyStateChangedEventData {
+    complianceReasonCode: string;
+    complianceState: string;
+    policyAssignmentId: string;
+    policyDefinitionId: string;
+    policyDefinitionReferenceId: string;
+    subscriptionId: string;
+    timestamp: string;
+}
+
+// @public
+export interface PolicyInsightsPolicyStateCreatedEventData {
+    complianceReasonCode: string;
+    complianceState: string;
+    policyAssignmentId: string;
+    policyDefinitionId: string;
+    policyDefinitionReferenceId: string;
+    subscriptionId: string;
+    timestamp: string;
+}
+
+// @public
+export interface PolicyInsightsPolicyStateDeletedEventData {
+    complianceReasonCode: string;
+    complianceState: string;
+    policyAssignmentId: string;
+    policyDefinitionId: string;
+    policyDefinitionReferenceId: string;
+    subscriptionId: string;
+    timestamp: string;
+}
+
+// @public
 export interface ResourceActionCancelEventData {
     authorization: string;
     claims: string;
@@ -1085,6 +1120,20 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
 export type StampKind = string;
 
 // @public
+export interface StorageAsyncOperationInitiatedEventData {
+    api: string;
+    blobType: string;
+    clientRequestId: string;
+    contentLength: number;
+    contentType: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    storageDiagnostics: any;
+    url: string;
+}
+
+// @public
 export interface StorageBlobCreatedEventData {
     api: string;
     blobType: string;
@@ -1114,6 +1163,17 @@ export interface StorageBlobDeletedEventData {
 }
 
 // @public
+export interface StorageBlobInventoryPolicyCompletedEventData {
+    accountName: string;
+    manifestBlobUrl: string;
+    policyRunId: string;
+    policyRunStatus: string;
+    policyRunStatusMessage: string;
+    ruleName: string;
+    scheduleDateTime: string;
+}
+
+// @public
 export interface StorageBlobRenamedEventData {
     api: string;
     clientRequestId: string;
@@ -1123,6 +1183,20 @@ export interface StorageBlobRenamedEventData {
     sequencer: string;
     sourceUrl: string;
     storageDiagnostics: any;
+}
+
+// @public
+export interface StorageBlobTierChangedEventData {
+    api: string;
+    blobType: string;
+    clientRequestId: string;
+    contentLength: number;
+    contentType: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    storageDiagnostics: any;
+    url: string;
 }
 
 // @public
@@ -1258,6 +1332,9 @@ export interface SystemEventNameToEventData {
     "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
     "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
     "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
+    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+    "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
+    "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
     "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
     "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
     "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
@@ -1268,10 +1345,13 @@ export interface SystemEventNameToEventData {
     "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
     "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
     "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
     "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
     "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
     "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
+    "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
     "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
     "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
     "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;

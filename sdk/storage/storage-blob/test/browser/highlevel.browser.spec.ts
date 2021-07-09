@@ -11,7 +11,6 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
-  isIE,
   recorderEnvSetup
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -177,14 +176,6 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
-    if (isIE()) {
-      assert.ok(
-        true,
-        "Skip this case in IE11 which doesn't have enough memory for downloading validation"
-      );
-      this.skip();
-    }
-
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 2

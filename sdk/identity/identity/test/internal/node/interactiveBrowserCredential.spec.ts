@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
 
 import Sinon from "sinon";
 import assert from "assert";
@@ -10,7 +11,14 @@ import { env } from "@azure/test-utils-recorder";
 import { InteractiveBrowserCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
-import { isNode8 } from "../../../src/tokenCache/requireMsalNodeExtensions";
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      URL: typeof import("url").URL;
+    }
+  }
+}
 
 describe("InteractiveBrowserCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -28,11 +36,6 @@ describe("InteractiveBrowserCredential (internal)", function() {
   const scope = "https://vault.azure.net/.default";
 
   it("Throws an expected error if no browser is available", async function(this: Context) {
-    // On Node 8, URL is not defined. We use URL on the msalOpenBrowser.ts file.
-    if (isNode8) {
-      this.skip();
-    }
-
     // The SinonStub type does not include this second parameter to throws().
     const testErrorMessage = "No browsers available on this test.";
     (sandbox.stub(interactiveBrowserMockable, "open") as any).throws("TestError", testErrorMessage);

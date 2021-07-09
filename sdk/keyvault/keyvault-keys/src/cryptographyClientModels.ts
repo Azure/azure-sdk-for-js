@@ -296,7 +296,7 @@ export interface AesGcmDecryptParameters {
   /**
    * The authentication tag generated during encryption.
    */
-  authenticationTag?: Uint8Array;
+  authenticationTag: Uint8Array;
   /**
    * Optional data that is authenticated but not encrypted.
    */

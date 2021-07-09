@@ -33,7 +33,7 @@ export interface AesCbcEncryptParameters {
 export interface AesGcmDecryptParameters {
     additionalAuthenticatedData?: Uint8Array;
     algorithm: AesGcmEncryptionAlgorithm;
-    authenticationTag?: Uint8Array;
+    authenticationTag: Uint8Array;
     ciphertext: Uint8Array;
     iv: Uint8Array;
 }
@@ -62,7 +62,6 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
 }
 
 // @public
@@ -70,6 +69,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
+    hsm?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
@@ -80,12 +80,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface CreateOctKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
 }
 
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
     publicExponent?: number;
 }
 
@@ -99,7 +97,7 @@ export class CryptographyClient {
     encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
     // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
-    get keyId(): string | undefined;
+    get keyID(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
@@ -178,6 +176,10 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
@@ -220,6 +222,7 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -280,7 +283,7 @@ export interface KeyVaultKey {
 }
 
 // @public
-export interface KeyVaultKeyId {
+export interface KeyVaultKeyIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -329,7 +332,7 @@ export const enum KnownKeyCurveNames {
 }
 
 // @public
-export const enum KnownKeyOperations {
+export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
     Import = "import",
@@ -382,6 +385,9 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export function parseKeyVaultKeyIdentifier(id: string): KeyVaultKeyIdentifier;
 
 export { PipelineOptions }
 

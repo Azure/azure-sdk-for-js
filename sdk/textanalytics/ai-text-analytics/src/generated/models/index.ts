@@ -6,7 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
+
+export interface JobDescriptor {
+  /** Optional display name for the analysis job. */
+  displayName?: string;
+}
+
+export interface AnalysisInput {
+  /** Contains a set of input documents to be analyzed by the service. */
+  analysisInput: MultiLanguageBatchInput;
+}
 
 /** Contains a set of input documents to be analyzed by the service. */
 export interface MultiLanguageBatchInput {
@@ -24,11 +34,6 @@ export interface TextDocumentInput {
   language?: string;
 }
 
-export interface JobDescriptor {
-  /** Optional display name for the analysis job. */
-  displayName?: string;
-}
-
 export interface JobManifest {
   /** The set of tasks to execute on the input documents. Cannot specify the same task more than once. */
   tasks: JobManifestTasks;
@@ -40,6 +45,7 @@ export interface JobManifestTasks {
   entityRecognitionPiiTasks?: PiiTask[];
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
   entityLinkingTasks?: EntityLinkingTask[];
+  sentimentAnalysisTasks?: SentimentAnalysisTask[];
 }
 
 export interface EntitiesTask {
@@ -48,6 +54,7 @@ export interface EntitiesTask {
 
 export interface EntitiesTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
   stringIndexType?: StringIndexType;
 }
 
@@ -58,6 +65,7 @@ export interface PiiTask {
 export interface PiiTaskParameters {
   domain?: PiiTaskParametersDomain;
   modelVersion?: string;
+  loggingOptOut?: boolean;
   /** (Optional) describes the PII categories to return */
   piiCategories?: PiiCategory[];
   stringIndexType?: StringIndexType;
@@ -69,6 +77,7 @@ export interface KeyPhrasesTask {
 
 export interface KeyPhrasesTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
 }
 
 export interface EntityLinkingTask {
@@ -77,6 +86,18 @@ export interface EntityLinkingTask {
 
 export interface EntityLinkingTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
+  stringIndexType?: StringIndexType;
+}
+
+export interface SentimentAnalysisTask {
+  parameters?: SentimentAnalysisTaskParameters;
+}
+
+export interface SentimentAnalysisTaskParameters {
+  modelVersion?: string;
+  loggingOptOut?: boolean;
+  opinionMining?: boolean;
   stringIndexType?: StringIndexType;
 }
 
@@ -111,18 +132,6 @@ export interface InnerError {
   innererror?: InnerError;
 }
 
-/** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-export interface TextDocumentBatchStatistics {
-  /** Number of documents submitted in the request. */
-  documentCount: number;
-  /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
-  validDocumentCount: number;
-  /** Number of invalid documents. This includes empty, over-size limit or non-supported languages documents. */
-  erroneousDocumentCount: number;
-  /** Number of transactions for the request. */
-  transactionCount: number;
-}
-
 export interface JobMetadata {
   createdDateTime: Date;
   expirationDateTime?: Date;
@@ -131,12 +140,15 @@ export interface JobMetadata {
   status: State;
 }
 
+export interface AnalyzeJobDisplayName {
+  displayName?: string;
+}
+
 export interface TasksState {
   tasks: TasksStateTasks;
 }
 
 export interface TasksStateTasks {
-  details?: TasksStateTasksDetails;
   completed: number;
   failed: number;
   inProgress: number;
@@ -145,15 +157,15 @@ export interface TasksStateTasks {
   entityRecognitionPiiTasks?: TasksStateTasksEntityRecognitionPiiTasksItem[];
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
+  sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
 }
 
 export interface TaskState {
   lastUpdateDateTime: Date;
-  name?: string;
   status: State;
 }
 
-export interface Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 {
+export interface EntitiesTaskResult {
   results?: EntitiesResult;
 }
 
@@ -218,7 +230,19 @@ export interface DocumentError {
   error: TextAnalyticsError;
 }
 
-export interface Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 {
+/** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+export interface TextDocumentBatchStatistics {
+  /** Number of documents submitted in the request. */
+  documentCount: number;
+  /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
+  validDocumentCount: number;
+  /** Number of invalid documents. This includes empty, over-size limit or non-supported languages documents. */
+  erroneousDocumentCount: number;
+  /** Number of transactions for the request. */
+  transactionCount: number;
+}
+
+export interface PiiTaskResult {
   results?: PiiResult;
 }
 
@@ -246,7 +270,7 @@ export interface PiiDocumentEntities {
   statistics?: TextDocumentStatistics;
 }
 
-export interface Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 {
+export interface KeyPhraseTaskResult {
   results?: KeyPhraseResult;
 }
 
@@ -272,7 +296,7 @@ export interface DocumentKeyPhrases {
   statistics?: TextDocumentStatistics;
 }
 
-export interface ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 {
+export interface EntityLinkingTaskResult {
   results?: EntityLinkingResult;
 }
 
@@ -328,107 +352,8 @@ export interface Match {
   length: number;
 }
 
-export interface Pagination {
-  nextLink?: string;
-}
-
-export interface HealthcareResult {
-  /** Response by document */
-  documents: DocumentHealthcareEntities[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface DocumentHealthcareEntities {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  /** Healthcare entities. */
-  entities: HealthcareEntity[];
-  /** Healthcare entity relations. */
-  relations: HealthcareRelation[];
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-  /** if showStats=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-}
-
-export interface HealthcareAssertion {
-  /** Describes any conditionality on the entity. */
-  conditionality?: Conditionality;
-  /** Describes the entities certainty and polarity. */
-  certainty?: Certainty;
-  /** Describes if the entity is the subject of the text or if it describes someone else. */
-  association?: Association;
-}
-
-export interface HealthcareEntityLink {
-  /** Entity Catalog. Examples include: UMLS, CHV, MSH, etc. */
-  dataSource: string;
-  /** Entity id in the given source catalog. */
-  id: string;
-}
-
-/** Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context. */
-export interface HealthcareRelation {
-  /** Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc. */
-  relationType: RelationType;
-  /** The entities in the relation. */
-  entities: HealthcareRelationEntity[];
-}
-
-export interface HealthcareRelationEntity {
-  /** Reference link object, using a JSON pointer RFC 6901 (URI Fragment Identifier Representation), pointing to the entity . */
-  ref: string;
-  /** Role of entity in the relationship. For example: 'CD20-positive diffuse large B-cell lymphoma' has the following entities with their roles in parenthesis:  CD20 (GeneOrProtein), Positive (Expression), diffuse large B-cell lymphoma (Diagnosis). */
-  role: string;
-}
-
-export interface LanguageBatchInput {
-  documents: DetectLanguageInput[];
-}
-
-/** An input to the language detection operation. This object specifies a unique document id, as well as the full text of a document and a hint indicating the document's country of origin to assist the text analytics predictive model in detecting the document's language. */
-export interface DetectLanguageInput {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  text: string;
-  countryHint?: string;
-}
-
-export interface LanguageResult {
-  /** Response by document */
-  documents: DocumentLanguage[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface DocumentLanguage {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  /** Detected Language. */
-  detectedLanguage: DetectedLanguage;
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-  /** if showStats=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-}
-
-/** Information about the language of a document as identified by the Text Analytics service. */
-export interface DetectedLanguage {
-  /** Long name of a detected language (e.g. English, French). */
-  name: string;
-  /** A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr). */
-  iso6391Name: string;
-  /** A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. */
-  confidenceScore: number;
+export interface SentimentTaskResult {
+  results?: SentimentResponse;
 }
 
 export interface SentimentResponse {
@@ -525,51 +450,175 @@ export interface SentenceAssessment {
   isNegated: boolean;
 }
 
-export type AnalyzeBatchInput = JobDescriptor &
-  JobManifest & {
-    /** Contains a set of input documents to be analyzed by the service. */
-    analysisInput: MultiLanguageBatchInput;
-  };
+export interface AnalyzeJobErrorsAndStatistics {
+  errors?: TextAnalyticsError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+}
 
-export type AnalyzeJobMetadata = JobMetadata & {
-  displayName?: string;
-};
+export interface Pagination {
+  nextLink?: string;
+}
 
-export type HealthcareJobState = JobMetadata &
-  Pagination & {
-    results?: HealthcareResult;
-    errors?: TextAnalyticsError[];
-  };
+export interface HealthcareTaskResult {
+  results?: HealthcareResult;
+  errors?: TextAnalyticsError[];
+}
 
-export type AnalyzeJobState = AnalyzeJobMetadata &
-  TasksState &
-  Pagination & {
-    errors?: TextAnalyticsError[];
-    /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-    statistics?: TextDocumentBatchStatistics;
-  };
+export interface HealthcareResult {
+  /** Response by document */
+  documents: DocumentHealthcareEntities[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
 
-export type TasksStateTasksDetails = TaskState & {};
+export interface DocumentHealthcareEntities {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** Healthcare entities. */
+  entities: HealthcareEntity[];
+  /** Healthcare entity relations. */
+  relations: HealthcareRelation[];
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
 
-export type TasksStateTasksEntityRecognitionTasksItem = TaskState &
-  Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 & {};
+export interface HealthcareEntityProperties {
+  /** Entity text as appears in the request. */
+  text: string;
+  /** Healthcare Entity Category. */
+  category: HealthcareEntityCategory;
+  /** (Optional) Entity sub type. */
+  subcategory?: string;
+  /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
+  offset: number;
+  /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
+  length: number;
+  /** Confidence score between 0 and 1 of the extracted entity. */
+  confidenceScore: number;
+}
 
-export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
-  Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 & {};
-
-export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
-  Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 & {};
-
-export type TasksStateTasksEntityLinkingTasksItem = TaskState &
-  ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 & {};
-
-export type HealthcareEntity = Entity & {
+export interface HealthcareLinkingProperties {
   assertion?: HealthcareAssertion;
   /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
   name?: string;
   /** Entity references in known data sources. */
   links?: HealthcareEntityLink[];
-};
+}
+
+export interface HealthcareAssertion {
+  /** Describes any conditionality on the entity. */
+  conditionality?: Conditionality;
+  /** Describes the entities certainty and polarity. */
+  certainty?: Certainty;
+  /** Describes if the entity is the subject of the text or if it describes someone else. */
+  association?: Association;
+}
+
+export interface HealthcareEntityLink {
+  /** Entity Catalog. Examples include: UMLS, CHV, MSH, etc. */
+  dataSource: string;
+  /** Entity id in the given source catalog. */
+  id: string;
+}
+
+/** Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context. */
+export interface HealthcareRelation {
+  /** Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc. */
+  relationType: RelationType;
+  /** The entities in the relation. */
+  entities: HealthcareRelationEntity[];
+}
+
+export interface HealthcareRelationEntity {
+  /** Reference link object, using a JSON pointer RFC 6901 (URI Fragment Identifier Representation), pointing to the entity . */
+  ref: string;
+  /** Role of entity in the relationship. For example: 'CD20-positive diffuse large B-cell lymphoma' has the following entities with their roles in parenthesis:  CD20 (GeneOrProtein), Positive (Expression), diffuse large B-cell lymphoma (Diagnosis). */
+  role: string;
+}
+
+export interface LanguageBatchInput {
+  documents: DetectLanguageInput[];
+}
+
+/** An input to the language detection operation. This object specifies a unique document id, as well as the full text of a document and a hint indicating the document's country of origin to assist the text analytics predictive model in detecting the document's language. */
+export interface DetectLanguageInput {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  text: string;
+  countryHint?: string;
+}
+
+export interface LanguageResult {
+  /** Response by document */
+  documents: DocumentLanguage[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
+
+export interface DocumentLanguage {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** Detected Language. */
+  detectedLanguage: DetectedLanguage;
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
+
+/** Information about the language of a document as identified by the Text Analytics service. */
+export interface DetectedLanguage {
+  /** Long name of a detected language (e.g. English, French). */
+  name: string;
+  /** A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr). */
+  iso6391Name: string;
+  /** A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. */
+  confidenceScore: number;
+}
+
+export type AnalyzeBatchInput = JobDescriptor &
+  AnalysisInput &
+  JobManifest & {};
+
+export type AnalyzeJobMetadata = JobMetadata & AnalyzeJobDisplayName & {};
+
+export type HealthcareJobState = JobMetadata &
+  HealthcareTaskResult &
+  Pagination & {};
+
+export type AnalyzeJobState = AnalyzeJobMetadata &
+  TasksState &
+  AnalyzeJobErrorsAndStatistics &
+  Pagination & {};
+
+export type TasksStateTasksEntityRecognitionTasksItem = TaskState &
+  EntitiesTaskResult & {};
+
+export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
+  PiiTaskResult & {};
+
+export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
+  KeyPhraseTaskResult & {};
+
+export type TasksStateTasksEntityLinkingTasksItem = TaskState &
+  EntityLinkingTaskResult & {};
+
+export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
+  SentimentTaskResult & {};
+
+export type HealthcareEntity = HealthcareEntityProperties &
+  HealthcareLinkingProperties & {};
 
 /** Defines headers for GeneratedClient_analyze operation. */
 export interface GeneratedClientAnalyzeHeaders {
@@ -589,7 +638,7 @@ export interface GeneratedClientHealthHeaders {
 /** Known values of {@link StringIndexType} that the service accepts. */
 export const enum KnownStringIndexType {
   /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
-  TextElementsV8 = "TextElements_v8",
+  TextElementV8 = "TextElement_v8",
   /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
   UnicodeCodePoint = "UnicodeCodePoint",
   /** Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript. */
@@ -600,8 +649,8 @@ export const enum KnownStringIndexType {
  * Defines values for StringIndexType. \
  * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
+ * ### Known values supported by the service
+ * **TextElement_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
  * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
  * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
  */
@@ -617,7 +666,7 @@ export const enum KnownPiiTaskParametersDomain {
  * Defines values for PiiTaskParametersDomain. \
  * {@link KnownPiiTaskParametersDomain} can be used interchangeably with PiiTaskParametersDomain,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **phi** \
  * **none**
  */
@@ -804,7 +853,7 @@ export const enum KnownPiiCategory {
  * Defines values for PiiCategory. \
  * {@link KnownPiiCategory} can be used interchangeably with PiiCategory,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **ABARoutingNumber** \
  * **ARNationalIdentityNumber** \
  * **AUBankAccountNumber** \
@@ -981,6 +1030,28 @@ export const enum KnownPiiCategory {
  */
 export type PiiCategory = string;
 
+/** Known values of {@link ErrorCodeValue} that the service accepts. */
+export const enum KnownErrorCodeValue {
+  InvalidRequest = "InvalidRequest",
+  InvalidArgument = "InvalidArgument",
+  InternalServerError = "InternalServerError",
+  ServiceUnavailable = "ServiceUnavailable",
+  NotFound = "NotFound"
+}
+
+/**
+ * Defines values for ErrorCodeValue. \
+ * {@link KnownErrorCodeValue} can be used interchangeably with ErrorCodeValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InvalidRequest** \
+ * **InvalidArgument** \
+ * **InternalServerError** \
+ * **ServiceUnavailable** \
+ * **NotFound**
+ */
+export type ErrorCodeValue = string;
+
 /** Known values of {@link InnerErrorCodeValue} that the service accepts. */
 export const enum KnownInnerErrorCodeValue {
   InvalidParameterValue = "InvalidParameterValue",
@@ -998,7 +1069,7 @@ export const enum KnownInnerErrorCodeValue {
  * Defines values for InnerErrorCodeValue. \
  * {@link KnownInnerErrorCodeValue} can be used interchangeably with InnerErrorCodeValue,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **InvalidParameterValue** \
  * **InvalidRequestBodyFormat** \
  * **EmptyRequest** \
@@ -1021,11 +1092,75 @@ export const enum KnownWarningCode {
  * Defines values for WarningCode. \
  * {@link KnownWarningCode} can be used interchangeably with WarningCode,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **LongWordsInDocument** \
  * **DocumentTruncated**
  */
 export type WarningCode = string;
+
+/** Known values of {@link HealthcareEntityCategory} that the service accepts. */
+export const enum KnownHealthcareEntityCategory {
+  BodyStructure = "BODY_STRUCTURE",
+  AGE = "AGE",
+  Gender = "GENDER",
+  ExaminationName = "EXAMINATION_NAME",
+  Date = "DATE",
+  Direction = "DIRECTION",
+  Frequency = "FREQUENCY",
+  MeasurementValue = "MEASUREMENT_VALUE",
+  MeasurementUnit = "MEASUREMENT_UNIT",
+  RelationalOperator = "RELATIONAL_OPERATOR",
+  Time = "TIME",
+  GeneORProtein = "GENE_OR_PROTEIN",
+  Variant = "VARIANT",
+  AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+  CareEnvironment = "CARE_ENVIRONMENT",
+  HealthcareProfession = "HEALTHCARE_PROFESSION",
+  Diagnosis = "DIAGNOSIS",
+  SymptomORSign = "SYMPTOM_OR_SIGN",
+  ConditionQualifier = "CONDITION_QUALIFIER",
+  MedicationClass = "MEDICATION_CLASS",
+  MedicationName = "MEDICATION_NAME",
+  Dosage = "DOSAGE",
+  MedicationForm = "MEDICATION_FORM",
+  MedicationRoute = "MEDICATION_ROUTE",
+  FamilyRelation = "FAMILY_RELATION",
+  TreatmentName = "TREATMENT_NAME"
+}
+
+/**
+ * Defines values for HealthcareEntityCategory. \
+ * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BODY_STRUCTURE** \
+ * **AGE** \
+ * **GENDER** \
+ * **EXAMINATION_NAME** \
+ * **DATE** \
+ * **DIRECTION** \
+ * **FREQUENCY** \
+ * **MEASUREMENT_VALUE** \
+ * **MEASUREMENT_UNIT** \
+ * **RELATIONAL_OPERATOR** \
+ * **TIME** \
+ * **GENE_OR_PROTEIN** \
+ * **VARIANT** \
+ * **ADMINISTRATIVE_EVENT** \
+ * **CARE_ENVIRONMENT** \
+ * **HEALTHCARE_PROFESSION** \
+ * **DIAGNOSIS** \
+ * **SYMPTOM_OR_SIGN** \
+ * **CONDITION_QUALIFIER** \
+ * **MEDICATION_CLASS** \
+ * **MEDICATION_NAME** \
+ * **DOSAGE** \
+ * **MEDICATION_FORM** \
+ * **MEDICATION_ROUTE** \
+ * **FAMILY_RELATION** \
+ * **TREATMENT_NAME**
+ */
+export type HealthcareEntityCategory = string;
 
 /** Known values of {@link RelationType} that the service accepts. */
 export const enum KnownRelationType {
@@ -1056,7 +1191,7 @@ export const enum KnownRelationType {
  * Defines values for RelationType. \
  * {@link KnownRelationType} can be used interchangeably with RelationType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Abbreviation** \
  * **DirectionOfBodyStructure** \
  * **DirectionOfCondition** \
@@ -1080,13 +1215,6 @@ export const enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
-/** Defines values for ErrorCodeValue. */
-export type ErrorCodeValue =
-  | "InvalidRequest"
-  | "InvalidArgument"
-  | "InternalServerError"
-  | "ServiceUnavailable"
-  | "NotFound";
 /** Defines values for State. */
 export type State =
   | "notStarted"
@@ -1095,19 +1223,7 @@ export type State =
   | "failed"
   | "rejected"
   | "cancelled"
-  | "cancelling"
-  | "partiallyCompleted";
-/** Defines values for Conditionality. */
-export type Conditionality = "hypothetical" | "conditional";
-/** Defines values for Certainty. */
-export type Certainty =
-  | "positive"
-  | "positivePossible"
-  | "neutralPossible"
-  | "negativePossible"
-  | "negative";
-/** Defines values for Association. */
-export type Association = "subject" | "other";
+  | "cancelling";
 /** Defines values for DocumentSentimentLabel. */
 export type DocumentSentimentLabel =
   | "positive"
@@ -1120,10 +1236,21 @@ export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 export type TokenSentimentValue = "positive" | "mixed" | "negative";
 /** Defines values for TargetRelationType. */
 export type TargetRelationType = "assessment" | "target";
+/** Defines values for Conditionality. */
+export type Conditionality = "hypothetical" | "conditional";
+/** Defines values for Certainty. */
+export type Certainty =
+  | "positive"
+  | "positivePossible"
+  | "neutralPossible"
+  | "negativePossible"
+  | "negative";
+/** Defines values for Association. */
+export type Association = "subject" | "other";
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** Collection of documents to analyze and tasks to execute. */
   body?: AnalyzeBatchInput;
 }
@@ -1133,7 +1260,7 @@ export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeStatusOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -1147,7 +1274,7 @@ export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthStatusOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -1159,16 +1286,22 @@ export interface GeneratedClientHealthStatusOptionalParams
 /** Contains response data for the healthStatus operation. */
 export type GeneratedClientHealthStatusResponse = HealthcareJobState;
 
+/** Optional parameters. */
+export interface GeneratedClientCancelHealthJobOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the cancelHealthJob operation. */
 export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the health operation. */
@@ -1176,13 +1309,15 @@ export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the entitiesRecognitionGeneral operation. */
@@ -1190,13 +1325,15 @@ export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
   /** (Optional) if specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'PHI', 'none'. */
   domain?: string;
   /** (Optional) describes the PII categories to return */
@@ -1208,13 +1345,15 @@ export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesLinkingOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the entitiesLinking operation. */
@@ -1222,11 +1361,13 @@ export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult;
 
 /** Optional parameters. */
 export interface GeneratedClientKeyPhrasesOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the keyPhrases operation. */
@@ -1234,11 +1375,13 @@ export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult;
 
 /** Optional parameters. */
 export interface GeneratedClientLanguagesOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the languages operation. */
@@ -1246,13 +1389,15 @@ export type GeneratedClientLanguagesResponse = LanguageResult;
 
 /** Optional parameters. */
 export interface GeneratedClientSentimentOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
   /** (Optional) if set to true, response will contain not only sentiment prediction but also opinion mining (aspect-based sentiment analysis) results. */
   opinionMining?: boolean;
 }
@@ -1261,7 +1406,10 @@ export interface GeneratedClientSentimentOptionalParams
 export type GeneratedClientSentimentResponse = SentimentResponse;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams extends ServiceClientOptions {
+export interface GeneratedClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** Text Analytics API version (for example, v3.0). */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

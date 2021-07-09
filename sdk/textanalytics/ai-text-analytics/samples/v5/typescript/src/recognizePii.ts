@@ -11,11 +11,7 @@
  * @summary detects personally-identifiable information
  */
 
-import {
-  TextAnalyticsClient,
-  AzureKeyCredential,
-  PiiEntityDomainType
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient, AzureKeyCredential, PiiEntityDomain } from "@azure/ai-text-analytics";
 import { assert } from "console";
 
 // Load the .env file if it exists
@@ -48,7 +44,7 @@ export async function main() {
 
   console.log(`There are no PHI entities in this text: "${textNoPHI}"`);
   const [resultWithPHI] = await client.recognizePiiEntities([textNoPHI], "en", {
-    domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION
+    domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION
   });
   if (!resultWithPHI.error) {
     console.log(`Also there is nothing to redact: "${resultWithPHI.redactedText}"`);

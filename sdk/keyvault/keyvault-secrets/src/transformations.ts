@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DeletedSecretBundle, SecretBundle } from "./generated/models";
-import { parseKeyVaultSecretId } from "./identifier";
+import { parseKeyVaultSecretIdentifier } from "./identifier";
 import { DeletedSecret, KeyVaultSecret } from "./secretsModels";
 
 /**
@@ -14,7 +14,7 @@ export function getSecretFromSecretBundle(
 ): KeyVaultSecret {
   const secretBundle = bundle as SecretBundle;
   const deletedSecretBundle = bundle as DeletedSecretBundle;
-  const parsedId = parseKeyVaultSecretId(secretBundle.id!);
+  const parsedId = parseKeyVaultSecretIdentifier(secretBundle.id!);
 
   const attributes = secretBundle.attributes;
   delete secretBundle.attributes;

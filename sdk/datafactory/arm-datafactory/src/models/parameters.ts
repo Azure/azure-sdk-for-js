@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -75,10 +75,7 @@ export const factoryName: msRest.OperationURLParameter = {
   }
 };
 export const ifMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -87,10 +84,7 @@ export const ifMatch: msRest.OperationParameter = {
   }
 };
 export const ifNoneMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -114,10 +108,7 @@ export const integrationRuntimeName: msRest.OperationURLParameter = {
   }
 };
 export const isRecovery: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "isRecovery"
-  ],
+  parameterPath: ["options", "isRecovery"],
   mapper: {
     serializedName: "isRecovery",
     type: {
@@ -126,10 +117,7 @@ export const isRecovery: msRest.OperationQueryParameter = {
   }
 };
 export const isRecursive: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "isRecursive"
-  ],
+  parameterPath: ["options", "isRecursive"],
   mapper: {
     serializedName: "isRecursive",
     type: {
@@ -233,11 +221,18 @@ export const pipelineName: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const referencePipelineRunId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "referencePipelineRunId"
-  ],
+  parameterPath: ["options", "referencePipelineRunId"],
   mapper: {
     serializedName: "referencePipelineRunId",
     type: {
@@ -271,10 +266,7 @@ export const runId: msRest.OperationURLParameter = {
   }
 };
 export const startActivityName: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startActivityName"
-  ],
+  parameterPath: ["options", "startActivityName"],
   mapper: {
     serializedName: "startActivityName",
     type: {
@@ -283,10 +275,7 @@ export const startActivityName: msRest.OperationQueryParameter = {
   }
 };
 export const startFromFailure: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startFromFailure"
-  ],
+  parameterPath: ["options", "startFromFailure"],
   mapper: {
     serializedName: "startFromFailure",
     type: {

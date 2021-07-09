@@ -48,6 +48,8 @@ export interface ChatMessage {
   deletedOn?: Date;
   /** The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   editedOn?: Date;
+  /** metadata */
+  metadata?: Record<string, string>;
 }
 
 /** Content of a chat message. */

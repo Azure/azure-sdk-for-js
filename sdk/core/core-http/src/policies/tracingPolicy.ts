@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getTraceParentHeader, createSpanFunction, SpanKind } from "@azure/core-tracing";
+import {
+  getTraceParentHeader,
+  createSpanFunction,
+  SpanKind,
+  SpanStatusCode
+} from "@azure/core-tracing";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -71,7 +76,7 @@ export class TracingPolicy extends BaseRequestPolicy {
 
     try {
       // set headers
-      const spanContext = span.context();
+      const spanContext = span.spanContext();
       const traceParentHeader = getTraceParentHeader(spanContext);
       if (traceParentHeader) {
         request.headers.set("traceparent", traceParentHeader);
@@ -88,11 +93,19 @@ export class TracingPolicy extends BaseRequestPolicy {
       if (serviceRequestId) {
         span.setAttribute("serviceRequestId", serviceRequestId);
       }
-      span.end();
+      span.setStatus({
+        code: SpanStatusCode.OK
+      });
       return response;
     } catch (err) {
-      span.end();
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: err.message
+      });
+      span.setAttribute("http.status_code", err.statusCode);
       throw err;
+    } finally {
+      span.end();
     }
   }
 }

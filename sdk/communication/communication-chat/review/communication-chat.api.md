@@ -86,6 +86,7 @@ export interface ChatMessage {
     deletedOn?: Date;
     editedOn?: Date;
     id: string;
+    metadata?: Record<string, string>;
     sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
     sequenceId: string;
@@ -109,7 +110,7 @@ export interface ChatMessageReadReceipt {
 }
 
 // @public
-export type ChatMessageType = string;
+export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
 
 // @public
 export interface ChatParticipant {
@@ -232,17 +233,13 @@ export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RestUpdateMessageOptions {
-    content?: string;
-}
-
-// @public
 export interface SendChatMessageResult {
     id: string;
 }
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
+    metadata?: Record<string, string>;
     senderDisplayName?: string;
     type?: ChatMessageType;
 }
@@ -261,10 +258,14 @@ export interface SendReadReceiptRequest {
 }
 
 // @public
-export type SendTypingNotificationOptions = OperationOptions;
+export interface SendTypingNotificationOptions extends OperationOptions {
+    senderDisplayName?: string;
+}
 
 // @public
-export interface UpdateMessageOptions extends RestUpdateMessageOptions, OperationOptions {
+export interface UpdateMessageOptions extends OperationOptions {
+    content?: string;
+    metadata?: Record<string, string>;
 }
 
 // @public

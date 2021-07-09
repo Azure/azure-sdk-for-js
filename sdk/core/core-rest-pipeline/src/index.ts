@@ -66,6 +66,9 @@ export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
   bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
-  bearerTokenAuthenticationPolicyName
+  bearerTokenAuthenticationPolicyName,
+  ChallengeCallbacks,
+  AuthorizeRequestOptions,
+  AuthorizeRequestOnChallengeOptions
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";

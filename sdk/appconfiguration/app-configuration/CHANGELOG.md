@@ -1,5 +1,30 @@
 # Release History
 
+## 1.2.0 (2021-07-07)
+
+### Features Added
+
+- Special configuration settings - feature flag and secret reference are now supported. 🎉
+
+  - For types, use `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`.
+  - Use `parseFeatureFlag` and `parseSecretReference` methods to parse the configuration settings into feature flag and secret reference respectively.
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Fixed
+
+- High request rate would result in throttling. SDK would retry on the failed requests based on the service suggested time from the `retry-after-ms` header in the error response. If there are too many parallel requests, retries for all of them may also result in a high request rate entering into a state which might seem like the application is hanging forever.
+  - [#15721](https://github.com/Azure/azure-sdk-for-js/pull/15721) allows the user-provided abortSignal to be taken into account to abort the requests sooner.
+  - More resources - [App Configuration | Throttling](https://docs.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://docs.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
+
+## 1.2.0-beta.2 (2021-06-08)
+
+- With [#15136](https://github.com/Azure/azure-sdk-for-js/pull/15136), if the key of a feature flag(setting with `contentType="application/vnd.microsoft.appconfig.ff+json;charset=utf-8"`) doesn't start with `".appconfig.featureflag/"` (featureFlagPrefix), SDK adds the prefix before sending the request.
+- New design for feature flags and secret references,
+  - New types for FeatureFlag and SecretReference - `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseFeatureFlag` and `parseSecretReference` methods to access the properties(to translate `ConfigurationSetting` into the types above).
+  - Helper method `isFeatureFlag` (and `isSecretReference`) checks the contentType and return boolean values.
+
 ## 1.2.0-beta.1 (2021-04-06)
 
 ### New Features

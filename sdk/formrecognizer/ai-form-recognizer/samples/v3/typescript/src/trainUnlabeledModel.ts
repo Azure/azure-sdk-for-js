@@ -2,8 +2,23 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to train a custom model with unlabeled data.
- * See recognizeForm.ts to recognize forms using a custom model.
+ * This sample demonstrates how to programmatically train a custom model using
+ * unlabeled training data. Without label information, the service will use a
+ * machine learning algorithm to attempt to deduce the locations and labels of
+ * fields within the input documents automatically, but the quality of
+ * recognition may suffer compared to labeled models.
+ *
+ * The training data should be added to an Azure Storage container. Then, the
+ * FormTrainingClient API allows you to send a SAS-encoded URL to the container
+ * to the service. The data in the container will be interpreted as input
+ * documents, and the service will use those files to create a model.
+ *
+ * For more information about setting up the container for training with
+ * labels, see the following service documentation:
+ *
+ * https://docs.microsoft.com/azure/cognitive-services/form-recognizer/overview#train-without-labels
+ *
+ * @summary train a custom model with unlabeled inputs (form documents only)
  */
 
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
@@ -14,10 +29,10 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
   const containerSasUrl =
-    process.env["UNLABELED_CONTAINER_SAS_URL"] ||
+    process.env["UNLABELED_CONTAINER_SAS_URL"] ??
     "<url to Azure blob container storing the training documents>";
 
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
@@ -30,7 +45,7 @@ export async function main() {
   const model = await poller.pollUntilDone();
 
   if (!model) {
-    throw new Error("Expecting valid training result!");
+    throw new Error("Failed to train unlabeled model.");
   }
 
   console.log(`Model ID: ${model.modelId}`);

@@ -14,7 +14,7 @@ export async function authenticate(that: Context): Promise<any> {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
     },

@@ -208,23 +208,32 @@ export enum EntityNames {
  * @param expectedErr The error fields you expect.
  * @returns The error thrown, if equal to expectedErr.
  */
-export async function assertThrows<T>(
+export function assertThrows<T>(
   fn: () => Promise<T>,
   expectedErr: Record<string, any>,
   assertMessage?: string
 ): Promise<Error> {
-  try {
-    await fn();
-  } catch (err) {
-    const comparableObj: Record<string, any> = {};
+  const testShouldHaveThrownError = new Error(
+    `assert failure, an error was expected, but none was thrown: ${assertMessage}`
+  );
 
-    for (const k in expectedErr) {
-      comparableObj[k] = err[k];
-    }
+  return fn()
+    .then(() => {
+      // should not happen - we expected it to throw.
+      throw testShouldHaveThrownError;
+    })
+    .catch((err) => {
+      if (err === testShouldHaveThrownError) {
+        throw err;
+      }
 
-    assert.deepEqual(comparableObj, expectedErr);
-    return err;
-  }
+      const comparableObj: Record<string, any> = {};
 
-  throw new Error(`assert failure, an error was expected, but none was thrown: ${assertMessage}`);
+      for (const k in expectedErr) {
+        comparableObj[k] = err[k];
+      }
+
+      assert.deepEqual(comparableObj, expectedErr);
+      return err;
+    });
 }

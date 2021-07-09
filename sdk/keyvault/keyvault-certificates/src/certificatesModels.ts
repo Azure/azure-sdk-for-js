@@ -45,6 +45,28 @@ export interface CertificateOperationError {
 }
 
 /**
+ * The key vault server error model.
+ * @deprecated - Please use {@link CertificateOperationError} instead.
+ */
+// This was re-exported as-is from generated code in 4.1; however, we should only be using `CertificateOperationError`.
+export interface ErrorModel {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly innerError?: ErrorModel;
+}
+
+/**
  * A certificate operation is returned in case of asynchronous requests.
  */
 export interface CertificateOperation {

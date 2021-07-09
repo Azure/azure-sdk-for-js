@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { RequestPrepareOptions } from "@azure/core-http";
+
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
@@ -50,7 +52,13 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
 export const fabricMsi: MSI = {
   async isAvailable(): Promise<boolean> {
     const env = process.env;
-    return Boolean(env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT);
+    const result = Boolean(
+      env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT
+    );
+    if (!result) {
+      logger.info("The Azure App Service Fabric MSI is unavailable.");
+    }
+    return result;
   },
   async getToken(
     identityClient: IdentityClient,

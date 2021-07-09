@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b30ebc5b-6645-4911-9756-be88ca924c00',
+  '90db956e-40a9-48a3-ac63-95e07e3c9e00',
   'x-ms-ests-server',
-  '2.1.11397.13 - KRSLR1 ProdSlices',
+  '2.1.11722.26 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEAAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:40:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvJP_5zXpMNFtNCcPwwYUd3GLH8mEAAAAMwkSdgOAAAA; expires=Fri, 02-Jul-2021 07:06:34 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:40:30 GMT',
+  'Wed, 02 Jun 2021 07:06:34 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -40,43 +40,43 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query', {"dimensionName":"city"})
   .query(true)
-  .reply(200, {"value":["Abidjan","Ahmadabad"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=2&$skip=2"}, [
+  .reply(200, {"value":["Abidjan","Ahmadabad"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=2&$skip=2"}, [
   'Content-Length',
-  '202',
+  '210',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '4799c969-6135-4bdb-b16b-6f1ad621bcce',
+  'c4d1ee02-0692-4ec7-a7c0-e86816fa3ac5',
   'x-envoy-upstream-service-time',
-  '45',
+  '5115',
   'apim-request-id',
-  '4799c969-6135-4bdb-b16b-6f1ad621bcce',
+  'c4d1ee02-0692-4ec7-a7c0-e86816fa3ac5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:30 GMT'
+  'Wed, 02 Jun 2021 07:06:39 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query', {"dimensionName":"city"})
   .query(true)
-  .reply(200, {"value":["Alexandria","Ankara"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=2&$skip=4"}, [
+  .reply(200, {"value":["Alexandria","Ankara"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=2&$skip=4"}, [
   'Content-Length',
-  '202',
+  '210',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'bfc12eb0-5dff-4ca0-9e0c-44395122861a',
+  'c92231d4-2270-4830-b91d-9ef31e8bcedf',
   'x-envoy-upstream-service-time',
-  '45',
+  '138',
   'apim-request-id',
-  'bfc12eb0-5dff-4ca0-9e0c-44395122861a',
+  'c92231d4-2270-4830-b91d-9ef31e8bcedf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:31 GMT'
+  'Wed, 02 Jun 2021 07:06:39 GMT'
 ]);

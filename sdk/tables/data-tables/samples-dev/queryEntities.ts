@@ -8,7 +8,6 @@
  */
 
 import { odata, TableClient } from "@azure/data-tables";
-import { v4 } from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -16,19 +15,18 @@ dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
-const tableSufix = v4().replace(/-/g, "");
 
 async function listEntities() {
   console.log("== List entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `queryEntitiesTable${tableSufix}`;
+  const tableName = `queryEntitiesTable`;
   console.log(tableName);
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
   // Create the table
-  await client.create();
+  await client.createTable();
 
   const partitionKey = "Stationery";
   const marker: Entity = {
@@ -61,7 +59,7 @@ async function listEntities() {
   }
 
   // List all entities with a price less than 6.0
-  const priceListResults = client.listEntities<Entity>({
+  const priceListResults = client.listEntities({
     queryOptions: { filter: odata`price le 6` }
   });
 
@@ -69,9 +67,6 @@ async function listEntities() {
   for await (const product of priceListResults) {
     console.log(`${product.name}: ${product.price}`);
   }
-
-  // Delete the table for cleanup
-  await client.delete();
 }
 
 // Sample of how to retreive the top N entities for a query
@@ -81,13 +76,10 @@ async function listTopNEntities() {
   const partitionKey = "Stationery";
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `listTopNEntitiesTable${tableSufix}`;
+  const tableName = `queryEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
-
-  // Create the table
-  await client.create();
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
@@ -111,7 +103,7 @@ async function listTopNEntities() {
   // Top entities: 1
 
   // Delete the table to cleanup
-  await client.delete();
+  await client.deleteTable();
 }
 
 interface Entity {

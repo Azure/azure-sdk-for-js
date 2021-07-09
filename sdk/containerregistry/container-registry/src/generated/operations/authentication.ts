@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { Authentication } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,7 +19,7 @@ import {
 } from "../models";
 
 /** Class representing a Authentication. */
-export class Authentication {
+export class AuthenticationImpl implements Authentication {
   private readonly client: GeneratedClientContext;
 
   /**
@@ -69,7 +70,7 @@ const exchangeAadAccessTokenForAcrRefreshTokenOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.AcrErrors
     }
   },
-  formDataParameters: [Parameters.aadAccesstoken],
+  formDataParameters: [Parameters.aadAccessToken],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer

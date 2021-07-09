@@ -7,7 +7,6 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
-import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
@@ -90,8 +89,6 @@ export const AmqpMessageProperties: {
     toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
     fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
 };
-
-export { AsyncLock }
 
 // @public
 export interface CancellableAsyncLock {
@@ -367,9 +364,6 @@ export function createSasTokenProvider(data: {
 
 // @public
 export const defaultCancellableLock: CancellableAsyncLock;
-
-// @public
-export const defaultLock: AsyncLock;
 
 // @public
 export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;

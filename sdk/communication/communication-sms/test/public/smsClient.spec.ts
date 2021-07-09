@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+/**
+ *  These tests only run in Live Mode because Http Requests with Randomized UUIDs do not play well with the recorder
+ *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
+ */
+
+import { matrix } from "@azure/test-utils";
+import { record, Recorder, env } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {
-  createCredential,
   createSmsClient,
   createSmsClientWithToken,
   recorderConfiguration
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
-import { matrix } from "./utils/matrix";
 
 if (isNode) {
   dotenv.config();
@@ -22,6 +26,13 @@ matrix([[true, false]], async function(useAad) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
 
+    before(function(this: Context) {
+      const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
+      if (skipIntSMSTests) {
+        this.skip();
+      }
+    });
+
     beforeEach(async function(this: Context) {
       recorder = record(this, recorderConfiguration);
       recorder.skip(
@@ -30,8 +41,7 @@ matrix([[true, false]], async function(useAad) {
       );
 
       if (useAad) {
-        const token = createCredential() || this.skip();
-        this.smsClient = createSmsClientWithToken(token);
+        this.smsClient = createSmsClientWithToken();
       } else {
         this.smsClient = createSmsClient();
       }

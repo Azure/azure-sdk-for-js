@@ -6,7 +6,7 @@ import { parseKeyvaultIdentifier } from "../../keyvault-common/src";
 /**
  * Represents the segments that compose a Key Vault Certificate Id.
  */
-export interface KeyVaultCertificateId {
+export interface KeyVaultCertificateIdentifier {
   /**
    * The complete representation of the Key Vault Certificate Id. For example:
    *
@@ -46,9 +46,8 @@ export interface KeyVaultCertificateId {
  *   }
  *```
  * @param id - The Id of the Key Vault Certificate.
- * @internal
  */
-export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId {
+export function parseKeyVaultCertificateIdentifier(id: string): KeyVaultCertificateIdentifier {
   const urlParts = id.split("/");
   const collection = urlParts[3];
 

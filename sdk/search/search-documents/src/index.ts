@@ -111,7 +111,8 @@ export {
   SearchIndexStatistics,
   SearchServiceStatistics,
   SearchIndexer,
-  LexicalNormalizer
+  LexicalNormalizer,
+  SearchIndexerDataIdentity
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -126,7 +127,16 @@ export {
   IndexingResult,
   QueryType,
   SearchMode,
-  ScoringStatistics
+  ScoringStatistics,
+  Answers,
+  KnownAnswers,
+  QueryLanguage,
+  KnownQueryLanguage,
+  Speller,
+  KnownSpeller,
+  CaptionResult,
+  AnswerResult,
+  Captions
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -204,6 +214,10 @@ export {
   CustomEntity,
   CustomEntityAlias,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
   SentimentSkillLanguage,
@@ -249,6 +263,8 @@ export {
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
   HighWaterMarkChangeDetectionPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   ServiceCounters,
   ServiceLimits,
   ResourceCounter,
@@ -283,6 +299,19 @@ export {
   KnownTokenFilterName,
   CharFilterName,
   KnownCharFilterName,
-  LexicalNormalizer as BaseLexicalNormalizer
+  LexicalNormalizer as BaseLexicalNormalizer,
+  SearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreProjection,
+  SearchIndexerKnowledgeStoreFileProjectionSelector,
+  SearchIndexerKnowledgeStoreBlobProjectionSelector,
+  SearchIndexerKnowledgeStoreProjectionSelector,
+  SearchIndexerKnowledgeStoreObjectProjectionSelector,
+  SearchIndexerKnowledgeStoreTableProjectionSelector,
+  PIIDetectionSkillMaskingMode,
+  KnownPIIDetectionSkillMaskingMode,
+  LineEnding,
+  KnownLineEnding,
+  SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
+export { createSynonymMapFromFile } from "./synonymMapHelper";

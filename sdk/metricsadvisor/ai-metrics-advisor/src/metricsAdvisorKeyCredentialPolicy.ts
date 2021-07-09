@@ -15,6 +15,16 @@ const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 const X_API_KEY_HEADER_NAME = "x-api-key";
 
 /**
+ * Interface parameters for updateKey function
+ */
+export interface MetricsAdvisorKeys {
+  /** API key from the Metrics Advisor web portal */
+  apiKey?: string;
+  /** Subscription access key from the Azure portal */
+  subscriptionKey?: string;
+}
+
+/**
  * Credential used to authenticate and authorize with Metrics Advisor service
  */
 export class MetricsAdvisorKeyCredential {
@@ -57,33 +67,24 @@ export class MetricsAdvisorKeyCredential {
   }
 
   /**
-   * Change the value of the subscription key.
+   * Change the value of the subscription and/or api keys.
    *
    * Updates will take effect upon the next request after
    * updating the key value.
    *
    * @param subscriptionKey - The new subscription key value to be used
-   */
-  public updateSubscriptionKey(subscriptionKey: string): void {
-    if (!subscriptionKey) {
-      throw new RangeError("subscriptionKey must be a non-empty string");
-    }
-    this._subscriptionKey = subscriptionKey;
-  }
-
-  /**
-   * Change the value of the api key.
-   *
-   * Updates will take effect upon the next request after
-   * updating the key value.
-   *
    * @param apiKey - The new api key value to be used
    */
-  public updateApiKey(apiKey: string): void {
-    if (!apiKey) {
-      throw new RangeError("apiKey must be a non-empty string");
+  public updateKey(metricAdvisorKeys: MetricsAdvisorKeys): void {
+    if (!metricAdvisorKeys.subscriptionKey && !metricAdvisorKeys.apiKey) {
+      throw new Error("At least one of the subscriptionKey and apiKey must be a non-empty string");
     }
-    this._apiKey = apiKey;
+    if (metricAdvisorKeys.subscriptionKey) {
+      this._subscriptionKey = metricAdvisorKeys.subscriptionKey;
+    }
+    if (metricAdvisorKeys.apiKey) {
+      this._apiKey = metricAdvisorKeys.apiKey;
+    }
   }
 }
 

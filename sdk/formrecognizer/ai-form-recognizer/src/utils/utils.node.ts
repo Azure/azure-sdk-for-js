@@ -10,6 +10,8 @@ const SIZE_ONE_MEGA = 1024 * 1024;
  * @param stream - A Node.js Readable stream
  * @returns The resultant buffer.
  * @throws If buffer size is not big enough.
+ *
+ * @internal
  */
 export async function streamToBuffer(
   stream: NodeJS.ReadableStream,
@@ -58,6 +60,9 @@ export async function streamToBuffer(
   });
 }
 
+/**
+ * @internal
+ */
 export function getFirstFourBytesFromBlob(_data: Blob): Promise<Uint8Array> {
   throw new Error("Blob is not supported in NodeJS environment");
 }

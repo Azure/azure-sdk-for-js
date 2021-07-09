@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ChatApiClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-chat";
-const packageVersion = "1.0.0";
+const packageVersion = "1.1.0-beta.1";
 
 export class ChatApiClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -46,6 +46,6 @@ export class ChatApiClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-03-07";
+    this.apiVersion = options.apiVersion || "2021-04-05-preview6";
   }
 }

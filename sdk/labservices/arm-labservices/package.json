@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/labservices/arm-labservices",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/sdk/labservices/arm-labservices",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

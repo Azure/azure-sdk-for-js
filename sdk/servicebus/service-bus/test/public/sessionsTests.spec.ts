@@ -481,6 +481,14 @@ describe("SessionReceiver - disconnects", function(): void {
       "SessionLockLost",
       "error code is not SessionLockLost"
     );
+
+    // NOTE: this is a hokey workaround. It used to be that you'd only get the single error
+    // from 'detach' but now it's possible to get _two_ errors: one from detach and one
+    // from a failed credit add in subscribe() (both of which are valid and happen independently).
+    //
+    // This is only an issue for this test because we're trying to do some timing dependent checks of our
+    // internal state.
+    await checkWithTimeout(() => isCloseCalledSpy.called);
     assert.isTrue(isCloseCalledSpy.called, "Close should have been called on the message session");
 
     // send a second message to trigger the message handler again.

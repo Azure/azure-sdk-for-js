@@ -12,6 +12,52 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ConfluentAgreementResource: msRest.CompositeMapper = {
   serializedName: "ConfluentAgreementResource",
   type: {
@@ -37,6 +83,14 @@ export const ConfluentAgreementResource: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       },
       publisher: {
@@ -223,6 +277,7 @@ export const OfferDetail: msRest.CompositeMapper = {
     className: "OfferDetail",
     modelProperties: {
       publisherId: {
+        required: true,
         serializedName: "publisherId",
         constraints: {
           MaxLength: 50
@@ -232,6 +287,7 @@ export const OfferDetail: msRest.CompositeMapper = {
         }
       },
       id: {
+        required: true,
         serializedName: "id",
         constraints: {
           MaxLength: 50
@@ -241,6 +297,7 @@ export const OfferDetail: msRest.CompositeMapper = {
         }
       },
       planId: {
+        required: true,
         serializedName: "planId",
         constraints: {
           MaxLength: 50
@@ -250,6 +307,7 @@ export const OfferDetail: msRest.CompositeMapper = {
         }
       },
       planName: {
+        required: true,
         serializedName: "planName",
         constraints: {
           MaxLength: 50
@@ -259,6 +317,7 @@ export const OfferDetail: msRest.CompositeMapper = {
         }
       },
       termUnit: {
+        required: true,
         serializedName: "termUnit",
         constraints: {
           MaxLength: 25
@@ -302,85 +361,13 @@ export const UserDetail: msRest.CompositeMapper = {
         }
       },
       emailAddress: {
+        required: true,
         serializedName: "emailAddress",
         constraints: {
-          Pattern: /\S+@\S+\.\S+/
+          Pattern: /^\S+@\S+\.\S+$/
         },
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OrganizationResourcePropertiesOfferDetail: msRest.CompositeMapper = {
-  serializedName: "OrganizationResourceProperties_offerDetail",
-  type: {
-    name: "Composite",
-    className: "OrganizationResourcePropertiesOfferDetail",
-    modelProperties: {
-      ...OfferDetail.type.modelProperties
-    }
-  }
-};
-
-export const OrganizationResourcePropertiesUserDetail: msRest.CompositeMapper = {
-  serializedName: "OrganizationResourceProperties_userDetail",
-  type: {
-    name: "Composite",
-    className: "OrganizationResourcePropertiesUserDetail",
-    modelProperties: {
-      ...UserDetail.type.modelProperties
-    }
-  }
-};
-
-export const OrganizationResourceProperties: msRest.CompositeMapper = {
-  serializedName: "OrganizationResourceProperties",
-  type: {
-    name: "Composite",
-    className: "OrganizationResourceProperties",
-    modelProperties: {
-      createdTime: {
-        readOnly: true,
-        serializedName: "createdTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      organizationId: {
-        readOnly: true,
-        serializedName: "organizationId",
-        type: {
-          name: "String"
-        }
-      },
-      ssoUrl: {
-        readOnly: true,
-        serializedName: "ssoUrl",
-        type: {
-          name: "String"
-        }
-      },
-      offerDetail: {
-        serializedName: "offerDetail",
-        type: {
-          name: "Composite",
-          className: "OrganizationResourcePropertiesOfferDetail"
-        }
-      },
-      userDetail: {
-        serializedName: "userDetail",
-        type: {
-          name: "Composite",
-          className: "OrganizationResourcePropertiesUserDetail"
         }
       }
     }
@@ -414,6 +401,14 @@ export const OrganizationResource: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       createdTime: {
         readOnly: true,
         serializedName: "properties.createdTime",
@@ -422,6 +417,7 @@ export const OrganizationResource: msRest.CompositeMapper = {
         }
       },
       provisioningState: {
+        readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
@@ -442,17 +438,19 @@ export const OrganizationResource: msRest.CompositeMapper = {
         }
       },
       offerDetail: {
+        required: true,
         serializedName: "properties.offerDetail",
         type: {
           name: "Composite",
-          className: "OrganizationResourcePropertiesOfferDetail"
+          className: "OfferDetail"
         }
       },
       userDetail: {
+        required: true,
         serializedName: "properties.userDetail",
         type: {
           name: "Composite",
-          className: "OrganizationResourcePropertiesUserDetail"
+          className: "UserDetail"
         }
       },
       tags: {

@@ -8,6 +8,7 @@
  */
 
 export * from "./appServiceCertificateOrders";
+export * from "./certificateOrdersDiagnostics";
 export * from "./certificateRegistrationProvider";
 export * from "./domains";
 export * from "./topLevelDomains";
@@ -15,6 +16,7 @@ export * from "./domainRegistrationProvider";
 export * from "./certificates";
 export * from "./deletedWebApps";
 export * from "./diagnostics";
+export * from "./global";
 export * from "./provider";
 export * from "./recommendations";
 export * from "./webApps";

@@ -1,45 +1,45 @@
 let nock = require('nock');
 
-module.exports.hash = "676ef4430cdcbaf412a9dca197b73b94";
+module.exports.hash = "14054da5863782c4fc6a8a675748b72d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/854f1125-f1f7-44fa-ba16-8c5be659b8b9')
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/a7cc6dda-d4e7-447d-aa57-3fc3395d5516')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '91b3db65-afc9-4a2f-bba0-5be4836c7390',
+  'e3f70da9-9f7b-48a1-91fe-c29ffbf8d6dc',
   'x-envoy-upstream-service-time',
-  '214',
+  '102',
   'apim-request-id',
-  '91b3db65-afc9-4a2f-bba0-5be4836c7390',
+  'e3f70da9-9f7b-48a1-91fe-c29ffbf8d6dc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:39:26 GMT'
+  'Wed, 02 Jun 2021 17:31:53 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/854f1125-f1f7-44fa-ba16-8c5be659b8b9')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 0b11e5db-083a-4078-a99a-6f1463fc9a69"}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/a7cc6dda-d4e7-447d-aa57-3fc3395d5516')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 9a0637da-d009-4ce8-9736-0ed4a568cc2d"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'b09b443f-a223-4a29-9f7b-9117aeba3f52',
+  '6cee0b27-b784-494a-b547-35abf14555ea',
   'x-envoy-upstream-service-time',
-  '103',
+  '77',
   'apim-request-id',
-  'b09b443f-a223-4a29-9f7b-9117aeba3f52',
+  '6cee0b27-b784-494a-b547-35abf14555ea',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:39:27 GMT'
+  'Wed, 02 Jun 2021 17:31:53 GMT'
 ]);

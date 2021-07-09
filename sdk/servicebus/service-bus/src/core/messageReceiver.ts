@@ -118,16 +118,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     number,
     DeferredPromiseAndTimer
   >();
-  /**
-   * The message handler provided by the user that will be wrapped
-   * inside _onAmqpMessage.
-   */
-  protected _onMessage!: OnMessage;
-  /**
-   * The error handler provided by the user that will be wrapped
-   * inside _onAmqpError.
-   */
-  protected _onError?: OnError;
 
   /**
    * A lock renewer that handles message lock auto-renewal. This is undefined unless the user

@@ -8,10 +8,12 @@ import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  RequestPolicyFactory,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -110,7 +112,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   constructor(
     endpoint: string,
     indexName: string,
-    credential: KeyCredential,
+    credential: KeyCredential | TokenCredential,
     options: SearchClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -143,10 +145,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
+    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, utils.DEFAULT_SEARCH_SCOPE)
+      : createSearchApiKeyCredentialPolicy(credential);
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
+
     if (Array.isArray(pipeline.requestPolicyFactories)) {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
@@ -154,7 +158,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     let apiVersion = this.apiVersion;
 
     if (options.apiVersion) {
-      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
       apiVersion = options.apiVersion;
@@ -260,7 +264,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
-      const { results, count, coverage, facets, nextLink } = result;
+      const { results, count, coverage, facets, answers, nextLink } = result;
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
 
@@ -269,6 +273,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         count,
         coverage,
         facets,
+        answers,
         continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters)
       };
 
@@ -361,12 +366,13 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     try {
       const pageResult = await this.searchDocuments(searchText, updatedOptions);
 
-      const { count, coverage, facets } = pageResult;
+      const { count, coverage, facets, answers } = pageResult;
 
       return {
         count,
         coverage,
         facets,
+        answers,
         results: this.listSearchResults(pageResult, searchText, updatedOptions)
       };
     } catch (e) {

@@ -14,6 +14,9 @@ import { FormRecognizerRequestBody, FormPageArray } from "../../models";
 import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
 
+/**
+ * @internal
+ */
 export interface ContentPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
@@ -32,6 +35,8 @@ export interface ContentPollerOperationOptions {
 /**
  * Defines the operations from a analyze client that are needed for the poller
  * to work
+ *
+ * @internal
  */
 export type RecognizeContentPollerClient = {
   // returns a result id to retrieve results
@@ -56,6 +61,9 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
   readonly analyzeOptions?: BeginRecognizeContentOptions;
 }
 
+/**
+ * @internal
+ */
 export interface BeginRecognizeContentPollerOperation
   extends PollOperation<BeginRecognizeContentPollState, FormPageArray> {}
 
@@ -74,6 +82,8 @@ export type BeginRecognizeContentPollerOptions = {
 
 /**
  * Class that represents a poller that waits until a model has been trained.
+ *
+ * @internal
  */
 export class BeginRecognizeContentPoller extends Poller<
   BeginRecognizeContentPollState,
@@ -121,8 +131,10 @@ export class BeginRecognizeContentPoller extends Poller<
     return delay(this.updateIntervalInMs);
   }
 }
+
 /**
  * Creates a poll operation given the provided state.
+ *
  * @internal
  */
 function makeBeginRecognizePollOperation(

@@ -14,7 +14,12 @@ import {
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import { withTrace } from "./poller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Certificates.DeleteCertificatePoller");
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.
@@ -119,6 +124,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+          throw error;
         }
       }
     }

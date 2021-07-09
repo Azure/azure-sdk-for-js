@@ -5,9 +5,12 @@
  * This sample demonstrates how to assign a RecognizedForm to a strongly-typed
  * object with known fields.
  *
- * We use the pre-trained receipt model as an example, but a similar approach could
- * be used with any custom form as long as you properly update the fields' names
- * and types.
+ * We use the pre-trained receipt model as an example, but a similar approach
+ * could be used with any custom form as long as you properly update the
+ * fields' names and types.
+ *
+ * @summary create a strongly-typed interface for a model with a known
+ * structure and use it to refine the output type of model recognition
  */
 
 import {
@@ -19,7 +22,6 @@ import {
 
 import * as fs from "fs";
 import * as os from "os";
-import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -86,12 +88,12 @@ interface ReceiptItem {
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const fileName = path.join(__dirname, "../assets/contoso-allinone.jpg");
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+  const fileName = "./assets/receipt/contoso-allinone.jpg";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
@@ -107,7 +109,7 @@ export async function main() {
   const receiptResponse = await poller.pollUntilDone();
 
   if (!receiptResponse || receiptResponse.length <= 0) {
-    throw new Error("Expecting at lease one receipt in analysis result");
+    throw new Error("Failed to extract data from at least one receipt.");
   }
 
   // Cast the receipts in the response to our typed model, then extract

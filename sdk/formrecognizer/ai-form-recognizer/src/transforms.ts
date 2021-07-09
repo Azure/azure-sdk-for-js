@@ -39,6 +39,9 @@ import {
 } from "./models";
 import { RecognizeContentResultResponse } from "./internalModels";
 
+/**
+ * @internal
+ */
 function toBoundingBox(original: number[]): Point2D[] {
   return [
     { x: original[0], y: original[1] },
@@ -48,13 +51,24 @@ function toBoundingBox(original: number[]): Point2D[] {
   ];
 }
 
+/**
+ * @internal
+ */
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
+  const appearance =
+    original.appearance !== undefined
+      ? {
+          styleName: original.appearance.style.name,
+          styleConfidence: original.appearance.style.confidence
+        }
+      : undefined;
+
   const line: FormLine = {
     kind: "line",
     pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
-    appearance: original.appearance,
+    appearance,
     words: original.words.map((w) => {
       return {
         kind: "word",
@@ -69,6 +83,9 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
   return line;
 }
 
+/**
+ * @internal
+ */
 export function toSelectionMark(original: SelectionMark, pageNumber: number): FormSelectionMark {
   return {
     kind: "selectionMark",
@@ -79,6 +96,9 @@ export function toSelectionMark(original: SelectionMark, pageNumber: number): Fo
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormPage(original: ReadResultModel): FormPage {
   return {
     pageNumber: original.pageNumber,
@@ -94,6 +114,9 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
+/**
+ * @internal
+ */
 export function toFormContent(element: string, readResults: FormPage[]): FormElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
@@ -110,6 +133,9 @@ export function toFormContent(element: string, readResults: FormPage[]): FormEle
   }
 }
 
+/**
+ * @internal
+ */
 export function toFieldData(
   pageNumber: number,
   original: KeyValueElementModel,
@@ -123,6 +149,9 @@ export function toFieldData(
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormFieldFromKeyValuePairModel(
   pageNumber: number,
   original: KeyValuePairModel,
@@ -138,6 +167,9 @@ export function toFormFieldFromKeyValuePairModel(
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormTable(
   original: DataTableModel,
   readResults: FormPage[],
@@ -164,6 +196,9 @@ export function toFormTable(
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormPages(
   readResults?: ReadResultModel[],
   pageResults?: PageResultModel[]
@@ -184,6 +219,9 @@ export function toFormPages(
   );
 }
 
+/**
+ * @internal
+ */
 export function toRecognizedFormArray(
   original: GetAnalyzeFormResultResponse,
   expectedDocTypePrefix?: string
@@ -213,6 +251,9 @@ export function toRecognizedFormArray(
   }
 }
 
+/**
+ * @internal
+ */
 export function toFormFieldFromFieldValueModel(
   original: FieldValueModel,
   key: string,
@@ -250,9 +291,7 @@ export function toFormFieldFromFieldValueModel(
       value = original.valuePhoneNumber;
       break;
     case "selectionMark":
-      // TODO: service issue returns `undefined` for valueSelectionMark and
-      // instead returns the value in `text`
-      value = original.text;
+      value = original.valueSelectionMark;
       break;
     case "array":
       value = original.valueArray?.map((fieldValueModel) =>
@@ -264,11 +303,8 @@ export function toFormFieldFromFieldValueModel(
         ? toFieldsFromFieldValue(original.valueObject, readResults)
         : undefined;
       break;
-    case "gender":
-      value = original.valueGender;
-      break;
-    case "country":
-      value = original.valueCountry;
+    case "countryRegion":
+      value = original.valueCountryRegion;
       break;
     default:
       return unreachable(original.type);
@@ -287,6 +323,9 @@ export function toFormFieldFromFieldValueModel(
   } as FormField;
 }
 
+/**
+ * @internal
+ */
 export function toFieldsFromFieldValue(
   original: { [propertyName: string]: FieldValueModel | null },
   readResults: FormPage[]
@@ -306,6 +345,9 @@ export function toFieldsFromFieldValue(
   return result;
 }
 
+/**
+ * @internal
+ */
 export function toFieldsFromKeyValuePairs(
   pageNumber: number,
   original: KeyValuePairModel[],
@@ -323,6 +365,9 @@ export function toFieldsFromKeyValuePairs(
   return result;
 }
 
+/**
+ * @internal
+ */
 export function toFormFromPageResult(original: PageResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: `form-${original.clusterId}`,
@@ -334,6 +379,9 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
   };
 }
 
+/**
+ * @internal
+ */
 export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: original.docType,
@@ -347,6 +395,9 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
   };
 }
 
+/**
+ * @internal
+ */
 export function toRecognizeContentResultResponse(
   original: GetAnalyzeLayoutResultResponse
 ): RecognizeContentResultResponse {
@@ -380,6 +431,9 @@ export function toRecognizeContentResultResponse(
   }
 }
 
+/**
+ * @internal
+ */
 function flattenTrainingDocuments(
   original: GetCustomModelResponse
 ): TrainingDocumentInfo[] | undefined {
@@ -406,6 +460,9 @@ function flattenTrainingDocuments(
   return undefined;
 }
 
+/**
+ * @internal
+ */
 function toSubmodelsFromComposedTrainResults(results: TrainResult[]): CustomFormSubmodel[] {
   const mappedSubmodels = results.map((r) => toSubmodelsFromTrainResultLabeled(r));
 
@@ -413,6 +470,9 @@ function toSubmodelsFromComposedTrainResults(results: TrainResult[]): CustomForm
   return ([] as CustomFormSubmodel[]).concat(...mappedSubmodels);
 }
 
+/**
+ * @internal
+ */
 function toSubmodelsFromTrainResultLabeled(
   result: TrainResult,
   modelName?: string
@@ -435,6 +495,9 @@ function toSubmodelsFromTrainResultLabeled(
   ];
 }
 
+/**
+ * @internal
+ */
 function toSubmodelsFromTrainResultUnlabeled(
   keys: KeysResult,
   modelId: string
@@ -457,6 +520,9 @@ function toSubmodelsFromTrainResultUnlabeled(
   );
 }
 
+/**
+ * @internal
+ */
 function flattenCustomFormSubmodels(
   original: GetCustomModelResponse
 ): CustomFormSubmodel[] | undefined {
@@ -474,6 +540,9 @@ function flattenCustomFormSubmodels(
   return undefined;
 }
 
+/**
+ * @internal
+ */
 export function toCustomFormModelProperties(
   original: Attributes | undefined
 ): CustomFormModelProperties | undefined {
@@ -486,6 +555,9 @@ export function toCustomFormModelProperties(
   }
 }
 
+/**
+ * @internal
+ */
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
   return {
     status: response.modelInfo.status,

@@ -8,9 +8,16 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_2021041401384093c29530-dfd2-4ff3-9bcd-c784b7cd5e52_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_202104240152528ec5c4ad-e3c4-4961-b7be-4cf45cec3905_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
    "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
+    "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:52:52 GMT",
+    "ms-cv": "QwJfO72hc0mBzIY+CakQLg.0",
+    "request-context": "appId=",
+    "status": "202",
+    "x-azure-ref": "09HmDYAAAAABTKE2XhR6/Rb81k9ewYLVjWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "392ms"
    }
   },
   {
@@ -21,9 +28,16 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210414013840c5e242ce-d8c0-4799-aefe-0ec6da11d7f9_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_2021042401525343fbb265-a944-4690-8f02-74deb17f5924_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
    "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
+    "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:52:52 GMT",
+    "ms-cv": "kwki6TxoLESl3X2+PViHOg.0",
+    "request-context": "appId=",
+    "status": "202",
+    "x-azure-ref": "09HmDYAAAAACDwFVlR96wSbRUMpKm2oV+WVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "474ms"
    }
   }
  ],

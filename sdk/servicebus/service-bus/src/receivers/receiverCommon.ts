@@ -4,7 +4,7 @@
 import { MessageHandlers, ProcessErrorArgs } from "../models";
 import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { receiverLogger, ServiceBusLogger } from "../log";
+import { createServiceBusLogger, logger, receiverLogger, ServiceBusLogger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 import {
   DeadLetterOptions,
@@ -17,6 +17,7 @@ import { ConnectionContext } from "../connectionContext";
 import {
   ErrorNameConditionMapper,
   retry,
+  RetryConfig,
   RetryOperationType,
   RetryOptions
 } from "@azure/core-amqp";
@@ -205,8 +206,12 @@ export function settleMessage(
 
 /**
  * @internal
+ *
+ * NOTE: it's tempting to make this method non-async. However, doing so makes it too easy
+ * to throw exceptions that will not be "catchable" by people chaining to the returned Promise
+ * since we can throw exceptions outside of the Promise's scope.
  */
-export function settleMessageOperation(
+export async function settleMessageOperation(
   message: ServiceBusMessageImpl,
   operation: DispositionType,
   context: ConnectionContext,
@@ -264,4 +269,62 @@ export function settleMessageOperation(
   return receiver!.settleMessage(message, operation, options).catch((err) => {
     throw translateServiceBusError(err);
   });
+}
+
+/** @internal */
+export interface RetryForeverArgs<T> {
+  retryConfig: RetryConfig<T>;
+  onError: (err: Error) => void;
+  logger: ReturnType<typeof createServiceBusLogger>;
+  logPrefix: string;
+}
+
+/**
+ * Retry infinitely until success, reporting in between retry<> attempts.
+ *
+ * This function will only stop retrying if:
+ * - args.retryConfig.operation resolves successfully
+ * - args.retryConfig.operation rejects with an `AbortError`
+ *
+ * @internal
+ */
+export async function retryForever<T>(
+  args: RetryForeverArgs<T>,
+  retryFn: typeof retry = retry
+): Promise<T> {
+  let numRetryCycles = 0;
+
+  // The retries are broken up into cycles, giving the user some control over how often
+  // we actually attempt to retry.
+  while (true) {
+    ++numRetryCycles;
+
+    try {
+      return await retryFn(args.retryConfig);
+    } catch (err) {
+      // if the user aborts the operation we're immediately done.
+      // AbortError is also thrown by linkEntity.init() if the connection has been
+      // permanently closed.
+      if (err.name === "AbortError") {
+        logger.warning(`${args.logPrefix} AbortError caught, ending retries.`);
+        throw err;
+      }
+
+      // we only report the error here - this avoids spamming the user with too many
+      // redundant reports of errors while still providing them incremental status on failures.
+      try {
+        args.onError(err);
+      } catch (err) {
+        logger.error("args.onerror has thrown", err);
+      }
+
+      args.logger.logError(
+        err,
+        `${args.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
+        args.retryConfig
+      );
+
+      continue;
+    }
+  }
 }

@@ -7,6 +7,7 @@
   "license": "ISC",
   "scripts": {
     "smoke-test": "node run.js",
+    "smoke-test-node8": "node --harmony_async_iteration run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
