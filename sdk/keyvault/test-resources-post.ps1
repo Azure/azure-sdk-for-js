@@ -91,10 +91,6 @@ $wrappingFiles = foreach ($i in 0..2) {
     Resolve-Path "$baseName.cer"
 }
 
-# TODO: Use Az module when available; for now, assumes Azure CLI is installed and in $Env:PATH.
-Log "Logging '$username' into the Azure CLI"
-az login --service-principal --tenant "$tenant" --username "$username" --password="$password"
-
 Log "Downloading security domain from '$hsmUrl'"
 
 $sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key"
@@ -103,8 +99,7 @@ if (Test-Path $sdpath) {
     Remove-Item $sdPath -Force
 }
 
-az keyvault security-domain download --hsm-name $hsmName --security-domain-file $sdPath --sd-quorum 2 --sd-wrapping-keys $wrappingFiles
-
+Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
 
 $testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
