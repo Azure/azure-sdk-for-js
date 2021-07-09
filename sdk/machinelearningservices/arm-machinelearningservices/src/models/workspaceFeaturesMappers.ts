@@ -8,9 +8,11 @@
 
 export {
   discriminators,
+  AKSReplicaStatusError,
   AmlUserFeature,
   ErrorDetail,
   ErrorResponse,
   ListAmlUserFeatureResult,
-  MachineLearningServiceError
+  MachineLearningServiceError,
+  ServiceResponseBaseError
 } from "../models/mappers";

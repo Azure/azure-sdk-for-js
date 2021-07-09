@@ -12,8 +12,11 @@ export {
   ErrorDetail,
   ErrorResponse,
   MachineLearningServiceError,
-  Operation,
-  OperationDisplay,
-  OperationListResult,
-  ServiceResponseBaseError
+  ResourceSkuLocationInfo,
+  ResourceSkuZoneDetails,
+  Restriction,
+  ServiceResponseBaseError,
+  SKUCapability,
+  SkuListResult,
+  WorkspaceSku
 } from "../models/mappers";
