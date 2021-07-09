@@ -2,34 +2,35 @@
 // Licensed under the MIT License.
 
 /**
- * This example shows how to use 
- * [@opentelemetry/tracing](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing) 
+ * This example shows how to use
+ * [@opentelemetry/tracing](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing)
  * to instrument a simple Node.js application - e.g. a batch job.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
  */
 
-import * as opentelemetry from '@opentelemetry/api';
-import { Resource } from '@opentelemetry/resources';
-import { ResourceAttributes } from '@opentelemetry/semantic-conventions';
-import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/tracing';
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+const opentelemetry = require("@opentelemetry/api");
+const { Resource } = require("@opentelemetry/resources");
+const { ResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/tracing");
+const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const provider = new BasicTracerProvider({
   resource: new Resource({
-    [ResourceAttributes.SERVICE_NAME]: 'basic-service',
-  }),
+    [ResourceAttributes.SERVICE_NAME]: "basic-service"
+  })
 });
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
-  connectionString: process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
+  connectionString:
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
 });
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
+provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 
 /**
  * Initialize the OpenTelemetry APIs to use the BasicTracerProvider bindings.
@@ -41,11 +42,11 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
  * methods will receive no-op implementations.
  */
 provider.register();
-const tracer = opentelemetry.trace.getTracer('example-basic-tracer-node');
+const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
-export async function main() {
+async function main() {
   // Create a span. A span must be closed.
-  const parentSpan = tracer.startSpan('main');
+  const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {
     doWork(parentSpan);
   }
@@ -56,11 +57,11 @@ export async function main() {
   exporter.shutdown();
 }
 
-function doWork(parent: opentelemetry.Span) {
+function doWork(parent) {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
   const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);
-  const span = tracer.startSpan('doWork', undefined, ctx);
+  const span = tracer.startSpan("doWork", undefined, ctx);
 
   // simulate some random work.
   for (let i = 0; i <= Math.floor(Math.random() * 40000000); i += 1) {
@@ -68,10 +69,10 @@ function doWork(parent: opentelemetry.Span) {
   }
 
   // Set attributes to the span.
-  span.setAttribute('key', 'value');
+  span.setAttribute("key", "value");
 
   // Annotate our span to capture metadata about our operation
-  span.addEvent('invoking doWork');
+  span.addEvent("invoking doWork");
 
   span.end();
 }

@@ -81,16 +81,19 @@
     ],
     "requiredResources": {
       "Azure subscription": "https://azure.microsoft.com/en-us/free/",
-      "Azure Application Insights workspace instance": "https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview",
-      "Azure Storage account": "https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview"
+      "Azure Application Insights workspace instance": "https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview"
     }
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
+    "@opentelemetry/instrumentation": "0.23.0",
+    "@opentelemetry/instrumentation-http": "0.23.0",
+    "@opentelemetry/node": "0.23.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "eslint-plugin-node": "^11.1.0",
     "execa": "^3.3.0",
@@ -102,8 +105,8 @@
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "ts-node": "^9.0.0",
-    "typescript": "~4.2.0",
-    "typedoc": "0.15.2"
+    "typedoc": "0.15.2",
+    "typescript": "~4.2.0"
   },
   "dependencies": {
     "@azure/core-http": "^2.0.0",
