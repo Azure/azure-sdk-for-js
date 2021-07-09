@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as url from "url";
+import { URLBuilder } from "@azure/core-http";
 import { DefaultHttpClient, WebResource, WebResourceLike } from "@azure/core-http";
 
 export class RecordingHttpClient extends DefaultHttpClient {
@@ -38,11 +38,14 @@ export class RecordingHttpClient extends DefaultHttpClient {
     if (!request.headers.contains("x-recording-id")) {
       request.headers.set("x-recording-id", this._recordingId!);
       request.headers.set("x-recording-mode", this._mode);
-      const upstreamUrl = url.parse(request.url);
-      const redirectedUrl = { ...upstreamUrl, host: "localhost:5000", protocol: "http" };
-      upstreamUrl.path = null;
-      request.headers.set("x-recording-upstream-base-uri", url.format(upstreamUrl));
-      request.url = url.format(redirectedUrl);
+
+      const upstreamUrl = URLBuilder.parse(request.url);
+      const redirectedUrl: URLBuilder = URLBuilder.parse(request.url);
+      redirectedUrl.setHost("localhost:5000");
+      redirectedUrl.setScheme("http");
+      upstreamUrl.setPath(undefined);
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.url = redirectedUrl.toString();
       console.log(redirectedUrl);
     }
 
