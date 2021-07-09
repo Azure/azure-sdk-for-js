@@ -7,9 +7,12 @@
  */
 
 export {
+  AuthorizationProfile,
+  BaseResource,
   ErrorDefinition,
   ErrorResponse,
-  FeatureOperationsListResult,
-  FeatureProperties,
-  FeatureResult
+  ProxyResource,
+  SubscriptionFeatureRegistration,
+  SubscriptionFeatureRegistrationList,
+  SubscriptionFeatureRegistrationProperties
 } from "../models/mappers";
