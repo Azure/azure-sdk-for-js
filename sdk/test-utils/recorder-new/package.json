@@ -1,7 +1,7 @@
 {
   "name": "@azure/test-utils-recorder-new",
   "version": "1.0.0",
-  "sdk-type": "client",
+  "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
