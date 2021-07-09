@@ -1,5 +1,18 @@
 # Release History
 
+## 1.0.0-preview.13 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Removed `TestTracer` and `TestSpan` from public API and into `@azure/test-utils`. [PR #16315](https://github.com/Azure/azure-sdk-for-js/pull/16315)
+  - `TestTracer` and `TestSpan` are intended for test support when used by other Azure packages and not intended for use by end users.
+
+### Key Bugs Fixed
+
+### Fixed
+
 ## 1.0.0-preview.12 (2021-06-30)
 
 - Update `@opentelemetry/api` to version 1.0.0 [PR #15883](https://github.com/Azure/azure-sdk-for-js/pull/15883)

@@ -19,6 +19,10 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
    * Makes getToken throw if a manual authentication is necessary.
    */
   disableAutomaticAuthentication?: boolean;
+  /**
+   * Authority, to overwrite the default one, if necessary.
+   */
+  authority?: string;
 }
 
 /**

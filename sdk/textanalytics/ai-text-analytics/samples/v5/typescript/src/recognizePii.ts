@@ -11,11 +11,7 @@
  * @summary detects personally-identifiable information
  */
 
-import {
-  TextAnalyticsClient,
-  AzureKeyCredential,
-  PiiEntityDomain
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient, AzureKeyCredential, PiiEntityDomain } from "@azure/ai-text-analytics";
 import { assert } from "console";
 
 // Load the .env file if it exists

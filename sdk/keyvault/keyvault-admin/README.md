@@ -8,7 +8,12 @@ The package `@azure/keyvault-admin` provides support for administrative Key Vaul
 >
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
-[Source code][package-gh] | [Package (npm)][package-npm] | [API Reference Documentation][docs] | [Product documentation][docs-service] | [Samples][samples]
+Key links:
+- [Source code][package-gh]
+- [Package (npm)][package-npm]
+- [API Reference Documentation][docs]
+- [Product documentation][docs-service]
+- [Samples][samples]
 
 ## Getting started
 

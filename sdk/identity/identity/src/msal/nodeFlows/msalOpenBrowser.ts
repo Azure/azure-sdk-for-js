@@ -3,7 +3,7 @@
 
 import * as msalNode from "@azure/msal-node";
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AccessToken } from "@azure/core-auth";
 
 import { Socket } from "net";
 import http from "http";
@@ -14,6 +14,7 @@ import { credentialLogger, formatError, formatSuccess } from "../../util/logging
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { msalToPublic } from "../utils";
 import { CredentialUnavailableError } from "../../client/errors";
+import { CredentialFlowGetTokenOptions } from "../credentials";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
@@ -63,7 +64,10 @@ export class MsalOpenBrowser extends MsalNode {
     return this.publicApp!.acquireTokenByCode(request);
   }
 
-  protected doGetToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken> {
+  protected doGetToken(
+    scopes: string[],
+    options?: CredentialFlowGetTokenOptions
+  ): Promise<AccessToken> {
     return new Promise<AccessToken>((resolve, reject) => {
       const socketToDestroy: Socket[] = [];
 
@@ -91,6 +95,7 @@ export class MsalOpenBrowser extends MsalNode {
           code: url.searchParams.get("code")!,
           redirectUri: this.redirectUri,
           scopes: scopes,
+          authority: options?.authority,
           codeVerifier: this.pkceCodes?.verifier
         };
 
@@ -171,7 +176,7 @@ export class MsalOpenBrowser extends MsalNode {
       app.on("connection", (socket) => socketToDestroy.push(socket));
 
       app.on("listening", () => {
-        const openPromise = this.openAuthCodeUrl(scopes);
+        const openPromise = this.openAuthCodeUrl(scopes, options);
 
         const abortSignal = options?.abortSignal;
         if (abortSignal) {
@@ -194,7 +199,10 @@ export class MsalOpenBrowser extends MsalNode {
     challenge: string;
   };
 
-  private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
+  private async openAuthCodeUrl(
+    scopeArray: string[],
+    options?: CredentialFlowGetTokenOptions
+  ): Promise<void> {
     // Initialize CryptoProvider instance
     const cryptoProvider = new msalNode.CryptoProvider();
     // Generate PKCE Codes before starting the authorization flow
@@ -203,6 +211,7 @@ export class MsalOpenBrowser extends MsalNode {
     const authCodeUrlParameters: msalNode.AuthorizationUrlRequest = {
       scopes: scopeArray,
       redirectUri: this.redirectUri,
+      authority: options?.authority,
       loginHint: this.loginHint,
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256" // Use SHA256 Algorithm

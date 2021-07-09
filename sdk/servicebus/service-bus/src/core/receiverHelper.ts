@@ -132,10 +132,7 @@ export class ReceiverHelper {
         resolve();
       });
 
-      receiver.drain = true;
-      // this is not actually adding another credit - it'll just
-      // cause the drain call to start.
-      receiver.addCredit(1);
+      receiver.drainCredit();
     });
 
     return drainPromise;

@@ -13,8 +13,8 @@ import {
 } from "../src/interfaces";
 
 import { setTracer } from "../src/tracerProxy";
-import { TestTracer } from "../src/tracers/test/testTracer";
-import { TestSpan } from "../src/tracers/test/testSpan";
+import { TestTracer } from "./testTracer";
+import { TestSpan } from "./testSpan";
 import { createSpanFunction } from "../src/createSpan";
 import { OperationTracingOptions } from "../src/interfaces";
 

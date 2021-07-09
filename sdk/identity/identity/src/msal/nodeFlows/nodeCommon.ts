@@ -16,7 +16,7 @@ import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
-  getAuthorityHost,
+  getAuthority,
   getKnownAuthorities,
   MsalBaseUtilities,
   msalToPublic,
@@ -24,6 +24,7 @@ import {
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -32,6 +33,7 @@ import { RegionalAuthority } from "../../regionalAuthority";
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
+  allowMultiTenantAuthentication?: boolean;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
    * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
@@ -72,15 +74,19 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
+  protected tenantId: string;
+  protected allowMultiTenantAuthentication?: boolean;
+  protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
-
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
+    this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.clientId = this.msalConfig.auth.clientId;
 
     // If persistence has been configured
@@ -104,13 +110,13 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected defaultNodeMsalConfig(options: MsalNodeOptions): msalNode.Configuration {
     const clientId = options.clientId || DeveloperSignOnClientId;
     const tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    const authorityHost = getAuthorityHost(
-      tenantId,
-      options.authorityHost || process.env.AZURE_AUTHORITY_HOST
-    );
+
+    this.authorityHost = options.authorityHost || process.env.AZURE_AUTHORITY_HOST;
+    const authority = getAuthority(tenantId, this.authorityHost);
+
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
-      authorityHost
+      authorityHost: authority
     });
 
     let clientCapabilities: string[] = ["CP1"];
@@ -121,8 +127,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     return {
       auth: {
         clientId,
-        authority: authorityHost,
-        knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
+        authority,
+        knownAuthorities: getKnownAuthorities(tenantId, authority),
         clientCapabilities
       },
       // Cache is defined in this.prepare();
@@ -241,7 +247,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       // To be able to re-use the account, the Token Cache must also have been provided.
       account: publicToMsal(this.account),
       correlationId: options?.correlationId,
-      scopes
+      scopes,
+      authority: options?.authority
     };
 
     try {
@@ -268,8 +275,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
+    options.authority = getAuthority(tenantId, this.authorityHost);
+
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
+
     return this.getTokenSilent(scopes, options).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;

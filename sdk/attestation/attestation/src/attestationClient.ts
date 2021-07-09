@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { SDK_VERSION } from "./constants";
-import { PolicyCertificates } from "./operations";
 import { GeneratedClient } from "./generated/generatedClient";
 
+import { AttestationSigner, AttestationTokenValidationOptions, AttestationResult } from "./models";
+
 import {
-  AttestationSigner,
-  AttestationToken,
-  AttestationTokenValidationOptions,
-  AttestationResult,
-  AttestationData
-} from "./models";
+  GeneratedAttestationResult,
+  InitTimeData,
+  KnownDataType,
+  RuntimeData
+} from "./generated/models";
 
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
@@ -19,13 +19,15 @@ import { GeneratedClientOptionalParams } from "./generated/models";
 import * as Mappers from "./generated/models/mappers";
 
 import { SpanStatusCode } from "@azure/core-tracing";
-import { AttestationResponse } from "./models/attestationResponse";
+import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
 
 import { TypeDeserializer } from "./utils/typeDeserializer";
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { bytesToString, stringToBytes } from "./utils/utf8";
-
+import { _attestationResultFromGenerated } from "./models/attestationResult";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner";
+import { AttestationTokenImpl } from "./models/attestationToken";
 /**
  * Attestation Client Construction Options.
  */
@@ -57,14 +59,26 @@ export interface AttestationClientOperationOptions extends OperationOptions {
  */
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
   /**
-   *initTimeData : AttestationData - data provided at the time the enclave was initialized.
+   *initTimeData : data provided at the time the enclave was initialized, to be interpreted as binary data.
    *
    */
-  initTimeData?: AttestationData;
+  initTimeData?: Uint8Array;
+
   /**
-   * runTimeData  - data provided at the time the SGX quote being attested was created.
+   * inittimeJson : data provided at the time the enclave was initialized, to be interpreted as JSON data.
    */
-  runTimeData?: AttestationData;
+  initTimeJson?: Uint8Array;
+
+  /**
+   * runTimeData  - data provided at the time the OpenEnclave report being attested was created to be interpreted as binary data.
+   */
+  runTimeData?: Uint8Array;
+
+  /**
+   * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
+   */
+  runTimeJson?: Uint8Array;
+
   /**
    * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
    */
@@ -80,15 +94,25 @@ export interface AttestOpenEnclaveOptions extends AttestationClientOperationOpti
  */
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
   /**
-   *initTimeData : AttestationData - data provided at the time the enclave was initialized.
+   *initTimeData : data provided at the time the enclave was initialized, to be interpreted as binary data.
    *
    */
-  initTimeData?: AttestationData;
+  initTimeData?: Uint8Array;
 
   /**
-   * runTimeData - data provided at the time the SGX quote being attested was created.
+   * inittimeJson : data provided at the time the enclave was initialized, to be interpreted as JSON data.
    */
-  runTimeData?: AttestationData;
+  initTimeJson?: Uint8Array;
+
+  /**
+   * runTimeData  - data provided at the time the OpenEnclave report being attested was created to be interpreted as binary data.
+   */
+  runTimeData?: Uint8Array;
+
+  /**
+   * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
+   */
+  runTimeJson?: Uint8Array;
 
   /**
    * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
@@ -129,6 +153,7 @@ export class AttestationClient {
    * @param instanceUrl - The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Attestation Client.
+   *
    */
 
   constructor(
@@ -159,19 +184,6 @@ export class AttestationClient {
 
     this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
     this._validationOptions = options.validationOptions;
-
-    // Legacy compatibility classes functions which will be removed eventually.
-    this.policyCertificates = new PolicyCertificates(this);
-  }
-
-  /**
-   * @internal
-   * Temporary function to access the generated client, used for the operations
-   * TS files.
-   * @returns The generated client for the attestation service.
-   */
-  public getGeneratedClient(): GeneratedClient {
-    return this._client;
   }
 
   /** Attests an OpenEnclave report generated from an SGX Enclave using the OpenEnclave SDK.
@@ -180,49 +192,88 @@ export class AttestationClient {
    * @param options - Operation options for the attestOpenEnclave API call.
    * @returns Returns an AttestationResponse whose body is an AttestationResult describing
    *    the claims returned by the attestation service.
+   *
+   * @throws {@link Error} if the `initTimeData` option and `initTimeJson` option is provided.
+   * @throws {@link Error} if the `runTimeData` option and `runTimeJson` option is provided.
+   * @throws {@link Error} if the `initTimeJson` option is provided and the value of `initTimeJson` is not JSON.
+   * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestOpenEnclave(
     report: Uint8Array,
     options: AttestOpenEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestOpenEnclave", options);
+
     try {
+      if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
+        throw new Error("Cannot provide both initTimeData and initTimeJson.");
+      }
+
+      if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
+        throw new Error("Cannot provide both runTimeData and runTimeJson.");
+      }
+
+      if (options.initTimeJson !== undefined) {
+        try {
+          JSON.parse(options.initTimeJson.toString());
+        } catch (e) {
+          throw new Error("initTimeJson value cannot be parsed as JSON " + e.message);
+        }
+      }
+
+      if (options.runTimeJson !== undefined) {
+        try {
+          JSON.parse(bytesToString(options.runTimeJson));
+        } catch (e) {
+          throw new Error("runTimeJson value cannot be parsed as JSON " + e.message);
+        }
+      }
+
+      const initData = options.initTimeData ?? options.initTimeJson;
+      const initTimeData: InitTimeData | undefined = initData
+        ? {
+            data: initData,
+            dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+          }
+        : undefined;
+
+      const runData = options.runTimeData ?? options.runTimeJson;
+      const runTimeData: RuntimeData | undefined = runData
+        ? {
+            data: runData,
+            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+          }
+        : undefined;
+
       const attestationResponse = await this._client.attestation.attestOpenEnclave(
         {
           report: report,
-          initTimeData: options.initTimeData
-            ? {
-                data: options.initTimeData.data,
-                dataType: options.initTimeData.isJson ? "JSON" : "Binary"
-              }
-            : undefined,
-          runtimeData: options.runTimeData
-            ? {
-                data: options.runTimeData.data,
-                dataType: options.runTimeData.isJson ? "JSON" : "Binary"
-              }
-            : undefined,
+          initTimeData: initTimeData,
+          runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
         },
         updatedOptions
       );
 
-      const token = new AttestationToken(attestationResponse.token);
+      const token = new AttestationTokenImpl(attestationResponse.token);
       token.validateToken(
-        await this._signingKeys,
+        await this._signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
 
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
-          AttestationResult: Mappers.AttestationResult,
+          GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
           JsonWebKey: Mappers.JsonWebKey
         },
-        "AttestationResult"
-      ) as AttestationResult;
+        "GeneratedAttestationResult"
+      ) as GeneratedAttestationResult;
 
-      return new AttestationResponse<AttestationResult>(token, attestationResult);
+      return createAttestationResponse<AttestationResult>(
+        token,
+        _attestationResultFromGenerated(attestationResult)
+      );
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -237,6 +288,10 @@ export class AttestationClient {
    * @param options - Operation options for the attestOpenEnclave API call.
    * @returns Returns an AttestationResponse whose body is an AttestationResult describing
    *    the claims returned by the attestation service.
+   * @throws {@link Error} if the `initTimeData` option and `initTimeJson` option is provided.
+   * @throws {@link Error} if the `runTimeData` option and `runTimeJson` option is provided.
+   * @throws {@link Error} if the `initTimeJson` option is provided and the value of `initTimeJson` is not JSON.
+   * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestSgxEnclave(
     quote: Uint8Array,
@@ -244,42 +299,75 @@ export class AttestationClient {
   ): Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
+      if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
+        throw new Error("Cannot provide both initTimeData and initTimeJson.");
+      }
+
+      if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
+        throw new Error("Cannot provide both runTimeData and runTimeJson.");
+      }
+
+      if (options.initTimeJson !== undefined) {
+        try {
+          JSON.parse(bytesToString(options.initTimeJson));
+        } catch (e) {
+          throw new Error("initTimeJson value cannot be parsed as JSON " + e.message);
+        }
+      }
+
+      if (options.runTimeJson !== undefined) {
+        try {
+          JSON.parse(bytesToString(options.runTimeJson));
+        } catch (e) {
+          throw new Error("runTimeJson value cannot be parsed as JSON " + e.message);
+        }
+      }
+
+      const initData = options.initTimeData ?? options.initTimeJson;
+      const initTimeData: InitTimeData | undefined = initData
+        ? {
+            data: initData,
+            dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+          }
+        : undefined;
+
+      const runData = options.runTimeData ?? options.runTimeJson;
+      const runTimeData: RuntimeData | undefined = runData
+        ? {
+            data: runData,
+            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+          }
+        : undefined;
+
       const attestationResponse = await this._client.attestation.attestSgxEnclave(
         {
           quote: quote,
-          initTimeData: options.initTimeData
-            ? {
-                data: options.initTimeData.data,
-                dataType: options.initTimeData.isJson ? "JSON" : "Binary"
-              }
-            : undefined,
-          runtimeData: options.runTimeData
-            ? {
-                data: options.runTimeData.data,
-                dataType: options.runTimeData.isJson ? "JSON" : "Binary"
-              }
-            : undefined,
+          initTimeData: initTimeData,
+          runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
         },
         updatedOptions
       );
 
-      const token = new AttestationToken(attestationResponse.token);
+      const token = new AttestationTokenImpl(attestationResponse.token);
       token.validateToken(
-        await this._signingKeys,
+        await this._signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
 
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
-          AttestationResult: Mappers.AttestationResult,
+          GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
           JsonWebKey: Mappers.JsonWebKey
         },
-        "AttestationResult"
-      ) as AttestationResult;
+        "GeneratedAttestationResult"
+      ) as GeneratedAttestationResult;
 
-      return new AttestationResponse<AttestationResult>(token, attestationResult);
+      return createAttestationResponse<AttestationResult>(
+        token,
+        _attestationResultFromGenerated(attestationResult)
+      );
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -345,7 +433,7 @@ export class AttestationClient {
       const signingCertificates = await this._client.signingCertificates.get(updatedOptions);
       const signers: AttestationSigner[] = new Array();
       signingCertificates.keys?.forEach((element) => {
-        signers.push(new AttestationSigner(element));
+        signers.push(_attestationSignerFromGenerated(element));
       });
       return signers;
     } catch (e) {
@@ -375,20 +463,18 @@ export class AttestationClient {
 
   private _client: GeneratedClient;
   private _validationOptions?: AttestationTokenValidationOptions;
-  private _signers?: Promise<AttestationSigner[]>;
+  private _signers?: AttestationSigner[];
 
-  private get _signingKeys(): Promise<AttestationSigner[]> {
+  private async _signingKeys(): Promise<AttestationSigner[]> {
     if (this._signers !== undefined) {
-      return Promise.resolve(this._signers);
+      return this._signers;
     }
-    this._signers = this.getAttestationSigners();
-    return Promise.resolve(this._signers);
+    const jwks = await this._client.signingCertificates.get();
+    const signers: AttestationSigner[] = new Array();
+    jwks.keys?.forEach((element) => {
+      signers.push(_attestationSignerFromGenerated(element));
+    });
+    this._signers = signers;
+    return this._signers;
   }
-
-  /**
-   * Legacy property to access policy certificate management APIs.
-   *
-   * Will be removed.
-   */
-  policyCertificates: PolicyCertificates;
 }

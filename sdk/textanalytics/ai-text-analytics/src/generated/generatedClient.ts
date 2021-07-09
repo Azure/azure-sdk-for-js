@@ -18,6 +18,7 @@ import {
   GeneratedClientAnalyzeStatusResponse,
   GeneratedClientHealthStatusOptionalParams,
   GeneratedClientHealthStatusResponse,
+  GeneratedClientCancelHealthJobOptionalParams,
   GeneratedClientCancelHealthJobResponse,
   MultiLanguageBatchInput,
   GeneratedClientHealthOptionalParams,
@@ -98,7 +99,7 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   cancelHealthJob(
     jobId: string,
-    options?: coreClient.OperationOptions
+    options?: GeneratedClientCancelHealthJobOptionalParams
   ): Promise<GeneratedClientCancelHealthJobResponse> {
     return this.sendOperationRequest(
       { jobId, options },
@@ -235,17 +236,12 @@ const analyzeOperationSpec: coreClient.OperationSpec = {
     202: {
       headersMapper: Mappers.GeneratedClientAnalyzeHeaders
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.body,
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -257,13 +253,8 @@ const analyzeStatusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AnalyzeJobState
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [
@@ -271,7 +262,7 @@ const analyzeStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip
   ],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion, Parameters.jobId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -282,13 +273,8 @@ const healthStatusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.HealthcareJobState
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [
@@ -296,7 +282,11 @@ const healthStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip
   ],
-  urlParameters: [Parameters.endpoint, Parameters.jobId1],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.jobId1
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -307,16 +297,15 @@ const cancelHealthJobOperationSpec: coreClient.OperationSpec = {
     202: {
       headersMapper: Mappers.GeneratedClientCancelHealthJobHeaders
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [Parameters.endpoint, Parameters.jobId1],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.jobId1
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -327,13 +316,8 @@ const healthOperationSpec: coreClient.OperationSpec = {
     202: {
       headersMapper: Mappers.GeneratedClientHealthHeaders
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -342,7 +326,7 @@ const healthOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -354,13 +338,8 @@ const entitiesRecognitionGeneralOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EntitiesResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -370,7 +349,7 @@ const entitiesRecognitionGeneralOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -382,13 +361,8 @@ const entitiesRecognitionPiiOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PiiResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -400,7 +374,7 @@ const entitiesRecognitionPiiOperationSpec: coreClient.OperationSpec = {
     Parameters.domain,
     Parameters.piiCategories
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -412,13 +386,8 @@ const entitiesLinkingOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EntityLinkingResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -428,7 +397,7 @@ const entitiesLinkingOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -440,13 +409,8 @@ const keyPhrasesOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.KeyPhraseResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -455,7 +419,7 @@ const keyPhrasesOperationSpec: coreClient.OperationSpec = {
     Parameters.modelVersion,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -467,13 +431,8 @@ const languagesOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LanguageResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input1,
@@ -482,7 +441,7 @@ const languagesOperationSpec: coreClient.OperationSpec = {
     Parameters.modelVersion,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -494,13 +453,8 @@ const sentimentOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SentimentResponse
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -511,7 +465,7 @@ const sentimentOperationSpec: coreClient.OperationSpec = {
     Parameters.loggingOptOut,
     Parameters.opinionMining
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer

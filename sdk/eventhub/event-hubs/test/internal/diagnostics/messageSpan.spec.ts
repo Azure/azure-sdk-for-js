@@ -3,7 +3,8 @@
 
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
-import { TestTracer, setTracer, getTracer } from "@azure/core-tracing";
+import { setTracer, getTracer } from "@azure/core-tracing";
+import { TestTracer } from "@azure/test-utils";
 
 const should = chai.should();
 const assert = chai.assert;

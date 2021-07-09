@@ -19,12 +19,13 @@ Use the @azure/search-documents client library to:
 - Create and manage analyzers for advanced text analysis or multi-lingual content.
 - Optimize results through scoring profiles to factor in business logic or freshness.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/search-documents) |
-[REST API documentation](https://docs.microsoft.com/rest/api/searchservice/) |
-[Product documentation](https://docs.microsoft.com/azure/search/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/search-documents)
+- [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/)
+- [Product documentation](https://docs.microsoft.com/azure/search/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
 
 ## Getting started
 
