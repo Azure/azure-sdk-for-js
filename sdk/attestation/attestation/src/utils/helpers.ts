@@ -38,7 +38,7 @@ export function verifyAttestationSigningKey(
   verifier.init(x509.getPublicKey());
   verifier.updateString(bufferToSign);
   if (!verifier.verify(sigVal)) {
-    throw new TypeError("verifyAttestationSigningKey: Key does not match Certificate.");
+    throw new Error("verifyAttestationSigningKey: Key does not match Certificate.");
   }
   return { certificate: certificate, privateKey: privateKey };
 }

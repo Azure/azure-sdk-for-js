@@ -153,6 +153,7 @@ export class AttestationClient {
    * @param instanceUrl - The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Attestation Client.
+   * 
    */
 
   constructor(
@@ -191,6 +192,11 @@ export class AttestationClient {
    * @param options - Operation options for the attestOpenEnclave API call.
    * @returns Returns an AttestationResponse whose body is an AttestationResult describing
    *    the claims returned by the attestation service.
+   *
+   * @throws {@link Error} if the `initTimeData` option and `initTimeJson` option is provided.
+   * @throws {@link Error} if the `runTimeData` option and `runTimeJson` option is provided.
+   * @throws {@link Error} if the `initTimeJson` option is provided and the value of `initTimeJson` is not JSON.
+   * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestOpenEnclave(
     report: Uint8Array,
@@ -200,18 +206,18 @@ export class AttestationClient {
 
     try {
       if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
-        throw new TypeError("Cannot provide both initTimeData and initTimeJson.");
+        throw new Error("Cannot provide both initTimeData and initTimeJson.");
       }
 
       if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
-        throw new TypeError("Cannot provide both runTimeData and runTimeJson.");
+        throw new Error("Cannot provide both runTimeData and runTimeJson.");
       }
 
       if (options.initTimeJson !== undefined) {
         try {
           JSON.parse(options.initTimeJson.toString());
         } catch (e) {
-          throw new TypeError("initTimeJson value cannot be parsed as JSON " + e.message);
+          throw new Error("initTimeJson value cannot be parsed as JSON " + e.message);
         }
       }
 
@@ -219,7 +225,7 @@ export class AttestationClient {
         try {
           JSON.parse(bytesToString(options.runTimeJson));
         } catch (e) {
-          throw new TypeError("runTimeJson value cannot be parsed as JSON " + e.message);
+          throw new Error("runTimeJson value cannot be parsed as JSON " + e.message);
         }
       }
 
@@ -282,6 +288,10 @@ export class AttestationClient {
    * @param options - Operation options for the attestOpenEnclave API call.
    * @returns Returns an AttestationResponse whose body is an AttestationResult describing
    *    the claims returned by the attestation service.
+   * @throws {@link Error} if the `initTimeData` option and `initTimeJson` option is provided.
+   * @throws {@link Error} if the `runTimeData` option and `runTimeJson` option is provided.
+   * @throws {@link Error} if the `initTimeJson` option is provided and the value of `initTimeJson` is not JSON.
+   * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestSgxEnclave(
     quote: Uint8Array,
@@ -290,18 +300,18 @@ export class AttestationClient {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
       if (options.initTimeData !== undefined && options.initTimeJson !== undefined) {
-        throw new TypeError("Cannot provide both initTimeData and initTimeJson.");
+        throw new Error("Cannot provide both initTimeData and initTimeJson.");
       }
 
       if (options.runTimeData !== undefined && options.runTimeJson !== undefined) {
-        throw new TypeError("Cannot provide both runTimeData and runTimeJson.");
+        throw new Error("Cannot provide both runTimeData and runTimeJson.");
       }
 
       if (options.initTimeJson !== undefined) {
         try {
           JSON.parse(bytesToString(options.initTimeJson));
         } catch (e) {
-          throw new TypeError("initTimeJson value cannot be parsed as JSON " + e.message);
+          throw new Error("initTimeJson value cannot be parsed as JSON " + e.message);
         }
       }
 
@@ -309,7 +319,7 @@ export class AttestationClient {
         try {
           JSON.parse(bytesToString(options.runTimeJson));
         } catch (e) {
-          throw new TypeError("runTimeJson value cannot be parsed as JSON " + e.message);
+          throw new Error("runTimeJson value cannot be parsed as JSON " + e.message);
         }
       }
 

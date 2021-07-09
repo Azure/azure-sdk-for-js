@@ -175,14 +175,10 @@ export class AttestationAdministrationClient {
 
       // Finally, retrieve the stored attestationPolicy value and return that
       // as the AttestationResponse to the caller.
-      if (storedPolicy.attestationPolicy) {
-        return createAttestationResponse<string>(
-          token,
-          bytesToString(storedPolicy.attestationPolicy)
-        );
-      } else {
-        throw Error("Server returned an empty attestationPolicy??!");
-      }
+      return createAttestationResponse<string>(
+        token,
+        bytesToString(storedPolicy.attestationPolicy)
+      );
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -208,6 +204,9 @@ export class AttestationAdministrationClient {
    * Please note that if the attestation service instance is running in "Isolated"
    * mode, the {@link signingKey} must be one of the signing keys configured for the
    * service instance.
+   * 
+   * @throws {@link Error} when a private key is specified without a certificate and vice versa.
+   * @throws {@link Error} when the key in the certificate provided does not match the private key.
    */
   public async setPolicy(
     attestationType: AttestationType,
@@ -222,7 +221,7 @@ export class AttestationAdministrationClient {
     );
     try {
       if ((!privateKey && certificate) || (privateKey && !certificate)) {
-        throw new TypeError(
+        throw new Error(
           "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
         );
       }
@@ -285,6 +284,9 @@ export class AttestationAdministrationClient {
    * Please note that if the attestation service instance is running in "Isolated"
    * mode, the {@link signingKey} must be one of the signing keys configured for the
    * service instance.
+   * 
+   * @throws {@link Error} when a private key is specified without a certificate and vice versa.
+   * @throws {@link Error} when the key in the certificate provided does not match the private key.
    */
 
   public async resetPolicy(
@@ -299,7 +301,7 @@ export class AttestationAdministrationClient {
     );
     try {
       if ((!privateKey && certificate) || (privateKey && !certificate)) {
-        throw new TypeError(
+        throw new Error(
           "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
         );
       }
@@ -408,6 +410,9 @@ export class AttestationAdministrationClient {
    * new pemCertificate is signed using the signingKey and the service will validate the
    * signature before allowing the addition.
    *
+   * @throws {@link Error} when a private key is specified without a certificate and vice versa.
+   * @throws {@link Error} when the key in the certificate provided does not match the private key.
+   *
    */
   public async addPolicyManagementCertificate(
     pemCertificate: string,
@@ -421,7 +426,7 @@ export class AttestationAdministrationClient {
     );
     try {
       if ((!privateKey && certificate) || (privateKey && !certificate)) {
-        throw new TypeError(
+        throw new Error(
           "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
         );
       }
@@ -521,6 +526,8 @@ export class AttestationAdministrationClient {
    * new pemCertificate is signed using the signingKey and the service will validate the
    * signature before allowing the addition.
    *
+   * @throws {@link Error} when a private key is specified without a certificate and vice versa.
+   * @throws {@link Error} when the key in the certificate provided does not match the private key.
    */
   public async removePolicyManagementCertificate(
     pemCertificate: string,
@@ -534,7 +541,7 @@ export class AttestationAdministrationClient {
     );
     try {
       if ((!privateKey && certificate) || (privateKey && !certificate)) {
-        throw new TypeError(
+        throw new Error(
           "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
         );
       }

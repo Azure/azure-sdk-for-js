@@ -27,6 +27,8 @@ export interface AttestationPolicyToken extends AttestationToken {}
  * @remarks Note that if the attestation instance is running in `Isolated` mode,
  *  the privateKey and certificate are required. If the attestation instance
  *  is running in `AAD` mode, they are optional.
+ *
+ * @throws {@link Error} when the key in the certificate provided does not match the private key.
  */
 export function createAttestationPolicyToken(
   policy: string,

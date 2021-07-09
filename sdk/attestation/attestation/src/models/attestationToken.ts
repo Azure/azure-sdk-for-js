@@ -570,7 +570,7 @@ export class AttestationTokenImpl implements AttestationToken {
     } = { alg: "none" };
 
     if ((!params.privateKey && params.certificate) || (params.privateKey && !params.certificate)) {
-      throw new TypeError(
+      throw new Error(
         "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
       );
     }
