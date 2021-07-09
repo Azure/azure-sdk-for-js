@@ -218,6 +218,14 @@ export const Constants = {
     min: "min"
   },
 
+  /**
+   * @deprecated Use EffectivePartitionKeyConstants instead
+   */
+  EffectiveParitionKeyConstants: {
+    MinimumInclusiveEffectivePartitionKey: "",
+    MaximumExclusiveEffectivePartitionKey: "FF"
+  },
+
   EffectivePartitionKeyConstants: {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF"

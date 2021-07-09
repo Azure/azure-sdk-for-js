@@ -414,6 +414,10 @@ export const Constants: {
         MaxExclusive: string;
         min: string;
     };
+    EffectiveParitionKeyConstants: {
+        MinimumInclusiveEffectivePartitionKey: string;
+        MaximumExclusiveEffectivePartitionKey: string;
+    };
     EffectivePartitionKeyConstants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;

@@ -80,7 +80,7 @@ async function getMetricSeriesData(client, metricId) {
 
     for (const series of result) {
       console.log(series.definition);
-      if (series.timestamps?.length)
+      if (series.timestamps && series.timestamps.length)
         for (let i = 0; i < series.timestamps.length; i++) {
           console.log(`  ${series.timestamps[i]}`);
           console.log(`  ${series.values[i]}`);
