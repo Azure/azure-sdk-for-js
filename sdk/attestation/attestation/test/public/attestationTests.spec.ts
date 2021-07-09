@@ -291,11 +291,10 @@ describe("[AAD] Attestation Client", function() {
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
-      const runtimeClaims = attestationResult.body.runTimeClaims as any;
-      assert.isDefined(runtimeClaims.jwk);
-      assert.isDefined(runtimeClaims.jwk.crv);
-      expect(runtimeClaims.jwk.crv).is.equal("P-256");
-
+      assert.isUndefined(attestationResult.body.runTimeClaims);
+      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(binaryRuntimeData);
+      
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
 
