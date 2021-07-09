@@ -176,14 +176,15 @@ InitTime data refers to data which is used to configure the SGX enclave being at
 
 ### Create client instance
 
-Creates an instance of the Attestation Client at uri `endpoint`.
+Creates an instance of the Attestation Client at uri `endpoint`, using the default
+azure credentials (`DefaultAzureCredential`).
 
 ```ts
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+const credentials = new DefaultAzureCredential();
+const client = new AttestationClient(credentials, endpoint);
 
-  // Retrieve the set of attestation policy signers from the attestation client.
-  const attestationSigners = await client.getAttestationSigners();
-
+// Retrieve the set of attestation policy signers from the attestation client.
+const attestationSigners = await client.getAttestationSigners();
 ```
 
 Creates an instance of the Attestation Administration Client at uri `endpoint`.
@@ -218,43 +219,43 @@ If the attestation service instance is running in Isolated mode, the set_policy 
 Under the covers, the setPolicy APIs create a [JSON Web Token][json_web_token] based on the policy document and signing information which is sent to the attestation service.
 
 ```js
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
 
-  const newPolicy = `<New Policy Document>`;
+const newPolicy = `<New Policy Document>`;
 
-  // Set the new attestation policy. Set the policy as an secured policy.
+// Set the new attestation policy. Set the policy as an secured policy.
 
-  // Start by creating an RSA Key and Certificate (note: normally the key would
-  // be stored securely in Key Value or other location. For the purposes of this
-  // sample, an ephemeral key and self-signed certificate is sufficient).
+// Start by creating an RSA Key and Certificate (note: normally the key would
+// be stored securely in Key Value or other location. For the purposes of this
+// sample, an ephemeral key and self-signed certificate is sufficient).
 
-  const [privateKey, publicKey] = createRSAKey();
-  const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
+const [privateKey, publicKey] = createRSAKey();
+const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
 
-  const setPolicyResult = await client.setPolicy(
-    KnownAttestationType.OpenEnclave,
-    newPolicy,
-    privateKey,
-    certificate
-  );
+const setPolicyResult = await client.setPolicy(
+  KnownAttestationType.OpenEnclave,
+  newPolicy,
+  privateKey,
+  certificate
+);
 ```
 
 If the service instance is running in AAD mode, the call to setPolicy can be
 simplified:
 
 ```js
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
 
-  // This attestation policy blocks all non-debug SGX enclaves,
-  // and requires that the product ID be 1, the SVN be greater than 0,
-  // and that the enclave is signed with the specified signer value.
-  //
-  // It also issues a claim named "My-MrSigner" whose value matches the MRSIGNER
-  // SGX property.
-  const newPolicy = `<New Attestation Policy>`;
+// This attestation policy blocks all non-debug SGX enclaves,
+// and requires that the product ID be 1, the SVN be greater than 0,
+// and that the enclave is signed with the specified signer value.
+//
+// It also issues a claim named "My-MrSigner" whose value matches the MRSIGNER
+// SGX property.
+const newPolicy = `<New Attestation Policy>`;
 
-  // Set the new attestation policy. Set the policy as an unsecured policy.
-  const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy);
+// Set the new attestation policy. Set the policy as an unsecured policy.
+const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy);
 ```
 
 Clients need to be able to verify that the attestation policy document was not modified before the policy document was received by the attestation service's enclave.
@@ -319,7 +320,8 @@ Additional information on how to perform attestation token validation can be fou
 Use `getSigningCertificates` to retrieve the certificates which can be used to validate the token returned from the attestation service.
 
 ```ts
-const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+const credentials = new DefaultAzureCredential();
+const client = new AttestationClient(credentials, endpoint);
 
 const attestationSigners = await client.getAttestationSigners();
 

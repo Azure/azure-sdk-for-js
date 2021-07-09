@@ -7,11 +7,14 @@ import { AttestationToken, AttestationTokenImpl } from "./attestationToken";
 
 /**
  *
- * An AttestationToken represents an RFC 7515 JSON Web Signature object.
+ * An AttestationPolicyToken represents an AttestationToken which holds an attestation
+ * policy document.
  *
- * It can represent either the token returned by the attestation service,
- * or it can be used to create a token locally which can be used to verify
- * attestation policy changes.
+ * When the attestation service receives a set policy request, the payload of the
+ * set policy token contains a {@link https://datatracker.ietf.org/doc/html/rfc7515 | JSON Web Signature}
+ * whose body contains the actual attestation policy document.
+ *
+ * The AttestationPolicyToken represents this JWS object.
  */
 export interface AttestationPolicyToken extends AttestationToken {}
 
@@ -22,8 +25,8 @@ export interface AttestationPolicyToken extends AttestationToken {}
  * @param certificate - optional certificate used to verify the attestation token.
  *
  * @remarks Note that if the attestation instance is running in `Isolated` mode,
- *      the signer is required. If the attestation instance is running in `AAD` mode,
- *      it is optional.
+ *  the privateKey and certificate are required. If the attestation instance
+ *  is running in `AAD` mode, they are optional.
  */
 export function createAttestationPolicyToken(
   policy: string,
