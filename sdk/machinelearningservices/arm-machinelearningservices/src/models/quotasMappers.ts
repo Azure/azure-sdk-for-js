@@ -8,7 +8,7 @@
 
 export {
   discriminators,
-  CloudError,
+  AKSReplicaStatusError,
   ErrorDetail,
   ErrorResponse,
   ListWorkspaceQuotas,
@@ -17,6 +17,7 @@ export {
   QuotaUpdateParameters,
   ResourceName,
   ResourceQuota,
+  ServiceResponseBaseError,
   UpdateWorkspaceQuotas,
   UpdateWorkspaceQuotasResult
 } from "../models/mappers";

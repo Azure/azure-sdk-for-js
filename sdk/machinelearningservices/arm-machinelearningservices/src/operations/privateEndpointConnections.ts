@@ -8,7 +8,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/privateEndpointConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -117,30 +116,34 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,privateEndpointConnectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
+  deleteMethod(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * Deletes the specified private endpoint connection associated with the workspace.
    * @param resourceGroupName Name of the resource group in which workspace is located.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
    * the workspace
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @param callback The callback
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
+  deleteMethod(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
+   * the workspace
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
         options
       },
-      beginDeleteMethodOperationSpec,
-      options);
+      deleteMethodOperationSpec,
+      callback);
   }
 }
 
@@ -205,7 +208,7 @@ const putOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
@@ -222,7 +225,6 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.MachineLearningServiceError

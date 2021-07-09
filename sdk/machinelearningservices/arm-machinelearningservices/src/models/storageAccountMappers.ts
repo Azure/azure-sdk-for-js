@@ -11,9 +11,7 @@ export {
   AKSReplicaStatusError,
   ErrorDetail,
   ErrorResponse,
+  ListStorageAccountKeysResult,
   MachineLearningServiceError,
-  Operation,
-  OperationDisplay,
-  OperationListResult,
   ServiceResponseBaseError
 } from "../models/mappers";

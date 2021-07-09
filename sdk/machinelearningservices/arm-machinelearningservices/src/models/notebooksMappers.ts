@@ -8,9 +8,12 @@
 
 export {
   discriminators,
+  AKSReplicaStatusError,
   ErrorDetail,
   ErrorResponse,
+  ListNotebookKeysResult,
   MachineLearningServiceError,
   NotebookPreparationError,
-  NotebookResourceInfo
+  NotebookResourceInfo,
+  ServiceResponseBaseError
 } from "../models/mappers";

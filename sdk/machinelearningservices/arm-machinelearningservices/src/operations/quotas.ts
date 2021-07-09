@@ -149,7 +149,7 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/Quotas",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/quotas",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.location
@@ -165,7 +165,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListWorkspaceQuotas
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.MachineLearningServiceError
     }
   },
   serializer
@@ -189,7 +189,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListWorkspaceQuotas
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.MachineLearningServiceError
     }
   },
   serializer
