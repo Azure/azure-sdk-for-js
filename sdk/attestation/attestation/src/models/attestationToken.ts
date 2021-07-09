@@ -84,7 +84,7 @@ export interface AttestationToken {
    *
    * @returns The body of the attestation token as an object.
    */
-  getBody(): any;
+  getBody(): unknown;
 
   /**
    * the token to a string.
@@ -258,7 +258,7 @@ export class AttestationTokenImpl implements AttestationToken {
    *
    * @returns The body of the attestation token as an object.
    */
-  public getBody(): any {
+  public getBody(): unknown {
     return this._jwsVerifier.payloadObj;
   }
 
