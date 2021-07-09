@@ -381,7 +381,7 @@ section of the project.
 [azure_identity]: https://docs.microsoft.com/javascript/api/@azure/identity
 [defaultazurecredential]: https://docs.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
 [attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.4/interfaces/policyresult.html
-[attestation_client]: https://docs.microsoft.com/en-us/javascript/api/@azure/attestation/attestationclient
+[attestation_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationclient
 [attestation_admin_client]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
 [attestation_response]: https://docs.microsoft.com/javascript/api/@azure/attestation/attestationresponse
 [attestation_policy_result_parameters]: https://docs.microsoft.com/javascript/api/@azure/attestation/policyresult#properties
