@@ -18,26 +18,26 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-import api from '@opentelemetry/api';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
-import { NodeTracerProvider } from '@opentelemetry/node';
-import { SimpleSpanProcessor, Tracer } from '@opentelemetry/tracing';
-import { AzureMonitorTraceExporter } from '@azure/monitor-opentelemetry-exporter';
-import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
+import api from "@opentelemetry/api";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { NodeTracerProvider } from "@opentelemetry/node";
+import { SimpleSpanProcessor, Tracer } from "@opentelemetry/tracing";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 
 /*********************************************************************
  *  OPEN TELEMETRY SETUP
-**********************************************************************/
+ **********************************************************************/
 let serverTracer: Tracer;
 let clientTracer: Tracer;
 setupOpenTelemetry();
 
 // Open Telemetry setup need to happen before http library is loaded
-import http from 'http';
+import http from "http";
 
 /*********************************************************************
  *  HTTP SERVER SETUP
-**********************************************************************/
+ **********************************************************************/
 /** Starts a HTTP server that receives requests on sample server port. */
 function startServer(port: number) {
   // Creates a server
@@ -55,21 +55,21 @@ function handleRequest(request: any, response: any) {
     // display traceid in the terminal
     console.log(`traceid: ${currentSpan.spanContext().traceId}`);
   }
-  const span = serverTracer.startSpan('handleRequest', {
+  const span = serverTracer.startSpan("handleRequest", {
     kind: 1, // server
-    attributes: { key: 'value' },
+    attributes: { key: "value" }
   });
   // Annotate our span to capture metadata about the operation
-  span.addEvent('invoking handleRequest');
+  span.addEvent("invoking handleRequest");
 
   const body = [];
-  request.on('error', (err: Error) => console.log(err));
-  request.on('data', (chunk: string) => body.push(chunk));
-  request.on('end', () => {
+  request.on("error", (err: Error) => console.log(err));
+  request.on("data", (chunk: string) => body.push(chunk));
+  request.on("end", () => {
     // deliberately sleeping to mock some action.
     setTimeout(() => {
       span.end();
-      response.end('Hello World!');
+      response.end("Hello World!");
     }, 2000);
   });
 }
@@ -78,25 +78,28 @@ startServer(8080);
 
 /*********************************************************************
  *  HTTP CLIENT SETUP
-**********************************************************************/
+ **********************************************************************/
 /** A function which makes requests and handles response. */
 function makeRequest() {
   // span corresponds to outgoing requests. Here, we have manually created
   // the span, which is created to track work that happens outside of the
   // request lifecycle entirely.
-  const span = clientTracer.startSpan('makeRequest');
+  const span = clientTracer.startSpan("makeRequest");
   api.context.with(api.trace.setSpan(api.context.active(), span), () => {
-    http.get({
-      host: 'localhost',
-      port: 8080,
-    }, (response) => {
-      const body: any = [];
-      response.on('data', (chunk) => body.push(chunk));
-      response.on('end', () => {
-        console.log(body.toString());
-        span.end();
-      });
-    });
+    http.get(
+      {
+        host: "localhost",
+        port: 8080
+      },
+      (response) => {
+        const body: any = [];
+        response.on("data", (chunk) => body.push(chunk));
+        response.on("end", () => {
+          console.log(body.toString());
+          span.end();
+        });
+      }
+    );
   });
 }
 makeRequest();
@@ -104,7 +107,8 @@ makeRequest();
 function setupOpenTelemetry() {
   const provider = new NodeTracerProvider();
   const exporter = new AzureMonitorTraceExporter({
-    connectionString: "InstrumentationKey=d4d8ca0a-1447-4425-9e14-9d8ca86c76e1;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/"
+    connectionString:
+      "InstrumentationKey=d4d8ca0a-1447-4425-9e14-9d8ca86c76e1;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/"
   });
 
   provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
@@ -114,9 +118,7 @@ function setupOpenTelemetry() {
 
   registerInstrumentations({
     // // when boostraping with lerna for testing purposes
-    instrumentations: [
-      new HttpInstrumentation(),
-    ],
+    instrumentations: [new HttpInstrumentation()]
   });
   serverTracer = provider.getTracer("serverTracer");
   clientTracer = provider.getTracer("clientTracer");
