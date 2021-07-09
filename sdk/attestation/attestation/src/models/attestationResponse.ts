@@ -29,7 +29,7 @@ export interface AttestationResponse<T> {
 /** Create an AttestationResponse object.
  *
  * @param token - Token which was returned from the attestation service.
- * @param value - Value for the response. Usually derived from the body of the token 
+ * @param value - Value for the response. Usually derived from the body of the token
  *    returned by the service.
  * @returns - A newly created AttestationResponse object.
  */
