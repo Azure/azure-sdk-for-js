@@ -10,7 +10,7 @@
     "./dist-esm/src/createRecorder.js": "./dist-esm/src/createRecorder.browser.js",
     "./dist-esm/src/utils/recordings.js": "./dist-esm/src/utils/recordings.browser.js"
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo skipped",
@@ -68,7 +68,6 @@
     "@azure/core-rest-pipeline": "^1.0.3"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.7.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
