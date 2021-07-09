@@ -36,8 +36,10 @@ matrix([[true, false]], async function(useAad) {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
-      
-      const bodyRelayRequest : CommunicationRelayConfigurationRequest = { id: user.communicationUserId }
+
+      const bodyRelayRequest: CommunicationRelayConfigurationRequest = {
+        id: user.communicationUserId
+      };
       const turnCredentialResponse = await client.getRelayConfiguration(bodyRelayRequest);
       assert.isNotNull(turnCredentialResponse);
 

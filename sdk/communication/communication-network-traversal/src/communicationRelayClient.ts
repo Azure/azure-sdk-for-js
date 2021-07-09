@@ -4,7 +4,7 @@
 import {
   createCommunicationAuthPolicy,
   parseClientArguments,
-  isKeyCredential,
+  isKeyCredential
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -23,9 +23,10 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
 import { CommunicationRelayClientOptions } from "./models";
-import { CommunicationRelayConfiguration, 
-  CommunicationRelayConfigurationRequest 
-  } from "./generated/src/models";
+import {
+  CommunicationRelayConfiguration,
+  CommunicationRelayConfigurationRequest
+} from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
   options: any
