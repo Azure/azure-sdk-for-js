@@ -667,6 +667,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/testing-recorder-new",
+      "projectFolder": "sdk/test-utils/testing-recorder-new",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
