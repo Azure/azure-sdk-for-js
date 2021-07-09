@@ -5,10 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import {
-  AuthenticationError,
-  CredentialUnavailable
-} from "../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
@@ -121,7 +118,10 @@ export class EnvironmentCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions: newOptions } = createSpan("EnvironmentCredential-getToken", options);
+    const { span, updatedOptions: newOptions } = createSpan(
+      "EnvironmentCredential-getToken",
+      options
+    );
     if (this._credential) {
       try {
         const result = await this._credential.getToken(scopes, newOptions);

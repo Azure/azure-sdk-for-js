@@ -4,10 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
-import {
-  AuthenticationError,
-  CredentialUnavailable
-} from "../../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
@@ -133,7 +130,10 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions: newOptions } = createSpan("ManagedIdentityCredential-getToken", options);
+    const { span, updatedOptions: newOptions } = createSpan(
+      "ManagedIdentityCredential-getToken",
+      options
+    );
 
     try {
       // isEndpointAvailable can be true, false, or null,

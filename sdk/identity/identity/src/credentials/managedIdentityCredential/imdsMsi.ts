@@ -76,7 +76,11 @@ export const imdsMsi: MSI = {
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
-      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
+
+      // In Kubernetes pods, node-fetch (used by core-http) takes longer than 2 seconds to begin sending the network request,
+      // So smaller timeouts will cause this credential to be immediately aborted.
+      // This won't be a problem once we move Identity to core-rest-pipeline.
+      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 3000;
 
       try {
         logger.info(`Pinging IMDS endpoint`);

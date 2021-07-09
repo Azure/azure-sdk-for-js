@@ -179,7 +179,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
           },
           abortSignal: options && options.abortSignal,
           spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-          tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext,
+          tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);

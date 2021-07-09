@@ -91,7 +91,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         },
         abortSignal: options && options.abortSignal,
         spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext,
+        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
