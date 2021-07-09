@@ -22,7 +22,7 @@ Key links:
 
 #### Azure Subscription and Cosmos DB SQL API Account
 
-You must have an [Azure Subscription][azure_sub], and a [Cosmos DB account][cosmos_account] (SQL API), to use this package.
+You must have an [Azure Subscription][azure_sub], and a [Cosmos DB account][cosmos_account] (SQL API) to use this package.
 
 If you need a Cosmos DB SQL API account, you can use the Azure [Cloud Shell][cloud_shell_bash] to create one with this Azure CLI command:
 
