@@ -1,5 +1,17 @@
 # Release History
 
+## 2.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+- Now, the `CP1` client capabilities will be enabled by default for all of the credentials using MSAL. This can be disabled by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (any value counts).
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0-beta.4 (2021-07-07)
 
 ### Features Added
@@ -18,7 +30,6 @@
   - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
   - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
   - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
-- Now, the `CP1` client capabilities will be enabled by default for all of the credentials using MSAL. This can be disabled by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (any value counts).
 - `AzureCliCredential` and `AzurePowerShellCredential` now allow specifying a `tenantId`.
 - All credentials except `ManagedIdentityCredential` support enabling multi tenant authentication via the `allowMultiTenantAuthentication` option.
 
