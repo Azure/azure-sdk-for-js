@@ -4,10 +4,11 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Provides operations for working with resources and resource groups.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/resources/arm-resources) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-resources) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resources) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/resources/arm-resources) |
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resources) |
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resources) |
+- [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
