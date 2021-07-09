@@ -78,10 +78,6 @@
     ],
     "prettier": [
       "2.2.1"
-    ],
-    // @azure/cosmos was unable to upgrade due to test failures, Issue #15928 tracks making this upgrade
-    "@azure/core-rest-pipeline": [
-      "^1.0.3"
     ]
   }
 }
