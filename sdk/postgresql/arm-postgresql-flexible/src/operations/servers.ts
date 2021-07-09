@@ -156,7 +156,7 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  restart(resourceGroupName: string, serverName: string, options?: Models.ServersRestartOptionalParams): Promise<msRest.RestResponse> {
     return this.beginRestart(resourceGroupName,serverName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -251,7 +251,7 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestart(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRestart(resourceGroupName: string, serverName: string, options?: Models.ServersBeginRestartOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -366,7 +366,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -390,7 +390,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -413,7 +413,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -438,7 +438,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -474,7 +474,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -507,7 +507,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -532,11 +532,18 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
+    mapper: Mappers.RestartParameter
+  },
   responses: {
     200: {},
     202: {},
@@ -556,7 +563,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -580,7 +587,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -603,7 +610,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -627,7 +634,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

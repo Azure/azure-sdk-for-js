@@ -19,43 +19,11 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-02-14-preview',
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2020-11-05-preview',
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion2: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2021-03-31-privatepreview',
     constraints: {
       MinLength: 1
     },

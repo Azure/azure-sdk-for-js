@@ -56,7 +56,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.DBForPostgreSql/operations",
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
