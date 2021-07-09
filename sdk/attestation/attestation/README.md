@@ -205,7 +205,7 @@ Attestation Policies are instanced on a per-attestation type basis, the `Attesta
 ```js
 const policyResult = await adminClient.getPolicy(attestationType);
 
-// The text policy document is available in the `policyResult.value`
+// The text policy document is available in the `policyResult.body`
 // property.
 
 // The actual attestation token returned by the MAA service is available
@@ -280,7 +280,7 @@ const expectedPolicy = createAttestationPolicyToken(
 const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
 // The hash returned in expectedHash will match the value in
-// `setResult.value.policyTokenHash`.
+// `setResult.body.policyTokenHash`.
 ```
 
 ### Attest SGX Enclave

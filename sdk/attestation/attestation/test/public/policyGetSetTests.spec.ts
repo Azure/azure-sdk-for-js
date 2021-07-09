@@ -168,7 +168,7 @@ describe("PolicyGetSetTests ", function() {
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(clientLocation);
     const policyResult = await adminClient.getPolicy(attestationType);
-    assert.isTrue(policyResult.value.startsWith("version="));
+    assert.isTrue(policyResult.body.startsWith("version="));
   }
 
   async function testSetPolicy(
@@ -187,7 +187,7 @@ describe("PolicyGetSetTests ", function() {
       signer?.certificate
     );
 
-    assert.equal(KnownPolicyModification.Updated, policyResult.value.policyResolution);
+    assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
     const expectedPolicy = createAttestationPolicyToken(
       minimalPolicy,
@@ -197,33 +197,33 @@ describe("PolicyGetSetTests ", function() {
 
     const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
-    assert.isNotNull(policyResult.value.policyTokenHash);
-    if (policyResult.value.policyTokenHash) {
-      assert.equal(expectedHash.length, policyResult.value.policyTokenHash.length);
+    assert.isNotNull(policyResult.body.policyTokenHash);
+    if (policyResult.body.policyTokenHash) {
+      assert.equal(expectedHash.length, policyResult.body.policyTokenHash.length);
       for (let i: number = 0; i < expectedHash.length; i += 1) {
-        assert.equal(expectedHash[i], policyResult.value.policyTokenHash[i]);
+        assert.equal(expectedHash[i], policyResult.body.policyTokenHash[i]);
       }
     }
     if (signer !== undefined) {
-      assert.isDefined(policyResult.value.policySigner);
-      assert.isNotNull(policyResult.value.policySigner);
+      assert.isDefined(policyResult.body.policySigner);
+      assert.isNotNull(policyResult.body.policySigner);
 
-      if (policyResult.value.policySigner) {
+      if (policyResult.body.policySigner) {
         const expectedCert = new jsrsasign.X509();
         expectedCert.readCertPEM(signer.certificate);
 
         const actualCert = new jsrsasign.X509();
-        actualCert.readCertPEM(policyResult.value.policySigner.certificates[0]);
+        actualCert.readCertPEM(policyResult.body.policySigner.certificates[0]);
 
         // The signer in the response should match the signer we set in the request.
         assert.equal(expectedCert.hex, actualCert.hex);
       }
     } else {
-      assert.isUndefined(policyResult.value.policySigner);
+      assert.isUndefined(policyResult.body.policySigner);
     }
 
     const getResult = await adminClient.getPolicy(attestationType);
-    assert.equal(minimalPolicy, getResult.value);
+    assert.equal(minimalPolicy, getResult.body);
   }
 
   async function testResetPolicy(
@@ -242,17 +242,17 @@ describe("PolicyGetSetTests ", function() {
       signer?.certificate
     );
 
-    assert.equal(KnownPolicyModification.Updated, policyResult.value.policyResolution);
+    assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
     const resetResult = await adminClient.resetPolicy(
       attestationType,
       signer?.privateKey,
       signer?.certificate
     );
-    assert.equal(KnownPolicyModification.Removed, resetResult.value.policyResolution);
+    assert.equal(KnownPolicyModification.Removed, resetResult.body.policyResolution);
 
     // The reset policy should be different from the one we just set.
     const getResult = await adminClient.getPolicy(attestationType);
-    assert.notEqual(minimalPolicy, getResult.value);
+    assert.notEqual(minimalPolicy, getResult.body);
   }
 });

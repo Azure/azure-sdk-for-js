@@ -17,6 +17,8 @@ Simplified some model types to be reflected as either parameters or interfaces.
 the `DataType` to send to the server based on that.
 * Removed the `AttestationSigningKey` model type replaced with two parameters
   `privateKey` and `certificate` to the APIs which used to accept an `AttestationSigningKey`
+* Renamed `AttestationResponse.value` to `AttestationResponse.body` to align with
+ API guidelines.
 
 ## 1.0.0-beta.4 (2021-06-15)
 

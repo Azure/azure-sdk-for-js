@@ -8,7 +8,8 @@ import { AttestationToken } from "./attestationToken";
  * Attestation service. It has two properties:
  *
  * @param token - The attestation token returned from the attestation service.
- * @typeparam value - The body of the token returned by the attestation service.
+ * @param body - The value of the response from the attestation service.
+ * @typeparam T - The type of the {@link body} property.
  *
  */
 export interface AttestationResponse<T> {
@@ -18,21 +19,23 @@ export interface AttestationResponse<T> {
   token: AttestationToken;
 
   /**
-   * The value of the response from the attestation service.
+   * The value of the response from the attestation service, derived
+   *  from the body of the {@link token} property.
    */
 
-  value: T;
+  body: T;
 }
 
 /** Create an AttestationResponse object.
  *
  * @param token - Token which was returned from the attestation service.
- * @param value - Value for the response. Typically represents the body of the token returned by the service.
+ * @param value - Value for the response. Usually derived from the body of the token 
+ *    returned by the service.
  * @returns - A newly created AttestationResponse object.
  */
 export function createAttestationResponse<T>(
   token: AttestationToken,
   value: T
 ): AttestationResponse<T> {
-  return { token: token, value: value };
+  return { token: token, body: value };
 }

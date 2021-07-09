@@ -85,8 +85,8 @@ async function modifyPolicyManagementCertificates() {
       certificate
     );
 
-    console.log("Certificate modification result: ", setResult.value.certificateResolution);
-    console.log("Modified Certificate Thumbprint: ", setResult.value.certificateThumbprint);
+    console.log("Certificate modification result: ", setResult.body.certificateResolution);
+    console.log("Modified Certificate Thumbprint: ", setResult.body.certificateThumbprint);
     console.log("Expected Certificate Thumbprint: ", expectedThumbprint);
   }
 
@@ -96,8 +96,8 @@ async function modifyPolicyManagementCertificates() {
       privateKey,
       certificate
     );
-    console.log("Certificate modification result: ", removeResult.value.certificateResolution);
-    console.log("Modified Certificate Thumbprint: ", removeResult.value.certificateThumbprint);
+    console.log("Certificate modification result: ", removeResult.body.certificateResolution);
+    console.log("Modified Certificate Thumbprint: ", removeResult.body.certificateThumbprint);
     console.log("Expected Certificate Thumbprint: ", expectedThumbprint);
   }
 }

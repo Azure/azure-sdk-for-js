@@ -204,7 +204,7 @@ export class AttestationAdministrationClient {
    * Please note that if the attestation service instance is running in "Isolated"
    * mode, the {@link signingKey} must be one of the signing keys configured for the
    * service instance.
-   * 
+   *
    * @throws {@link Error} when a private key is specified without a certificate and vice versa.
    * @throws {@link Error} when the key in the certificate provided does not match the private key.
    */
@@ -284,7 +284,7 @@ export class AttestationAdministrationClient {
    * Please note that if the attestation service instance is running in "Isolated"
    * mode, the {@link signingKey} must be one of the signing keys configured for the
    * service instance.
-   * 
+   *
    * @throws {@link Error} when a private key is specified without a certificate and vice versa.
    * @throws {@link Error} when the key in the certificate provided does not match the private key.
    */

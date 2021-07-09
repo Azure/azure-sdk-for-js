@@ -153,7 +153,7 @@ export class AttestationClient {
    * @param instanceUrl - The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Attestation Client.
-   * 
+   *
    */
 
   constructor(

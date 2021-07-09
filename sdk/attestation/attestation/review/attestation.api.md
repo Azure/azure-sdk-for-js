@@ -55,8 +55,8 @@ export interface AttestationPolicyToken extends AttestationToken {
 
 // @public
 export interface AttestationResponse<T> {
+    body: T;
     token: AttestationToken;
-    value: T;
 }
 
 // @public

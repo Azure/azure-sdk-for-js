@@ -83,26 +83,23 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
   const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy);
 
   // Verify that the attestation service received the new policy.
-  console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
+  console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
   const expectedPolicy = createAttestationPolicyToken(newPolicy);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
-  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.value.policyTokenHash));
+  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.body.policyTokenHash));
 
   const policy = await client.getPolicy(KnownAttestationType.SgxEnclave);
 
-  console.log("The SGX policy for ", endpoint, " has a value of:", policy.value);
+  console.log("The SGX policy for ", endpoint, " has a value of:", policy.body);
 
   // Now reset the policy to the default policy.
   const resetPolicyResult = await client.resetPolicy(KnownAttestationType.OpenEnclave);
 
-  console.log(
-    "Reset attestation policy. Policy status: ",
-    resetPolicyResult.value.policyResolution
-  );
+  console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
 async function setOpenEnclaveAttestationPolicyAadSecured() {
@@ -146,20 +143,20 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   );
 
   // Verify that the attestation service received the new policy.
-  console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
+  console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
   const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
-  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.value.policyTokenHash));
+  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.body.policyTokenHash));
 
   // Also verify that the signer of the certificate recevied by the service was
   // the certificate sent in the request.
 
   const policySetCertificate = new X509();
-  policySetCertificate.readCertPEM(setPolicyResult.value.policySigner?.certificates[0]);
+  policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy. Note that we use an unsecured
@@ -167,10 +164,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   // policy token.
   const resetPolicyResult = await client.resetPolicy(KnownAttestationType.OpenEnclave);
 
-  console.log(
-    "Reset attestation policy. Policy status: ",
-    resetPolicyResult.value.policyResolution
-  );
+  console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
 async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
@@ -210,7 +204,6 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   // Because this is an isolated instance, we need to sign policy requests with
   // one of the configured signing certificates/keys.
 
-  // Load them from the environment.
   const privateKey = pemFromBase64(base64PrivateKey, "PRIVATE KEY");
   const certificate = pemFromBase64(base64Certificate, "CERTIFICATE");
 
@@ -222,20 +215,20 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   );
 
   // Verify that the attestation service received the new policy.
-  console.log("Result of policy modification: ", setPolicyResult.value.policyResolution);
+  console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
   const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
-  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.value.policyTokenHash));
+  console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.body.policyTokenHash));
 
   // Also verify that the signer of the certificate recevied by the service was
   // the certificate sent in the request.
 
   const policySetCertificate = new X509();
-  policySetCertificate.readCertPEM(setPolicyResult.value.policySigner?.certificates[0]);
+  policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy.
@@ -245,10 +238,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
     certificate
   );
 
-  console.log(
-    "Reset attestation policy. Policy status: ",
-    resetPolicyResult.value.policyResolution
-  );
+  console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
 export async function main() {

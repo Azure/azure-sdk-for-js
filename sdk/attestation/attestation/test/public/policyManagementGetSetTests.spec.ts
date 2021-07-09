@@ -37,7 +37,7 @@ describe("PolicyManagementTests ", function() {
 
     const policyResult = await client.getPolicyManagementCertificates();
     const result = policyResult.token;
-    assert(policyResult.value.length === 0);
+    assert(policyResult.body.length === 0);
     assert(result, "Expected a token from the service but did not receive one");
   });
 
@@ -46,7 +46,7 @@ describe("PolicyManagementTests ", function() {
     const policyResult = await client.getPolicyManagementCertificates();
 
     const result = policyResult.token;
-    assert(policyResult.value.length === 0);
+    assert(policyResult.body.length === 0);
     assert(result, "Expected a token from the service but did not receive one");
   });
 
@@ -56,8 +56,8 @@ describe("PolicyManagementTests ", function() {
 
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
-    assert(policyResult.value !== undefined);
-    assert(policyResult.value.length !== 0);
+    assert(policyResult.body !== undefined);
+    assert(policyResult.body.length !== 0);
   });
 
   it("Add Policy Certificates failure conditions", async () => {
@@ -118,8 +118,8 @@ describe("PolicyManagementTests ", function() {
         signingKeys.privateKey,
         signingKeys.certificate
       );
-      assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
-      assert(setResult.value.certificateThumbprint === expectedThumbprint);
+      assert(setResult.body.certificateResolution === KnownCertificateModification.IsPresent);
+      assert(setResult.body.certificateThumbprint === expectedThumbprint);
     }
 
     {
@@ -129,8 +129,8 @@ describe("PolicyManagementTests ", function() {
         signingKeys.privateKey,
         signingKeys.certificate
       );
-      assert(setResult.value.certificateResolution === KnownCertificateModification.IsPresent);
-      assert(setResult.value.certificateThumbprint === expectedThumbprint);
+      assert(setResult.body.certificateResolution === KnownCertificateModification.IsPresent);
+      assert(setResult.body.certificateThumbprint === expectedThumbprint);
     }
 
     {
@@ -139,8 +139,8 @@ describe("PolicyManagementTests ", function() {
         signingKeys.privateKey,
         signingKeys.certificate
       );
-      assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
-      assert(removeResult.value.certificateThumbprint === expectedThumbprint);
+      assert(removeResult.body.certificateResolution === KnownCertificateModification.IsAbsent);
+      assert(removeResult.body.certificateThumbprint === expectedThumbprint);
     }
 
     {
@@ -149,8 +149,8 @@ describe("PolicyManagementTests ", function() {
         signingKeys.privateKey,
         signingKeys.certificate
       );
-      assert(removeResult.value.certificateResolution === KnownCertificateModification.IsAbsent);
-      assert(removeResult.value.certificateThumbprint === expectedThumbprint);
+      assert(removeResult.body.certificateResolution === KnownCertificateModification.IsAbsent);
+      assert(removeResult.body.certificateThumbprint === expectedThumbprint);
     }
   });
 });

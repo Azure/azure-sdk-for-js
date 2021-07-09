@@ -44,7 +44,7 @@ async function getCurrentAttestationPolicyAad() {
 
   const policy = await client.getPolicy(KnownAttestationType.SgxEnclave);
 
-  console.log("The SGX policy for ", endpoint, " has a value of:", policy.value);
+  console.log("The SGX policy for ", endpoint, " has a value of:", policy.body);
 }
 
 async function getCurrentAttestationPolicyShared() {
@@ -65,7 +65,7 @@ async function getCurrentAttestationPolicyShared() {
 
   const policy = await client.getPolicy(KnownAttestationType.SgxEnclave);
 
-  console.log("The SGX policy for ", endpoint, " has a value of:", policy.value);
+  console.log("The SGX policy for ", endpoint, " has a value of:", policy.body);
 }
 
 export async function main() {

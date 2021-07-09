@@ -46,10 +46,10 @@ async function getPolicyManagementCertificates() {
 
   const policyCertificates = await client.getPolicyManagementCertificates();
   console.log(
-    `Attestation Instance ${endpoint} has ${policyCertificates.value.length} certificates.`
+    `Attestation Instance ${endpoint} has ${policyCertificates.body.length} certificates.`
   );
   // Now print the Key ID and certificate subject for each signer.
-  policyCertificates.value.forEach((element) => {
+  policyCertificates.body.forEach((element) => {
     console.log(`  Element Key ID: ${element.keyId};`);
     const cert = new X509();
     cert.readCertPEM(element.certificates[0]);
