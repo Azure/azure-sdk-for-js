@@ -308,13 +308,13 @@ export class ClientContext {
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
 
-      // replace will use WriteEndpoint since it uses PUT operation
+      // patch will use WriteEndpoint
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
         request.operationType
       );
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
-      this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
+      this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
       return response;
     } catch (err) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
