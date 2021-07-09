@@ -4,6 +4,7 @@
 
 ```ts
 
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
@@ -21,7 +22,7 @@ export class CommunicationRelayClient {
     constructor(connectionString: string, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
-    getRelayConfiguration(body: CommunicationRelayConfigurationRequest, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public
@@ -32,11 +33,6 @@ export interface CommunicationRelayClientOptions extends PipelineOptions {
 export interface CommunicationRelayConfiguration {
     expiresOn: Date;
     iceServers: CommunicationIceServer[];
-}
-
-// @public
-export interface CommunicationRelayConfigurationRequest {
-    id: string;
 }
 
 

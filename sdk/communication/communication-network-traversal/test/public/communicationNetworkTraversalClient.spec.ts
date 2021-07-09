@@ -4,7 +4,7 @@
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Recorder, env } from "@azure/test-utils-recorder";
-import { CommunicationRelayClient, CommunicationRelayConfigurationRequest } from "../../src";
+import { CommunicationRelayClient } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {
   createRecordedCommunicationRelayClient,
@@ -37,10 +37,7 @@ matrix([[true, false]], async function(useAad) {
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
 
-      const bodyRelayRequest: CommunicationRelayConfigurationRequest = {
-        id: user.communicationUserId
-      };
-      const turnCredentialResponse = await client.getRelayConfiguration(bodyRelayRequest);
+      const turnCredentialResponse = await client.getRelayConfiguration(user);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;

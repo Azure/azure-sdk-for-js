@@ -41,12 +41,10 @@ export class CommunicationNetworkTraversal {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
-    var response = this.client.sendOperationRequest(
+    return this.client.sendOperationRequest(
       { body, options: operationOptions },
       issueRelayConfigurationOperationSpec
-    );
-    
-    return response as Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse>;
+    ) as Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse>;
   }
 }
 // Operation Specifications

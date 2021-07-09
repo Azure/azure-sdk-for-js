@@ -23,22 +23,3 @@ use-extension:
 add-credentials: false
 azure-arm: false
 ```
-
-### Fix operation id
-
-```yaml
-directive:
-  from: swagger-document
-  where: '$.paths["/turn/{id}/:issueCredentials"].post'
-  transform: >
-    $["operationId"] = "CommunicationNetworkTraversal_IssueTurnCredentials";
-```
-
-### Rename `CommunicationTurnCredentialsResponse` to `CommunicationRelayConfiguration`
-
-```yaml
-directive:
-  - rename-model:
-      from: CommunicationTurnCredentialsResponse
-      to: CommunicationRelayConfiguration
-```
