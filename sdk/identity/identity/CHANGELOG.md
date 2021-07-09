@@ -1,5 +1,8 @@
 # Release History
 
+## 1.4.1 (Unreleased)
+
+
 ## 1.4.0 (2021-07-09)
 
 - With this release, we drop support for Node.js versions that have reached the end of life, like Node.js 8. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
