@@ -80,7 +80,7 @@ export interface AttestationResult {
     version: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AttestationSgxCollateralInfo {
     qeidcertshash?: string;
     qeidcrlhash?: string;

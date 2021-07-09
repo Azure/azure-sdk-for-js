@@ -5,6 +5,10 @@ import { AttestationSigner } from ".";
 import { GeneratedAttestationResult } from "../generated";
 import { _attestationSignerFromGenerated } from "./attestationSigner";
 
+/**
+ * Defines the contents of the {@link AttestationResult.sgxCollateral} claim in
+ * an {@link AttestationResult}.
+ */
 export interface AttestationSgxCollateralInfo {
   /**
    * Hex encoded Sha256 hash of the Quoting Enclave Certificates.
