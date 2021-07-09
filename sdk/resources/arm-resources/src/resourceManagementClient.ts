@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ResourceManagementClientContext } from "./resourceManagementClientContext";
 
+
 class ResourceManagementClient extends ResourceManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -33,14 +34,10 @@ class ResourceManagementClient extends ResourceManagementClientContext {
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The Microsoft Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.ResourceManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.ResourceManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.deployments = new operations.Deployments(this);

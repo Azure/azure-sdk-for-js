@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: "en-US",
+    defaultValue: 'en-US',
     type: {
       name: "String"
     }
@@ -45,7 +45,10 @@ export const deploymentName: msRest.OperationURLParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
+  parameterPath: [
+    "options",
+    "expand"
+  ],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -54,9 +57,24 @@ export const expand: msRest.OperationQueryParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
+  parameterPath: [
+    "options",
+    "filter"
+  ],
   mapper: {
     serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const forceDeletionTypes: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceDeletionTypes"
+  ],
+  mapper: {
+    serializedName: "forceDeletionTypes",
     type: {
       name: "String"
     }
@@ -108,7 +126,7 @@ export const parentResourcePath: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName0: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -117,6 +135,20 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MaxLength: 90,
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceGroupName1: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    required: true,
+    serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -222,7 +254,10 @@ export const tagValue: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "top"],
+  parameterPath: [
+    "options",
+    "top"
+  ],
   mapper: {
     serializedName: "$top",
     type: {
