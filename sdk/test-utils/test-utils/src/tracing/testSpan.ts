@@ -148,11 +148,9 @@ export class TestSpan implements Span {
   addEvent(): this {
     throw new Error("Method not implemented.");
   }
-
   recordException(): void {
     throw new Error("Method not implemented.");
   }
-
   updateName(): this {
     throw new Error("Method not implemented.");
   }
