@@ -449,13 +449,16 @@ export class AttestationClient {
    * @param options - Client operation options.
    * @returns The OpenID metadata discovery document for the attestation service.
    */
-  public async getOpenIdMetadata(options: AttestationClientOperationOptions = {}): Promise<any> {
+  public async getOpenIdMetadata(
+    options: AttestationClientOperationOptions = {}
+  ): Promise<Record<string, unknown>> {
     const { span, updatedOptions } = createSpan("AttestationClient-getOpenIdMetadata", options);
     try {
       const configs = await this._client.metadataConfiguration.get(updatedOptions);
       return configs;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
     } finally {
       span.end();
     }
