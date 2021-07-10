@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
-import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import {
+  env,
+  RecorderEnvironmentSetup,
+  pluginForClientSecretCredentialTests
+} from "@azure/test-utils-recorder";
 import { ContainerRegistryClient } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
@@ -47,7 +51,10 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
         /refresh_token=([^&]+?)(&|")/,
         `refresh_token=sanitized.${expiryReplacement}.sanitized$2`
       )
-  ]
+  ],
+  onLoadCallbackForPlayback: () => {
+    pluginForClientSecretCredentialTests(env.CONTAINERREGISTRY_TENANT_ID);
+  }
 };
 
 function getAuthority(endpoint: string): AzureAuthorityHosts | undefined {
