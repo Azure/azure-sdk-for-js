@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineRequest } from "@azure/core-rest-pipeline";
-import {
-  LongRunningOperation,
-  LroResponse,
-  RawResponse
-} from "../../src";
+import { LongRunningOperation, LroResponse, RawResponse } from "../../src";
 
 export type SendOperationFn<T> = (request: PipelineRequest) => Promise<LroResponse<T>>;
 

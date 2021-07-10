@@ -5,9 +5,7 @@ import { LroResponse, LroStatus, RawResponse } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
 function isLocationPollingDone(rawResponse: RawResponse): boolean {
-  return (
-    !isUnexpectedPollingResponse(rawResponse) && rawResponse.statusCode !== 202
-  );
+  return !isUnexpectedPollingResponse(rawResponse) && rawResponse.statusCode !== 202;
 }
 
 export function processLocationPollingOperationResult<TResult>(

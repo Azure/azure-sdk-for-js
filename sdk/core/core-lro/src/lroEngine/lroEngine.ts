@@ -3,20 +3,16 @@
 
 import { Poller } from "../poller";
 import { PollOperationState } from "../pollOperation";
-import {
-  LongRunningOperation,
-  LroEngineOptions,
-  ResumablePollOperationState
-} from "./models";
+import { LongRunningOperation, LroEngineOptions, ResumablePollOperationState } from "./models";
 import { GenericPollOperation } from "./operation";
 
 /**
  * The LRO Engine, a class that performs polling.
  */
-export class LroEngine<
-  TResult,
-  TState extends PollOperationState<TResult>
-> extends Poller<TState, TResult> {
+export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<
+  TState,
+  TResult
+> {
   private intervalInMs: number;
 
   constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
@@ -27,20 +23,14 @@ export class LroEngine<
       try {
         return JSON.parse(serializedState).state;
       } catch (e) {
-        throw new Error(
-          `LroEngine: Unable to deserialize state: ${serializedState}`
-        );
+        throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
       }
     }
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
       ? deserializeState(resumeFrom)
       : ({} as any);
 
-    const operation = new GenericPollOperation(
-      state,
-      lro,
-      options?.lroResourceLocationConfig
-    );
+    const operation = new GenericPollOperation(state, lro, options?.lroResourceLocationConfig);
     super(operation);
 
     this.intervalInMs = intervalInMs;
@@ -51,8 +41,6 @@ export class LroEngine<
    * The method used by the poller to wait before attempting to update its operation.
    */
   delay(): Promise<void> {
-    return new Promise(resolve =>
-      setTimeout(() => resolve(), this.intervalInMs)
-    );
+    return new Promise((resolve) => setTimeout(() => resolve(), this.intervalInMs));
   }
 }

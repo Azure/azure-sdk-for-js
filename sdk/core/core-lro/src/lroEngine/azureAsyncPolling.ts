@@ -20,10 +20,7 @@ function getResponseStatus(rawResponse: RawResponse): string {
 
 function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {
   const state = getResponseStatus(rawResponse);
-  if (
-    isUnexpectedPollingResponse(rawResponse) ||
-    failureStates.includes(state)
-  ) {
+  if (isUnexpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
     throw new Error(`Operation status: ${state}`);
   }
   return successStates.includes(state);
@@ -41,10 +38,7 @@ async function sendFinalRequest<TResult>(
       return Promise.resolve(undefined);
     case "location":
     default:
-      return lro.sendPollRequest(
-        resourceLocation ?? lro.requestPath,
-        () => true
-      );
+      return lro.sendPollRequest(resourceLocation ?? lro.requestPath, () => true);
   }
 }
 

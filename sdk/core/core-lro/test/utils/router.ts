@@ -69,18 +69,18 @@ export function mockedPoller(
   url: string,
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): PollerLike<PollOperationState<Response>, Response> {
-  const lro = new CoreRestPipelineLro(
-    runRouter,
-    {
-      method: method,
-      url: url,
-      headers: createHttpHeaders(),
-      requestId: "",
-      timeout: 0,
-      withCredentials: false
-    }
-  );
-  return new LroEngine(lro, { intervalInMs: 0, lroResourceLocationConfig: lroResourceLocationConfig });
+  const lro = new CoreRestPipelineLro(runRouter, {
+    method: method,
+    url: url,
+    headers: createHttpHeaders(),
+    requestId: "",
+    timeout: 0,
+    withCredentials: false
+  });
+  return new LroEngine(lro, {
+    intervalInMs: 0,
+    lroResourceLocationConfig: lroResourceLocationConfig
+  });
 }
 
 export async function runMockedLro(
