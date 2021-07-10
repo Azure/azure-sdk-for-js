@@ -5,14 +5,6 @@ param (
     [string] $TestApplicationSecret
 )
 
-Get-AzEnvironment | Write-Host
-
-if ( $DeploymentOutputs['CONTAINER_REGISTRY_ENDPOINT'].EndsWith('.azurecr.us') ) {
-    Connect-AzAccount –Environment AzureUSGovernment
-} elseif ( $DeploymentOutputs['CONTAINER_REGISTRY_ENDPOINT'].EndsWith('.azurecr.cn') ) {
-    Connect-AzAccount –Environment AzureChinaCloud
-}
-
 Import-AzContainerRegistryImage `
     -ResourceGroupName $DeploymentOutputs['CONTAINERREGISTRY_RESOURCE_GROUP'] `
     -RegistryName $DeploymentOutputs['CONTAINER_REGISTRY_NAME'] `
