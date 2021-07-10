@@ -25,6 +25,10 @@ import { SimpleSpanProcessor, Tracer } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 /*********************************************************************
  *  OPEN TELEMETRY SETUP
  **********************************************************************/
@@ -108,7 +112,7 @@ function setupOpenTelemetry() {
   const provider = new NodeTracerProvider();
   const exporter = new AzureMonitorTraceExporter({
     connectionString:
-      "InstrumentationKey=d4d8ca0a-1447-4425-9e14-9d8ca86c76e1;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/"
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
   });
 
   provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
