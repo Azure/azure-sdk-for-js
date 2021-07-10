@@ -11,9 +11,9 @@ import { ContainerRegistryClient } from "../../src";
 const replaceableVariables: Record<string, string> = {
   CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT: "https://myregistry.azurecr.io",
-  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
+  CONTAINERREGISTRY_TENANT_ID: "12345678-1234-1234-1234-123456789012",
+  CONTAINERREGISTRY_CLIENT_ID: "azure_client_id",
+  CONTAINERREGISTRY_CLIENT_SECRET: "azure_client_secret",
   SUBSCRIPTION_ID: "subscription_id",
   RESOURCE_GROUP: "resource_group_id",
   REGISTRY: "myregistry"
@@ -109,9 +109,9 @@ export function createRegistryClient(
   // than on others, depending on which credentials are available (such as
   // Managed Identity or developer credentials).
   const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
+    env.CONTAINERREGISTRY_TENANT_ID,
+    env.CONTAINERREGISTRY_CLIENT_ID,
+    env.CONTAINERREGISTRY_CLIENT_SECRET,
     tokenCredentialOptions
   );
 
