@@ -94,14 +94,14 @@ export function createRegistryClient(
   endpoint: string,
   options: { anonymous: boolean } = { anonymous: false }
 ): ContainerRegistryClient {
-  if (options.anonymous) {
-    return new ContainerRegistryClient(endpoint);
-  }
-
   const authorityHost = getAuthority(endpoint);
   const authenticationScope = getAuthScope(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
   const clientOptions = { authenticationScope: `${authenticationScope}.default` };
+
+  if (options.anonymous) {
+    return new ContainerRegistryClient(endpoint, clientOptions);
+  }
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If
