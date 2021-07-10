@@ -1,8 +1,10 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-07-07)
 
-- Open Telemetry dependency updates
+- Updating OpenTelemetry API to 1.0.0
+- Adding support for temporary and permanent redirect
+- Adding cleanup process for older temp files
 
 ## 1.0.0-beta.3 (2021-02-10)
 

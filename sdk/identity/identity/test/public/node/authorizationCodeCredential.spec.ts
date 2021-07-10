@@ -3,7 +3,8 @@
 
 import assert from "assert";
 import { AuthorizationCodeCredential } from "../../../src";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
+import { setTracer } from "@azure/core-tracing";
 import { MockAuthHttpClient, assertClientCredentials } from "../../authTestUtils";
 import { setSpan, context as otContext } from "@azure/core-tracing";
 

@@ -8,7 +8,8 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
+import { setTracer } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
