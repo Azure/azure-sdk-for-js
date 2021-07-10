@@ -10,24 +10,11 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createGetLroStatusFromResponse<TResult>(lroPrimitives: LongRunningOperation<TResult>, config: LroConfig, lroResourceLocationConfig?: LroResourceLocationConfig): GetLroStatusFromResponse<TResult>;
-
-// @public
-export type GetLroStatusFromResponse<T> = (rawResponse: RawResponse, flatResponse: T) => LroStatus<T>;
-
-// @public
 export interface LongRunningOperation<T> {
     requestMethod: string;
     requestPath: string;
-    retrieveAzureAsyncResource: (path?: string) => Promise<LroResponse<T>>;
     sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LroResponse<T>>;
-    sendPollRequest: (config: LroConfig, path: string) => Promise<LroStatus<T>>;
-}
-
-// @public
-export interface LroConfig {
-    mode?: LroMode;
-    resourceLocation?: string;
+    sendPollRequest: (path: string, isDone: (response: LroResponse<T>) => boolean) => Promise<LroResponse<T>>;
 }
 
 // @public
@@ -39,17 +26,9 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 // @public
 export interface LroEngineOptions {
     intervalInMs?: number;
+    lroResourceLocationConfig?: LroResourceLocationConfig;
     resumeFrom?: string;
 }
-
-// @public
-export interface LroInProgressState<T> extends LroResponse<T> {
-    done: false;
-    next?: () => Promise<LroStatus<T>>;
-}
-
-// @public
-export type LroMode = "AzureAsync" | "Location" | "Body";
 
 // @public
 export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
@@ -58,14 +37,6 @@ export type LroResourceLocationConfig = "azure-async-operation" | "location" | "
 export interface LroResponse<T> {
     flatResponse: T;
     rawResponse: RawResponse;
-}
-
-// @public
-export type LroStatus<T> = LroTerminalState<T> | LroInProgressState<T>;
-
-// @public
-export interface LroTerminalState<T> extends LroResponse<T> {
-    done: true;
 }
 
 // @public

@@ -78,10 +78,9 @@ export function mockedPoller(
       requestId: "",
       timeout: 0,
       withCredentials: false
-    },
-    lroResourceLocationConfig
+    }
   );
-  return new LroEngine(lro, { intervalInMs: 0 });
+  return new LroEngine(lro, { intervalInMs: 0, lroResourceLocationConfig: lroResourceLocationConfig });
 }
 
 export async function runMockedLro(

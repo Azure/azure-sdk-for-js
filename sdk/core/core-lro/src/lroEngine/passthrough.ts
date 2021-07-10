@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LroStatus, RawResponse } from "./models";
+import { LroResponse, LroStatus } from "./models";
 
 export function processPassthroughOperationResult<TResult>(
-  rawResponse: RawResponse,
-  flatResponse: TResult
+  response: LroResponse<TResult>
 ): LroStatus<TResult> {
   return {
-    rawResponse,
-    flatResponse,
+    ...response,
     done: true
   };
 }
