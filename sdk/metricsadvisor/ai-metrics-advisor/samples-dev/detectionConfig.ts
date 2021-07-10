@@ -73,7 +73,7 @@ async function createDetectionConfig(
       sensitivity: 50,
       anomalyDetectorDirection: "Both",
       suppressCondition: {
-        minNumber: 50,
+        minNumber: 5,
         minRatio: 50
       }
     },

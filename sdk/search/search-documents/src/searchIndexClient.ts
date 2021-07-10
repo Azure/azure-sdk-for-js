@@ -3,12 +3,14 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  PipelineOptions
+  PipelineOptions,
+  RequestPolicyFactory,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
@@ -78,7 +80,7 @@ export class SearchIndexClient {
   /**
    * Used to authenticate requests to the service.
    */
-  private readonly credential: KeyCredential;
+  private readonly credential: KeyCredential | TokenCredential;
 
   /**
    * Used to configure the Search Index client.
@@ -101,7 +103,11 @@ export class SearchIndexClient {
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Search Index client.
    */
-  constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
+  constructor(
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options: SearchIndexClientOptions = {}
+  ) {
     this.endpoint = endpoint;
     this.credential = credential;
     this.options = options;
@@ -133,10 +139,11 @@ export class SearchIndexClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
+    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, utils.DEFAULT_SEARCH_SCOPE)
+      : createSearchApiKeyCredentialPolicy(credential);
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
 
     if (Array.isArray(pipeline.requestPolicyFactories)) {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
@@ -145,7 +152,7 @@ export class SearchIndexClient {
     let apiVersion = this.apiVersion;
 
     if (options.apiVersion) {
-      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
       apiVersion = options.apiVersion;

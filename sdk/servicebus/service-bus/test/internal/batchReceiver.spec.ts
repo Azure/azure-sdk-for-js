@@ -26,7 +26,7 @@ import {
 import { LinkEntity } from "../../src/core/linkEntity";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { disableCommonLoggers, enableCommonLoggers, testLogger } from "./utils/misc";
+import { testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -328,11 +328,14 @@ describe("Batching Receiver", () => {
         : TestMessage.getSample();
       await sender.sendMessages(testMessages);
 
+      // we need to validate that the message has arrived (peek will just return immediately
+      // if the queue/subscription is empty)
+      const [receivedMessage] = await receiver.receiveMessages(1);
+      assert.ok(receivedMessage);
+      await receiver.abandonMessage(receivedMessage); // put the message back
+
       const [peekedMsg] = await receiver.peekMessages(1);
-      if (!peekedMsg) {
-        // Sometimes the peek call does not return any messages :(
-        return;
-      }
+      assert.ok(peekedMsg);
 
       should.equal(
         !peekedMsg.lockToken,
@@ -810,13 +813,11 @@ describe("Batching Receiver", () => {
   describe("Batch Receiver - disconnects", () => {
     describe("Batch Receiver - disconnects (non-session)", function(): void {
       before(() => {
-        enableCommonLoggers();
         console.log(`Entity type: ${noSessionTestClientType}`);
         serviceBusClient = createServiceBusClientForTests();
       });
 
       after(() => {
-        disableCommonLoggers();
         return serviceBusClient.test.after();
       });
 
