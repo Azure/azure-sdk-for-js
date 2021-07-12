@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineRequest } from "@azure/core-rest-pipeline";
-import { LongRunningOperation, LroResponse, RawResponse } from "../../src";
+import { LongRunningOperation, LroResponse } from "../../src";
 
 export type SendOperationFn<T> = (request: PipelineRequest) => Promise<LroResponse<T>>;
 
@@ -14,10 +14,10 @@ export class CoreRestPipelineLro<T> implements LongRunningOperation<T> {
     public requestMethod: string = req.method
   ) {}
   public async sendInitialRequest(
-    initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean
+    initializeState: (response: LroResponse<T>) => boolean
   ): Promise<LroResponse<T>> {
     const response = await this.sendOperationFn(this.req);
-    initializeState(response.rawResponse, response.flatResponse);
+    initializeState(response);
     return response;
   }
 

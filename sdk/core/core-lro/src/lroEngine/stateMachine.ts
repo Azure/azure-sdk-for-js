@@ -10,7 +10,6 @@ import {
   LongRunningOperation,
   LroConfig,
   PollerConfig,
-  RawResponse,
   ResumablePollOperationState,
   LroResponse,
   LroStatus
@@ -99,10 +98,10 @@ export function createInitializeState<TResult>(
   state: ResumablePollOperationState<TResult>,
   requestPath: string,
   requestMethod: string
-): (rawResponse: RawResponse, flatResponse: unknown) => boolean {
-  return (rawResponse: RawResponse, flatResponse: unknown) => {
-    if (isUnexpectedInitialResponse(rawResponse)) return true;
-    state.initialRawResponse = rawResponse;
+): (response: LroResponse<TResult>) => boolean {
+  return (response: LroResponse<TResult>): boolean => {
+    if (isUnexpectedInitialResponse(response.rawResponse)) return true;
+    state.initialRawResponse = response.rawResponse;
     state.isStarted = true;
     state.pollingURL = getPollingUrl(state.initialRawResponse, requestPath);
     state.config = inferLroMode(requestPath, requestMethod, state.initialRawResponse);
@@ -111,7 +110,7 @@ export function createInitializeState<TResult>(
       state.config.mode === undefined ||
       (state.config.mode === "Body" && isBodyPollingDone(state.initialRawResponse))
     ) {
-      state.result = flatResponse as TResult;
+      state.result = response.flatResponse as TResult;
       state.isCompleted = true;
     }
     return Boolean(state.isCompleted);
