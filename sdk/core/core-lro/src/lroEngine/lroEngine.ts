@@ -6,6 +6,16 @@ import { PollOperationState } from "../pollOperation";
 import { LongRunningOperation, LroEngineOptions, ResumablePollOperationState } from "./models";
 import { GenericPollOperation } from "./operation";
 
+function deserializeState<TResult, TState>(
+  serializedState: string
+): TState & ResumablePollOperationState<TResult> {
+  try {
+    return JSON.parse(serializedState).state;
+  } catch (e) {
+    throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
+  }
+}
+
 /**
  * The LRO Engine, a class that performs polling.
  */
@@ -17,18 +27,9 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 
   constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
     const { intervalInMs = 2000, resumeFrom } = options || {};
-    function deserializeState(
-      serializedState: string
-    ): TState & ResumablePollOperationState<TResult> {
-      try {
-        return JSON.parse(serializedState).state;
-      } catch (e) {
-        throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
-      }
-    }
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
       ? deserializeState(resumeFrom)
-      : ({} as any);
+      : ({} as TState & ResumablePollOperationState<TResult>);
 
     const operation = new GenericPollOperation(state, lro, options?.lroResourceLocationConfig);
     super(operation);

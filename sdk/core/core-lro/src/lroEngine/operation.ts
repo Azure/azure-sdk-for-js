@@ -64,8 +64,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     }
 
     if (!state.isCompleted) {
-      if (this.poll === undefined || this.getLroStatusFromResponse === undefined) {
-        if (state.config === undefined) {
+      if (!this.poll || !this.getLroStatusFromResponse) {
+        if (!state.config) {
           throw new Error(
             "Bad state: LRO mode is undefined. Please check if the serialized state is well-formed."
           );
@@ -77,12 +77,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         );
         this.poll = createPoll(this.lro);
       }
-      if (state.pollingURL === undefined) {
+      if (!state.pollingURL) {
         throw new Error(
           "Bad state: polling URL is undefined. Please check if the serialized state is well-formed."
         );
       }
-      const memoizedGetLroStatusFromResponse = memoize(this.getLroStatusFromResponse)();
+      const memoizedGetLroStatusFromResponse = memoize(this.getLroStatusFromResponse);
       const currentState = await this.poll(
         state.pollingURL,
         this.pollerConfig!,
@@ -117,14 +117,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
 
 function memoize<TInput extends unknown[], TResult>(
   f: (...args: TInput) => TResult
-): () => (...args: TInput) => TResult {
-  return (): ((...args: TInput) => TResult) => {
-    let result: TResult | undefined = undefined;
-    return (...args: TInput): TResult => {
-      if (result === undefined) {
-        result = f(...args);
-      }
-      return result;
-    };
+): (...args: TInput) => TResult {
+  const result: Map<TInput, TResult> = new Map();
+  return (...args: TInput): TResult => {
+    if (result.has(args) === false) {
+      result.set(args, f(...args));
+    }
+    return result.get(args)!;
   };
 }

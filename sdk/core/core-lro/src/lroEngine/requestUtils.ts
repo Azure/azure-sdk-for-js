@@ -60,21 +60,21 @@ export function inferLroMode(
   return {};
 }
 
-export class RestError extends Error {
+class SimpleRestError extends Error {
   public statusCode?: number;
   constructor(message: string, statusCode: number) {
     super(message);
     this.name = "RestError";
     this.statusCode = statusCode;
 
-    Object.setPrototypeOf(this, RestError.prototype);
+    Object.setPrototypeOf(this, SimpleRestError.prototype);
   }
 }
 
 export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![203, 204, 202, 201, 200, 500].includes(code)) {
-    throw new RestError(
+    throw new SimpleRestError(
       `Received unexpected HTTP status code ${code} in the initial response. This may indicate a server issue.`,
       code
     );
@@ -85,7 +85,7 @@ export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
 export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
   const code = rawResponse.statusCode;
   if (![202, 201, 200, 500].includes(code)) {
-    throw new RestError(
+    throw new SimpleRestError(
       `Received unexpected HTTP status code ${code} while polling. This may indicate a server issue.`,
       code
     );

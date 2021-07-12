@@ -35,7 +35,7 @@ async function sendFinalRequest<TResult>(
     case "original-uri":
       return lro.sendPollRequest(lro.requestPath, () => true);
     case "azure-async-operation":
-      return Promise.resolve(undefined);
+      return undefined;
     case "location":
     default:
       return lro.sendPollRequest(resourceLocation ?? lro.requestPath, () => true);
