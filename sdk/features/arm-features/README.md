@@ -1,6 +1,6 @@
 ## Azure FeatureClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for FeatureClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for FeatureClient.
 
 ### Currently supported environments
 
