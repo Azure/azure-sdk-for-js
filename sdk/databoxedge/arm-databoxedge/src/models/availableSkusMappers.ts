@@ -9,9 +9,9 @@
 export {
   discriminators,
   CloudError,
-  Job,
-  JobErrorDetails,
-  JobErrorItem,
-  UpdateDownloadProgress,
-  UpdateInstallProgress
+  DataBoxEdgeSku,
+  DataBoxEdgeSkuList,
+  SkuCapability,
+  SkuCost,
+  SkuLocationInfo
 } from "../models/mappers";

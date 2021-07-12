@@ -9,6 +9,7 @@
 export {
   discriminators,
   Addon,
+  AddonList,
   Address,
   Alert,
   AlertErrorDetails,
@@ -26,7 +27,6 @@ export {
   ComputeResource,
   ContactDetails,
   Container,
-  ContainerList,
   DataBoxEdgeDevice,
   DataBoxEdgeDeviceExtendedInfo,
   DataResidency,
