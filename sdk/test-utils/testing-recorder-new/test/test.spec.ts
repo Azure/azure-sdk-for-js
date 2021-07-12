@@ -12,10 +12,8 @@ describe("Tests", () => {
     if (!isLiveMode()) {
       options.httpClient = recorder;
     }
-    const client = new QueueServiceClient(env.STORAGE_SAS_URL);
-
-    // await client.createContainer("harshan-" + `${Math.ceil(Math.random() * 1000) + 1000}`);
-    console.log(await client.createQueue("harshan-1067"));
+    const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, options);
+    await client.createQueue("queue-" + `${Math.ceil(Math.random() * 1000) + 1000}`);
     await recorder.stop();
   });
 });

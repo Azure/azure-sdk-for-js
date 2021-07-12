@@ -32,7 +32,6 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async prepareRequest(request: WebResourceLike): Promise<Partial<RequestInit>> {
-    console.log("inside prepare request");
     await this.start();
 
     if (!request.headers.contains("x-recording-id")) {
@@ -46,7 +45,6 @@ export class RecordingHttpClient extends DefaultHttpClient {
       upstreamUrl.setPath(undefined);
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
       request.url = redirectedUrl.toString();
-      console.log(redirectedUrl);
     }
 
     return await super.prepareRequest(request);
