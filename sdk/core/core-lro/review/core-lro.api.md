@@ -13,7 +13,7 @@ export type CancelOnProgress = () => void;
 export interface LongRunningOperation<T> {
     requestMethod: string;
     requestPath: string;
-    sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LroResponse<T>>;
+    sendInitialRequest: (initializeState: (response: LroResponse<T>) => boolean) => Promise<LroResponse<T>>;
     sendPollRequest: (path: string, isDone: (response: LroResponse<T>) => boolean) => Promise<LroResponse<T>>;
 }
 
