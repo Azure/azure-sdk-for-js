@@ -22,7 +22,6 @@ The sample programs are compatible with [LTS versions of Node.js](https://nodejs
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure subscription][createinstance_azuresubscription]
 - [Azure Application Insights workspace instance][createinstance_azureapplicationinsightsworkspaceinstance]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
@@ -61,6 +60,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [httpsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1/javascript/httpSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuresubscription]: https://azure.microsoft.com/en-us/free/
-[createinstance_azureapplicationinsightsworkspaceinstance]: https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
+[createinstance_azureapplicationinsightsworkspaceinstance]: https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/README.md

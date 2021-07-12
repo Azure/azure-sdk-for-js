@@ -80,8 +80,7 @@
       "azure-monitor"
     ],
     "requiredResources": {
-      "Azure subscription": "https://azure.microsoft.com/en-us/free/",
-      "Azure Application Insights workspace instance": "https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview"
+      "Azure Application Insights workspace instance": "https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview"
     }
   },
   "devDependencies": {
