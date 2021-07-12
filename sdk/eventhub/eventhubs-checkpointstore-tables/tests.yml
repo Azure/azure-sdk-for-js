@@ -3,7 +3,7 @@ trigger: none
 stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
-      PackageName: "@azure/eventhubs-checkpointstore-blob"
+      PackageName: "@azure/eventhubs-checkpointstore-tables"
       ServiceDirectory: eventhub
       MatrixFilters:
         - TestType=^(?!sample).*
