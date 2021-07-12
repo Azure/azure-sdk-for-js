@@ -14,8 +14,9 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
 
 Run this command
 
-- `docker run -v <your-volume-name-or-location>:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+- `docker run -v temp-location:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
   (Eventually, recorder will trigger this for you!)
+  [Note: Update `temp-location` in the command to your desired location.]
 
 ## Running the test at test-utils\recorder-new
 
