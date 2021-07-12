@@ -21,11 +21,14 @@ function getResponseStatus(rawResponse: RawResponse): string {
 function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {
   const state = getResponseStatus(rawResponse);
   if (isUnexpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
-    throw new Error(`Operation status: ${state}`);
+    throw new Error(`The long running operation has failed. The provisioning state: ${state}.`);
   }
   return successStates.includes(state);
 }
 
+/**
+ * Sends a request to the URI of the provisioned resource if needed. 
+ */
 async function sendFinalRequest<TResult>(
   lro: LongRunningOperation<TResult>,
   resourceLocation: string,

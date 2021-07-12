@@ -204,7 +204,7 @@ describe("Lro Engine", function() {
         await runMockedLro("DELETE", "/deleteasync/retry/canceled");
         throw new Error("should have thrown instead");
       } catch (e) {
-        assert.equal(e.message, "Operation status: canceled");
+        assert.equal(e.message, "The long running operation has failed. The provisioning state: canceled.");
       }
     });
 
@@ -213,7 +213,7 @@ describe("Lro Engine", function() {
         await runMockedLro("DELETE", "/deleteasync/retry/failed");
         throw new Error("should have thrown instead");
       } catch (e) {
-        assert.equal(e.message, "Operation status: failed");
+        assert.equal(e.message, "The long running operation has failed. The provisioning state: failed.");
       }
     });
 
@@ -242,7 +242,7 @@ describe("Lro Engine", function() {
         await runMockedLro("PUT", "/putasync/retry/failed");
         throw new Error("should have thrown instead");
       } catch (e) {
-        assert.equal(e.message, "Operation status: failed");
+        assert.equal(e.message, "The long running operation has failed. The provisioning state: failed.");
       }
     });
 
@@ -270,7 +270,7 @@ describe("Lro Engine", function() {
         await runMockedLro("PUT", "/putasync/noretry/canceled");
         throw new Error("should have thrown instead");
       } catch (e) {
-        assert.equal(e.message, "Operation status: canceled");
+        assert.equal(e.message, "The long running operation has failed. The provisioning state: canceled.");
       }
     });
 
@@ -295,7 +295,7 @@ describe("Lro Engine", function() {
         await runMockedLro("POST", "/postasync/retry/failed");
         throw new Error("should have thrown instead");
       } catch (e) {
-        assert.equal(e.message, "Operation status: failed");
+        assert.equal(e.message, "The long running operation has failed. The provisioning state: failed.");
       }
     });
 
@@ -310,7 +310,7 @@ describe("Lro Engine", function() {
         await runMockedLro("POST", "/postasync/retry/canceled");
         throw new Error("should have thrown instead");
       } catch (e) {
-        assert.equal(e.message, "Operation status: canceled");
+        assert.equal(e.message, "The long running operation has failed. The provisioning state: canceled.");
       }
     });
   });
