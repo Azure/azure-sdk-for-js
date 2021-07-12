@@ -6,9 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/basekarma.conf.js": "./dist-esm/src/basekarma.conf.browser.js",
-    "./dist-esm/src/createRecorder.js": "./dist-esm/src/createRecorder.browser.js",
-    "./dist-esm/src/utils/recordings.js": "./dist-esm/src/utils/recordings.browser.js"
+    "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js"
   },
   "types": "./types/src/index.d.ts",
   "scripts": {
