@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URLBuilder } from "@azure/core-http";
+import { HttpOperationResponse, URLBuilder } from "@azure/core-http";
 import { DefaultHttpClient, WebResource, WebResourceLike } from "@azure/core-http";
 
 export class RecordingHttpClient extends DefaultHttpClient {
@@ -32,8 +32,8 @@ export class RecordingHttpClient extends DefaultHttpClient {
     console.log("in the RecordingHttpClient constructor");
   }
 
-  async prepareRequest(request: WebResourceLike): Promise<Partial<RequestInit>> {
-    console.log("in the RecordingHttpClient: prepareRequest");
+  async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
+    console.log("in the RecordingHttpClient: prepareRequest (browser)");
     await this.start();
 
     if (!request.headers.contains("x-recording-id")) {
@@ -50,7 +50,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
     }
 
     console.log("in the RecordingHttpClient: callign super.prepareRequest");
-    return await super.prepareRequest(request);
+    return await super.sendRequest(request);
   }
 
   async start(): Promise<void> {
