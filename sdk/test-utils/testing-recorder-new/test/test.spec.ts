@@ -7,9 +7,6 @@ config();
 describe("Tests", () => {
   it("storage test", async function() {
     const file = `file_path.json`;
-    // env.TEST_MODE = "record";
-    env.TEST_MODE = "playback";
-    // env.TEST_MODE = "playback";
     const recorder = new RecordingHttpClient(file, isPlaybackMode());
     const options: StoragePipelineOptions = {};
     if (!isLiveMode()) {
