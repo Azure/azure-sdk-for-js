@@ -1,0 +1,48 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://sts.eastus2.mixedreality.azure.com/Accounts/00000000-1111-2222-3333-444455556666/token",
+   "query": {
+    "api-version": "2019-02-28-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"AccessToken\":\"<access_token>\"}",
+   "responseHeaders": {
+    "cache-control": "no-store,no-cache",
+    "content-length": "1219",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Apr 2021 14:06:19 GMT",
+    "ms-cv": "PS9kmyHmkE2Tp/PrwQsW1w.0",
+    "pragma": "no-cache",
+    "x-content-type-options": "nosniff"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979157852807991",
+   "query": {
+    "api-version": "2021-01-01"
+   },
+   "requestBody": "{\"maxLeaseTimeMinutes\":-4,\"size\":\"Standard\"}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"BadRequest\",\"message\":\"The maxLeaseTimeMinutes value cannot be negative.\"}}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
+    "content-length": "93",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Apr 2021 14:06:18 GMT",
+    "ms-cv": "rh7nOOuilkWXYdZegwmKzQ.0",
+    "x-content-type-options": "nosniff"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "sessionId": "sessionId161979157852807991"
+  },
+  "newDate": {}
+ },
+ "hash": "4e7adffdfb7597f9d798eeab931c41cb"
+}

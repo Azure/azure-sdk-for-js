@@ -352,6 +352,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Provides an async iterable of model pages.
+   *
+   * @hidden
+   */
   private async *listModelsPage(
     settings: PageSettings,
     options: ListModelsOptions = {}
@@ -370,6 +375,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Create an async iterable of all models in an account.
+   *
+   * @hidden
+   */
   private async *listModelsAll(
     settings: PageSettings,
     options: ListModelsOptions = {}
@@ -441,6 +451,11 @@ export class FormTrainingClient {
     };
   }
 
+  /**
+   * (INTERNAL) Get the first page of models
+   *
+   * @hidden
+   */
   private async list(options?: ListModelsOptions): Promise<ListCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -465,6 +480,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Get a page of models using a nextLink
+   *
+   * @hidden
+   */
   private async listNextPage(
     nextLink: string,
     options?: ListModelsOptions
@@ -710,6 +730,11 @@ export class FormTrainingClient {
     return poller;
   }
 
+  /**
+   * (INTERNAL) Start a model copying operation.
+   *
+   * @hidden
+   */
   private async beginCopyModelInternal(
     modelId: string,
     copyAuthorization: CopyAuthorization,
@@ -745,6 +770,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Get the result of an in-progress model copying operation.
+   *
+   * @hidden
+   */
   private async getCopyModelResult(
     modelId: string,
     resultId: string,
