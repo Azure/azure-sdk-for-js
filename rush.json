@@ -517,6 +517,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/eventhubs-checkpointstore-tables",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-tables",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host",
       "versionPolicyName": "client"
