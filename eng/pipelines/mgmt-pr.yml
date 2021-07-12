@@ -1,3 +1,7 @@
+trigger:
+  branches:
+    include:
+    - feature/*
 pr:
   branches:
     include:
