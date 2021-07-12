@@ -23,7 +23,7 @@ import {
   getStartingPositionsForTests,
   setTracerForTest
 } from "../public/utils/testUtils";
-import { SpanGraph, TestSpan } from "@azure/core-tracing";
+import { SpanGraph, TestSpan } from "@azure/test-utils";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { setSpan, context } from "@azure/core-tracing";

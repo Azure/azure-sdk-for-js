@@ -68,8 +68,8 @@
     ],
     // Idenity is moving from v1 to v2. Moving all packages to v2 is going to take a bit of time, in the mean time we could use v2 on the perf-identity tests.
     "@azure/identity": [
-      "^2.0.0-beta.4",
-      "2.0.0-beta.3",
+      "^2.0.0-beta.5",
+      "2.0.0-beta.4",
       "^1.1.0"
     ],
     // Issue #14771 tracks updating to these versions
@@ -78,10 +78,6 @@
     ],
     "prettier": [
       "2.2.1"
-    ],
-    // @azure/cosmos was unable to upgrade due to test failures, Issue #15928 tracks making this upgrade
-    "@azure/core-rest-pipeline": [
-      "^1.0.3"
     ]
   }
 }
