@@ -24,6 +24,9 @@ omitted_paths:
   - sdk/storage/storage-internal-avro/*
   - sdk/test-utils/perfstress/README.md
   - sdk/test-utils/multi-version/README.md
+  - /sdk/test-utils/testing-recorder-new/README.md
+  - /sdk/test-utils/recorder-new/README.md
+
 language: js
 root_check_enabled: True
 required_readme_sections:
