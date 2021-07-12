@@ -793,6 +793,11 @@
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-locks",
+      "projectFolder": "sdk/locks/arm-locks",
+      "versionPolicyName": "management"
     }
   ]
 }
