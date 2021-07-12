@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/operationsMappers";
+import * as Mappers from "../models/availableSkusMappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClientContext } from "../dataBoxEdgeManagementClientContext";
 
-/** Class representing a Operations. */
-export class Operations {
+/** Class representing a AvailableSkus. */
+export class AvailableSkus {
   private readonly client: DataBoxEdgeManagementClientContext;
 
   /**
-   * Create a Operations.
+   * Create a AvailableSkus.
    * @param {DataBoxEdgeManagementClientContext} client Reference to the service client.
    */
   constructor(client: DataBoxEdgeManagementClientContext) {
@@ -26,55 +26,55 @@ export class Operations {
   }
 
   /**
-   * @summary List all the supported operations.
+   * @summary List all the available Skus and information related to them.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.AvailableSkusListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.AvailableSkusListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationsList>): void;
+  list(callback: msRest.ServiceCallback<Models.DataBoxEdgeSkuList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsList>, callback?: msRest.ServiceCallback<Models.OperationsList>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataBoxEdgeSkuList>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataBoxEdgeSkuList>, callback?: msRest.ServiceCallback<Models.DataBoxEdgeSkuList>): Promise<Models.AvailableSkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback) as Promise<Models.AvailableSkusListResponse>;
   }
 
   /**
-   * @summary List all the supported operations.
+   * @summary List all the available Skus and information related to them.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListNextResponse>
+   * @returns Promise<Models.AvailableSkusListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableSkusListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationsList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataBoxEdgeSkuList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsList>, callback?: msRest.ServiceCallback<Models.OperationsList>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataBoxEdgeSkuList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataBoxEdgeSkuList>, callback?: msRest.ServiceCallback<Models.DataBoxEdgeSkuList>): Promise<Models.AvailableSkusListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
+      callback) as Promise<Models.AvailableSkusListNextResponse>;
   }
 }
 
@@ -82,7 +82,10 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.DataBoxEdge/operations",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/availableSkus",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
   queryParameters: [
     Parameters.apiVersion
   ],
@@ -91,7 +94,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList
+      bodyMapper: Mappers.DataBoxEdgeSkuList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -115,7 +118,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList
+      bodyMapper: Mappers.DataBoxEdgeSkuList
     },
     default: {
       bodyMapper: Mappers.CloudError

@@ -26,7 +26,6 @@ export {
   ComputeResource,
   ContactDetails,
   Container,
-  ContainerList,
   DataBoxEdgeDevice,
   DataBoxEdgeDeviceExtendedInfo,
   DataResidency,
