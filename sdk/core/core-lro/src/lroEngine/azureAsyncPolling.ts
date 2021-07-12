@@ -27,7 +27,7 @@ function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {
 }
 
 /**
- * Sends a request to the URI of the provisioned resource if needed. 
+ * Sends a request to the URI of the provisioned resource if needed.
  */
 async function sendFinalRequest<TResult>(
   lro: LongRunningOperation<TResult>,
