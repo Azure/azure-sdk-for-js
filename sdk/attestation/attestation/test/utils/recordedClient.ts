@@ -15,18 +15,18 @@ import {
 import {
   AttestationClient,
   AttestationClientOptions,
-  AttestationAdministrationClient,
-  AttestationSigningKey
+  AttestationAdministrationClient
 } from "../../src/";
 import "./env";
+import { pemFromBase64 } from "../utils/helpers";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
   ATTESTATION_LOCATION_SHORT_NAME: "wus",
-  ISOLATED_ATTESTATION_URL: "https://isolated_attestation_url.wus.attest.azure.net",
-  AAD_ATTESTATION_URL: "https://aad_attestation_url.wus.attest.azure.net",
+  ATTESTATION_ISOLATED_URL: "https://isolated_attestation_url.wus.attest.azure.net",
+  ATTESTATION_AAD_URL: "https://aad_attestation_url.wus.attest.azure.net",
   policySigningCertificate0: "policy_signing_certificate0",
   policySigningCertificate1: "policy_signing_certificate1",
   policySigningCertificate2: "policy_signing_certificate2",
@@ -62,10 +62,10 @@ export type EndpointType = "AAD" | "Isolated" | "Shared";
 export function getAttestationUri(endpointType: EndpointType): string {
   switch (endpointType) {
     case "AAD": {
-      return env.AAD_ATTESTATION_URL;
+      return env.ATTESTATION_AAD_URL;
     }
     case "Isolated": {
-      return env.ISOLATED_ATTESTATION_URL;
+      return env.ATTESTATION_ISOLATED_URL;
     }
     case "Shared": {
       return (
@@ -82,19 +82,15 @@ export function getAttestationUri(endpointType: EndpointType): string {
   }
 }
 
-export function getIsolatedSigningKey(): AttestationSigningKey {
+export function getIsolatedSigningKey(): { privateKey: string; certificate: string } {
   const signingCert = env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
 
-  let pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-  pemCert += signingCert + "\r\n";
-  pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+  const pemCert = pemFromBase64(signingCert, "CERTIFICATE");
 
   const signingKey = env.ATTESTATION_ISOLATED_SIGNING_KEY;
-  let pemKey = "-----BEGIN PRIVATE KEY-----\r\n";
-  pemKey += signingKey + "\r\n";
-  pemKey += "-----END PRIVATE KEY-----\r\n";
+  const pemKey = pemFromBase64(signingKey, "PRIVATE KEY");
 
-  return new AttestationSigningKey(pemKey, pemCert);
+  return { privateKey: pemKey, certificate: pemCert };
 }
 
 export function createRecordedClient(
@@ -116,6 +112,7 @@ export function createRecordedClient(
         validateExpirationTime: !isPlaybackMode(),
         validateNotBeforeTime: !isPlaybackMode(),
         validateIssuer: !isPlaybackMode(),
+        timeValidationSlack: 10, // 10 seconds slack in validation time.
         expectedIssuer: getAttestationUri(endpointType)
       }
     };
@@ -142,6 +139,7 @@ export function createRecordedAdminClient(
         validateToken: true,
         validateExpirationTime: !isPlaybackMode(),
         validateNotBeforeTime: !isPlaybackMode(),
+        timeValidationSlack: 10, // 10 seconds slack in validation time.
         validateIssuer: !isPlaybackMode(),
         expectedIssuer: getAttestationUri(endpointType)
       }

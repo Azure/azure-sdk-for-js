@@ -10,7 +10,11 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 - Create, read, update, and delete the items (JSON documents) in your containers
 - Query the documents in your database using SQL-like syntax
 
-[Package (npm)][npm] | [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates) | [Product documentation][cosmos_docs]
+Key links:
+
+- [Package (npm)][npm]
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates)
+- [Product documentation][cosmos_docs]
 
 ## Getting started
 
@@ -18,7 +22,7 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 
 #### Azure Subscription and Cosmos DB SQL API Account
 
-You must have an [Azure Subscription][azure_sub], [Cosmos DB account][cosmos_account] (SQL API), and to use this package.
+You must have an [Azure Subscription][azure_sub], and a [Cosmos DB account][cosmos_account] (SQL API) to use this package.
 
 If you need a Cosmos DB SQL API account, you can use the Azure [Cloud Shell][cloud_shell_bash] to create one with this Azure CLI command:
 

@@ -1,10 +1,10 @@
 import {
-  TestTracer,
   setTracer,
   setSpan,
   context as otContext,
   OperationTracingOptions
 } from "@azure/core-tracing";
+import { TestTracer } from "@azure/test-utils";
 import { assert } from "chai";
 
 const prefix = "Azure.KeyVault";

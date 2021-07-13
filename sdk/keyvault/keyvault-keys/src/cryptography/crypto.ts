@@ -13,10 +13,14 @@ import {
  * Mapping between signature algorithms and their corresponding hash algorithms. Externally used for testing.
  **/
 const algorithmToHashAlgorithm: { [s: string]: string } = {
+  ES256: "SHA256",
+  ES256K: "SHA256",
   PS256: "SHA256",
   RS256: "SHA256",
+  ES384: "SHA384",
   PS384: "SHA384",
   RS384: "SHA384",
+  ES512: "SHA512",
   PS512: "SHA512",
   RS512: "SHA512"
 };

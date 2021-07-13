@@ -26,7 +26,11 @@ export class StoredAttestationPolicy {
    * @returns The serialized JSON policy.
    */
   serialize(): string {
-    return TypeDeserializer.serialize(this, Mappers.StoredAttestationPolicy);
+    return TypeDeserializer.serialize(
+      this,
+      { StoredAttestationPolicy: Mappers.StoredAttestationPolicy },
+      Mappers.StoredAttestationPolicy
+    );
   }
 
   /**

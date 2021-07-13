@@ -25,11 +25,12 @@ Use the library to:
 - Close connections
 - Grant/revoke/check permissions for an existing connection
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub) |
-[API reference documentation](https://aka.ms/awps/sdk/js) |
-[Product documentation](https://aka.ms/awps/doc) |
-[Samples][samples_ref]
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub)
+- [API reference documentation](https://aka.ms/awps/sdk/js)
+- [Product documentation](https://aka.ms/awps/doc)
+- [Samples][samples_ref]
 
 ## Getting started
 

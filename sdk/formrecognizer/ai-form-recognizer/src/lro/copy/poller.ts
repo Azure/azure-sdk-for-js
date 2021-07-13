@@ -13,6 +13,9 @@ import {
 import { CopyAuthorization, CustomFormModelInfo } from "../../models";
 export { OperationStatus };
 
+/**
+ * @internal
+ */
 export interface CopyPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
@@ -31,6 +34,8 @@ export interface CopyPollerOperationOptions {
 /**
  * Defines the operations from a training client that are needed for the poller
  * to work
+ *
+ * @internal
  */
 export type CopyModelPollerClient = {
   // returns a result id to retrieve results
@@ -88,6 +93,9 @@ export interface BeginCopyModelPollState extends PollOperationState<CustomFormMo
   readonly copyModelOptions?: CopyModelOptions;
 }
 
+/**
+ * @internal
+ */
 export interface BeginCopyModelPollerOperation
   extends PollOperation<BeginCopyModelPollState, CustomFormModelInfo> {}
 
@@ -108,6 +116,7 @@ export type BeginCopyModelPollerOptions = {
 
 /**
  * Class that represents a poller that waits until a model has been trained.
+ * @internal
  */
 export class BeginCopyModelPoller extends Poller<BeginCopyModelPollState, CustomFormModelInfo> {
   public updateIntervalInMs: number;
