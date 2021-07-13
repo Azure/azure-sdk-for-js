@@ -21,7 +21,7 @@ import { StorageClientOptionalParams } from "./models";
 export class StorageClient extends StorageClientContext {
   /**
    * Initializes a new instance of the StorageClient class.
-   * @param url The URL of the service account, container, or blob that is the target of the desired
+   * @param url The URL of the service account, container, or blob that is the targe of the desired
    *            operation.
    * @param options The parameter options
    */

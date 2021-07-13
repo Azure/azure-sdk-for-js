@@ -233,12 +233,9 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
-    Parameters.immutabilityPolicyExpiry,
-    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.tier,
     Parameters.blobTagsString,
-    Parameters.legalHold1,
     Parameters.transactionalContentMD5,
     Parameters.contentType2,
     Parameters.accept2,
@@ -292,7 +289,6 @@ const putBlobFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.copySource,
     Parameters.blobTagsString,
     Parameters.sourceContentMD5,
-    Parameters.copySourceAuthorization,
     Parameters.transactionalContentMD5,
     Parameters.blobType2,
     Parameters.copySourceBlobProperties
@@ -315,7 +311,7 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.body1,
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp24,
+    Parameters.comp22,
     Parameters.blockId
   ],
   urlParameters: [Parameters.url],
@@ -350,7 +346,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp24,
+    Parameters.comp22,
     Parameters.blockId
   ],
   urlParameters: [Parameters.url],
@@ -369,7 +365,6 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionAlgorithm,
     Parameters.encryptionScope,
     Parameters.sourceContentMD5,
-    Parameters.copySourceAuthorization,
     Parameters.sourceUrl,
     Parameters.sourceContentCrc64,
     Parameters.sourceRange1
@@ -390,7 +385,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.blocks,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp25],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp23],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
@@ -413,12 +408,9 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
-    Parameters.immutabilityPolicyExpiry,
-    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.tier,
     Parameters.blobTagsString,
-    Parameters.legalHold1,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64
   ],
@@ -443,7 +435,7 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp25,
+    Parameters.comp23,
     Parameters.listType
   ],
   urlParameters: [Parameters.url],

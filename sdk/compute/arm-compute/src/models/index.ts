@@ -5458,7 +5458,7 @@ export type SharedGalleryImageVersion = PirSharedGalleryResource & {
 };
 
 /** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
-export const enum KnownProximityPlacementGroupType {
+export enum KnownProximityPlacementGroupType {
   Standard = "Standard",
   Ultra = "Ultra"
 }
@@ -5474,7 +5474,7 @@ export const enum KnownProximityPlacementGroupType {
 export type ProximityPlacementGroupType = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
-export const enum KnownExtendedLocationTypes {
+export enum KnownExtendedLocationTypes {
   EdgeZone = "EdgeZone"
 }
 
@@ -5488,7 +5488,7 @@ export const enum KnownExtendedLocationTypes {
 export type ExtendedLocationTypes = string;
 
 /** Known values of {@link HyperVGenerationTypes} that the service accepts. */
-export const enum KnownHyperVGenerationTypes {
+export enum KnownHyperVGenerationTypes {
   V1 = "V1",
   V2 = "V2"
 }
@@ -5504,7 +5504,7 @@ export const enum KnownHyperVGenerationTypes {
 export type HyperVGenerationTypes = string;
 
 /** Known values of {@link VmDiskTypes} that the service accepts. */
-export const enum KnownVmDiskTypes {
+export enum KnownVmDiskTypes {
   None = "None",
   Unmanaged = "Unmanaged"
 }
@@ -5520,7 +5520,7 @@ export const enum KnownVmDiskTypes {
 export type VmDiskTypes = string;
 
 /** Known values of {@link VirtualMachineSizeTypes} that the service accepts. */
-export const enum KnownVirtualMachineSizeTypes {
+export enum KnownVirtualMachineSizeTypes {
   BasicA0 = "Basic_A0",
   BasicA1 = "Basic_A1",
   BasicA2 = "Basic_A2",
@@ -5864,7 +5864,7 @@ export const enum KnownVirtualMachineSizeTypes {
 export type VirtualMachineSizeTypes = string;
 
 /** Known values of {@link DiffDiskOptions} that the service accepts. */
-export const enum KnownDiffDiskOptions {
+export enum KnownDiffDiskOptions {
   Local = "Local"
 }
 
@@ -5878,7 +5878,7 @@ export const enum KnownDiffDiskOptions {
 export type DiffDiskOptions = string;
 
 /** Known values of {@link DiffDiskPlacement} that the service accepts. */
-export const enum KnownDiffDiskPlacement {
+export enum KnownDiffDiskPlacement {
   CacheDisk = "CacheDisk",
   ResourceDisk = "ResourceDisk"
 }
@@ -5894,7 +5894,7 @@ export const enum KnownDiffDiskPlacement {
 export type DiffDiskPlacement = string;
 
 /** Known values of {@link DiskCreateOptionTypes} that the service accepts. */
-export const enum KnownDiskCreateOptionTypes {
+export enum KnownDiskCreateOptionTypes {
   FromImage = "FromImage",
   Empty = "Empty",
   Attach = "Attach"
@@ -5912,7 +5912,7 @@ export const enum KnownDiskCreateOptionTypes {
 export type DiskCreateOptionTypes = string;
 
 /** Known values of {@link StorageAccountTypes} that the service accepts. */
-export const enum KnownStorageAccountTypes {
+export enum KnownStorageAccountTypes {
   StandardLRS = "Standard_LRS",
   PremiumLRS = "Premium_LRS",
   StandardSSDLRS = "StandardSSD_LRS",
@@ -5936,7 +5936,7 @@ export const enum KnownStorageAccountTypes {
 export type StorageAccountTypes = string;
 
 /** Known values of {@link DiskDeleteOptionTypes} that the service accepts. */
-export const enum KnownDiskDeleteOptionTypes {
+export enum KnownDiskDeleteOptionTypes {
   Delete = "Delete",
   Detach = "Detach"
 }
@@ -5952,7 +5952,7 @@ export const enum KnownDiskDeleteOptionTypes {
 export type DiskDeleteOptionTypes = string;
 
 /** Known values of {@link DiskDetachOptionTypes} that the service accepts. */
-export const enum KnownDiskDetachOptionTypes {
+export enum KnownDiskDetachOptionTypes {
   ForceDetach = "ForceDetach"
 }
 
@@ -5966,7 +5966,7 @@ export const enum KnownDiskDetachOptionTypes {
 export type DiskDetachOptionTypes = string;
 
 /** Known values of {@link WindowsVMGuestPatchMode} that the service accepts. */
-export const enum KnownWindowsVMGuestPatchMode {
+export enum KnownWindowsVMGuestPatchMode {
   Manual = "Manual",
   AutomaticByOS = "AutomaticByOS",
   AutomaticByPlatform = "AutomaticByPlatform"
@@ -5984,7 +5984,7 @@ export const enum KnownWindowsVMGuestPatchMode {
 export type WindowsVMGuestPatchMode = string;
 
 /** Known values of {@link WindowsPatchAssessmentMode} that the service accepts. */
-export const enum KnownWindowsPatchAssessmentMode {
+export enum KnownWindowsPatchAssessmentMode {
   ImageDefault = "ImageDefault",
   AutomaticByPlatform = "AutomaticByPlatform"
 }
@@ -6000,7 +6000,7 @@ export const enum KnownWindowsPatchAssessmentMode {
 export type WindowsPatchAssessmentMode = string;
 
 /** Known values of {@link LinuxVMGuestPatchMode} that the service accepts. */
-export const enum KnownLinuxVMGuestPatchMode {
+export enum KnownLinuxVMGuestPatchMode {
   ImageDefault = "ImageDefault",
   AutomaticByPlatform = "AutomaticByPlatform"
 }
@@ -6016,7 +6016,7 @@ export const enum KnownLinuxVMGuestPatchMode {
 export type LinuxVMGuestPatchMode = string;
 
 /** Known values of {@link LinuxPatchAssessmentMode} that the service accepts. */
-export const enum KnownLinuxPatchAssessmentMode {
+export enum KnownLinuxPatchAssessmentMode {
   ImageDefault = "ImageDefault",
   AutomaticByPlatform = "AutomaticByPlatform"
 }
@@ -6032,7 +6032,7 @@ export const enum KnownLinuxPatchAssessmentMode {
 export type LinuxPatchAssessmentMode = string;
 
 /** Known values of {@link DeleteOptions} that the service accepts. */
-export const enum KnownDeleteOptions {
+export enum KnownDeleteOptions {
   Delete = "Delete",
   Detach = "Detach"
 }
@@ -6048,7 +6048,7 @@ export const enum KnownDeleteOptions {
 export type DeleteOptions = string;
 
 /** Known values of {@link NetworkApiVersion} that the service accepts. */
-export const enum KnownNetworkApiVersion {
+export enum KnownNetworkApiVersion {
   TwoThousandTwenty1101 = "2020-11-01"
 }
 
@@ -6062,7 +6062,7 @@ export const enum KnownNetworkApiVersion {
 export type NetworkApiVersion = string;
 
 /** Known values of {@link IPVersions} that the service accepts. */
-export const enum KnownIPVersions {
+export enum KnownIPVersions {
   IPv4 = "IPv4",
   IPv6 = "IPv6"
 }
@@ -6078,7 +6078,7 @@ export const enum KnownIPVersions {
 export type IPVersions = string;
 
 /** Known values of {@link PublicIPAllocationMethod} that the service accepts. */
-export const enum KnownPublicIPAllocationMethod {
+export enum KnownPublicIPAllocationMethod {
   Dynamic = "Dynamic",
   Static = "Static"
 }
@@ -6094,7 +6094,7 @@ export const enum KnownPublicIPAllocationMethod {
 export type PublicIPAllocationMethod = string;
 
 /** Known values of {@link PublicIPAddressSkuName} that the service accepts. */
-export const enum KnownPublicIPAddressSkuName {
+export enum KnownPublicIPAddressSkuName {
   Basic = "Basic",
   Standard = "Standard"
 }
@@ -6110,7 +6110,7 @@ export const enum KnownPublicIPAddressSkuName {
 export type PublicIPAddressSkuName = string;
 
 /** Known values of {@link PublicIPAddressSkuTier} that the service accepts. */
-export const enum KnownPublicIPAddressSkuTier {
+export enum KnownPublicIPAddressSkuTier {
   Regional = "Regional",
   Global = "Global"
 }
@@ -6126,7 +6126,7 @@ export const enum KnownPublicIPAddressSkuTier {
 export type PublicIPAddressSkuTier = string;
 
 /** Known values of {@link SecurityTypes} that the service accepts. */
-export const enum KnownSecurityTypes {
+export enum KnownSecurityTypes {
   TrustedLaunch = "TrustedLaunch"
 }
 
@@ -6140,7 +6140,7 @@ export const enum KnownSecurityTypes {
 export type SecurityTypes = string;
 
 /** Known values of {@link VirtualMachinePriorityTypes} that the service accepts. */
-export const enum KnownVirtualMachinePriorityTypes {
+export enum KnownVirtualMachinePriorityTypes {
   Regular = "Regular",
   Low = "Low",
   Spot = "Spot"
@@ -6158,7 +6158,7 @@ export const enum KnownVirtualMachinePriorityTypes {
 export type VirtualMachinePriorityTypes = string;
 
 /** Known values of {@link VirtualMachineEvictionPolicyTypes} that the service accepts. */
-export const enum KnownVirtualMachineEvictionPolicyTypes {
+export enum KnownVirtualMachineEvictionPolicyTypes {
   Deallocate = "Deallocate",
   Delete = "Delete"
 }
@@ -6174,7 +6174,7 @@ export const enum KnownVirtualMachineEvictionPolicyTypes {
 export type VirtualMachineEvictionPolicyTypes = string;
 
 /** Known values of {@link HyperVGenerationType} that the service accepts. */
-export const enum KnownHyperVGenerationType {
+export enum KnownHyperVGenerationType {
   V1 = "V1",
   V2 = "V2"
 }
@@ -6190,7 +6190,7 @@ export const enum KnownHyperVGenerationType {
 export type HyperVGenerationType = string;
 
 /** Known values of {@link PatchOperationStatus} that the service accepts. */
-export const enum KnownPatchOperationStatus {
+export enum KnownPatchOperationStatus {
   Unknown = "Unknown",
   InProgress = "InProgress",
   Failed = "Failed",
@@ -6212,7 +6212,7 @@ export const enum KnownPatchOperationStatus {
 export type PatchOperationStatus = string;
 
 /** Known values of {@link IPVersion} that the service accepts. */
-export const enum KnownIPVersion {
+export enum KnownIPVersion {
   IPv4 = "IPv4",
   IPv6 = "IPv6"
 }
@@ -6228,7 +6228,7 @@ export const enum KnownIPVersion {
 export type IPVersion = string;
 
 /** Known values of {@link VirtualMachineScaleSetScaleInRules} that the service accepts. */
-export const enum KnownVirtualMachineScaleSetScaleInRules {
+export enum KnownVirtualMachineScaleSetScaleInRules {
   Default = "Default",
   OldestVM = "OldestVM",
   NewestVM = "NewestVM"
@@ -6246,7 +6246,7 @@ export const enum KnownVirtualMachineScaleSetScaleInRules {
 export type VirtualMachineScaleSetScaleInRules = string;
 
 /** Known values of {@link OrchestrationMode} that the service accepts. */
-export const enum KnownOrchestrationMode {
+export enum KnownOrchestrationMode {
   Uniform = "Uniform",
   Flexible = "Flexible"
 }
@@ -6262,7 +6262,7 @@ export const enum KnownOrchestrationMode {
 export type OrchestrationMode = string;
 
 /** Known values of {@link OperatingSystemType} that the service accepts. */
-export const enum KnownOperatingSystemType {
+export enum KnownOperatingSystemType {
   Windows = "Windows",
   Linux = "Linux"
 }
@@ -6278,7 +6278,7 @@ export const enum KnownOperatingSystemType {
 export type OperatingSystemType = string;
 
 /** Known values of {@link ConsistencyModeTypes} that the service accepts. */
-export const enum KnownConsistencyModeTypes {
+export enum KnownConsistencyModeTypes {
   CrashConsistent = "CrashConsistent",
   FileSystemConsistent = "FileSystemConsistent",
   ApplicationConsistent = "ApplicationConsistent"
@@ -6296,7 +6296,7 @@ export const enum KnownConsistencyModeTypes {
 export type ConsistencyModeTypes = string;
 
 /** Known values of {@link RestorePointCollectionExpandOptions} that the service accepts. */
-export const enum KnownRestorePointCollectionExpandOptions {
+export enum KnownRestorePointCollectionExpandOptions {
   RestorePoints = "restorePoints"
 }
 
@@ -6310,7 +6310,7 @@ export const enum KnownRestorePointCollectionExpandOptions {
 export type RestorePointCollectionExpandOptions = string;
 
 /** Known values of {@link VMGuestPatchRebootBehavior} that the service accepts. */
-export const enum KnownVMGuestPatchRebootBehavior {
+export enum KnownVMGuestPatchRebootBehavior {
   Unknown = "Unknown",
   NeverReboots = "NeverReboots",
   AlwaysRequiresReboot = "AlwaysRequiresReboot",
@@ -6330,7 +6330,7 @@ export const enum KnownVMGuestPatchRebootBehavior {
 export type VMGuestPatchRebootBehavior = string;
 
 /** Known values of {@link PatchAssessmentState} that the service accepts. */
-export const enum KnownPatchAssessmentState {
+export enum KnownPatchAssessmentState {
   Unknown = "Unknown",
   Available = "Available"
 }
@@ -6346,7 +6346,7 @@ export const enum KnownPatchAssessmentState {
 export type PatchAssessmentState = string;
 
 /** Known values of {@link VMGuestPatchRebootSetting} that the service accepts. */
-export const enum KnownVMGuestPatchRebootSetting {
+export enum KnownVMGuestPatchRebootSetting {
   IfRequired = "IfRequired",
   Never = "Never",
   Always = "Always"
@@ -6364,7 +6364,7 @@ export const enum KnownVMGuestPatchRebootSetting {
 export type VMGuestPatchRebootSetting = string;
 
 /** Known values of {@link VMGuestPatchClassificationWindows} that the service accepts. */
-export const enum KnownVMGuestPatchClassificationWindows {
+export enum KnownVMGuestPatchClassificationWindows {
   Critical = "Critical",
   Security = "Security",
   UpdateRollUp = "UpdateRollUp",
@@ -6392,7 +6392,7 @@ export const enum KnownVMGuestPatchClassificationWindows {
 export type VMGuestPatchClassificationWindows = string;
 
 /** Known values of {@link VMGuestPatchClassificationLinux} that the service accepts. */
-export const enum KnownVMGuestPatchClassificationLinux {
+export enum KnownVMGuestPatchClassificationLinux {
   Critical = "Critical",
   Security = "Security",
   Other = "Other"
@@ -6410,7 +6410,7 @@ export const enum KnownVMGuestPatchClassificationLinux {
 export type VMGuestPatchClassificationLinux = string;
 
 /** Known values of {@link VMGuestPatchRebootStatus} that the service accepts. */
-export const enum KnownVMGuestPatchRebootStatus {
+export enum KnownVMGuestPatchRebootStatus {
   Unknown = "Unknown",
   NotNeeded = "NotNeeded",
   Required = "Required",
@@ -6434,7 +6434,7 @@ export const enum KnownVMGuestPatchRebootStatus {
 export type VMGuestPatchRebootStatus = string;
 
 /** Known values of {@link PatchInstallationState} that the service accepts. */
-export const enum KnownPatchInstallationState {
+export enum KnownPatchInstallationState {
   Unknown = "Unknown",
   Installed = "Installed",
   Failed = "Failed",
@@ -6458,7 +6458,7 @@ export const enum KnownPatchInstallationState {
 export type PatchInstallationState = string;
 
 /** Known values of {@link ExpandTypesForGetVMScaleSets} that the service accepts. */
-export const enum KnownExpandTypesForGetVMScaleSets {
+export enum KnownExpandTypesForGetVMScaleSets {
   UserData = "userData"
 }
 
@@ -6472,7 +6472,7 @@ export const enum KnownExpandTypesForGetVMScaleSets {
 export type ExpandTypesForGetVMScaleSets = string;
 
 /** Known values of {@link OrchestrationServiceNames} that the service accepts. */
-export const enum KnownOrchestrationServiceNames {
+export enum KnownOrchestrationServiceNames {
   AutomaticRepairs = "AutomaticRepairs",
   DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
 }
@@ -6488,7 +6488,7 @@ export const enum KnownOrchestrationServiceNames {
 export type OrchestrationServiceNames = string;
 
 /** Known values of {@link OrchestrationServiceState} that the service accepts. */
-export const enum KnownOrchestrationServiceState {
+export enum KnownOrchestrationServiceState {
   NotRunning = "NotRunning",
   Running = "Running",
   Suspended = "Suspended"
@@ -6506,7 +6506,7 @@ export const enum KnownOrchestrationServiceState {
 export type OrchestrationServiceState = string;
 
 /** Known values of {@link OrchestrationServiceStateAction} that the service accepts. */
-export const enum KnownOrchestrationServiceStateAction {
+export enum KnownOrchestrationServiceStateAction {
   Resume = "Resume",
   Suspend = "Suspend"
 }
@@ -6522,7 +6522,7 @@ export const enum KnownOrchestrationServiceStateAction {
 export type OrchestrationServiceStateAction = string;
 
 /** Known values of {@link ExecutionState} that the service accepts. */
-export const enum KnownExecutionState {
+export enum KnownExecutionState {
   Unknown = "Unknown",
   Pending = "Pending",
   Running = "Running",
@@ -6548,7 +6548,7 @@ export const enum KnownExecutionState {
 export type ExecutionState = string;
 
 /** Known values of {@link DiskStorageAccountTypes} that the service accepts. */
-export const enum KnownDiskStorageAccountTypes {
+export enum KnownDiskStorageAccountTypes {
   /** Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. */
   StandardLRS = "Standard_LRS",
   /** Premium SSD locally redundant storage. Best for production and performance sensitive workloads. */
@@ -6578,7 +6578,7 @@ export const enum KnownDiskStorageAccountTypes {
 export type DiskStorageAccountTypes = string;
 
 /** Known values of {@link HyperVGeneration} that the service accepts. */
-export const enum KnownHyperVGeneration {
+export enum KnownHyperVGeneration {
   V1 = "V1",
   V2 = "V2"
 }
@@ -6594,7 +6594,7 @@ export const enum KnownHyperVGeneration {
 export type HyperVGeneration = string;
 
 /** Known values of {@link DiskCreateOption} that the service accepts. */
-export const enum KnownDiskCreateOption {
+export enum KnownDiskCreateOption {
   /** Create an empty data disk of a size given by diskSizeGB. */
   Empty = "Empty",
   /** Disk will be attached to a VM. */
@@ -6627,7 +6627,7 @@ export const enum KnownDiskCreateOption {
 export type DiskCreateOption = string;
 
 /** Known values of {@link DiskState} that the service accepts. */
-export const enum KnownDiskState {
+export enum KnownDiskState {
   /** The disk is not being used and can be attached to a VM. */
   Unattached = "Unattached",
   /** The disk is currently mounted to a running VM. */
@@ -6657,7 +6657,7 @@ export const enum KnownDiskState {
 export type DiskState = string;
 
 /** Known values of {@link EncryptionType} that the service accepts. */
-export const enum KnownEncryptionType {
+export enum KnownEncryptionType {
   /** Disk is encrypted at rest with Platform managed key. It is the default encryption type. This is not a valid encryption type for disk encryption sets. */
   EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
   /** Disk is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
@@ -6678,7 +6678,7 @@ export const enum KnownEncryptionType {
 export type EncryptionType = string;
 
 /** Known values of {@link NetworkAccessPolicy} that the service accepts. */
-export const enum KnownNetworkAccessPolicy {
+export enum KnownNetworkAccessPolicy {
   /** The disk can be exported or uploaded to from any network. */
   AllowAll = "AllowAll",
   /** The disk can be exported or uploaded to using a DiskAccess resource's private endpoints. */
@@ -6699,7 +6699,7 @@ export const enum KnownNetworkAccessPolicy {
 export type NetworkAccessPolicy = string;
 
 /** Known values of {@link DiskSecurityTypes} that the service accepts. */
-export const enum KnownDiskSecurityTypes {
+export enum KnownDiskSecurityTypes {
   /** Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) */
   TrustedLaunch = "TrustedLaunch"
 }
@@ -6714,7 +6714,7 @@ export const enum KnownDiskSecurityTypes {
 export type DiskSecurityTypes = string;
 
 /** Known values of {@link AccessLevel} that the service accepts. */
-export const enum KnownAccessLevel {
+export enum KnownAccessLevel {
   None = "None",
   Read = "Read",
   Write = "Write"
@@ -6732,7 +6732,7 @@ export const enum KnownAccessLevel {
 export type AccessLevel = string;
 
 /** Known values of {@link SnapshotStorageAccountTypes} that the service accepts. */
-export const enum KnownSnapshotStorageAccountTypes {
+export enum KnownSnapshotStorageAccountTypes {
   /** Standard HDD locally redundant storage */
   StandardLRS = "Standard_LRS",
   /** Premium SSD locally redundant storage */
@@ -6753,7 +6753,7 @@ export const enum KnownSnapshotStorageAccountTypes {
 export type SnapshotStorageAccountTypes = string;
 
 /** Known values of {@link DiskEncryptionSetIdentityType} that the service accepts. */
-export const enum KnownDiskEncryptionSetIdentityType {
+export enum KnownDiskEncryptionSetIdentityType {
   SystemAssigned = "SystemAssigned",
   None = "None"
 }
@@ -6769,7 +6769,7 @@ export const enum KnownDiskEncryptionSetIdentityType {
 export type DiskEncryptionSetIdentityType = string;
 
 /** Known values of {@link DiskEncryptionSetType} that the service accepts. */
-export const enum KnownDiskEncryptionSetType {
+export enum KnownDiskEncryptionSetType {
   /** Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
   EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
   /** Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
@@ -6787,7 +6787,7 @@ export const enum KnownDiskEncryptionSetType {
 export type DiskEncryptionSetType = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export const enum KnownPrivateEndpointServiceConnectionStatus {
+export enum KnownPrivateEndpointServiceConnectionStatus {
   Pending = "Pending",
   Approved = "Approved",
   Rejected = "Rejected"
@@ -6805,7 +6805,7 @@ export const enum KnownPrivateEndpointServiceConnectionStatus {
 export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export const enum KnownPrivateEndpointConnectionProvisioningState {
+export enum KnownPrivateEndpointConnectionProvisioningState {
   Succeeded = "Succeeded",
   Creating = "Creating",
   Deleting = "Deleting",
@@ -6825,7 +6825,7 @@ export const enum KnownPrivateEndpointConnectionProvisioningState {
 export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link GalleryPropertiesProvisioningState} that the service accepts. */
-export const enum KnownGalleryPropertiesProvisioningState {
+export enum KnownGalleryPropertiesProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
   Failed = "Failed",
@@ -6849,7 +6849,7 @@ export const enum KnownGalleryPropertiesProvisioningState {
 export type GalleryPropertiesProvisioningState = string;
 
 /** Known values of {@link GallerySharingPermissionTypes} that the service accepts. */
-export const enum KnownGallerySharingPermissionTypes {
+export enum KnownGallerySharingPermissionTypes {
   Private = "Private",
   Groups = "Groups"
 }
@@ -6865,7 +6865,7 @@ export const enum KnownGallerySharingPermissionTypes {
 export type GallerySharingPermissionTypes = string;
 
 /** Known values of {@link SharingProfileGroupTypes} that the service accepts. */
-export const enum KnownSharingProfileGroupTypes {
+export enum KnownSharingProfileGroupTypes {
   Subscriptions = "Subscriptions",
   AADTenants = "AADTenants"
 }
@@ -6881,7 +6881,7 @@ export const enum KnownSharingProfileGroupTypes {
 export type SharingProfileGroupTypes = string;
 
 /** Known values of {@link SelectPermissions} that the service accepts. */
-export const enum KnownSelectPermissions {
+export enum KnownSelectPermissions {
   Permissions = "Permissions"
 }
 
@@ -6895,7 +6895,7 @@ export const enum KnownSelectPermissions {
 export type SelectPermissions = string;
 
 /** Known values of {@link GalleryImagePropertiesProvisioningState} that the service accepts. */
-export const enum KnownGalleryImagePropertiesProvisioningState {
+export enum KnownGalleryImagePropertiesProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
   Failed = "Failed",
@@ -6919,7 +6919,7 @@ export const enum KnownGalleryImagePropertiesProvisioningState {
 export type GalleryImagePropertiesProvisioningState = string;
 
 /** Known values of {@link StorageAccountType} that the service accepts. */
-export const enum KnownStorageAccountType {
+export enum KnownStorageAccountType {
   StandardLRS = "Standard_LRS",
   StandardZRS = "Standard_ZRS",
   PremiumLRS = "Premium_LRS"
@@ -6937,7 +6937,7 @@ export const enum KnownStorageAccountType {
 export type StorageAccountType = string;
 
 /** Known values of {@link GalleryImageVersionPropertiesProvisioningState} that the service accepts. */
-export const enum KnownGalleryImageVersionPropertiesProvisioningState {
+export enum KnownGalleryImageVersionPropertiesProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
   Failed = "Failed",
@@ -6961,7 +6961,7 @@ export const enum KnownGalleryImageVersionPropertiesProvisioningState {
 export type GalleryImageVersionPropertiesProvisioningState = string;
 
 /** Known values of {@link AggregatedReplicationState} that the service accepts. */
-export const enum KnownAggregatedReplicationState {
+export enum KnownAggregatedReplicationState {
   Unknown = "Unknown",
   InProgress = "InProgress",
   Completed = "Completed",
@@ -6981,7 +6981,7 @@ export const enum KnownAggregatedReplicationState {
 export type AggregatedReplicationState = string;
 
 /** Known values of {@link ReplicationState} that the service accepts. */
-export const enum KnownReplicationState {
+export enum KnownReplicationState {
   Unknown = "Unknown",
   Replicating = "Replicating",
   Completed = "Completed",
@@ -7001,7 +7001,7 @@ export const enum KnownReplicationState {
 export type ReplicationState = string;
 
 /** Known values of {@link ReplicationStatusTypes} that the service accepts. */
-export const enum KnownReplicationStatusTypes {
+export enum KnownReplicationStatusTypes {
   ReplicationStatus = "ReplicationStatus"
 }
 
@@ -7015,7 +7015,7 @@ export const enum KnownReplicationStatusTypes {
 export type ReplicationStatusTypes = string;
 
 /** Known values of {@link GalleryApplicationVersionPropertiesProvisioningState} that the service accepts. */
-export const enum KnownGalleryApplicationVersionPropertiesProvisioningState {
+export enum KnownGalleryApplicationVersionPropertiesProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
   Failed = "Failed",
@@ -7039,7 +7039,7 @@ export const enum KnownGalleryApplicationVersionPropertiesProvisioningState {
 export type GalleryApplicationVersionPropertiesProvisioningState = string;
 
 /** Known values of {@link SharingUpdateOperationTypes} that the service accepts. */
-export const enum KnownSharingUpdateOperationTypes {
+export enum KnownSharingUpdateOperationTypes {
   Add = "Add",
   Remove = "Remove",
   Reset = "Reset"
@@ -7057,7 +7057,7 @@ export const enum KnownSharingUpdateOperationTypes {
 export type SharingUpdateOperationTypes = string;
 
 /** Known values of {@link SharedToValues} that the service accepts. */
-export const enum KnownSharedToValues {
+export enum KnownSharedToValues {
   Tenant = "tenant"
 }
 
@@ -7071,7 +7071,7 @@ export const enum KnownSharedToValues {
 export type SharedToValues = string;
 
 /** Known values of {@link CloudServiceUpgradeMode} that the service accepts. */
-export const enum KnownCloudServiceUpgradeMode {
+export enum KnownCloudServiceUpgradeMode {
   Auto = "Auto",
   Manual = "Manual",
   Simultaneous = "Simultaneous"
@@ -7089,7 +7089,7 @@ export const enum KnownCloudServiceUpgradeMode {
 export type CloudServiceUpgradeMode = string;
 
 /** Known values of {@link AvailabilitySetSkuTypes} that the service accepts. */
-export const enum KnownAvailabilitySetSkuTypes {
+export enum KnownAvailabilitySetSkuTypes {
   Classic = "Classic",
   Aligned = "Aligned"
 }

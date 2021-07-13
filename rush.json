@@ -750,8 +750,8 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixedreality-authentication",
-      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "packageName": "@azure/mixed-reality-authentication",
+      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
       "versionPolicyName": "client"
     },
     {
@@ -788,6 +788,11 @@
       "packageName": "@azure-tests/perf-app-configuration",
       "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixed-reality-remote-rendering",
+      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-compute",

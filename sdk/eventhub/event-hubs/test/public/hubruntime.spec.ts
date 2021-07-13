@@ -11,7 +11,7 @@ import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 import { setSpan, context } from "@azure/core-tracing";
 const env = getEnvVars();
 
-import { SpanGraph } from "@azure/core-tracing";
+import { SpanGraph } from "@azure/test-utils";
 import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
 
 describe("RuntimeInformation", function(): void {

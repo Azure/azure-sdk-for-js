@@ -2460,7 +2460,7 @@ export interface KeyVaultSecretReference {
 }
 
 // @public
-export const enum KnownAccessLevel {
+export enum KnownAccessLevel {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -2470,7 +2470,7 @@ export const enum KnownAccessLevel {
 }
 
 // @public
-export const enum KnownAggregatedReplicationState {
+export enum KnownAggregatedReplicationState {
     // (undocumented)
     Completed = "Completed",
     // (undocumented)
@@ -2482,7 +2482,7 @@ export const enum KnownAggregatedReplicationState {
 }
 
 // @public
-export const enum KnownAvailabilitySetSkuTypes {
+export enum KnownAvailabilitySetSkuTypes {
     // (undocumented)
     Aligned = "Aligned",
     // (undocumented)
@@ -2490,7 +2490,7 @@ export const enum KnownAvailabilitySetSkuTypes {
 }
 
 // @public
-export const enum KnownCloudServiceUpgradeMode {
+export enum KnownCloudServiceUpgradeMode {
     // (undocumented)
     Auto = "Auto",
     // (undocumented)
@@ -2500,7 +2500,7 @@ export const enum KnownCloudServiceUpgradeMode {
 }
 
 // @public
-export const enum KnownConsistencyModeTypes {
+export enum KnownConsistencyModeTypes {
     // (undocumented)
     ApplicationConsistent = "ApplicationConsistent",
     // (undocumented)
@@ -2510,7 +2510,7 @@ export const enum KnownConsistencyModeTypes {
 }
 
 // @public
-export const enum KnownDeleteOptions {
+export enum KnownDeleteOptions {
     // (undocumented)
     Delete = "Delete",
     // (undocumented)
@@ -2518,13 +2518,13 @@ export const enum KnownDeleteOptions {
 }
 
 // @public
-export const enum KnownDiffDiskOptions {
+export enum KnownDiffDiskOptions {
     // (undocumented)
     Local = "Local"
 }
 
 // @public
-export const enum KnownDiffDiskPlacement {
+export enum KnownDiffDiskPlacement {
     // (undocumented)
     CacheDisk = "CacheDisk",
     // (undocumented)
@@ -2532,7 +2532,7 @@ export const enum KnownDiffDiskPlacement {
 }
 
 // @public
-export const enum KnownDiskCreateOption {
+export enum KnownDiskCreateOption {
     Attach = "Attach",
     Copy = "Copy",
     Empty = "Empty",
@@ -2543,7 +2543,7 @@ export const enum KnownDiskCreateOption {
 }
 
 // @public
-export const enum KnownDiskCreateOptionTypes {
+export enum KnownDiskCreateOptionTypes {
     // (undocumented)
     Attach = "Attach",
     // (undocumented)
@@ -2553,7 +2553,7 @@ export const enum KnownDiskCreateOptionTypes {
 }
 
 // @public
-export const enum KnownDiskDeleteOptionTypes {
+export enum KnownDiskDeleteOptionTypes {
     // (undocumented)
     Delete = "Delete",
     // (undocumented)
@@ -2561,13 +2561,13 @@ export const enum KnownDiskDeleteOptionTypes {
 }
 
 // @public
-export const enum KnownDiskDetachOptionTypes {
+export enum KnownDiskDetachOptionTypes {
     // (undocumented)
     ForceDetach = "ForceDetach"
 }
 
 // @public
-export const enum KnownDiskEncryptionSetIdentityType {
+export enum KnownDiskEncryptionSetIdentityType {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -2575,18 +2575,18 @@ export const enum KnownDiskEncryptionSetIdentityType {
 }
 
 // @public
-export const enum KnownDiskEncryptionSetType {
+export enum KnownDiskEncryptionSetType {
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
 }
 
 // @public
-export const enum KnownDiskSecurityTypes {
+export enum KnownDiskSecurityTypes {
     TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
-export const enum KnownDiskState {
+export enum KnownDiskState {
     ActiveSAS = "ActiveSAS",
     ActiveUpload = "ActiveUpload",
     Attached = "Attached",
@@ -2596,7 +2596,7 @@ export const enum KnownDiskState {
 }
 
 // @public
-export const enum KnownDiskStorageAccountTypes {
+export enum KnownDiskStorageAccountTypes {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
@@ -2606,14 +2606,14 @@ export const enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export const enum KnownEncryptionType {
+export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
     EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
 }
 
 // @public
-export const enum KnownExecutionState {
+export enum KnownExecutionState {
     // (undocumented)
     Canceled = "Canceled",
     // (undocumented)
@@ -2631,19 +2631,19 @@ export const enum KnownExecutionState {
 }
 
 // @public
-export const enum KnownExpandTypesForGetVMScaleSets {
+export enum KnownExpandTypesForGetVMScaleSets {
     // (undocumented)
     UserData = "userData"
 }
 
 // @public
-export const enum KnownExtendedLocationTypes {
+export enum KnownExtendedLocationTypes {
     // (undocumented)
     EdgeZone = "EdgeZone"
 }
 
 // @public
-export const enum KnownGalleryApplicationVersionPropertiesProvisioningState {
+export enum KnownGalleryApplicationVersionPropertiesProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -2659,7 +2659,7 @@ export const enum KnownGalleryApplicationVersionPropertiesProvisioningState {
 }
 
 // @public
-export const enum KnownGalleryImagePropertiesProvisioningState {
+export enum KnownGalleryImagePropertiesProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -2675,7 +2675,7 @@ export const enum KnownGalleryImagePropertiesProvisioningState {
 }
 
 // @public
-export const enum KnownGalleryImageVersionPropertiesProvisioningState {
+export enum KnownGalleryImageVersionPropertiesProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -2691,7 +2691,7 @@ export const enum KnownGalleryImageVersionPropertiesProvisioningState {
 }
 
 // @public
-export const enum KnownGalleryPropertiesProvisioningState {
+export enum KnownGalleryPropertiesProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -2707,7 +2707,7 @@ export const enum KnownGalleryPropertiesProvisioningState {
 }
 
 // @public
-export const enum KnownGallerySharingPermissionTypes {
+export enum KnownGallerySharingPermissionTypes {
     // (undocumented)
     Groups = "Groups",
     // (undocumented)
@@ -2715,7 +2715,7 @@ export const enum KnownGallerySharingPermissionTypes {
 }
 
 // @public
-export const enum KnownHyperVGeneration {
+export enum KnownHyperVGeneration {
     // (undocumented)
     V1 = "V1",
     // (undocumented)
@@ -2723,7 +2723,7 @@ export const enum KnownHyperVGeneration {
 }
 
 // @public
-export const enum KnownHyperVGenerationType {
+export enum KnownHyperVGenerationType {
     // (undocumented)
     V1 = "V1",
     // (undocumented)
@@ -2731,7 +2731,7 @@ export const enum KnownHyperVGenerationType {
 }
 
 // @public
-export const enum KnownHyperVGenerationTypes {
+export enum KnownHyperVGenerationTypes {
     // (undocumented)
     V1 = "V1",
     // (undocumented)
@@ -2739,7 +2739,7 @@ export const enum KnownHyperVGenerationTypes {
 }
 
 // @public
-export const enum KnownIPVersion {
+export enum KnownIPVersion {
     // (undocumented)
     IPv4 = "IPv4",
     // (undocumented)
@@ -2747,7 +2747,7 @@ export const enum KnownIPVersion {
 }
 
 // @public
-export const enum KnownIPVersions {
+export enum KnownIPVersions {
     // (undocumented)
     IPv4 = "IPv4",
     // (undocumented)
@@ -2755,7 +2755,7 @@ export const enum KnownIPVersions {
 }
 
 // @public
-export const enum KnownLinuxPatchAssessmentMode {
+export enum KnownLinuxPatchAssessmentMode {
     // (undocumented)
     AutomaticByPlatform = "AutomaticByPlatform",
     // (undocumented)
@@ -2763,7 +2763,7 @@ export const enum KnownLinuxPatchAssessmentMode {
 }
 
 // @public
-export const enum KnownLinuxVMGuestPatchMode {
+export enum KnownLinuxVMGuestPatchMode {
     // (undocumented)
     AutomaticByPlatform = "AutomaticByPlatform",
     // (undocumented)
@@ -2771,20 +2771,20 @@ export const enum KnownLinuxVMGuestPatchMode {
 }
 
 // @public
-export const enum KnownNetworkAccessPolicy {
+export enum KnownNetworkAccessPolicy {
     AllowAll = "AllowAll",
     AllowPrivate = "AllowPrivate",
     DenyAll = "DenyAll"
 }
 
 // @public
-export const enum KnownNetworkApiVersion {
+export enum KnownNetworkApiVersion {
     // (undocumented)
     TwoThousandTwenty1101 = "2020-11-01"
 }
 
 // @public
-export const enum KnownOperatingSystemType {
+export enum KnownOperatingSystemType {
     // (undocumented)
     Linux = "Linux",
     // (undocumented)
@@ -2792,7 +2792,7 @@ export const enum KnownOperatingSystemType {
 }
 
 // @public
-export const enum KnownOrchestrationMode {
+export enum KnownOrchestrationMode {
     // (undocumented)
     Flexible = "Flexible",
     // (undocumented)
@@ -2800,7 +2800,7 @@ export const enum KnownOrchestrationMode {
 }
 
 // @public
-export const enum KnownOrchestrationServiceNames {
+export enum KnownOrchestrationServiceNames {
     // (undocumented)
     AutomaticRepairs = "AutomaticRepairs",
     // (undocumented)
@@ -2808,7 +2808,7 @@ export const enum KnownOrchestrationServiceNames {
 }
 
 // @public
-export const enum KnownOrchestrationServiceState {
+export enum KnownOrchestrationServiceState {
     // (undocumented)
     NotRunning = "NotRunning",
     // (undocumented)
@@ -2818,7 +2818,7 @@ export const enum KnownOrchestrationServiceState {
 }
 
 // @public
-export const enum KnownOrchestrationServiceStateAction {
+export enum KnownOrchestrationServiceStateAction {
     // (undocumented)
     Resume = "Resume",
     // (undocumented)
@@ -2826,7 +2826,7 @@ export const enum KnownOrchestrationServiceStateAction {
 }
 
 // @public
-export const enum KnownPatchAssessmentState {
+export enum KnownPatchAssessmentState {
     // (undocumented)
     Available = "Available",
     // (undocumented)
@@ -2834,7 +2834,7 @@ export const enum KnownPatchAssessmentState {
 }
 
 // @public
-export const enum KnownPatchInstallationState {
+export enum KnownPatchInstallationState {
     // (undocumented)
     Excluded = "Excluded",
     // (undocumented)
@@ -2850,7 +2850,7 @@ export const enum KnownPatchInstallationState {
 }
 
 // @public
-export const enum KnownPatchOperationStatus {
+export enum KnownPatchOperationStatus {
     // (undocumented)
     CompletedWithWarnings = "CompletedWithWarnings",
     // (undocumented)
@@ -2864,7 +2864,7 @@ export const enum KnownPatchOperationStatus {
 }
 
 // @public
-export const enum KnownPrivateEndpointConnectionProvisioningState {
+export enum KnownPrivateEndpointConnectionProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -2876,7 +2876,7 @@ export const enum KnownPrivateEndpointConnectionProvisioningState {
 }
 
 // @public
-export const enum KnownPrivateEndpointServiceConnectionStatus {
+export enum KnownPrivateEndpointServiceConnectionStatus {
     // (undocumented)
     Approved = "Approved",
     // (undocumented)
@@ -2886,7 +2886,7 @@ export const enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export const enum KnownProximityPlacementGroupType {
+export enum KnownProximityPlacementGroupType {
     // (undocumented)
     Standard = "Standard",
     // (undocumented)
@@ -2894,7 +2894,7 @@ export const enum KnownProximityPlacementGroupType {
 }
 
 // @public
-export const enum KnownPublicIPAddressSkuName {
+export enum KnownPublicIPAddressSkuName {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -2902,7 +2902,7 @@ export const enum KnownPublicIPAddressSkuName {
 }
 
 // @public
-export const enum KnownPublicIPAddressSkuTier {
+export enum KnownPublicIPAddressSkuTier {
     // (undocumented)
     Global = "Global",
     // (undocumented)
@@ -2910,7 +2910,7 @@ export const enum KnownPublicIPAddressSkuTier {
 }
 
 // @public
-export const enum KnownPublicIPAllocationMethod {
+export enum KnownPublicIPAllocationMethod {
     // (undocumented)
     Dynamic = "Dynamic",
     // (undocumented)
@@ -2918,7 +2918,7 @@ export const enum KnownPublicIPAllocationMethod {
 }
 
 // @public
-export const enum KnownReplicationState {
+export enum KnownReplicationState {
     // (undocumented)
     Completed = "Completed",
     // (undocumented)
@@ -2930,37 +2930,37 @@ export const enum KnownReplicationState {
 }
 
 // @public
-export const enum KnownReplicationStatusTypes {
+export enum KnownReplicationStatusTypes {
     // (undocumented)
     ReplicationStatus = "ReplicationStatus"
 }
 
 // @public
-export const enum KnownRestorePointCollectionExpandOptions {
+export enum KnownRestorePointCollectionExpandOptions {
     // (undocumented)
     RestorePoints = "restorePoints"
 }
 
 // @public
-export const enum KnownSecurityTypes {
+export enum KnownSecurityTypes {
     // (undocumented)
     TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
-export const enum KnownSelectPermissions {
+export enum KnownSelectPermissions {
     // (undocumented)
     Permissions = "Permissions"
 }
 
 // @public
-export const enum KnownSharedToValues {
+export enum KnownSharedToValues {
     // (undocumented)
     Tenant = "tenant"
 }
 
 // @public
-export const enum KnownSharingProfileGroupTypes {
+export enum KnownSharingProfileGroupTypes {
     // (undocumented)
     AADTenants = "AADTenants",
     // (undocumented)
@@ -2968,7 +2968,7 @@ export const enum KnownSharingProfileGroupTypes {
 }
 
 // @public
-export const enum KnownSharingUpdateOperationTypes {
+export enum KnownSharingUpdateOperationTypes {
     // (undocumented)
     Add = "Add",
     // (undocumented)
@@ -2978,14 +2978,14 @@ export const enum KnownSharingUpdateOperationTypes {
 }
 
 // @public
-export const enum KnownSnapshotStorageAccountTypes {
+export enum KnownSnapshotStorageAccountTypes {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
 // @public
-export const enum KnownStorageAccountType {
+export enum KnownStorageAccountType {
     // (undocumented)
     PremiumLRS = "Premium_LRS",
     // (undocumented)
@@ -2995,7 +2995,7 @@ export const enum KnownStorageAccountType {
 }
 
 // @public
-export const enum KnownStorageAccountTypes {
+export enum KnownStorageAccountTypes {
     // (undocumented)
     PremiumLRS = "Premium_LRS",
     // (undocumented)
@@ -3011,7 +3011,7 @@ export const enum KnownStorageAccountTypes {
 }
 
 // @public
-export const enum KnownVirtualMachineEvictionPolicyTypes {
+export enum KnownVirtualMachineEvictionPolicyTypes {
     // (undocumented)
     Deallocate = "Deallocate",
     // (undocumented)
@@ -3019,7 +3019,7 @@ export const enum KnownVirtualMachineEvictionPolicyTypes {
 }
 
 // @public
-export const enum KnownVirtualMachinePriorityTypes {
+export enum KnownVirtualMachinePriorityTypes {
     // (undocumented)
     Low = "Low",
     // (undocumented)
@@ -3029,7 +3029,7 @@ export const enum KnownVirtualMachinePriorityTypes {
 }
 
 // @public
-export const enum KnownVirtualMachineScaleSetScaleInRules {
+export enum KnownVirtualMachineScaleSetScaleInRules {
     // (undocumented)
     Default = "Default",
     // (undocumented)
@@ -3039,7 +3039,7 @@ export const enum KnownVirtualMachineScaleSetScaleInRules {
 }
 
 // @public
-export const enum KnownVirtualMachineSizeTypes {
+export enum KnownVirtualMachineSizeTypes {
     // (undocumented)
     BasicA0 = "Basic_A0",
     // (undocumented)
@@ -3375,7 +3375,7 @@ export const enum KnownVirtualMachineSizeTypes {
 }
 
 // @public
-export const enum KnownVmDiskTypes {
+export enum KnownVmDiskTypes {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -3383,7 +3383,7 @@ export const enum KnownVmDiskTypes {
 }
 
 // @public
-export const enum KnownVMGuestPatchClassificationLinux {
+export enum KnownVMGuestPatchClassificationLinux {
     // (undocumented)
     Critical = "Critical",
     // (undocumented)
@@ -3393,7 +3393,7 @@ export const enum KnownVMGuestPatchClassificationLinux {
 }
 
 // @public
-export const enum KnownVMGuestPatchClassificationWindows {
+export enum KnownVMGuestPatchClassificationWindows {
     // (undocumented)
     Critical = "Critical",
     // (undocumented)
@@ -3413,7 +3413,7 @@ export const enum KnownVMGuestPatchClassificationWindows {
 }
 
 // @public
-export const enum KnownVMGuestPatchRebootBehavior {
+export enum KnownVMGuestPatchRebootBehavior {
     // (undocumented)
     AlwaysRequiresReboot = "AlwaysRequiresReboot",
     // (undocumented)
@@ -3425,7 +3425,7 @@ export const enum KnownVMGuestPatchRebootBehavior {
 }
 
 // @public
-export const enum KnownVMGuestPatchRebootSetting {
+export enum KnownVMGuestPatchRebootSetting {
     // (undocumented)
     Always = "Always",
     // (undocumented)
@@ -3435,7 +3435,7 @@ export const enum KnownVMGuestPatchRebootSetting {
 }
 
 // @public
-export const enum KnownVMGuestPatchRebootStatus {
+export enum KnownVMGuestPatchRebootStatus {
     // (undocumented)
     Completed = "Completed",
     // (undocumented)
@@ -3451,7 +3451,7 @@ export const enum KnownVMGuestPatchRebootStatus {
 }
 
 // @public
-export const enum KnownWindowsPatchAssessmentMode {
+export enum KnownWindowsPatchAssessmentMode {
     // (undocumented)
     AutomaticByPlatform = "AutomaticByPlatform",
     // (undocumented)
@@ -3459,7 +3459,7 @@ export const enum KnownWindowsPatchAssessmentMode {
 }
 
 // @public
-export const enum KnownWindowsVMGuestPatchMode {
+export enum KnownWindowsVMGuestPatchMode {
     // (undocumented)
     AutomaticByOS = "AutomaticByOS",
     // (undocumented)

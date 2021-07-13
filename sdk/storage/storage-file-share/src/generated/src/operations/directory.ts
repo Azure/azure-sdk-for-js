@@ -344,15 +344,10 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.marker,
     Parameters.maxResults,
     Parameters.shareSnapshot,
-    Parameters.restype2,
-    Parameters.include1
+    Parameters.restype2
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.accept1,
-    Parameters.includeExtendedInfo
-  ],
+  headerParameters: [Parameters.version, Parameters.accept1],
   isXML: true,
   serializer: xmlSerializer
 };
