@@ -46,21 +46,14 @@ This interface contains two methods: **sendInitialRequest** and **sendPollReques
 This method should be implemented to send the initial request to start the operation and it has the following signature:
 
 ```ts
-sendInitialRequest: (initializeState: (rawResponse: RawResponse, flatResponse: unknown) => boolean) => Promise<LroResponse<T>>
+sendInitialRequest: () => Promise<LroResponse<T>>
 ```
 
-The `initializeState` parameter is a function that will initialize the state of the polling operation and will return a Boolean that indicates whether the operation has already been completed. This Boolean is especially useful in `@azure/core-client`'s engine because at this point, the customer-provided callback should be called. The implementation for `@azure/core-http` looks like this:
+The implementation for `@azure/core-http` looks like this:
 
 ```ts
-public async sendInitialRequest(
-  initializeState: (
-    rawResponse: RawResponse,
-    flatResponse: unknown
-  ) => boolean
-): Promise<LroResponse<T>> {
-  const response = await this.sendOperation(this.args, this.spec); // the class will have sendOperation, args, and spec as private fields
-  initializeState(response.rawResponse, response.flatResponse);
-  return response;
+public async sendInitialRequest(): Promise<LroResponse<T>> {
+  return this.sendOperation(this.args, this.spec); // the class will have sendOperation, args, and spec as private fields
 }
 ```
 
@@ -76,10 +69,9 @@ This method takes the polling path as input and here is what a simplified implem
 
 ```ts
   public async sendPollRequest(path: string): Promise<LroResponse<T>> {
-    const { requestBody, responses, ...restSpec } = this.spec;
+    const { requestBody, ...restSpec } = this.spec;
     return this.sendOperationFn(this.args, { // the class will have sendOperation, args, and spec as private fields
       ...restSpec,
-      responses: responses,
       httpMethod: "GET",
       ...(path && { path })
     });

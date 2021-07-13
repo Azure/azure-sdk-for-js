@@ -14,11 +14,8 @@ export class CoreRestPipelineLro<T> implements LongRunningOperation<T> {
     public requestMethod: string = req.method
   ) {}
   public async sendInitialRequest(
-    initializeState: (response: LroResponse<T>) => boolean
   ): Promise<LroResponse<T>> {
-    const response = await this.sendOperationFn(this.req);
-    initializeState(response);
-    return response;
+    return this.sendOperationFn(this.req);
   }
 
   public async sendPollRequest(url: string): Promise<LroResponse<T>> {

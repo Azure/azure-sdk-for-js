@@ -61,7 +61,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         this.lro.requestPath,
         this.lro.requestMethod
       );
-      await this.lro.sendInitialRequest(initializeState);
+      const response = await this.lro.sendInitialRequest();
+      initializeState(response);
     }
 
     if (!state.isCompleted) {
