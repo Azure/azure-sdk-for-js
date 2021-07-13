@@ -122,14 +122,12 @@ export function flattenResponse(
 ): unknown {
   const parsedHeaders = fullResponse.parsedHeaders;
 
-  /**
-   * If body is not asked for, only response headers are returned. If the response
-   * has a body anyway, that body must be ignored.
-   */
   if (fullResponse.request.method === "HEAD") {
-    return parsedHeaders;
+    return {
+      ...parsedHeaders,
+      body: fullResponse.parsedBody
+    };
   }
-
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
   const isNullable = Boolean(bodyMapper?.nullable);
   const expectedBodyTypeName = bodyMapper?.type.name;
