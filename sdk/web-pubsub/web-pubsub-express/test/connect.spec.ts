@@ -156,7 +156,7 @@ describe("Can handle connect event", function() {
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(
-      new Buffer(
+      Buffer.from(
         JSON.stringify({
           key1: ["val3"],
           key2: "val2",
@@ -170,7 +170,7 @@ describe("Can handle connect event", function() {
 
   it("Should be able to get the connection states if it exists in the header", async function() {
     const endSpy = sinon.spy(res, "end");
-    const states = new Buffer(
+    const states = Buffer.from(
       JSON.stringify({
         key1: ["val3"],
         key2: "val2",

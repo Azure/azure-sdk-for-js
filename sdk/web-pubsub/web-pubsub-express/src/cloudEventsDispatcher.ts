@@ -266,7 +266,7 @@ export class CloudEventsDispatcher {
    * @returns The base64 JSON string
    */
   private stringifyStates(states: Record<string, string>): string {
-    return new Buffer(JSON.stringify(states)).toString("base64");
+    return Buffer.from(JSON.stringify(states)).toString("base64");
   }
 
   /**

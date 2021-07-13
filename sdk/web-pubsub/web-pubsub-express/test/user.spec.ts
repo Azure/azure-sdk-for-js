@@ -197,7 +197,7 @@ describe("Can handle user event", function() {
     assert.equal(200, res.statusCode, "should be success");
     
     assert.equal(
-      new Buffer(
+      Buffer.from(
         JSON.stringify({
           key1: "val3",
           key2: "val2",
