@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Providing a long-running operation engine that supports Azure long-running operations.
+- Provides a long-running operation engine.
 
 ### Breaking Changes
 
