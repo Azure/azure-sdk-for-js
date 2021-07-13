@@ -10,7 +10,8 @@ chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
-import { getTracer, setTracer, TestTracer } from "@azure/core-tracing";
+import { getTracer, setTracer } from "@azure/core-tracing";
+import { TestTracer } from "@azure/test-utils";
 const env = getEnvVars();
 
 describe("Create clients using Azure Identity", function(): void {

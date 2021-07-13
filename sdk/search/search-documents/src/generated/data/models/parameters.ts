@@ -334,6 +334,32 @@ export const top: OperationQueryParameter = {
   }
 };
 
+export const captions: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "captions"],
+  mapper: {
+    serializedName: "captions",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const semanticFields: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticFields"],
+  mapper: {
+    serializedName: "semanticFields",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: QueryCollectionFormat.Csv
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {

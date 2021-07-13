@@ -14,10 +14,9 @@ import {
   OperationTracingOptions,
   setSpan,
   setTracer,
-  SpanGraph,
-  TestTracer,
   context as otContext
 } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
 import * as dotenv from "dotenv";
 dotenv.config();

@@ -9,10 +9,14 @@ export const LIB_INFO = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
 
 /**
  * Maximum size of input documents allowed by the Azure Form Recognizer service.
+ *
  * @internal
  */
 export const MAX_INPUT_DOCUMENT_SIZE = 50 * 1024 * 1024; // 50 MB
 
+/**
+ * @internal
+ */
 export const FormRecognizerLoggingAllowedHeaderNames = [
   "apim-request-id",
   "Location",
@@ -22,6 +26,9 @@ export const FormRecognizerLoggingAllowedHeaderNames = [
   "x-envoy-upstream-service-time"
 ];
 
+/**
+ * @internal
+ */
 export const FormRecognizerLoggingAllowedQueryParameters = [
   "includeTextDetails",
   "includeKeys",
