@@ -13,8 +13,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { LroEngine } from "../lro";
+import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
 import {
   ServiceEndpointPolicyDefinition,
   ServiceEndpointPolicyDefinitionsListByResourceGroupNextOptionalParams,
@@ -155,11 +156,18 @@ export class ServiceEndpointPolicyDefinitionsImpl
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       {
         resourceGroupName,
         serviceEndpointPolicyName,
@@ -167,9 +175,9 @@ export class ServiceEndpointPolicyDefinitionsImpl
         options
       },
       deleteOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -270,11 +278,18 @@ export class ServiceEndpointPolicyDefinitionsImpl
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       {
         resourceGroupName,
         serviceEndpointPolicyName,
@@ -283,9 +298,9 @@ export class ServiceEndpointPolicyDefinitionsImpl
         options
       },
       createOrUpdateOperationSpec,
-      sendOperation,
       "azure-async-operation"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**

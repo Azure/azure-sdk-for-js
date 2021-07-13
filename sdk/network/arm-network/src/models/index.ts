@@ -9383,7 +9383,7 @@ export type NetworkRule = FirewallPolicyRule & {
 };
 
 /** Known values of {@link ApplicationGatewaySkuName} that the service accepts. */
-export const enum KnownApplicationGatewaySkuName {
+export enum KnownApplicationGatewaySkuName {
   StandardSmall = "Standard_Small",
   StandardMedium = "Standard_Medium",
   StandardLarge = "Standard_Large",
@@ -9409,7 +9409,7 @@ export const enum KnownApplicationGatewaySkuName {
 export type ApplicationGatewaySkuName = string;
 
 /** Known values of {@link ApplicationGatewayTier} that the service accepts. */
-export const enum KnownApplicationGatewayTier {
+export enum KnownApplicationGatewayTier {
   Standard = "Standard",
   WAF = "WAF",
   StandardV2 = "Standard_v2",
@@ -9429,7 +9429,7 @@ export const enum KnownApplicationGatewayTier {
 export type ApplicationGatewayTier = string;
 
 /** Known values of {@link ApplicationGatewaySslProtocol} that the service accepts. */
-export const enum KnownApplicationGatewaySslProtocol {
+export enum KnownApplicationGatewaySslProtocol {
   TLSv10 = "TLSv1_0",
   TLSv11 = "TLSv1_1",
   TLSv12 = "TLSv1_2"
@@ -9447,7 +9447,7 @@ export const enum KnownApplicationGatewaySslProtocol {
 export type ApplicationGatewaySslProtocol = string;
 
 /** Known values of {@link ApplicationGatewaySslPolicyType} that the service accepts. */
-export const enum KnownApplicationGatewaySslPolicyType {
+export enum KnownApplicationGatewaySslPolicyType {
   Predefined = "Predefined",
   Custom = "Custom"
 }
@@ -9463,7 +9463,7 @@ export const enum KnownApplicationGatewaySslPolicyType {
 export type ApplicationGatewaySslPolicyType = string;
 
 /** Known values of {@link ApplicationGatewaySslPolicyName} that the service accepts. */
-export const enum KnownApplicationGatewaySslPolicyName {
+export enum KnownApplicationGatewaySslPolicyName {
   AppGwSslPolicy20150501 = "AppGwSslPolicy20150501",
   AppGwSslPolicy20170401 = "AppGwSslPolicy20170401",
   AppGwSslPolicy20170401S = "AppGwSslPolicy20170401S"
@@ -9481,7 +9481,7 @@ export const enum KnownApplicationGatewaySslPolicyName {
 export type ApplicationGatewaySslPolicyName = string;
 
 /** Known values of {@link ApplicationGatewaySslCipherSuite} that the service accepts. */
-export const enum KnownApplicationGatewaySslCipherSuite {
+export enum KnownApplicationGatewaySslCipherSuite {
   TLSEcdheRSAWithAES256CBCSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
   TLSEcdheRSAWithAES128CBCSHA256 = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
   TLSEcdheRSAWithAES256CBCSHA = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
@@ -9549,7 +9549,7 @@ export const enum KnownApplicationGatewaySslCipherSuite {
 export type ApplicationGatewaySslCipherSuite = string;
 
 /** Known values of {@link ApplicationGatewayOperationalState} that the service accepts. */
-export const enum KnownApplicationGatewayOperationalState {
+export enum KnownApplicationGatewayOperationalState {
   Stopped = "Stopped",
   Starting = "Starting",
   Running = "Running",
@@ -9569,7 +9569,7 @@ export const enum KnownApplicationGatewayOperationalState {
 export type ApplicationGatewayOperationalState = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
-export const enum KnownProvisioningState {
+export enum KnownProvisioningState {
   Succeeded = "Succeeded",
   Updating = "Updating",
   Deleting = "Deleting",
@@ -9589,7 +9589,7 @@ export const enum KnownProvisioningState {
 export type ProvisioningState = string;
 
 /** Known values of {@link IPAllocationMethod} that the service accepts. */
-export const enum KnownIPAllocationMethod {
+export enum KnownIPAllocationMethod {
   Static = "Static",
   Dynamic = "Dynamic"
 }
@@ -9605,7 +9605,7 @@ export const enum KnownIPAllocationMethod {
 export type IPAllocationMethod = string;
 
 /** Known values of {@link ApplicationGatewayProtocol} that the service accepts. */
-export const enum KnownApplicationGatewayProtocol {
+export enum KnownApplicationGatewayProtocol {
   Http = "Http",
   Https = "Https"
 }
@@ -9621,7 +9621,7 @@ export const enum KnownApplicationGatewayProtocol {
 export type ApplicationGatewayProtocol = string;
 
 /** Known values of {@link IPVersion} that the service accepts. */
-export const enum KnownIPVersion {
+export enum KnownIPVersion {
   IPv4 = "IPv4",
   IPv6 = "IPv6"
 }
@@ -9637,7 +9637,7 @@ export const enum KnownIPVersion {
 export type IPVersion = string;
 
 /** Known values of {@link SecurityRuleProtocol} that the service accepts. */
-export const enum KnownSecurityRuleProtocol {
+export enum KnownSecurityRuleProtocol {
   Tcp = "Tcp",
   Udp = "Udp",
   Icmp = "Icmp",
@@ -9661,7 +9661,7 @@ export const enum KnownSecurityRuleProtocol {
 export type SecurityRuleProtocol = string;
 
 /** Known values of {@link SecurityRuleAccess} that the service accepts. */
-export const enum KnownSecurityRuleAccess {
+export enum KnownSecurityRuleAccess {
   Allow = "Allow",
   Deny = "Deny"
 }
@@ -9677,7 +9677,7 @@ export const enum KnownSecurityRuleAccess {
 export type SecurityRuleAccess = string;
 
 /** Known values of {@link SecurityRuleDirection} that the service accepts. */
-export const enum KnownSecurityRuleDirection {
+export enum KnownSecurityRuleDirection {
   Inbound = "Inbound",
   Outbound = "Outbound"
 }
@@ -9693,7 +9693,7 @@ export const enum KnownSecurityRuleDirection {
 export type SecurityRuleDirection = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
-export const enum KnownExtendedLocationTypes {
+export enum KnownExtendedLocationTypes {
   EdgeZone = "EdgeZone"
 }
 
@@ -9707,7 +9707,7 @@ export const enum KnownExtendedLocationTypes {
 export type ExtendedLocationTypes = string;
 
 /** Known values of {@link NetworkInterfaceNicType} that the service accepts. */
-export const enum KnownNetworkInterfaceNicType {
+export enum KnownNetworkInterfaceNicType {
   Standard = "Standard",
   Elastic = "Elastic"
 }
@@ -9723,7 +9723,7 @@ export const enum KnownNetworkInterfaceNicType {
 export type NetworkInterfaceNicType = string;
 
 /** Known values of {@link NetworkInterfaceMigrationPhase} that the service accepts. */
-export const enum KnownNetworkInterfaceMigrationPhase {
+export enum KnownNetworkInterfaceMigrationPhase {
   None = "None",
   Prepare = "Prepare",
   Commit = "Commit",
@@ -9745,7 +9745,7 @@ export const enum KnownNetworkInterfaceMigrationPhase {
 export type NetworkInterfaceMigrationPhase = string;
 
 /** Known values of {@link FlowLogFormatType} that the service accepts. */
-export const enum KnownFlowLogFormatType {
+export enum KnownFlowLogFormatType {
   Json = "JSON"
 }
 
@@ -9759,7 +9759,7 @@ export const enum KnownFlowLogFormatType {
 export type FlowLogFormatType = string;
 
 /** Known values of {@link RouteNextHopType} that the service accepts. */
-export const enum KnownRouteNextHopType {
+export enum KnownRouteNextHopType {
   VirtualNetworkGateway = "VirtualNetworkGateway",
   VnetLocal = "VnetLocal",
   Internet = "Internet",
@@ -9781,7 +9781,7 @@ export const enum KnownRouteNextHopType {
 export type RouteNextHopType = string;
 
 /** Known values of {@link PublicIPAddressSkuName} that the service accepts. */
-export const enum KnownPublicIPAddressSkuName {
+export enum KnownPublicIPAddressSkuName {
   Basic = "Basic",
   Standard = "Standard"
 }
@@ -9797,7 +9797,7 @@ export const enum KnownPublicIPAddressSkuName {
 export type PublicIPAddressSkuName = string;
 
 /** Known values of {@link PublicIPAddressSkuTier} that the service accepts. */
-export const enum KnownPublicIPAddressSkuTier {
+export enum KnownPublicIPAddressSkuTier {
   Regional = "Regional",
   Global = "Global"
 }
@@ -9813,7 +9813,7 @@ export const enum KnownPublicIPAddressSkuTier {
 export type PublicIPAddressSkuTier = string;
 
 /** Known values of {@link DdosSettingsProtectionCoverage} that the service accepts. */
-export const enum KnownDdosSettingsProtectionCoverage {
+export enum KnownDdosSettingsProtectionCoverage {
   Basic = "Basic",
   Standard = "Standard"
 }
@@ -9829,7 +9829,7 @@ export const enum KnownDdosSettingsProtectionCoverage {
 export type DdosSettingsProtectionCoverage = string;
 
 /** Known values of {@link NatGatewaySkuName} that the service accepts. */
-export const enum KnownNatGatewaySkuName {
+export enum KnownNatGatewaySkuName {
   Standard = "Standard"
 }
 
@@ -9843,7 +9843,7 @@ export const enum KnownNatGatewaySkuName {
 export type NatGatewaySkuName = string;
 
 /** Known values of {@link PublicIPAddressMigrationPhase} that the service accepts. */
-export const enum KnownPublicIPAddressMigrationPhase {
+export enum KnownPublicIPAddressMigrationPhase {
   None = "None",
   Prepare = "Prepare",
   Commit = "Commit",
@@ -9865,7 +9865,7 @@ export const enum KnownPublicIPAddressMigrationPhase {
 export type PublicIPAddressMigrationPhase = string;
 
 /** Known values of {@link DeleteOptions} that the service accepts. */
-export const enum KnownDeleteOptions {
+export enum KnownDeleteOptions {
   Delete = "Delete",
   Detach = "Detach"
 }
@@ -9881,7 +9881,7 @@ export const enum KnownDeleteOptions {
 export type DeleteOptions = string;
 
 /** Known values of {@link VirtualNetworkPrivateEndpointNetworkPolicies} that the service accepts. */
-export const enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
+export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
   Enabled = "Enabled",
   Disabled = "Disabled"
 }
@@ -9897,7 +9897,7 @@ export const enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
 export type VirtualNetworkPrivateEndpointNetworkPolicies = string;
 
 /** Known values of {@link VirtualNetworkPrivateLinkServiceNetworkPolicies} that the service accepts. */
-export const enum KnownVirtualNetworkPrivateLinkServiceNetworkPolicies {
+export enum KnownVirtualNetworkPrivateLinkServiceNetworkPolicies {
   Enabled = "Enabled",
   Disabled = "Disabled"
 }
@@ -9913,7 +9913,7 @@ export const enum KnownVirtualNetworkPrivateLinkServiceNetworkPolicies {
 export type VirtualNetworkPrivateLinkServiceNetworkPolicies = string;
 
 /** Known values of {@link GatewayLoadBalancerTunnelProtocol} that the service accepts. */
-export const enum KnownGatewayLoadBalancerTunnelProtocol {
+export enum KnownGatewayLoadBalancerTunnelProtocol {
   None = "None",
   Native = "Native",
   Vxlan = "VXLAN"
@@ -9931,7 +9931,7 @@ export const enum KnownGatewayLoadBalancerTunnelProtocol {
 export type GatewayLoadBalancerTunnelProtocol = string;
 
 /** Known values of {@link GatewayLoadBalancerTunnelInterfaceType} that the service accepts. */
-export const enum KnownGatewayLoadBalancerTunnelInterfaceType {
+export enum KnownGatewayLoadBalancerTunnelInterfaceType {
   None = "None",
   Internal = "Internal",
   External = "External"
@@ -9949,7 +9949,7 @@ export const enum KnownGatewayLoadBalancerTunnelInterfaceType {
 export type GatewayLoadBalancerTunnelInterfaceType = string;
 
 /** Known values of {@link TransportProtocol} that the service accepts. */
-export const enum KnownTransportProtocol {
+export enum KnownTransportProtocol {
   Udp = "Udp",
   Tcp = "Tcp",
   All = "All"
@@ -9967,7 +9967,7 @@ export const enum KnownTransportProtocol {
 export type TransportProtocol = string;
 
 /** Known values of {@link ApplicationGatewayCookieBasedAffinity} that the service accepts. */
-export const enum KnownApplicationGatewayCookieBasedAffinity {
+export enum KnownApplicationGatewayCookieBasedAffinity {
   Enabled = "Enabled",
   Disabled = "Disabled"
 }
@@ -9983,7 +9983,7 @@ export const enum KnownApplicationGatewayCookieBasedAffinity {
 export type ApplicationGatewayCookieBasedAffinity = string;
 
 /** Known values of {@link ApplicationGatewayCustomErrorStatusCode} that the service accepts. */
-export const enum KnownApplicationGatewayCustomErrorStatusCode {
+export enum KnownApplicationGatewayCustomErrorStatusCode {
   HttpStatus403 = "HttpStatus403",
   HttpStatus502 = "HttpStatus502"
 }
@@ -9999,7 +9999,7 @@ export const enum KnownApplicationGatewayCustomErrorStatusCode {
 export type ApplicationGatewayCustomErrorStatusCode = string;
 
 /** Known values of {@link ApplicationGatewayRequestRoutingRuleType} that the service accepts. */
-export const enum KnownApplicationGatewayRequestRoutingRuleType {
+export enum KnownApplicationGatewayRequestRoutingRuleType {
   Basic = "Basic",
   PathBasedRouting = "PathBasedRouting"
 }
@@ -10015,7 +10015,7 @@ export const enum KnownApplicationGatewayRequestRoutingRuleType {
 export type ApplicationGatewayRequestRoutingRuleType = string;
 
 /** Known values of {@link ApplicationGatewayRedirectType} that the service accepts. */
-export const enum KnownApplicationGatewayRedirectType {
+export enum KnownApplicationGatewayRedirectType {
   Permanent = "Permanent",
   Found = "Found",
   SeeOther = "SeeOther",
@@ -10035,7 +10035,7 @@ export const enum KnownApplicationGatewayRedirectType {
 export type ApplicationGatewayRedirectType = string;
 
 /** Known values of {@link ApplicationGatewayFirewallMode} that the service accepts. */
-export const enum KnownApplicationGatewayFirewallMode {
+export enum KnownApplicationGatewayFirewallMode {
   Detection = "Detection",
   Prevention = "Prevention"
 }
@@ -10051,7 +10051,7 @@ export const enum KnownApplicationGatewayFirewallMode {
 export type ApplicationGatewayFirewallMode = string;
 
 /** Known values of {@link ApplicationGatewayBackendHealthServerHealth} that the service accepts. */
-export const enum KnownApplicationGatewayBackendHealthServerHealth {
+export enum KnownApplicationGatewayBackendHealthServerHealth {
   Unknown = "Unknown",
   Up = "Up",
   Down = "Down",
@@ -10073,7 +10073,7 @@ export const enum KnownApplicationGatewayBackendHealthServerHealth {
 export type ApplicationGatewayBackendHealthServerHealth = string;
 
 /** Known values of {@link AzureFirewallRCActionType} that the service accepts. */
-export const enum KnownAzureFirewallRCActionType {
+export enum KnownAzureFirewallRCActionType {
   Allow = "Allow",
   Deny = "Deny"
 }
@@ -10089,7 +10089,7 @@ export const enum KnownAzureFirewallRCActionType {
 export type AzureFirewallRCActionType = string;
 
 /** Known values of {@link AzureFirewallApplicationRuleProtocolType} that the service accepts. */
-export const enum KnownAzureFirewallApplicationRuleProtocolType {
+export enum KnownAzureFirewallApplicationRuleProtocolType {
   Http = "Http",
   Https = "Https",
   Mssql = "Mssql"
@@ -10107,7 +10107,7 @@ export const enum KnownAzureFirewallApplicationRuleProtocolType {
 export type AzureFirewallApplicationRuleProtocolType = string;
 
 /** Known values of {@link AzureFirewallNatRCActionType} that the service accepts. */
-export const enum KnownAzureFirewallNatRCActionType {
+export enum KnownAzureFirewallNatRCActionType {
   Snat = "Snat",
   Dnat = "Dnat"
 }
@@ -10123,7 +10123,7 @@ export const enum KnownAzureFirewallNatRCActionType {
 export type AzureFirewallNatRCActionType = string;
 
 /** Known values of {@link AzureFirewallNetworkRuleProtocol} that the service accepts. */
-export const enum KnownAzureFirewallNetworkRuleProtocol {
+export enum KnownAzureFirewallNetworkRuleProtocol {
   TCP = "TCP",
   UDP = "UDP",
   Any = "Any",
@@ -10143,7 +10143,7 @@ export const enum KnownAzureFirewallNetworkRuleProtocol {
 export type AzureFirewallNetworkRuleProtocol = string;
 
 /** Known values of {@link AzureFirewallThreatIntelMode} that the service accepts. */
-export const enum KnownAzureFirewallThreatIntelMode {
+export enum KnownAzureFirewallThreatIntelMode {
   Alert = "Alert",
   Deny = "Deny",
   Off = "Off"
@@ -10161,7 +10161,7 @@ export const enum KnownAzureFirewallThreatIntelMode {
 export type AzureFirewallThreatIntelMode = string;
 
 /** Known values of {@link AzureFirewallSkuName} that the service accepts. */
-export const enum KnownAzureFirewallSkuName {
+export enum KnownAzureFirewallSkuName {
   AzfwVnet = "AZFW_VNet",
   AzfwHub = "AZFW_Hub"
 }
@@ -10177,7 +10177,7 @@ export const enum KnownAzureFirewallSkuName {
 export type AzureFirewallSkuName = string;
 
 /** Known values of {@link AzureFirewallSkuTier} that the service accepts. */
-export const enum KnownAzureFirewallSkuTier {
+export enum KnownAzureFirewallSkuTier {
   Standard = "Standard",
   Premium = "Premium"
 }
@@ -10193,7 +10193,7 @@ export const enum KnownAzureFirewallSkuTier {
 export type AzureFirewallSkuTier = string;
 
 /** Known values of {@link BastionHostSkuName} that the service accepts. */
-export const enum KnownBastionHostSkuName {
+export enum KnownBastionHostSkuName {
   Basic = "Basic",
   Standard = "Standard"
 }
@@ -10209,7 +10209,7 @@ export const enum KnownBastionHostSkuName {
 export type BastionHostSkuName = string;
 
 /** Known values of {@link BastionConnectProtocol} that the service accepts. */
-export const enum KnownBastionConnectProtocol {
+export enum KnownBastionConnectProtocol {
   SSH = "SSH",
   RDP = "RDP"
 }
@@ -10225,7 +10225,7 @@ export const enum KnownBastionConnectProtocol {
 export type BastionConnectProtocol = string;
 
 /** Known values of {@link CommissionedState} that the service accepts. */
-export const enum KnownCommissionedState {
+export enum KnownCommissionedState {
   Provisioning = "Provisioning",
   Provisioned = "Provisioned",
   Commissioning = "Commissioning",
@@ -10249,7 +10249,7 @@ export const enum KnownCommissionedState {
 export type CommissionedState = string;
 
 /** Known values of {@link DdosCustomPolicyProtocol} that the service accepts. */
-export const enum KnownDdosCustomPolicyProtocol {
+export enum KnownDdosCustomPolicyProtocol {
   Tcp = "Tcp",
   Udp = "Udp",
   Syn = "Syn"
@@ -10267,7 +10267,7 @@ export const enum KnownDdosCustomPolicyProtocol {
 export type DdosCustomPolicyProtocol = string;
 
 /** Known values of {@link DdosCustomPolicyTriggerSensitivityOverride} that the service accepts. */
-export const enum KnownDdosCustomPolicyTriggerSensitivityOverride {
+export enum KnownDdosCustomPolicyTriggerSensitivityOverride {
   Relaxed = "Relaxed",
   Low = "Low",
   Default = "Default",
@@ -10287,7 +10287,7 @@ export const enum KnownDdosCustomPolicyTriggerSensitivityOverride {
 export type DdosCustomPolicyTriggerSensitivityOverride = string;
 
 /** Known values of {@link ProtocolType} that the service accepts. */
-export const enum KnownProtocolType {
+export enum KnownProtocolType {
   DoNotUse = "DoNotUse",
   Icmp = "Icmp",
   Tcp = "Tcp",
@@ -10317,7 +10317,7 @@ export const enum KnownProtocolType {
 export type ProtocolType = string;
 
 /** Known values of {@link AuthorizationUseStatus} that the service accepts. */
-export const enum KnownAuthorizationUseStatus {
+export enum KnownAuthorizationUseStatus {
   Available = "Available",
   InUse = "InUse"
 }
@@ -10333,7 +10333,7 @@ export const enum KnownAuthorizationUseStatus {
 export type AuthorizationUseStatus = string;
 
 /** Known values of {@link ExpressRoutePeeringType} that the service accepts. */
-export const enum KnownExpressRoutePeeringType {
+export enum KnownExpressRoutePeeringType {
   AzurePublicPeering = "AzurePublicPeering",
   AzurePrivatePeering = "AzurePrivatePeering",
   MicrosoftPeering = "MicrosoftPeering"
@@ -10351,7 +10351,7 @@ export const enum KnownExpressRoutePeeringType {
 export type ExpressRoutePeeringType = string;
 
 /** Known values of {@link ExpressRoutePeeringState} that the service accepts. */
-export const enum KnownExpressRoutePeeringState {
+export enum KnownExpressRoutePeeringState {
   Disabled = "Disabled",
   Enabled = "Enabled"
 }
@@ -10367,7 +10367,7 @@ export const enum KnownExpressRoutePeeringState {
 export type ExpressRoutePeeringState = string;
 
 /** Known values of {@link ExpressRouteCircuitPeeringAdvertisedPublicPrefixState} that the service accepts. */
-export const enum KnownExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
+export enum KnownExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
   NotConfigured = "NotConfigured",
   Configuring = "Configuring",
   Configured = "Configured",
@@ -10387,7 +10387,7 @@ export const enum KnownExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
 export type ExpressRouteCircuitPeeringAdvertisedPublicPrefixState = string;
 
 /** Known values of {@link ExpressRouteCircuitPeeringState} that the service accepts. */
-export const enum KnownExpressRouteCircuitPeeringState {
+export enum KnownExpressRouteCircuitPeeringState {
   Disabled = "Disabled",
   Enabled = "Enabled"
 }
@@ -10403,7 +10403,7 @@ export const enum KnownExpressRouteCircuitPeeringState {
 export type ExpressRouteCircuitPeeringState = string;
 
 /** Known values of {@link CircuitConnectionStatus} that the service accepts. */
-export const enum KnownCircuitConnectionStatus {
+export enum KnownCircuitConnectionStatus {
   Connected = "Connected",
   Connecting = "Connecting",
   Disconnected = "Disconnected"
@@ -10421,7 +10421,7 @@ export const enum KnownCircuitConnectionStatus {
 export type CircuitConnectionStatus = string;
 
 /** Known values of {@link ExpressRouteCircuitSkuTier} that the service accepts. */
-export const enum KnownExpressRouteCircuitSkuTier {
+export enum KnownExpressRouteCircuitSkuTier {
   Standard = "Standard",
   Premium = "Premium",
   Basic = "Basic",
@@ -10441,7 +10441,7 @@ export const enum KnownExpressRouteCircuitSkuTier {
 export type ExpressRouteCircuitSkuTier = string;
 
 /** Known values of {@link ExpressRouteCircuitSkuFamily} that the service accepts. */
-export const enum KnownExpressRouteCircuitSkuFamily {
+export enum KnownExpressRouteCircuitSkuFamily {
   UnlimitedData = "UnlimitedData",
   MeteredData = "MeteredData"
 }
@@ -10457,7 +10457,7 @@ export const enum KnownExpressRouteCircuitSkuFamily {
 export type ExpressRouteCircuitSkuFamily = string;
 
 /** Known values of {@link ServiceProviderProvisioningState} that the service accepts. */
-export const enum KnownServiceProviderProvisioningState {
+export enum KnownServiceProviderProvisioningState {
   NotProvisioned = "NotProvisioned",
   Provisioning = "Provisioning",
   Provisioned = "Provisioned",
@@ -10477,7 +10477,7 @@ export const enum KnownServiceProviderProvisioningState {
 export type ServiceProviderProvisioningState = string;
 
 /** Known values of {@link ExpressRoutePortsEncapsulation} that the service accepts. */
-export const enum KnownExpressRoutePortsEncapsulation {
+export enum KnownExpressRoutePortsEncapsulation {
   Dot1Q = "Dot1Q",
   QinQ = "QinQ"
 }
@@ -10493,7 +10493,7 @@ export const enum KnownExpressRoutePortsEncapsulation {
 export type ExpressRoutePortsEncapsulation = string;
 
 /** Known values of {@link ExpressRouteLinkConnectorType} that the service accepts. */
-export const enum KnownExpressRouteLinkConnectorType {
+export enum KnownExpressRouteLinkConnectorType {
   LC = "LC",
   SC = "SC"
 }
@@ -10509,7 +10509,7 @@ export const enum KnownExpressRouteLinkConnectorType {
 export type ExpressRouteLinkConnectorType = string;
 
 /** Known values of {@link ExpressRouteLinkAdminState} that the service accepts. */
-export const enum KnownExpressRouteLinkAdminState {
+export enum KnownExpressRouteLinkAdminState {
   Enabled = "Enabled",
   Disabled = "Disabled"
 }
@@ -10525,7 +10525,7 @@ export const enum KnownExpressRouteLinkAdminState {
 export type ExpressRouteLinkAdminState = string;
 
 /** Known values of {@link ExpressRouteLinkMacSecCipher} that the service accepts. */
-export const enum KnownExpressRouteLinkMacSecCipher {
+export enum KnownExpressRouteLinkMacSecCipher {
   GcmAes256 = "GcmAes256",
   GcmAes128 = "GcmAes128",
   GcmAesXpn128 = "GcmAesXpn128",
@@ -10545,7 +10545,7 @@ export const enum KnownExpressRouteLinkMacSecCipher {
 export type ExpressRouteLinkMacSecCipher = string;
 
 /** Known values of {@link ExpressRouteLinkMacSecSciState} that the service accepts. */
-export const enum KnownExpressRouteLinkMacSecSciState {
+export enum KnownExpressRouteLinkMacSecSciState {
   Disabled = "Disabled",
   Enabled = "Enabled"
 }
@@ -10561,7 +10561,7 @@ export const enum KnownExpressRouteLinkMacSecSciState {
 export type ExpressRouteLinkMacSecSciState = string;
 
 /** Known values of {@link FirewallPolicyIntrusionDetectionStateType} that the service accepts. */
-export const enum KnownFirewallPolicyIntrusionDetectionStateType {
+export enum KnownFirewallPolicyIntrusionDetectionStateType {
   Off = "Off",
   Alert = "Alert",
   Deny = "Deny"
@@ -10579,7 +10579,7 @@ export const enum KnownFirewallPolicyIntrusionDetectionStateType {
 export type FirewallPolicyIntrusionDetectionStateType = string;
 
 /** Known values of {@link FirewallPolicyIntrusionDetectionProtocol} that the service accepts. */
-export const enum KnownFirewallPolicyIntrusionDetectionProtocol {
+export enum KnownFirewallPolicyIntrusionDetectionProtocol {
   TCP = "TCP",
   UDP = "UDP",
   Icmp = "ICMP",
@@ -10599,7 +10599,7 @@ export const enum KnownFirewallPolicyIntrusionDetectionProtocol {
 export type FirewallPolicyIntrusionDetectionProtocol = string;
 
 /** Known values of {@link FirewallPolicySkuTier} that the service accepts. */
-export const enum KnownFirewallPolicySkuTier {
+export enum KnownFirewallPolicySkuTier {
   Standard = "Standard",
   Premium = "Premium"
 }
@@ -10615,7 +10615,7 @@ export const enum KnownFirewallPolicySkuTier {
 export type FirewallPolicySkuTier = string;
 
 /** Known values of {@link FirewallPolicyRuleCollectionType} that the service accepts. */
-export const enum KnownFirewallPolicyRuleCollectionType {
+export enum KnownFirewallPolicyRuleCollectionType {
   FirewallPolicyNatRuleCollection = "FirewallPolicyNatRuleCollection",
   FirewallPolicyFilterRuleCollection = "FirewallPolicyFilterRuleCollection"
 }
@@ -10631,7 +10631,7 @@ export const enum KnownFirewallPolicyRuleCollectionType {
 export type FirewallPolicyRuleCollectionType = string;
 
 /** Known values of {@link IpAllocationType} that the service accepts. */
-export const enum KnownIpAllocationType {
+export enum KnownIpAllocationType {
   Undefined = "Undefined",
   Hypernet = "Hypernet"
 }
@@ -10647,7 +10647,7 @@ export const enum KnownIpAllocationType {
 export type IpAllocationType = string;
 
 /** Known values of {@link LoadBalancerSkuName} that the service accepts. */
-export const enum KnownLoadBalancerSkuName {
+export enum KnownLoadBalancerSkuName {
   Basic = "Basic",
   Standard = "Standard",
   Gateway = "Gateway"
@@ -10665,7 +10665,7 @@ export const enum KnownLoadBalancerSkuName {
 export type LoadBalancerSkuName = string;
 
 /** Known values of {@link LoadBalancerSkuTier} that the service accepts. */
-export const enum KnownLoadBalancerSkuTier {
+export enum KnownLoadBalancerSkuTier {
   Regional = "Regional",
   Global = "Global"
 }
@@ -10681,7 +10681,7 @@ export const enum KnownLoadBalancerSkuTier {
 export type LoadBalancerSkuTier = string;
 
 /** Known values of {@link LoadDistribution} that the service accepts. */
-export const enum KnownLoadDistribution {
+export enum KnownLoadDistribution {
   Default = "Default",
   SourceIP = "SourceIP",
   SourceIPProtocol = "SourceIPProtocol"
@@ -10699,7 +10699,7 @@ export const enum KnownLoadDistribution {
 export type LoadDistribution = string;
 
 /** Known values of {@link ProbeProtocol} that the service accepts. */
-export const enum KnownProbeProtocol {
+export enum KnownProbeProtocol {
   Http = "Http",
   Tcp = "Tcp",
   Https = "Https"
@@ -10717,7 +10717,7 @@ export const enum KnownProbeProtocol {
 export type ProbeProtocol = string;
 
 /** Known values of {@link LoadBalancerOutboundRuleProtocol} that the service accepts. */
-export const enum KnownLoadBalancerOutboundRuleProtocol {
+export enum KnownLoadBalancerOutboundRuleProtocol {
   Tcp = "Tcp",
   Udp = "Udp",
   All = "All"
@@ -10735,7 +10735,7 @@ export const enum KnownLoadBalancerOutboundRuleProtocol {
 export type LoadBalancerOutboundRuleProtocol = string;
 
 /** Known values of {@link EffectiveRouteSource} that the service accepts. */
-export const enum KnownEffectiveRouteSource {
+export enum KnownEffectiveRouteSource {
   Unknown = "Unknown",
   User = "User",
   VirtualNetworkGateway = "VirtualNetworkGateway",
@@ -10755,7 +10755,7 @@ export const enum KnownEffectiveRouteSource {
 export type EffectiveRouteSource = string;
 
 /** Known values of {@link EffectiveRouteState} that the service accepts. */
-export const enum KnownEffectiveRouteState {
+export enum KnownEffectiveRouteState {
   Active = "Active",
   Invalid = "Invalid"
 }
@@ -10771,7 +10771,7 @@ export const enum KnownEffectiveRouteState {
 export type EffectiveRouteState = string;
 
 /** Known values of {@link EffectiveSecurityRuleProtocol} that the service accepts. */
-export const enum KnownEffectiveSecurityRuleProtocol {
+export enum KnownEffectiveSecurityRuleProtocol {
   Tcp = "Tcp",
   Udp = "Udp",
   All = "All"
@@ -10789,7 +10789,7 @@ export const enum KnownEffectiveSecurityRuleProtocol {
 export type EffectiveSecurityRuleProtocol = string;
 
 /** Known values of {@link InboundSecurityRulesProtocol} that the service accepts. */
-export const enum KnownInboundSecurityRulesProtocol {
+export enum KnownInboundSecurityRulesProtocol {
   TCP = "TCP",
   UDP = "UDP"
 }
@@ -10805,7 +10805,7 @@ export const enum KnownInboundSecurityRulesProtocol {
 export type InboundSecurityRulesProtocol = string;
 
 /** Known values of {@link AssociationType} that the service accepts. */
-export const enum KnownAssociationType {
+export enum KnownAssociationType {
   Associated = "Associated",
   Contains = "Contains"
 }
@@ -10821,7 +10821,7 @@ export const enum KnownAssociationType {
 export type AssociationType = string;
 
 /** Known values of {@link Direction} that the service accepts. */
-export const enum KnownDirection {
+export enum KnownDirection {
   Inbound = "Inbound",
   Outbound = "Outbound"
 }
@@ -10837,7 +10837,7 @@ export const enum KnownDirection {
 export type Direction = string;
 
 /** Known values of {@link IpFlowProtocol} that the service accepts. */
-export const enum KnownIpFlowProtocol {
+export enum KnownIpFlowProtocol {
   TCP = "TCP",
   UDP = "UDP"
 }
@@ -10853,7 +10853,7 @@ export const enum KnownIpFlowProtocol {
 export type IpFlowProtocol = string;
 
 /** Known values of {@link Access} that the service accepts. */
-export const enum KnownAccess {
+export enum KnownAccess {
   Allow = "Allow",
   Deny = "Deny"
 }
@@ -10869,7 +10869,7 @@ export const enum KnownAccess {
 export type Access = string;
 
 /** Known values of {@link NextHopType} that the service accepts. */
-export const enum KnownNextHopType {
+export enum KnownNextHopType {
   Internet = "Internet",
   VirtualAppliance = "VirtualAppliance",
   VirtualNetworkGateway = "VirtualNetworkGateway",
@@ -10893,7 +10893,7 @@ export const enum KnownNextHopType {
 export type NextHopType = string;
 
 /** Known values of {@link PcProtocol} that the service accepts. */
-export const enum KnownPcProtocol {
+export enum KnownPcProtocol {
   TCP = "TCP",
   UDP = "UDP",
   Any = "Any"
@@ -10911,7 +10911,7 @@ export const enum KnownPcProtocol {
 export type PcProtocol = string;
 
 /** Known values of {@link PcStatus} that the service accepts. */
-export const enum KnownPcStatus {
+export enum KnownPcStatus {
   NotStarted = "NotStarted",
   Running = "Running",
   Stopped = "Stopped",
@@ -10933,7 +10933,7 @@ export const enum KnownPcStatus {
 export type PcStatus = string;
 
 /** Known values of {@link PcError} that the service accepts. */
-export const enum KnownPcError {
+export enum KnownPcError {
   InternalError = "InternalError",
   AgentStopped = "AgentStopped",
   CaptureFailed = "CaptureFailed",
@@ -10955,7 +10955,7 @@ export const enum KnownPcError {
 export type PcError = string;
 
 /** Known values of {@link Protocol} that the service accepts. */
-export const enum KnownProtocol {
+export enum KnownProtocol {
   Tcp = "Tcp",
   Http = "Http",
   Https = "Https",
@@ -10975,7 +10975,7 @@ export const enum KnownProtocol {
 export type Protocol = string;
 
 /** Known values of {@link HttpMethod} that the service accepts. */
-export const enum KnownHttpMethod {
+export enum KnownHttpMethod {
   Get = "Get"
 }
 
@@ -10989,7 +10989,7 @@ export const enum KnownHttpMethod {
 export type HttpMethod = string;
 
 /** Known values of {@link Origin} that the service accepts. */
-export const enum KnownOrigin {
+export enum KnownOrigin {
   Local = "Local",
   Inbound = "Inbound",
   Outbound = "Outbound"
@@ -11007,7 +11007,7 @@ export const enum KnownOrigin {
 export type Origin = string;
 
 /** Known values of {@link Severity} that the service accepts. */
-export const enum KnownSeverity {
+export enum KnownSeverity {
   Error = "Error",
   Warning = "Warning"
 }
@@ -11023,7 +11023,7 @@ export const enum KnownSeverity {
 export type Severity = string;
 
 /** Known values of {@link IssueType} that the service accepts. */
-export const enum KnownIssueType {
+export enum KnownIssueType {
   Unknown = "Unknown",
   AgentStopped = "AgentStopped",
   GuestFirewall = "GuestFirewall",
@@ -11053,7 +11053,7 @@ export const enum KnownIssueType {
 export type IssueType = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
-export const enum KnownConnectionStatus {
+export enum KnownConnectionStatus {
   Unknown = "Unknown",
   Connected = "Connected",
   Disconnected = "Disconnected",
@@ -11073,7 +11073,7 @@ export const enum KnownConnectionStatus {
 export type ConnectionStatus = string;
 
 /** Known values of {@link VerbosityLevel} that the service accepts. */
-export const enum KnownVerbosityLevel {
+export enum KnownVerbosityLevel {
   Normal = "Normal",
   Minimum = "Minimum",
   Full = "Full"
@@ -11091,7 +11091,7 @@ export const enum KnownVerbosityLevel {
 export type VerbosityLevel = string;
 
 /** Known values of {@link EndpointType} that the service accepts. */
-export const enum KnownEndpointType {
+export enum KnownEndpointType {
   AzureVM = "AzureVM",
   AzureVNet = "AzureVNet",
   AzureSubnet = "AzureSubnet",
@@ -11115,7 +11115,7 @@ export const enum KnownEndpointType {
 export type EndpointType = string;
 
 /** Known values of {@link ConnectionMonitorEndpointFilterType} that the service accepts. */
-export const enum KnownConnectionMonitorEndpointFilterType {
+export enum KnownConnectionMonitorEndpointFilterType {
   Include = "Include"
 }
 
@@ -11129,7 +11129,7 @@ export const enum KnownConnectionMonitorEndpointFilterType {
 export type ConnectionMonitorEndpointFilterType = string;
 
 /** Known values of {@link ConnectionMonitorEndpointFilterItemType} that the service accepts. */
-export const enum KnownConnectionMonitorEndpointFilterItemType {
+export enum KnownConnectionMonitorEndpointFilterItemType {
   AgentAddress = "AgentAddress"
 }
 
@@ -11143,7 +11143,7 @@ export const enum KnownConnectionMonitorEndpointFilterItemType {
 export type ConnectionMonitorEndpointFilterItemType = string;
 
 /** Known values of {@link CoverageLevel} that the service accepts. */
-export const enum KnownCoverageLevel {
+export enum KnownCoverageLevel {
   Default = "Default",
   Low = "Low",
   BelowAverage = "BelowAverage",
@@ -11167,7 +11167,7 @@ export const enum KnownCoverageLevel {
 export type CoverageLevel = string;
 
 /** Known values of {@link ConnectionMonitorTestConfigurationProtocol} that the service accepts. */
-export const enum KnownConnectionMonitorTestConfigurationProtocol {
+export enum KnownConnectionMonitorTestConfigurationProtocol {
   Tcp = "Tcp",
   Http = "Http",
   Icmp = "Icmp"
@@ -11185,7 +11185,7 @@ export const enum KnownConnectionMonitorTestConfigurationProtocol {
 export type ConnectionMonitorTestConfigurationProtocol = string;
 
 /** Known values of {@link PreferredIPVersion} that the service accepts. */
-export const enum KnownPreferredIPVersion {
+export enum KnownPreferredIPVersion {
   IPv4 = "IPv4",
   IPv6 = "IPv6"
 }
@@ -11201,7 +11201,7 @@ export const enum KnownPreferredIPVersion {
 export type PreferredIPVersion = string;
 
 /** Known values of {@link HttpConfigurationMethod} that the service accepts. */
-export const enum KnownHttpConfigurationMethod {
+export enum KnownHttpConfigurationMethod {
   Get = "Get",
   Post = "Post"
 }
@@ -11217,7 +11217,7 @@ export const enum KnownHttpConfigurationMethod {
 export type HttpConfigurationMethod = string;
 
 /** Known values of {@link DestinationPortBehavior} that the service accepts. */
-export const enum KnownDestinationPortBehavior {
+export enum KnownDestinationPortBehavior {
   None = "None",
   ListenIfAvailable = "ListenIfAvailable"
 }
@@ -11233,7 +11233,7 @@ export const enum KnownDestinationPortBehavior {
 export type DestinationPortBehavior = string;
 
 /** Known values of {@link OutputType} that the service accepts. */
-export const enum KnownOutputType {
+export enum KnownOutputType {
   Workspace = "Workspace"
 }
 
@@ -11247,7 +11247,7 @@ export const enum KnownOutputType {
 export type OutputType = string;
 
 /** Known values of {@link ConnectionMonitorType} that the service accepts. */
-export const enum KnownConnectionMonitorType {
+export enum KnownConnectionMonitorType {
   MultiEndpoint = "MultiEndpoint",
   SingleSourceDestination = "SingleSourceDestination"
 }
@@ -11263,7 +11263,7 @@ export const enum KnownConnectionMonitorType {
 export type ConnectionMonitorType = string;
 
 /** Known values of {@link ConnectionMonitorSourceStatus} that the service accepts. */
-export const enum KnownConnectionMonitorSourceStatus {
+export enum KnownConnectionMonitorSourceStatus {
   Unknown = "Unknown",
   Active = "Active",
   Inactive = "Inactive"
@@ -11281,7 +11281,7 @@ export const enum KnownConnectionMonitorSourceStatus {
 export type ConnectionMonitorSourceStatus = string;
 
 /** Known values of {@link ConnectionState} that the service accepts. */
-export const enum KnownConnectionState {
+export enum KnownConnectionState {
   Reachable = "Reachable",
   Unreachable = "Unreachable",
   Unknown = "Unknown"
@@ -11299,7 +11299,7 @@ export const enum KnownConnectionState {
 export type ConnectionState = string;
 
 /** Known values of {@link EvaluationState} that the service accepts. */
-export const enum KnownEvaluationState {
+export enum KnownEvaluationState {
   NotStarted = "NotStarted",
   InProgress = "InProgress",
   Completed = "Completed"
@@ -11317,7 +11317,7 @@ export const enum KnownEvaluationState {
 export type EvaluationState = string;
 
 /** Known values of {@link PublicIPPrefixSkuName} that the service accepts. */
-export const enum KnownPublicIPPrefixSkuName {
+export enum KnownPublicIPPrefixSkuName {
   Standard = "Standard"
 }
 
@@ -11331,7 +11331,7 @@ export const enum KnownPublicIPPrefixSkuName {
 export type PublicIPPrefixSkuName = string;
 
 /** Known values of {@link PublicIPPrefixSkuTier} that the service accepts. */
-export const enum KnownPublicIPPrefixSkuTier {
+export enum KnownPublicIPPrefixSkuTier {
   Regional = "Regional",
   Global = "Global"
 }
@@ -11347,7 +11347,7 @@ export const enum KnownPublicIPPrefixSkuTier {
 export type PublicIPPrefixSkuTier = string;
 
 /** Known values of {@link RouteFilterRuleType} that the service accepts. */
-export const enum KnownRouteFilterRuleType {
+export enum KnownRouteFilterRuleType {
   Community = "Community"
 }
 
@@ -11361,7 +11361,7 @@ export const enum KnownRouteFilterRuleType {
 export type RouteFilterRuleType = string;
 
 /** Known values of {@link SecurityProviderName} that the service accepts. */
-export const enum KnownSecurityProviderName {
+export enum KnownSecurityProviderName {
   ZScaler = "ZScaler",
   IBoss = "IBoss",
   Checkpoint = "Checkpoint"
@@ -11379,7 +11379,7 @@ export const enum KnownSecurityProviderName {
 export type SecurityProviderName = string;
 
 /** Known values of {@link SecurityPartnerProviderConnectionStatus} that the service accepts. */
-export const enum KnownSecurityPartnerProviderConnectionStatus {
+export enum KnownSecurityPartnerProviderConnectionStatus {
   Unknown = "Unknown",
   PartiallyConnected = "PartiallyConnected",
   Connected = "Connected",
@@ -11399,7 +11399,7 @@ export const enum KnownSecurityPartnerProviderConnectionStatus {
 export type SecurityPartnerProviderConnectionStatus = string;
 
 /** Known values of {@link UsageUnit} that the service accepts. */
-export const enum KnownUsageUnit {
+export enum KnownUsageUnit {
   Count = "Count"
 }
 
@@ -11413,7 +11413,7 @@ export const enum KnownUsageUnit {
 export type UsageUnit = string;
 
 /** Known values of {@link VirtualNetworkPeeringState} that the service accepts. */
-export const enum KnownVirtualNetworkPeeringState {
+export enum KnownVirtualNetworkPeeringState {
   Initiated = "Initiated",
   Connected = "Connected",
   Disconnected = "Disconnected"
@@ -11431,7 +11431,7 @@ export const enum KnownVirtualNetworkPeeringState {
 export type VirtualNetworkPeeringState = string;
 
 /** Known values of {@link VirtualNetworkPeeringLevel} that the service accepts. */
-export const enum KnownVirtualNetworkPeeringLevel {
+export enum KnownVirtualNetworkPeeringLevel {
   FullyInSync = "FullyInSync",
   RemoteNotInSync = "RemoteNotInSync",
   LocalNotInSync = "LocalNotInSync",
@@ -11451,7 +11451,7 @@ export const enum KnownVirtualNetworkPeeringLevel {
 export type VirtualNetworkPeeringLevel = string;
 
 /** Known values of {@link SyncRemoteAddressSpace} that the service accepts. */
-export const enum KnownSyncRemoteAddressSpace {
+export enum KnownSyncRemoteAddressSpace {
   True = "true"
 }
 
@@ -11465,7 +11465,7 @@ export const enum KnownSyncRemoteAddressSpace {
 export type SyncRemoteAddressSpace = string;
 
 /** Known values of {@link VirtualNetworkGatewayType} that the service accepts. */
-export const enum KnownVirtualNetworkGatewayType {
+export enum KnownVirtualNetworkGatewayType {
   Vpn = "Vpn",
   ExpressRoute = "ExpressRoute",
   LocalGateway = "LocalGateway"
@@ -11483,7 +11483,7 @@ export const enum KnownVirtualNetworkGatewayType {
 export type VirtualNetworkGatewayType = string;
 
 /** Known values of {@link VpnType} that the service accepts. */
-export const enum KnownVpnType {
+export enum KnownVpnType {
   PolicyBased = "PolicyBased",
   RouteBased = "RouteBased"
 }
@@ -11499,7 +11499,7 @@ export const enum KnownVpnType {
 export type VpnType = string;
 
 /** Known values of {@link VpnGatewayGeneration} that the service accepts. */
-export const enum KnownVpnGatewayGeneration {
+export enum KnownVpnGatewayGeneration {
   None = "None",
   Generation1 = "Generation1",
   Generation2 = "Generation2"
@@ -11517,7 +11517,7 @@ export const enum KnownVpnGatewayGeneration {
 export type VpnGatewayGeneration = string;
 
 /** Known values of {@link VirtualNetworkGatewaySkuName} that the service accepts. */
-export const enum KnownVirtualNetworkGatewaySkuName {
+export enum KnownVirtualNetworkGatewaySkuName {
   Basic = "Basic",
   HighPerformance = "HighPerformance",
   Standard = "Standard",
@@ -11563,7 +11563,7 @@ export const enum KnownVirtualNetworkGatewaySkuName {
 export type VirtualNetworkGatewaySkuName = string;
 
 /** Known values of {@link VirtualNetworkGatewaySkuTier} that the service accepts. */
-export const enum KnownVirtualNetworkGatewaySkuTier {
+export enum KnownVirtualNetworkGatewaySkuTier {
   Basic = "Basic",
   HighPerformance = "HighPerformance",
   Standard = "Standard",
@@ -11609,7 +11609,7 @@ export const enum KnownVirtualNetworkGatewaySkuTier {
 export type VirtualNetworkGatewaySkuTier = string;
 
 /** Known values of {@link VpnClientProtocol} that the service accepts. */
-export const enum KnownVpnClientProtocol {
+export enum KnownVpnClientProtocol {
   IkeV2 = "IkeV2",
   Sstp = "SSTP",
   OpenVPN = "OpenVPN"
@@ -11627,7 +11627,7 @@ export const enum KnownVpnClientProtocol {
 export type VpnClientProtocol = string;
 
 /** Known values of {@link VpnAuthenticationType} that the service accepts. */
-export const enum KnownVpnAuthenticationType {
+export enum KnownVpnAuthenticationType {
   Certificate = "Certificate",
   Radius = "Radius",
   AAD = "AAD"
@@ -11645,7 +11645,7 @@ export const enum KnownVpnAuthenticationType {
 export type VpnAuthenticationType = string;
 
 /** Known values of {@link IpsecEncryption} that the service accepts. */
-export const enum KnownIpsecEncryption {
+export enum KnownIpsecEncryption {
   None = "None",
   DES = "DES",
   DES3 = "DES3",
@@ -11675,7 +11675,7 @@ export const enum KnownIpsecEncryption {
 export type IpsecEncryption = string;
 
 /** Known values of {@link IpsecIntegrity} that the service accepts. */
-export const enum KnownIpsecIntegrity {
+export enum KnownIpsecIntegrity {
   MD5 = "MD5",
   SHA1 = "SHA1",
   SHA256 = "SHA256",
@@ -11699,7 +11699,7 @@ export const enum KnownIpsecIntegrity {
 export type IpsecIntegrity = string;
 
 /** Known values of {@link IkeEncryption} that the service accepts. */
-export const enum KnownIkeEncryption {
+export enum KnownIkeEncryption {
   DES = "DES",
   DES3 = "DES3",
   AES128 = "AES128",
@@ -11725,7 +11725,7 @@ export const enum KnownIkeEncryption {
 export type IkeEncryption = string;
 
 /** Known values of {@link IkeIntegrity} that the service accepts. */
-export const enum KnownIkeIntegrity {
+export enum KnownIkeIntegrity {
   MD5 = "MD5",
   SHA1 = "SHA1",
   SHA256 = "SHA256",
@@ -11749,7 +11749,7 @@ export const enum KnownIkeIntegrity {
 export type IkeIntegrity = string;
 
 /** Known values of {@link DhGroup} that the service accepts. */
-export const enum KnownDhGroup {
+export enum KnownDhGroup {
   None = "None",
   DHGroup1 = "DHGroup1",
   DHGroup2 = "DHGroup2",
@@ -11777,7 +11777,7 @@ export const enum KnownDhGroup {
 export type DhGroup = string;
 
 /** Known values of {@link PfsGroup} that the service accepts. */
-export const enum KnownPfsGroup {
+export enum KnownPfsGroup {
   None = "None",
   PFS1 = "PFS1",
   PFS2 = "PFS2",
@@ -11807,7 +11807,7 @@ export const enum KnownPfsGroup {
 export type PfsGroup = string;
 
 /** Known values of {@link VpnNatRuleType} that the service accepts. */
-export const enum KnownVpnNatRuleType {
+export enum KnownVpnNatRuleType {
   Static = "Static",
   Dynamic = "Dynamic"
 }
@@ -11823,7 +11823,7 @@ export const enum KnownVpnNatRuleType {
 export type VpnNatRuleType = string;
 
 /** Known values of {@link VpnNatRuleMode} that the service accepts. */
-export const enum KnownVpnNatRuleMode {
+export enum KnownVpnNatRuleMode {
   EgressSnat = "EgressSnat",
   IngressSnat = "IngressSnat"
 }
@@ -11839,7 +11839,7 @@ export const enum KnownVpnNatRuleMode {
 export type VpnNatRuleMode = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionType} that the service accepts. */
-export const enum KnownVirtualNetworkGatewayConnectionType {
+export enum KnownVirtualNetworkGatewayConnectionType {
   IPsec = "IPsec",
   Vnet2Vnet = "Vnet2Vnet",
   ExpressRoute = "ExpressRoute",
@@ -11859,7 +11859,7 @@ export const enum KnownVirtualNetworkGatewayConnectionType {
 export type VirtualNetworkGatewayConnectionType = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionProtocol} that the service accepts. */
-export const enum KnownVirtualNetworkGatewayConnectionProtocol {
+export enum KnownVirtualNetworkGatewayConnectionProtocol {
   IKEv2 = "IKEv2",
   IKEv1 = "IKEv1"
 }
@@ -11875,7 +11875,7 @@ export const enum KnownVirtualNetworkGatewayConnectionProtocol {
 export type VirtualNetworkGatewayConnectionProtocol = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionMode} that the service accepts. */
-export const enum KnownVirtualNetworkGatewayConnectionMode {
+export enum KnownVirtualNetworkGatewayConnectionMode {
   Default = "Default",
   ResponderOnly = "ResponderOnly",
   InitiatorOnly = "InitiatorOnly"
@@ -11893,7 +11893,7 @@ export const enum KnownVirtualNetworkGatewayConnectionMode {
 export type VirtualNetworkGatewayConnectionMode = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionStatus} that the service accepts. */
-export const enum KnownVirtualNetworkGatewayConnectionStatus {
+export enum KnownVirtualNetworkGatewayConnectionStatus {
   Unknown = "Unknown",
   Connecting = "Connecting",
   Connected = "Connected",
@@ -11913,7 +11913,7 @@ export const enum KnownVirtualNetworkGatewayConnectionStatus {
 export type VirtualNetworkGatewayConnectionStatus = string;
 
 /** Known values of {@link ProcessorArchitecture} that the service accepts. */
-export const enum KnownProcessorArchitecture {
+export enum KnownProcessorArchitecture {
   Amd64 = "Amd64",
   X86 = "X86"
 }
@@ -11929,7 +11929,7 @@ export const enum KnownProcessorArchitecture {
 export type ProcessorArchitecture = string;
 
 /** Known values of {@link AuthenticationMethod} that the service accepts. */
-export const enum KnownAuthenticationMethod {
+export enum KnownAuthenticationMethod {
   Eaptls = "EAPTLS",
   EapmschaPv2 = "EAPMSCHAPv2"
 }
@@ -11945,7 +11945,7 @@ export const enum KnownAuthenticationMethod {
 export type AuthenticationMethod = string;
 
 /** Known values of {@link BgpPeerState} that the service accepts. */
-export const enum KnownBgpPeerState {
+export enum KnownBgpPeerState {
   Unknown = "Unknown",
   Stopped = "Stopped",
   Idle = "Idle",
@@ -11967,7 +11967,7 @@ export const enum KnownBgpPeerState {
 export type BgpPeerState = string;
 
 /** Known values of {@link OfficeTrafficCategory} that the service accepts. */
-export const enum KnownOfficeTrafficCategory {
+export enum KnownOfficeTrafficCategory {
   Optimize = "Optimize",
   OptimizeAndAllow = "OptimizeAndAllow",
   All = "All",
@@ -11987,7 +11987,7 @@ export const enum KnownOfficeTrafficCategory {
 export type OfficeTrafficCategory = string;
 
 /** Known values of {@link VirtualWanSecurityProviderType} that the service accepts. */
-export const enum KnownVirtualWanSecurityProviderType {
+export enum KnownVirtualWanSecurityProviderType {
   External = "External",
   Native = "Native"
 }
@@ -12003,7 +12003,7 @@ export const enum KnownVirtualWanSecurityProviderType {
 export type VirtualWanSecurityProviderType = string;
 
 /** Known values of {@link VpnGatewayTunnelingProtocol} that the service accepts. */
-export const enum KnownVpnGatewayTunnelingProtocol {
+export enum KnownVpnGatewayTunnelingProtocol {
   IkeV2 = "IkeV2",
   OpenVPN = "OpenVPN"
 }
@@ -12019,7 +12019,7 @@ export const enum KnownVpnGatewayTunnelingProtocol {
 export type VpnGatewayTunnelingProtocol = string;
 
 /** Known values of {@link RoutingState} that the service accepts. */
-export const enum KnownRoutingState {
+export enum KnownRoutingState {
   None = "None",
   Provisioned = "Provisioned",
   Provisioning = "Provisioning",
@@ -12039,7 +12039,7 @@ export const enum KnownRoutingState {
 export type RoutingState = string;
 
 /** Known values of {@link PreferredRoutingGateway} that the service accepts. */
-export const enum KnownPreferredRoutingGateway {
+export enum KnownPreferredRoutingGateway {
   ExpressRoute = "ExpressRoute",
   VpnGateway = "VpnGateway",
   None = "None"
@@ -12057,7 +12057,7 @@ export const enum KnownPreferredRoutingGateway {
 export type PreferredRoutingGateway = string;
 
 /** Known values of {@link VpnConnectionStatus} that the service accepts. */
-export const enum KnownVpnConnectionStatus {
+export enum KnownVpnConnectionStatus {
   Unknown = "Unknown",
   Connecting = "Connecting",
   Connected = "Connected",
@@ -12077,7 +12077,7 @@ export const enum KnownVpnConnectionStatus {
 export type VpnConnectionStatus = string;
 
 /** Known values of {@link VpnLinkConnectionMode} that the service accepts. */
-export const enum KnownVpnLinkConnectionMode {
+export enum KnownVpnLinkConnectionMode {
   Default = "Default",
   ResponderOnly = "ResponderOnly",
   InitiatorOnly = "InitiatorOnly"
@@ -12095,7 +12095,7 @@ export const enum KnownVpnLinkConnectionMode {
 export type VpnLinkConnectionMode = string;
 
 /** Known values of {@link HubBgpConnectionStatus} that the service accepts. */
-export const enum KnownHubBgpConnectionStatus {
+export enum KnownHubBgpConnectionStatus {
   Unknown = "Unknown",
   Connecting = "Connecting",
   Connected = "Connected",
@@ -12115,7 +12115,7 @@ export const enum KnownHubBgpConnectionStatus {
 export type HubBgpConnectionStatus = string;
 
 /** Known values of {@link WebApplicationFirewallEnabledState} that the service accepts. */
-export const enum KnownWebApplicationFirewallEnabledState {
+export enum KnownWebApplicationFirewallEnabledState {
   Disabled = "Disabled",
   Enabled = "Enabled"
 }
@@ -12131,7 +12131,7 @@ export const enum KnownWebApplicationFirewallEnabledState {
 export type WebApplicationFirewallEnabledState = string;
 
 /** Known values of {@link WebApplicationFirewallMode} that the service accepts. */
-export const enum KnownWebApplicationFirewallMode {
+export enum KnownWebApplicationFirewallMode {
   Prevention = "Prevention",
   Detection = "Detection"
 }
@@ -12147,7 +12147,7 @@ export const enum KnownWebApplicationFirewallMode {
 export type WebApplicationFirewallMode = string;
 
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
-export const enum KnownWebApplicationFirewallRuleType {
+export enum KnownWebApplicationFirewallRuleType {
   MatchRule = "MatchRule",
   Invalid = "Invalid"
 }
@@ -12163,7 +12163,7 @@ export const enum KnownWebApplicationFirewallRuleType {
 export type WebApplicationFirewallRuleType = string;
 
 /** Known values of {@link WebApplicationFirewallMatchVariable} that the service accepts. */
-export const enum KnownWebApplicationFirewallMatchVariable {
+export enum KnownWebApplicationFirewallMatchVariable {
   RemoteAddr = "RemoteAddr",
   RequestMethod = "RequestMethod",
   QueryString = "QueryString",
@@ -12191,7 +12191,7 @@ export const enum KnownWebApplicationFirewallMatchVariable {
 export type WebApplicationFirewallMatchVariable = string;
 
 /** Known values of {@link WebApplicationFirewallOperator} that the service accepts. */
-export const enum KnownWebApplicationFirewallOperator {
+export enum KnownWebApplicationFirewallOperator {
   IPMatch = "IPMatch",
   Equal = "Equal",
   Contains = "Contains",
@@ -12225,7 +12225,7 @@ export const enum KnownWebApplicationFirewallOperator {
 export type WebApplicationFirewallOperator = string;
 
 /** Known values of {@link WebApplicationFirewallTransform} that the service accepts. */
-export const enum KnownWebApplicationFirewallTransform {
+export enum KnownWebApplicationFirewallTransform {
   Lowercase = "Lowercase",
   Trim = "Trim",
   UrlDecode = "UrlDecode",
@@ -12249,7 +12249,7 @@ export const enum KnownWebApplicationFirewallTransform {
 export type WebApplicationFirewallTransform = string;
 
 /** Known values of {@link WebApplicationFirewallAction} that the service accepts. */
-export const enum KnownWebApplicationFirewallAction {
+export enum KnownWebApplicationFirewallAction {
   Allow = "Allow",
   Block = "Block",
   Log = "Log"
@@ -12267,7 +12267,7 @@ export const enum KnownWebApplicationFirewallAction {
 export type WebApplicationFirewallAction = string;
 
 /** Known values of {@link WebApplicationFirewallPolicyResourceState} that the service accepts. */
-export const enum KnownWebApplicationFirewallPolicyResourceState {
+export enum KnownWebApplicationFirewallPolicyResourceState {
   Creating = "Creating",
   Enabling = "Enabling",
   Enabled = "Enabled",
@@ -12291,7 +12291,7 @@ export const enum KnownWebApplicationFirewallPolicyResourceState {
 export type WebApplicationFirewallPolicyResourceState = string;
 
 /** Known values of {@link OwaspCrsExclusionEntryMatchVariable} that the service accepts. */
-export const enum KnownOwaspCrsExclusionEntryMatchVariable {
+export enum KnownOwaspCrsExclusionEntryMatchVariable {
   RequestHeaderNames = "RequestHeaderNames",
   RequestCookieNames = "RequestCookieNames",
   RequestArgNames = "RequestArgNames"
@@ -12309,7 +12309,7 @@ export const enum KnownOwaspCrsExclusionEntryMatchVariable {
 export type OwaspCrsExclusionEntryMatchVariable = string;
 
 /** Known values of {@link OwaspCrsExclusionEntrySelectorMatchOperator} that the service accepts. */
-export const enum KnownOwaspCrsExclusionEntrySelectorMatchOperator {
+export enum KnownOwaspCrsExclusionEntrySelectorMatchOperator {
   Equals = "Equals",
   Contains = "Contains",
   StartsWith = "StartsWith",
@@ -12331,7 +12331,7 @@ export const enum KnownOwaspCrsExclusionEntrySelectorMatchOperator {
 export type OwaspCrsExclusionEntrySelectorMatchOperator = string;
 
 /** Known values of {@link ManagedRuleEnabledState} that the service accepts. */
-export const enum KnownManagedRuleEnabledState {
+export enum KnownManagedRuleEnabledState {
   Disabled = "Disabled"
 }
 
@@ -12345,7 +12345,7 @@ export const enum KnownManagedRuleEnabledState {
 export type ManagedRuleEnabledState = string;
 
 /** Known values of {@link FirewallPolicyNatRuleCollectionActionType} that the service accepts. */
-export const enum KnownFirewallPolicyNatRuleCollectionActionType {
+export enum KnownFirewallPolicyNatRuleCollectionActionType {
   Dnat = "DNAT"
 }
 
@@ -12359,7 +12359,7 @@ export const enum KnownFirewallPolicyNatRuleCollectionActionType {
 export type FirewallPolicyNatRuleCollectionActionType = string;
 
 /** Known values of {@link FirewallPolicyRuleType} that the service accepts. */
-export const enum KnownFirewallPolicyRuleType {
+export enum KnownFirewallPolicyRuleType {
   ApplicationRule = "ApplicationRule",
   NetworkRule = "NetworkRule",
   NatRule = "NatRule"
@@ -12377,7 +12377,7 @@ export const enum KnownFirewallPolicyRuleType {
 export type FirewallPolicyRuleType = string;
 
 /** Known values of {@link FirewallPolicyFilterRuleCollectionActionType} that the service accepts. */
-export const enum KnownFirewallPolicyFilterRuleCollectionActionType {
+export enum KnownFirewallPolicyFilterRuleCollectionActionType {
   Allow = "Allow",
   Deny = "Deny"
 }
@@ -12393,7 +12393,7 @@ export const enum KnownFirewallPolicyFilterRuleCollectionActionType {
 export type FirewallPolicyFilterRuleCollectionActionType = string;
 
 /** Known values of {@link FirewallPolicyRuleApplicationProtocolType} that the service accepts. */
-export const enum KnownFirewallPolicyRuleApplicationProtocolType {
+export enum KnownFirewallPolicyRuleApplicationProtocolType {
   Http = "Http",
   Https = "Https"
 }
@@ -12409,7 +12409,7 @@ export const enum KnownFirewallPolicyRuleApplicationProtocolType {
 export type FirewallPolicyRuleApplicationProtocolType = string;
 
 /** Known values of {@link FirewallPolicyRuleNetworkProtocol} that the service accepts. */
-export const enum KnownFirewallPolicyRuleNetworkProtocol {
+export enum KnownFirewallPolicyRuleNetworkProtocol {
   TCP = "TCP",
   UDP = "UDP",
   Any = "Any",
@@ -12429,7 +12429,7 @@ export const enum KnownFirewallPolicyRuleNetworkProtocol {
 export type FirewallPolicyRuleNetworkProtocol = string;
 
 /** Known values of {@link NetworkOperationStatus} that the service accepts. */
-export const enum KnownNetworkOperationStatus {
+export enum KnownNetworkOperationStatus {
   InProgress = "InProgress",
   Succeeded = "Succeeded",
   Failed = "Failed"
@@ -12447,7 +12447,7 @@ export const enum KnownNetworkOperationStatus {
 export type NetworkOperationStatus = string;
 
 /** Known values of {@link TunnelConnectionStatus} that the service accepts. */
-export const enum KnownTunnelConnectionStatus {
+export enum KnownTunnelConnectionStatus {
   Unknown = "Unknown",
   Connecting = "Connecting",
   Connected = "Connected",
@@ -12467,7 +12467,7 @@ export const enum KnownTunnelConnectionStatus {
 export type TunnelConnectionStatus = string;
 
 /** Known values of {@link HubVirtualNetworkConnectionStatus} that the service accepts. */
-export const enum KnownHubVirtualNetworkConnectionStatus {
+export enum KnownHubVirtualNetworkConnectionStatus {
   Unknown = "Unknown",
   Connecting = "Connecting",
   Connected = "Connected",

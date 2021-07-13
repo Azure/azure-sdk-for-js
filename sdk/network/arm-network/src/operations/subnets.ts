@@ -13,8 +13,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { LroEngine } from "../lro";
+import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
 import {
   Subnet,
   SubnetsListNextOptionalParams,
@@ -158,16 +159,23 @@ export class SubnetsImpl implements Subnets {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkName, subnetName, options },
       deleteOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -260,11 +268,18 @@ export class SubnetsImpl implements Subnets {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       {
         resourceGroupName,
         virtualNetworkName,
@@ -273,9 +288,9 @@ export class SubnetsImpl implements Subnets {
         options
       },
       createOrUpdateOperationSpec,
-      sendOperation,
       "azure-async-operation"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -348,11 +363,18 @@ export class SubnetsImpl implements Subnets {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       {
         resourceGroupName,
         virtualNetworkName,
@@ -361,9 +383,9 @@ export class SubnetsImpl implements Subnets {
         options
       },
       prepareNetworkPoliciesOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -437,11 +459,18 @@ export class SubnetsImpl implements Subnets {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       {
         resourceGroupName,
         virtualNetworkName,
@@ -450,9 +479,9 @@ export class SubnetsImpl implements Subnets {
         options
       },
       unprepareNetworkPoliciesOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**

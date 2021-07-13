@@ -13,8 +13,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { LroEngine } from "../lro";
+import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
 import {
   NetworkWatcher,
   NetworkWatchersListOptionalParams,
@@ -232,16 +233,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, options },
       deleteOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -373,16 +381,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       verifyIPFlowOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -454,16 +469,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getNextHopOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -535,16 +557,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getVMSecurityRulesOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -616,16 +645,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getTroubleshootingOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -697,16 +733,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getTroubleshootingResultOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -778,16 +821,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       setFlowLogConfigurationOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -860,16 +910,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getFlowLogStatusOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -943,16 +1000,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       checkConnectivityOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1026,16 +1090,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getAzureReachabilityReportOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1109,16 +1180,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       listAvailableProvidersOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1197,16 +1275,23 @@ export class NetworkWatchersImpl implements NetworkWatchers {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, networkWatcherName, parameters, options },
       getNetworkConfigurationDiagnosticOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**

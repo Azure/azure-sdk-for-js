@@ -13,8 +13,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { LroEngine } from "../lro";
+import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
 import {
   VirtualNetworkGateway,
   VirtualNetworkGatewaysListNextOptionalParams,
@@ -252,16 +253,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, parameters, options },
       createOrUpdateOperationSpec,
-      sendOperation,
       "azure-async-operation"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -343,16 +351,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       deleteOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -421,16 +436,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, parameters, options },
       updateTagsOperationSpec,
-      sendOperation,
       "azure-async-operation"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -532,16 +554,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       resetOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -603,16 +632,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       resetVpnClientSharedKeyOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -685,16 +721,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, parameters, options },
       generatevpnclientpackageOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -770,16 +813,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, parameters, options },
       generateVpnProfileOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -852,16 +902,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       getVpnProfilePackageUrlOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -929,16 +986,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       getBgpPeerStatusOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1023,16 +1087,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       getLearnedRoutesOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1103,16 +1174,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, peer, options },
       getAdvertisedRoutesOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1189,11 +1267,18 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       {
         resourceGroupName,
         virtualNetworkGatewayName,
@@ -1201,9 +1286,9 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         options
       },
       setVpnclientIpsecParametersOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1279,16 +1364,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       getVpnclientIpsecParametersOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1382,16 +1474,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       startPacketCaptureOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1461,16 +1560,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, parameters, options },
       stopPacketCaptureOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1544,16 +1650,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, options },
       getVpnclientConnectionHealthOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
@@ -1618,16 +1731,23 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
         }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
-      return { flatResponse, rawResponse: currentRawResponse! };
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
     };
 
-    return new LROPoller(
-      { intervalInMs: options?.updateIntervalInMs },
+    const lro = new CoreClientLro(
+      sendOperation,
       { resourceGroupName, virtualNetworkGatewayName, request, options },
       disconnectVirtualNetworkGatewayVpnConnectionsOperationSpec,
-      sendOperation,
       "location"
     );
+    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
   }
 
   /**
