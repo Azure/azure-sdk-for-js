@@ -2,49 +2,52 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1325",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:36 GMT",
+    "date": "Wed, 30 Jun 2021 15:29:30 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11384.5 - EUS ProdSlices",
-    "x-ms-request-id": "61feddcd-31a3-43e4-b506-16edb5129400"
+    "x-ms-ests-server": "2.1.11829.9 - WUS2 ProdSlices",
+    "x-ms-request-id": "632b92eb-9ab3-4378-ad02-0f25be7d4501"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/eventroutes/eventRoute161015529825206675",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/eventroutes/eventRoute162506697258809785",
    "query": {
     "api-version": "2020-10-31"
    },
-   "requestBody": "{\"endpointName\":\"endpoint161015529825200263\",\"filter\":\"$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'\"}",
+   "requestBody": "{\"endpointName\":\"endpoint162506697258808063\",\"filter\":\"$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'\"}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"EventRouteEndpointInvalid\",\"message\":\"The endpoint provided does not exist or is not active. Check that your endpoint is provisioned correctly. See event route documentation (http://aka.ms/ADTv2Routes).\"}}",
    "responseHeaders": {
     "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:36 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:30 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-9a7229b0d87c604999786604f6b1c6c5-53aa645314647741-01"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "create-event-route": "eventRoute161015529825206675",
-   "list-event-routes-enpoint": "endpoint161015529825200263"
+   "create-event-route": "eventRoute162506697258809785",
+   "list-event-routes-enpoint": "endpoint162506697258808063"
   },
   "newDate": {}
  },
- "hash": "1071f12f8752801d53f3beffbdaa0df4"
+ "hash": "74395ecd9e67451b2cc009508b319a51"
 }
