@@ -141,7 +141,8 @@
       ],
       "sku": {
         "name": "S1",
-        "tier": "Standard"
+        "tier": "Standard",
+        "capacity": 1
       },
       "properties": {
         "ipFilterRules": [],
