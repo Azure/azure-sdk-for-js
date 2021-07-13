@@ -69,10 +69,10 @@ public async sendInitialRequest(
 This method should be implemented to send a polling (GET) request, a request the service should respond to with the current status of the operation, and it has the following signature:
 
 ```ts
-sendPollRequest: (path: string, isDone: (response: LroResponse<T>) => boolean) => Promise<LroResponse<T>>;
+sendPollRequest: (path: string) => Promise<LroResponse<T>>;
 ```
 
-This method takes two things as input, the request path as you would expect but also a predicate `isDone` that can tell you whether the operation has finished. Similar to the `initializeState` in `sendInitialRequest`, this predicate is needed in clients that use `@azure/core-client` because the customer-provided callback will have to be called if the predicate returns true. `isDone` is implemented as a memoized predicate so that if the customer has already called it, `LroEngine` can just use the memoized result instead of recomputing it. Here is what a simplified implementation would look like for `@azure/core-http`:
+This method takes the polling path as input and here is what a simplified implementation would look like for `@azure/core-http`:
 
 ```ts
   public async sendPollRequest(path: string): Promise<LroResponse<T>> {
