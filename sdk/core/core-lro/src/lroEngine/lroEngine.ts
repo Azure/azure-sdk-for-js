@@ -3,7 +3,7 @@
 
 import { Poller } from "../poller";
 import { PollOperationState } from "../pollOperation";
-import { LongRunningOperation, LroEngineOptions, ResumablePollOperationState } from "./models";
+import { LongRunningOperation, LroEngineOptions, PollerConfig, ResumablePollOperationState } from "./models";
 import { GenericPollOperation } from "./operation";
 
 function deserializeState<TResult, TState>(
@@ -23,7 +23,7 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
   TState,
   TResult
 > {
-  private config: { intervalInMs: number };
+  private config: PollerConfig;
 
   constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
     const { intervalInMs = 2000, resumeFrom } = options || {};
