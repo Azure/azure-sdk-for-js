@@ -5,6 +5,7 @@ import { createSpanFunction } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
+ *
  * @internal
  */
 export const createSpan = createSpanFunction({

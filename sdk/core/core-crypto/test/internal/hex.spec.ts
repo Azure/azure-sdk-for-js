@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-
+import { assert } from "chai";
 import { bufferToHex } from "../../src/utils/hex";
 
 function generateValidBytes(): Uint8Array {

@@ -8,7 +8,11 @@ Azure Purview Catalog is a fully managed cloud service whose users can discover 
 
 **Please rely heavily on the [service's documentation][catalog_product_documentation] and our [REST client docs][rest_client] to use this library**
 
-[Source code][source_code] | [Package (NPM)][catalog_npm] | [API reference documentation][catalog_ref_docs]| [Product documentation][catalog_product_documentation]
+Key links:
+- [Source code][source_code]
+- [Package (NPM)][catalog_npm]
+- [API reference documentation][catalog_ref_docs]
+- [Product documentation][catalog_product_documentation]
 
 ## Getting started
 

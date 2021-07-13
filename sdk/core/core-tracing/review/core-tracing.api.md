@@ -150,17 +150,6 @@ export interface SpanContext {
 }
 
 // @public
-export interface SpanGraph {
-    roots: SpanGraphNode[];
-}
-
-// @public
-export interface SpanGraphNode {
-    children: SpanGraphNode[];
-    name: string;
-}
-
-// @public
 export enum SpanKind {
     CLIENT = 2,
     CONSUMER = 4,
@@ -189,34 +178,6 @@ export enum SpanStatusCode {
     OK = 1,
     UNSET = 0
 }
-
-// @public
-export class TestSpan extends NoOpSpan {
-    constructor(parentTracer: Tracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
-    readonly attributes: SpanAttributes;
-    end(_endTime?: number): void;
-    endCalled: boolean;
-    isRecording(): boolean;
-    kind: SpanKind;
-    name: string;
-    readonly parentSpanId?: string;
-    setAttribute(key: string, value: SpanAttributeValue): this;
-    setAttributes(attributes: SpanAttributes): this;
-    setStatus(status: SpanStatus): this;
-    spanContext(): SpanContext;
-    readonly startTime: TimeInput;
-    status: SpanStatus;
-    tracer(): Tracer;
-    }
-
-// @public
-export class TestTracer extends NoOpTracer {
-    getActiveSpans(): TestSpan[];
-    getKnownSpans(): TestSpan[];
-    getRootSpans(): TestSpan[];
-    getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: SpanOptions, context?: Context): TestSpan;
-    }
 
 // @public
 export type TimeInput = HrTime | number | Date;

@@ -149,6 +149,10 @@ export interface SearchRequest {
   skip?: number;
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
+  /** A value that specifies whether captions should be returned as part of the search response. */
+  captions?: Captions;
+  /** The comma-separated list of field names used for semantic search. */
+  semanticFields?: string;
 }
 
 /** Contains a document found by a search query, plus associated metadata. */
@@ -393,6 +397,10 @@ export interface SearchOptions {
   skip?: number;
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
+  /** This parameter is only valid if the query type is 'semantic'. If set, the query returns captions extracted from key passages in the highest ranked documents. When Captions is set to 'extractive', highlighting is enabled by default, and can be configured by appending the pipe character '|' followed by the 'highlight-<true/false>' option, such as 'extractive|highlight-true'. Defaults to 'None'. */
+  captions?: Captions;
+  /** The list of field names used for semantic search. */
+  semanticFields?: string[];
 }
 
 /** Parameter group */
@@ -437,20 +445,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20200630Preview} that the service accepts. */
-export const enum KnownApiVersion20200630Preview {
-  /** Api Version '2020-06-30-Preview' */
-  TwoThousandTwenty0630Preview = "2020-06-30-Preview"
+/** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
+export const enum KnownApiVersion20210430Preview {
+  /** Api Version '2021-04-30-Preview' */
+  TwoThousandTwentyOne0430Preview = "2021-04-30-Preview"
 }
 
 /**
- * Defines values for ApiVersion20200630Preview. \
- * {@link KnownApiVersion20200630Preview} can be used interchangeably with ApiVersion20200630Preview,
+ * Defines values for ApiVersion20210430Preview. \
+ * {@link KnownApiVersion20210430Preview} can be used interchangeably with ApiVersion20210430Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **2020-06-30-Preview**: Api Version '2020-06-30-Preview'
+ * **2021-04-30-Preview**: Api Version '2021-04-30-Preview'
  */
-export type ApiVersion20200630Preview = string;
+export type ApiVersion20210430Preview = string;
 
 /** Known values of {@link QueryLanguage} that the service accepts. */
 export const enum KnownQueryLanguage {
@@ -505,6 +513,24 @@ export const enum KnownAnswers {
  * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
  */
 export type Answers = string;
+
+/** Known values of {@link Captions} that the service accepts. */
+export const enum KnownCaptions {
+  /** Do not return captions for the query. */
+  None = "none",
+  /** Extracts captions from the matching documents that contain passages relevant to the search query. */
+  Extractive = "extractive"
+}
+
+/**
+ * Defines values for Captions. \
+ * {@link KnownCaptions} can be used interchangeably with Captions,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **none**: Do not return captions for the query. \
+ * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
+ */
+export type Captions = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */

@@ -695,13 +695,6 @@ export const ListFilesAndDirectoriesSegmentResponse: coreHttp.CompositeMapper = 
         type: {
           name: "String"
         }
-      },
-      directoryId: {
-        serializedName: "DirectoryId",
-        xmlName: "DirectoryId",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -762,95 +755,6 @@ export const DirectoryItem: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      fileId: {
-        serializedName: "FileId",
-        xmlName: "FileId",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "Properties",
-        xmlName: "Properties",
-        type: {
-          name: "Composite",
-          className: "FileProperty"
-        }
-      },
-      attributes: {
-        serializedName: "Attributes",
-        xmlName: "Attributes",
-        type: {
-          name: "String"
-        }
-      },
-      permissionKey: {
-        serializedName: "PermissionKey",
-        xmlName: "PermissionKey",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FileProperty: coreHttp.CompositeMapper = {
-  serializedName: "FileProperty",
-  type: {
-    name: "Composite",
-    className: "FileProperty",
-    modelProperties: {
-      contentLength: {
-        serializedName: "Content-Length",
-        required: true,
-        xmlName: "Content-Length",
-        type: {
-          name: "Number"
-        }
-      },
-      creationTime: {
-        serializedName: "CreationTime",
-        xmlName: "CreationTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastAccessTime: {
-        serializedName: "LastAccessTime",
-        xmlName: "LastAccessTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastWriteTime: {
-        serializedName: "LastWriteTime",
-        xmlName: "LastWriteTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      changeTime: {
-        serializedName: "ChangeTime",
-        xmlName: "ChangeTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModified: {
-        serializedName: "Last-Modified",
-        xmlName: "Last-Modified",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      etag: {
-        serializedName: "Etag",
-        xmlName: "Etag",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -871,13 +775,6 @@ export const FileItem: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileId: {
-        serializedName: "FileId",
-        xmlName: "FileId",
-        type: {
-          name: "String"
-        }
-      },
       properties: {
         serializedName: "Properties",
         xmlName: "Properties",
@@ -885,19 +782,23 @@ export const FileItem: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "FileProperty"
         }
-      },
-      attributes: {
-        serializedName: "Attributes",
-        xmlName: "Attributes",
+      }
+    }
+  }
+};
+
+export const FileProperty: coreHttp.CompositeMapper = {
+  serializedName: "FileProperty",
+  type: {
+    name: "Composite",
+    className: "FileProperty",
+    modelProperties: {
+      contentLength: {
+        serializedName: "Content-Length",
+        required: true,
+        xmlName: "Content-Length",
         type: {
-          name: "String"
-        }
-      },
-      permissionKey: {
-        serializedName: "PermissionKey",
-        xmlName: "PermissionKey",
-        type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
