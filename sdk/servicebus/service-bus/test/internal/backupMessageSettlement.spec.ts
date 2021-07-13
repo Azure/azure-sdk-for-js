@@ -19,7 +19,7 @@ import {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage
 } from "../../src/serviceBusMessage";
-import { disableCommonLoggers, enableCommonLoggers, testLogger } from "./utils/misc";
+import { testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -346,13 +346,8 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   it(
     noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
     async function(): Promise<void> {
-      enableCommonLoggers();
-      try {
-        await beforeEachTest(noSessionTestClientType);
-        await testDeadletter();
-      } finally {
-        disableCommonLoggers();
-      }
+      await beforeEachTest(noSessionTestClientType);
+      await testDeadletter();
     }
   );
 

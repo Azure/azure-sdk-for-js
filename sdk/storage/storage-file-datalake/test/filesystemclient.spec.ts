@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { setTracer } from "@azure/core-tracing";
+import { SpanGraph, TestTracer } from "@azure/test-utils";
 import { isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
