@@ -405,7 +405,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveEventListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -430,9 +430,8 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LiveEvent
     },
-    404: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -469,7 +468,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveEvent
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -505,7 +504,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveEvent
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -531,7 +530,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -556,7 +555,7 @@ const beginAllocateOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -581,7 +580,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -613,7 +612,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -638,7 +637,7 @@ const beginResetOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -662,7 +661,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveEventListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

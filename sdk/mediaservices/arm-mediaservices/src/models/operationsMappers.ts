@@ -8,11 +8,12 @@
 
 export {
   discriminators,
-  ApiError,
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse,
   LogSpecification,
   MetricDimension,
   MetricSpecification,
-  ODataError,
   Operation,
   OperationCollection,
   OperationDisplay,

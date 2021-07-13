@@ -8,8 +8,9 @@
 
 export {
   discriminators,
-  ApiError,
   CheckNameAvailabilityInput,
   EntityNameAvailabilityCheckOutput,
-  ODataError
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse
 } from "../models/mappers";
