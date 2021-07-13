@@ -3,7 +3,12 @@
 
 import { Poller } from "../poller";
 import { PollOperationState } from "../pollOperation";
-import { LongRunningOperation, LroEngineOptions, PollerConfig, ResumablePollOperationState } from "./models";
+import {
+  LongRunningOperation,
+  LroEngineOptions,
+  PollerConfig,
+  ResumablePollOperationState
+} from "./models";
 import { GenericPollOperation } from "./operation";
 
 function deserializeState<TResult, TState>(

@@ -13,8 +13,7 @@ export class CoreRestPipelineLro<T> implements LongRunningOperation<T> {
     public requestPath: string = req.url,
     public requestMethod: string = req.method
   ) {}
-  public async sendInitialRequest(
-  ): Promise<LroResponse<T>> {
+  public async sendInitialRequest(): Promise<LroResponse<T>> {
     return this.sendOperationFn(this.req);
   }
 
