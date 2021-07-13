@@ -1,19 +1,19 @@
 # Azure Event Hubs Checkpoint Store client library for JavaScript
 
-An Azure Blob storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
+An Azure Table storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-tables) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-tables) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-tables/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-tables/samples)
 
 ## Getting started
 
 ### Install the package
 
-Install the Azure Event Hubs Checkpoint Store Blob library using npm
+Install the Azure Event Hubs Checkpoint Store Tables library using npm
 
-`npm install @azure/eventhubs-checkpointstore-blob`
+`npm install @azure/eventhubs-checkpointstore-tables`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
-[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction)
+[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
 
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
@@ -45,34 +45,37 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  A [BlobCheckpointStore](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
+  /*the link to tablecheckpointstore class docs is not created yet
+
+  A [TableCheckpointStore](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
 
+*/
 ## Examples
 
-- [Create a CheckpointStore using Azure Blob Storage](#create-a-checkpointstore-using-azure-blob-storage)
+- [Create a CheckpointStore using Azure Table Storage](#create-a-checkpointstore-using-azure-blob-storage)
 - [Checkpoint events using Azure Blob storage](#checkpoint-events-using-azure-blob-storage)
 
-### Create a `CheckpointStore` using Azure Blob Storage
+### Create a `CheckpointStore` using Azure Table Storage
 
 Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
 ```javascript
-import { ContainerClient } from "@azure/storage-blob",
-import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob"
+import { TableClient } from "@azure/data-tables",
+import { TableCheckpointStore } from "@azure/eventhubs-checkpointstore-tables"
 
-const containerClient = new ContainerClient("storage-connection-string", "container-name");
+const tableClient = new TableClient("storage-connection-string", "table-name");
 
-if (!containerClient.exists()) {
-  await containerClient.create(); // This can be skipped if the container already exists
+if (!tableClient.exists()) {
+  await tableClient.create(); // This can be skipped if the table already exists
 }
 
-const checkpointStore =  new BlobCheckpointStore(containerClient);
+const checkpointStore =  new TableCheckpointStore(tableClient);
 ```
 
-### Checkpoint events using Azure Blob storage
+### Checkpoint events using Azure Table storage
 
-To checkpoint events received using Azure Blob Storage, you will need to pass an object
+To checkpoint events received using Azure Table Storage, you will need to pass an object
 that is compatible with the [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
 interface along with code to call the `updateCheckpoint()` method.
 
@@ -81,22 +84,22 @@ In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](h
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { ContainerClient } = require("@azure/storage-blob");
-const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
+const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-tables");
 
 const storageAccountConnectionString = "storage-account-connection-string";
-const containerName = "container-name";
+const tableName = "table-name";
 const eventHubConnectionString = "eventhub-connection-string";
 const consumerGroup = "my-consumer-group";
 const eventHubName = "eventHubName";
 
 async function main() {
-  const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
+  const tableClient = new TableClient(storageAccountConnectionString, tableName);
 
-  if (!(await blobContainerClient.exists())) {
-    await blobContainerClient.create();
+  if (!(await tableClient.exists())) {
+    await tableClient.create();
   }
 
-  const checkpointStore = new BlobCheckpointStore(blobContainerClient);
+  const checkpointStore = new TableCheckpointStore(tableClient);
   const consumerClient = new EventHubConsumerClient(
     consumerGroup,
     eventHubConnectionString,
@@ -195,11 +198,16 @@ export DEBUG=azure:eventhubs-checkpointstore-blob:info
 
 ## Next steps
 
+/*documentation for this is yet to be written
+
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 directory for detailed example.
+
 
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-blob%2FREADME.png)
+
+*/
