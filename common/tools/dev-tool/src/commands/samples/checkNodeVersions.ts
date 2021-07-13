@@ -224,13 +224,13 @@ export const commandInfo = makeCommandInfo(
     "node-versions": {
       kind: "string",
       description: "A comma separated list of node versions to use",
-      default: "8,10,12"
+      default: "10,12,14,15"
     },
     "node-version": {
       kind: "string",
       description:
         "A node version to use. You can specify multiple versions by having multiple arguments",
-      default: "14",
+      default: "",
       allowMultiple: true
     },
     "context-directory-path": {

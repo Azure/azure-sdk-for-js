@@ -15,6 +15,8 @@ export { ModelStatus, TrainCustomModelAsyncResponse };
 /**
  * Defines the operations from a {@link FormRecognizerClient} that are needed for the poller
  * returned by {@link FormRecognizerClient.beginTraining} to work.
+ *
+ * @internal
  */
 export type TrainPollerClient = {
   getCustomModel: (modelId: string, options: GetModelOptions) => Promise<FormModelResponse>;
@@ -67,6 +69,8 @@ export interface BeginTrainingPollerOptions {
 
 /**
  * Class that represents a poller that waits until a model has been trained.
+ *
+ * @internal
  */
 export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFormModel> {
   public updateIntervalInMs: number;

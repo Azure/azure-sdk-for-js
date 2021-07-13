@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.5 (Unreleased)
+## 1.0.6 (Unreleased)
 
 
 ## 1.0.4 (2021-03-04)

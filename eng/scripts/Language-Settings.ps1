@@ -206,16 +206,29 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
+$PackageExclusions = @{ 
+  '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
+  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+}
+
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
+
+  Write-Host "Excluded packages:"
+  foreach ($excludedPackage in $PackageExclusions.Keys) {
+    Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
+  }
+
+  $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
+
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
-    $DocsMetadata 
+    $FilteredMetadata 
 
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
-    $DocsMetadata
+    $FilteredMetadata
 }
 
 function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
@@ -224,9 +237,10 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
   $outputPackages = @()
   foreach ($package in $packageConfig.npm_package_sources) {
+    $packageName = Get-PackageNameFromDocsMsConfig $package.name
     # If Get-PackageNameFromDocsMsConfig cannot find the package name, keep the
     # entry but do no additional processing on it.
-    if (!(Get-PackageNameFromDocsMsConfig $package.name)) {
+    if (!$packageName) {
       LogWarning "Package name is not valid: ($($package.name)). Keeping entry in docs config but not updating."
       $outputPackages += $package
       continue
@@ -234,7 +248,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
     # Do not filter by GA/Preview status because we want differentiate between
     # tracked and non-tracked packages
-    $matchingPublishedPackageArray = $DocsMetadata.Where({ $_.Package -eq (Get-PackageNameFromDocsMsConfig $package.name) })
+    $matchingPublishedPackageArray = $DocsMetadata.Where( { $_.Package -eq $packageName })
 
     # If this package does not match any published packages keep it in the list.
     # This handles packages which are not tracked in metadata but still need to
