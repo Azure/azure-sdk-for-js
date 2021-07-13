@@ -11,7 +11,9 @@ import {
   DisconnectedRequest,
   ConnectedRequest,
   ConnectionContext,
-  WebPubSubEventHandlerOptions
+  WebPubSubEventHandlerOptions,
+  ConnectResponseHandler,
+  UserEventResponseHandler
 } from "./cloudEventsProtocols";
 
 /**
@@ -57,7 +59,8 @@ export class CloudEventsDispatcher {
     }
 
     // check if hub matches
-    if (request.headers["ce-hub"] !== this.hub) {
+    const hub = this.getSingleHeader(request, "ce-hub");
+    if (hub !== this.hub) {
       return false;
     }
 
@@ -100,32 +103,48 @@ export class CloudEventsDispatcher {
       console.log(receivedEvent);
     }
 
+    const stringifyStates = this.stringifyStates;
     switch (eventType) {
       case EventType.Connect: {
         const connectRequest = receivedEvent.data as ConnectRequest;
-        connectRequest.context = this.GetContext(receivedEvent, origin);
-        this.eventHandler.handleConnect!(connectRequest, {
-          success(res?: ConnectResponse): void {
-            response.statusCode = 200;
-            if (res === undefined) {
-              response.end();
-            } else {
-              response.setHeader("Content-Type", "application/json; charset=utf-8");
-              response.end(JSON.stringify(res));
-            }
-          },
-          fail(code: 400 | 401 | 500, detail?: string): void {
-            response.statusCode = code;
-            response.end(detail ?? "");
-          }
-        });
+        connectRequest.context = this.getContext(receivedEvent, origin);
+        this.eventHandler.handleConnect!(
+          connectRequest,
+          (function() {
+            let states: Record<string, any> = connectRequest.context.states;
+            let modified = false;
+            return {
+              setState(name: string, value: any): ConnectResponseHandler {
+                states[name] = value;
+                modified = true;
+                return this;
+              },
+              success(res?: ConnectResponse): void {
+                response.statusCode = 200;
+                if (modified) {
+                  response.setHeader("ce-connectionState", stringifyStates(states));
+                }
+                if (res === undefined) {
+                  response.end();
+                } else {
+                  response.setHeader("Content-Type", "application/json; charset=utf-8");
+                  response.end(JSON.stringify(res));
+                }
+              },
+              fail(code: 400 | 401 | 500, detail?: string): void {
+                response.statusCode = code;
+                response.end(detail ?? "");
+              }
+            };
+          })()
+        );
         return true;
       }
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
         const connectedRequest = receivedEvent.data as ConnectedRequest;
-        connectedRequest.context = this.GetContext(receivedEvent, origin);
+        connectedRequest.context = this.getContext(receivedEvent, origin);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
       }
@@ -133,7 +152,7 @@ export class CloudEventsDispatcher {
         // for unblocking events, we responds to the service as early as possible
         response.end();
         const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
-        disconnectedRequest.context = this.GetContext(receivedEvent, origin);
+        disconnectedRequest.context = this.getContext(receivedEvent, origin);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
@@ -141,13 +160,13 @@ export class CloudEventsDispatcher {
         let userRequest: UserEventRequest;
         if (receivedEvent.data_base64 !== undefined) {
           userRequest = {
-            context: this.GetContext(receivedEvent, origin),
+            context: this.getContext(receivedEvent, origin),
             data: Buffer.from(receivedEvent.data_base64, "base64"),
             dataType: "binary"
           };
         } else if (receivedEvent.data !== undefined) {
           userRequest = {
-            context: this.GetContext(receivedEvent, origin),
+            context: this.getContext(receivedEvent, origin),
             data: receivedEvent.data as string,
             dataType: receivedEvent.datacontenttype?.startsWith("application/json;")
               ? "json"
@@ -157,27 +176,43 @@ export class CloudEventsDispatcher {
           throw new Error("Unexpected data.");
         }
 
-        this.eventHandler.handleUserEvent!(userRequest, {
-          success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
-            response.statusCode = 200;
-            switch (dataType) {
-              case "json":
-                response.setHeader("Content-Type", "application/json; charset=utf-8");
-                break;
-              case "text":
-                response.setHeader("Content-Type", "text/plain; charset=utf-8");
-                break;
-              default:
-                response.setHeader("Content-Type", "application/octet-stream");
-                break;
-            }
-            response.end(data ?? "");
-          },
-          fail(code: 400 | 401 | 500, detail?: string): void {
-            response.statusCode = code;
-            response.end(detail ?? "");
-          }
-        });
+        this.eventHandler.handleUserEvent!(
+          userRequest,
+          (function() {
+            let states: Record<string, any> = userRequest.context.states;
+            let modified = false;
+            return {
+              setState(name: string, value: any): UserEventResponseHandler {
+                modified = true;
+                states[name] = value;
+                return this;
+              },
+              success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
+                response.statusCode = 200;
+                if (modified) {
+                  response.setHeader("ce-connectionState", stringifyStates(states));
+                }
+
+                switch (dataType) {
+                  case "json":
+                    response.setHeader("Content-Type", "application/json; charset=utf-8");
+                    break;
+                  case "text":
+                    response.setHeader("Content-Type", "text/plain; charset=utf-8");
+                    break;
+                  default:
+                    response.setHeader("Content-Type", "application/octet-stream");
+                    break;
+                }
+                response.end(data ?? "");
+              },
+              fail(code: 400 | 401 | 500, detail?: string): void {
+                response.statusCode = code;
+                response.end(detail ?? "");
+              }
+            };
+          })()
+        );
         return true;
       }
       default:
@@ -225,14 +260,51 @@ export class CloudEventsDispatcher {
     return value[0];
   }
 
-  private GetContext(ce: CloudEvent, origin: string): ConnectionContext {
+  /**
+   * Convert the states object to base64 JSON string
+   * @param states the connection states
+   * @returns The base64 JSON string
+   */
+  private stringifyStates(states: Record<string, string>): string {
+    return new Buffer(JSON.stringify(states)).toString("base64");
+  }
+
+  /**
+   * Connection state is base64(jsonString)
+   * @param ce
+   * @param context
+   */
+  private parseStates(state: string): Record<string, any> {
+    var states: Record<string, any> = {};
+    if (state === undefined) {
+      return states;
+    }
+
+    try {
+      var buf = Buffer.from(state, "base64").toString();
+      var parsed = JSON.parse(buf);
+      for (const key in parsed) {
+        if (Object.prototype.hasOwnProperty.call(parsed, key)) {
+          states[key] = parsed[key];
+        }
+      }
+      return states;
+    } catch (e) {
+      console.warn("Unexpected state format:" + e);
+    }
+
+    return states;
+  }
+
+  private getContext(ce: CloudEvent, origin: string): ConnectionContext {
     const context = {
       signature: ce["signature"] as string,
       userId: ce["userid"] as string,
       hub: ce["hub"] as string,
       connectionId: ce["connectionid"] as string,
       eventName: ce["eventname"] as string,
-      origin: origin
+      origin: origin,
+      states: this.parseStates(ce["connectionstate"] as string)
     };
 
     // TODO: validation
@@ -248,13 +320,8 @@ export class CloudEventsDispatcher {
       for (const key in request.headers) {
         if (Object.prototype.hasOwnProperty.call(request.headers, key)) {
           const element = request.headers[key];
-          if (element === undefined) {
-            continue;
-          }
-          if (typeof element === "string") {
-            normalized.headers[key] = element;
-          } else {
-            normalized.headers[key] = element.join(",");
+          if (element !== undefined) {
+            normalized.headers[key.toLowerCase()] = element;
           }
         }
       }
