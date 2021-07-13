@@ -9647,7 +9647,7 @@ packages:
   file:projects/digital-twins-core.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.12
-      '@azure/identity': 1.4.0
+      '@azure/identity': 2.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9696,7 +9696,7 @@ packages:
     dev: false
     name: '@rush-temp/digital-twins-core'
     resolution:
-      integrity: sha512-BAH8WsXsnRyFnnZA5JL2uc2HRvD3M7mWMQ38NLS670w7RvQNna/nCpEFmPpFyfdzIBtFC8cjkSDsW7ae6vzURg==
+      integrity: sha512-FZRwi/cr0KhXtzL3eCIuKOenqXRfAHZV555l+dC430bHbPCE9g15OS817FskN5g1Q4tfmErmRJ1EhXvrZrZQGg==
       tarball: file:projects/digital-twins-core.tgz
     version: 0.0.0
   file:projects/eslint-plugin-azure-sdk.tgz:
