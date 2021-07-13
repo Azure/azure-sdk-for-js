@@ -14,14 +14,14 @@ export interface LongRunningOperation<T> {
     requestMethod: string;
     requestPath: string;
     sendInitialRequest: (initializeState: (response: LroResponse<T>) => boolean) => Promise<LroResponse<T>>;
-    sendPollRequest: (path: string, isDone: (response: LroResponse<T>) => boolean) => Promise<LroResponse<T>>;
+    sendPollRequest: (path: string) => Promise<LroResponse<T>>;
 }
 
 // @public
 export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
     constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions);
     delay(): Promise<void>;
-    }
+}
 
 // @public
 export interface LroEngineOptions {
