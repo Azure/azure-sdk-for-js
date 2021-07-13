@@ -351,7 +351,7 @@ export interface Identity {
 }
 
 // @public
-export const enum KnownProvisioningState {
+export enum KnownProvisioningState {
     // (undocumented)
     Accepted = "Accepted",
     // (undocumented)
