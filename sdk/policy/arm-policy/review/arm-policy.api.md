@@ -161,13 +161,13 @@ export interface Identity {
 }
 
 // @public
-export const enum KnownAliasPathAttributes {
+export enum KnownAliasPathAttributes {
     Modifiable = "Modifiable",
     None = "None"
 }
 
 // @public
-export const enum KnownAliasPathTokenType {
+export enum KnownAliasPathTokenType {
     Any = "Any",
     Array = "Array",
     Boolean = "Boolean",
@@ -179,7 +179,7 @@ export const enum KnownAliasPathTokenType {
 }
 
 // @public
-export const enum KnownCreatedByType {
+export enum KnownCreatedByType {
     // (undocumented)
     Application = "Application",
     // (undocumented)
@@ -191,19 +191,19 @@ export const enum KnownCreatedByType {
 }
 
 // @public
-export const enum KnownEnforcementMode {
+export enum KnownEnforcementMode {
     Default = "Default",
     DoNotEnforce = "DoNotEnforce"
 }
 
 // @public
-export const enum KnownExemptionCategory {
+export enum KnownExemptionCategory {
     Mitigated = "Mitigated",
     Waiver = "Waiver"
 }
 
 // @public
-export const enum KnownParameterType {
+export enum KnownParameterType {
     // (undocumented)
     Array = "Array",
     // (undocumented)
@@ -221,7 +221,7 @@ export const enum KnownParameterType {
 }
 
 // @public
-export const enum KnownPolicyType {
+export enum KnownPolicyType {
     // (undocumented)
     BuiltIn = "BuiltIn",
     // (undocumented)

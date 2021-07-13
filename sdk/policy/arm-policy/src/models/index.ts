@@ -467,7 +467,7 @@ export interface PolicyExemptionListResult {
 }
 
 /** Known values of {@link AliasPathTokenType} that the service accepts. */
-export const enum KnownAliasPathTokenType {
+export enum KnownAliasPathTokenType {
   /** The token type is not specified. */
   NotSpecified = "NotSpecified",
   /** The token type can be anything. */
@@ -503,7 +503,7 @@ export const enum KnownAliasPathTokenType {
 export type AliasPathTokenType = string;
 
 /** Known values of {@link AliasPathAttributes} that the service accepts. */
-export const enum KnownAliasPathAttributes {
+export enum KnownAliasPathAttributes {
   /** The token that the alias path is referring to has no attributes. */
   None = "None",
   /** The token that the alias path is referring to is modifiable by policies with 'modify' effect. */
@@ -521,7 +521,7 @@ export const enum KnownAliasPathAttributes {
 export type AliasPathAttributes = string;
 
 /** Known values of {@link EnforcementMode} that the service accepts. */
-export const enum KnownEnforcementMode {
+export enum KnownEnforcementMode {
   /** The policy effect is enforced during resource creation or update. */
   Default = "Default",
   /** The policy effect is not enforced during resource creation or update. */
@@ -539,7 +539,7 @@ export const enum KnownEnforcementMode {
 export type EnforcementMode = string;
 
 /** Known values of {@link PolicyType} that the service accepts. */
-export const enum KnownPolicyType {
+export enum KnownPolicyType {
   NotSpecified = "NotSpecified",
   BuiltIn = "BuiltIn",
   Custom = "Custom",
@@ -559,7 +559,7 @@ export const enum KnownPolicyType {
 export type PolicyType = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
-export const enum KnownParameterType {
+export enum KnownParameterType {
   String = "String",
   Array = "Array",
   Object = "Object",
@@ -585,7 +585,7 @@ export const enum KnownParameterType {
 export type ParameterType = string;
 
 /** Known values of {@link ExemptionCategory} that the service accepts. */
-export const enum KnownExemptionCategory {
+export enum KnownExemptionCategory {
   /** This category of exemptions usually means the scope is not applicable for the policy. */
   Waiver = "Waiver",
   /** This category of exemptions usually means the mitigation actions have been applied to the scope. */
@@ -603,7 +603,7 @@ export const enum KnownExemptionCategory {
 export type ExemptionCategory = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
-export const enum KnownCreatedByType {
+export enum KnownCreatedByType {
   User = "User",
   Application = "Application",
   ManagedIdentity = "ManagedIdentity",
