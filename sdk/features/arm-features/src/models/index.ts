@@ -202,7 +202,7 @@ export type SubscriptionFeatureRegistration = ProxyResource & {
 };
 
 /** Known values of {@link SubscriptionFeatureRegistrationState} that the service accepts. */
-export const enum KnownSubscriptionFeatureRegistrationState {
+export enum KnownSubscriptionFeatureRegistrationState {
   NotSpecified = "NotSpecified",
   NotRegistered = "NotRegistered",
   Pending = "Pending",
@@ -228,7 +228,7 @@ export const enum KnownSubscriptionFeatureRegistrationState {
 export type SubscriptionFeatureRegistrationState = string;
 
 /** Known values of {@link SubscriptionFeatureRegistrationApprovalType} that the service accepts. */
-export const enum KnownSubscriptionFeatureRegistrationApprovalType {
+export enum KnownSubscriptionFeatureRegistrationApprovalType {
   NotSpecified = "NotSpecified",
   ApprovalRequired = "ApprovalRequired",
   AutoApproval = "AutoApproval"

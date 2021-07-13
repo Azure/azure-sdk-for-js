@@ -175,7 +175,7 @@ export interface FeaturesUnregisterOptionalParams extends coreClient.OperationOp
 export type FeaturesUnregisterResponse = FeatureResult;
 
 // @public
-export const enum KnownSubscriptionFeatureRegistrationApprovalType {
+export enum KnownSubscriptionFeatureRegistrationApprovalType {
     // (undocumented)
     ApprovalRequired = "ApprovalRequired",
     // (undocumented)
@@ -185,7 +185,7 @@ export const enum KnownSubscriptionFeatureRegistrationApprovalType {
 }
 
 // @public
-export const enum KnownSubscriptionFeatureRegistrationState {
+export enum KnownSubscriptionFeatureRegistrationState {
     // (undocumented)
     NotRegistered = "NotRegistered",
     // (undocumented)
