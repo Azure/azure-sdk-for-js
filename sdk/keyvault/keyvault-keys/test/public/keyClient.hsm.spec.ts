@@ -74,6 +74,7 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
+      // Moving this to a managed test resource is tracked in #16314
       const attestationUrl = "https://skrattestation.azurewebsites.net/";
       const releasePolicy = {
         anyOf: [
