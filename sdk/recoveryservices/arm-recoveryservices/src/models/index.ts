@@ -140,6 +140,10 @@ export interface ResourceCertificateAndAadDetails {
    * Azure Management Endpoint Audience.
    */
   azureManagementEndpointAudience: string;
+  /**
+   * Service Resource Id.
+   */
+  serviceResourceId?: string;
 }
 
 /**
@@ -426,7 +430,7 @@ export interface Resource extends BaseResource {
   /**
    * Optional ETag.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -437,6 +441,10 @@ export interface Sku {
    * The Sku name. Possible values include: 'Standard', 'RS0'
    */
   name: SkuName;
+  /**
+   * The Sku tier.
+   */
+  tier?: string;
 }
 
 /**
@@ -521,6 +529,22 @@ export interface UpgradeDetails {
 }
 
 /**
+ * A resource identity that is managed by the user of the service.
+ */
+export interface UserIdentity {
+  /**
+   * The principal ID of the user-assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the user-assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
  * Identity for the resource.
  */
 export interface IdentityData {
@@ -535,9 +559,18 @@ export interface IdentityData {
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
+   * any identities. Possible values include: 'SystemAssigned', 'None', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned'
    */
   type: ResourceIdentityType;
+  /**
+   * The list of user-assigned identities associated with the resource. The user-assigned identity
+   * dictionary keys will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentity };
 }
 
 /**
@@ -601,6 +634,44 @@ export interface PrivateEndpointConnectionVaultProperties {
 }
 
 /**
+ * The properties of the Key Vault which hosts CMK
+ */
+export interface CmkKeyVaultProperties {
+  /**
+   * The key uri of the Customer Managed Key
+   */
+  keyUri?: string;
+}
+
+/**
+ * The details of the identity used for CMK
+ */
+export interface CmkKekIdentity {
+  /**
+   * Indicate that system assigned identity should be used. Mutually exclusive with
+   * 'userAssignedIdentity' field
+   */
+  useSystemAssignedIdentity?: boolean;
+  /**
+   * The user assigned identity to be used to grant permissions in case the type of identity used
+   * is UserAssigned
+   */
+  userAssignedIdentity?: string;
+}
+
+/**
+ * Customer Managed Key details of the resource.
+ */
+export interface VaultPropertiesEncryption {
+  keyVaultProperties?: CmkKeyVaultProperties;
+  kekIdentity?: CmkKekIdentity;
+  /**
+   * Enabling/Disabling the Double Encryption state. Possible values include: 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryptionState;
+}
+
+/**
  * Properties of the vault.
  */
 export interface VaultProperties {
@@ -625,6 +696,42 @@ export interface VaultProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
+  /**
+   * Customer Managed Key details of the resource.
+   */
+  encryption?: VaultPropertiesEncryption;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The type of identity that last modified the resource.
+   */
+  lastModifiedAt?: Date;
 }
 
 /**
@@ -634,6 +741,7 @@ export interface Vault extends TrackedResource {
   identity?: IdentityData;
   properties?: VaultProperties;
   sku?: Sku;
+  systemData?: SystemData;
 }
 
 /**
@@ -702,6 +810,85 @@ export interface PrivateLinkResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
+}
+
+/**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource management error response.
+ */
+export interface ErrorModel {
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorModel[];
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+}
+
+/**
+ * Operation Resource
+ */
+export interface OperationResource {
+  /**
+   * End time of the operation
+   */
+  endTime?: Date;
+  /**
+   * Required if status == failed or status == canceled. This is the OData v4 error format, used by
+   * the RPC and will go into the v2.2 Azure REST API guidelines.
+   */
+  error?: ErrorModel;
+  /**
+   * It should match what is used to GET the operation result
+   */
+  id?: string;
+  /**
+   * It must match the last segment of the "id" field, and will typically be a GUID / system
+   * generated value
+   */
+  name?: string;
+  /**
+   * The status of the operation. (InProgress/Success/Failed/Cancelled)
+   */
+  status?: string;
+  /**
+   * Start time of the operation
+   */
+  startTime?: Date;
 }
 
 /**
@@ -842,11 +1029,12 @@ export type TriggerType = 'UserTriggered' | 'ForcedUpgrade';
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'None', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'None';
+export type ResourceIdentityType = 'SystemAssigned' | 'None' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
  * Defines values for ProvisioningState.
@@ -871,6 +1059,22 @@ export type PrivateEndpointConnectionStatus = 'Pending' | 'Approved' | 'Rejected
  * @enum {string}
  */
 export type VaultPrivateEndpointState = 'None' | 'Enabled';
+
+/**
+ * Defines values for InfrastructureEncryptionState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type InfrastructureEncryptionState = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for UsagesUnit.
@@ -1102,6 +1306,46 @@ export type VaultsUpdateResponse = Vault & {
 };
 
 /**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VaultsBeginCreateOrUpdateResponse = Vault & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Vault;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type VaultsBeginUpdateResponse = Vault & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Vault;
+    };
+};
+
+/**
  * Contains response data for the listBySubscriptionIdNext operation.
  */
 export type VaultsListBySubscriptionIdNextResponse = VaultList & {
@@ -1238,6 +1482,46 @@ export type VaultExtendedInfoUpdateResponse = VaultExtendedInfoResource & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VaultExtendedInfoResource;
+    };
+};
+
+/**
+ * Contains response data for the getOperationStatus operation.
+ */
+export type GetOperationStatusResponse = OperationResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResource;
+    };
+};
+
+/**
+ * Contains response data for the getOperationResult operation.
+ */
+export type GetOperationResultResponse = Vault & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Vault;
     };
 };
 
