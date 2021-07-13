@@ -18,7 +18,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the StorageClientContext class.
-   * @param url The URL of the service account, container, or blob that is the target of the desired
+   * @param url The URL of the service account, container, or blob that is the targe of the desired
    *            operation.
    * @param options The parameter options
    */

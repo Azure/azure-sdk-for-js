@@ -7,11 +7,12 @@ Use the client library for Azure Monitor to:
 - Query logs using the [Kusto query language][kusto_query_language]
 - Query metrics
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) |
-[API reference documentation][msdocs_apiref]|
-[Product documentation][azure_monitor_product_documentation]
-[Samples][samples]
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) 
+- [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) 
+- [API reference documentation][msdocs_apiref]
+- [Product documentation][azure_monitor_product_documentation]
+- [Samples][samples]
 
 ## Getting started
 

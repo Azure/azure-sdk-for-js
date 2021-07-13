@@ -26,7 +26,12 @@ Using the cryptography client available in this library you also have access to:
 
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document][cors] for guidance.
 
-[Source code][package-gh] | [Package (npm)][package-npm] | [API Reference Documentation][docs] | [Product documentation][docs-service] | [Samples][samples]
+Key links:
+- [Source code][package-gh]
+- [Package (npm)][package-npm]
+- [API Reference Documentation][docs]
+- [Product documentation][docs-service]
+- [Samples][samples]
 
 ## Getting started
 
