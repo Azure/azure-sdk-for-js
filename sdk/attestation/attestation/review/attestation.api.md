@@ -36,7 +36,7 @@ export class AttestationClient {
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
-    getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
+    getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<Record<string, unknown>>;
     }
 
 // @public
@@ -62,17 +62,17 @@ export interface AttestationResponse<T> {
 // @public
 export interface AttestationResult {
     enclaveHeldData?: Uint8Array;
-    inittimeClaims: any;
+    initTimeClaims: unknown;
     isDebuggable?: boolean;
     issuer: string;
     mrEnclave?: string;
     mrSigner?: string;
     nonce?: string;
-    policyClaims: any;
+    policyClaims: unknown;
     policyHash: Uint8Array;
     policySigner?: AttestationSigner;
     productId?: number;
-    runtimeClaims: any;
+    runTimeClaims: unknown;
     sgxCollateral?: AttestationSgxCollateralInfo;
     svn?: number;
     uniqueId: string;
@@ -106,7 +106,7 @@ export interface AttestationToken {
     contentType?: string;
     critical?: boolean;
     expiresOn?: Date;
-    getBody(): any;
+    getBody(): unknown;
     issuedAt?: Date;
     issuer?: string;
     keyId?: string;

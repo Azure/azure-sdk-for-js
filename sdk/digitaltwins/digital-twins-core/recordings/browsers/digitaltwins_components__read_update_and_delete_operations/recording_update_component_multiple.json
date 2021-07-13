@@ -2,24 +2,26 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1325",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
+    "date": "Wed, 30 Jun 2021 15:29:10 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11384.5 - SCUS ProdSlices",
-    "x-ms-request-id": "d38bd2de-8bad-41d1-9274-7feb21cd9100"
+    "x-ms-ests-server": "2.1.11829.9 - WUS2 ProdSlices",
+    "x-ms-request-id": "2c3634b7-2625-4085-9893-5c00b3983d01"
    }
   },
   {
@@ -34,8 +36,9 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-7ca01cfa10d9ea49a40ef484047adad4-cf0a4ad5b724a64f-01"
    }
   },
   {
@@ -50,8 +53,9 @@
    "responseHeaders": {
     "content-length": "225",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-29e36445566e08458cfeea31883a951d-18cd68fbaa562b4a-01"
    }
   },
   {
@@ -62,12 +66,13 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTComponentTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTComponentTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2021-01-09T01:21:20.7831624+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2021-01-09T01:21:20.7831901+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2021-06-30T15:29:11.3423425+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2021-06-30T15:29:11.3423713+00:00\"}]",
    "responseHeaders": {
     "content-length": "342",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-cae6cef18657624bac00c92e5ef1f503-2c35dc92a6dbf746-01"
    }
   },
   {
@@ -82,8 +87,9 @@
    "responseHeaders": {
     "content-length": "277",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-0856f5ac565d5b41a75c60564314c568-719be028f7443b4c-01"
    }
   },
   {
@@ -94,13 +100,14 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\"},\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{},\"ComponentProp1\":\"value1\"}}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"97b8df33-6e2f-4fd2-9a25-d5bf4258bb58\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"ComponentProp1\":{\"lastUpdateTime\":\"2021-01-09T01:21:20.8723559Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"Prop1\":{\"lastUpdateTime\":\"2021-01-09T01:21:20.8723559Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"83f7fad3-b879-4aa8-a3ac-7d86a3797e44\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"ComponentProp1\":{\"lastUpdateTime\":\"2021-06-30T15:29:11.4350477Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"Prop1\":{\"lastUpdateTime\":\"2021-06-30T15:29:11.4350477Z\"}}}",
    "responseHeaders": {
     "content-length": "347",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "etag": "W/\"97b8df33-6e2f-4fd2-9a25-d5bf4258bb58\"",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "etag": "W/\"83f7fad3-b879-4aa8-a3ac-7d86a3797e44\"",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-8c29dddd2a535b418da8ecb6757ef605-2acadd545e2bd344-01"
    }
   },
   {
@@ -114,9 +121,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "etag": "W/\"fdddc631-f98d-4f04-853b-21bdb18bfa96\"",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "etag": "W/\"cdf9a370-59c5-4b50-821e-cf224b161bdb\"",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-214ea81b214d2f40a79bc16984990dbf-6d57a4d8ecb72546-01"
    }
   },
   {
@@ -131,9 +139,10 @@
    "responseHeaders": {
     "content-length": "16",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "etag": "W/\"fdddc631-f98d-4f04-853b-21bdb18bfa96\"",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "etag": "W/\"cdf9a370-59c5-4b50-821e-cf224b161bdb\"",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-4c3d051e2494e7418ce395983766392b-1b1e7fbbfae64f4b-01"
    }
   },
   {
@@ -144,13 +153,14 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"fdddc631-f98d-4f04-853b-21bdb18bfa96\\\"\",\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"Prop1\":{\"lastUpdateTime\":\"2021-01-09T01:21:20.8723559Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"cdf9a370-59c5-4b50-821e-cf224b161bdb\\\"\",\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"Prop1\":{\"lastUpdateTime\":\"2021-06-30T15:29:11.4350477Z\"}}}",
    "responseHeaders": {
     "content-length": "255",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "etag": "W/\"fdddc631-f98d-4f04-853b-21bdb18bfa96\"",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "etag": "W/\"cdf9a370-59c5-4b50-821e-cf224b161bdb\"",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-825cb9a082b9684291214cfb41de2a86-706a5120a3b13740-01"
    }
   },
   {
@@ -164,8 +174,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-b40f9c048661dc4cb3f97e88fa4d854f-bdb994e69eff3043-01"
    }
   },
   {
@@ -179,8 +190,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-f619777b1c3cc3448a966650c1124caf-a34ac42231fb9e40-01"
    }
   },
   {
@@ -194,8 +206,9 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
-    "strict-transport-security": "max-age=2592000"
+    "date": "Wed, 30 Jun 2021 15:29:11 GMT",
+    "strict-transport-security": "max-age=2592000",
+    "traceresponse": "00-43b5e882fa0f86408bc7770224a2a272-593bd13e0a18704b-01"
    }
   }
  ],
@@ -203,5 +216,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1c675473298206363139bd5057947bee"
+ "hash": "ae48d65db306d705693a4c8bec7fdc86"
 }
