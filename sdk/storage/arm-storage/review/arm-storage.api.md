@@ -944,13 +944,13 @@ export interface KeyVaultProperties {
 export type Kind = string;
 
 // @public
-export const enum KnownBlobInventoryPolicyName {
+export enum KnownBlobInventoryPolicyName {
     // (undocumented)
     Default = "default"
 }
 
 // @public
-export const enum KnownBlobRestoreProgressStatus {
+export enum KnownBlobRestoreProgressStatus {
     // (undocumented)
     Complete = "Complete",
     // (undocumented)
@@ -960,7 +960,7 @@ export const enum KnownBlobRestoreProgressStatus {
 }
 
 // @public
-export const enum KnownBypass {
+export enum KnownBypass {
     // (undocumented)
     AzureServices = "AzureServices",
     // (undocumented)
@@ -972,7 +972,7 @@ export const enum KnownBypass {
 }
 
 // @public
-export const enum KnownCorsRuleAllowedMethodsItem {
+export enum KnownCorsRuleAllowedMethodsItem {
     // (undocumented)
     Delete = "DELETE",
     // (undocumented)
@@ -990,7 +990,7 @@ export const enum KnownCorsRuleAllowedMethodsItem {
 }
 
 // @public
-export const enum KnownCreatedByType {
+export enum KnownCreatedByType {
     // (undocumented)
     Application = "Application",
     // (undocumented)
@@ -1002,7 +1002,7 @@ export const enum KnownCreatedByType {
 }
 
 // @public
-export const enum KnownDefaultSharePermission {
+export enum KnownDefaultSharePermission {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -1016,7 +1016,7 @@ export const enum KnownDefaultSharePermission {
 }
 
 // @public
-export const enum KnownDirectoryServiceOptions {
+export enum KnownDirectoryServiceOptions {
     // (undocumented)
     Aadds = "AADDS",
     // (undocumented)
@@ -1026,7 +1026,7 @@ export const enum KnownDirectoryServiceOptions {
 }
 
 // @public
-export const enum KnownEnabledProtocols {
+export enum KnownEnabledProtocols {
     // (undocumented)
     NFS = "NFS",
     // (undocumented)
@@ -1034,7 +1034,7 @@ export const enum KnownEnabledProtocols {
 }
 
 // @public
-export const enum KnownEncryptionScopeSource {
+export enum KnownEncryptionScopeSource {
     // (undocumented)
     MicrosoftKeyVault = "Microsoft.KeyVault",
     // (undocumented)
@@ -1042,7 +1042,7 @@ export const enum KnownEncryptionScopeSource {
 }
 
 // @public
-export const enum KnownEncryptionScopeState {
+export enum KnownEncryptionScopeState {
     // (undocumented)
     Disabled = "Disabled",
     // (undocumented)
@@ -1050,19 +1050,19 @@ export const enum KnownEncryptionScopeState {
 }
 
 // @public
-export const enum KnownExpirationAction {
+export enum KnownExpirationAction {
     // (undocumented)
     Log = "Log"
 }
 
 // @public
-export const enum KnownExtendedLocationTypes {
+export enum KnownExtendedLocationTypes {
     // (undocumented)
     EdgeZone = "EdgeZone"
 }
 
 // @public
-export const enum KnownFormat {
+export enum KnownFormat {
     // (undocumented)
     Csv = "Csv",
     // (undocumented)
@@ -1070,7 +1070,7 @@ export const enum KnownFormat {
 }
 
 // @public
-export const enum KnownGeoReplicationStatus {
+export enum KnownGeoReplicationStatus {
     // (undocumented)
     Bootstrap = "Bootstrap",
     // (undocumented)
@@ -1080,7 +1080,7 @@ export const enum KnownGeoReplicationStatus {
 }
 
 // @public
-export const enum KnownIdentityType {
+export enum KnownIdentityType {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -1092,7 +1092,7 @@ export const enum KnownIdentityType {
 }
 
 // @public
-export const enum KnownImmutabilityPolicyState {
+export enum KnownImmutabilityPolicyState {
     // (undocumented)
     Locked = "Locked",
     // (undocumented)
@@ -1100,7 +1100,7 @@ export const enum KnownImmutabilityPolicyState {
 }
 
 // @public
-export const enum KnownImmutabilityPolicyUpdateType {
+export enum KnownImmutabilityPolicyUpdateType {
     // (undocumented)
     Extend = "extend",
     // (undocumented)
@@ -1110,13 +1110,13 @@ export const enum KnownImmutabilityPolicyUpdateType {
 }
 
 // @public
-export const enum KnownInventoryRuleType {
+export enum KnownInventoryRuleType {
     // (undocumented)
     Inventory = "Inventory"
 }
 
 // @public
-export const enum KnownKeySource {
+export enum KnownKeySource {
     // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault",
     // (undocumented)
@@ -1124,7 +1124,7 @@ export const enum KnownKeySource {
 }
 
 // @public
-export const enum KnownKeyType {
+export enum KnownKeyType {
     // (undocumented)
     Account = "Account",
     // (undocumented)
@@ -1132,7 +1132,7 @@ export const enum KnownKeyType {
 }
 
 // @public
-export const enum KnownKind {
+export enum KnownKind {
     // (undocumented)
     BlobStorage = "BlobStorage",
     // (undocumented)
@@ -1146,7 +1146,7 @@ export const enum KnownKind {
 }
 
 // @public
-export const enum KnownLargeFileSharesState {
+export enum KnownLargeFileSharesState {
     // (undocumented)
     Disabled = "Disabled",
     // (undocumented)
@@ -1154,7 +1154,7 @@ export const enum KnownLargeFileSharesState {
 }
 
 // @public
-export const enum KnownLeaseContainerRequestAction {
+export enum KnownLeaseContainerRequestAction {
     // (undocumented)
     Acquire = "Acquire",
     // (undocumented)
@@ -1168,7 +1168,7 @@ export const enum KnownLeaseContainerRequestAction {
 }
 
 // @public
-export const enum KnownLeaseDuration {
+export enum KnownLeaseDuration {
     // (undocumented)
     Fixed = "Fixed",
     // (undocumented)
@@ -1176,7 +1176,7 @@ export const enum KnownLeaseDuration {
 }
 
 // @public
-export const enum KnownLeaseShareAction {
+export enum KnownLeaseShareAction {
     // (undocumented)
     Acquire = "Acquire",
     // (undocumented)
@@ -1190,7 +1190,7 @@ export const enum KnownLeaseShareAction {
 }
 
 // @public
-export const enum KnownLeaseState {
+export enum KnownLeaseState {
     // (undocumented)
     Available = "Available",
     // (undocumented)
@@ -1204,7 +1204,7 @@ export const enum KnownLeaseState {
 }
 
 // @public
-export const enum KnownLeaseStatus {
+export enum KnownLeaseStatus {
     // (undocumented)
     Locked = "Locked",
     // (undocumented)
@@ -1212,19 +1212,19 @@ export const enum KnownLeaseStatus {
 }
 
 // @public
-export const enum KnownListContainersInclude {
+export enum KnownListContainersInclude {
     // (undocumented)
     Deleted = "deleted"
 }
 
 // @public
-export const enum KnownManagementPolicyName {
+export enum KnownManagementPolicyName {
     // (undocumented)
     Default = "default"
 }
 
 // @public
-export const enum KnownMigrationState {
+export enum KnownMigrationState {
     // (undocumented)
     Completed = "Completed",
     // (undocumented)
@@ -1232,7 +1232,7 @@ export const enum KnownMigrationState {
 }
 
 // @public
-export const enum KnownMinimumTlsVersion {
+export enum KnownMinimumTlsVersion {
     // (undocumented)
     TLS10 = "TLS1_0",
     // (undocumented)
@@ -1242,13 +1242,13 @@ export const enum KnownMinimumTlsVersion {
 }
 
 // @public
-export const enum KnownName {
+export enum KnownName {
     // (undocumented)
     AccessTimeTracking = "AccessTimeTracking"
 }
 
 // @public
-export const enum KnownObjectType {
+export enum KnownObjectType {
     // (undocumented)
     Blob = "Blob",
     // (undocumented)
@@ -1256,7 +1256,7 @@ export const enum KnownObjectType {
 }
 
 // @public
-export const enum KnownPermissions {
+export enum KnownPermissions {
     // (undocumented)
     A = "a",
     // (undocumented)
@@ -1276,7 +1276,7 @@ export const enum KnownPermissions {
 }
 
 // @public
-export const enum KnownPrivateEndpointConnectionProvisioningState {
+export enum KnownPrivateEndpointConnectionProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -1288,7 +1288,7 @@ export const enum KnownPrivateEndpointConnectionProvisioningState {
 }
 
 // @public
-export const enum KnownPrivateEndpointServiceConnectionStatus {
+export enum KnownPrivateEndpointServiceConnectionStatus {
     // (undocumented)
     Approved = "Approved",
     // (undocumented)
@@ -1298,7 +1298,7 @@ export const enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export const enum KnownReasonCode {
+export enum KnownReasonCode {
     // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
     // (undocumented)
@@ -1306,7 +1306,7 @@ export const enum KnownReasonCode {
 }
 
 // @public
-export const enum KnownRootSquashType {
+export enum KnownRootSquashType {
     // (undocumented)
     AllSquash = "AllSquash",
     // (undocumented)
@@ -1316,7 +1316,7 @@ export const enum KnownRootSquashType {
 }
 
 // @public
-export const enum KnownRoutingChoice {
+export enum KnownRoutingChoice {
     // (undocumented)
     InternetRouting = "InternetRouting",
     // (undocumented)
@@ -1324,13 +1324,13 @@ export const enum KnownRoutingChoice {
 }
 
 // @public
-export const enum KnownRuleType {
+export enum KnownRuleType {
     // (undocumented)
     Lifecycle = "Lifecycle"
 }
 
 // @public
-export const enum KnownSchedule {
+export enum KnownSchedule {
     // (undocumented)
     Daily = "Daily",
     // (undocumented)
@@ -1338,7 +1338,7 @@ export const enum KnownSchedule {
 }
 
 // @public
-export const enum KnownServices {
+export enum KnownServices {
     // (undocumented)
     B = "b",
     // (undocumented)
@@ -1350,7 +1350,7 @@ export const enum KnownServices {
 }
 
 // @public
-export const enum KnownShareAccessTier {
+export enum KnownShareAccessTier {
     // (undocumented)
     Cool = "Cool",
     // (undocumented)
@@ -1362,7 +1362,7 @@ export const enum KnownShareAccessTier {
 }
 
 // @public
-export const enum KnownSignedResource {
+export enum KnownSignedResource {
     // (undocumented)
     B = "b",
     // (undocumented)
@@ -1374,7 +1374,7 @@ export const enum KnownSignedResource {
 }
 
 // @public
-export const enum KnownSignedResourceTypes {
+export enum KnownSignedResourceTypes {
     // (undocumented)
     C = "c",
     // (undocumented)
@@ -1384,7 +1384,7 @@ export const enum KnownSignedResourceTypes {
 }
 
 // @public
-export const enum KnownSkuName {
+export enum KnownSkuName {
     // (undocumented)
     PremiumLRS = "Premium_LRS",
     // (undocumented)
@@ -1404,7 +1404,7 @@ export const enum KnownSkuName {
 }
 
 // @public
-export const enum KnownState {
+export enum KnownState {
     // (undocumented)
     Deprovisioning = "Deprovisioning",
     // (undocumented)

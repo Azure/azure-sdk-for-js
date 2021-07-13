@@ -7,24 +7,33 @@
  */
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { FullOperationResponse } from "@azure/core-client";
-import { failureStates, LROState, successStates } from "./stateMachine";
+import {
+  failureStates,
+  LroBody,
+  LroStatus,
+  RawResponse,
+  successStates
+} from "./models";
+import { isUnexpectedPollingResponse } from "./requestUtils";
 
-function getProvisioningState(rawResponse: FullOperationResponse): string {
-  const { properties, provisioningState } =
-    rawResponse.parsedBody ??
-    (rawResponse.bodyAsText ? JSON.parse(rawResponse.bodyAsText) : {});
+function getProvisioningState(rawResponse: RawResponse): string {
+  const { properties, provisioningState } = (rawResponse.body as LroBody) ?? {};
   const state: string | undefined =
     properties?.provisioningState ?? provisioningState;
   return state?.toLowerCase() ?? "succeeded";
 }
 
-export function isBodyPollingDone(rawResponse: FullOperationResponse) {
+export function isBodyPollingDone(rawResponse: RawResponse): boolean {
   const state = getProvisioningState(rawResponse);
-  if (failureStates.includes(state)) {
-    throw new Error(`Provisioning state: ${state}`);
+  if (
+    isUnexpectedPollingResponse(rawResponse) ||
+    failureStates.includes(state)
+  ) {
+    throw new Error(
+      `The long running operation has failed. The provisioning state: ${state}.`
+    );
   }
   return successStates.includes(state);
 }
@@ -34,9 +43,9 @@ export function isBodyPollingDone(rawResponse: FullOperationResponse) {
  * from the result to determine the current operation state
  */
 export function processBodyPollingOperationResult<TResult>(
-  rawResponse: FullOperationResponse,
+  rawResponse: RawResponse,
   flatResponse: TResult
-): LROState<TResult> {
+): LroStatus<TResult> {
   return {
     rawResponse,
     flatResponse,
