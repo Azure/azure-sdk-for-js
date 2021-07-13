@@ -331,6 +331,18 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      captions: {
+        serializedName: "captions",
+        type: {
+          name: "String"
+        }
+      },
+      semanticFields: {
+        serializedName: "semanticFields",
+        type: {
+          name: "String"
+        }
       }
     }
   }

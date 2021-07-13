@@ -19,8 +19,8 @@ module.exports = function(config: any) {
 
     // list of files / patterns to load in the browser
     files: [
-      { pattern: "dist-test/coreHttp.browser.test.js" },
-      { pattern: "dist-test/coreHttp.browser.test.js.map", included: false }
+      { pattern: "dist-test/index.browser.js" },
+      { pattern: "dist-test/index.browser.js.map", included: false }
     ],
 
     // test results reporter to use

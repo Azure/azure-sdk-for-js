@@ -8,7 +8,11 @@ Azure Purview Scanning is a fully managed cloud service whose users can scan you
 
 **Please rely heavily on the [service's documentation][scanning_product_documentation] and our [Rest client docs][rest_client] to use this library**
 
-[Source code][source_code] | [Package (NPM)][scanning_npm] | [API reference documentation][scanning_ref_docs]| [Product documentation][scanning_product_documentation]
+Key links:
+- [Source code][source_code]
+- [Package (NPM)][scanning_npm]
+- [API reference documentation][scanning_ref_docs]
+- [Product documentation][scanning_product_documentation]
 
 ## Getting started
 

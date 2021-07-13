@@ -817,9 +817,6 @@ export type DataFeedPatch = {
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
- *
- * When not changing the data source type, the dataSourceParameter is not required.
- * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
   /** dataSource type for patch */

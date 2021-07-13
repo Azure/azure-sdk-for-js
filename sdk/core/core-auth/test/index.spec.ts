@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-
+import { assert } from "chai";
 import {
   AzureKeyCredential,
   AzureNamedKeyCredential,

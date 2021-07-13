@@ -161,8 +161,8 @@ $wrappingFiles = foreach ($i in 0..2) {
         $EnvironmentVariables["ATTESTATION_POLICY_SIGNING_KEY$i"] = $([Convert]::ToBase64String($certificateKey.ExportPkcs8PrivateKey()))
         $EnvironmentVariables["ATTESTATION_SERIALIZED_POLICY_SIGNING_KEY$i"] = $certificateKey.ToXmlString($True)
 
-        $baseName = "$PSScriptRoot\attestation-certificate$i"
-        Export-X509Certificate2 "$baseName.pfx" $certificate
+#        $baseName = "$PSScriptRoot\attestation-certificate$i"
+#        Export-X509Certificate2 "$baseName.pfx" $certificate
     }
     finally {
         $certificateKey.Dispose()

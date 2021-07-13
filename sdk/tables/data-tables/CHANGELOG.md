@@ -1,6 +1,16 @@
 # Release History
 
-## 12.1.0 (Unreleased)
+## 12.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.1.0 (2021-07-07)
 
 ### Acknowledgments
 
@@ -9,6 +19,7 @@ Thank you to our developer community members who helped to make the Azure Tables
 - Eros Stein _([GitHub](https://github.com/eestein))_
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Support for Azure Active Directory (AAD) authorization has been added to `TableServiceClient` and `TableClient`. This enables use of `TokenCredential` credentials. Note: Only Azure Storage API endpoints currently support AAD authorization. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 

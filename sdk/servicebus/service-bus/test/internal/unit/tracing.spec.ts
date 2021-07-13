@@ -10,10 +10,9 @@ import {
   NoOpSpan,
   setSpanContext,
   SpanOptions,
-  SpanStatusCode,
-  TestSpan,
-  TestTracer
+  SpanStatusCode
 } from "@azure/core-tracing";
+import { TestSpan, TestTracer } from "@azure/test-utils";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
