@@ -122,6 +122,8 @@ export function flattenResponse(
 ): unknown {
   const parsedHeaders = fullResponse.parsedHeaders;
 
+  // head methods never have a body, but we return a boolean set to body property
+  // to indicate presence/absence of the resource
   if (fullResponse.request.method === "HEAD") {
     return {
       ...parsedHeaders,
