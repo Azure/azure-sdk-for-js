@@ -237,7 +237,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveOutputListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -263,9 +263,8 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LiveOutput
     },
-    404: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -302,7 +301,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveOutput
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -329,7 +328,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -353,7 +352,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LiveOutputListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

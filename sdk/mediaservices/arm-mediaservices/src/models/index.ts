@@ -12,233 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * The presentation time range, this is asset related and not recommended for Account Filter.
- */
-export interface PresentationTimeRange {
-  /**
-   * The absolute start time boundary.
-   */
-  startTimestamp?: number;
-  /**
-   * The absolute end time boundary.
-   */
-  endTimestamp?: number;
-  /**
-   * The relative to end sliding window.
-   */
-  presentationWindowDuration?: number;
-  /**
-   * The relative to end right edge.
-   */
-  liveBackoffDuration?: number;
-  /**
-   * The time scale of time stamps.
-   */
-  timescale?: number;
-  /**
-   * The indicator of forcing existing of end time stamp.
-   */
-  forceEndTimestamp?: boolean;
-}
-
-/**
- * The class to specify one track property condition.
- */
-export interface FilterTrackPropertyCondition {
-  /**
-   * The track property type. Possible values include: 'Unknown', 'Type', 'Name', 'Language',
-   * 'FourCC', 'Bitrate'
-   */
-  property: FilterTrackPropertyType;
-  /**
-   * The track property value.
-   */
-  value: string;
-  /**
-   * The track property condition operation. Possible values include: 'Equal', 'NotEqual'
-   */
-  operation: FilterTrackPropertyCompareOperation;
-}
-
-/**
- * Filter First Quality
- */
-export interface FirstQuality {
-  /**
-   * The first quality bitrate.
-   */
-  bitrate: number;
-}
-
-/**
- * Representing a list of FilterTrackPropertyConditions to select a track.  The filters are
- * combined using a logical AND operation.
- */
-export interface FilterTrackSelection {
-  /**
-   * The track selections.
-   */
-  trackSelections: FilterTrackPropertyCondition[];
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * An Account Filter.
- */
-export interface AccountFilter extends ProxyResource {
-  /**
-   * The presentation time range.
-   */
-  presentationTimeRange?: PresentationTimeRange;
-  /**
-   * The first quality.
-   */
-  firstQuality?: FirstQuality;
-  /**
-   * The tracks selection conditions.
-   */
-  tracks?: FilterTrackSelection[];
-  /**
-   * The system metadata relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Information about an error.
- */
-export interface ODataError {
-  /**
-   * A language-independent error name.
-   */
-  code?: string;
-  /**
-   * The error message.
-   */
-  message?: string;
-  /**
-   * The target of the error (for example, the name of the property in error).
-   */
-  target?: string;
-  /**
-   * The error details.
-   */
-  details?: ODataError[];
-}
-
-/**
- * The API error.
- */
-export interface ApiError {
-  /**
-   * The error properties.
-   */
-  error?: ODataError;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * A resource provider.
- */
-export interface Provider {
-  /**
-   * The provider name.
-   */
-  providerName: string;
-}
-
-/**
  * Operation details.
  */
 export interface OperationDisplay {
@@ -324,6 +97,26 @@ export interface MetricSpecification {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly dimensions?: MetricDimension[];
+  /**
+   * Indicates whether regional MDM account is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enableRegionalMdmAccount?: boolean;
+  /**
+   * The source MDM account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMdmAccount?: string;
+  /**
+   * The source MDM namespace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMdmNamespace?: string;
+  /**
+   * The supported time grain types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedTimeGrainTypes?: string[];
 }
 
 /**
@@ -394,13 +187,14 @@ export interface Operation {
    * Operation properties format.
    */
   properties?: Properties;
-}
-
-/**
- * An interface representing Location.
- */
-export interface Location {
-  name: string;
+  /**
+   * Whether the operation applies to data-plane.
+   */
+  isDataAction?: boolean;
+  /**
+   * Indicates the action type. Possible values include: 'Internal'
+   */
+  actionType?: ActionType;
 }
 
 /**
@@ -422,6 +216,21 @@ export interface EntityNameAvailabilityCheckOutput {
 }
 
 /**
+ * An interface representing ResourceIdentity.
+ */
+export interface ResourceIdentity {
+  /**
+   * The user assigned managed identity's ARM ID to use when accessing a resource.
+   */
+  userAssignedIdentity?: string;
+  /**
+   * Indicates whether to use System Assigned Managed Identity. Mutual exclusive with User Assigned
+   * Managed Identity.
+   */
+  useSystemAssignedIdentity: boolean;
+}
+
+/**
  * The storage account details.
  */
 export interface StorageAccount {
@@ -436,6 +245,15 @@ export interface StorageAccount {
    * The type of the storage account. Possible values include: 'Primary', 'Secondary'
    */
   type: StorageAccountType;
+  /**
+   * The storage account identity.
+   */
+  identity?: ResourceIdentity;
+  /**
+   * The current status of the storage account mapping.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
 }
 
 /**
@@ -478,6 +296,56 @@ export interface AccountEncryption {
    * The properties of the key used to encrypt the account.
    */
   keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The Key Vault identity.
+   */
+  identity?: ResourceIdentity;
+  /**
+   * The current status of the Key Vault mapping.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * An interface representing AccessControl.
+ */
+export interface AccessControl {
+  /**
+   * The behavior for IP access control in Key Delivery. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: DefaultAction;
+  /**
+   * The IP allow list for access control in Key Delivery. If the default action is set to 'Allow',
+   * the IP allow list must be empty.
+   */
+  ipAllowList?: string[];
+}
+
+/**
+ * An interface representing KeyDelivery.
+ */
+export interface KeyDelivery {
+  /**
+   * The access control properties for Key Delivery.
+   */
+  accessControl?: AccessControl;
+}
+
+/**
+ * An interface representing UserAssignedManagedIdentity.
+ */
+export interface UserAssignedManagedIdentity {
+  /**
+   * The client ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+  /**
+   * The principal ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
 }
 
 /**
@@ -485,9 +353,9 @@ export interface AccountEncryption {
  */
 export interface MediaServiceIdentity {
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   * The identity type.
    */
-  type: ManagedIdentityType;
+  type: string;
   /**
    * The Principal ID of the identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -498,6 +366,82 @@ export interface MediaServiceIdentity {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
+  /**
+   * The user assigned managed identities.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedManagedIdentity };
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
 }
 
 /**
@@ -522,6 +466,15 @@ export interface MediaService extends TrackedResource {
    */
   encryption?: AccountEncryption;
   /**
+   * The Key Delivery properties for Media Services account.
+   */
+  keyDelivery?: KeyDelivery;
+  /**
+   * Whether or not public network access is allowed for resources under the Media Services
+   * account. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
    * The Managed Identity for the Media Services account.
    */
   identity?: MediaServiceIdentity;
@@ -530,6 +483,46 @@ export interface MediaService extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+}
+
+/**
+ * A Media Services account update.
+ */
+export interface MediaServiceUpdate {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The Media Services account ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mediaServiceId?: string;
+  /**
+   * The storage accounts for this resource.
+   */
+  storageAccounts?: StorageAccount[];
+  /**
+   * Possible values include: 'System', 'ManagedIdentity'
+   */
+  storageAuthentication?: StorageAuthentication;
+  /**
+   * The account encryption properties.
+   */
+  encryption?: AccountEncryption;
+  /**
+   * The Key Delivery properties for Media Services account.
+   */
+  keyDelivery?: KeyDelivery;
+  /**
+   * Whether or not public network access is allowed for resources under the Media Services
+   * account. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The Managed Identity for the Media Services account.
+   */
+  identity?: MediaServiceIdentity;
 }
 
 /**
@@ -591,6 +584,16 @@ export interface EdgePolicies {
 }
 
 /**
+ * A collection of Operation items.
+ */
+export interface OperationCollection {
+  /**
+   * A collection of Operation items.
+   */
+  value?: Operation[];
+}
+
+/**
  * The input to the check name availability request.
  */
 export interface CheckNameAvailabilityInput {
@@ -602,6 +605,85 @@ export interface CheckNameAvailabilityInput {
    * The account type. For a Media Services account, this should be 'MediaServices'.
    */
   type?: string;
+}
+
+/**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -693,6 +775,99 @@ export interface PrivateLinkResourceListResult {
    * Array of private link resources
    */
   value?: PrivateLinkResource[];
+}
+
+/**
+ * The presentation time range, this is asset related and not recommended for Account Filter.
+ */
+export interface PresentationTimeRange {
+  /**
+   * The absolute start time boundary.
+   */
+  startTimestamp?: number;
+  /**
+   * The absolute end time boundary.
+   */
+  endTimestamp?: number;
+  /**
+   * The relative to end sliding window.
+   */
+  presentationWindowDuration?: number;
+  /**
+   * The relative to end right edge.
+   */
+  liveBackoffDuration?: number;
+  /**
+   * The time scale of time stamps.
+   */
+  timescale?: number;
+  /**
+   * The indicator of forcing existing of end time stamp.
+   */
+  forceEndTimestamp?: boolean;
+}
+
+/**
+ * The class to specify one track property condition.
+ */
+export interface FilterTrackPropertyCondition {
+  /**
+   * The track property type. Possible values include: 'Unknown', 'Type', 'Name', 'Language',
+   * 'FourCC', 'Bitrate'
+   */
+  property: FilterTrackPropertyType;
+  /**
+   * The track property value.
+   */
+  value: string;
+  /**
+   * The track property condition operation. Possible values include: 'Equal', 'NotEqual'
+   */
+  operation: FilterTrackPropertyCompareOperation;
+}
+
+/**
+ * Filter First Quality
+ */
+export interface FirstQuality {
+  /**
+   * The first quality bitrate.
+   */
+  bitrate: number;
+}
+
+/**
+ * Representing a list of FilterTrackPropertyConditions to select a track.  The filters are
+ * combined using a logical AND operation.
+ */
+export interface FilterTrackSelection {
+  /**
+   * The track selections.
+   */
+  trackSelections: FilterTrackPropertyCondition[];
+}
+
+/**
+ * An Account Filter.
+ */
+export interface AccountFilter extends ProxyResource {
+  /**
+   * The presentation time range.
+   */
+  presentationTimeRange?: PresentationTimeRange;
+  /**
+   * The first quality.
+   */
+  firstQuality?: FirstQuality;
+  /**
+   * The tracks selection conditions.
+   */
+  tracks?: FilterTrackSelection[];
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -2843,6 +3018,56 @@ export interface PngImage {
 }
 
 /**
+ * An object of optional configuration settings for encoder.
+ */
+export interface PresetConfigurations {
+  /**
+   * Allows you to configure the encoder settings to control the balance between speed and quality.
+   * Example: set Complexity as Speed for faster encoding but less compression efficiency. Possible
+   * values include: 'Speed', 'Balanced', 'Quality'
+   */
+  complexity?: Complexity;
+  /**
+   * Sets the interleave mode of the output to control how audio and video are stored in the
+   * container format. Example: set InterleavedOutput as NonInterleavedOutput to produce audio-only
+   * and video-only outputs in separate MP4 files. Possible values include: 'NonInterleavedOutput',
+   * 'InterleavedOutput'
+   */
+  interleaveOutput?: InterleaveOutput;
+  /**
+   * The key frame interval in seconds. Example: set KeyFrameIntervalInSeconds as 2 to reduce the
+   * playback buffering for some players.
+   */
+  keyFrameIntervalInSeconds?: number;
+  /**
+   * The maximum bitrate in bits per second (threshold for the top video layer). Example: set
+   * MaxBitrateBps as 6000000 to avoid producing very high bitrate outputs for contents with high
+   * complexity.
+   */
+  maxBitrateBps?: number;
+  /**
+   * The maximum height of output video layers. Example: set MaxHeight as 720 to produce output
+   * layers up to 720P even if the input is 4K.
+   */
+  maxHeight?: number;
+  /**
+   * The maximum number of output video layers. Example: set MaxLayers as 4 to make sure at most 4
+   * output layers are produced to control the overall cost of the encoding job.
+   */
+  maxLayers?: number;
+  /**
+   * The minimum bitrate in bits per second (threshold for the bottom video layer). Example: set
+   * MinBitrateBps as 200000 to have a bottom layer that covers users with low network bandwidth.
+   */
+  minBitrateBps?: number;
+  /**
+   * The minimum height of output video layers. Example: set MinHeight as 360 to avoid output
+   * layers of smaller resolutions like 180P.
+   */
+  minHeight?: number;
+}
+
+/**
  * Describes a built-in preset for encoding the input video with the Standard Encoder.
  */
 export interface BuiltInStandardEncoderPreset {
@@ -2850,6 +3075,12 @@ export interface BuiltInStandardEncoderPreset {
    * Polymorphic Discriminator
    */
   odatatype: "#Microsoft.Media.BuiltInStandardEncoderPreset";
+  /**
+   * PresetConfigurations are only supported for the ContentAwareEncoding and
+   * H265ContentAwareEncoding built-in presets. These settings will not affect other built-in or
+   * custom defined presets.
+   */
+  configurations?: PresetConfigurations;
   /**
    * The built-in preset to be used for encoding videos. Possible values include:
    * 'H264SingleBitrateSD', 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
@@ -3174,7 +3405,8 @@ export interface JobInputClip {
    */
   odatatype: "#Microsoft.Media.JobInputClip";
   /**
-   * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+   * List of files. Required for JobInputHttp. Maximum of 4000 characters each. Query strings will
+   * not be returned in service responses to prevent sensitive data exposure.
    */
   files?: string[];
   /**
@@ -3257,7 +3489,8 @@ export interface JobInputAsset {
    */
   odatatype: "#Microsoft.Media.JobInputAsset";
   /**
-   * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+   * List of files. Required for JobInputHttp. Maximum of 4000 characters each. Query strings will
+   * not be returned in service responses to prevent sensitive data exposure.
    */
   files?: string[];
   /**
@@ -3298,7 +3531,8 @@ export interface JobInputHttp {
    */
   odatatype: "#Microsoft.Media.JobInputHttp";
   /**
-   * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+   * List of files. Required for JobInputHttp. Maximum of 4000 characters each. Query strings will
+   * not be returned in service responses to prevent sensitive data exposure.
    */
   files?: string[];
   /**
@@ -3327,7 +3561,8 @@ export interface JobInputHttp {
   /**
    * Base URI for HTTPS job input. It will be concatenated with provided file names. If no base uri
    * is given, then the provided file list is assumed to be fully qualified uris. Maximum length of
-   * 4000 characters.
+   * 4000 characters. The query strings will not be returned in service responses to prevent
+   * sensitive data exposure.
    */
   baseUri?: string;
 }
@@ -3403,6 +3638,10 @@ export interface JobOutput {
    */
   readonly error?: JobError;
   /**
+   * A preset used to override the preset in the corresponding transform output.
+   */
+  presetOverride?: PresetUnion;
+  /**
    * Describes the state of the JobOutput. Possible values include: 'Canceled', 'Canceling',
    * 'Error', 'Finished', 'Processing', 'Queued', 'Scheduled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3453,6 +3692,10 @@ export interface JobOutputAsset {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly error?: JobError;
+  /**
+   * A preset used to override the preset in the corresponding transform output.
+   */
+  presetOverride?: PresetUnion;
   /**
    * Describes the state of the JobOutput. Possible values include: 'Canceled', 'Canceling',
    * 'Error', 'Finished', 'Processing', 'Queued', 'Scheduled'
@@ -4068,6 +4311,11 @@ export interface LiveOutput extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly resourceState?: LiveOutputResourceState;
+  /**
+   * The system metadata relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -4205,7 +4453,7 @@ export interface LiveEventEncoding {
    * Premium1080p, a live encoder transcodes the incoming stream into multiple bitrates or layers.
    * See https://go.microsoft.com/fwlink/?linkid=2095101 for more information. This property cannot
    * be modified after the live event is created. Possible values include: 'None', 'Standard',
-   * 'Premium1080p'
+   * 'Premium1080p', 'PassthroughBasic', 'PassthroughStandard'
    */
   encodingType?: LiveEventEncodingType;
   /**
@@ -4795,36 +5043,23 @@ export interface AzureMediaServicesOptions extends AzureServiceClientOptions {
 
 /**
  * @interface
- * A collection of AccountFilter items.
- * @extends Array<AccountFilter>
- */
-export interface AccountFilterCollection extends Array<AccountFilter> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
- * A collection of Operation items.
- * @extends Array<Operation>
- */
-export interface OperationCollection extends Array<Operation> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * A collection of MediaService items.
  * @extends Array<MediaService>
  */
 export interface MediaServiceCollection extends Array<MediaService> {
+  /**
+   * A link to the next page of the collection (when the collection contains too many results to
+   * return in one response).
+   */
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
+ * A collection of AccountFilter items.
+ * @extends Array<AccountFilter>
+ */
+export interface AccountFilterCollection extends Array<AccountFilter> {
   /**
    * A link to the next page of the collection (when the collection contains too many results to
    * return in one response).
@@ -4978,30 +5213,6 @@ export interface StreamingEndpointListResult extends Array<StreamingEndpoint> {
 }
 
 /**
- * Defines values for FilterTrackPropertyType.
- * Possible values include: 'Unknown', 'Type', 'Name', 'Language', 'FourCC', 'Bitrate'
- * @readonly
- * @enum {string}
- */
-export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' | 'FourCC' | 'Bitrate';
-
-/**
- * Defines values for FilterTrackPropertyCompareOperation.
- * Possible values include: 'Equal', 'NotEqual'
- * @readonly
- * @enum {string}
- */
-export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
-
-/**
  * Defines values for MetricUnit.
  * Possible values include: 'Bytes', 'Count', 'Milliseconds'
  * @readonly
@@ -5016,6 +5227,14 @@ export type MetricUnit = 'Bytes' | 'Count' | 'Milliseconds';
  * @enum {string}
  */
 export type MetricAggregationType = 'Average' | 'Count' | 'Total';
+
+/**
+ * Defines values for ActionType.
+ * Possible values include: 'Internal'
+ * @readonly
+ * @enum {string}
+ */
+export type ActionType = 'Internal';
 
 /**
  * Defines values for StorageAccountType.
@@ -5042,12 +5261,28 @@ export type StorageAuthentication = 'System' | 'ManagedIdentity';
 export type AccountEncryptionKeyType = 'SystemKey' | 'CustomerKey';
 
 /**
- * Defines values for ManagedIdentityType.
- * Possible values include: 'SystemAssigned', 'None'
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
  * @readonly
  * @enum {string}
  */
-export type ManagedIdentityType = 'SystemAssigned' | 'None';
+export type DefaultAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -5064,6 +5299,22 @@ export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating
  * @enum {string}
  */
 export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+/**
+ * Defines values for FilterTrackPropertyType.
+ * Possible values include: 'Unknown', 'Type', 'Name', 'Language', 'FourCC', 'Bitrate'
+ * @readonly
+ * @enum {string}
+ */
+export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' | 'FourCC' | 'Bitrate';
+
+/**
+ * Defines values for FilterTrackPropertyCompareOperation.
+ * Possible values include: 'Equal', 'NotEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
 
 /**
  * Defines values for AssetStorageEncryptionFormat.
@@ -5268,6 +5519,22 @@ export type EntropyMode = 'Cabac' | 'Cavlc';
 export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
 
 /**
+ * Defines values for Complexity.
+ * Possible values include: 'Speed', 'Balanced', 'Quality'
+ * @readonly
+ * @enum {string}
+ */
+export type Complexity = 'Speed' | 'Balanced' | 'Quality';
+
+/**
+ * Defines values for InterleaveOutput.
+ * Possible values include: 'NonInterleavedOutput', 'InterleavedOutput'
+ * @readonly
+ * @enum {string}
+ */
+export type InterleaveOutput = 'NonInterleavedOutput' | 'InterleavedOutput';
+
+/**
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
@@ -5398,11 +5665,12 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
- * Possible values include: 'None', 'Standard', 'Premium1080p'
+ * Possible values include: 'None', 'Standard', 'Premium1080p', 'PassthroughBasic',
+ * 'PassthroughStandard'
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Standard' | 'Premium1080p';
+export type LiveEventEncodingType = 'None' | 'Standard' | 'Premium1080p' | 'PassthroughBasic' | 'PassthroughStandard';
 
 /**
  * Defines values for LiveEventResourceState.
@@ -5432,127 +5700,7 @@ export type StreamingEndpointResourceState = 'Stopped' | 'Starting' | 'Running' 
 /**
  * Contains response data for the list operation.
  */
-export type AccountFiltersListResponse = AccountFilterCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilterCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AccountFiltersGetResponse = AccountFilter & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type AccountFiltersCreateOrUpdateResponse = AccountFilter & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type AccountFiltersUpdateResponse = AccountFilter & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AccountFiltersListNextResponse = AccountFilterCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilterCollection;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
 export type OperationsListResponse = OperationCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationCollection;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -5686,26 +5834,6 @@ export type MediaservicesListBySubscriptionResponse = MediaServiceCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MediaServiceCollection;
-    };
-};
-
-/**
- * Contains response data for the getBySubscription operation.
- */
-export type MediaservicesGetBySubscriptionResponse = MediaService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaService;
     };
 };
 
@@ -5866,6 +5994,106 @@ export type LocationsCheckNameAvailabilityResponse = EntityNameAvailabilityCheck
        * The response body as parsed JSON or XML
        */
       parsedBody: EntityNameAvailabilityCheckOutput;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AccountFiltersListResponse = AccountFilterCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilterCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AccountFiltersGetResponse = AccountFilter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilter;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type AccountFiltersCreateOrUpdateResponse = AccountFilter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilter;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type AccountFiltersUpdateResponse = AccountFilter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilter;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AccountFiltersListNextResponse = AccountFilterCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountFilterCollection;
     };
 };
 

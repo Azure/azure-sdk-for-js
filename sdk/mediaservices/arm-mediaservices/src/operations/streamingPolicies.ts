@@ -227,7 +227,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingPolicyCollection
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -252,9 +252,8 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StreamingPolicy
     },
-    404: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -287,7 +286,7 @@ const createOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingPolicy
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -312,7 +311,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -339,7 +338,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingPolicyCollection
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
