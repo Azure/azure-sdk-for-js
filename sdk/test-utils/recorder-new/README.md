@@ -17,8 +17,9 @@ Run this command
   (Eventually, recorder will trigger this for you!)
   [Note: Update `temp-location` in the command to your desired location.]
 
-## Running the test at test-utils\recorder-new
+## Running the test at test-utils\testing-recorder-new
 
-- Navigate to the test-utils\recorder-new folder
+- Navigate to the test-utils\testing-recorder-new folder
 - Run `rush update && rush build -t .`
-- Run `rushx unit-test:node`
+- Run `rushx test:node`
+- Run `rushx test:browser`
