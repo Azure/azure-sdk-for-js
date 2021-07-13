@@ -9,6 +9,8 @@
 export {
   discriminators,
   CloudError,
+  ErrorAdditionalInfo,
+  ErrorModel,
   PrivateLinkResource,
   PrivateLinkResources
 } from "../models/mappers";

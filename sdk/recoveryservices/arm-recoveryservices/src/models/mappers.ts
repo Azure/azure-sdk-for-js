@@ -164,6 +164,12 @@ export const ResourceCertificateAndAadDetails: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      serviceResourceId: {
+        serializedName: "serviceResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -577,8 +583,8 @@ export const Resource: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -596,6 +602,12 @@ export const Sku: msRest.CompositeMapper = {
       name: {
         required: true,
         serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
         type: {
           name: "String"
         }
@@ -734,6 +746,30 @@ export const UpgradeDetails: msRest.CompositeMapper = {
   }
 };
 
+export const UserIdentity: msRest.CompositeMapper = {
+  serializedName: "UserIdentity",
+  type: {
+    name: "Composite",
+    className: "UserIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IdentityData: msRest.CompositeMapper = {
   serializedName: "IdentityData",
   type: {
@@ -759,6 +795,18 @@ export const IdentityData: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserIdentity"
+            }
+          }
         }
       }
     }
@@ -868,6 +916,74 @@ export const PrivateEndpointConnectionVaultProperties: msRest.CompositeMapper = 
   }
 };
 
+export const CmkKeyVaultProperties: msRest.CompositeMapper = {
+  serializedName: "CmkKeyVaultProperties",
+  type: {
+    name: "Composite",
+    className: "CmkKeyVaultProperties",
+    modelProperties: {
+      keyUri: {
+        serializedName: "keyUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CmkKekIdentity: msRest.CompositeMapper = {
+  serializedName: "CmkKekIdentity",
+  type: {
+    name: "Composite",
+    className: "CmkKekIdentity",
+    modelProperties: {
+      useSystemAssignedIdentity: {
+        serializedName: "useSystemAssignedIdentity",
+        type: {
+          name: "Boolean"
+        }
+      },
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VaultPropertiesEncryption: msRest.CompositeMapper = {
+  serializedName: "VaultProperties_encryption",
+  type: {
+    name: "Composite",
+    className: "VaultPropertiesEncryption",
+    modelProperties: {
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "CmkKeyVaultProperties"
+        }
+      },
+      kekIdentity: {
+        serializedName: "kekIdentity",
+        type: {
+          name: "Composite",
+          className: "CmkKekIdentity"
+        }
+      },
+      infrastructureEncryption: {
+        serializedName: "infrastructureEncryption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VaultProperties: msRest.CompositeMapper = {
   serializedName: "VaultProperties",
   type: {
@@ -914,6 +1030,59 @@ export const VaultProperties: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "VaultPropertiesEncryption"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -945,6 +1114,13 @@ export const Vault: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -1074,6 +1250,134 @@ export const PrivateLinkResource: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: msRest.CompositeMapper = {
+  serializedName: "ErrorAdditionalInfo",
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      info: {
+        readOnly: true,
+        serializedName: "info",
+        type: {
+          name: "Object"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: msRest.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      },
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel"
+            }
+          }
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        readOnly: true,
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationResource: msRest.CompositeMapper = {
+  serializedName: "OperationResource",
+  type: {
+    name: "Composite",
+    className: "OperationResource",
+    modelProperties: {
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
         }
       }
     }

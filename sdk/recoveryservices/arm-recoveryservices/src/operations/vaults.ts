@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/vaultsMappers";
 import * as Parameters from "../models/parameters";
@@ -124,34 +125,9 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options?: msRest.RequestOptionsBase): Promise<Models.VaultsCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param vaultName The name of the recovery services vault.
-   * @param vault Recovery Services Vault to be created.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, callback: msRest.ServiceCallback<Models.Vault>): void;
-  /**
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param vaultName The name of the recovery services vault.
-   * @param vault Recovery Services Vault to be created.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        vaultName,
-        vault,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.VaultsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options?: msRest.RequestOptionsBase): Promise<Models.VaultsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,vaultName,vault,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VaultsCreateOrUpdateResponse>;
   }
 
   /**
@@ -198,34 +174,51 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsUpdateResponse>
    */
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options?: msRest.RequestOptionsBase): Promise<Models.VaultsUpdateResponse>;
+  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options?: msRest.RequestOptionsBase): Promise<Models.VaultsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,vaultName,vault,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VaultsUpdateResponse>;
+  }
+
   /**
+   * Creates or updates a Recovery Services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
-   * @param callback The callback
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, callback: msRest.ServiceCallback<Models.Vault>): void;
-  /**
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param vaultName The name of the recovery services vault.
-   * @param vault Recovery Services Vault to be created.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsUpdateResponse> {
-    return this.client.sendOperationRequest(
+  beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
       {
         resourceGroupName,
         vaultName,
         vault,
         options
       },
-      updateOperationSpec,
-      callback) as Promise<Models.VaultsUpdateResponse>;
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates the vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param vault Recovery Services Vault to be created.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        vaultName,
+        vault,
+        options
+      },
+      beginUpdateOperationSpec,
+      options);
   }
 
   /**
@@ -359,7 +352,30 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
   urlParameters: [
@@ -394,30 +410,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
   urlParameters: [
@@ -442,9 +435,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Vault
     },
-    201: {
-      bodyMapper: Mappers.Vault
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

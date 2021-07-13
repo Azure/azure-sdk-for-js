@@ -10,5 +10,7 @@ export {
   discriminators,
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
-  CloudError
+  CloudError,
+  ErrorAdditionalInfo,
+  ErrorModel
 } from "../models/mappers";

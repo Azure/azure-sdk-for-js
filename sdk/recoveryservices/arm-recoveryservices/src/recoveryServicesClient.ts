@@ -11,6 +11,7 @@ import * as msRest from "@azure/ms-rest-js";
 import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { RecoveryServicesClientContext } from "./recoveryServicesClientContext";
 
@@ -50,9 +51,140 @@ class RecoveryServicesClient extends RecoveryServicesClientContext {
     this.vaultExtendedInfo = new operations.VaultExtendedInfoOperations(this);
     this.usages = new operations.Usages(this);
   }
+
+  /**
+   * Gets the operation status for a resource.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetOperationStatusResponse>
+   */
+  getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetOperationStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
+   * @param callback The callback
+   */
+  getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationResource>): void;
+  /**
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationResource>): void;
+  getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationResource>, callback?: msRest.ServiceCallback<Models.OperationResource>): Promise<Models.GetOperationStatusResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        vaultName,
+        operationId,
+        options
+      },
+      getOperationStatusOperationSpec,
+      callback) as Promise<Models.GetOperationStatusResponse>;
+  }
+
+  /**
+   * Gets the operation result for a resource.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetOperationResultResponse>
+   */
+  getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetOperationResultResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
+   * @param callback The callback
+   */
+  getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, callback: msRest.ServiceCallback<Models.Vault>): void;
+  /**
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
+  getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.GetOperationResultResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        vaultName,
+        operationId,
+        options
+      },
+      getOperationResultOperationSpec,
+      callback) as Promise<Models.GetOperationResultResponse>;
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const getOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationStatus/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getOperationResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationResults/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Vault
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   RecoveryServicesClient,

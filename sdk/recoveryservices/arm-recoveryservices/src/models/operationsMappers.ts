@@ -14,5 +14,7 @@ export {
   ClientDiscoveryForServiceSpecification,
   ClientDiscoveryResponse,
   ClientDiscoveryValueForSingleApi,
-  CloudError
+  CloudError,
+  ErrorAdditionalInfo,
+  ErrorModel
 } from "../models/mappers";
