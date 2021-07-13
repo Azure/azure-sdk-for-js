@@ -74,7 +74,7 @@ export interface ManagementLockListResult {
 }
 
 /** Known values of {@link LockLevel} that the service accepts. */
-export const enum KnownLockLevel {
+export enum KnownLockLevel {
   NotSpecified = "NotSpecified",
   CanNotDelete = "CanNotDelete",
   ReadOnly = "ReadOnly"

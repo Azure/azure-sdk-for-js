@@ -4,11 +4,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Azure resources can be locked to prevent other users in your organization from deleting or modifying resources.
 
-Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/locks/arm-locks) |
-- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-locks) |
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-locks) |
-- [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/locks/arm-locks) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-locks) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-locks) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 

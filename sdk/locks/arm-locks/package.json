@@ -57,6 +57,7 @@
     "esm/**/*.d.ts.map",
     "src/**/*.ts",
     "README.md",
+    "LICENSE",
     "rollup.config.js",
     "tsconfig.json",
     "review/*",

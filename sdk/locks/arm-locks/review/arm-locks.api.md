@@ -36,7 +36,7 @@ export interface AuthorizationOperationsListOptionalParams extends coreClient.Op
 export type AuthorizationOperationsListResponse = OperationListResult;
 
 // @public
-export const enum KnownLockLevel {
+export enum KnownLockLevel {
     // (undocumented)
     CanNotDelete = "CanNotDelete",
     // (undocumented)
