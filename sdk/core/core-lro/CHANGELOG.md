@@ -1,8 +1,10 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (Unreleased)
 
 ### Features Added
+
+- Providing a long-running operation engine that supports Azure long-running operations.
 
 ### Breaking Changes
 

@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperation, PollOperationState } from "../pollOperation";
+import { logger } from "./logger";
 import {
   PollerConfig,
   ResumablePollOperationState,
@@ -82,12 +83,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
           "Bad state: polling URL is undefined. Please check if the serialized state is well-formed."
         );
       }
-      const memoizedGetLroStatusFromResponse = memoize(this.getLroStatusFromResponse);
       const currentState = await this.poll(
         state.pollingURL,
         this.pollerConfig!,
-        memoizedGetLroStatusFromResponse
+        this.getLroStatusFromResponse
       );
+      logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
         state.result = currentState.flatResponse;
         state.isCompleted = true;
@@ -96,6 +97,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         state.pollingURL = getPollingUrl(currentState.rawResponse, state.pollingURL);
       }
     }
+    logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
     options?.fireProgress?.(state);
     return this;
   }
@@ -113,16 +115,4 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       state: this.state
     });
   }
-}
-
-function memoize<TInput extends unknown[], TResult>(
-  f: (...args: TInput) => TResult
-): (...args: TInput) => TResult {
-  const result: Map<TInput, TResult> = new Map();
-  return (...args: TInput): TResult => {
-    if (result.has(args) === false) {
-      result.set(args, f(...args));
-    }
-    return result.get(args)!;
-  };
 }

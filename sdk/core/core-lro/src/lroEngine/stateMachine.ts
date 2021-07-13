@@ -4,6 +4,7 @@
 import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
 import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
 import { processLocationPollingOperationResult } from "./locationPolling";
+import { logger } from "./logger";
 import {
   LroResourceLocationConfig,
   GetLroStatusFromResponse,
@@ -60,10 +61,7 @@ export function createPoll<TResult>(
     pollerConfig: PollerConfig,
     getLroStatusFromResponse: GetLroStatusFromResponse<TResult>
   ): Promise<LroStatus<TResult>> => {
-    const response = await lroPrimitives.sendPollRequest(
-      path,
-      (lroResponse: LroResponse<TResult>) => getLroStatusFromResponse(lroResponse).done
-    );
+    const response = await lroPrimitives.sendPollRequest(path);
     const retryAfter: string | undefined = response.rawResponse.headers["retry-after"];
     if (retryAfter !== undefined) {
       const retryAfterInMs = parseInt(retryAfter);
@@ -113,6 +111,7 @@ export function createInitializeState<TResult>(
       state.result = response.flatResponse as TResult;
       state.isCompleted = true;
     }
+    logger.verbose(`LRO: initial state: ${JSON.stringify(state)}`);
     return Boolean(state.isCompleted);
   };
 }

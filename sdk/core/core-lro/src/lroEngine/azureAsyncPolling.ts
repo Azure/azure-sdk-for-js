@@ -36,12 +36,12 @@ async function sendFinalRequest<TResult>(
 ): Promise<LroResponse<TResult> | undefined> {
   switch (lroResourceLocationConfig) {
     case "original-uri":
-      return lro.sendPollRequest(lro.requestPath, () => true);
+      return lro.sendPollRequest(lro.requestPath);
     case "azure-async-operation":
       return undefined;
     case "location":
     default:
-      return lro.sendPollRequest(resourceLocation ?? lro.requestPath, () => true);
+      return lro.sendPollRequest(resourceLocation ?? lro.requestPath);
   }
 }
 

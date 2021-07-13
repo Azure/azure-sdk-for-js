@@ -23,7 +23,7 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
   TState,
   TResult
 > {
-  private intervalInMs: number;
+  private config: { intervalInMs: number };
 
   constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
     const { intervalInMs = 2000, resumeFrom } = options || {};
@@ -34,14 +34,14 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
     const operation = new GenericPollOperation(state, lro, options?.lroResourceLocationConfig);
     super(operation);
 
-    this.intervalInMs = intervalInMs;
-    operation.setPollerConfig(this as any);
+    this.config = { intervalInMs: intervalInMs };
+    operation.setPollerConfig(this.config);
   }
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
    */
   delay(): Promise<void> {
-    return new Promise((resolve) => setTimeout(() => resolve(), this.intervalInMs));
+    return new Promise((resolve) => setTimeout(() => resolve(), this.config.intervalInMs));
   }
 }
