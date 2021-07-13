@@ -7,23 +7,21 @@
  */
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { FullOperationResponse } from "@azure/core-client";
-import { LROState } from "./stateMachine";
+import { LroStatus, RawResponse } from "./models";
+import { isUnexpectedPollingResponse } from "./requestUtils";
 
-function isLocationPollingDone(rawResponse: FullOperationResponse) {
-  const code = rawResponse.status;
-  if (![202, 200].includes(code)) {
-    throw new Error(`Operation failed`);
-  }
-  return code !== 202;
+function isLocationPollingDone(rawResponse: RawResponse): boolean {
+  return (
+    !isUnexpectedPollingResponse(rawResponse) && rawResponse.statusCode !== 202
+  );
 }
 
 export function processLocationPollingOperationResult<TResult>(
-  rawResponse: FullOperationResponse,
+  rawResponse: RawResponse,
   flatResponse: TResult
-): LROState<TResult> {
+): LroStatus<TResult> {
   return {
     rawResponse,
     flatResponse,

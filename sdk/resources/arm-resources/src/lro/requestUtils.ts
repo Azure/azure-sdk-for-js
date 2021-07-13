@@ -7,119 +7,9 @@
  */
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { FullOperationResponse, OperationSpec } from "@azure/core-client";
-import { LROConfig } from "./models";
-import { terminalStates } from "./stateMachine";
-
-/**
- * We need to selectively deserialize our responses, only deserializing if we
- * are in a final LRO response, not deserializing any polling non-terminal responses
- */
-export function shouldDeserializeLRO(finalStateVia?: string) {
-  let initialOperationInfo: LROResponseInfo | undefined;
-  let isInitialRequest = true;
-
-  return (response: FullOperationResponse) => {
-    if (response.status < 200 || response.status >= 300) {
-      return true;
-    }
-
-    if (!initialOperationInfo) {
-      initialOperationInfo = getLROData(response);
-    } else {
-      isInitialRequest = false;
-    }
-
-    if (
-      initialOperationInfo.azureAsyncOperation ||
-      initialOperationInfo.operationLocation
-    ) {
-      return (
-        !isInitialRequest &&
-        isAsyncOperationFinalResponse(
-          response,
-          initialOperationInfo,
-          finalStateVia
-        )
-      );
-    }
-
-    if (initialOperationInfo.location) {
-      return isLocationFinalResponse(response);
-    }
-
-    if (initialOperationInfo.requestMethod === "PUT") {
-      return isBodyPollingFinalResponse(response);
-    }
-
-    return true;
-  };
-}
-
-function isAsyncOperationFinalResponse(
-  response: FullOperationResponse,
-  initialOperationInfo: LROResponseInfo,
-  finalStateVia?: string
-): boolean {
-  const status: string = response.parsedBody?.status || "Succeeded";
-  if (!terminalStates.includes(status.toLowerCase())) {
-    return false;
-  }
-
-  if (initialOperationInfo.requestMethod === "DELETE") {
-    return true;
-  }
-
-  if (
-    initialOperationInfo.requestMethod === "PUT" &&
-    finalStateVia &&
-    finalStateVia.toLowerCase() === "azure-asyncoperation"
-  ) {
-    return true;
-  }
-
-  if (
-    initialOperationInfo.requestMethod !== "PUT" &&
-    !initialOperationInfo.location
-  ) {
-    return true;
-  }
-
-  return false;
-}
-
-function isLocationFinalResponse(response: FullOperationResponse): boolean {
-  return response.status !== 202;
-}
-
-function isBodyPollingFinalResponse(response: FullOperationResponse): boolean {
-  const provisioningState: string =
-    response.parsedBody?.properties?.provisioningState || "Succeeded";
-
-  if (terminalStates.includes(provisioningState.toLowerCase())) {
-    return true;
-  }
-
-  return false;
-}
-
-interface LROResponseInfo {
-  requestMethod: string;
-  azureAsyncOperation?: string;
-  operationLocation?: string;
-  location?: string;
-}
-
-function getLROData(result: FullOperationResponse): LROResponseInfo {
-  return {
-    azureAsyncOperation: result.headers.get("azure-asyncoperation"),
-    operationLocation: result.headers.get("operation-location"),
-    location: result.headers.get("location"),
-    requestMethod: result.request.method
-  };
-}
+import { LroConfig, RawResponse } from "./models";
 
 /**
  * Detects where the continuation token is and returns it. Notice that azure-asyncoperation
@@ -127,45 +17,41 @@ function getLROData(result: FullOperationResponse): LROResponseInfo {
  * where both azure-asyncoperation and location could be present in the same response but
  * azure-asyncoperation should be the one to use for polling.
  */
-export function getPollingURL(
-  rawResponse: FullOperationResponse,
+export function getPollingUrl(
+  rawResponse: RawResponse,
   defaultPath: string
 ): string {
   return (
-    getAzureAsyncoperation(rawResponse) ??
+    getAzureAsyncOperation(rawResponse) ??
     getLocation(rawResponse) ??
     getOperationLocation(rawResponse) ??
     defaultPath
   );
 }
 
-function getLocation(rawResponse: FullOperationResponse): string | undefined {
-  return rawResponse.headers?.get("location");
+function getLocation(rawResponse: RawResponse): string | undefined {
+  return rawResponse.headers["location"];
 }
 
-function getOperationLocation(
-  rawResponse: FullOperationResponse
-): string | undefined {
-  return rawResponse.headers?.get("operation-location");
+function getOperationLocation(rawResponse: RawResponse): string | undefined {
+  return rawResponse.headers["operation-location"];
 }
 
-function getAzureAsyncoperation(
-  rawResponse: FullOperationResponse
-): string | undefined {
-  return rawResponse.headers?.get("azure-asyncoperation");
+function getAzureAsyncOperation(rawResponse: RawResponse): string | undefined {
+  return rawResponse.headers["azure-asyncoperation"];
 }
 
-export function inferLROMode(
-  spec: OperationSpec,
-  rawResponse: FullOperationResponse
-): LROConfig {
-  const requestMethod = spec.httpMethod;
-  if (getAzureAsyncoperation(rawResponse) !== undefined) {
+export function inferLroMode(
+  requestPath: string,
+  requestMethod: string,
+  rawResponse: RawResponse
+): LroConfig {
+  if (getAzureAsyncOperation(rawResponse) !== undefined) {
     return {
       mode: "AzureAsync",
       resourceLocation:
         requestMethod === "PUT"
-          ? spec.path
+          ? requestPath
           : requestMethod === "POST"
           ? getLocation(rawResponse)
           : undefined
@@ -185,10 +71,35 @@ export function inferLROMode(
   return {};
 }
 
-export function getSpecPath(spec: OperationSpec): string {
-  if (spec.path) {
-    return spec.path;
-  } else {
-    throw Error("Bad spec: request path is not found!");
+export class RestError extends Error {
+  public statusCode?: number;
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.name = "RestError";
+    this.statusCode = statusCode;
+
+    Object.setPrototypeOf(this, RestError.prototype);
   }
+}
+
+export function isUnexpectedInitialResponse(rawResponse: RawResponse): boolean {
+  const code = rawResponse.statusCode;
+  if (![203, 204, 202, 201, 200, 500].includes(code)) {
+    throw new RestError(
+      `Received unexpected HTTP status code ${code} in the initial response. This may indicate a server issue.`,
+      code
+    );
+  }
+  return false;
+}
+
+export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
+  const code = rawResponse.statusCode;
+  if (![202, 201, 200, 500].includes(code)) {
+    throw new RestError(
+      `Received unexpected HTTP status code ${code} while polling. This may indicate a server issue.`,
+      code
+    );
+  }
+  return false;
 }

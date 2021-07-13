@@ -972,13 +972,13 @@ export interface IdentityUserAssignedIdentitiesValue {
 }
 
 // @public
-export const enum KnownAliasPathAttributes {
+export enum KnownAliasPathAttributes {
     Modifiable = "Modifiable",
     None = "None"
 }
 
 // @public
-export const enum KnownAliasPathTokenType {
+export enum KnownAliasPathTokenType {
     Any = "Any",
     Array = "Array",
     Boolean = "Boolean",
@@ -990,7 +990,7 @@ export const enum KnownAliasPathTokenType {
 }
 
 // @public
-export const enum KnownExpressionEvaluationOptionsScopeType {
+export enum KnownExpressionEvaluationOptionsScopeType {
     // (undocumented)
     Inner = "Inner",
     // (undocumented)
@@ -1000,13 +1000,13 @@ export const enum KnownExpressionEvaluationOptionsScopeType {
 }
 
 // @public
-export const enum KnownExtendedLocationType {
+export enum KnownExtendedLocationType {
     // (undocumented)
     EdgeZone = "EdgeZone"
 }
 
 // @public
-export const enum KnownProviderAuthorizationConsentState {
+export enum KnownProviderAuthorizationConsentState {
     // (undocumented)
     Consented = "Consented",
     // (undocumented)
@@ -1018,7 +1018,7 @@ export const enum KnownProviderAuthorizationConsentState {
 }
 
 // @public
-export const enum KnownProvisioningState {
+export enum KnownProvisioningState {
     // (undocumented)
     Accepted = "Accepted",
     // (undocumented)
@@ -1046,7 +1046,7 @@ export const enum KnownProvisioningState {
 }
 
 // @public
-export const enum KnownTagsPatchOperation {
+export enum KnownTagsPatchOperation {
     Delete = "Delete",
     Merge = "Merge",
     Replace = "Replace"

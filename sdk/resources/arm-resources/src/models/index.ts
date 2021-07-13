@@ -1137,7 +1137,7 @@ export interface DeploymentsWhatIfHeaders {
 }
 
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
-export const enum KnownExpressionEvaluationOptionsScopeType {
+export enum KnownExpressionEvaluationOptionsScopeType {
   NotSpecified = "NotSpecified",
   Outer = "Outer",
   Inner = "Inner"
@@ -1155,7 +1155,7 @@ export const enum KnownExpressionEvaluationOptionsScopeType {
 export type ExpressionEvaluationOptionsScopeType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
-export const enum KnownProvisioningState {
+export enum KnownProvisioningState {
   NotSpecified = "NotSpecified",
   Accepted = "Accepted",
   Running = "Running",
@@ -1191,7 +1191,7 @@ export const enum KnownProvisioningState {
 export type ProvisioningState = string;
 
 /** Known values of {@link AliasPathTokenType} that the service accepts. */
-export const enum KnownAliasPathTokenType {
+export enum KnownAliasPathTokenType {
   /** The token type is not specified. */
   NotSpecified = "NotSpecified",
   /** The token type can be anything. */
@@ -1227,7 +1227,7 @@ export const enum KnownAliasPathTokenType {
 export type AliasPathTokenType = string;
 
 /** Known values of {@link AliasPathAttributes} that the service accepts. */
-export const enum KnownAliasPathAttributes {
+export enum KnownAliasPathAttributes {
   /** The token that the alias path is referring to has no attributes. */
   None = "None",
   /** The token that the alias path is referring to is modifiable by policies with 'modify' effect. */
@@ -1245,7 +1245,7 @@ export const enum KnownAliasPathAttributes {
 export type AliasPathAttributes = string;
 
 /** Known values of {@link ProviderAuthorizationConsentState} that the service accepts. */
-export const enum KnownProviderAuthorizationConsentState {
+export enum KnownProviderAuthorizationConsentState {
   NotSpecified = "NotSpecified",
   Required = "Required",
   NotRequired = "NotRequired",
@@ -1265,7 +1265,7 @@ export const enum KnownProviderAuthorizationConsentState {
 export type ProviderAuthorizationConsentState = string;
 
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
-export const enum KnownExtendedLocationType {
+export enum KnownExtendedLocationType {
   EdgeZone = "EdgeZone"
 }
 
@@ -1279,7 +1279,7 @@ export const enum KnownExtendedLocationType {
 export type ExtendedLocationType = string;
 
 /** Known values of {@link TagsPatchOperation} that the service accepts. */
-export const enum KnownTagsPatchOperation {
+export enum KnownTagsPatchOperation {
   /** The 'replace' option replaces the entire set of existing tags with a new set. */
   Replace = "Replace",
   /** The 'merge' option allows adding tags with new names and updating the values of tags with existing names. */
