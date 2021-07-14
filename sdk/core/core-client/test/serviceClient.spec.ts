@@ -571,7 +571,9 @@ describe("ServiceClient", function() {
           }
         }
       },
-      undefined
+      {
+        body: undefined
+      }
     );
   });
 
