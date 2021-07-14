@@ -11,11 +11,14 @@ RUN git clone https://github.com/KarishmaGhiya/azure-sdk-for-js --single-branch 
 
 FROM node:${NODE_VERSION}-slim
 
+RUN echo "hello there BEFORE copy"
+COPY --from=repo /azure-sdk-for-js/sdk/identity /sdk/identity
+
 RUN echo "hello there BEFORE workdir"
 WORKDIR /sdk/identity/identity/test/manual-integration/AzureServiceFabric
+
 RUN echo "hello there BEFORE npm install"
 RUN npm install
 RUN npm install -g typescript
-RUN echo "hello there BEFORE tsc"
-RUN tsc -p tsconfig.json
-CMD ["node", "index"]
+RUN echo "hello there BEFORE ts-node"
+CMD ["./node_modules/.bin/ts-node", "index"]
