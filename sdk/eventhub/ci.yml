@@ -35,3 +35,5 @@ extends:
         safeName: azureeventhubscheckpointstoreblob
       - name: azure-event-processor-host
         safename: azureeventprocessorhost
+      -name: azure-eventhubs-checkpointstore-tables
+       safeName: azureeventhubscheckpointstoretables
