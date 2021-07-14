@@ -43,7 +43,7 @@ matrix([[true, false]], async function(useAad) {
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
       assert.isNotNull(turnTokenExpiresOn);
 
-      const turnServers = turnCredentialResponse.turnServers;
+      const turnServers = turnCredentialResponse.iceServers;
 
       for (const iceServer of turnServers) {
         for (const url of iceServer.urls) {
