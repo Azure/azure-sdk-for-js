@@ -68,10 +68,10 @@ export const interval: OperationQueryParameter = {
   }
 };
 
-export const metric: OperationQueryParameter = {
-  parameterPath: ["options", "metric"],
+export const metricnames: OperationQueryParameter = {
+  parameterPath: ["options", "metricnames"],
   mapper: {
-    serializedName: "metric",
+    serializedName: "metricnames",
     type: {
       name: "String"
     }

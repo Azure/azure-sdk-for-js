@@ -18,6 +18,7 @@ import {
   CommunicationIdentifierModel as CommunicationIdentifierModelMapper,
   AddChatParticipantsRequest as AddChatParticipantsRequestMapper,
   UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
+  SendTypingNotificationRequest as SendTypingNotificationRequestMapper,
   CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
 
@@ -161,6 +162,11 @@ export const addChatParticipantsRequest: OperationParameter = {
 export const updateChatThreadRequest: OperationParameter = {
   parameterPath: "updateChatThreadRequest",
   mapper: UpdateChatThreadRequestMapper
+};
+
+export const sendTypingNotificationRequest: OperationParameter = {
+  parameterPath: ["options", "sendTypingNotificationRequest"],
+  mapper: SendTypingNotificationRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

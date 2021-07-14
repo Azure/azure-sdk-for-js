@@ -4,7 +4,7 @@
 import * as openTelemetry from "@opentelemetry/api";
 import * as coreAuth from "@azure/core-auth";
 import * as coreTracing from "../src/interfaces";
-import assert from "assert";
+import { assert } from "chai";
 
 type coreAuthTracingOptions = Required<coreAuth.GetTokenOptions>["tracingOptions"];
 
@@ -31,6 +31,7 @@ describe("interface compatibility", () => {
       links: [
         {
           context: {
+            traceFlags: coreTracing.TraceFlags.NONE,
             spanId: "",
             traceId: ""
           }
@@ -53,7 +54,8 @@ describe("interface compatibility", () => {
           {
             context: {
               spanId: "spanId",
-              traceId: "traceId"
+              traceId: "traceId",
+              traceFlags: coreTracing.TraceFlags.NONE
             },
             attributes: {
               hello2: "world2"

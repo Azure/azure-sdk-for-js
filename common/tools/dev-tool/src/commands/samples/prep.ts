@@ -68,11 +68,6 @@ async function enableLocalRun(
 
     let relativePath = new Array(depth).fill("..").join("/");
 
-    if (isTs) {
-      // TypeScript imports should use src directly
-      relativePath += "/src";
-    }
-
     outputContent = fileContents.replace(
       importRegex,
       isTs ? `import $1 from "${relativePath}";` : `const $1 = require("${relativePath}");`

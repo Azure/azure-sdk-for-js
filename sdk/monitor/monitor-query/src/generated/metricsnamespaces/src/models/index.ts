@@ -95,7 +95,7 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
 };
 
 /** Optional parameters. */
-export interface MetricsNamespacesClientOptionalParams
+export interface MonitorManagementClientOptionalParams
   extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;

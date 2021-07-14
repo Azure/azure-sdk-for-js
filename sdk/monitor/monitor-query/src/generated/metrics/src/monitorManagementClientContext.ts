@@ -7,10 +7,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import {
-  ApiVersion20170501Preview,
-  MonitorManagementClientOptionalParams
-} from "./models";
+import { ApiVersion201801, MonitorManagementClientOptionalParams } from "./models";
 
 const packageName = "monitor-metrics";
 const packageVersion = "1.0.0-beta.3";
@@ -18,17 +15,14 @@ const packageVersion = "1.0.0-beta.3";
 /** @hidden */
 export class MonitorManagementClientContext extends coreHttp.ServiceClient {
   $host: string;
-  apiVersion: ApiVersion20170501Preview;
+  apiVersion: ApiVersion201801;
 
   /**
    * Initializes a new instance of the MonitorManagementClientContext class.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(
-    apiVersion: ApiVersion20170501Preview,
-    options?: MonitorManagementClientOptionalParams
-  ) {
+  constructor(apiVersion: ApiVersion201801, options?: MonitorManagementClientOptionalParams) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }

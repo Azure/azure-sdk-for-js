@@ -11,8 +11,8 @@ import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { setSpan, context } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
+import { setSpan, context, setTracer } from "@azure/core-tracing";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -277,7 +277,7 @@ describe("Operation Options", () => {
         ]
       };
 
-      assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+      assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
       assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
     });
   });

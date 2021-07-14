@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { CosmosDBManagementClientContext } from "./cosmosDBManagementClientContext";
 
+
 class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   // Operation groups
   databaseAccounts: operations.DatabaseAccounts;
@@ -35,8 +36,15 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   cassandraResources: operations.CassandraResources;
   gremlinResources: operations.GremlinResources;
   notebookWorkspaces: operations.NotebookWorkspaces;
-  privateLinkResources: operations.PrivateLinkResources;
   privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
+  restorableDatabaseAccounts: operations.RestorableDatabaseAccounts;
+  restorableSqlDatabases: operations.RestorableSqlDatabases;
+  restorableSqlContainers: operations.RestorableSqlContainers;
+  restorableSqlResources: operations.RestorableSqlResources;
+  restorableMongodbDatabases: operations.RestorableMongodbDatabases;
+  restorableMongodbCollections: operations.RestorableMongodbCollections;
+  restorableMongodbResources: operations.RestorableMongodbResources;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -49,11 +57,7 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.CosmosDBManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.CosmosDBManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.databaseAccounts = new operations.DatabaseAccounts(this);
     this.operations = new operations.Operations(this);
@@ -74,8 +78,15 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.cassandraResources = new operations.CassandraResources(this);
     this.gremlinResources = new operations.GremlinResources(this);
     this.notebookWorkspaces = new operations.NotebookWorkspaces(this);
-    this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.restorableDatabaseAccounts = new operations.RestorableDatabaseAccounts(this);
+    this.restorableSqlDatabases = new operations.RestorableSqlDatabases(this);
+    this.restorableSqlContainers = new operations.RestorableSqlContainers(this);
+    this.restorableSqlResources = new operations.RestorableSqlResources(this);
+    this.restorableMongodbDatabases = new operations.RestorableMongodbDatabases(this);
+    this.restorableMongodbCollections = new operations.RestorableMongodbCollections(this);
+    this.restorableMongodbResources = new operations.RestorableMongodbResources(this);
   }
 }
 

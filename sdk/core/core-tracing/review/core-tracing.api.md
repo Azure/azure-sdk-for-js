@@ -81,25 +81,19 @@ export type HrTime = [number, number];
 // @public
 export interface Link {
     attributes?: SpanAttributes;
-    context: LinkContext;
+    context: SpanContext;
 }
-
-// @public
-export type LinkContext = {
-    traceId: string;
-    spanId: string;
-};
 
 // @public
 export class NoOpSpan implements Span {
     addEvent(_name: string, _attributes?: SpanAttributes): this;
-    context(): SpanContext;
     end(_endTime?: number): void;
     isRecording(): boolean;
     recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(_key: string, _value: unknown): this;
     setAttributes(_attributes: SpanAttributes): this;
     setStatus(_status: SpanStatus): this;
+    spanContext(): SpanContext;
     updateName(_name: string): this;
 }
 
@@ -129,13 +123,13 @@ export function setTracer(tracer: Tracer): void;
 // @public
 export interface Span {
     addEvent(name: string, attributesOrStartTime?: SpanAttributes | TimeInput, startTime?: TimeInput): this;
-    context(): SpanContext;
     end(endTime?: TimeInput): void;
     isRecording(): boolean;
     recordException(exception: Exception, time?: TimeInput): void;
     setAttribute(key: string, value: SpanAttributeValue): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
+    spanContext(): SpanContext;
     updateName(name: string): this;
 }
 
@@ -153,17 +147,6 @@ export interface SpanContext {
     traceFlags: number;
     traceId: string;
     traceState?: TraceState;
-}
-
-// @public
-export interface SpanGraph {
-    roots: SpanGraphNode[];
-}
-
-// @public
-export interface SpanGraphNode {
-    children: SpanGraphNode[];
-    name: string;
 }
 
 // @public
@@ -195,34 +178,6 @@ export enum SpanStatusCode {
     OK = 1,
     UNSET = 0
 }
-
-// @public
-export class TestSpan extends NoOpSpan {
-    constructor(parentTracer: Tracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
-    readonly attributes: SpanAttributes;
-    context(): SpanContext;
-    end(_endTime?: number): void;
-    endCalled: boolean;
-    isRecording(): boolean;
-    kind: SpanKind;
-    name: string;
-    readonly parentSpanId?: string;
-    setAttribute(key: string, value: SpanAttributeValue): this;
-    setAttributes(attributes: SpanAttributes): this;
-    setStatus(status: SpanStatus): this;
-    readonly startTime: TimeInput;
-    status: SpanStatus;
-    tracer(): Tracer;
-    }
-
-// @public
-export class TestTracer extends NoOpTracer {
-    getActiveSpans(): TestSpan[];
-    getKnownSpans(): TestSpan[];
-    getRootSpans(): TestSpan[];
-    getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: SpanOptions, context?: Context): TestSpan;
-    }
 
 // @public
 export type TimeInput = HrTime | number | Date;

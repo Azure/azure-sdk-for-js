@@ -3,7 +3,7 @@ $LanguageShort = "js"
 $LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
-$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
+$MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
 function Confirm-NodeInstallation
@@ -122,6 +122,24 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   return $resultObj
 }
 
+function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
+  New-Object PSObject -Property @{ 
+    DocsMsReadMeName = $PackageInfo.Name -replace "^@azure/" , ""
+    LatestReadMeLocation = 'docs-ref-services/latest'
+    PreviewReadMeLocation = 'docs-ref-services/preview'
+    Suffix = ''
+  }
+}
+
+# In the case of NPM packages, the "dev version" produced for the given build
+# may not have been published if the code is identical to the code already 
+# published at the "dev" tag. To prevent using a version which does not exist in 
+# NPM, use the "dev" tag instead.
+function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
+  $packageInfo.Version = 'dev'
+  return $packageInfo
+}
+
 # Stage and Upload Docs to blob Storage
 function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 {
@@ -188,16 +206,29 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
+$PackageExclusions = @{ 
+  '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
+  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+}
+
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
+
+  Write-Host "Excluded packages:"
+  foreach ($excludedPackage in $PackageExclusions.Keys) {
+    Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
+  }
+
+  $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
+
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
-    $DocsMetadata 
+    $FilteredMetadata 
 
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
-    $DocsMetadata
+    $FilteredMetadata
 }
 
 function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
@@ -206,9 +237,10 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
   $outputPackages = @()
   foreach ($package in $packageConfig.npm_package_sources) {
+    $packageName = Get-PackageNameFromDocsMsConfig $package.name
     # If Get-PackageNameFromDocsMsConfig cannot find the package name, keep the
     # entry but do no additional processing on it.
-    if (!(Get-PackageNameFromDocsMsConfig $package.name)) {
+    if (!$packageName) {
       LogWarning "Package name is not valid: ($($package.name)). Keeping entry in docs config but not updating."
       $outputPackages += $package
       continue
@@ -216,7 +248,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
     # Do not filter by GA/Preview status because we want differentiate between
     # tracked and non-tracked packages
-    $matchingPublishedPackageArray = $DocsMetadata.Where({ $_.Package -eq (Get-PackageNameFromDocsMsConfig $package.name) })
+    $matchingPublishedPackageArray = $DocsMetadata.Where( { $_.Package -eq $packageName })
 
     # If this package does not match any published packages keep it in the list.
     # This handles packages which are not tracked in metadata but still need to

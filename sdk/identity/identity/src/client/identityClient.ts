@@ -26,7 +26,6 @@ const noCorrelationId = "noCorrelationId";
 /**
  * An internal type used to communicate details of a token request's
  * response that should not be sent back as part of the access token.
- * @internal
  */
 export interface TokenResponse {
   /**
@@ -62,7 +61,6 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  * It allows for credentials to abort any pending request independently of the MSAL flow,
  * by calling to the `abortRequests()` method.
  *
- * @internal
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
@@ -312,7 +310,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 export interface TokenCredentialOptions extends PipelineOptions {
   /**
    * The authority host to use for authentication requests.
+   * Possible values are available through {@link AzureAuthorityHosts}.
    * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
+
+  /**
+   * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
+   */
+  allowMultiTenantAuthentication?: boolean;
 }

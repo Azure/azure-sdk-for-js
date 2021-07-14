@@ -1,5 +1,5 @@
 # Instructions for CODEOWNERS file format and automatic build failure notifications:
-# https://github.com/Azure/azure-sdk/blob/master/docs/policies/opensource.md#codeowners
+# https://github.com/Azure/azure-sdk/blob/main/docs/policies/opensource.md#codeowners
 
 ###########
 # SDK
@@ -35,6 +35,7 @@
 
 # PRLabel: %Communication
 /sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/communication-identity/ @petrsvihlik @martinbarnas-ms
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
@@ -107,7 +108,7 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
-/sdk/monitor/monitor-query @richardpark-msft @maorleger
+/sdk/monitor/monitor-query @KarishmaGhiya @maorleger @richardpark-msft
 
 ###########
 # Tools
@@ -119,9 +120,9 @@
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
+/eng/   @weshaggard @praveenkuttappan @mikeharder @danieljurek
 /**/tests.yml   @benbp
-/**/ci.yml      @mitchdenny
+/**/ci.yml      @praveenkuttappan
 
 ###########
 # Config
@@ -134,3 +135,6 @@
 /tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
 /**/tsconfig.json @witemple-msft @deyaaeldeen
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
+
+# Add owners for notifications for specific pipelines
+/eng/pipelines/aggregate-reports.yml         @ramya-rao-a

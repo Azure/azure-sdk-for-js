@@ -1,15 +1,30 @@
 # Release History
 
-## 7.2.1 (Unreleased)
+## 7.3.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
+### Bugs Fixed
+
+### Other Changes
+
+## 7.3.0 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Key Bugs Fixed
+
+- Fixed a bug that could lead to message loss  in certain conditions when using `receiver.receiveMessages()`. 
+  [PR#15989](https://github.com/Azure/azure-sdk-for-js/pull/15989)
 
 ### Fixed
 
+- Fixing an issue where the internal link cache would not properly remove closed links.
+  [PR#15929](https://github.com/Azure/azure-sdk-for-js/pull/15929)
 
 ## 7.2.0 (2021-06-10)
 
@@ -108,12 +123,12 @@
 
 - This release marks the general availability of the `@azure/service-bus` package.
 - If you are using version 1.1.10 or lower and want to migrate to the latest version
-  of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md)
+  of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/migrationguide.md)
 
 ### Breaking changes
 
 **Note:** The following breaking changes are with respect to version `7.0.0-preview.8`.
-If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md).
+If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/migrationguide.md).
 
 - The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
   The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
@@ -135,7 +150,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entityPath details from the connection string.
   [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
 - All methods that take an array as input are updated to ensure they gracefully do a no-op rather than throw errors. For example: `receiveDeferredMessages()`, `scheduleMessages()` and `cancelScheduledMessages()`.
-- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
+- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
@@ -288,7 +303,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`, `getQueuesRuntimeInfo()`, etc. and renamed them to use the `list` verb.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
   [PR 10223](https://github.com/Azure/azure-sdk-for-js/pull/10223)
-  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts)
 - `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.
@@ -516,7 +531,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 
 ## 1.0.0-preview.3 (2019-04-24)
 
-- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js)
+- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.
@@ -565,7 +580,7 @@ meant to do.
 - Fixed [Bug 1098](https://github.com/Azure/azure-sdk-for-js/issues/1098) where precision was lost
   on the messageId when a number is passed.
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus#enable-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus#enable-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.

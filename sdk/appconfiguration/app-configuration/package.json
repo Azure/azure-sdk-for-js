@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.2.0-beta.3",
+  "version": "1.2.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -16,7 +16,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/app-configuration.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -69,7 +69,7 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -86,16 +86,17 @@
     ]
   },
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-http": "^1.2.0",
+    "@azure/core-http": "^2.0.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.3",
+    "@azure/identity": "2.0.0-beta.5",
     "@azure/keyvault-secrets": "^4.2.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
@@ -107,7 +108,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",

@@ -7,7 +7,10 @@ Use the client library for Video Analyzer Edge to:
 -  Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
 -  Programmatically construct pipeline topologies and live pipelines
 
-[Product documentation][doc_product] | [Direct methods][doc_direct_methods] | [Source code][source]
+Key links:
+- [Product documentation][doc_product]
+- [Direct methods][doc_direct_methods] 
+- [Source code][source]
 
 ## Getting started
 

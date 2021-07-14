@@ -3,7 +3,10 @@
 
 import qs from "qs";
 import assert from "assert";
-import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
+
+import { AccessToken } from "@azure/core-auth";
+
+import { WebResource, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
@@ -12,7 +15,10 @@ import {
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
-import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import {
+  imdsMsi,
+  imdsMsiRetryConfig
+} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
@@ -25,7 +31,6 @@ interface AuthRequestDetails {
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
-  let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
     envCopy = JSON.stringify(process.env);
@@ -35,11 +40,8 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_POD_IDENTITY_TOKEN_URL;
     sandbox = Sinon.createSandbox();
-    clock = sandbox.useFakeTimers({
-      now: Date.now(),
-      shouldAdvanceTime: true
-    });
   });
   afterEach(() => {
     const env = JSON.parse(envCopy);
@@ -49,8 +51,8 @@ describe("ManagedIdentityCredential", function() {
     process.env.MSI_SECRET = env.MSI_SECRET;
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
+    process.env.AZURE_POD_IDENTITY_TOKEN_URL = env.AZURE_POD_IDENTITY_TOKEN_URL;
     sandbox.restore();
-    clock.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -229,20 +231,71 @@ describe("ManagedIdentityCredential", function() {
       ...mockHttpClient.tokenCredentialOptions
     });
 
+    const clock = sandbox.useFakeTimers();
+
+    let errorMessage: string = "";
+    credential.getToken("scopes").catch((error) => {
+      errorMessage = error.message;
+    });
+
+    // From the retry code of the IMDS MSI,
+    // the timeouts increase exponentially until we reach the limit:
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    await clock.tickAsync(6400);
+
+    assert.ok(
+      errorMessage.indexOf(
+        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+      ) > -1
+    );
+
+    clock?.restore();
+  });
+
+  it("IMDS MSI retries also retries on 503s", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
+        // { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 200 },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(
+      "errclient",
+      mockHttpClient.tokenCredentialOptions
+    );
+
+    const clock = sandbox.useFakeTimers();
     const promise = credential.getToken("scopes");
 
-    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
+    // From the retry code of the IMDS MSI,
+    // the timeouts increase exponentially until we reach the limit:
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms
+    // Plus four 503s: 20s * 6 from the 503 responses.
+    clock.tickAsync(6400 + 2000 * 6);
 
-    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
-    clock.tick(640);
+    assert.equal((await promise).token, "token");
+    clock.restore();
+  });
 
-    await assertRejects(
-      promise,
-      (error: AuthenticationError) =>
-        error.message.indexOf(
-          `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
-        ) > -1
-    );
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_TOKEN_URL environment variable is available", async function() {
+    process.env.AZURE_POD_IDENTITY_TOKEN_URL = "token URL";
+
+    assert.ok(await imdsMsi.isAvailable());
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
@@ -394,15 +447,7 @@ describe("ManagedIdentityCredential", function() {
       );
 
       assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
-      if (authDetails.token) {
-        // We use Date.now underneath.
-        assert.equal(
-          Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-          Math.floor(Date.now() / 1000000)
-        );
-      } else {
-        assert.fail("No token was returned!");
-      }
+      assert.ok(authDetails.token?.expiresOnTimestamp);
     } finally {
       unlinkSync(tempFile);
       rmdirSync(tempDir);

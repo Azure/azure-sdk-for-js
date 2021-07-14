@@ -1,5 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   captureConsoleOutputToAppInsights,
+  createServiceBusClient,
+  loopForever as loopInfinitely,
   ServiceBusStressTester
 } from "./serviceBusStressTester";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -7,14 +12,6 @@ import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
 import { v4 as uuidv4 } from "uuid";
 
 captureConsoleOutputToAppInsights();
-
-async function looper(fn: () => Promise<void>, delay: number, abortSignal: AbortSignalLike) {
-  const timeout = () => new Promise((resolve) => setTimeout(() => resolve(true), delay));
-
-  while (!abortSignal.aborted && (await timeout())) {
-    await fn();
-  }
-}
 
 async function sendMessagesForever(
   stressTest: ServiceBusStressTester,
@@ -25,7 +22,7 @@ async function sendMessagesForever(
 
   let sender: ServiceBusSender | undefined;
 
-  return looper(
+  return loopInfinitely(
     async () => {
       if (abortSignal.aborted) {
         console.log(`Aborting sending because of abortSignal`);
@@ -48,7 +45,7 @@ async function sendMessagesForever(
         await sender.sendMessages(messagesToSend);
       } catch (err) {
         console.log(`Sending message failed: `, err);
-        stressTest.trackError("send", err);
+        stressTest.trackError("send", err as Error);
         sender = undefined;
       }
     },
@@ -67,7 +64,7 @@ async function main() {
   });
 
   const operation = async () => {
-    const clientForReceiver = stressTest.createServiceBusClient();
+    const clientForReceiver = createServiceBusClient();
 
     const receiver = clientForReceiver.createReceiver(stressTest.queueName, {
       receiveMode: "peekLock"
@@ -92,7 +89,7 @@ async function main() {
       }
     );
 
-    const clientForSender = stressTest.createServiceBusClient();
+    const clientForSender = createServiceBusClient();
 
     await sendMessagesForever(stressTest, clientForSender, abortSignal);
   };

@@ -15,7 +15,6 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
@@ -120,17 +119,6 @@ export class ContainerRegistryClient {
       options = clientOptions;
     } else {
       options = credentialOrOptions ?? {};
-    }
-
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {

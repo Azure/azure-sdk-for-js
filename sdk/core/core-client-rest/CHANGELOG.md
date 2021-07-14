@@ -1,5 +1,16 @@
 # Release History
 
+## 1.0.0-beta.6 (Unreleased)
+
+### Features Added
+
+## 1.0.0-beta.5 (2021-06-24)
+
+### Features Added
+
+- Expose client option to set `allowInsecureConnection` to support http. [#15831](https://github.com/Azure/azure-sdk-for-js/pull/15831)
+- Add new createRestError which takes a response to create a RestError. [#15831](https://github.com/Azure/azure-sdk-for-js/pull/15831)
+
 ## 1.0.0-beta.4 (2021-05-27)
 
 - Update @azure/core-rest-pipeline dependency to GA. [#15435](https://github.com/Azure/azure-sdk-for-js/pull/15435)

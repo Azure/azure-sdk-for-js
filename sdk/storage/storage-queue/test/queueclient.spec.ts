@@ -5,7 +5,8 @@ import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { QueueClient, QueueServiceClient } from "../src";
-import { TestTracer, setTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
+import { setTracer, setSpan, context } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
@@ -232,7 +233,7 @@ describe("QueueClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

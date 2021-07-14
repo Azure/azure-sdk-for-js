@@ -1,7 +1,38 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.1 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2021-07-06)
+
+The Metrics Advisor library is now in GA with this release.
+
+### Breaking Changes
+
+- `listIncidents()` overloads split into `listInclidentsForAlert()` and `listIncidentsForDetectionConfiguration()`
+- `listAnomalies()` overloads split into `listAnomaliesForAlert()` and `listAnomaliesForDetectionConfiguration()`
+- Removed support for granularity type `PerSecond`
+- Renamed "createFeedback" to "addFeedback"
+- `seriesToFilter` parameter renamed to `seriesKey` in methods `getmetricenrichedseriesdata` and `getmetricseriesdata` and ordering updated
+- Renamed `adminEmails` to `admins` in `MetricsAdvisorDataFeed` and `NotificationHook` and `viewerEmails` to `viewers` in `MetricsAdvisorDataFeed`
+- Renamed type `DetectionConditionsOperator` to `DetectionConditionOperator`
+- Renamed property `splitAlertByDimension` to `dimensionsToSplitAlert` in `AnomalyAlertConfiguration`
+- Renamed `datasource` to `DataSource`
+- Renamed `DatasourceCredential` to `DataSourceCredentialEntity`, `SqlServerConnectionStringDataSourceCredential` to `DataSourceSqlConnectionString`,
+  `DataLakeGen2SharedKeyDataSourceCredential` to `DataSourceDataLakeGen2SharedKey`,
+  `ServicePrincipalDataSourceCredential` to `DataSourceServicePrincipal`,
+  `ServicePrincipalInKeyVaultDataSourceCredential` to `DataSourceServicePrincipalInKeyVault`
+
+### Other Changes
+
+- Update methods now return the updated object
 
 ## 1.0.0-beta.4 (2021-06-07)
 

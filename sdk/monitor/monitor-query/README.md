@@ -7,11 +7,12 @@ Use the client library for Azure Monitor to:
 - Query logs using the [Kusto query language][kusto_query_language]
 - Query metrics
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) |
-[API reference documentation][msdocs_apiref]|
-[Product documentation][azure_monitor_product_documentation]
-[Samples][samples]
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) 
+- [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) 
+- [API reference documentation][msdocs_apiref]
+- [Product documentation][azure_monitor_product_documentation]
+- [Samples][samples]
 
 ## Getting started
 
@@ -21,10 +22,17 @@ Use the client library for Azure Monitor to:
 npm install @azure/monitor-query
 ```
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-- You must have an [Azure Subscription](https://azure.microsoft.com) and an [Azure Monitor][azure_monitor_product_documentation] resource to use this package.
-- Node.js version 8.x.x or higher
+- An [Azure Subscription](https://azure.microsoft.com)
+- An [Azure Monitor][azure_monitor_product_documentation] resource 
 
 ### Create an Azure Monitor resource
 
@@ -47,7 +55,7 @@ Authentication via service principal is done by:
 - Setting appropriate RBAC rules on your Azure Monitor resource.
   More information on Azure Monitor roles can be found [here][azure_monitor_roles].
 
-Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
+Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential)
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -60,7 +68,7 @@ const logsQueryClient = new LogsQueryClient(credential);
 const metricsQueryClient = new MetricsQueryClient(credential);
 ```
 
-More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
+More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
 
 ## Key concepts
 
@@ -123,7 +131,7 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -133,11 +141,11 @@ The following samples show you the various ways you can query your Log Analytics
 - [`logsQueryBatchSample.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
 - [`metricsQuerySample.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
 
-More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/) folder on GitHub.
+More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples/v1/) folder on GitHub.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests you'll need to run:
 
@@ -148,7 +156,7 @@ This module's tests are a mixture of live and unit tests, which require you to h
 5. Open the `.env` file in an editor and fill in the values.
 6. `npm run test`.
 
-View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/test)
+View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/test)
 folder for more details.
 
 ## Related projects
@@ -169,7 +177,7 @@ folder for more details.
 [msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsqueryclient
 [msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsqueryclient
 [msdocs_apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-query
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples
-[samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
-[samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
-[samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples
+[samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
+[samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
+[samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts

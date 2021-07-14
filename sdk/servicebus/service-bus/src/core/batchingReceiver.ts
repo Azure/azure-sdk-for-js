@@ -8,7 +8,7 @@ import {
   OnAmqpEvent,
   ReceiverEvents,
   SessionEvents,
-  Receiver,
+  Receiver as RheaPromiseReceiver,
   Session
 } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -152,6 +152,10 @@ export class BatchingReceiver extends MessageReceiver {
     context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
+
+  protected removeLinkFromContext(): void {
+    delete this._context.messageReceivers[this.name];
+  }
 }
 
 /**
@@ -187,7 +191,10 @@ export function getRemainingWaitTimeInMsFn(
  *
  * @internal
  */
-type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
+type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
+  T,
+  "once" | "removeListener" | "on"
+>;
 
 /**
  * The bare minimum needed to receive messages for batched
@@ -195,8 +202,11 @@ type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeLi
  *
  * @internal
  */
-export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
-  EventEmitterLike<Receiver> & {
+export type MinimalReceiver = Pick<
+  RheaPromiseReceiver,
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit"
+> &
+  EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
   } & {
     connection: {
@@ -265,6 +275,7 @@ export class BatchingReceiverLite {
 
   private _getRemainingWaitTimeInMsFn: typeof getRemainingWaitTimeInMsFn;
   private _closeHandler: ((connectionError?: AmqpError | Error) => void) | undefined;
+  private _finalAction: (() => void) | undefined;
 
   isReceivingMessages: boolean;
 
@@ -281,7 +292,7 @@ export class BatchingReceiverLite {
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)
-        return [];
+        throw new ServiceBusError("Link closed before receiving messages.", "GeneralError");
       }
 
       const messages = await new Promise<ServiceBusMessageImpl[]>((resolve, reject) =>
@@ -385,16 +396,17 @@ export class BatchingReceiverLite {
     // - maxMessageCount is reached or
     // - maxWaitTime is passed or
     // - newMessageWaitTimeoutInSeconds is passed since the last message was received
-    const finalAction = (): void => {
+    this._finalAction = (): void => {
+      if (receiver.drain) {
+        // If a drain is already in process then we should let it complete. Some messages might still be in flight, but they will
+        // arrive before the drain completes.
+        return;
+      }
+
       // Drain any pending credits.
       if (receiver.isOpen() && receiver.credit > 0) {
         logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
-
-        // setting .drain and combining it with .addCredit results in (eventually) sending
-        // a drain request to Service Bus. When the drain completes rhea will call `onReceiveDrain`
-        // at which point we'll wrap everything up and resolve the promise.
-        receiver.drain = true;
-        receiver.addCredit(1);
+        receiver.drainCredit();
       } else {
         logger.verbose(
           `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
@@ -425,15 +437,24 @@ export class BatchingReceiverLite {
             logger.verbose(
               `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
             );
-            finalAction();
+            this._finalAction!();
           }, remainingWaitTimeInMs);
         }
       }
 
       try {
         const data: ServiceBusMessageImpl = this._createServiceBusMessage(context);
-        if (brokeredMessages.length < args.maxMessageCount) {
-          brokeredMessages.push(data);
+        brokeredMessages.push(data);
+
+        // NOTE: we used to actually "lose" any extra messages. At this point I've fixed the areas that were causing us to receive
+        // extra messages but if this bug arises in some other way it's better to return the message than it would be to let it be
+        // silently dropped on the floor.
+        if (brokeredMessages.length > args.maxMessageCount) {
+          logger.warning(
+            `More messages arrived than were expected: ${
+              args.maxMessageCount
+            } vs ${brokeredMessages.length + 1}`
+          );
         }
       } catch (err) {
         const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
@@ -444,7 +465,7 @@ export class BatchingReceiverLite {
         reject(errObj);
       }
       if (brokeredMessages.length === args.maxMessageCount) {
-        finalAction();
+        this._finalAction!();
       }
     };
 
@@ -511,7 +532,7 @@ export class BatchingReceiverLite {
       logger.verbose(
         `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
       );
-      finalAction();
+      this._finalAction!();
     }, args.maxWaitTimeInMs);
 
     receiver.on(ReceiverEvents.message, onReceiveMessage);

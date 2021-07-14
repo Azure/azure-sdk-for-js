@@ -12,7 +12,11 @@ const masterKey =
 describe("Validate SSL verification check for emulator #nosignoff", function() {
   it("should throw exception", async function() {
     try {
-      const client = new CosmosClient({ endpoint, key: masterKey });
+      const client = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      });
       // create database
       await getTestDatabase("ssl verification", client);
     } catch (err) {
@@ -27,7 +31,8 @@ describe("Validate SSL verification check for emulator #nosignoff", function() {
       key: masterKey,
       agent: new https.Agent({
         rejectUnauthorized: false
-      })
+      }),
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     });
 
     // create database

@@ -37,16 +37,14 @@ describe("EnvironmentCredential (internal)", function() {
   it("Authenticates silently after the initial request", async function() {
     const credential = new EnvironmentCredential();
 
-    await credential.getToken(scope);
+    const { token: firstToken } = await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
 
-    await credential.getToken(scope);
+    const { token: secondToken } = await credential.getToken(scope);
+    assert.strictEqual(firstToken, secondToken);
     assert.equal(getTokenSilentSpy.callCount, 2);
 
-    // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-    // The Client Credential and Client Secret flows do not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    assert.equal(doGetTokenSpy.callCount, 2);
+    assert.equal(doGetTokenSpy.callCount, 1);
   });
 });

@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -25,7 +25,7 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
+import { context, setSpan, setTracer } from "@azure/core-tracing";
 dotenv.config();
 
 describe("BlobClient", () => {
@@ -742,7 +742,7 @@ describe("BlobClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 

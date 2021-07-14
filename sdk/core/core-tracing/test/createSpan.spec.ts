@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import sinon from "sinon";
 import {
   setSpan,
@@ -10,11 +10,11 @@ import {
   context as otContext,
   getSpanContext,
   Context
-} from "@opentelemetry/api";
+} from "../src/interfaces";
 
 import { setTracer } from "../src/tracerProxy";
-import { TestTracer } from "../src/tracers/test/testTracer";
-import { TestSpan } from "../src/tracers/test/testSpan";
+import { TestTracer } from "./testTracer";
+import { TestSpan } from "./testSpan";
 import { createSpanFunction } from "../src/createSpan";
 import { OperationTracingOptions } from "../src/interfaces";
 
@@ -197,7 +197,7 @@ describe("createSpan", () => {
       assert.notDeepEqual(parentContext, otContext.active(), "new child context should be created");
       assert.equal(
         getSpanContext(parentContext!)?.spanId,
-        span.context().spanId,
+        span.spanContext().spanId,
         "context returned in the updated options should point to our newly created span"
       );
     }
@@ -212,7 +212,7 @@ describe("createSpan", () => {
     assert.ok(updatedOptions.tracingOptions.tracingContext);
     assert.equal(
       getSpanContext(updatedOptions.tracingOptions.tracingContext!)?.spanId,
-      childSpan.context().spanId
+      childSpan.spanContext().spanId
     );
   });
 });

@@ -3,7 +3,8 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { setTracer } from "@azure/core-tracing";
+import { SpanGraph, TestTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
@@ -192,7 +193,7 @@ describe("DataLakePathClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 

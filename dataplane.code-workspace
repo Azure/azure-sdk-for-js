@@ -261,8 +261,8 @@
       "path": "sdk/digitaltwins/digital-twins-core"
     },
     {
-      "name": "mixedreality-authentication",
-      "path": "sdk/mixedreality/mixedreality-authentication"
+      "name": "mixed-reality-authentication",
+      "path": "sdk/mixedreality/mixed-reality-authentication"
     },
     {
       "name": "attestation",
@@ -271,6 +271,16 @@
     {
       "name": "iot-device-update",
       "path": "sdk/deviceupdate/iot-device-update"
+    },
+    {
+      "path": "sdk/web-pubsub/web-pubsub"
+    },
+    {
+      "path": "sdk/web-pubsub/web-pubsub-express"
+    },
+    {
+      "name": "mixed-reality-remote-rendering",
+      "path": "sdk/remoterendering/mixed-reality-remote-rendering"
     }
   ],
   "settings": {
@@ -298,7 +308,10 @@
       "**/*.d.ts": true,
       "**/test-browser/*": true
     },
-    "typescript.tsdk": "core-http/node_modules/typescript/lib"
+    "typescript.tsdk": "core-http/node_modules/typescript/lib",
+    "files.exclude": {
+      "**/node_modules": true
+    }
   },
   "extensions": {
     "recommendations": [

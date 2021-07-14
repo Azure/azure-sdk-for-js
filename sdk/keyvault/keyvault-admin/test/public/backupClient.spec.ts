@@ -10,7 +10,7 @@ import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
 import { getSasToken } from "../utils/common";
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { KeyClient } from "@azure/keyvault-keys";
 
@@ -68,7 +68,7 @@ describe("KeyVaultBackupClient", () => {
         "invalid_sas_token",
         testPollerProperties
       );
-      await assert.isRejected(backupPoller.pollUntilDone(), /SAS token is malformed/);
+      await assert.isRejected(backupPoller.pollUntilDone(), /SAS token/);
     });
   });
 

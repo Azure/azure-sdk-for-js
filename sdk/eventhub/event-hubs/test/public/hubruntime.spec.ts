@@ -11,7 +11,7 @@ import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 import { setSpan, context } from "@azure/core-tracing";
 const env = getEnvVars();
 
-import { SpanGraph } from "@azure/core-tracing";
+import { SpanGraph } from "@azure/test-utils";
 import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
 
 describe("RuntimeInformation", function(): void {
@@ -96,7 +96,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -131,7 +131,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -192,7 +192,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -229,7 +229,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -372,7 +372,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
@@ -411,7 +411,7 @@ describe("RuntimeInformation", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });

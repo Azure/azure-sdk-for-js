@@ -23,7 +23,7 @@ import {
   getStartingPositionsForTests,
   setTracerForTest
 } from "../public/utils/testUtils";
-import { SpanGraph, TestSpan } from "@azure/core-tracing";
+import { SpanGraph, TestSpan } from "@azure/test-utils";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { setSpan, context } from "@azure/core-tracing";
@@ -349,14 +349,14 @@ describe("EventHub Sender", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
 
     function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
       return {
-        parentSpan: rootSpan.context()
+        parentSpan: rootSpan.spanContext()
       };
     }
 
@@ -422,7 +422,7 @@ describe("EventHub Sender", function(): void {
             ]
           };
 
-          tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+          tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
           tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
           resetTracer();
         });
@@ -473,7 +473,7 @@ describe("EventHub Sender", function(): void {
             ]
           };
 
-          tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+          tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
           tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
           resetTracer();
         });
@@ -667,7 +667,7 @@ describe("EventHub Sender", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       resetTracer();
@@ -725,7 +725,7 @@ describe("EventHub Sender", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       resetTracer();
@@ -886,7 +886,7 @@ describe("EventHub Sender", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       const knownSendSpans = tracer
@@ -952,7 +952,7 @@ describe("EventHub Sender", function(): void {
         ]
       };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
     });
