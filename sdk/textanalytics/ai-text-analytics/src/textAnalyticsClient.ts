@@ -307,7 +307,7 @@ export type KnownSentencesSortBy = "Offset" | "Importance";
 /**
  * A type representing how to sort sentences for the summarization extraction action.
  */
-export type SentencesSortBy = string;
+export type SummarySentencesSortBy = string;
 
 /**
  * Options for an extract summary action.
@@ -332,7 +332,7 @@ export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
   /**
    * Specifies how to sort the returned sentences. Please refer to {@link KnownSentencesSortBy} for possible values.
    */
-  sortBy: SentencesSortBy;
+  sortBy: SummarySentencesSortBy;
 }
 
 /**

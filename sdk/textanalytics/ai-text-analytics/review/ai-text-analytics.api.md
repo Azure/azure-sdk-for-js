@@ -252,7 +252,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     maxSummarySentenceCount?: number;
-    sortBy: SentencesSortBy;
+    sortBy: SummarySentencesSortBy;
     stringIndexType?: StringIndexType;
 }
 
@@ -613,9 +613,6 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
-export type SentencesSortBy = string;
-
-// @public
 export interface SentimentConfidenceScores {
     // (undocumented)
     negative: number;
@@ -635,6 +632,9 @@ export interface SummarySentence {
     offset: number;
     text: string;
 }
+
+// @public
+export type SummarySentencesSortBy = string;
 
 // @public
 export interface TargetConfidenceScoreLabel {
