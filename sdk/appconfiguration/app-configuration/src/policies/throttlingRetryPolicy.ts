@@ -10,17 +10,15 @@ import {
   WebResource,
   HttpOperationResponse,
   Constants,
-  RestError,
-  RetryOptions
+  RestError
 } from "@azure/core-http";
 import { delay } from "@azure/core-http";
+import { RetryOptions } from "../models";
 
 /**
  * @internal
  */
-export function throttlingRetryPolicy(
-  retryOptions?: Pick<RetryOptions, "maxRetries" | "maxRetryDelayInMs">
-): RequestPolicyFactory {
+export function throttlingRetryPolicy(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ThrottlingRetryPolicy(nextPolicy, options, retryOptions);
@@ -45,7 +43,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private retryOptions: Pick<RetryOptions, "maxRetries" | "maxRetryDelayInMs"> = {}
+    private retryOptions: RetryOptions = { maxRetries: DEFAULT_CLIENT_RETRY_COUNT }
   ) {
     super(nextPolicy, options);
   }
