@@ -126,12 +126,13 @@ export class CommunicationRelayClient {
     options: OperationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     const { span, updatedOptions } = createSpan(
-      "CommunicationNetworkTraversal_IssueTurnCredentials",
+      "CommunicationNetworkTraversal_IssueRelayConfiguration",
       options
     );
+
     try {
-      const { _response, ...result } = await this.client.issueTurnCredentials(
-        user.communicationUserId,
+      const { _response, ...result } = await this.client.issueRelayConfiguration(
+        { id: user.communicationUserId },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

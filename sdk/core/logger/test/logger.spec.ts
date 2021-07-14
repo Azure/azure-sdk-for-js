@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as Logger from "../src";
-import * as assert from "assert";
+import { assert } from "chai";
 
 const testLogger = Logger.createClientLogger("test");
 

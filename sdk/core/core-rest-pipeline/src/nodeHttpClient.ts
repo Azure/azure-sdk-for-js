@@ -132,6 +132,7 @@ class NodeHttpClient implements HttpClient {
           // Responses to HEAD must not have a body.
           // If they do return a body, that body must be ignored.
           if (request.method === "HEAD") {
+            res.destroy();
             resolve(response);
             return;
           }
