@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- `KeyClient.getRandomBytes` now returns an object containing the random bytes under the `value` property.
+
 ### Bugs Fixed
 
 ### Other Changes

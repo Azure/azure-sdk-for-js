@@ -480,20 +480,30 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {}
  */
 export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
 
+/**
+ * An interface representing the result of calling {@link KeyClient.getRandomBytes}.
+ */
+export interface RandomBytes {
+  /**
+   * The random bytes returned by the service.
+   */
+  value: Uint8Array;
+}
+
 /** Known values of {@link KeyOperation} that the service accepts. */
 export enum KnownKeyOperations {
   /** Key operation - encrypt */
   Encrypt = "encrypt",
-  /** Key operation - encrypt */
+  /** Key operation - decrypt */
   Decrypt = "decrypt",
-  /** Key operation - encrypt */
+  /** Key operation - sign */
   Sign = "sign",
-  /** Key operation - encrypt */
+  /** Key operation - verify */
   Verify = "verify",
-  /** Key operation - encrypt */
+  /** Key operation - wrapKey */
   WrapKey = "wrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - import */
   Import = "import"
 }
