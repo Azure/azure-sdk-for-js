@@ -14,7 +14,7 @@ export function toBase64JsonString(obj: any): string {
   return Buffer.from(JSON.stringify(obj)).toString("base64");
 }
 
-export function fromBase64Json(base64String: string): any {
+export function fromBase64JsonString(base64String: string): any {
   try {
     let buf = Buffer.from(base64String, "base64").toString();
     let parsed = JSON.parse(buf);
@@ -75,7 +75,7 @@ export function getContext(ce: CloudEvent, origin: string): ConnectionContext {
   const states: Record<string, any> = {};
   const state = ce["connectionstate"] as string;
   if (state !== undefined) {
-    const parsed = fromBase64Json(state);
+    const parsed = fromBase64JsonString(state);
     if (parsed !== undefined) {
       for (const key in parsed) {
         if (Object.prototype.hasOwnProperty.call(parsed, key)) {
@@ -105,11 +105,11 @@ export function getConnectResponseHandler(
 ): ConnectResponseHandler {
   let states: Record<string, any> = connectRequest.context.states;
   let modified = false;
-  return {
+  const handler = {
     setState(name: string, value: unknown): ConnectResponseHandler {
       states[name] = value;
       modified = true;
-      return this;
+      return handler;
     },
     success(res?: ConnectResponse): void {
       response.statusCode = 200;
@@ -128,6 +128,8 @@ export function getConnectResponseHandler(
       response.end(detail ?? "");
     }
   };
+
+  return handler;
 }
 
 export function getUserEventResponseHandler(
@@ -136,11 +138,11 @@ export function getUserEventResponseHandler(
 ): UserEventResponseHandler {
   let states: Record<string, any> = userRequest.context.states;
   let modified = false;
-  return {
+  const handler = {
     setState(name: string, value: unknown): UserEventResponseHandler {
       modified = true;
       states[name] = value;
-      return this;
+      return handler;
     },
     success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
       response.statusCode = 200;
@@ -166,6 +168,7 @@ export function getUserEventResponseHandler(
       response.end(detail ?? "");
     }
   };
+  return handler;
 }
 
 export async function convertHttpToEvent(request: IncomingMessage): Promise<Message> {

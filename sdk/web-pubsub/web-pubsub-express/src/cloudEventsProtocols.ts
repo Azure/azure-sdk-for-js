@@ -159,7 +159,7 @@ export interface ConnectResponseHandler {
   /**
    * Set the state of the connection
    * @param name The name of the state
-   * @param value The value of the state 
+   * @param value The value of the state
    */
   setState(name: string, value: unknown): ConnectResponseHandler;
   /**
@@ -182,7 +182,7 @@ export interface UserEventResponseHandler {
   /**
    * Set the state of the connection
    * @param name The name of the state
-   * @param value The value of the state 
+   * @param value The value of the state
    */
   setState(name: string, value: unknown): UserEventResponseHandler;
   /**
