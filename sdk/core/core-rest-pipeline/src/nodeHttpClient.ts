@@ -172,6 +172,7 @@ class NodeHttpClient implements HttpClient {
 
         Promise.all([uploadStreamDone, downloadStreamDone])
           .then(() => {
+            // eslint-disable-next-line promise/always-return
             if (abortListener) {
               request.abortSignal?.removeEventListener("abort", abortListener);
             }
