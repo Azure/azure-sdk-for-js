@@ -62,7 +62,7 @@ export class Replicas {
 const serializer = new msRest.Serializer(Mappers);
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSQL/servers/{serverName}/replicas",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/replicas",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,

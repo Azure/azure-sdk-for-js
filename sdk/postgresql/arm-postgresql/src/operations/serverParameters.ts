@@ -64,7 +64,7 @@ export class ServerParameters {
 const serializer = new msRest.Serializer(Mappers);
 const beginListUpdateConfigurationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSQL/servers/{serverName}/updateConfigurations",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/updateConfigurations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
