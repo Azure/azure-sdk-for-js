@@ -317,7 +317,7 @@ export type HealthcareEntityRelationType = string;
 export type InnerErrorCodeValue = string;
 
 // @public
-export const enum KnownHealthcareEntityCategory {
+export enum KnownHealthcareEntityCategory {
     // (undocumented)
     AdministrativeEvent = "ADMINISTRATIVE_EVENT",
     // (undocumented)
@@ -373,7 +373,7 @@ export const enum KnownHealthcareEntityCategory {
 }
 
 // @public
-export const enum KnownInnerErrorCodeValue {
+export enum KnownInnerErrorCodeValue {
     // (undocumented)
     EmptyRequest = "EmptyRequest",
     // (undocumented)
@@ -398,7 +398,7 @@ export const enum KnownInnerErrorCodeValue {
 export type KnownSentencesSortBy = "Offset" | "Importance";
 
 // @public
-export const enum KnownWarningCode {
+export enum KnownWarningCode {
     // (undocumented)
     DocumentTruncated = "DocumentTruncated",
     // (undocumented)

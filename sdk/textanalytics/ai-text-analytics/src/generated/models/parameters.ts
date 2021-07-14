@@ -61,7 +61,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationURLParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "v3.1",
+    defaultValue: "v3.2-preview.1",
     isConstant: true,
     serializedName: "ApiVersion",
     type: {

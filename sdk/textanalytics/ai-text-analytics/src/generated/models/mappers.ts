@@ -457,6 +457,13 @@ export const ExtractiveSummarizationTaskParameters: coreClient.CompositeMapper =
           name: "String"
         }
       },
+      loggingOptOut: {
+        defaultValue: true,
+        serializedName: "loggingOptOut",
+        type: {
+          name: "Boolean"
+        }
+      },
       stringIndexType: {
         serializedName: "stringIndexType",
         type: {
@@ -471,7 +478,7 @@ export const ExtractiveSummarizationTaskParameters: coreClient.CompositeMapper =
         }
       },
       sortBy: {
-        defaultValue: "offset",
+        defaultValue: "Offset",
         serializedName: "sortBy",
         type: {
           name: "String"
@@ -760,6 +767,18 @@ export const TasksStateTasks: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "TasksStateTasksSentimentAnalysisTasksItem"
+            }
+          }
+        }
+      },
+      extractiveSummarizationTasks: {
+        serializedName: "extractiveSummarizationTasks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TasksStateTasksExtractiveSummarizationTasksItem"
             }
           }
         }
@@ -1902,6 +1921,157 @@ export const SentenceAssessment: coreClient.CompositeMapper = {
   }
 };
 
+export const ExtractiveSummarizationTaskResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractiveSummarizationTaskResult",
+    modelProperties: {
+      results: {
+        serializedName: "results",
+        type: {
+          name: "Composite",
+          className: "ExtractiveSummarizationResult"
+        }
+      }
+    }
+  }
+};
+
+export const ExtractiveSummarizationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractiveSummarizationResult",
+    modelProperties: {
+      documents: {
+        serializedName: "documents",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExtractedDocumentSummary"
+            }
+          }
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentError"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentBatchStatistics"
+        }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExtractedDocumentSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractedDocumentSummary",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sentences: {
+        serializedName: "sentences",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExtractedSummarySentence"
+            }
+          }
+        }
+      },
+      warnings: {
+        serializedName: "warnings",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextAnalyticsWarning"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentStatistics"
+        }
+      }
+    }
+  }
+};
+
+export const ExtractedSummarySentence: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractedSummarySentence",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      rankScore: {
+        serializedName: "rankScore",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const AnalyzeJobErrorsAndStatistics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2452,141 +2622,6 @@ export const DetectedLanguage: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractiveSummarizationResult",
-    modelProperties: {
-      documents: {
-        serializedName: "documents",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedDocumentSummary"
-            }
-          }
-        }
-      },
-      errors: {
-        serializedName: "errors",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentError"
-            }
-          }
-        }
-      },
-      statistics: {
-        serializedName: "statistics",
-        type: {
-          name: "Composite",
-          className: "TextDocumentBatchStatistics"
-        }
-      },
-      modelVersion: {
-        serializedName: "modelVersion",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedDocumentSummary: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractedDocumentSummary",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      sentences: {
-        serializedName: "sentences",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedSummarySentence"
-            }
-          }
-        }
-      },
-      warnings: {
-        serializedName: "warnings",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TextAnalyticsWarning"
-            }
-          }
-        }
-      },
-      statistics: {
-        serializedName: "statistics",
-        type: {
-          name: "Composite",
-          className: "TextDocumentStatistics"
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedSummarySentence: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractedSummarySentence",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      rankScore: {
-        serializedName: "rankScore",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      offset: {
-        serializedName: "offset",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const AnalyzeBatchInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2686,6 +2721,17 @@ export const TasksStateTasksSentimentAnalysisTasksItem: coreClient.CompositeMapp
     modelProperties: {
       ...TaskState.type.modelProperties,
       ...SentimentTaskResult.type.modelProperties
+    }
+  }
+};
+
+export const TasksStateTasksExtractiveSummarizationTasksItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TasksStateTasksExtractiveSummarizationTasksItem",
+    modelProperties: {
+      ...TaskState.type.modelProperties,
+      ...ExtractiveSummarizationTaskResult.type.modelProperties
     }
   }
 };

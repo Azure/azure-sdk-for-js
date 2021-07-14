@@ -508,7 +508,7 @@ export function createAnalyzeActionsResult(
     extractSummarySentencesResults: makeActionResult(
       documents,
       makeExtractSummaryResultArray,
-      response.tasks.summarizationExtractionTasks ?? [],
+      response.tasks.extractiveSummarizationTasks ?? [],
       extractSummarySentencesActionErrors
     )
   };
