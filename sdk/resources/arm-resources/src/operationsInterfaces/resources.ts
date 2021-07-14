@@ -19,6 +19,7 @@ import {
   ResourcesMoveResourcesOptionalParams,
   ResourcesValidateMoveResourcesOptionalParams,
   ResourcesCheckExistenceOptionalParams,
+  ResourcesCheckExistenceResponse,
   ResourcesDeleteOptionalParams,
   GenericResource,
   ResourcesCreateOrUpdateOptionalParams,
@@ -28,6 +29,7 @@ import {
   ResourcesGetOptionalParams,
   ResourcesGetResponse,
   ResourcesCheckExistenceByIdOptionalParams,
+  ResourcesCheckExistenceByIdResponse,
   ResourcesDeleteByIdOptionalParams,
   ResourcesCreateOrUpdateByIdOptionalParams,
   ResourcesCreateOrUpdateByIdResponse,
@@ -159,7 +161,7 @@ export interface Resources {
     resourceName: string,
     apiVersion: string,
     options?: ResourcesCheckExistenceOptionalParams
-  ): Promise<void>;
+  ): Promise<ResourcesCheckExistenceResponse>;
   /**
    * Deletes a resource.
    * @param resourceGroupName The name of the resource group that contains the resource to delete. The
@@ -330,7 +332,7 @@ export interface Resources {
     resourceId: string,
     apiVersion: string,
     options?: ResourcesCheckExistenceByIdOptionalParams
-  ): Promise<void>;
+  ): Promise<ResourcesCheckExistenceByIdResponse>;
   /**
    * Deletes a resource by ID.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource

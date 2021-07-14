@@ -30,6 +30,7 @@ import {
   ResourcesValidateMoveResourcesOptionalParams,
   ResourcesListResponse,
   ResourcesCheckExistenceOptionalParams,
+  ResourcesCheckExistenceResponse,
   ResourcesDeleteOptionalParams,
   GenericResource,
   ResourcesCreateOrUpdateOptionalParams,
@@ -39,6 +40,7 @@ import {
   ResourcesGetOptionalParams,
   ResourcesGetResponse,
   ResourcesCheckExistenceByIdOptionalParams,
+  ResourcesCheckExistenceByIdResponse,
   ResourcesDeleteByIdOptionalParams,
   ResourcesCreateOrUpdateByIdOptionalParams,
   ResourcesCreateOrUpdateByIdResponse,
@@ -494,7 +496,7 @@ export class ResourcesImpl implements Resources {
     resourceName: string,
     apiVersion: string,
     options?: ResourcesCheckExistenceOptionalParams
-  ): Promise<void> {
+  ): Promise<ResourcesCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -898,7 +900,7 @@ export class ResourcesImpl implements Resources {
     resourceId: string,
     apiVersion: string,
     options?: ResourcesCheckExistenceByIdOptionalParams
-  ): Promise<void> {
+  ): Promise<ResourcesCheckExistenceByIdResponse> {
     return this.client.sendOperationRequest(
       { resourceId, apiVersion, options },
       checkExistenceByIdOperationSpec

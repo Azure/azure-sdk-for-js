@@ -35,6 +35,7 @@ import {
   DeploymentsListByResourceGroupNextNextOptionalParams,
   DeploymentsDeleteAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeOptionalParams,
+  DeploymentsCheckExistenceAtScopeResponse,
   Deployment,
   DeploymentsCreateOrUpdateAtScopeOptionalParams,
   DeploymentsCreateOrUpdateAtScopeResponse,
@@ -48,6 +49,7 @@ import {
   DeploymentsListAtScopeResponse,
   DeploymentsDeleteAtTenantScopeOptionalParams,
   DeploymentsCheckExistenceAtTenantScopeOptionalParams,
+  DeploymentsCheckExistenceAtTenantScopeResponse,
   ScopedDeployment,
   DeploymentsCreateOrUpdateAtTenantScopeOptionalParams,
   DeploymentsCreateOrUpdateAtTenantScopeResponse,
@@ -64,6 +66,7 @@ import {
   DeploymentsListAtTenantScopeResponse,
   DeploymentsDeleteAtManagementGroupScopeOptionalParams,
   DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams,
+  DeploymentsCheckExistenceAtManagementGroupScopeResponse,
   DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams,
   DeploymentsCreateOrUpdateAtManagementGroupScopeResponse,
   DeploymentsGetAtManagementGroupScopeOptionalParams,
@@ -78,6 +81,7 @@ import {
   DeploymentsListAtManagementGroupScopeResponse,
   DeploymentsDeleteAtSubscriptionScopeOptionalParams,
   DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams,
+  DeploymentsCheckExistenceAtSubscriptionScopeResponse,
   DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams,
   DeploymentsCreateOrUpdateAtSubscriptionScopeResponse,
   DeploymentsGetAtSubscriptionScopeOptionalParams,
@@ -93,6 +97,7 @@ import {
   DeploymentsListAtSubscriptionScopeResponse,
   DeploymentsDeleteOptionalParams,
   DeploymentsCheckExistenceOptionalParams,
+  DeploymentsCheckExistenceResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
   DeploymentsGetOptionalParams,
@@ -776,7 +781,7 @@ export class DeploymentsImpl implements Deployments {
     scope: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtScopeOptionalParams
-  ): Promise<void> {
+  ): Promise<DeploymentsCheckExistenceAtScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, deploymentName, options },
       checkExistenceAtScopeOperationSpec
@@ -1116,7 +1121,7 @@ export class DeploymentsImpl implements Deployments {
   checkExistenceAtTenantScope(
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams
-  ): Promise<void> {
+  ): Promise<DeploymentsCheckExistenceAtTenantScopeResponse> {
     return this.client.sendOperationRequest(
       { deploymentName, options },
       checkExistenceAtTenantScopeOperationSpec
@@ -1531,7 +1536,7 @@ export class DeploymentsImpl implements Deployments {
     groupId: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams
-  ): Promise<void> {
+  ): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse> {
     return this.client.sendOperationRequest(
       { groupId, deploymentName, options },
       checkExistenceAtManagementGroupScopeOperationSpec
@@ -1966,7 +1971,7 @@ export class DeploymentsImpl implements Deployments {
   checkExistenceAtSubscriptionScope(
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams
-  ): Promise<void> {
+  ): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       { deploymentName, options },
       checkExistenceAtSubscriptionScopeOperationSpec
@@ -2386,7 +2391,7 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceOptionalParams
-  ): Promise<void> {
+  ): Promise<DeploymentsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, options },
       checkExistenceOperationSpec

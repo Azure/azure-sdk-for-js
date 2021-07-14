@@ -23,6 +23,7 @@ import {
   DeploymentsListByResourceGroupOptionalParams,
   DeploymentsDeleteAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeOptionalParams,
+  DeploymentsCheckExistenceAtScopeResponse,
   Deployment,
   DeploymentsCreateOrUpdateAtScopeOptionalParams,
   DeploymentsCreateOrUpdateAtScopeResponse,
@@ -35,6 +36,7 @@ import {
   DeploymentsExportTemplateAtScopeResponse,
   DeploymentsDeleteAtTenantScopeOptionalParams,
   DeploymentsCheckExistenceAtTenantScopeOptionalParams,
+  DeploymentsCheckExistenceAtTenantScopeResponse,
   ScopedDeployment,
   DeploymentsCreateOrUpdateAtTenantScopeOptionalParams,
   DeploymentsCreateOrUpdateAtTenantScopeResponse,
@@ -50,6 +52,7 @@ import {
   DeploymentsExportTemplateAtTenantScopeResponse,
   DeploymentsDeleteAtManagementGroupScopeOptionalParams,
   DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams,
+  DeploymentsCheckExistenceAtManagementGroupScopeResponse,
   DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams,
   DeploymentsCreateOrUpdateAtManagementGroupScopeResponse,
   DeploymentsGetAtManagementGroupScopeOptionalParams,
@@ -63,6 +66,7 @@ import {
   DeploymentsExportTemplateAtManagementGroupScopeResponse,
   DeploymentsDeleteAtSubscriptionScopeOptionalParams,
   DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams,
+  DeploymentsCheckExistenceAtSubscriptionScopeResponse,
   DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams,
   DeploymentsCreateOrUpdateAtSubscriptionScopeResponse,
   DeploymentsGetAtSubscriptionScopeOptionalParams,
@@ -77,6 +81,7 @@ import {
   DeploymentsExportTemplateAtSubscriptionScopeResponse,
   DeploymentsDeleteOptionalParams,
   DeploymentsCheckExistenceOptionalParams,
+  DeploymentsCheckExistenceResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
   DeploymentsGetOptionalParams,
@@ -235,7 +240,7 @@ export interface Deployments {
     scope: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtScopeOptionalParams
-  ): Promise<void>;
+  ): Promise<DeploymentsCheckExistenceAtScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
    * @param scope The resource scope.
@@ -373,7 +378,7 @@ export interface Deployments {
   checkExistenceAtTenantScope(
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams
-  ): Promise<void>;
+  ): Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
    * @param deploymentName The name of the deployment.
@@ -530,7 +535,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams
-  ): Promise<void>;
+  ): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
    * @param groupId The management group ID.
@@ -703,7 +708,7 @@ export interface Deployments {
   checkExistenceAtSubscriptionScope(
     deploymentName: string,
     options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams
-  ): Promise<void>;
+  ): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
    * @param deploymentName The name of the deployment.
@@ -865,7 +870,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsCheckExistenceOptionalParams
-  ): Promise<void>;
+  ): Promise<DeploymentsCheckExistenceResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
    * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case

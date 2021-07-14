@@ -407,11 +407,11 @@ export interface Deployments {
     cancelAtScope(scope: string, deploymentName: string, options?: DeploymentsCancelAtScopeOptionalParams): Promise<void>;
     cancelAtSubscriptionScope(deploymentName: string, options?: DeploymentsCancelAtSubscriptionScopeOptionalParams): Promise<void>;
     cancelAtTenantScope(deploymentName: string, options?: DeploymentsCancelAtTenantScopeOptionalParams): Promise<void>;
-    checkExistence(resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams): Promise<void>;
-    checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams): Promise<void>;
-    checkExistenceAtScope(scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams): Promise<void>;
-    checkExistenceAtSubscriptionScope(deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams): Promise<void>;
-    checkExistenceAtTenantScope(deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams): Promise<void>;
+    checkExistence(resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams): Promise<DeploymentsCheckExistenceResponse>;
+    checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
+    checkExistenceAtScope(scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams): Promise<DeploymentsCheckExistenceAtScopeResponse>;
+    checkExistenceAtSubscriptionScope(deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
+    checkExistenceAtTenantScope(deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams): Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
     exportTemplate(resourceGroupName: string, deploymentName: string, options?: DeploymentsExportTemplateOptionalParams): Promise<DeploymentsExportTemplateResponse>;
     exportTemplateAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams): Promise<DeploymentsExportTemplateAtManagementGroupScopeResponse>;
     exportTemplateAtScope(scope: string, deploymentName: string, options?: DeploymentsExportTemplateAtScopeOptionalParams): Promise<DeploymentsExportTemplateAtScopeResponse>;
@@ -466,20 +466,45 @@ export interface DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams e
 }
 
 // @public
+export type DeploymentsCheckExistenceAtManagementGroupScopeResponse = {
+    body: boolean;
+};
+
+// @public
 export interface DeploymentsCheckExistenceAtScopeOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type DeploymentsCheckExistenceAtScopeResponse = {
+    body: boolean;
+};
 
 // @public
 export interface DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
+export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = {
+    body: boolean;
+};
+
+// @public
 export interface DeploymentsCheckExistenceAtTenantScopeOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
+export type DeploymentsCheckExistenceAtTenantScopeResponse = {
+    body: boolean;
+};
+
+// @public
 export interface DeploymentsCheckExistenceOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type DeploymentsCheckExistenceResponse = {
+    body: boolean;
+};
 
 // @public
 export interface DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
@@ -1405,7 +1430,7 @@ export interface ResourceGroups {
     beginDeleteAndWait(resourceGroupName: string, options?: ResourceGroupsDeleteOptionalParams): Promise<void>;
     beginExportTemplate(resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams): Promise<PollerLike<PollOperationState<ResourceGroupsExportTemplateResponse>, ResourceGroupsExportTemplateResponse>>;
     beginExportTemplateAndWait(resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams): Promise<ResourceGroupsExportTemplateResponse>;
-    checkExistence(resourceGroupName: string, options?: ResourceGroupsCheckExistenceOptionalParams): Promise<void>;
+    checkExistence(resourceGroupName: string, options?: ResourceGroupsCheckExistenceOptionalParams): Promise<ResourceGroupsCheckExistenceResponse>;
     createOrUpdate(resourceGroupName: string, parameters: ResourceGroup, options?: ResourceGroupsCreateOrUpdateOptionalParams): Promise<ResourceGroupsCreateOrUpdateResponse>;
     get(resourceGroupName: string, options?: ResourceGroupsGetOptionalParams): Promise<ResourceGroupsGetResponse>;
     list(options?: ResourceGroupsListOptionalParams): PagedAsyncIterableIterator<ResourceGroup>;
@@ -1416,6 +1441,11 @@ export interface ResourceGroups {
 // @public
 export interface ResourceGroupsCheckExistenceOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type ResourceGroupsCheckExistenceResponse = {
+    body: boolean;
+};
 
 // @public
 export interface ResourceGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1561,8 +1591,8 @@ export interface Resources {
     beginUpdateByIdAndWait(resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateByIdOptionalParams): Promise<ResourcesUpdateByIdResponse>;
     beginValidateMoveResources(sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginValidateMoveResourcesAndWait(sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams): Promise<void>;
-    checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesCheckExistenceOptionalParams): Promise<void>;
-    checkExistenceById(resourceId: string, apiVersion: string, options?: ResourcesCheckExistenceByIdOptionalParams): Promise<void>;
+    checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesCheckExistenceOptionalParams): Promise<ResourcesCheckExistenceResponse>;
+    checkExistenceById(resourceId: string, apiVersion: string, options?: ResourcesCheckExistenceByIdOptionalParams): Promise<ResourcesCheckExistenceByIdResponse>;
     get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesGetOptionalParams): Promise<ResourcesGetResponse>;
     getById(resourceId: string, apiVersion: string, options?: ResourcesGetByIdOptionalParams): Promise<ResourcesGetByIdResponse>;
     list(options?: ResourcesListOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
@@ -1576,8 +1606,18 @@ export interface ResourcesCheckExistenceByIdOptionalParams extends coreClient.Op
 }
 
 // @public
+export type ResourcesCheckExistenceByIdResponse = {
+    body: boolean;
+};
+
+// @public
 export interface ResourcesCheckExistenceOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type ResourcesCheckExistenceResponse = {
+    body: boolean;
+};
 
 // @public
 export interface ResourcesCreateOrUpdateByIdOptionalParams extends coreClient.OperationOptions {

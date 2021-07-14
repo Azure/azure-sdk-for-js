@@ -1377,6 +1377,11 @@ export interface DeploymentsDeleteAtScopeOptionalParams
 export interface DeploymentsCheckExistenceAtScopeOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the checkExistenceAtScope operation. */
+export type DeploymentsCheckExistenceAtScopeResponse = {
+  body: boolean;
+};
+
 /** Optional parameters. */
 export interface DeploymentsCreateOrUpdateAtScopeOptionalParams
   extends coreClient.OperationOptions {
@@ -1443,6 +1448,11 @@ export interface DeploymentsDeleteAtTenantScopeOptionalParams
 /** Optional parameters. */
 export interface DeploymentsCheckExistenceAtTenantScopeOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkExistenceAtTenantScope operation. */
+export type DeploymentsCheckExistenceAtTenantScopeResponse = {
+  body: boolean;
+};
 
 /** Optional parameters. */
 export interface DeploymentsCreateOrUpdateAtTenantScopeOptionalParams
@@ -1523,6 +1533,11 @@ export interface DeploymentsDeleteAtManagementGroupScopeOptionalParams
 export interface DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the checkExistenceAtManagementGroupScope operation. */
+export type DeploymentsCheckExistenceAtManagementGroupScopeResponse = {
+  body: boolean;
+};
+
 /** Optional parameters. */
 export interface DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams
   extends coreClient.OperationOptions {
@@ -1602,6 +1617,11 @@ export interface DeploymentsDeleteAtSubscriptionScopeOptionalParams
 export interface DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the checkExistenceAtSubscriptionScope operation. */
+export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = {
+  body: boolean;
+};
+
 /** Optional parameters. */
 export interface DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams
   extends coreClient.OperationOptions {
@@ -1680,6 +1700,11 @@ export interface DeploymentsDeleteOptionalParams
 /** Optional parameters. */
 export interface DeploymentsCheckExistenceOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkExistence operation. */
+export type DeploymentsCheckExistenceResponse = {
+  body: boolean;
+};
 
 /** Optional parameters. */
 export interface DeploymentsCreateOrUpdateOptionalParams
@@ -2054,6 +2079,11 @@ export type ResourcesListResponse = ResourceListResult;
 export interface ResourcesCheckExistenceOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the checkExistence operation. */
+export type ResourcesCheckExistenceResponse = {
+  body: boolean;
+};
+
 /** Optional parameters. */
 export interface ResourcesDeleteOptionalParams
   extends coreClient.OperationOptions {
@@ -2097,6 +2127,11 @@ export type ResourcesGetResponse = GenericResource;
 /** Optional parameters. */
 export interface ResourcesCheckExistenceByIdOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkExistenceById operation. */
+export type ResourcesCheckExistenceByIdResponse = {
+  body: boolean;
+};
 
 /** Optional parameters. */
 export interface ResourcesDeleteByIdOptionalParams
@@ -2197,6 +2232,11 @@ export type ResourcesListNextNextResponse = ResourceListResult;
 /** Optional parameters. */
 export interface ResourceGroupsCheckExistenceOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkExistence operation. */
+export type ResourceGroupsCheckExistenceResponse = {
+  body: boolean;
+};
 
 /** Optional parameters. */
 export interface ResourceGroupsCreateOrUpdateOptionalParams

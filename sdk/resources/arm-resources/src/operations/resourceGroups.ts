@@ -22,6 +22,7 @@ import {
   ResourceGroupsListOptionalParams,
   ResourceGroupsListNextNextOptionalParams,
   ResourceGroupsCheckExistenceOptionalParams,
+  ResourceGroupsCheckExistenceResponse,
   ResourceGroupsCreateOrUpdateOptionalParams,
   ResourceGroupsCreateOrUpdateResponse,
   ResourceGroupsDeleteOptionalParams,
@@ -147,7 +148,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
   checkExistence(
     resourceGroupName: string,
     options?: ResourceGroupsCheckExistenceOptionalParams
-  ): Promise<void> {
+  ): Promise<ResourceGroupsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       checkExistenceOperationSpec

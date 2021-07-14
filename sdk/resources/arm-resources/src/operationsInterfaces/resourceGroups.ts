@@ -14,6 +14,7 @@ import {
   ResourceGroupsListNextOptionalParams,
   ResourceGroupsListOptionalParams,
   ResourceGroupsCheckExistenceOptionalParams,
+  ResourceGroupsCheckExistenceResponse,
   ResourceGroupsCreateOrUpdateOptionalParams,
   ResourceGroupsCreateOrUpdateResponse,
   ResourceGroupsDeleteOptionalParams,
@@ -54,7 +55,7 @@ export interface ResourceGroups {
   checkExistence(
     resourceGroupName: string,
     options?: ResourceGroupsCheckExistenceOptionalParams
-  ): Promise<void>;
+  ): Promise<ResourceGroupsCheckExistenceResponse>;
   /**
    * Creates or updates a resource group.
    * @param resourceGroupName The name of the resource group to create or update. Can include
