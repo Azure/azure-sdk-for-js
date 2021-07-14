@@ -936,7 +936,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              extractSummarySentencesActions: [{ modelVersion: "latest", sortBy: "Rank" }]
+              extractSummarySentencesActions: [{ modelVersion: "latest", sortBy: "Importance", maxSummarySentenceCount: 3 }]
             },
             {
               updateIntervalInMs: pollingInterval
