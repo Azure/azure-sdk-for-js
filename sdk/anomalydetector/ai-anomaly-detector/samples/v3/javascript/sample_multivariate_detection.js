@@ -49,7 +49,7 @@ async function main() {
   };
 
   // get train result
-  console.log("Training a new model...");
+  console.log("Training a new model...(it may take a few minutes)");
   const train_response = await client.trainMultivariateModel(Modelrequest);
   const model_id = train_response.location.split("/").pop();
   console.log("New model ID: " + model_id);
@@ -57,9 +57,8 @@ async function main() {
   // get model status
   let model_response = await client.getMultivariateModel(model_id);
   let model_status = model_response.modelInfo.status;
-  let start_time = new Date().getTime();
 
-  while (model_status != 'READY' && model_status != 'FAILED' && new Date().getTime() - start_time < request_timeout_in_second * 1000) {
+  while (model_status != 'READY' && model_status != 'FAILED') {
     await sleep(2000).then(() => { });
     model_response = await client.getMultivariateModel(model_id);
     model_status = model_response.modelInfo.status;
@@ -74,16 +73,11 @@ async function main() {
     return -1;
   }
 
-  if (model_status == "RUNNING" || model_status == "CREATED") {
-    console.log("Training is not ready yet. Model status: " + model_status)
-    return -1;
-  }
-
   // if model status is "READY"
   console.log("TRAINING FINISHED.");
 
   // get result
-  console.log("Start detecting...");
+  console.log("Start detecting...(it may take a few seconds)");
   const detect_request = {
     source: data_source,
     startTime: new Date(2021, 0, 2, 12, 0, 0),
@@ -94,8 +88,7 @@ async function main() {
   let result = await client.getDetectionResult(result_id);
   let result_status = result.summary.status;
 
-  start_time = new Date().getTime();
-  while (result_status != 'READY' && result_status != "FAILED" && new Date().getTime() - start_time < request_timeout_in_second * 1000) {
+  while (result_status != 'READY' && result_status != "FAILED") {
     await sleep(1000).then(() => { });
     result = await client.getDetectionResult(result_id);
     result_status = result.summary.status;
@@ -107,11 +100,6 @@ async function main() {
     for (error of result.summary.errors) {
       console.log("Error code: " + error.code + ". Message: " + error.message)
     }
-    return -1;
-  }
-
-  if (result_status == "CREATED" || result_status == "RUNNING") {
-    console.log("Detection is not ready yet. Result status: " + result_status)
     return -1;
   }
 
