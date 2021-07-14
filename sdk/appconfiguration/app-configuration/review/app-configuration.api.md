@@ -7,7 +7,6 @@
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { RetryOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 import { UserAgentOptions } from '@azure/core-http';
 
@@ -38,7 +37,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
-    retryOptions?: Pick<RetryOptions, "maxRetries" | "maxRetryDelayInMs">;
+    retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
 }
 
@@ -175,6 +174,12 @@ export function parseFeatureFlag(setting: ConfigurationSetting): ConfigurationSe
 
 // @public
 export function parseSecretReference(setting: ConfigurationSetting): ConfigurationSetting<SecretReferenceValue>;
+
+// @public
+export interface RetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+}
 
 // @public
 export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
