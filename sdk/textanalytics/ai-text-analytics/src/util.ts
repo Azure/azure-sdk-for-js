@@ -143,6 +143,20 @@ export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
   return { ...x, piiCategories: x.categoriesFilter };
 }
 
+export function setSentenceCount<X extends { maxSummarySentenceCount?: number }>(
+  x: X
+): X & { sentenceCount?: number } {
+  return { ...x, sentenceCount: x.maxSummarySentenceCount };
+}
+
+export function setSortBy<X extends { sortBy?: string }>(
+  x: X
+): X & { sortBy?: string } {
+  const map = new Map<string, string>([["Importance", "Rank"]]);
+  const serviceValue = x.sortBy ? map.get(x.sortBy) : undefined;
+  return serviceValue ? { ...x, sortBy: serviceValue } : x;
+}
+
 /**
  * @internal
  */

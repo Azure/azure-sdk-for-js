@@ -7,7 +7,11 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import { TextAnalyticsError, ExtractedDocumentSummary } from "./generated/models";
+import {
+  TextAnalyticsError,
+  ExtractedDocumentSummary,
+  ExtractedSummarySentence as GeneratedSummarySentences
+} from "./generated/models";
 
 /**
  * The result of the extract summary operation on a single document.
@@ -22,17 +26,17 @@ export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult 
   /**
    * A list of sentences composing a summary of the input document.
    */
-  sentences: ExtractedSummarySentence[];
+  summarySentences: SummarySentence[];
 }
 
 /**
  * An extracted sentence as part of the summary of a document.
  */
-export interface ExtractedSummarySentence {
+export interface SummarySentence {
   /** The extracted sentence text. */
   text: string;
   /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
-  rankScore: number;
+  importanceScore: number;
   /** The sentence offset from the start of the document, based on the value of the stringIndexType parameter. */
   offset: number;
   /** The length of the sentence. */
@@ -53,7 +57,10 @@ export function makeExtractSummaryResult(
   const { id, warnings, statistics, sentences } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    sentences
+    summarySentences: sentences.map((sentence: GeneratedSummarySentences) => ({
+      ...sentence,
+      importanceScore: sentence.rankScore
+    }))
   };
 }
 

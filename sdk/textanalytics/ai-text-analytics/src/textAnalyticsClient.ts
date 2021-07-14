@@ -55,6 +55,8 @@ import {
   handleInvalidDocumentBatch,
   setCategoriesFilter,
   setOpinionMining,
+  setSentenceCount,
+  setSortBy,
   setStrEncodingParam,
   setStrEncodingParamValue,
   StringIndexType
@@ -300,7 +302,7 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 /**
  * A type representing how to sort sentences for the summarization extraction action.
  */
-export type KnownSentencesSortBy = "Offset" | "Rank";
+export type KnownSentencesSortBy = "Offset" | "Importance";
 
 /**
  * A type representing how to sort sentences for the summarization extraction action.
@@ -326,7 +328,7 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
   /**
    * Specifies the number of sentences to return. The default number of sentences is 3.
    */
-  sentenceCount?: number;
+  maxSummarySentenceCount?: number;
   /**
    * Specifies how to sort the returned sentences. Please refer to {@link KnownSentencesSortBy} for possible values.
    */
@@ -360,7 +362,7 @@ export interface TextAnalyticsActions {
   /**
    * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
    */
-  extractSummaryActions?: ExtractSummaryAction[];
+  extractSummarySentencesActions?: ExtractSummaryAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1065,7 +1067,7 @@ function validateActions(actions: TextAnalyticsActions): void {
   validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
   validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
   validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
-  validateActionType(actions.extractSummaryActions, `extractSummary`);
+  validateActionType(actions.extractSummarySentencesActions, `extractSummary`);
 }
 
 /**
@@ -1086,8 +1088,8 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
       compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
     ),
-    extractiveSummarizationTasks: actions.extractSummaryActions?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+    extractiveSummarizationTasks: actions.extractSummarySentencesActions?.map(
+      compose(setStrEncodingParam, compose(setSentenceCount, compose(setSortBy, addParamsToTask)))
     )
   };
 }

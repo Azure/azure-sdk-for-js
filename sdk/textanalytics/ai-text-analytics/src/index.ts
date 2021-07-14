@@ -78,7 +78,7 @@ export {
   ExtractSummaryResult,
   ExtractSummaryErrorResult,
   ExtractSummarySuccessResult,
-  ExtractedSummarySentence
+  SummarySentence
 } from "./extractSummaryResult";
 export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
 export {
@@ -121,9 +121,9 @@ export {
   AnalyzeSentimentActionErrorResult,
   AnalyzeSentimentActionResult,
   AnalyzeSentimentActionSuccessResult,
-  ExtractSummaryActionResult,
-  ExtractSummaryActionSuccessResult,
-  ExtractSummaryActionErrorResult
+  ExtractSummarySentencesActionResult,
+  ExtractSummarySentencesActionSuccessResult,
+  ExtractSummarySentencesActionErrorResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,

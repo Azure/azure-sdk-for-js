@@ -11,7 +11,7 @@ import {
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
-  ExtractSummaryResultArray,
+  ExtractSummaryResultArray as ExtractSummarySentencesResultArray,
   makeExtractSummaryResultArray
 } from "./extractSummaryResultArray";
 import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
@@ -56,7 +56,7 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each extract summary action.
    */
-  extractSummaryResults: ExtractSummaryActionResult[];
+  extractSummaryResults: ExtractSummarySentencesActionResult[];
 }
 
 /**
@@ -202,24 +202,24 @@ export type AnalyzeSentimentActionResult =
 /**
  * The error of an extract summary action.
  */
-export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
+export type ExtractSummarySentencesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
  * The results of a succeeded extract summary action.
  */
-export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
+export interface ExtractSummarySentencesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each extract summary action.
    */
-  results: ExtractSummaryResultArray;
+  results: ExtractSummarySentencesResultArray;
 }
 
 /**
  * The result of an extract summary action.
  */
-export type ExtractSummaryActionResult =
-  | ExtractSummaryActionSuccessResult
-  | ExtractSummaryActionErrorResult;
+export type ExtractSummarySentencesActionResult =
+  | ExtractSummarySentencesActionSuccessResult
+  | ExtractSummarySentencesActionErrorResult;
 
 /**
  * The results of an analyze Actions operation represented as a paged iterator that
@@ -355,7 +355,7 @@ function categorizeActionErrors(
   extractKeyPhrasesActionErrors: TextAnalyticsActionError[],
   recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
   analyzeSentimentActionErrors: TextAnalyticsActionError[],
-  extractSummaryActionErrors: TextAnalyticsActionError[]
+  extractSummarySentencesActionErrors: TextAnalyticsActionError[]
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -381,7 +381,7 @@ function categorizeActionErrors(
         break;
       }
       case "ExtractSummary": {
-        extractSummaryActionErrors.push(actionError);
+        extractSummarySentencesActionErrors.push(actionError);
         break;
       }
     }
@@ -464,7 +464,7 @@ export function createAnalyzeActionsResult(
   const extractKeyPhrasesActionErrors: TextAnalyticsActionError[] = [];
   const recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
-  const extractSummaryActionErrors: TextAnalyticsActionError[] = [];
+  const extractSummarySentencesActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
     response?.errors ?? [],
     recognizeEntitiesActionErrors,
@@ -472,7 +472,7 @@ export function createAnalyzeActionsResult(
     extractKeyPhrasesActionErrors,
     recognizeLinkedEntitiesActionErrors,
     analyzeSentimentActionErrors,
-    extractSummaryActionErrors
+    extractSummarySentencesActionErrors
   );
   return {
     recognizeEntitiesResults: makeActionResult(
@@ -509,7 +509,7 @@ export function createAnalyzeActionsResult(
       documents,
       makeExtractSummaryResultArray,
       response.tasks.summarizationExtractionTasks ?? [],
-      extractSummaryActionErrors
+      extractSummarySentencesActionErrors
     )
   };
 }
