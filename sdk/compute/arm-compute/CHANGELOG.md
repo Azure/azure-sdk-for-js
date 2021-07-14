@@ -1,4 +1,4 @@
-## 30.0.0-beta.1 (Unreleased)
+## 30.0.0-beta.1 (2021-07-14)
 
 This is beta preview version.
 
