@@ -15,8 +15,10 @@ export {
   HealthBot,
   HealthBotProperties,
   HealthBotUpdateParameters,
+  Identity,
   Resource,
   Sku,
   SystemData,
-  TrackedResource
+  TrackedResource,
+  UserAssignedIdentity
 } from "../models/mappers";

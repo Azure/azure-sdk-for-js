@@ -12,11 +12,57 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * The details of the user assigned managed identity used by the Video Analyzer resource.
+ */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface Identity {
+  /**
+   * The principal ID of resource identity. This property will only be provided for a system
+   * assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource. This property will only be provided for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
+   * identity and a set of user assigned identities. The type 'None' will remove any identities
+   * from the Azure Health Bot. Possible values include: 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity dictionary key
+   * references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/**
  * The resource model definition representing SKU
  */
 export interface Sku {
   /**
-   * The name of the HealthBot SKU. Possible values include: 'F0', 'S1', 'C0'
+   * The name of the Azure Health Bot SKU. Possible values include: 'F0', 'S1', 'C0'
    */
   name: SkuName;
 }
@@ -94,14 +140,14 @@ export interface TrackedResource extends Resource {
 }
 
 /**
- * The properties of a HealthBot. The Health Bot Service is a cloud platform that empowers
+ * The properties of a Azure Health Bot. The Health Bot Service is a cloud platform that empowers
  * developers in Healthcare organizations to build and deploy their compliant, AI-powered virtual
  * health assistants and health bots, that help them improve processes and reduce costs.
  * @summary HealthBotProperties
  */
 export interface HealthBotProperties {
   /**
-   * The provisioning state of the Healthbot resource.
+   * The provisioning state of the Azure Health Bot resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
@@ -113,31 +159,39 @@ export interface HealthBotProperties {
 }
 
 /**
- * HealthBot resource definition
+ * Azure Health Bot resource definition
  */
 export interface HealthBot extends TrackedResource {
   /**
-   * SKU of the HealthBot.
+   * SKU of the Azure Health Bot.
    */
   sku: Sku;
   /**
-   * The set of properties specific to Healthbot resource.
+   * The identity of the Azure Health Bot.
+   */
+  identity?: Identity;
+  /**
+   * The set of properties specific to Azure Health Bot resource.
    */
   properties?: HealthBotProperties;
 }
 
 /**
- * Parameters for updating a HealthBot.
+ * Parameters for updating a Azure Health Bot.
  */
 export interface HealthBotUpdateParameters {
   /**
-   * Tags for a HealthBot.
+   * Tags for a Azure Health Bot.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * SKU of the HealthBot.
+   * SKU of the Azure Health Bot.
    */
   sku?: Sku;
+  /**
+   * The identity of the Azure Health Bot.
+   */
+  identity?: Identity;
 }
 
 /**
@@ -265,7 +319,7 @@ export interface HealthbotClientOptions extends AzureServiceClientOptions {
 
 /**
  * @interface
- * The list of Healthbot operation response.
+ * The list of Azure Health Bot operation response.
  * @extends Array<HealthBot>
  */
 export interface BotResponseList extends Array<HealthBot> {
@@ -288,6 +342,15 @@ export interface AvailableOperations extends Array<OperationDetail> {
    */
   nextLink?: string;
 }
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for SkuName.

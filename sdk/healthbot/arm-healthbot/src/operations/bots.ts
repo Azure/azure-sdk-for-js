@@ -27,10 +27,10 @@ export class Bots {
   }
 
   /**
-   * Create a new HealthBot.
+   * Create a new Azure Health Bot.
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param botName The name of the Bot resource.
-   * @param parameters The parameters to provide for the created bot.
+   * @param parameters The parameters to provide for the created Azure Health Bot.
    * @param [options] The optional parameters
    * @returns Promise<Models.BotsCreateResponse>
    */
@@ -75,7 +75,7 @@ export class Bots {
    * Patch a HealthBot.
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param botName The name of the Bot resource.
-   * @param parameters The parameters to provide for the required bot.
+   * @param parameters The parameters to provide for the required Azure Health Bot.
    * @param [options] The optional parameters
    * @returns Promise<Models.BotsUpdateResponse>
    */
@@ -83,14 +83,14 @@ export class Bots {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param botName The name of the Bot resource.
-   * @param parameters The parameters to provide for the required bot.
+   * @param parameters The parameters to provide for the required Azure Health Bot.
    * @param callback The callback
    */
   update(resourceGroupName: string, botName: string, parameters: Models.HealthBotUpdateParameters, callback: msRest.ServiceCallback<Models.HealthBot>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param botName The name of the Bot resource.
-   * @param parameters The parameters to provide for the required bot.
+   * @param parameters The parameters to provide for the required Azure Health Bot.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -172,10 +172,10 @@ export class Bots {
   }
 
   /**
-   * Create a new HealthBot.
+   * Create a new Azure Health Bot.
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param botName The name of the Bot resource.
-   * @param parameters The parameters to provide for the created bot.
+   * @param parameters The parameters to provide for the created Azure Health Bot.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

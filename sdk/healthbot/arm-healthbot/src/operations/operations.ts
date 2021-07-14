@@ -26,7 +26,7 @@ export class Operations {
   }
 
   /**
-   * Lists all the available HealthBot operations.
+   * Lists all the available Azure Health Bot operations.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -50,7 +50,7 @@ export class Operations {
   }
 
   /**
-   * Lists all the available HealthBot operations.
+   * Lists all the available Azure Health Bot operations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
