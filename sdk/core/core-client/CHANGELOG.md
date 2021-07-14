@@ -1,12 +1,20 @@
 # Release History
 
+## 1.2.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.2.2 (2021-07-13)
 
 ### Key Bugs Fixed
 
 - Fixed the return value during the flattening the response for `HEAD` HTTP Requests. This will ensure that the return value will indicate the presence/absence of the resource. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
-
-### Fixed
 
 ## 1.2.1 (2021-06-30)
 

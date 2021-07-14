@@ -1,12 +1,20 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.1 (2021-07-13)
 
 ### Key Bugs Fixed
 
 - Fixed an issue with `HEAD` HTTP Requests. Destroyed the response before resolving the promise which will ensure that the code does not hang up. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
-
-### Fixed
 
 ## 1.1.0 (2021-06-30)
 
