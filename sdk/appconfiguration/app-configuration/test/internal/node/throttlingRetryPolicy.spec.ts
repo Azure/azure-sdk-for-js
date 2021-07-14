@@ -11,12 +11,12 @@ describe("Should not retry forever", () => {
   let client: AppConfigurationClient;
   const connectionString = "Endpoint=https://myappconfig.azconfig.io;Id=key:ai/u/fake;Secret=abcd=";
 
-  function mockErrorResponse(retryAfterMs: string, persistance: boolean = true) {
+  function mockErrorResponse(retryAfterMs: string, persistence: boolean = true) {
     if (!nock.isActive()) {
       nock.activate();
     }
     nock("https://myappconfig.azconfig.io:443")
-      .persist(persistance)
+      .persist(persistence)
       .put(/.*/g)
       .reply(
         429,
