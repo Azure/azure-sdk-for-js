@@ -3,6 +3,10 @@
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 
+/**
+ * An implementation of CheckpointStore that uses Azure Table Storage to persist checkpoint data.
+ */
+
 export class TableCheckpointStore implements CheckpointStore {
   
 
