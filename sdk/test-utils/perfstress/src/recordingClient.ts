@@ -31,7 +31,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    console.log("in the RecordingHttpClient: prepareRequest (browser)");
+    console.log("in the RecordingHttpClient: prepareRequest");
     await this.start();
 
     if (!request.headers.contains("x-recording-id")) {
