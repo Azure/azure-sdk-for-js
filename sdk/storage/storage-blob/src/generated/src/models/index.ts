@@ -363,11 +363,11 @@ export interface ClearRange {
   end: number;
 }
 
-/** the quick query body */
+/** Groups the set of query request settings. */
 export interface QueryRequest {
-  /** the query type */
+  /** Required. The type of the provided query expression. */
   queryType: string;
-  /** a query statement */
+  /** The query expression in SQL. The maximum size of the query expression is 256KiB. */
   expression: string;
   inputSerialization?: QuerySerialization;
   outputSerialization?: QuerySerialization;
@@ -380,42 +380,42 @@ export interface QuerySerialization {
 export interface QueryFormat {
   /** The quick query format type. */
   type?: QueryFormatType;
-  /** delimited text configuration */
+  /** Groups the settings used for interpreting the blob data if the blob is delimited text formatted. */
   delimitedTextConfiguration?: DelimitedTextConfiguration;
   /** json text configuration */
   jsonTextConfiguration?: JsonTextConfiguration;
-  /** arrow configuration */
+  /** Groups the settings used for formatting the response if the response should be Arrow formatted. */
   arrowConfiguration?: ArrowConfiguration;
   /** Any object */
   parquetTextConfiguration?: any;
 }
 
-/** delimited text configuration */
+/** Groups the settings used for interpreting the blob data if the blob is delimited text formatted. */
 export interface DelimitedTextConfiguration {
-  /** column separator */
-  columnSeparator: string;
-  /** field quote */
-  fieldQuote: string;
-  /** record separator */
-  recordSeparator: string;
-  /** escape char */
-  escapeChar: string;
-  /** has headers */
-  headersPresent: boolean;
+  /** The string used to separate columns. */
+  columnSeparator?: string;
+  /** The string used to quote a specific field. */
+  fieldQuote?: string;
+  /** The string used to separate records. */
+  recordSeparator?: string;
+  /** The string used as an escape character. */
+  escapeChar?: string;
+  /** Represents whether the data has headers. */
+  headersPresent?: boolean;
 }
 
 /** json text configuration */
 export interface JsonTextConfiguration {
-  /** record separator */
-  recordSeparator: string;
+  /** The string used to separate records. */
+  recordSeparator?: string;
 }
 
-/** arrow configuration */
+/** Groups the settings used for formatting the response if the response should be Arrow formatted. */
 export interface ArrowConfiguration {
   schema: ArrowField[];
 }
 
-/** field of an arrow schema */
+/** Groups settings regarding specific field of an arrow schema */
 export interface ArrowField {
   type: string;
   name?: string;
@@ -2930,7 +2930,7 @@ export type ArchiveStatus =
 /** Defines values for RehydratePriority. */
 export type RehydratePriority = "High" | "Standard";
 /** Defines values for BlobImmutabilityPolicyMode. */
-export type BlobImmutabilityPolicyMode = "Unlocked" | "Locked" | "Mutable";
+export type BlobImmutabilityPolicyMode = "Mutable" | "Unlocked" | "Locked";
 /** Defines values for PathRenameMode. */
 export type PathRenameMode = "legacy" | "posix";
 /** Defines values for DeleteSnapshotsOptionType. */

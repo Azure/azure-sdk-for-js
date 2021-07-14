@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/cfa0f1465475f1a64e8bcb814ed356dc6f624426/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-10-02/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b50bcdde18465bbf04937a9ee73607753d24d65c/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-10-02/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true

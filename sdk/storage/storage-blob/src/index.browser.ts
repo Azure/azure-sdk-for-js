@@ -17,6 +17,7 @@ export { SasIPRange } from "./sas/SasIPRange";
 export { Range } from "./Range";
 export {
   BlockBlobTier,
+  BlobImmutabilityPolicy,
   PremiumPageBlobTier,
   Tags,
   TagConditions,

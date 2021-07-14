@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { BlobImmutabilityPolicyMode } from "./generatedModels";
 import {
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
@@ -279,4 +280,18 @@ export interface BlobQueryArrowField {
    * The scale of the field.  Required if type is is "decimal".
    */
   scale?: number;
+}
+
+/**
+ * Describe immutable policy for blob.
+ */
+export interface BlobImmutabilityPolicy {
+  /**
+   * Specifies the date time when the blobs immutability policy is set to expire.
+   */
+  expiriesOn?: Date;
+  /**
+   * Specifies the immutability policy mode to set on the blob.
+   */
+  policyMode?: BlobImmutabilityPolicyMode;
 }

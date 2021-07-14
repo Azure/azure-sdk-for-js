@@ -29,6 +29,7 @@ export {
   PremiumPageBlobTier,
   Tags,
   BlobDownloadResponseParsed,
+  BlobImmutabilityPolicy,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
