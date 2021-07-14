@@ -5,7 +5,7 @@ import { createClientLogger } from "@azure/logger";
 
 /**
  * The `@azure/logger` configuration for this package.
- * This will output logs using the `azure:eventhubs-checkpointstore-blob` namespace prefix.
+ * This will output logs using the `azure:eventhubs-checkpointstore-tables` namespace prefix.
  */
 export const logger = createClientLogger("eventhubs-checkpointstore-tables");
 
