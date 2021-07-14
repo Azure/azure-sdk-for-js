@@ -312,7 +312,7 @@ export type SentencesSortBy = string;
 /**
  * Options for an extract summary action.
  */
-export interface ExtractSummaryAction extends TextAnalyticsAction {
+export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -362,7 +362,7 @@ export interface TextAnalyticsActions {
   /**
    * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
    */
-  extractSummarySentencesActions?: ExtractSummaryAction[];
+  extractSummarySentencesActions?: ExtractSummarySentencesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.

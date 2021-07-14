@@ -33,7 +33,7 @@ export {
   StringIndexType,
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
-  ExtractSummaryAction,
+  ExtractSummarySentencesAction,
   SentencesSortBy,
   KnownSentencesSortBy
 } from "./textAnalyticsClient";
@@ -75,12 +75,12 @@ export {
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
 export {
-  ExtractSummaryResult,
-  ExtractSummaryErrorResult,
-  ExtractSummarySuccessResult,
+  ExtractSummarySentencesResult,
+  ExtractSummarySentencesErrorResult,
+  ExtractSummarySentencesSuccessResult,
   SummarySentence
 } from "./extractSummaryResult";
-export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
+export { ExtractSummarySentencesResultArray } from "./extractSummaryResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,

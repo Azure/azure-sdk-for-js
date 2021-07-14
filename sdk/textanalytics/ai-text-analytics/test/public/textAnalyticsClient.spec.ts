@@ -944,7 +944,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const extractSummaryResult = page.extractSummaryResults;
+            const extractSummaryResult = page.extractSummarySentencesResults;
             if (extractSummaryResult.length === 1) {
               const action = extractSummaryResult[0];
               if (!action.error) {

@@ -36,7 +36,7 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
-    extractSummaryResults: ExtractSummarySentencesActionResult[];
+    extractSummarySentencesResults: ExtractSummarySentencesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -249,23 +249,11 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export interface ExtractSummaryAction extends TextAnalyticsAction {
+export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     maxSummarySentenceCount?: number;
     sortBy: SentencesSortBy;
     stringIndexType?: StringIndexType;
-}
-
-// @public
-export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
-
-// @public
-export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
@@ -276,11 +264,23 @@ export type ExtractSummarySentencesActionResult = ExtractSummarySentencesActionS
 
 // @public
 export interface ExtractSummarySentencesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: ExtractSummaryResultArray;
+    results: ExtractSummarySentencesResultArray;
 }
 
 // @public
-export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
+export type ExtractSummarySentencesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type ExtractSummarySentencesResult = ExtractSummarySentencesSuccessResult | ExtractSummarySentencesErrorResult;
+
+// @public
+export interface ExtractSummarySentencesResultArray extends Array<ExtractSummarySentencesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface ExtractSummarySentencesSuccessResult extends TextAnalyticsSuccessResult {
     summarySentences: SummarySentence[];
 }
 
@@ -669,7 +669,7 @@ export interface TextAnalyticsActionErrorResult {
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
-    extractSummarySentencesActions?: ExtractSummaryAction[];
+    extractSummarySentencesActions?: ExtractSummarySentencesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];

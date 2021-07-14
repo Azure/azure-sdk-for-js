@@ -11,7 +11,7 @@ import {
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
-  ExtractSummaryResultArray as ExtractSummarySentencesResultArray,
+  ExtractSummarySentencesResultArray as ExtractSummarySentencesResultArray,
   makeExtractSummaryResultArray
 } from "./extractSummaryResultArray";
 import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
@@ -56,7 +56,7 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each extract summary action.
    */
-  extractSummaryResults: ExtractSummarySentencesActionResult[];
+  extractSummarySentencesResults: ExtractSummarySentencesActionResult[];
 }
 
 /**
@@ -505,7 +505,7 @@ export function createAnalyzeActionsResult(
       response.tasks.sentimentAnalysisTasks ?? [],
       analyzeSentimentActionErrors
     ),
-    extractSummaryResults: makeActionResult(
+    extractSummarySentencesResults: makeActionResult(
       documents,
       makeExtractSummaryResultArray,
       response.tasks.summarizationExtractionTasks ?? [],

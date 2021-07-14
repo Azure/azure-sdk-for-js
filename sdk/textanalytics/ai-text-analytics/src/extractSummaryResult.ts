@@ -16,13 +16,13 @@ import {
 /**
  * The result of the extract summary operation on a single document.
  */
-export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
+export type ExtractSummarySentencesResult = ExtractSummarySentencesSuccessResult | ExtractSummarySentencesErrorResult;
 
 /**
  * The result of the extract summary operation on a single document,
  * containing a collection of the summary identified in that document.
  */
-export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
+export interface ExtractSummarySentencesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * A list of sentences composing a summary of the input document.
    */
@@ -46,14 +46,14 @@ export interface SummarySentence {
 /**
  * An error result from the extract summary operation on a single document.
  */
-export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
+export type ExtractSummarySentencesErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
 export function makeExtractSummaryResult(
   result: ExtractedDocumentSummary
-): ExtractSummarySuccessResult {
+): ExtractSummarySentencesSuccessResult {
   const { id, warnings, statistics, sentences } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -70,6 +70,6 @@ export function makeExtractSummaryResult(
 export function makeExtractSummaryErrorResult(
   id: string,
   error: TextAnalyticsError
-): ExtractSummaryErrorResult {
+): ExtractSummarySentencesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
