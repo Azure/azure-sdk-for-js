@@ -14,8 +14,7 @@ import {
   ServiceClientCredentials,
   UserAgentOptions,
   getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
-  userAgentPolicy,
-  RetryOptions
+  userAgentPolicy
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
@@ -36,6 +35,7 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -104,7 +104,7 @@ export interface AppConfigurationClientOptions {
   /**
    * Options that control how to retry failed requests.
    */
-  retryOptions?: Pick<RetryOptions, "maxRetries" | "maxRetryDelayInMs">;
+  retryOptions?: RetryOptions;
 }
 
 /**
