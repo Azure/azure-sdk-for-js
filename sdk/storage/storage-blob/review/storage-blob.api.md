@@ -55,6 +55,7 @@ export class AccountSASPermissions {
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
     read: boolean;
+    setImmutabilityPolicy: boolean;
     tag: boolean;
     toString(): string;
     update: boolean;
@@ -71,6 +72,7 @@ export interface AccountSASPermissionsLike {
     list?: boolean;
     process?: boolean;
     read?: boolean;
+    setImmutabilityPolicy?: boolean;
     tag?: boolean;
     update?: boolean;
     write?: boolean;
@@ -223,6 +225,8 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
     blobHTTPHeaders?: BlobHTTPHeaders;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
 }
 
@@ -238,6 +242,8 @@ export interface AppendBlobCreateOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tags?: Tags;
 }
@@ -401,6 +407,7 @@ export class BlobClient extends StorageClient {
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteIfExistsResponse>;
+    deleteImmutabilityPolicy(options?: BlobDeleteImmutabilityPolicyOptions): Promise<BlobDeleteImmutabilityPolicyResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
@@ -416,6 +423,8 @@ export class BlobClient extends StorageClient {
     get name(): string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
+    setImmutabilityPolicy(immutabilityPolicy: BlobImmutabilityPolicy, options?: BlobSetImmutabilityPolicyOptions): Promise<BlobSetImmutabilityPolicyResponse>;
+    setLegalHold(legalHoldEnabled: boolean, options?: BlobSetLegalHoldOptions): Promise<BlobSetLegalHoldResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
     setTags(tags: Tags, options?: BlobSetTagsOptions): Promise<BlobSetTagsResponse>;
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
@@ -490,6 +499,26 @@ export interface BlobDeleteHeaders {
 export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
     succeeded: boolean;
 }
+
+// @public
+export interface BlobDeleteImmutabilityPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobDeleteImmutabilityPolicyOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobDeleteImmutabilityPolicyResponse = BlobDeleteImmutabilityPolicyHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobDeleteImmutabilityPolicyHeaders;
+    };
+};
 
 // @public
 export interface BlobDeleteOptions extends CommonOptions {
@@ -767,7 +796,13 @@ export interface BlobHTTPHeaders {
 }
 
 // @public
-export type BlobImmutabilityPolicyMode = "Unlocked" | "Locked" | "Mutable";
+export interface BlobImmutabilityPolicy {
+    expiriesOn?: Date;
+    policyMode?: BlobImmutabilityPolicyMode;
+}
+
+// @public
+export type BlobImmutabilityPolicyMode = "Mutable" | "Unlocked" | "Locked";
 
 // @public
 export interface BlobItem {
@@ -1001,6 +1036,11 @@ export interface BlobQueryJsonTextConfiguration {
 }
 
 // @public
+export interface BlobQueryParquetConfiguration {
+    kind: "parquet";
+}
+
+// @public
 export type BlobQueryResponseModel = BlobQueryHeaders & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
@@ -1036,6 +1076,7 @@ export class BlobSASPermissions {
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
+    setImmutabilityPolicy: boolean;
     tag: boolean;
     toString(): string;
     write: boolean;
@@ -1050,6 +1091,7 @@ export interface BlobSASPermissionsLike {
     execute?: boolean;
     move?: boolean;
     read?: boolean;
+    setImmutabilityPolicy?: boolean;
     tag?: boolean;
     write?: boolean;
 }
@@ -1145,6 +1187,51 @@ export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
 };
 
 // @public
+export interface BlobSetImmutabilityPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    immutabilityPolicyExpiry?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    modifiedAccessCondition?: ModificationConditions;
+}
+
+// @public
+export type BlobSetImmutabilityPolicyResponse = BlobSetImmutabilityPolicyHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobSetImmutabilityPolicyHeaders;
+    };
+};
+
+// @public
+export interface BlobSetLegalHoldHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    legalHold?: boolean;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobSetLegalHoldOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobSetLegalHoldResponse = BlobSetLegalHoldHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobSetLegalHoldHeaders;
+    };
+};
+
+// @public
 export interface BlobSetMetadataHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -1236,6 +1323,8 @@ export interface BlobStartCopyFromURLHeaders {
 export interface BlobStartCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     rehydratePriority?: RehydratePriority;
     sealBlob?: boolean;
@@ -1255,6 +1344,8 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
@@ -1355,6 +1446,8 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tags?: Tags;
     tier?: BlockBlobTier | string;
@@ -1556,6 +1649,8 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
@@ -1878,6 +1973,8 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeCopy?: boolean;
     includeDeleted?: boolean;
     includeDeletedwithVersions?: boolean;
+    includeImmutabilityPolicy?: boolean;
+    includeLegalHold?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     includeTags?: boolean;
@@ -1959,6 +2056,7 @@ export class ContainerSASPermissions {
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
     read: boolean;
+    setImmutabilityPolicy: boolean;
     tag: boolean;
     toString(): string;
     write: boolean;
@@ -1974,6 +2072,7 @@ export interface ContainerSASPermissionsLike {
     list?: boolean;
     move?: boolean;
     read?: boolean;
+    setImmutabilityPolicy?: boolean;
     tag?: boolean;
     write?: boolean;
 }
@@ -2452,6 +2551,8 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
     blobSequenceNumber?: number;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tier?: PremiumPageBlobTier | string;
 }
@@ -2469,6 +2570,8 @@ export interface PageBlobCreateOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tags?: Tags;
     tier?: PremiumPageBlobTier | string;
