@@ -91,18 +91,6 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   // Direct the user to the authentication URI either by opening a
   // browser (desktop and mobile apps) or redirecting their browser
   // using a Location header (web apps and APIs).
-  console.log("CLIENT SECRET", clientSecret);
-    const cred = new AuthorizationCodeCredential(
-      tenantId!,
-      clientId!,
-      clientSecret!,
-      "",
-      redirectUri,
-    );
-
-    console.log("...cred", !!cred);
-  // const authenticateUrl = await cred.getAuthCodeUrl({ scopes: [scopes], redirectUri });
-  // console.log("OLD URL", getAuthorizeUrl(tenantId!, clientId!, scopes));
   const authenticateUrl = getAuthorizeUrl(tenantId!, clientId!, scopes);
   console.log("Opening user's browser to URL:", authenticateUrl);
   await open(authenticateUrl);
@@ -115,14 +103,6 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   // can be created.  This credential will take care of requesting and
   // refreshing the access token from this point forward.
   if (clientSecret) {
-    console.log("AAAA", {
-      tenantId,
-      clientId,
-      clientSecret,
-      authorizationCode,
-      redirectUri,
-      authorityHost
-    })
     return new AuthorizationCodeCredential(
       tenantId!,
       clientId!,
@@ -130,7 +110,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       authorizationCode,
       redirectUri,
       // NOTE: It is not necessary to explicitly pass the authorityHost when using
-      // the default authority host: https://login.microsoftonline.com.  It is only
+      // the default authority host: https://login.microsoftonline.com. It is only
       // necessary when a different authority host is used in the initial authorization
       // URI.
       { authorityHost }

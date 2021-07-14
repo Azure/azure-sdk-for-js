@@ -53,11 +53,6 @@ export class AuthenticationRequiredError extends Error {
 export class AuthorizationCodeCredential implements TokenCredential {
     constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
     constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
-    // (undocumented)
-    getAuthCodeUrl(options: {
-        scopes: string[];
-        redirectUri: string;
-    }): Promise<string>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 

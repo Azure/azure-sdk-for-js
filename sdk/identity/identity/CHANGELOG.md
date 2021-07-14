@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Upgraded the `AuthorizationCodeCredential` to use the latest `@azure/msal-node`.
+
 ## 2.0.0-beta.4 (2021-07-07)
 
 ### Features Added

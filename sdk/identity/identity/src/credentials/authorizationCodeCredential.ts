@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { trace } from "../util/tracing";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
@@ -119,10 +119,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
       redirectUri: this.redirectUri,
       authorizationCode: this.authorizationCode
     });
-  }
-
-  async getAuthCodeUrl(options: { scopes: string[], redirectUri: string }): Promise<string> {
-    return await (this.msalFlow as MsalAuthorizationCode).getAuthCodeUrl(options);
   }
 
   /**
