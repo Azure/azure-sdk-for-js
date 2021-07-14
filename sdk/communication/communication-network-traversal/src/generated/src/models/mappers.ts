@@ -8,6 +8,22 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export const CommunicationRelayConfigurationRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationRelayConfigurationRequest",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -20,13 +36,13 @@ export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      turnServers: {
-        serializedName: "turnServers",
+      iceServers: {
+        serializedName: "iceServers",
         required: true,
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "CommunicationTurnServer" }
+            type: { name: "Composite", className: "CommunicationIceServer" }
           }
         }
       }
@@ -34,10 +50,10 @@ export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationTurnServer: coreHttp.CompositeMapper = {
+export const CommunicationIceServer: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationTurnServer",
+    className: "CommunicationIceServer",
     modelProperties: {
       urls: {
         serializedName: "urls",
