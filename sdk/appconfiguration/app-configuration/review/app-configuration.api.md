@@ -7,6 +7,7 @@
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RetryOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 import { UserAgentOptions } from '@azure/core-http';
 
@@ -37,6 +38,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
+    retryOptions?: Pick<RetryOptions, "maxRetries" | "maxRetryDelayInMs">;
     userAgentOptions?: UserAgentOptions;
 }
 
