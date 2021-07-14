@@ -142,6 +142,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     conditions?: AppendBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -835,7 +836,6 @@ export interface BlobItemInternal {
     blobTags?: BlobTags;
     // (undocumented)
     deleted: boolean;
-    // (undocumented)
     hasVersionsOnly?: boolean;
     // (undocumented)
     isCurrentVersion?: boolean;
@@ -924,9 +924,7 @@ export interface BlobProperties {
     etag: string;
     // (undocumented)
     expiresOn?: Date;
-    // (undocumented)
     immutabilityPolicyExpiresOn?: Date;
-    // (undocumented)
     immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     // (undocumented)
     incrementalCopy?: boolean;
@@ -942,7 +940,6 @@ export interface BlobProperties {
     leaseState?: LeaseStateType;
     // (undocumented)
     leaseStatus?: LeaseStatusType;
-    // (undocumented)
     legalHold?: boolean;
     rehydratePriority?: RehydratePriority;
     // (undocumented)
@@ -1347,6 +1344,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     immutabilityPolicy?: BlobImmutabilityPolicy;
     legalHold?: boolean;
     metadata?: Metadata;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
@@ -1560,6 +1558,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     range?: Range;
+    sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -1612,6 +1611,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
@@ -2247,6 +2247,12 @@ export interface GeoReplication {
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
+// @public
+export interface HttpAuthorization {
+    parameter: string;
+    scheme: string;
+}
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -2722,6 +2728,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     conditions?: PageBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;

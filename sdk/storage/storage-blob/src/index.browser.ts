@@ -22,6 +22,7 @@ export {
   Tags,
   TagConditions,
   ContainerRequestConditions,
+  HttpAuthorization,
   ModificationConditions,
   MatchConditions
 } from "./models";

@@ -67,7 +67,8 @@ import {
   truncatedISO8061Date,
   extractConnectionStringParts,
   getShareNameAndPathFromUrl,
-  appendToURLQuery
+  appendToURLQuery,
+  httpAuthorizationToString
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -92,7 +93,8 @@ import {
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
   ShareProtocols,
   toShareProtocolsString,
-  toShareProtocols
+  toShareProtocols,
+  HttpAuthorization
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -2893,6 +2895,10 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -4084,6 +4090,7 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions)
         }

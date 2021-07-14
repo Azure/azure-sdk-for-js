@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HttpAuthorization } from "../models";
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**
@@ -529,4 +530,12 @@ export function getShareNameAndPathFromUrl(
       "Unable to extract shareName and filePath/directoryPath with provided information."
     );
   }
+}
+
+export function httpAuthorizationToString(
+  httpAuthorization?: HttpAuthorization
+): string | undefined {
+  return httpAuthorization
+    ? httpAuthorization.scheme + " " + httpAuthorization.parameter
+    : undefined;
 }
