@@ -2,17 +2,9 @@
 // Licensed under the MIT license.
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-/*
-import {  TableClient } from "@azure/data-tables";
-*/
-export class TableCheckpointStore implements CheckpointStore {
-  /*
-  private _tableClient: TableClient;
 
-  constructor(tableClient: TableClient) {
-  this._tableClient = tableClient;
-  }
-  */
+export class TableCheckpointStore implements CheckpointStore {
+  
 
   /**
    * Get the list of all existing partition ownership from the underlying data store. May return empty
@@ -89,7 +81,6 @@ export class TableCheckpointStore implements CheckpointStore {
    *  - `tracingOptions`: Options for configuring tracing.
    * @returns The new etag on successful update.
    */
-
   async updateCheckpoint(/* checkpoint: Checkpoint */): Promise<void> {
     console.log("no checkpoint to update");
     throw new Error("not implemented");
