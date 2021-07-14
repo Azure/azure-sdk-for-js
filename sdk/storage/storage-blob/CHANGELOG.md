@@ -1,6 +1,6 @@
 # Release History
 
-## 12.7.0 (Unreleased)
+## 12.7.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -12,6 +12,8 @@
 - Added support for listing deleted root blobs with versions `ContainerClient.listBlobFlat()` and `ContainerClient.listBlobHierarchy()`.
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Added support for listing deleted root blobs with versions `ContainerClient.listBlobFlat()` and `ContainerClient.listBlobHierarchy()`.
+- Added support for OAuth in copying source in `BlobClient.syncCopyFromURL()`, `BlockBlobClient.syncUploadFromURL()`, `BlockBlobClient.stageBlockFromURL()`, `AppendBlobClient.appendBlockFromURL()` and `PageBlobClient.uploadPagesFromURL()`.
 
 ### Breaking Changes
 

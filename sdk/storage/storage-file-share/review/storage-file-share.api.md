@@ -132,7 +132,6 @@ export interface CopyFileSmbInfo {
     fileAttributes?: string;
     fileCreationTime?: string;
     fileLastWriteTime?: string;
-    // Warning: (ae-forgotten-export) The symbol "PermissionCopyModeType" needs to be exported by the entry point index.d.ts
     filePermissionCopyMode?: PermissionCopyModeType;
     ignoreReadOnly?: boolean;
     setArchiveAttribute?: boolean;
@@ -1017,6 +1016,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: SourceModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     timeoutInSeconds?: number;
@@ -1081,6 +1081,12 @@ export interface HandleItem {
     parentId?: string;
     path: string;
     sessionId: string;
+}
+
+// @public
+export interface HttpAuthorization {
+    parameter: string;
+    scheme: string;
 }
 
 export { HttpHeaders }
@@ -1218,6 +1224,9 @@ export interface Metrics {
 
 // @public
 export function newPipeline(credential?: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export type PermissionCopyModeType = "source" | "override";
 
 // @public
 export class Pipeline {
