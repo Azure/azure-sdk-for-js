@@ -161,7 +161,7 @@ export interface ConnectResponseHandler {
    * @param name The name of the state
    * @param value The value of the state 
    */
-  setState(name: string, value: any): ConnectResponseHandler;
+  setState(name: string, value: unknown): ConnectResponseHandler;
   /**
    * Return success response to the service.
    * @param response The response for the connect event.
@@ -184,7 +184,7 @@ export interface UserEventResponseHandler {
    * @param name The name of the state
    * @param value The value of the state 
    */
-  setState(name: string, value: any): UserEventResponseHandler;
+  setState(name: string, value: unknown): UserEventResponseHandler;
   /**
    * Return success response with data to be delivered to the client WebSocket connection.
    * @param data The payload data to be returned to the client.

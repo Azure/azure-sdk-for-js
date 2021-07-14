@@ -47,7 +47,7 @@ export interface ConnectResponse {
 // @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
-    setState(name: string, value: any): ConnectResponseHandler;
+    setState(name: string, value: unknown): ConnectResponseHandler;
     success(response?: ConnectResponse): void;
 }
 
@@ -71,7 +71,7 @@ export type UserEventRequest = {
 // @public
 export interface UserEventResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
-    setState(name: string, value: any): UserEventResponseHandler;
+    setState(name: string, value: unknown): UserEventResponseHandler;
     success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
 }
 

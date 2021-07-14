@@ -6,6 +6,7 @@ import { assert } from "chai";
 import { IncomingMessage, ServerResponse } from "http";
 import { Socket } from "net";
 import * as sinon from "sinon";
+import { toBase64JsonString } from "../src/utils";
 
 function buildRequest(
   req: IncomingMessage,
@@ -156,13 +157,11 @@ describe("Can handle connect event", function() {
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(
-      Buffer.from(
-        JSON.stringify({
-          key1: ["val3"],
-          key2: "val2",
-          key3: ""
-        })
-      ).toString("base64"),
+      toBase64JsonString({
+        key1: ["val3"],
+        key2: "val2",
+        key3: ""
+      }),
       res.getHeader("ce-connectionState"),
       "should contain multiple state headers"
     );
@@ -170,13 +169,11 @@ describe("Can handle connect event", function() {
 
   it("Should be able to get the connection states if it exists in the header", async function() {
     const endSpy = sinon.spy(res, "end");
-    const states = Buffer.from(
-      JSON.stringify({
-        key1: ["val3"],
-        key2: "val2",
-        key3: ""
-      })
-    ).toString("base64");
+    const states = toBase64JsonString({
+      key1: ["val3"],
+      key2: "val2",
+      key3: ""
+    });
     buildRequest(req, "hub1", "conn1", undefined, states);
     const dispatcher = new CloudEventsDispatcher("hub1", ["*"], {
       handleConnect: (req, response) => {

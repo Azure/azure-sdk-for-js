@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CloudEvent, Message, HTTP } from "cloudevents";
+import { HTTP } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
+
+import * as utils from "./utils";
+import { EventType } from "./utils";
+
 import {
   ConnectRequest,
-  ConnectResponse,
   UserEventRequest,
   DisconnectedRequest,
   ConnectedRequest,
-  ConnectionContext,
   WebPubSubEventHandlerOptions,
-  ConnectResponseHandler,
-  UserEventResponseHandler
 } from "./cloudEventsProtocols";
 
 /**
@@ -48,18 +48,18 @@ export class CloudEventsDispatcher {
     response: ServerResponse
   ): Promise<boolean> {
     // check if it is a valid WebPubSub cloud events
-    const origin = this.getSingleHeader(request, "webhook-request-origin");
+    const origin = utils.getHttpHeader(request, "webhook-request-origin");
     if (origin === undefined) {
       return false;
     }
 
-    const eventType = this.tryGetWebPubSubEvent(request);
+    const eventType = utils.tryGetWebPubSubEvent(request);
     if (eventType === undefined) {
       return false;
     }
 
     // check if hub matches
-    const hub = this.getSingleHeader(request, "ce-hub");
+    const hub = utils.getHttpHeader(request, "ce-hub");
     if (hub !== this.hub) {
       return false;
     }
@@ -96,47 +96,20 @@ export class CloudEventsDispatcher {
         return false;
     }
 
-    const eventRequest = await this.convertHttpToEvent(request);
+    const eventRequest = await utils.convertHttpToEvent(request);
     const receivedEvent = HTTP.toEvent(eventRequest);
 
     if (this._dumpRequest) {
       console.log(receivedEvent);
     }
 
-    const stringifyStates = this.stringifyStates;
     switch (eventType) {
       case EventType.Connect: {
         const connectRequest = receivedEvent.data as ConnectRequest;
-        connectRequest.context = this.getContext(receivedEvent, origin);
+        connectRequest.context = utils.getContext(receivedEvent, origin);
         this.eventHandler.handleConnect!(
           connectRequest,
-          (function() {
-            let states: Record<string, any> = connectRequest.context.states;
-            let modified = false;
-            return {
-              setState(name: string, value: any): ConnectResponseHandler {
-                states[name] = value;
-                modified = true;
-                return this;
-              },
-              success(res?: ConnectResponse): void {
-                response.statusCode = 200;
-                if (modified) {
-                  response.setHeader("ce-connectionState", stringifyStates(states));
-                }
-                if (res === undefined) {
-                  response.end();
-                } else {
-                  response.setHeader("Content-Type", "application/json; charset=utf-8");
-                  response.end(JSON.stringify(res));
-                }
-              },
-              fail(code: 400 | 401 | 500, detail?: string): void {
-                response.statusCode = code;
-                response.end(detail ?? "");
-              }
-            };
-          })()
+          utils.getConnectResponseHandler(connectRequest, response)
         );
         return true;
       }
@@ -144,7 +117,7 @@ export class CloudEventsDispatcher {
         // for unblocking events, we responds to the service as early as possible
         response.end();
         const connectedRequest = receivedEvent.data as ConnectedRequest;
-        connectedRequest.context = this.getContext(receivedEvent, origin);
+        connectedRequest.context = utils.getContext(receivedEvent, origin);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
       }
@@ -152,7 +125,7 @@ export class CloudEventsDispatcher {
         // for unblocking events, we responds to the service as early as possible
         response.end();
         const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
-        disconnectedRequest.context = this.getContext(receivedEvent, origin);
+        disconnectedRequest.context = utils.getContext(receivedEvent, origin);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
@@ -160,13 +133,13 @@ export class CloudEventsDispatcher {
         let userRequest: UserEventRequest;
         if (receivedEvent.data_base64 !== undefined) {
           userRequest = {
-            context: this.getContext(receivedEvent, origin),
+            context: utils.getContext(receivedEvent, origin),
             data: Buffer.from(receivedEvent.data_base64, "base64"),
             dataType: "binary"
           };
         } else if (receivedEvent.data !== undefined) {
           userRequest = {
-            context: this.getContext(receivedEvent, origin),
+            context: utils.getContext(receivedEvent, origin),
             data: receivedEvent.data as string,
             dataType: receivedEvent.datacontenttype?.startsWith("application/json;")
               ? "json"
@@ -178,40 +151,7 @@ export class CloudEventsDispatcher {
 
         this.eventHandler.handleUserEvent!(
           userRequest,
-          (function() {
-            let states: Record<string, any> = userRequest.context.states;
-            let modified = false;
-            return {
-              setState(name: string, value: any): UserEventResponseHandler {
-                modified = true;
-                states[name] = value;
-                return this;
-              },
-              success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
-                response.statusCode = 200;
-                if (modified) {
-                  response.setHeader("ce-connectionState", stringifyStates(states));
-                }
-
-                switch (dataType) {
-                  case "json":
-                    response.setHeader("Content-Type", "application/json; charset=utf-8");
-                    break;
-                  case "text":
-                    response.setHeader("Content-Type", "text/plain; charset=utf-8");
-                    break;
-                  default:
-                    response.setHeader("Content-Type", "application/octet-stream");
-                    break;
-                }
-                response.end(data ?? "");
-              },
-              fail(code: 400 | 401 | 500, detail?: string): void {
-                response.statusCode = code;
-                response.end(detail ?? "");
-              }
-            };
-          })()
+          utils.getUserEventResponseHandler(userRequest, response)
         );
         return true;
       }
@@ -220,139 +160,4 @@ export class CloudEventsDispatcher {
         return false;
     }
   }
-
-  private tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
-    // check ce-type to see if it is a valid WebPubSub CloudEvent request
-    const prefix = "azure.webpubsub.";
-    const connect = "azure.webpubsub.sys.connect";
-    const connected = "azure.webpubsub.sys.connected";
-    const disconnectd = "azure.webpubsub.sys.disconnected";
-    const userPrefix = "azure.webpubsub.user.";
-    const type = this.getSingleHeader(req, "ce-type");
-    if (!type?.startsWith(prefix)) {
-      return undefined;
-    }
-    if (type.startsWith(userPrefix)) {
-      return EventType.UserEvent;
-    }
-    switch (type) {
-      case connect:
-        return EventType.Connect;
-      case connected:
-        return EventType.Connected;
-      case disconnectd:
-        return EventType.Disconnected;
-      default:
-        return undefined;
-    }
-  }
-
-  private getSingleHeader(req: IncomingMessage, key: string): string | undefined {
-    const value = req.headers[key];
-    if (value === undefined) {
-      return undefined;
-    }
-
-    if (typeof value === "string") {
-      return value;
-    }
-
-    return value[0];
-  }
-
-  /**
-   * Convert the states object to base64 JSON string
-   * @param states the connection states
-   * @returns The base64 JSON string
-   */
-  private stringifyStates(states: Record<string, string>): string {
-    return Buffer.from(JSON.stringify(states)).toString("base64");
-  }
-
-  /**
-   * Connection state is base64(jsonString)
-   * @param ce
-   * @param context
-   */
-  private parseStates(state: string): Record<string, any> {
-    var states: Record<string, any> = {};
-    if (state === undefined) {
-      return states;
-    }
-
-    try {
-      var buf = Buffer.from(state, "base64").toString();
-      var parsed = JSON.parse(buf);
-      for (const key in parsed) {
-        if (Object.prototype.hasOwnProperty.call(parsed, key)) {
-          states[key] = parsed[key];
-        }
-      }
-      return states;
-    } catch (e) {
-      console.warn("Unexpected state format:" + e);
-    }
-
-    return states;
-  }
-
-  private getContext(ce: CloudEvent, origin: string): ConnectionContext {
-    const context = {
-      signature: ce["signature"] as string,
-      userId: ce["userid"] as string,
-      hub: ce["hub"] as string,
-      connectionId: ce["connectionid"] as string,
-      eventName: ce["eventname"] as string,
-      origin: origin,
-      states: this.parseStates(ce["connectionstate"] as string)
-    };
-
-    // TODO: validation
-    return context;
-  }
-
-  private async convertHttpToEvent(request: IncomingMessage): Promise<Message> {
-    const normalized: Message = {
-      headers: {},
-      body: ""
-    };
-    if (request.headers) {
-      for (const key in request.headers) {
-        if (Object.prototype.hasOwnProperty.call(request.headers, key)) {
-          const element = request.headers[key];
-          if (element !== undefined) {
-            normalized.headers[key.toLowerCase()] = element;
-          }
-        }
-      }
-    }
-
-    normalized.body = await this.readRequestBody(request);
-    return normalized;
-  }
-
-  private readRequestBody(req: IncomingMessage): Promise<string> {
-    return new Promise(function(resolve, reject) {
-      const chunks: any = [];
-      req.on("data", function(chunk) {
-        chunks.push(chunk);
-      });
-      req.on("end", function() {
-        const buffer = Buffer.concat(chunks);
-        resolve(buffer.toString());
-      });
-      // reject on request error
-      req.on("error", function(err) {
-        // This is not a "Second reject", just a different sort of failure
-        reject(err);
-      });
-    });
-  }
-}
-
-enum EventType {
-  Connect,
-  Connected,
-  Disconnected,
-  UserEvent
 }
