@@ -9,7 +9,17 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * A TURN credentials response.
+ * Request for a CommunicationRelayConfiguration.
+ */
+export interface CommunicationRelayConfigurationRequest {
+  /**
+   * An existing ACS identity.
+   */
+  id: string;
+}
+
+/**
+ * A relay configuration containing the STUN/TURN URLs and credentials.
  */
 export interface CommunicationRelayConfiguration {
   /**
@@ -17,17 +27,17 @@ export interface CommunicationRelayConfiguration {
    */
   expiresOn: Date;
   /**
-   * An array representing the credentials and the TURN server URL.
+   * An array representing the credentials and the STUN/TURN server URLs for use in ICE negotiations.
    */
-  turnServers: CommunicationTurnServer[];
+  iceServers: CommunicationIceServer[];
 }
 
 /**
- * An instance of a TURN server with credentials.
+ * An instance of a STUN/TURN server with credentials to be used for ICE negotiation.
  */
-export interface CommunicationTurnServer {
+export interface CommunicationIceServer {
   /**
-   * List of TURN server URLs.
+   * List of STUN/TURN server URLs.
    */
   urls: string[];
   /**
@@ -77,9 +87,9 @@ export interface CommunicationError {
 }
 
 /**
- * Contains response data for the issueTurnCredentials operation.
+ * Contains response data for the issueRelayConfiguration operation.
  */
-export type CommunicationNetworkTraversalIssueTurnCredentialsResponse = CommunicationRelayConfiguration & {
+export type CommunicationNetworkTraversalIssueRelayConfigurationResponse = CommunicationRelayConfiguration & {
   /**
    * The underlying HTTP response.
    */
