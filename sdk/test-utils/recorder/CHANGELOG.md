@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-07-13
+
+- `pluginForClientSecretCredentialTests` now is exported, and takes an optional `tenantId` parameter with a default value of `env.AZURE_TENANT_ID` to allow handling other tenant Ids.
+
 ## 2021-05-12
 
 - Extended the `requestBodyTransformations` from [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897) to handle browser tests as well.
