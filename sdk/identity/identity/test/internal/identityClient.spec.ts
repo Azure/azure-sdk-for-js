@@ -6,7 +6,6 @@ import { assertRejects, MockAuthHttpClient } from "../authTestUtils";
 import { getIdentityClientAuthorityHost, IdentityClient } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { isNode } from "@azure/core-http";
 import { Context } from "mocha";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
@@ -18,7 +17,7 @@ function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   };
 }
 
-describe("IdentityClient", function() {
+describe("IdentityClient", function () {
   let logMessages: string[];
   let oldLogger: typeof AzureLogger.log;
   let oldLogLevel: AzureLogLevel | undefined;
@@ -84,7 +83,7 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("parses authority host environment variable as expected", function(this: Context) {
+  it("parses authority host environment variable as expected", function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -93,7 +92,7 @@ describe("IdentityClient", function() {
     return;
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (this: Context) {
     if (!isNode) {
       return this.skip();
     }

@@ -2,16 +2,6 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import {
-  AccessToken,
-  ServiceClient,
-  PipelineOptions,
-  WebResource,
-  RequestPrepareOptions,
-  GetTokenOptions,
-  createPipelineFromOptions,
-  isNode
-} from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";

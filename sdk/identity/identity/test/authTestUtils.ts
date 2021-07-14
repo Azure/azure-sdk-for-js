@@ -4,14 +4,6 @@
 import assert from "assert";
 import * as sinon from "sinon";
 import { ClientCertificateCredentialOptions } from "../src";
-import {
-  HttpHeaders,
-  HttpOperationResponse,
-  WebResource,
-  HttpClient,
-  RestError
-} from "@azure/core-http";
-import * as coreHttp from "@azure/core-http";
 
 export interface MockAuthResponse {
   status?: number;

@@ -4,7 +4,6 @@
 import * as msalCommon from "@azure/msal-common";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { isNode } from "@azure/core-http";
 import { AbortError } from "@azure/abort-controller";
 
 import { v4 as uuidv4 } from "uuid";

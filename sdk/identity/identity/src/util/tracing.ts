@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
 import { createSpanFunction, SpanStatusCode, Span } from "@azure/core-tracing";
 
 /**
@@ -18,7 +17,7 @@ export const createSpan = createSpanFunction({
  * Traces an operation and properly handles reporting start, end and errors for a given span
  *
  * @param operationName - Name of a method in the TClient type
- * @param options - An options class, typically derived from \@azure/core-http/RequestOptionsBase
+ * @param options - An options class, typically derived from \@azure/core-rest-pipeline/RequestOptionsBase
  * @param fn - The function to call with an options class that properly propagates the span context
  *
  * @internal
