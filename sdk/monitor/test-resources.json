@@ -96,12 +96,11 @@
     },
     {
       "type": "Microsoft.Insights/components",
-      "apiVersion": "2014-04-01",
+      "apiVersion": "2015-05-01",
       "location": "[parameters('location')]",
       "name": "[variables('appInsightsName')]",
       "properties": {
         "Application_Type": "web",
-        "Flow_Type": "Redfield",
         "applicationId": "[variables('appInsightsName')]"
       }
     }
@@ -128,7 +127,7 @@
       "type": "string"
     },
     "APPLICATIONINSIGHTS_CONNECTION_STRING": {
-      "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2014-04-01').InstrumentationKey]",
+      "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').ConnectionString]",
       "type": "string"
     }
   }
