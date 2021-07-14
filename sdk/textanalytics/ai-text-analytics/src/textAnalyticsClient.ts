@@ -302,7 +302,7 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 /**
  * A type representing how to sort sentences for the summarization extraction action.
  */
-export type KnownSentencesSortBy = "Offset" | "Importance";
+export type KnownSummarySentencesSortBy = "Offset" | "Importance";
 
 /**
  * A type representing how to sort sentences for the summarization extraction action.
@@ -330,7 +330,7 @@ export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
    */
   maxSummarySentenceCount?: number;
   /**
-   * Specifies how to sort the returned sentences. Please refer to {@link KnownSentencesSortBy} for possible values.
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
    */
   sortBy: SummarySentencesSortBy;
 }

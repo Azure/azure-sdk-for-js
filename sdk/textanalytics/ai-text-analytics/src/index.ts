@@ -35,7 +35,7 @@ export {
   AnalyzeSentimentAction,
   ExtractSummarySentencesAction,
   SummarySentencesSortBy,
-  KnownSentencesSortBy
+  KnownSummarySentencesSortBy
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
