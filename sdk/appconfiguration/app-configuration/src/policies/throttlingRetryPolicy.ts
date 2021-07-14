@@ -53,13 +53,17 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(httpRequest.clone()).catch(async (err) => {
       if (isRestErrorWithHeaders(err)) {
-        const delayInMs = getDelayInMs(err.response.headers);
+        let delayInMs = getDelayInMs(err.response.headers);
+
+        if (delayInMs == null) {
+          throw err;
+        }
 
         if (
-          delayInMs == null ||
-          (this.retryOptions.maxRetryDelayInMs && delayInMs > this.retryOptions.maxRetryDelayInMs)
+          this.retryOptions.maxRetryDelayInMs &&
+          delayInMs > this.retryOptions.maxRetryDelayInMs
         ) {
-          throw err;
+          delayInMs = this.retryOptions.maxRetryDelayInMs;
         }
 
         this.numberOfRetries += 1;
