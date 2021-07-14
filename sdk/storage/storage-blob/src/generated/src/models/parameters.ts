@@ -1244,7 +1244,7 @@ export const immutabilityPolicyMode: OperationParameter = {
     xmlName: "x-ms-immutability-policy-mode",
     type: {
       name: "Enum",
-      allowedValues: ["Unlocked", "Locked", "Mutable"]
+      allowedValues: ["Mutable", "Unlocked", "Locked"]
     }
   }
 };

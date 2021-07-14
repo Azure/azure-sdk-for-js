@@ -25,6 +25,7 @@ import {
   createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
+  getImmutableContainerName,
   recorderEnvSetup
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -684,5 +685,99 @@ describe("BlobClient Node.js only", () => {
         ]
       }
     });
+  });
+});
+
+describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
+  let blobServiceClient: BlobServiceClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      this.skip();
+    }
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat({
+            includeImmutabilityPolicy: true
+          })
+          .byPage()
+          .next()
+      ).value;
+
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        let deleteBlobClient: BlobClient;
+        deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
+        await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
+      }
+      await recorder.stop();
+    }
+  });
+
+  it("Blob syncCopyFromURL with immutability policy", async () => {
+    const sourceName = recorder.getUniqueName("blobsource");
+    const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
+    await sourceBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+
+    const sourceUrl = await sourceBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("r"),
+      expiresOn: aDayLater
+    });
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+    await blobClient.syncCopyFromURL(sourceUrl, {
+      immutabilityPolicy: {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      }
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Blob syncCopyFromURL with legalhold", async () => {
+    const sourceName = recorder.getUniqueName("blobsource");
+    const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
+    await sourceBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+
+    const sourceUrl = await sourceBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("r"),
+      expiresOn: aDayLater
+    });
+
+    await blobClient.syncCopyFromURL(sourceUrl, {
+      legalHold: true
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.legalHold);
   });
 });

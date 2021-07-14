@@ -23,7 +23,13 @@ import {
   UserDelegationKey,
   BlobBatch
 } from "../../src";
-import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
+import {
+  getBSU,
+  getImmutableContainerName,
+  getTokenBSUWithDefaultCredential,
+  recorderEnvSetup,
+  sleep
+} from "../utils";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 
@@ -1717,5 +1723,179 @@ describe("Generation for user delegation SAS Node.js only", () => {
 
     const blobClientWithSAS = new BlobClient(`${blobClient.url}?${blobSAS}`);
     await blobClientWithSAS.getProperties();
+  });
+});
+
+describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPolicy", () => {
+  let blobServiceClient: BlobServiceClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      this.skip();
+    }
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat({
+            includeImmutabilityPolicy: true
+          })
+          .byPage()
+          .next()
+      ).value;
+
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        let deleteBlobClient: BlobClient;
+        deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
+        await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
+      }
+      await recorder.stop();
+    }
+  });
+
+  it("Account sas - set immutability policy and legalhold with account SAS should work", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: aDayLater,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacupi"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        version: "2020-08-04"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const accountSASServiceClient = new BlobServiceClient(sasClient, newPipeline());
+
+    const sasBlobClient = accountSASServiceClient
+      .getContainerClient(containerName)
+      .getBlobClient(blobName);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await sasBlobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
+    assert.ok(setLegalHoldResult.legalHold);
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.ok(propertiesResult.legalHold);
+  });
+
+  it("Container sas - set immutability policy and legalhold with container SAS should work", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: aDayLater,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: ContainerSASPermissions.parse("i"),
+        protocol: SASProtocol.HttpsAndHttp,
+        version: "2020-08-04"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    );
+    const sasContainerClient = new ContainerClient(`${containerClient.url}?${containerSAS}`);
+    const sasBlobClient = sasContainerClient.getBlobClient(blobName);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await sasBlobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
+    assert.ok(setLegalHoldResult.legalHold);
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.ok(propertiesResult.legalHold);
+  });
+
+  it("Blob sas - set immutability policy and legalhold with blob SAS should work", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: aDayLater,
+        permissions: BlobSASPermissions.parse("i"),
+        version: "2020-08-04"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    );
+    const sasBlobClient = new BlobClient(`${blobClient.url}?${blobSAS}`);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await sasBlobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
+    assert.ok(setLegalHoldResult.legalHold);
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.ok(propertiesResult.legalHold);
   });
 });
