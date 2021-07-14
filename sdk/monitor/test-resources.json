@@ -128,7 +128,7 @@
       "type": "string"
     },
     "APPLICATIONINSIGHTS_CONNECTION_STRING": {
-      "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2014-04-01').properties.ConnectionString]",
+      "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2014-04-01').InstrumentationKey]",
       "type": "string"
     }
   }
