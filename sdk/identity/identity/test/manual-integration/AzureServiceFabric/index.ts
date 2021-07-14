@@ -5,11 +5,11 @@ import { ManagedIdentityCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
   console.log("About to auth: ", process.env.AZURE_IDENTITY_TEST_MANAGED_IDENTITY_CLIENT_ID);
-  // This will use the user managed identity in the environment called AZURE_IDENTITY_TEST_MANAGED_IDENTITY_CLIENT_ID
+  // This will use the user managed identity in the environment called AZURE_IDENTITY_TEST_VAULT_URL
   const credential = new ManagedIdentityCredential(
     process.env.AZURE_IDENTITY_TEST_MANAGED_IDENTITY_CLIENT_ID!
   );
-
+  //set a query param to make sure it doesn't validate the certificate for service fabric credential - fabricMsi - prepareRequestOptions method
   const url = process.env.AZURE_IDENTITY_TEST_VAULT_URL!;
   console.log("About to connect to: ", url);
   const client = new SecretClient(url, credential);
