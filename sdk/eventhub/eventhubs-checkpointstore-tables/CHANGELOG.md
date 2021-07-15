@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-beta.1
--This is the current version of the package
+## 1.0.0-beta.1 (Unreleased)
 
+### Features Added
+
+- This is the first preview of the `@azure/eventhubs-checkpointstore-tables` library.
 
