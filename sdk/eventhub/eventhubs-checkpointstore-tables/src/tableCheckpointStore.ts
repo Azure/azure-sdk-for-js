@@ -83,7 +83,7 @@ export class TableCheckpointStore implements CheckpointStore {
    * @param options - A set of options that can be specified to influence the behavior of this method.
    *  - `abortSignal`: A signal used to request operation cancellation.
    *  - `tracingOptions`: Options for configuring tracing.
-   * @returns The new etag on successful update.
+   * @returns A promise that resolves when the checkpoint has been updated.
    */
   async updateCheckpoint(/* checkpoint: Checkpoint */): Promise<void> {
     console.log("no checkpoint to update");
