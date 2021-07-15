@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
+import { NoOpTracer, setTracer } from "@azure/core-tracing";
+import { TestTracer } from "@azure/test-utils";
 
 // some functions useful as we transition between interfaces and classes.
 export function setTracerForTest<T extends TestTracer>(
@@ -12,6 +13,6 @@ export function setTracerForTest<T extends TestTracer>(
 
   return {
     tracer,
-    resetTracer
+    resetTracer: () => setTracer(new NoOpTracer())
   };
 }

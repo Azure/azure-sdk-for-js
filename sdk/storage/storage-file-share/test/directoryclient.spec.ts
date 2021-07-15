@@ -8,7 +8,8 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { TestTracer, SpanGraph } from "@azure/test-utils";
+import { setTracer } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
@@ -669,7 +670,8 @@ describe("DirectoryClient", () => {
   });
 
   it("createFile and deleteFile with tracing", async () => {
-    const tracer = setTracer();
+    const tracer = new TestTracer();
+    setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
     const tracingOptions = {
       tracingContext: setSpan(context.active(), rootSpan)

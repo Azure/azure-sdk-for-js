@@ -215,30 +215,6 @@ export interface ContextAPI {
   active(): Context;
 }
 
-/**
- * Returns true of the given {@link SpanContext} is valid.
- * A valid {@link SpanContext} is one which has a valid trace ID and span ID as per the spec.
- *
- * @param context - the {@link SpanContext} to validate.
- *
- * @returns true if the {@link SpanContext} is valid, false otherwise.
- */
-export function isSpanContextValid(context: SpanContext): boolean {
-  return otTrace.isSpanContextValid(context);
-}
-
-/**
- * Retrieves a tracer from the global tracer provider.
- */
-export function getTracer(): Tracer;
-/**
- * Retrieves a tracer from the global tracer provider.
- */
-export function getTracer(name: string, version?: string): Tracer;
-export function getTracer(name?: string, version?: string): Tracer {
-  return otTrace.getTracer(name || "azure/core-tracing", version);
-}
-
 /** Entrypoint for context API */
 export const context: ContextAPI = otContext;
 

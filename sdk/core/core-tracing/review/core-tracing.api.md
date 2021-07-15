@@ -76,18 +76,33 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 export function getTracer(): Tracer;
 
 // @public
-export function getTracer(name: string, version?: string): Tracer;
-
-// @public
 export type HrTime = [number, number];
-
-// @public
-export function isSpanContextValid(context: SpanContext): boolean;
 
 // @public
 export interface Link {
     attributes?: SpanAttributes;
     context: SpanContext;
+}
+
+// @public
+export class NoOpSpan implements Span {
+    addEvent(_name: string, _attributes?: SpanAttributes): this;
+    end(_endTime?: number): void;
+    isRecording(): boolean;
+    recordException(_exception: Exception, _time?: TimeInput): void;
+    setAttribute(_key: string, _value: unknown): this;
+    setAttributes(_attributes: SpanAttributes): this;
+    setStatus(_status: SpanStatus): this;
+    spanContext(): SpanContext;
+    updateName(_name: string): this;
+}
+
+// @public
+export class NoOpTracer implements Tracer {
+    bind<T>(target: T, _span?: Span): T;
+    getCurrentSpan(): Span;
+    startSpan(_name: string, _options?: SpanOptions): Span;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
 }
 
 // @public
@@ -101,6 +116,9 @@ export function setSpan(context: Context, span: Span): Context;
 
 // @public
 export function setSpanContext(context: Context, spanContext: SpanContext): Context;
+
+// @public
+export function setTracer(tracer: Tracer): void;
 
 // @public
 export interface Span {

@@ -2,53 +2,56 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import sinon from "sinon";
 import {
   setSpan,
   SpanKind,
+  TraceFlags,
   context as otContext,
   getSpanContext,
   Context
 } from "../src/interfaces";
 
-import { TestSpan } from "./util/testSpan";
-import { createSpanFunction, isTracingDisabled } from "../src/createSpan";
+import { setTracer } from "../src/tracerProxy";
+import { TestTracer } from "./testTracer";
+import { TestSpan } from "./testSpan";
+import { createSpanFunction } from "../src/createSpan";
 import { OperationTracingOptions } from "../src/interfaces";
-import { TestTracerProvider } from "./util/testTracerProvider";
 
 describe("createSpan", () => {
   let createSpan: ReturnType<typeof createSpanFunction>;
-  let tracerProvider: TestTracerProvider;
 
   beforeEach(() => {
-    tracerProvider = new TestTracerProvider();
-    tracerProvider.register();
     createSpan = createSpanFunction({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
   });
 
   afterEach(() => {
-    tracerProvider.disable();
+    sinon.restore();
   });
 
   it("returns a created span with the right metadata", () => {
-    const testSpan = tracerProvider.getTracer("test").startSpan("testing");
+    const { testSpan, startSpanStub, setAttributeSpy } = setupTracer();
 
     const someContext = setSpan(otContext.active(), testSpan);
 
-    const { span, updatedOptions } = <{ span: TestSpan; updatedOptions: any }>(
-      createSpan("testMethod", {
-        tracingOptions: ({
-          // validate that we dumbly just copy any fields (this makes future upgrades easier)
-          someOtherField: "someOtherFieldValue",
-          tracingContext: someContext,
-          spanOptions: {
-            kind: SpanKind.SERVER
-          }
-        } as OperationTracingOptions) as any
-      })
-    );
-    assert.strictEqual(span.name, "Azure.Test.testMethod");
-    assert.equal(updatedOptions.tracingOptions.spanOptions.kind, SpanKind.SERVER);
-    assert.equal(span.attributes["az.namespace"], "Microsoft.Test");
+    const { span, updatedOptions } = createSpan("testMethod", {
+      tracingOptions: ({
+        // validate that we dumbly just copy any fields (this makes future upgrades easier)
+        someOtherField: "someOtherFieldValue",
+        tracingContext: someContext,
+        spanOptions: {
+          kind: SpanKind.SERVER
+        }
+      } as OperationTracingOptions) as any
+    });
+    assert.strictEqual(span, testSpan, "Should return mocked span");
+    assert.ok(startSpanStub.calledOnce);
+
+    const [name, options, context] = startSpanStub.firstCall.args;
+    assert.strictEqual(name, "Azure.Test.testMethod");
+    assert.equal(context, someContext, "Parent context should be passed");
+    assert.deepEqual(options, { kind: SpanKind.SERVER });
+    assert.ok(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.Test"));
 
     assert.deepEqual(updatedOptions.tracingOptions, {
       someOtherField: "someOtherFieldValue",
@@ -63,6 +66,8 @@ describe("createSpan", () => {
   });
 
   it("returns updated SpanOptions", () => {
+    setupTracer();
+
     const options: { tracingOptions?: OperationTracingOptions } = {};
     const { span, updatedOptions } = createSpan("testMethod", options);
     assert.ok(span);
@@ -84,6 +89,8 @@ describe("createSpan", () => {
   });
 
   it("preserves existing attributes", () => {
+    setTracer(new TestTracer());
+
     const options: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
@@ -112,6 +119,20 @@ describe("createSpan", () => {
   });
 
   it("namespace and packagePrefix can be empty (and thus ignored)", () => {
+    const tracer = new TestTracer();
+
+    const testSpan = new TestSpan(
+      tracer,
+      "testing",
+      { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
+      SpanKind.INTERNAL // this isn't used by anything in our test.
+    );
+
+    const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
+    const startSpanStub = sinon.stub(tracer, "startSpan");
+    startSpanStub.returns(testSpan);
+    setTracer(tracer);
+
     const cf = createSpanFunction({
       namespace: "",
       packagePrefix: ""
@@ -127,15 +148,17 @@ describe("createSpan", () => {
       } as OperationTracingOptions
     });
 
+    assert.ok(span);
+    assert.ok(startSpanStub.called);
+
+    const [name] = startSpanStub.firstCall.args;
+
     assert.equal(
-      (span as TestSpan).name,
+      name,
       "myVerbatimOperationName",
-      "Expected name to not change because there is no packagePrefix."
+      "operation name should be exactly as passed in (no prefix)"
     );
-    assert.notExists(
-      (span as TestSpan).attributes["az.namespace"],
-      "Expected az.namespace not to be set because there is no namespace"
-    );
+    assert.ok(!setAttributeSpy.called, "When the namespace is undefined it should not be set");
 
     assert.deepEqual(updatedOptions, {
       tracingOptions: {
@@ -150,6 +173,8 @@ describe("createSpan", () => {
   });
 
   it("createSpans, testing parent/child relationship", () => {
+    setTracer(new TestTracer());
+
     const createSpanFn = createSpanFunction({
       namespace: "Microsoft.Test",
       packagePrefix: "Azure.Test"
@@ -190,66 +215,21 @@ describe("createSpan", () => {
       childSpan.spanContext().spanId
     );
   });
-
-  it("returns a no-op tracer if AZURE_TRACING_DISABLED is set", function(this: Mocha.Context) {
-    if (typeof process === "undefined") {
-      this.skip();
-    }
-    process.env.AZURE_TRACING_DISABLED = "true";
-
-    const testSpan = tracerProvider.getTracer("test").startSpan("testing");
-
-    const someContext = setSpan(otContext.active(), testSpan);
-
-    const { span } = <{ span: TestSpan; updatedOptions: any }>createSpan("testMethod", {
-      tracingOptions: ({
-        // validate that we dumbly just copy any fields (this makes future upgrades easier)
-        someOtherField: "someOtherFieldValue",
-        tracingContext: someContext,
-        spanOptions: {
-          kind: SpanKind.SERVER
-        }
-      } as OperationTracingOptions) as any
-    });
-    assert.isFalse(span.isRecording());
-    delete process.env.AZURE_TRACING_DISABLED;
-  });
-
-  describe("IsTracingDisabled", () => {
-    beforeEach(function(this: Mocha.Context) {
-      if (typeof process === "undefined") {
-        this.skip();
-      }
-    });
-    it("is false when env var is blank or missing", () => {
-      process.env.AZURE_TRACING_DISABLED = "";
-      assert.isFalse(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
-      assert.isFalse(isTracingDisabled());
-    });
-
-    it("is false when env var is 'false'", () => {
-      process.env.AZURE_TRACING_DISABLED = "false";
-      assert.isFalse(isTracingDisabled());
-      process.env.AZURE_TRACING_DISABLED = "False";
-      assert.isFalse(isTracingDisabled());
-      process.env.AZURE_TRACING_DISABLED = "FALSE";
-      assert.isFalse(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
-    });
-
-    it("is false when env var is 0", () => {
-      process.env.AZURE_TRACING_DISABLED = "0";
-      assert.isFalse(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
-    });
-
-    it("is true otherwise", () => {
-      process.env.AZURE_TRACING_DISABLED = "true";
-      assert.isTrue(isTracingDisabled());
-      process.env.AZURE_TRACING_DISABLED = "1";
-      assert.isTrue(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
-    });
-  });
 });
+
+function setupTracer() {
+  const tracer = new TestTracer();
+  setTracer(tracer);
+
+  const testSpan = new TestSpan(
+    tracer,
+    "testing",
+    { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
+    SpanKind.INTERNAL // this isn't used by anything in our test.
+  );
+  const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
+  const startSpanStub = sinon.stub(tracer, "startSpan");
+  startSpanStub.returns(testSpan);
+
+  return { tracer, testSpan, startSpanStub, setAttributeSpy };
+}

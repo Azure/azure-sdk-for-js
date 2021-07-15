@@ -6,7 +6,8 @@ import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { setTracer } from "@azure/test-utils";
+import { setTracer } from "@azure/core-tracing";
+import { TestTracer } from "@azure/test-utils";
 import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
@@ -158,7 +159,8 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    const tracer = setTracer();
+    const tracer = new TestTracer();
+    setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
 
     const pageIter = changeFeedClient.listChanges({

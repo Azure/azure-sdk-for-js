@@ -4,13 +4,12 @@
 
 ### Features Added
 
-- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
-
 ### Breaking Changes
 
 ### Key Bugs Fixed
 
 ### Fixed
+
 
 ## 2.0.0 (2021-06-30)
 

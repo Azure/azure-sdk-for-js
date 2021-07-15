@@ -7,6 +7,7 @@ import {
   Context as OTContext,
   getSpanContext,
   getTracer,
+  NoOpSpan,
   setSpanContext,
   SpanOptions,
   SpanStatusCode
@@ -309,7 +310,7 @@ describe("Tracing tests", () => {
     };
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = tracer.startSpan("test").spanContext();
+      const fakeParentSpanContext = new NoOpSpan().spanContext();
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
@@ -322,8 +323,7 @@ describe("Tracing tests", () => {
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
       getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
 
-      const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.ServiceBus.process")
-        ?.attributes;
+      const attributes = tracer.getRootSpans()[0].attributes;
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.ServiceBus",

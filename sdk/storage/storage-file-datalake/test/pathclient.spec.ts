@@ -3,7 +3,8 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { setTracer } from "@azure/core-tracing";
+import { SpanGraph, TestTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
@@ -149,7 +150,8 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    const tracer = setTracer();
+    const tracer = new TestTracer();
+    setTracer(tracer);
 
     const rootSpan = tracer.startSpan("root");
 

@@ -5,8 +5,7 @@ import {
   getTraceParentHeader,
   OperationTracingOptions,
   createSpanFunction,
-  SpanStatusCode,
-  isSpanContextValid
+  SpanStatusCode
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
@@ -80,7 +79,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         // set headers
         const spanContext = span.spanContext();
         const traceParentHeader = getTraceParentHeader(spanContext);
-        if (traceParentHeader && isSpanContextValid(spanContext)) {
+        if (traceParentHeader) {
           request.headers.set("traceparent", traceParentHeader);
           const traceState = spanContext.traceState && spanContext.traceState.serialize();
           // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent

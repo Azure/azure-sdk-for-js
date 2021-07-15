@@ -11,7 +11,7 @@ import {
   context as otContext,
   getSpanContext,
   Tracer
-} from "../../src/interfaces";
+} from "../src/interfaces";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -43,17 +43,16 @@ export interface SpanGraph {
  * A mock tracer useful for testing
  */
 export class TestTracer implements Tracer {
-  constructor(public name?: string, public version?: string) {}
   private traceIdCounter = 0;
   private getNextTraceId(): string {
     this.traceIdCounter++;
-    return this.traceIdCounter.toString().padStart(32, "0");
+    return String(this.traceIdCounter);
   }
 
   private spanIdCounter = 0;
   private getNextSpanId(): string {
     this.spanIdCounter++;
-    return this.spanIdCounter.toString().padStart(16, "0");
+    return String(this.spanIdCounter);
   }
 
   private rootSpans: TestSpan[] = [];
@@ -156,13 +155,5 @@ export class TestTracer implements Tracer {
       this.rootSpans.push(span);
     }
     return span;
-  }
-
-  /**
-   * Added to support testing. We do not support `startActiveSpan` in general because it uses async_hooks
-   * which is experimental. Only added to support TestTracerProvider compatibility with OTel Tracers.
-   */
-  startActiveSpan(): never {
-    throw new Error("Method not implemented.");
   }
 }

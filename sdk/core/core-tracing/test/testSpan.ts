@@ -11,7 +11,7 @@ import {
   SpanStatusCode,
   SpanAttributeValue,
   Span
-} from "../../src/interfaces";
+} from "../src/interfaces";
 
 /**
  * A mock span useful for testing.
