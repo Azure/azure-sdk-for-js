@@ -2,20 +2,31 @@
 
 An Azure Table storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-tables) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-tables) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-tables/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-tables/samples)
+Key Links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-tables) 
+- [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-tables) 
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-tables/) 
+- [Samples](#)
 
 ## Getting started
+
+### Currently supported environments
+- [LTS versions of Node.js](https://nodejs.org/en/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+
+**Prerequisites**
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package 
+- A[Storage account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
 
 ### Install the package
 
 Install the Azure Event Hubs Checkpoint Store Tables library using npm
 
 `npm install @azure/eventhubs-checkpointstore-tables`
-
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
-[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
-
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Configure Typescript
 
@@ -45,16 +56,16 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  /*the link to tablecheckpointstore class docs is not created yet
+  
 
   A [TableCheckpointStore](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
 
-*/
+
 ## Examples
 
-- [Create a CheckpointStore using Azure Table Storage](#create-a-checkpointstore-using-azure-blob-storage)
-- [Checkpoint events using Azure Blob storage](#checkpoint-events-using-azure-blob-storage)
+- [Create a CheckpointStore using Azure Table Storage](#create-a-checkpointstore-using-azure-table-storage)
+- [Checkpoint events using Azure Table storage](#checkpoint-events-using-azure-table-storage)
 
 ### Create a `CheckpointStore` using Azure Table Storage
 
@@ -83,7 +94,7 @@ In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](h
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");
-const { ContainerClient } = require("@azure/storage-blob");
+const { TableClient } = require("@azure/data-tables");
 const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-tables");
 
 const storageAccountConnectionString = "storage-account-connection-string";
@@ -198,7 +209,7 @@ export DEBUG=azure:eventhubs-checkpointstore-blob:info
 
 ## Next steps
 
-/*documentation for this is yet to be written
+
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 directory for detailed example.
@@ -210,4 +221,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-blob%2FREADME.png)
 
-*/
