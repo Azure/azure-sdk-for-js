@@ -64,10 +64,11 @@ async function runRouter(request: PipelineRequest): Promise<LroResponse<Response
   };
 }
 
-export function mockedPoller(
+export function mockedPoller<TState>(
   method: HttpMethods,
   url: string,
-  lroResourceLocationConfig?: LroResourceLocationConfig
+  lroResourceLocationConfig?: LroResourceLocationConfig,
+  processResult?: (result: unknown, state: TState) => Response
 ): PollerLike<PollOperationState<Response>, Response> {
   const lro = new CoreRestPipelineLro(runRouter, {
     method: method,
@@ -77,9 +78,10 @@ export function mockedPoller(
     timeout: 0,
     withCredentials: false
   });
-  return new LroEngine(lro, {
+  return new LroEngine<Response, TState>(lro, {
     intervalInMs: 0,
-    lroResourceLocationConfig: lroResourceLocationConfig
+    lroResourceLocationConfig: lroResourceLocationConfig,
+    processResult: processResult
   });
 }
 

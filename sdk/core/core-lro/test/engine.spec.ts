@@ -553,4 +553,29 @@ describe("Lro Engine", function() {
       assert.ok(state.initialRawResponse);
     });
   });
+
+  describe("mutate state", () => {
+    it("The state can be mutated in onProgress", async () => {
+      const poller = mockedPoller("POST", "/error/postasync/retry/nopayload");
+      poller.onProgress((currentState, lastResponse) => {
+        assert.ok(lastResponse);
+        assert.ok(lastResponse?.statusCode);
+        // Abruptly stop the LRO after the first poll request without getting a result
+        currentState.isCompleted = true;
+      });
+      const result = await poller.pollUntilDone();
+      // there is no result because the poller did not run to completion.
+      assert.isUndefined(result);
+    });
+  });
+
+  describe("process result", () => {
+    it.only("The final result can be processed using processResult", async () => {
+      const poller = await mockedPoller("POST", "/postasync/noretry/succeeded", undefined, (result: unknown) => {
+        return { ...(result as any), id: "200" }; // it was 100
+      });
+      const result = await poller.pollUntilDone();
+      assert.deepInclude(result, { id: "200", name: "foo" });
+    });
+  });
 });
