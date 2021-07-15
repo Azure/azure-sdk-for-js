@@ -24,7 +24,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the package
 
-Install the Azure Event Hubs Checkpoint Store Tables library using npm
+Install the Azure Event Hubs Checkpoint Store Tables library using npm.
 
 `npm install @azure/eventhubs-checkpointstore-tables`
 
@@ -221,3 +221,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-blob%2FREADME.png)
 
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> 0be1a3617a11cd345bd9e17d957535293864897d
