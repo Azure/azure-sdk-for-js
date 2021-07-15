@@ -17,10 +17,10 @@ Key Links:
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 
-**Prerequisites**
+### Prerequisites
 - An [Azure subscription](https://azure.microsoft.com/free/)
 - An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package 
-- A[Storage account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
+- A [Storage account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
 
 ### Install the package
 
@@ -221,7 +221,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-blob%2FREADME.png)
 
-<<<<<<< HEAD
-=======
-*/
->>>>>>> 0be1a3617a11cd345bd9e17d957535293864897d
