@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
+import qs from "qs";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { createHttpHeaders, PipelineRequestOptions, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
@@ -26,7 +28,7 @@ function expiresInParser(requestBody: any): number {
   }
 }
 
-function prepareRequestOptions(resource?: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource?: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": imdsApiVersion
@@ -36,14 +38,15 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
     queryParameters.client_id = clientId;
   }
 
+  const query = qs.stringify(queryParameters);
+
   return {
-    url: imdsEndpoint,
+    url: `${imdsEndpoint}?${query}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: true
-    }
+      Metadata: "true"
+    })
   };
 }
 
@@ -65,22 +68,21 @@ export const imdsMsi: MSI = {
     if (request.headers) {
       // Remove the Metadata header to invoke a request error from
       // IMDS endpoint
-      delete request.headers.Metadata;
+      request.headers.delete("Metadata");
     }
 
-    request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
-    request.tracingContext = options.tracingOptions && options.tracingOptions.tracingContext;
+    request.tracingOptions = {
+      spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
+      tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
+    }
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
-      const webResource = identityClient.createWebResource(request);
+      const webResource = createPipelineRequest(request);
 
-      // In Kubernetes pods, node-fetch (used by core-http) takes longer than 2 seconds to begin sending the network request,
-      // So smaller timeouts will cause this credential to be immediately aborted.
-      // This won't be a problem once we move Identity to core-rest-pipeline.
-      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 3000;
+      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 300;
 
       try {
         logger.info(`Pinging IMDS endpoint`);

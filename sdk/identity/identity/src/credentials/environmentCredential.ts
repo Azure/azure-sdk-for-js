@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";

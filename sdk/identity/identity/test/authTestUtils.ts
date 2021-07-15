@@ -2,16 +2,8 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import * as sinon from "sinon";
 import { ClientCertificateCredentialOptions } from "../src";
-import {
-  HttpHeaders,
-  HttpOperationResponse,
-  WebResource,
-  HttpClient,
-  RestError
-} from "@azure/core-http";
-import * as coreHttp from "@azure/core-http";
+import { RestError, HttpHeaders, HttpClient, PipelineRequestOptions, createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 export interface MockAuthResponse {
   status?: number;
@@ -32,7 +24,7 @@ export class MockAuthHttpClient implements HttpClient {
   private mockTimeout: boolean;
 
   public tokenCredentialOptions: ClientCertificateCredentialOptions;
-  public requests: WebResource[] = [];
+  public requests: PipelineRequest[] = [];
 
   constructor(options?: MockAuthHttpClientOptions) {
     options = options || {};
@@ -46,7 +38,7 @@ export class MockAuthHttpClient implements HttpClient {
       this.authResponses = [
         options.authResponse || {
           status: 200,
-          headers: new HttpHeaders(),
+          headers: createHttpHeaders(),
           parsedBody: {
             access_token: "token",
             expires_in: 120
@@ -66,11 +58,11 @@ export class MockAuthHttpClient implements HttpClient {
     };
   }
 
-  async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
+  async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
     this.requests.push(httpRequest);
 
     if (this.mockTimeout) {
-      throw new RestError("Request timed out", RestError.REQUEST_SEND_ERROR);
+      throw new RestError("Request timed out", { code: RestError.REQUEST_SEND_ERROR });
     }
 
     if (this.requests.length > this.authResponses.length) {
@@ -86,7 +78,7 @@ export class MockAuthHttpClient implements HttpClient {
 
     const response = {
       request: httpRequest,
-      headers: authResponse.headers || new HttpHeaders(),
+      headers: authResponse.headers || createHttpHeaders(),
       status: authResponse.status || 200,
       parsedBody: authResponse.parsedBody,
       bodyAsText: authResponse.bodyAsText
@@ -98,7 +90,7 @@ export class MockAuthHttpClient implements HttpClient {
 }
 
 export function assertClientCredentials(
-  authRequest: WebResource,
+  authRequest: PipelineRequestOptions,
   expectedTenantId: string,
   expectedClientId: string,
   expectedClientSecret: string
@@ -113,13 +105,13 @@ export function assertClientCredentials(
     );
 
     assert.strictEqual(
-      authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
+      (authRequest.body as string).indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
     assert.strictEqual(
-      authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
+      (authRequest.body as string).indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
       "Request body doesn't contain expected clientSecret"
     );
@@ -127,7 +119,7 @@ export function assertClientCredentials(
 }
 
 export function assertClientUsernamePassword(
-  authRequest: WebResource,
+  authRequest: PipelineRequest,
   expectedTenantId: string,
   expectedClientId: string,
   expectedUsername: string,
@@ -142,17 +134,17 @@ export function assertClientUsernamePassword(
       "Request body doesn't contain expected tenantId"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
+      (authRequest.body as string).indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`username=${expectedUsername}`) > -1,
+      (authRequest.body as string).indexOf(`username=${expectedUsername}`) > -1,
       true,
       "Request body doesn't contain expected username"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`password=${expectedPassword}`) > -1,
+      (authRequest.body as string).indexOf(`password=${expectedPassword}`) > -1,
       true,
       "Request body doesn't contain expected password"
     );
@@ -234,27 +226,4 @@ export class DelayController {
     }
     return this._waitPromise;
   }
-}
-
-const sandbox = sinon.createSandbox();
-
-export function setDelayInstantlyCompletes(): void {
-  sandbox.replace(coreHttp, "delay", (): any => Promise.resolve());
-}
-
-export function createDelayController(): DelayController {
-  const controller = new DelayController();
-  sandbox.restore();
-  sandbox.replace(
-    coreHttp,
-    "delay",
-    (t: any): Promise<any> => {
-      return controller.delayRequested(t);
-    }
-  );
-  return controller;
-}
-
-export function restoreDelayBehavior(): void {
-  sandbox.restore();
 }

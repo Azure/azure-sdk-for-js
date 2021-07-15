@@ -5,7 +5,7 @@ import assert from "assert";
 import { UsernamePasswordCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
 
-describe("UsernamePasswordCredential", function() {
+describe("UsernamePasswordCredential", function () {
   it("sends an authorization request with the given username and password", async () => {
     const mockHttpClient = new MockAuthHttpClient();
 
@@ -29,17 +29,17 @@ describe("UsernamePasswordCredential", function() {
         "Request body doesn't contain expected tenantId"
       );
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=client`) > -1,
+        (authRequest.body as string).indexOf(`client_id=client`) > -1,
         true,
         "Request body doesn't contain expected clientId"
       );
       assert.strictEqual(
-        authRequest.body.indexOf(`username=user%40domain.com`) > -1,
+        (authRequest.body as string).indexOf(`username=user%40domain.com`) > -1,
         true,
         "Request body doesn't contain expected username"
       );
       assert.strictEqual(
-        authRequest.body.indexOf(`password=p4s%24w0rd`) > -1,
+        (authRequest.body as string).indexOf(`password=p4s%24w0rd`) > -1,
         true,
         "Request body doesn't contain expected username"
       );

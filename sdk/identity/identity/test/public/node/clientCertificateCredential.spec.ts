@@ -9,7 +9,7 @@ import { ClientCertificateCredential } from "../../../src";
 import { MockAuthHttpClient } from "../../authTestUtils";
 import { setTracer, TestTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
 
-describe("ClientCertificateCredential", function() {
+describe("ClientCertificateCredential", function () {
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -59,12 +59,12 @@ describe("ClientCertificateCredential", function() {
         "Request URL doesn't contain expected tenantId"
       );
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        (authRequest.body as string).indexOf(`client_id=${clientId}`) > -1,
         true,
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams = qs.parse(authRequest.body as string);
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
@@ -104,12 +104,12 @@ describe("ClientCertificateCredential", function() {
         "Request URL doesn't contain expected tenantId"
       );
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        (authRequest.body as string).indexOf(`client_id=${clientId}`) > -1,
         true,
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams = qs.parse(authRequest.body as string);
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
@@ -150,12 +150,12 @@ describe("ClientCertificateCredential", function() {
         "Request URL doesn't contain expected tenantId"
       );
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        (authRequest.body as string).indexOf(`client_id=${clientId}`) > -1,
         true,
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams = qs.parse(authRequest.body as string);
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);

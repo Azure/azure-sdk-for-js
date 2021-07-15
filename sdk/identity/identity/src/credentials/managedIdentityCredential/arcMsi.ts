@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import qs from "qs";
 import { createHttpHeaders, createPipelineRequest, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI } from "./models";
@@ -22,11 +23,11 @@ function prepareRequestOptions(resource?: string): PipelineRequestOptions {
     "api-version": azureArcAPIVersion
   };
 
-  const query = new URLSearchParams(queryParameters);
+  const query = qs.stringify(queryParameters);
 
   return {
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
-    url: `${process.env.IDENTITY_ENDPOINT!}?${query.toString()}`,
+    url: `${process.env.IDENTITY_ENDPOINT!}?${query}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",

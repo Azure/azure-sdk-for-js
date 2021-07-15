@@ -10,15 +10,16 @@ import {
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
-import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+import { createHttpHeaders, PipelineRequestOptions, RestError } from "@azure/core-rest-pipeline";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 
 interface AuthRequestDetails {
-  requests: WebResource[];
+  requests: PipelineRequestOptions[];
   token: AccessToken | null;
 }
 
-describe("ManagedIdentityCredential", function() {
+describe("ManagedIdentityCredential", function () {
   afterEach(() => {
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
@@ -27,7 +28,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
   });
 
-  it("sends an authorization request with a modified resource name", async function() {
+  it("sends an authorization request with a modified resource name", async function () {
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
       authResponse: [
         { status: 200 }, // Respond to IMDS isAvailable
@@ -43,11 +44,13 @@ describe("ManagedIdentityCredential", function() {
 
     const authRequest = authDetails.requests[0];
 
-    assert.ok(authRequest.query, "No query string parameters on request");
-    if (authRequest.query) {
+    const url = new URL(authRequest.url);
+    assert.ok(url.search, "No query string parameters on request");
+    if (url.search) {
       assert.equal(authRequest.method, "GET");
-      assert.equal(authRequest.query["client_id"], "client");
-      assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
+      assert.equal(url.searchParams.get("client_id"), "client");
+      assert.ok(url.searchParams.get("resource"));
+      assert.equal(decodeURIComponent(url.searchParams.get("resource")!), "https://service");
       assert.ok(
         authRequest.url.startsWith(imdsEndpoint),
         "URL does not start with expected host and path"
@@ -77,17 +80,19 @@ describe("ManagedIdentityCredential", function() {
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.requests[1];
 
-    assert.ok(authRequest.query, "No query string parameters on request");
-    if (authRequest.query) {
-      assert.equal(authRequest.query["client_id"], undefined);
-      assert.equal(decodeURIComponent(authRequest.query["resource"]), "someResource");
+    const url = new URL(authRequest.url);
+    assert.ok(url.search, "No query string parameters on request");
+    if (url.search) {
+      assert.equal(url.searchParams.get("client_id"), undefined);
+      assert.ok(url.searchParams.get("resource"));
+      assert.equal(decodeURIComponent(url.searchParams.get("resource")!), "someResource");
     }
   });
 
-  it("returns error when no MSI is available", async function() {
+  it("returns error when no MSI is available", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const imdsError: RestError = new RestError("Request Timeout", "REQUEST_SEND_ERROR", 408);
+    const imdsError: RestError = new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 });
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ error: imdsError }]
     });
@@ -101,7 +106,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function() {
+  it("an unexpected error bubbles all the way up", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -122,10 +127,10 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("returns expected error when the network was unreachable", async function() {
+  it("returns expected error when the network was unreachable", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const netError: RestError = new RestError("Request Timeout", "ENETUNREACH", 408);
+    const netError: RestError = new RestError("Request Timeout", { code: "ENETUNREACH", statusCode: 408 });
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ status: 200 }, { error: netError }]
     });
@@ -139,10 +144,10 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("returns expected error when the host was unreachable", async function() {
+  it("returns expected error when the host was unreachable", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const hostError: RestError = new RestError("Request Timeout", "EHOSTUNREACH", 408);
+    const hostError: RestError = new RestError("Request Timeout", { code: "EHOSTUNREACH", statusCode: 408 });
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ status: 200 }, { error: hostError }]
     });
@@ -157,19 +162,19 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("IMDS MSI retries also retries on 503s", async function() {
+  it("IMDS MSI retries also retries on 503s", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       // First response says the IMDS endpoint is available.
       authResponse: [
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
         // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
-        // { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        // { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
         { status: 200 },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
-        { status: 503, headers: new HttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
+        { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
         {
           status: 200,
           parsedBody: {
@@ -247,16 +252,18 @@ describe("ManagedIdentityCredential", function() {
     });
 
     const authRequest = authDetails.requests[0];
-    assert.ok(authRequest.query, "No query string parameters on request");
-    if (authRequest.query) {
+
+    const url = new URL(authRequest.url);
+    assert.ok(url.search, "No query string parameters on request");
+    if (url.search) {
       assert.equal(authRequest.method, "GET");
-      assert.equal(authRequest.query["clientid"], "client");
-      assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
+      assert.equal(url.searchParams.get("clientid"), "client");
+      assert.equal(decodeURIComponent(url.searchParams.get("resource")!), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
         "URL does not start with expected host and path"
       );
-      assert.equal(authRequest.headers.get("secret"), process.env.MSI_SECRET);
+      assert.equal(authRequest.headers!.get("secret"), process.env.MSI_SECRET);
       assert.ok(
         authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
         "URL does not have expected version"
@@ -278,7 +285,7 @@ describe("ManagedIdentityCredential", function() {
 
     assert.ok(authRequest.body !== undefined, "No body on request");
     if (authRequest.body) {
-      const bodyParams = qs.parse(authRequest.body);
+      const bodyParams = qs.parse(authRequest.body as string);
       assert.equal(authRequest.method, "POST");
       assert.equal(bodyParams.client_id, "client");
       assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
@@ -286,7 +293,7 @@ describe("ManagedIdentityCredential", function() {
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
         "URL does not start with expected host and path"
       );
-      assert.equal(authRequest.headers.get("secret"), undefined);
+      assert.equal(authRequest.headers!.get("secret"), undefined);
     }
   });
 
@@ -309,7 +316,7 @@ describe("ManagedIdentityCredential", function() {
       authResponse: [
         {
           status: 401,
-          headers: new HttpHeaders({
+          headers: createHttpHeaders({
             "www-authenticate": `we don't pay much attention about this format=${filePath}`
           })
         },
@@ -325,10 +332,12 @@ describe("ManagedIdentityCredential", function() {
 
     // File request
     const validationRequest = authDetails.requests[0];
-    assert.ok(validationRequest.query, "No query string parameters on request");
+
+    let url = new URL(validationRequest.url);
+    assert.ok(url.search, "No query string parameters on request");
 
     assert.equal(validationRequest.method, "GET");
-    assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
+    assert.equal(decodeURIComponent(url.searchParams.get("resource")!), "https://service");
 
     assert.ok(
       validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
@@ -337,17 +346,18 @@ describe("ManagedIdentityCredential", function() {
 
     // Authorization request, which comes after getting the file path, for now at least.
     const authRequest = authDetails.requests[1];
-    assert.ok(authRequest.query, "No query string parameters on request");
+    url = new URL(authRequest.url);
+    assert.ok(url.search, "No query string parameters on request");
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+    assert.equal(decodeURIComponent(url.searchParams.get("resource")!), "https://service");
 
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"
     );
 
-    assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
+    assert.equal(authRequest.headers!.get("Authorization"), `Basic ${key}`);
     if (authDetails.token) {
       // We use Date.now underneath.
       assert.equal(
@@ -384,17 +394,18 @@ describe("ManagedIdentityCredential", function() {
 
     // Authorization request, which comes after validating again, for now at least.
     const authRequest = authDetails.requests[0];
-    assert.ok(authRequest.query, "No query string parameters on request");
+    const url = new URL(authRequest.url);
+    assert.ok(url.search, "No query string parameters on request");
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(authRequest.query!["client_id"], "client");
-    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+    assert.equal(url.searchParams.get("client_id"), "client");
+    assert.equal(decodeURIComponent(url.searchParams.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"
     );
 
-    assert.equal(authRequest.headers.get("Secret"), process.env.IDENTITY_HEADER);
+    assert.equal(authRequest.headers!.get("Secret"), process.env.IDENTITY_HEADER);
 
     if (authDetails.token) {
       // We use Date.now underneath.

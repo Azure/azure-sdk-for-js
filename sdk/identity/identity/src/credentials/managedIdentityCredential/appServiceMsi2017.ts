@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import qs from "qs";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 
@@ -27,10 +28,10 @@ function prepareRequestOptions(resource: string, clientId?: string): PipelineReq
     queryParameters.clientid = clientId;
   }
 
-  const query = new URLSearchParams(queryParameters);
+  const query = qs.stringify(queryParameters);
 
   return {
-    url: `${process.env.MSI_ENDPOINT!}?${query.toString()}`,
+    url: `${process.env.MSI_ENDPOINT!}?${query}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",

@@ -4,11 +4,11 @@
 
 ```ts
 
-import { AccessToken } from '@azure/core-http';
+import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
-import { GetTokenOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { GetTokenOptions } from '@azure/core-auth';
+import { ServiceClientOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -173,7 +173,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 export { TokenCredential }
 
 // @public
-export interface TokenCredentialOptions extends PipelineOptions {
+export interface TokenCredentialOptions extends ServiceClientOptions {
     authorityHost?: string;
 }
 

@@ -7,7 +7,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { MockAuthHttpClient, assertClientCredentials } from "../../authTestUtils";
 import { setSpan, context as otContext } from "@azure/core-tracing";
 
-describe("AuthorizationCodeCredential", function() {
+describe("AuthorizationCodeCredential", function () {
   it("sends an authorization request with the given credentials and authorization code", async () => {
     const mockHttpClient = new MockAuthHttpClient();
     const redirectUri = "http://localhost:8080/authresponse";
@@ -27,12 +27,12 @@ describe("AuthorizationCodeCredential", function() {
     assertClientCredentials(authRequest, "tenant", "client", "secret");
 
     assert.strictEqual(
-      authRequest.body.indexOf(`code=authCode`) > -1,
+      (authRequest.body as string).indexOf(`code=authCode`) > -1,
       true,
       "Request body doesn't contain expected authorization code"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`redirect_uri=${encodeURIComponent(redirectUri)}`) > -1,
+      (authRequest.body as string).indexOf(`redirect_uri=${encodeURIComponent(redirectUri)}`) > -1,
       true,
       "Request body doesn't contain expected redirect URI"
     );
@@ -56,19 +56,19 @@ describe("AuthorizationCodeCredential", function() {
 
     const authRequest = mockHttpClient.requests[0];
     assert.strictEqual(
-      authRequest.body.indexOf(`client_id=client`) > -1,
+      (authRequest.body as string).indexOf(`client_id=client`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
     assert.strictEqual(
-      authRequest.body.indexOf(`client_secret=`),
+      (authRequest.body as string).indexOf(`client_secret=`),
       -1,
       "Request body contains unexpected client_secret"
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function() {
+  it("traces the authorization code request when tracing is enabled", async function () {
     const tracer = new TestTracer();
     setTracer(tracer);
 
