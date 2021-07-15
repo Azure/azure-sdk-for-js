@@ -58,7 +58,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
   
 
-  A [TableCheckpointStore](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
+  A [TableCheckpointStore](#)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
 
 
@@ -211,7 +211,7 @@ export DEBUG=azure:eventhubs-checkpointstore-blob:info
 
 
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+Please take a look at the [samples](#)
 directory for detailed example.
 
 
