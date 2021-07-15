@@ -16,17 +16,17 @@ import {
 /**
  * The result of the extract summary operation on a single document.
  */
-export type ExtractSummarySentencesResult = ExtractSummarySentencesSuccessResult | ExtractSummarySentencesErrorResult;
+export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
 
 /**
  * The result of the extract summary operation on a single document,
  * containing a collection of the summary identified in that document.
  */
-export interface ExtractSummarySentencesSuccessResult extends TextAnalyticsSuccessResult {
+export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
   /**
    * A list of sentences composing a summary of the input document.
    */
-  summarySentences: SummarySentence[];
+  sentences: SummarySentence[];
 }
 
 /**
@@ -36,7 +36,7 @@ export interface SummarySentence {
   /** The extracted sentence text. */
   text: string;
   /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
-  importanceScore: number;
+  rankScore: number;
   /** The sentence offset from the start of the document, based on the value of the stringIndexType parameter. */
   offset: number;
   /** The length of the sentence. */
@@ -46,20 +46,19 @@ export interface SummarySentence {
 /**
  * An error result from the extract summary operation on a single document.
  */
-export type ExtractSummarySentencesErrorResult = TextAnalyticsErrorResult;
+export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
 export function makeExtractSummaryResult(
   result: ExtractedDocumentSummary
-): ExtractSummarySentencesSuccessResult {
+): ExtractSummarySuccessResult {
   const { id, warnings, statistics, sentences } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    summarySentences: sentences.map((sentence: GeneratedSummarySentences) => ({
-      ...sentence,
-      importanceScore: sentence.rankScore
+    sentences: sentences.map((sentence: GeneratedSummarySentences) => ({
+      ...sentence
     }))
   };
 }
@@ -70,6 +69,6 @@ export function makeExtractSummaryResult(
 export function makeExtractSummaryErrorResult(
   id: string,
   error: TextAnalyticsError
-): ExtractSummarySentencesErrorResult {
+): ExtractSummaryErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

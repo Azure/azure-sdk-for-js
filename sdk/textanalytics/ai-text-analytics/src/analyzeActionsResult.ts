@@ -11,7 +11,7 @@ import {
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
-  ExtractSummarySentencesResultArray as ExtractSummarySentencesResultArray,
+  ExtractSummaryResultArray,
   makeExtractSummaryResultArray
 } from "./extractSummaryResultArray";
 import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
@@ -56,7 +56,7 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each extract summary action.
    */
-  extractSummarySentencesResults: ExtractSummarySentencesActionResult[];
+  extractSummaryResults: ExtractSummaryActionResult[];
 }
 
 /**
@@ -202,24 +202,24 @@ export type AnalyzeSentimentActionResult =
 /**
  * The error of an extract summary action.
  */
-export type ExtractSummarySentencesActionErrorResult = TextAnalyticsActionErrorResult;
+export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
  * The results of a succeeded extract summary action.
  */
-export interface ExtractSummarySentencesActionSuccessResult extends TextAnalyticsActionSuccessState {
+export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each extract summary action.
    */
-  results: ExtractSummarySentencesResultArray;
+  results: ExtractSummaryResultArray;
 }
 
 /**
  * The result of an extract summary action.
  */
-export type ExtractSummarySentencesActionResult =
-  | ExtractSummarySentencesActionSuccessResult
-  | ExtractSummarySentencesActionErrorResult;
+export type ExtractSummaryActionResult =
+  | ExtractSummaryActionSuccessResult
+  | ExtractSummaryActionErrorResult;
 
 /**
  * The results of an analyze Actions operation represented as a paged iterator that
@@ -505,7 +505,7 @@ export function createAnalyzeActionsResult(
       response.tasks.sentimentAnalysisTasks ?? [],
       analyzeSentimentActionErrors
     ),
-    extractSummarySentencesResults: makeActionResult(
+    extractSummaryResults: makeActionResult(
       documents,
       makeExtractSummaryResultArray,
       response.tasks.extractiveSummarizationTasks ?? [],

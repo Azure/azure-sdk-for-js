@@ -936,7 +936,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              extractSummarySentencesActions: [{ modelVersion: "latest", sortBy: "Importance", maxSummarySentenceCount: 3 }]
+              extractSummaryActions: [{ modelVersion: "latest", orderBy: "Importance", maxSentenceCount: 3 }]
             },
             {
               updateIntervalInMs: pollingInterval
@@ -944,17 +944,17 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const extractSummaryResult = page.extractSummarySentencesResults;
+            const extractSummaryResult = page.extractSummaryResults;
             if (extractSummaryResult.length === 1) {
               const action = extractSummaryResult[0];
               if (!action.error) {
                 for (const result of action.results) {
                   if (!result.error) {
                     assert.ok(result.id);
-                    assert.ok(result.summarySentences);
-                    for (const sentence of result.summarySentences) {
+                    assert.ok(result.sentences);
+                    for (const sentence of result.sentences) {
                       assert.ok(sentence.text);
-                      assert.ok(sentence.importanceScore);
+                      assert.ok(sentence.rankScore);
                       assert.ok(sentence.offset);
                       assert.ok(sentence.length);
                     }

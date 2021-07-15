@@ -56,7 +56,6 @@ import {
   setCategoriesFilter,
   setOpinionMining,
   setSentenceCount,
-  setSortBy,
   setStrEncodingParam,
   setStrEncodingParamValue,
   StringIndexType
@@ -305,14 +304,9 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 export type KnownSummarySentencesSortBy = "Offset" | "Importance";
 
 /**
- * A type representing how to sort sentences for the summarization extraction action.
- */
-export type SummarySentencesSortBy = string;
-
-/**
  * Options for an extract summary action.
  */
-export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
+export interface ExtractSummaryAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -326,13 +320,13 @@ export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
    */
   disableServiceLogs?: boolean;
   /**
-   * Specifies the number of sentences to return. The default number of sentences is 3.
+   * Specifies the number of summary sentences to return. The default number of sentences is 3.
    */
-  maxSummarySentenceCount?: number;
+  maxSentenceCount?: number;
   /**
    * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
    */
-  sortBy: SummarySentencesSortBy;
+  orderBy: string;
 }
 
 /**
@@ -362,7 +356,7 @@ export interface TextAnalyticsActions {
   /**
    * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
    */
-  extractSummarySentencesActions?: ExtractSummarySentencesAction[];
+  extractSummaryActions?: ExtractSummaryAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1067,7 +1061,7 @@ function validateActions(actions: TextAnalyticsActions): void {
   validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
   validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
   validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
-  validateActionType(actions.extractSummarySentencesActions, `extractSummary`);
+  validateActionType(actions.extractSummaryActions, `extractSummary`);
 }
 
 /**
@@ -1088,8 +1082,8 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
       compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
     ),
-    extractiveSummarizationTasks: actions.extractSummarySentencesActions?.map(
-      compose(setStrEncodingParam, compose(setSentenceCount, compose(setSortBy, addParamsToTask)))
+    extractiveSummarizationTasks: actions.extractSummaryActions?.map(
+      compose(setStrEncodingParam, compose(setSentenceCount, addParamsToTask))
     )
   };
 }

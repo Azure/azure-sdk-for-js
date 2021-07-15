@@ -36,7 +36,7 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
-    extractSummarySentencesResults: ExtractSummarySentencesActionResult[];
+    extractSummaryResults: ExtractSummaryActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -249,39 +249,39 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export interface ExtractSummarySentencesAction extends TextAnalyticsAction {
+export interface ExtractSummaryAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-    maxSummarySentenceCount?: number;
-    sortBy: SummarySentencesSortBy;
+    maxSentenceCount?: number;
+    orderBy: string;
     stringIndexType?: StringIndexType;
 }
 
 // @public
-export type ExtractSummarySentencesActionErrorResult = TextAnalyticsActionErrorResult;
+export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
 
 // @public
-export type ExtractSummarySentencesActionResult = ExtractSummarySentencesActionSuccessResult | ExtractSummarySentencesActionErrorResult;
+export type ExtractSummaryActionResult = ExtractSummaryActionSuccessResult | ExtractSummaryActionErrorResult;
 
 // @public
-export interface ExtractSummarySentencesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: ExtractSummarySentencesResultArray;
+export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ExtractSummaryResultArray;
 }
 
 // @public
-export type ExtractSummarySentencesErrorResult = TextAnalyticsErrorResult;
+export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type ExtractSummarySentencesResult = ExtractSummarySentencesSuccessResult | ExtractSummarySentencesErrorResult;
+export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
 
 // @public
-export interface ExtractSummarySentencesResultArray extends Array<ExtractSummarySentencesResult> {
+export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export interface ExtractSummarySentencesSuccessResult extends TextAnalyticsSuccessResult {
-    summarySentences: SummarySentence[];
+export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
+    sentences: SummarySentence[];
 }
 
 // @public
@@ -627,14 +627,11 @@ export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16Code
 
 // @public
 export interface SummarySentence {
-    importanceScore: number;
     length: number;
     offset: number;
+    rankScore: number;
     text: string;
 }
-
-// @public
-export type SummarySentencesSortBy = string;
 
 // @public
 export interface TargetConfidenceScoreLabel {
@@ -669,7 +666,7 @@ export interface TextAnalyticsActionErrorResult {
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
-    extractSummarySentencesActions?: ExtractSummarySentencesAction[];
+    extractSummaryActions?: ExtractSummaryAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];

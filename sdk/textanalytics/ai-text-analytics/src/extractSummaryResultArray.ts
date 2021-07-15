@@ -7,7 +7,7 @@ import {
   ExtractiveSummarizationResult
 } from "./generated/models";
 import {
-  ExtractSummarySentencesResult,
+  ExtractSummaryResult,
   makeExtractSummaryResult,
   makeExtractSummaryErrorResult
 } from "./extractSummaryResult";
@@ -17,7 +17,7 @@ import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } f
  * Array of `ExtractSummaryResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ExtractSummarySentencesResultArray extends Array<ExtractSummarySentencesResult> {
+export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -37,7 +37,7 @@ export interface ExtractSummarySentencesResultArray extends Array<ExtractSummary
 export function makeExtractSummaryResultArray(
   input: TextDocumentInput[],
   response: ExtractiveSummarizationResult
-): ExtractSummarySentencesResultArray {
+): ExtractSummaryResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,

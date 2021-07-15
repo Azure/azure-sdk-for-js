@@ -33,8 +33,7 @@ export {
   StringIndexType,
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
-  ExtractSummarySentencesAction,
-  SummarySentencesSortBy,
+  ExtractSummaryAction,
   KnownSummarySentencesSortBy
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
@@ -75,12 +74,12 @@ export {
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
 export {
-  ExtractSummarySentencesResult,
-  ExtractSummarySentencesErrorResult,
-  ExtractSummarySentencesSuccessResult,
+  ExtractSummaryResult,
+  ExtractSummaryErrorResult,
+  ExtractSummarySuccessResult,
   SummarySentence
 } from "./extractSummaryResult";
-export { ExtractSummarySentencesResultArray } from "./extractSummaryResultArray";
+export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
@@ -121,9 +120,9 @@ export {
   AnalyzeSentimentActionErrorResult,
   AnalyzeSentimentActionResult,
   AnalyzeSentimentActionSuccessResult,
-  ExtractSummarySentencesActionResult,
-  ExtractSummarySentencesActionSuccessResult,
-  ExtractSummarySentencesActionErrorResult
+  ExtractSummaryActionResult,
+  ExtractSummaryActionSuccessResult,
+  ExtractSummaryActionErrorResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,
