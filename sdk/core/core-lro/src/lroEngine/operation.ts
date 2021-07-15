@@ -105,7 +105,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       lastResponse = currentState;
     }
     logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
-    options?.fireProgress?.(state, lastResponse?.rawResponse );
+    options?.fireProgress?.(state, lastResponse?.rawResponse);
     return this;
   }
 

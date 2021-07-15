@@ -397,7 +397,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
-  public onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress {
+  public onProgress(
+    callback: (state: TState, lastResponse?: RawResponse) => void
+  ): CancelOnProgress {
     this.pollProgressCallbacks.push(callback);
     return (): void => {
       this.pollProgressCallbacks = this.pollProgressCallbacks.filter((c) => c !== callback);

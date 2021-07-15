@@ -570,10 +570,16 @@ describe("Lro Engine", function() {
   });
 
   describe("process result", () => {
-    it.only("The final result can be processed using processResult", async () => {
-      const poller = await mockedPoller("POST", "/postasync/noretry/succeeded", undefined, (result: unknown) => {
-        return { ...(result as any), id: "200" }; // it was 100
-      });
+    it("The final result can be processed using processResult", async () => {
+      const poller = await mockedPoller(
+        "POST",
+        "/postasync/noretry/succeeded",
+        undefined,
+        (result: unknown) => {
+          assert.equal((result as any).id, "100");
+          return { ...(result as any), id: "200" };
+        }
+      );
       const result = await poller.pollUntilDone();
       assert.deepInclude(result, { id: "200", name: "foo" });
     });
