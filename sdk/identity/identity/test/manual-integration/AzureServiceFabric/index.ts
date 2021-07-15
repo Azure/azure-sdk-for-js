@@ -13,7 +13,12 @@ async function main(): Promise<void> {
   const url = process.env.AZURE_IDENTITY_TEST_VAULT_URL!;
   console.log("About to connect to: ", url);
   const client = new SecretClient(url, credential);
-
+  const identityEndpoint = process.env.IDENTITY_ENDPOINT!;
+  const identityHeader = process.env.IDENTITY_HEADER;
+  const identityThumbprint = process.env.IDENTITY_SERVER_THUMBPRINT;
+  console.log("identity Endpoint =", identityEndpoint);
+  console.log("identity Header =", identityHeader);
+  console.log("identity Thumbprint =", identityThumbprint);
   console.log("About to set secret");
   await client.setSecret("secret-name-pod", "secret-value-pod");
 }
