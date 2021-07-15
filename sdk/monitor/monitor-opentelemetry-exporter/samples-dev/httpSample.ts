@@ -74,6 +74,10 @@ function handleRequest(request: any, response: any) {
     setTimeout(() => {
       span.end();
       response.end("Hello World!");
+      setTimeout(() => {
+        // terminate the process to stop CI pipeline from running forever
+        process.kill(process.pid, "SIGTERM");
+      }, 2000);
     }, 2000);
   });
 }
