@@ -71,7 +71,7 @@ export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
     }
   }
 
-  run(): void {
+  async runAsync() {
     for (const key in this.options) {
       this.compare(key as keyof OptionsTestOptions);
     }
