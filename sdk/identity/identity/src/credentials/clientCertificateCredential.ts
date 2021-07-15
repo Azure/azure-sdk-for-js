@@ -173,7 +173,7 @@ export class ClientCertificateCredential implements TokenCredential {
         tracingOptions: {
           spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
           tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
-        },
+        }
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

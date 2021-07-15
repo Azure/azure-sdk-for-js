@@ -38,7 +38,8 @@ export async function msiGenericGetToken(
     abortSignal: getTokenOptions.abortSignal,
     tracingOptions: {
       spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
-      tracingContext: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext,
+      tracingContext:
+        getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext
     },
     ...requestOptions
   });

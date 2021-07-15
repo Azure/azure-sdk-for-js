@@ -3,7 +3,15 @@
 
 import assert from "assert";
 import { ClientCertificateCredentialOptions } from "../src";
-import { RestError, HttpHeaders, HttpClient, PipelineRequestOptions, createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import {
+  RestError,
+  HttpHeaders,
+  HttpClient,
+  PipelineRequestOptions,
+  createHttpHeaders,
+  PipelineRequest,
+  PipelineResponse
+} from "@azure/core-rest-pipeline";
 
 export interface MockAuthResponse {
   status?: number;

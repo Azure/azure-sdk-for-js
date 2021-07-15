@@ -17,7 +17,7 @@ function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   };
 }
 
-describe("IdentityClient", function () {
+describe("IdentityClient", function() {
   let logMessages: string[];
   let oldLogger: typeof AzureLogger.log;
   let oldLogLevel: AzureLogLevel | undefined;
@@ -77,7 +77,7 @@ describe("IdentityClient", function () {
     );
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function () {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
     if (!isNode) {
       // eslint-disable-next-line no-invalid-this
       return this.skip();

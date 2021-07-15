@@ -19,7 +19,7 @@ interface AuthRequestDetails {
   token: AccessToken | null;
 }
 
-describe("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function() {
   afterEach(() => {
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
@@ -28,7 +28,7 @@ describe("ManagedIdentityCredential", function () {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
   });
 
-  it("sends an authorization request with a modified resource name", async function () {
+  it("sends an authorization request with a modified resource name", async function() {
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
       authResponse: [
         { status: 200 }, // Respond to IMDS isAvailable
@@ -89,10 +89,13 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
-  it("returns error when no MSI is available", async function () {
+  it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const imdsError: RestError = new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 });
+    const imdsError: RestError = new RestError("Request Timeout", {
+      code: "REQUEST_SEND_ERROR",
+      statusCode: 408
+    });
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ error: imdsError }]
     });
@@ -106,7 +109,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function () {
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -127,10 +130,13 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the network was unreachable", async function () {
+  it("returns expected error when the network was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const netError: RestError = new RestError("Request Timeout", { code: "ENETUNREACH", statusCode: 408 });
+    const netError: RestError = new RestError("Request Timeout", {
+      code: "ENETUNREACH",
+      statusCode: 408
+    });
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ status: 200 }, { error: netError }]
     });
@@ -144,10 +150,13 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the host was unreachable", async function () {
+  it("returns expected error when the host was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const hostError: RestError = new RestError("Request Timeout", { code: "EHOSTUNREACH", statusCode: 408 });
+    const hostError: RestError = new RestError("Request Timeout", {
+      code: "EHOSTUNREACH",
+      statusCode: 408
+    });
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ status: 200 }, { error: hostError }]
     });
@@ -162,7 +171,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("IMDS MSI retries also retries on 503s", async function () {
+  it("IMDS MSI retries also retries on 503s", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       // First response says the IMDS endpoint is available.
       authResponse: [

@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import { createHttpHeaders, createPipelineRequest, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
@@ -52,9 +56,7 @@ async function filePathRequest(
   identityClient: IdentityClient,
   requestPrepareOptions: PipelineRequestOptions
 ): Promise<string | undefined> {
-  const response = await identityClient.sendRequest(
-    createPipelineRequest(requestPrepareOptions)
-  );
+  const response = await identityClient.sendRequest(createPipelineRequest(requestPrepareOptions));
 
   if (response.status !== 401) {
     let message = "";

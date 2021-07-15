@@ -58,7 +58,7 @@ export interface AuthenticationRecord {
   username: string;
 }
 
-export class AuthenticationRequired extends CredentialUnavailable { }
+export class AuthenticationRequired extends CredentialUnavailable {}
 
 export class MsalClient {
   private persistenceEnabled: boolean;

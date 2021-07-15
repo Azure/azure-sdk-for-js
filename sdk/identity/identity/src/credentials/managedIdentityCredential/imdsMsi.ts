@@ -3,7 +3,12 @@
 
 import qs from "qs";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { createHttpHeaders, PipelineRequestOptions, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  PipelineRequestOptions,
+  createPipelineRequest,
+  RestError
+} from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
@@ -74,7 +79,7 @@ export const imdsMsi: MSI = {
     request.tracingOptions = {
       spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
       tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
-    }
+    };
 
     try {
       // Create a request with a timeout since we expect that

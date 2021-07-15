@@ -5,7 +5,7 @@ import assert from "assert";
 import { UsernamePasswordCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
 
-describe("UsernamePasswordCredential", function () {
+describe("UsernamePasswordCredential", function() {
   it("sends an authorization request with the given username and password", async () => {
     const mockHttpClient = new MockAuthHttpClient();
 

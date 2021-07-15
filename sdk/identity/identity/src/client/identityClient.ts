@@ -7,7 +7,11 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { createHttpHeaders, createPipelineRequest, PipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequest
+} from "@azure/core-rest-pipeline";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
@@ -62,10 +66,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   constructor(options?: TokenCredentialOptions) {
     const packageDetails = `azsdk-js-identity/2.0.0-beta.5`;
-    const userAgentPrefix =
-      options?.userAgentOptions?.userAgentPrefix
-        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
-        : `${packageDetails}`;
+    const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+      : `${packageDetails}`;
 
     const baseUri = getIdentityClientAuthorityHost(options);
     if (!baseUri.startsWith("https:")) {
@@ -98,7 +101,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         return Date.now() + responseBody.expires_in * 1000;
       });
 
-
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
       const parsedBody = JSON.parse(response.bodyAsText);
       const token = {
@@ -114,10 +116,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       );
       return token;
     } else {
-      const error = new AuthenticationError(
-        response.status,
-        response.bodyAsText
-      );
+      const error = new AuthenticationError(response.status, response.bodyAsText);
       logger.warning(
         `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`
       );
@@ -167,8 +166,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         }),
         tracingOptions: {
           spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-          tracingContext: updatedOptions?.tracingOptions?.tracingContext,
-        },
+          tracingContext: updatedOptions?.tracingOptions?.tracingContext
+        }
       });
 
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
