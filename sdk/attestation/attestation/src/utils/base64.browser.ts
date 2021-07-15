@@ -84,10 +84,6 @@ export function hexToByteArray(value: string): Uint8Array {
   return Uint8Array.from(byteArray);
 }
 
-/**
- * Converts a hex encoded string to its base64 equivalent.
- * @param value - Hex encoded value
- */
-export function hexToBase64(value: string): string {
-  return base64EncodeByteArray(hexToByteArray(value));
+export function byteArrayToHex(value: Uint8Array): string {
+  return value.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
 }

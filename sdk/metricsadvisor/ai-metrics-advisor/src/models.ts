@@ -258,14 +258,25 @@ export type MetricsAdvisorDataFeed = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * The administrators of this {@link MetricsAdvisorDataFeed }.
+   * Administrators have total control over a data feed, being allowed to update, delete, or pause them.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -275,14 +286,16 @@ export type MetricsAdvisorDataFeed = {
 
 /**
  * Represents an Azure Application Insights data source.
+ * User is required to specify azureCloud, applicationId and apiKey for Create.
+ * apiKey being a secret is not returned by service.
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  /** The Azure cloud that this Azure Application Insights in */
-  azureCloud?: string;
-  /** The application id of this Azure Application Insights */
-  applicationId?: string;
-  /** The API Key that can access this Azure Application Insights */
+  /** The Azure cloud that this Azure Application Insights in.*/
+  azureCloud: string;
+  /** The application id of this Azure Application Insights.*/
+  applicationId: string;
+  /** The API Key that can access this Azure Application Insights. Required by user for Create. Not returned by service */
   apiKey?: string;
   /** The statement to query this Azure Application Insights */
   query: string;
@@ -292,11 +305,13 @@ export type AzureApplicationInsightsDataFeedSource = {
 
 /**
  * Represents an Azure Blob Storage data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  /** Azure Blob connection string */
-  connectionString: string;
+  /** Azure Blob connection string. Required by user for Create. Not returned by service  */
+  connectionString?: string;
   /** Container */
   container: string;
   /** Blob Template */
@@ -307,10 +322,12 @@ export type AzureBlobDataFeedSource = {
 
 /**
  * Represents an Azure CosmosDB data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureCosmosDbDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  /** The connection string of this Azure CosmosDB */
+  /** The connection string of this Azure CosmosDB. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** The statement to query this collection */
   sqlQuery: string;
@@ -368,24 +385,28 @@ export type AzureDataExplorerAuthTypes =
   | AzureDataExplorerAuthServicePrincipalInKeyVault;
 /**
  * Represents an Azure Data Explorer data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureDataExplorerDataFeedSource = {
   /** Azure Data Explorer Data Source */
   dataSourceType: "AzureDataExplorer";
-  /** Database connection string */
-  connectionString: string;
+  /** Database connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Query script */
   query: string;
 } & AzureDataExplorerAuthTypes;
 
 /**
  * Represents Basic Authentication Type for Azure DataLake Storage Gen2 Source
+ * User is required to specify accountKey for Create with Basic type.
+ * accountKey being a secret is not returned by service.
  */
 export type DataLakeStorageGen2AuthBasic = {
   /** Authentication */
   authenticationType: "Basic";
-  /** Account key */
-  accountKey: string;
+  /** Account key. Required by user for Create. Not returned by service */
+  accountKey?: string;
 };
 
 /**
@@ -454,12 +475,14 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 
 /**
  * Represents an Azure Table data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureTableDataFeedSource = {
   /** Azure Table data Source type */
   dataSourceType: "AzureTable";
-  /** Azure Table connection string */
-  connectionString: string;
+  /** Azure Table connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Table name */
   table: string;
   /** Query script */
@@ -469,11 +492,19 @@ export type AzureTableDataFeedSource = {
 };
 
 /**
- * Represents Basic Authentication Type for Azure Log Analytics Source
+ * Represents Basic Authentication Type for Azure Log Analytics Source.
+ * User is required to specify clientSecret for Create with Basic type.
+ * clientSecret being a secret will not be returned by the service.
  */
 export type LogAnalyticsAuthBasic = {
   /** Authentication */
   authenticationType: "Basic";
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId: string;
+  /** The client id of service principal that have access to this Log Analytics. */
+  clientId: string;
+  /** The client secret of service principal that have access to this Log Analytics. Required by user for Create. Not returned by service*/
+  clientSecret?: string;
 };
 
 /**
@@ -509,12 +540,6 @@ export type AzureLogAnalyticsAuthTypes =
  */
 export type AzureLogAnalyticsDataFeedSource = {
   dataSourceType: "AzureLogAnalytics";
-  /** The tenant id of service principal that have access to this Log Analytics */
-  tenantId?: string;
-  /** The client id of service principal that have access to this Log Analytics */
-  clientId?: string;
-  /** The client secret of service principal that have access to this Log Analytics */
-  clientSecret?: string;
   /** The workspace id of this Log Analytics */
   workspaceId: string;
   /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
@@ -523,11 +548,13 @@ export type AzureLogAnalyticsDataFeedSource = {
 
 /**
  * Represents an Azure Event Hubs data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureEventHubsDataFeedSource = {
   /** Azure Event Hubs data source type */
   dataSourceType: "AzureEventHubs";
-  /** The connection string of this Azure Event Hubs */
+  /** The connection string of this Azure Event Hubs. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** The consumer group to be used in this data feed */
   consumerGroup: string;
@@ -537,6 +564,8 @@ export type AzureEventHubsDataFeedSource = {
 
 /**
  * Represents an InfluxDB data source.
+ * User is required to specify password for Create.
+ * password being a secret is not returned by service.
  */
 export type InfluxDbDataFeedSource = {
   /** InfluxDB data source type */
@@ -547,8 +576,8 @@ export type InfluxDbDataFeedSource = {
   database: string;
   /** Database access user */
   userName: string;
-  /** Database access password */
-  password: string;
+  /** Database access password. Required by user for Create. Not returned by service */
+  password?: string;
   /** Query script */
   query: string;
   /** Authentication type */
@@ -557,11 +586,13 @@ export type InfluxDbDataFeedSource = {
 
 /**
  * Represents a MySQL data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type MySqlDataFeedSource = {
   /** MySql data source */
   dataSourceType: "MySql";
-  /** Database connection string */
+  /** Database connection string. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** Query script */
   query: string;
@@ -571,11 +602,13 @@ export type MySqlDataFeedSource = {
 
 /**
  * Represents a PostgreSQL data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type PostgreSqlDataFeedSource = {
   /** PostgreSQL data source */
   dataSourceType: "PostgreSql";
-  /** Database connection string */
+  /** Database connection string. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** Query script */
   query: string;
@@ -585,12 +618,14 @@ export type PostgreSqlDataFeedSource = {
 
 /**
  * Represents a MongoDB data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type MongoDbDataFeedSource = {
   /** MongoDB data source */
   dataSourceType: "MongoDB";
-  /** MongoDB connection string */
-  connectionString: string;
+  /** MongoDB connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Database name */
   database: string;
   /** Query script */
@@ -750,14 +785,25 @@ export type DataFeedPatch = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * The administrators of this {@link MetricsAdvisorDataFeed }.
+   * Administrators have total control over a data feed, being allowed to update, delete, or pause them.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -771,9 +817,6 @@ export type DataFeedPatch = {
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
- *
- * When not changing the data source type, the dataSourceParameter is not required.
- * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
   /** dataSource type for patch */
@@ -1097,9 +1140,15 @@ export interface NotificationHook {
    */
   externalLink?: string;
   /**
-   * email addresses of hook administrators
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  readonly adminEmails?: string[];
+  admins?: string[];
 }
 
 /**
@@ -1141,6 +1190,16 @@ export type NotificationHookPatch = {
    * new hook external link
    */
   externalLink?: string;
+  /**
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
+   */
+  admins?: string[];
 };
 
 /**
@@ -1855,33 +1914,39 @@ export interface DataSourceCredentialEntity {
 
 /**
  * SqlServer Data Source Credential
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export interface DataSourceSqlConnectionString extends DataSourceCredentialEntity {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
-  /** The connection string for SqlServer Data Source Credential */
+  /** The connection string for SqlServer Data Source Credential. Required by user for Create. Not returned by service. */
   connectionString?: string;
 }
 
 /**
  * DataLake Gen2 Shared Key DataSource Credential
+ * User is required to specify accountKey for Create.
+ * accountKey being a secret is not returned by service.
  */
 export interface DataSourceDataLakeGen2SharedKey extends DataSourceCredentialEntity {
   /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
-  /** The account key of the DataLake Gen2 Shared Key DataSource Credential  */
+  /** The account key of the DataLake Gen2 Shared Key DataSource Credential. Required by user for Create. Not returned by service. */
   accountKey?: string;
 }
 
 /**
  * Service Principal DataSource Credential
+ * User is required to specify clientSecret for Create.
+ * clientSecret being a secret is not returned by service.
  */
 export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
   /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** The client id of the service principal. */
   clientId: string;
-  /** The client secret of the service principal. */
+  /** The client secret of the service principal. Required by user for Create. Not returned by service. */
   clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
@@ -1889,6 +1954,8 @@ export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
 
 /**
  * Service Principal in KeyVault DataSource Credential
+ * User is required to specify keyVaultClientSecret for Create.
+ * keyVaultClientSecret being a secret is not returned by service.
  */
 export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredentialEntity {
   /** Service Principal in KeyVault DataSource Credential */
@@ -1897,7 +1964,7 @@ export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredenti
   keyVaultEndpoint: string;
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
-  /** The Client Secret to access the Key Vault. */
+  /** The Client Secret to access the Key Vault. Required by user for Create. Not returned by service. */
   keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;

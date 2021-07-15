@@ -1,6 +1,16 @@
 # Release History
 
-## 2.0.0-beta.4 (Unreleased)
+## 2.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.0-beta.4 (2021-07-07)
 
 ### Features Added
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -11,11 +21,14 @@
 - Reintroduced the `TokenCachePersistenceOptions` property on most credential constructor options. This property must be present with an `enabled` property set to true to enable persistent token caching for a credential instance. Credentials that do not support persistent token caching do not have this property.
 - Added support to `ManagedIdentityCredential` for Bridge to Kubernetes local development authentication.
 - Enabled PKCE on `InteractiveBrowserCredential` for Node.js. [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) is a security feature that mitigates authentication code interception attacks.
+- Added `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
 - Added regional STS support to client credential types.
   - Added the `RegionalAuthority` type, that allows specifying Azure regions.
   - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
   - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
   - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
+- `AzureCliCredential` and `AzurePowerShellCredential` now allow specifying a `tenantId`.
+- All credentials except `ManagedIdentityCredential` support enabling multi tenant authentication via the `allowMultiTenantAuthentication` option.
 
 ### Breaking Changes
 
@@ -39,7 +52,7 @@
 
 ### Breaking changes from 2.0.0-beta.1
 
-- Removed `VisualStudioCodeCredential`, as it requires us to list `keytar` as an optional dependency. `keytar` containes machine-code components that are difficult to build in certain environments, so this credential will be offered through a separate extension package in the future.
+- Removed `VisualStudioCodeCredential`, since it requires us to list [keytar](https://www.npmjs.com/package/keytar) as an optional dependency. `keytar` contains machine-code components that are difficult to build in certain environments, so this credential will be offered through a separate extension package in the future.
 - Removed token persistence through `@azure/msal-node-extensions`, as its machine-code components have the same problems as `keytar`. This functionality will similarly be reintroduced through a separate extension package in the future.
 - Removed `authenticationRecord`, `disableAutomaticAuthentication` and `authenticate()` from the credential `UsernamePasswordCredential`. While MSAL does support this, allowing `authenticationRecord` arguably could result in users authenticating through an account other than the one they're specifying with the username and the password.
 
@@ -54,6 +67,13 @@
 - `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
 
 > With the plans for [third party cookies to be removed from browsers](https://docs.microsoft.com/azure/active-directory/develop/reference-third-party-cookies-spas), the **implicit grant flow is no longer a suitable authentication method**. The [silent SSO features](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow#getting-access-tokens-silently-in-the-background) of the implicit flow do not work without third party cookies, causing applications to break when they attempt to get a new token. We strongly recommend that all new applications use the authorization code flow that now supports single page apps in place of the implicit flow, and that [existing single page apps begin migrating to the authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/migrate-spa-implicit-to-auth-code) as well.
+
+
+## 1.4.0 (2021-07-09)
+
+- With this release, we drop support for Node.js versions that have reached the end of life, like Node.js 8. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated the default timeout of the first request of the IMDS MSI from half a second to three seconds to compensate for the slowness caused by `node-fetch` for initial requests in specific environments, like Kubernetes pods.
+- Upgraded `@azure/core-http` to version `^2.0.0`, and `@azure/core-tracing` to version `1.0.0-preview.12`.
 
 ## 1.3.0 (2021-04-05)
 

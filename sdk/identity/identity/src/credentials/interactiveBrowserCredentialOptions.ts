@@ -36,6 +36,12 @@ export interface InteractiveBrowserCredentialOptions
    * The client (application) ID of an App Registration in the tenant.
    */
   clientId?: string;
+
+  /**
+   * loginHint allows a user name to be pre-selected for interactive logins.
+   * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
+   */
+  loginHint?: string;
 }
 
 /**
@@ -66,4 +72,10 @@ export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveC
    *
    */
   loginStyle?: BrowserLoginStyle;
+
+  /**
+   * loginHint allows a user name to be pre-selected for interactive logins.
+   * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
+   */
+  loginHint?: string;
 }

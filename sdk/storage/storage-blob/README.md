@@ -12,12 +12,13 @@ Use the client libraries in this package to:
 - Create/Read/List/Update/Delete Page Blobs
 - Create/Read/List/Update/Delete Append Blobs
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
-[Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples) |
-[Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
+Key links
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob) 
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) 
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) 
+- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples)
+- [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
 
 ## Getting started
 

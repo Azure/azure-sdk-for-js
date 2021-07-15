@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.6.0",
+  "version": "5.6.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -115,7 +115,7 @@
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
     "process": "^0.11.10",
-    "rhea-promise": "^2.0.0",
+    "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
     "uuid": "^8.3.0"
   },
@@ -123,6 +123,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.0-beta.4",
+    "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perfstress": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -145,6 +146,7 @@
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.0.2",
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",

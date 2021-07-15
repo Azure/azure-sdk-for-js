@@ -4,6 +4,7 @@ import {
   ProcessErrorArgs,
   ServiceBusAdministrationClient,
   ServiceBusClient,
+  ServiceBusClientOptions,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
   ServiceBusReceiver,
@@ -21,17 +22,20 @@ import {
   SnapshotOptions,
   TrackedMessageIdsInfo
 } from "./utils";
-import * as appInsights from "applicationinsights";
 
+import * as appInsights from "applicationinsights";
 import * as dotenv from "dotenv";
+import { AbortSignalLike } from "@azure/abort-controller";
+
 dotenv.config();
 
 appInsights
   .setup()
+  .setAutoCollectConsole(true)
   .setUseDiskRetryCaching(true)
   .start();
 
-export const defaultClient = appInsights.defaultClient;
+const defaultClient = appInsights.defaultClient;
 
 export interface StressTestInitOptions {
   /**
@@ -109,19 +113,6 @@ export class ServiceBusStressTester {
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalMs);
   }
 
-  /**
-   * Creates a ServiceBusClient using the connection string in the SERVICEBUS_CONNECTION_STRING environment variable.
-   */
-  public createServiceBusClient(): ServiceBusClient {
-    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-      throw new Error(
-        "Failed to create a ServiceBusClient - no connection string defined in the environment"
-      );
-    }
-
-    return new ServiceBusClient(process.env.SERVICEBUS_CONNECTION_STRING);
-  }
-
   private async _init(options?: StressTestInitOptions) {
     console.log(`[BEGIN]: Initializing...`);
     this.queueName = `queue` + `-${Math.ceil(Math.random() * 100000)}`;
@@ -140,11 +131,7 @@ export class ServiceBusStressTester {
       }
     });
 
-    await this.serviceBusAdministrationClient.createQueue(
-      this.queueName,
-      options?.createQueueOptions
-    );
-
+    await createRandomQueue(this.queueName, options?.createQueueOptions);
     console.log(`[END]: Initializing...`);
   }
 
@@ -561,13 +548,12 @@ export class ServiceBusStressTester {
     try {
       try {
         // Define connection string and related Service Bus entity names here
-        const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-        serviceBusClient = new ServiceBusClient(connectionString);
+        serviceBusClient = createServiceBusClient();
         await this._init(initOptions);
       } catch (err) {
         console.log(`ERROR: error thrown by init`, err);
 
-        this.trackError("init", err);
+        this.trackError("init", err as Error);
         defaultClient.flush();
         throw err;
       }
@@ -578,7 +564,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by test`, err);
 
-        this.trackError("test", err);
+        this.trackError("test", err as Error);
         defaultClient.flush();
       }
     } finally {
@@ -588,7 +574,7 @@ export class ServiceBusStressTester {
         await serviceBusClient?.close();
       } catch (err) {
         defaultClient.trackException({
-          exception: err,
+          exception: err as Error,
           properties: {
             from: "end"
           }
@@ -599,4 +585,56 @@ export class ServiceBusStressTester {
       defaultClient.flush();
     }
   }
+}
+
+export function getUniqueQueueName(): string {
+  return `queue` + `-${Math.ceil(Math.random() * 100000)}`;
+}
+
+export async function createRandomQueue(
+  queueName: string,
+  queueOptions?: CreateQueueOptions
+): Promise<void> {
+  const serviceBusAdministrationClient = createAdminClient();
+  await serviceBusAdministrationClient.createQueue(queueName, queueOptions);
+}
+
+export function createAdminClient() {
+  const connectionString = process.env.SERVICEBUS_CONNECTION_STRING;
+
+  if (!connectionString) {
+    throw new Error("SERVICEBUS_CONNECTION_STRING not defined in the environment!");
+  }
+
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
+  return serviceBusAdministrationClient;
+}
+
+export function createServiceBusClient(options?: ServiceBusClientOptions): ServiceBusClient {
+  const connectionString = process.env.SERVICEBUS_CONNECTION_STRING;
+
+  if (!connectionString) {
+    throw new Error("SERVICEBUS_CONNECTION_STRING not defined in the environment!");
+  }
+
+  return new ServiceBusClient(connectionString, options);
+}
+
+/**
+ * Loops infinitely with a delay between invocations.
+ */
+export async function loopForever(
+  fn: () => Promise<void>,
+  delay: number,
+  abortSignal?: AbortSignalLike
+) {
+  const timeout = () => new Promise((resolve) => setTimeout(() => resolve(true), delay));
+
+  while (abortSignal?.aborted === false && (await timeout())) {
+    await fn();
+  }
+}
+
+export function isReceiveMode(receiveMode: string): receiveMode is "peekLock" | "receiveAndDelete" {
+  return receiveMode === "peekLock" || receiveMode === "receiveAndDelete";
 }

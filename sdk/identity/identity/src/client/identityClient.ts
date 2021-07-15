@@ -310,7 +310,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 export interface TokenCredentialOptions extends PipelineOptions {
   /**
    * The authority host to use for authentication requests.
+   * Possible values are available through {@link AzureAuthorityHosts}.
    * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
+
+  /**
+   * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
+   */
+  allowMultiTenantAuthentication?: boolean;
 }

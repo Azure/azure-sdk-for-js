@@ -11,6 +11,8 @@ import { RecognizedForm, FormPage } from "./models";
 
 /**
  * Represents the result from an Recognize Content operation
+ *
+ * @internal
  */
 export interface RecognizedContent {
   /**
@@ -41,6 +43,8 @@ export interface RecognizedContent {
 
 /**
  * Contains response data for the Recognize Content operation.
+ *
+ * @internal
  */
 export type RecognizeContentResultResponse = RecognizedContent & {
   /**
@@ -60,6 +64,8 @@ export type RecognizeContentResultResponse = RecognizedContent & {
 
 /**
  * Represents the result from an recognize form operation using a custom model from training.
+ *
+ * @internal
  */
 export interface RecognizedForms {
   /**

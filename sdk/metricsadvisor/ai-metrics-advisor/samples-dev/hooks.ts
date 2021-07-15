@@ -82,7 +82,7 @@ async function getHook(client: MetricsAdvisorAdministrationClient, hookId: strin
   const result = await client.getHook(hookId);
   console.log(result.name);
   console.log(result.description);
-  console.log(result.adminEmails);
+  console.log(result.admins);
 }
 
 async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookId: string) {

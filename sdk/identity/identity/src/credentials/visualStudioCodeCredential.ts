@@ -12,6 +12,7 @@ import { IdentityClient, TokenCredentialOptions } from "../client/identityClient
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialExtension";
 
 const CommonTenantId = "common";
@@ -102,6 +103,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
   private cloudName: VSCodeCloudNames;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -127,6 +129,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -168,9 +171,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    _options?: GetTokenOptions
+    options?: GetTokenOptions
   ): Promise<AccessToken> {
     await this.prepareOnce();
+
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
         "No implementation of VisualStudioCodeCredential is available (do you need to install and use the `@azure/identity-vscode` extension package?)"
@@ -206,7 +214,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
     if (refreshToken) {
       const tokenResponse = await this.identityClient.refreshAccessToken(
-        this.tenantId,
+        tenantId,
         AzureAccountClientId,
         scopeString,
         refreshToken,

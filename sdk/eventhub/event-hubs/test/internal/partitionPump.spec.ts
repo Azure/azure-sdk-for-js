@@ -4,8 +4,6 @@
 import { createProcessingSpan, trace } from "../../src/partitionPump";
 import {
   NoOpSpan,
-  TestSpan,
-  TestTracer,
   SpanStatusCode,
   SpanKind,
   SpanOptions,
@@ -13,6 +11,7 @@ import {
   setSpanContext,
   context
 } from "@azure/core-tracing";
+import { TestSpan, TestTracer } from "@azure/test-utils";
 import chai from "chai";
 import { ReceivedEventData } from "../../src/eventData";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
@@ -73,7 +72,10 @@ describe("PartitionPump", () => {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         partitionKey: null,
-        sequenceNumber: 0
+        sequenceNumber: 0,
+        getRawAmqpMessage() {
+          return {} as any;
+        }
       };
 
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());

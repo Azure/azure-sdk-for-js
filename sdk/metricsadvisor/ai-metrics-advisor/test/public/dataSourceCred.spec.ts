@@ -21,8 +21,25 @@ describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;
   let recorder: Recorder;
 
+  let sqlServerCredName: string;
+  let datalakeCredName: string;
+  let servicePrincipalCredName: string;
+  let servicePrincipalInKVCredName: string;
+
   beforeEach(function(this: Context) {
     ({ recorder, client } = createRecordedAdminClient(this, makeCredential(false)));
+    if (recorder && !sqlServerCredName) {
+      sqlServerCredName = recorder.getUniqueName("js-test-sqlServerCred-");
+    }
+    if (recorder && !datalakeCredName) {
+      datalakeCredName = recorder.getUniqueName("js-test-datalakeCred-");
+    }
+    if (recorder && !servicePrincipalCredName) {
+      servicePrincipalCredName = recorder.getUniqueName("js-test-servicePrincipalCred-");
+    }
+    if (recorder && !servicePrincipalInKVCredName) {
+      servicePrincipalInKVCredName = recorder.getUniqueName("js-test-servicePrincipalInKVCred-");
+    }
   });
 
   afterEach(async function() {
@@ -43,7 +60,7 @@ describe("DataSourceCredential", () => {
     it("creates sql server connection string credential", async function() {
       const sqlServerCredential: DataSourceSqlConnectionString = {
         ...dataSourceCredential,
-        name: "ExampleSQLCredential",
+        name: sqlServerCredName,
         type: "AzureSQLConnectionString",
         connectionString: "sql-server-connection-string"
       };
@@ -60,7 +77,7 @@ describe("DataSourceCredential", () => {
         this.skip();
       }
       const sqlServerCredentialPatch: DataSourceSqlServerConnectionStringPatch = {
-        name: "UpdatedSqlCred",
+        name: sqlServerCredName,
         description: "updated description",
         connectionString: "updated-string",
         type: "AzureSQLConnectionString"
@@ -78,7 +95,7 @@ describe("DataSourceCredential", () => {
     it("creates datalake gen2 shared key credential", async function() {
       const datalakeCred: DataSourceDataLakeGen2SharedKey = {
         ...dataSourceCredential,
-        name: "ExampleDLCredential",
+        name: datalakeCredName,
         type: "DataLakeGen2SharedKey",
         accountKey: "account-key"
       };
@@ -96,7 +113,7 @@ describe("DataSourceCredential", () => {
         this.skip();
       }
       const dataLakeCredentialPatch: DataSourceDataLakeGen2SharedKeyPatch = {
-        name: "UpdatedDataLakeCred",
+        name: datalakeCredName,
         description: "updated description",
         accountKey: "updated account key",
         type: "DataLakeGen2SharedKey"
@@ -114,7 +131,7 @@ describe("DataSourceCredential", () => {
     it("creates service principal credential", async function() {
       const servicePrincipalCred: DataSourceServicePrincipal = {
         ...dataSourceCredential,
-        name: "ExampleSPCredential",
+        name: servicePrincipalCredName,
         type: "ServicePrincipal",
         clientId: "client-id",
         clientSecret: "client-secret",
@@ -136,7 +153,7 @@ describe("DataSourceCredential", () => {
         this.skip();
       }
       const servicePrincipalCredentialPatch: DataSourceServicePrincipalPatch = {
-        name: "UpdatedSPCred",
+        name: servicePrincipalCredName,
         description: "updated description",
         clientId: "updated-client",
         clientSecret: "updated-secret",
@@ -160,7 +177,7 @@ describe("DataSourceCredential", () => {
     it("creates service principal in keyvault credential", async function() {
       const servicePrincipalInKVCred: DataSourceServicePrincipalInKeyVault = {
         ...dataSourceCredential,
-        name: "ExampleSPinKVCredential",
+        name: servicePrincipalInKVCredName,
         type: "ServicePrincipalInKV",
         tenantId: "tenant-id",
         keyVaultEndpoint: "keyvault-endpoint",
@@ -188,7 +205,7 @@ describe("DataSourceCredential", () => {
         this.skip();
       }
       const servicePrincipalInKVCredentialPatch: DataSourceServicePrincipalInKeyVaultPatch = {
-        name: "UpdatedSPinKVCred",
+        name: servicePrincipalInKVCredName,
         description: "updated description",
         keyVaultEndpoint: "updated-keyvault-endpoint",
         keyVaultClientId: "updated-keyvault-client-id",

@@ -40,7 +40,8 @@ export class MsalUsernamePassword extends MsalNode {
         scopes,
         username: this.username,
         password: this.password,
-        correlationId: options?.correlationId
+        correlationId: options?.correlationId,
+        authority: options?.authority
       };
       const result = await this.publicApp!.acquireTokenByUsernamePassword(requestOptions);
       return this.handleResult(scopes, this.clientId, result || undefined);
