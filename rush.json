@@ -795,6 +795,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-links",
+      "projectFolder": "sdk/links/arm-links",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-policy",
       "projectFolder": "sdk/policy/arm-policy",
       "versionPolicyName": "management"
