@@ -195,7 +195,7 @@ describe("Can handle user event", function() {
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
-    
+
     assert.equal(
       Buffer.from(
         JSON.stringify({
