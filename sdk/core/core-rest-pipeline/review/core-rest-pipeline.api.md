@@ -235,7 +235,7 @@ export interface PipelineResponse {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings | undefined): PipelinePolicy;
+export function proxyPolicy(proxySettings?: ProxySettings | undefined, customNoProxyList?: string[]): PipelinePolicy;
 
 // @public
 export const proxyPolicyName = "proxyPolicy";

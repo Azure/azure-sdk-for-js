@@ -1,8 +1,10 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.2.0 (Unreleased)
 
 ### Features Added
+
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override the global ones loaded from NO_PROXY environment variable.
 
 ### Breaking Changes
 

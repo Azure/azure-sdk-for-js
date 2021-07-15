@@ -559,7 +559,7 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
 export type ProxyOptions = ProxySettings;
 
 // @public (undocumented)
-export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory;
+export function proxyPolicy(proxySettings?: ProxySettings, customNoProxyList?: string[]): RequestPolicyFactory;
 
 // @public
 export interface ProxySettings {
