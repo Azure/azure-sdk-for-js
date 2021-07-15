@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
@@ -15,7 +16,7 @@ function expiresInParser(requestBody: any): number {
   return Number(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": azureFabricVersion
@@ -25,7 +26,9 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
     queryParameters.client_id = clientId;
   }
 
-  return {
+  const query = new URLSearchParams(queryParameters);
+
+  return createPipelineRequest({
     url: process.env.IDENTITY_ENDPOINT,
     method: "GET",
     queryParameters,

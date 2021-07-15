@@ -1,5 +1,9 @@
 # Release History
 
+## 1.5.0 (2021-07-16)
+
+- With this release, we've migrated from `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests.
+
 ## 1.4.0 (2021-07-09)
 
 - With this release, we drop support for Node.js versions that have reached the end of life, like Node.js 8. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.

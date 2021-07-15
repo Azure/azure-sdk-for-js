@@ -25,6 +25,19 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-kSDSZBL6c0CYdhb+7KuutnKGf2geeT+bCJAgccB0DD7wmNJSsQPcF7TcuoZX83B7VK4tLz/u+8sOO/CnCsYp8A==
+  /@azure/core-client/1.2.2:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      '@azure/core-asynciterator-polyfill': 1.0.0
+      '@azure/core-auth': 1.3.0
+      '@azure/core-rest-pipeline': 1.1.1
+      '@azure/core-tracing': 1.0.0-preview.12
+      tslib: 2.3.0
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-VYFR2qiczjBrSfpQSbo5s8FJhXaJFz2tP01MOrpNJaOqnSNEKcY35I79b1Ty7s8qHGvc5/YMJ745l3B7abncFQ==
   /@azure/core-http/2.0.0:
     dependencies:
       '@azure/abort-controller': 1.0.2
@@ -47,6 +60,22 @@ packages:
       node: '>=12.0.0'
     resolution:
       integrity: sha512-VBOfUh0z9ZF1WVqrLCtiGWMjkKic171p6mLXRkJKu+p5wuQTb4cU3bPq7nB6UuGAK17LI7hnU0SzydlCQrBuOw==
+  /@azure/core-rest-pipeline/1.1.1:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      '@azure/core-auth': 1.3.0
+      '@azure/core-tracing': 1.0.0-preview.12
+      '@azure/logger': 1.0.1
+      form-data: 3.0.0
+      http-proxy-agent: 4.0.1
+      https-proxy-agent: 5.0.0
+      tslib: 2.3.0
+      uuid: 8.3.2
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-ObF8iTEDXIG7/NlL28ni9bR3XLJwgm2S3GWO4aNW6CsTCFVoY9HMdbBtN7xOB+pUQwifehifXNnootbzzuwJnw==
   /@azure/core-tracing/1.0.0-preview.12:
     dependencies:
       '@opentelemetry/api': 1.0.1
@@ -464,6 +493,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
+  /@tootallnate/once/1.1.2:
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
   /@types/argparse/1.0.33:
     dev: false
     resolution:
@@ -786,6 +821,14 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-TMeqbNl2fMW0nMjTEPOwe3J/PRFP4vqeoNuQMG0HlMrtm5QxKqdvAkZ1pRBQ/ulIyDD5Yq0nJ7YbdD8ey0TO3g==
+  /agent-base/6.0.2:
+    dependencies:
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+    resolution:
+      integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
   /ajv/6.12.6:
     dependencies:
       fast-deep-equal: 3.1.3
@@ -2391,6 +2434,16 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==
+  /http-proxy-agent/4.0.1:
+    dependencies:
+      '@tootallnate/once': 1.1.2
+      agent-base: 6.0.2
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==
   /http-proxy/1.18.1:
     dependencies:
       eventemitter3: 4.0.7
@@ -2410,6 +2463,15 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-zoDhWrkR3of1l9QAL8/scJZyLu8j/gBkcwcaQOZh7Gyh/+uJQzGVETdgT30akuwkpL8HTRfssqI3BZuV18teDg==
+  /https-proxy-agent/5.0.0:
+    dependencies:
+      agent-base: 6.0.2
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
   /iconv-lite/0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -4994,7 +5056,10 @@ packages:
   file:projects/identity.tgz:
     dependencies:
       '@azure/abort-controller': 1.0.2
+      '@azure/core-auth': 1.3.0
+      '@azure/core-client': 1.2.2
       '@azure/core-http': 2.0.0
+      '@azure/core-rest-pipeline': 1.1.1
       '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.1
       '@azure/msal-node': 1.0.0-beta.6
@@ -5059,7 +5124,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-T+8AeUtmtH1AG6a0IygS0sUh8FlDuYF3qzo3Y1b/0ca25N7pfjZxkDCqEZt5t1clJEnyarQjhN3MM2LBMpglMA==
+      integrity: sha512-j+ayndXfObXACl3giNWDyXcnjaJiLD/PJ+oDEwGcG3ypCEO05Ygc3hDq/GxUwkgR+ybpIZfitn1nfF7HMo9JxA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
 registry: ''

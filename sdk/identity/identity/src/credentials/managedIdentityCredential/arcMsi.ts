@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { createHttpHeaders, createPipelineRequest, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
@@ -15,21 +16,22 @@ const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
 // Azure Arc MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
-function prepareRequestOptions(resource?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": azureArcAPIVersion
   };
 
+  const query = new URLSearchParams(queryParameters);
+
   return {
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
-    url: process.env.IDENTITY_ENDPOINT,
+    url: `${process.env.IDENTITY_ENDPOINT!}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: true
-    }
+      Metadata: "true"
+    })
   };
 }
 
@@ -47,10 +49,10 @@ function readFileAsync(path: string, options: { encoding: string }): Promise<str
 
 async function filePathRequest(
   identityClient: IdentityClient,
-  requestPrepareOptions: RequestPrepareOptions
+  requestPrepareOptions: PipelineRequestOptions
 ): Promise<string | undefined> {
   const response = await identityClient.sendRequest(
-    identityClient.createWebResource(requestPrepareOptions)
+    createPipelineRequest(requestPrepareOptions)
   );
 
   if (response.status !== 401) {
@@ -70,7 +72,11 @@ async function filePathRequest(
 
 export const arcMsi: MSI = {
   async isAvailable(): Promise<boolean> {
-    return Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
+    const result = Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
+    if (!result) {
+      logger.info("The Azure Arc MSI is unavailable.");
+    }
+    return result;
   },
   async getToken(
     identityClient: IdentityClient,
@@ -91,8 +97,6 @@ export const arcMsi: MSI = {
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
       spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
-      tracingContext:
-        getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext,
       ...prepareRequestOptions(resource)
     };
 
@@ -103,7 +107,7 @@ export const arcMsi: MSI = {
     }
 
     const key = await readFileAsync(filePath, { encoding: "utf-8" });
-    requestOptions.headers!["Authorization"] = `Basic ${key}`;
+    requestOptions.headers?.set("Authorization", `Basic ${key}`);
 
     return msiGenericGetToken(identityClient, requestOptions, expiresInParser, getTokenOptions);
   }
