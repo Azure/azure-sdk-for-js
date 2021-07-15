@@ -342,8 +342,7 @@ export interface RetryOptions {
   maxRetries?: number;
 
   /**
-   * The maximum delay in milliseconds allowed before retrying an operation. Defaults
-   * to 90000 (90 seconds).
+   * The maximum delay in milliseconds allowed before retrying an operation.
    */
   maxRetryDelayInMs?: number;
 }
