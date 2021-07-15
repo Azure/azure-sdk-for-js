@@ -9,7 +9,6 @@
 import {
   Service,
   Container,
-  Directory,
   Blob,
   PageBlob,
   AppendBlob,
@@ -29,7 +28,6 @@ export class StorageClient extends StorageClientContext {
     super(url, options);
     this.service = new Service(this);
     this.container = new Container(this);
-    this.directory = new Directory(this);
     this.blob = new Blob(this);
     this.pageBlob = new PageBlob(this);
     this.appendBlob = new AppendBlob(this);
@@ -38,7 +36,6 @@ export class StorageClient extends StorageClientContext {
 
   service: Service;
   container: Container;
-  directory: Directory;
   blob: Blob;
   pageBlob: PageBlob;
   appendBlob: AppendBlob;

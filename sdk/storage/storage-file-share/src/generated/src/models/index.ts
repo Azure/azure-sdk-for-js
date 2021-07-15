@@ -7,7 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-
 /**
  * Defines values for FileType.
  * Possible values include: 'File'
@@ -359,7 +358,7 @@ export interface ShareGetPropertiesHeaders {
   accessTier?: string;
   /** Returns the last modified time (in UTC) of the access tier of the share. */
   accessTierChangeTime?: Date;
-  /** Returns the transition state betweeen access tiers, when present. */
+  /** Returns the transition state between access tiers, when present. */
   accessTierTransitionState?: string;
   /** The protocols that have been enabled on the share. */
   enabledProtocols?: string;
@@ -2051,9 +2050,9 @@ export interface ShareRestoreOptionalParams extends coreHttp.OperationOptions {
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** Specifies the name of the preivously-deleted share. */
+  /** Specifies the name of the previously-deleted share. */
   deletedShareName?: string;
-  /** Specifies the version of the preivously-deleted share. */
+  /** Specifies the version of the previously-deleted share. */
   deletedShareVersion?: string;
 }
 
@@ -2175,6 +2174,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
   shareSnapshot?: string;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListFilesIncludeType[];
+  /** Include extended information. */
   includeExtendedInfo?: boolean;
 }
 
