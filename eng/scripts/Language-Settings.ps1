@@ -14,29 +14,19 @@ function Confirm-NodeInstallation {
 }
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
-  LogWarning "==========pkgPath = '$pkgPath'==================="
-  LogWarning "==========serviceDirectory = '$serviceDirectory'==================="
   $projectPath = Join-Path $pkgPath "package.json"
-  LogWarning "==========projectPath = '$projectPath'==================="
   if (Test-Path $projectPath) {
-    LogWarning "==========go into if==================="
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    LogWarning "==========pre create pkgProp==================="
     $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-    LogWarning "==========pkgProp = '$pkgProp'==================="
     if ($projectJson.psobject.properties.name -contains 'sdk-type') {
       $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
     }
     else {
       $pkgProp.SdkType = "unknown"
     }
-    if ($projectJson.name.StartsWith("@azure/arm")) {
-      $pkgProp.SdkType = "mgmt"
-    }
-    $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+    $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
-    LogWarning "==========return pkgProp = '$pkgProp'==================="
     return $pkgProp
   }
   return $null
