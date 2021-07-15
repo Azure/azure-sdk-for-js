@@ -149,6 +149,12 @@ export function setSentenceCount<X extends { maxSentenceCount?: number }>(
   return { ...x, sentenceCount: x.maxSentenceCount };
 }
 
+export function setOrderBy<X extends { orderBy?: string }>(
+  x: X
+): X & { sortBy?: string } {
+  return { ...x, sortBy: x.orderBy };
+}
+
 /**
  * @internal
  */

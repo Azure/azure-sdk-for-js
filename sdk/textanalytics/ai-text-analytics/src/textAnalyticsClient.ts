@@ -55,6 +55,7 @@ import {
   handleInvalidDocumentBatch,
   setCategoriesFilter,
   setOpinionMining,
+  setOrderBy,
   setSentenceCount,
   setStrEncodingParam,
   setStrEncodingParamValue,
@@ -301,7 +302,7 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 /**
  * A type representing how to sort sentences for the summarization extraction action.
  */
-export type KnownSummarySentencesSortBy = "Offset" | "Importance";
+export type KnownSummarySentencesSortBy = "Offset" | "Rank";
 
 /**
  * Options for an extract summary action.
@@ -1083,7 +1084,7 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
       compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
     ),
     extractiveSummarizationTasks: actions.extractSummaryActions?.map(
-      compose(setStrEncodingParam, compose(setSentenceCount, addParamsToTask))
+      compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
     )
   };
 }
