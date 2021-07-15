@@ -20,7 +20,10 @@ async function main(): Promise<void> {
   console.log("identity Header =", identityHeader);
   console.log("identity Thumbprint =", identityThumbprint);
   console.log("About to set secret");
-  await client.setSecret("secret-name-pod", "secret-value-pod");
+  for await (const secretProperties of client.listPropertiesOfSecrets()) {
+    const secret = await client.getSecret(secretProperties.name);
+    console.log("secret: ", secret);
+  }
 }
 
 main().catch((err) => {

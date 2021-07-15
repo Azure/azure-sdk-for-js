@@ -21,4 +21,7 @@ RUN echo "hello there BEFORE npm install"
 RUN npm install
 RUN npm install -g typescript
 RUN echo "hello there BEFORE ts-node"
+# This credential can be easily tested by deploying a container to Azure Service Fabric with the Dockerfile:
+
+CMD ["bash", "bash.sh"]
 CMD ["./node_modules/.bin/ts-node", "index"]
