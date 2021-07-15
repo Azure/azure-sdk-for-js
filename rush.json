@@ -818,6 +818,11 @@
       "packageName": "@azure/arm-features",
       "projectFolder": "sdk/features/arm-features",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managedapplications",
+      "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
     }
   ]
 }
