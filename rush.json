@@ -795,6 +795,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-locks",
+      "projectFolder": "sdk/locks/arm-locks",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-features",
       "projectFolder": "sdk/features/arm-features",
       "versionPolicyName": "management"
