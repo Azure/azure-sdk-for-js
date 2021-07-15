@@ -110,6 +110,27 @@ const token = generateSharedAccessSignature(
 );
 ```
 
+#### Using Azure Active Directory (AAD)
+
+Azure EventGrid provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Event Grid resources to users, groups, or applications.
+
+To send events to a topic or domain with a `TokenCredential`, the authenticated identity should have the "EventGrid Data Sender" role assigned.
+
+With the `@azure/identity` package, you can seamlessly authorize requests in both development and production environments. To learn more about Azure Active Directory, see the [`@azure/identity` README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md).
+
+For example, use can use `DefaultAzureCredential` to construct a client which will authenticate using Azure Active Directory:
+
+```js
+const { EventGridPublisherClient } = require("@azure/eventgrid");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+const client = new EventGridPublisherClient(
+  "<endpoint>",
+  "<endpoint schema>",
+  new DefaultAzureCredential()
+);
+```
+
 ## Key concepts
 
 ### EventGridPublisherClient
