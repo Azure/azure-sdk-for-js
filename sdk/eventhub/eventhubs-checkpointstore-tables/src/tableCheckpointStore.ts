@@ -8,8 +8,6 @@ import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hu
  */
 
 export class TableCheckpointStore implements CheckpointStore {
-  
-
   /**
    * Get the list of all existing partition ownership from the underlying data store. May return empty
    * results if there are is no existing ownership information.
