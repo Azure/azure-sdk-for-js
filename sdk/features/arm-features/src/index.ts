@@ -6,5 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./features";
-export * from "./subscriptionFeatureRegistrations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { FeatureClient } from "./featureClient";
+export { FeatureClientContext } from "./featureClientContext";
+export * from "./operationsInterfaces";
