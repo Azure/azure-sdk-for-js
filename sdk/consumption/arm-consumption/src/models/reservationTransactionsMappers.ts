@@ -39,6 +39,7 @@ export {
   MeterDetailsResponse,
   ModernChargeSummary,
   ModernReservationTransaction,
+  ModernReservationTransactionsListResult,
   ModernUsageDetail,
   Notification,
   PriceSheetProperties,
@@ -54,9 +55,9 @@ export {
   ReservationSummary,
   ReservationTransaction,
   ReservationTransactionResource,
+  ReservationTransactionsListResult,
   Resource,
   Tag,
   TagsResult,
-  UsageDetail,
-  UsageDetailsListResult
+  UsageDetail
 } from "../models/mappers";
