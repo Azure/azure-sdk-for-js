@@ -14,6 +14,8 @@ function Confirm-NodeInstallation {
 }
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
+  LogWarning "==========pkgPath = '$pkgPath'==================="
+  LogWarning "==========serviceDirectory = '$serviceDirectory'==================="
   $projectPath = Join-Path $pkgPath "package.json"
   LogWarning "==========projectPath = '$projectPath'==================="
   if (Test-Path $projectPath) {
