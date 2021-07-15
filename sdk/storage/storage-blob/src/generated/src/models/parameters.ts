@@ -697,299 +697,6 @@ export const delimiter: OperationQueryParameter = {
   }
 };
 
-export const resource: OperationQueryParameter = {
-  parameterPath: "resource",
-  mapper: {
-    defaultValue: "directory",
-    isConstant: true,
-    serializedName: "resource",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const directoryProperties: OperationParameter = {
-  parameterPath: ["options", "directoryProperties"],
-  mapper: {
-    serializedName: "x-ms-properties",
-    xmlName: "x-ms-properties",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const posixPermissions: OperationParameter = {
-  parameterPath: ["options", "posixPermissions"],
-  mapper: {
-    serializedName: "x-ms-permissions",
-    xmlName: "x-ms-permissions",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const posixUmask: OperationParameter = {
-  parameterPath: ["options", "posixUmask"],
-  mapper: {
-    serializedName: "x-ms-umask",
-    xmlName: "x-ms-umask",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const cacheControl: OperationParameter = {
-  parameterPath: ["options", "directoryHttpHeaders", "cacheControl"],
-  mapper: {
-    serializedName: "x-ms-cache-control",
-    xmlName: "x-ms-cache-control",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "directoryHttpHeaders", "contentType"],
-  mapper: {
-    serializedName: "x-ms-content-type",
-    xmlName: "x-ms-content-type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentEncoding: OperationParameter = {
-  parameterPath: ["options", "directoryHttpHeaders", "contentEncoding"],
-  mapper: {
-    serializedName: "x-ms-content-encoding",
-    xmlName: "x-ms-content-encoding",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentLanguage: OperationParameter = {
-  parameterPath: ["options", "directoryHttpHeaders", "contentLanguage"],
-  mapper: {
-    serializedName: "x-ms-content-language",
-    xmlName: "x-ms-content-language",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentDisposition: OperationParameter = {
-  parameterPath: ["options", "directoryHttpHeaders", "contentDisposition"],
-  mapper: {
-    serializedName: "x-ms-content-disposition",
-    xmlName: "x-ms-content-disposition",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "modifiedAccessConditions", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    xmlName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "modifiedAccessConditions", "ifNoneMatch"],
-  mapper: {
-    serializedName: "If-None-Match",
-    xmlName: "If-None-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const marker1: OperationQueryParameter = {
-  parameterPath: ["options", "marker"],
-  mapper: {
-    serializedName: "continuation",
-    xmlName: "continuation",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const pathRenameMode: OperationQueryParameter = {
-  parameterPath: ["options", "pathRenameMode"],
-  mapper: {
-    serializedName: "mode",
-    xmlName: "mode",
-    type: {
-      name: "Enum",
-      allowedValues: ["legacy", "posix"]
-    }
-  }
-};
-
-export const renameSource: OperationParameter = {
-  parameterPath: "renameSource",
-  mapper: {
-    serializedName: "x-ms-rename-source",
-    required: true,
-    xmlName: "x-ms-rename-source",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const sourceIfModifiedSince: OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfModifiedSince"
-  ],
-  mapper: {
-    serializedName: "x-ms-source-if-modified-since",
-    xmlName: "x-ms-source-if-modified-since",
-    type: {
-      name: "DateTimeRfc1123"
-    }
-  }
-};
-
-export const sourceIfUnmodifiedSince: OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfUnmodifiedSince"
-  ],
-  mapper: {
-    serializedName: "x-ms-source-if-unmodified-since",
-    xmlName: "x-ms-source-if-unmodified-since",
-    type: {
-      name: "DateTimeRfc1123"
-    }
-  }
-};
-
-export const sourceIfMatch: OperationParameter = {
-  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfMatch"],
-  mapper: {
-    serializedName: "x-ms-source-if-match",
-    xmlName: "x-ms-source-if-match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const sourceIfNoneMatch: OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfNoneMatch"
-  ],
-  mapper: {
-    serializedName: "x-ms-source-if-none-match",
-    xmlName: "x-ms-source-if-none-match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const recursiveDirectoryDelete: OperationQueryParameter = {
-  parameterPath: "recursiveDirectoryDelete",
-  mapper: {
-    serializedName: "recursive",
-    required: true,
-    xmlName: "recursive",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const action5: OperationQueryParameter = {
-  parameterPath: "action",
-  mapper: {
-    defaultValue: "setAccessControl",
-    isConstant: true,
-    serializedName: "action",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const owner: OperationParameter = {
-  parameterPath: ["options", "owner"],
-  mapper: {
-    serializedName: "x-ms-owner",
-    xmlName: "x-ms-owner",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const group: OperationParameter = {
-  parameterPath: ["options", "group"],
-  mapper: {
-    serializedName: "x-ms-group",
-    xmlName: "x-ms-group",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const posixAcl: OperationParameter = {
-  parameterPath: ["options", "posixAcl"],
-  mapper: {
-    serializedName: "x-ms-acl",
-    xmlName: "x-ms-acl",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const action6: OperationQueryParameter = {
-  parameterPath: "action",
-  mapper: {
-    defaultValue: "getAccessControl",
-    isConstant: true,
-    serializedName: "action",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const upn: OperationQueryParameter = {
-  parameterPath: ["options", "upn"],
-  mapper: {
-    serializedName: "upn",
-    xmlName: "upn",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
 export const snapshot: OperationQueryParameter = {
   parameterPath: ["options", "snapshot"],
   mapper: {
@@ -1073,6 +780,28 @@ export const encryptionAlgorithm: OperationParameter = {
     defaultValue: "AES256",
     isConstant: true,
     serializedName: "x-ms-encryption-algorithm",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "modifiedAccessConditions", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    xmlName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const ifNoneMatch: OperationParameter = {
+  parameterPath: ["options", "modifiedAccessConditions", "ifNoneMatch"],
+  mapper: {
+    serializedName: "If-None-Match",
+    xmlName: "If-None-Match",
     type: {
       name: "String"
     }
@@ -1335,6 +1064,62 @@ export const rehydratePriority: OperationParameter = {
   }
 };
 
+export const sourceIfModifiedSince: OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceModifiedAccessConditions",
+    "sourceIfModifiedSince"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-if-modified-since",
+    xmlName: "x-ms-source-if-modified-since",
+    type: {
+      name: "DateTimeRfc1123"
+    }
+  }
+};
+
+export const sourceIfUnmodifiedSince: OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceModifiedAccessConditions",
+    "sourceIfUnmodifiedSince"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-if-unmodified-since",
+    xmlName: "x-ms-source-if-unmodified-since",
+    type: {
+      name: "DateTimeRfc1123"
+    }
+  }
+};
+
+export const sourceIfMatch: OperationParameter = {
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfMatch"],
+  mapper: {
+    serializedName: "x-ms-source-if-match",
+    xmlName: "x-ms-source-if-match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sourceIfNoneMatch: OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceModifiedAccessConditions",
+    "sourceIfNoneMatch"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-if-none-match",
+    xmlName: "x-ms-source-if-none-match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const sourceIfTags: OperationParameter = {
   parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfTags"],
   mapper: {
@@ -1592,7 +1377,7 @@ export const blobSequenceNumber: OperationParameter = {
   }
 };
 
-export const contentType2: OperationParameter = {
+export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/octet-stream",

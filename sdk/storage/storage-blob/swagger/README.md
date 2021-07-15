@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b50bcdde18465bbf04937a9ee73607753d24d65c/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-10-02/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-10-02/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -27,6 +27,26 @@ package-version: 12.7.0-beta.1
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
+### Don't include container or blob in path - we have direct URIs.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]
+    transform: >
+      for (const property in $)
+      {
+          if (property.includes('/{containerName}/{blob}'))
+          {
+              $[property]["parameters"] = $[property]["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/ContainerName") && false == param['$ref'].endsWith("#/parameters/Blob"))});
+          } 
+          else if (property.includes('/{containerName}'))
+          {
+              $[property]["parameters"] = $[property]["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/ContainerName"))});
+          }
+      }
+```
 
 ### /?restype=service&comp=properties (StorageServiceProperties renamed to BlobServiceProperties)
 
@@ -356,6 +376,10 @@ directive:
         $["x-ms-client-request-id"].type = "string";
         $["x-ms-client-request-id"].description = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
       }
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
 ```
 
 ### Hide x-ms-pageable in ListContainersSegment
@@ -477,15 +501,6 @@ directive:
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
       $["x-ms-error-code"]["type"] = "string";
       $["x-ms-error-code"]["description"] = "Error Code";
-```
-
-### Add clientrequestid to response header - Service_SubmitBatch
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/?comp=batch"]["post"]["responses"]["200"]["headers"]
-    transform: >
       $["x-ms-client-request-id"] = {};
       $["x-ms-client-request-id"]["x-ms-client-name"] = "ClientRequestId";
       $["x-ms-client-request-id"]["type"] = "string";
@@ -518,6 +533,19 @@ directive:
 directive:
   - from: swagger-document
     where: $["x-ms-paths"]["/{containerName}/{blob}?comp=properties&SetHTTPHeaders"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_AbortCopyFromURL
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=copy&copyid"]["put"]["responses"]["204"]["headers"]
     transform: >
       $["x-ms-error-code"] = {};
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
