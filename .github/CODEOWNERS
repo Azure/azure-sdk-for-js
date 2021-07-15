@@ -73,6 +73,9 @@
 # PRLabel: %Tables
 /sdk/tables/ @joheredi
 
+# PRLabel: %Web PubSub
+/sdk/web-pubsub/ @xirzec @bterlson @vicancy
+
 # PRLabel: %EngSys
 /sdk/template/ @Azure/azure-sdk-eng
 
