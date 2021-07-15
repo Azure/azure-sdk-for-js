@@ -3,13 +3,17 @@
 
 import qs from "qs";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
+import { isNode } from "../util/isNode";
+import { createHttpHeaders, createPipelineRequest, PipelineRequest } from "../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -57,39 +61,36 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    super(
-      undefined,
-      createPipelineFromOptions({
-        ...options,
-        deserializationOptions: {
-          expectedContentTypes: {
-            json: ["application/json", "text/json", "text/plain"]
-          }
-        }
-      })
-    );
+    const packageDetails = `azsdk-js-identity/2.0.0-beta.5`;
+    const userAgentPrefix =
+      options?.userAgentOptions?.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    this.baseUri = this.authorityHost = getIdentityClientAuthorityHost(options);
-
-    if (!this.baseUri.startsWith("https:")) {
+    const baseUri = getIdentityClientAuthorityHost(options);
+    if (!baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
     }
 
+    super({
+      requestContentType: "application/json; charset=utf-8",
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri
+    });
+
+    this.authorityHost = baseUri;
     this.abortControllers = new Map();
   }
 
-  createWebResource(requestOptions: RequestPrepareOptions): WebResource {
-    const webResource = new WebResource();
-    webResource.prepare(requestOptions);
-    return webResource;
-  }
-
   async sendTokenRequest(
-    webResource: WebResource,
+    request: PipelineRequest,
     expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
-    logger.info(`IdentityClient: sending token request to [${webResource.url}]`);
-    const response = await this.sendRequest(webResource);
+    logger.info(`IdentityClient: sending token request to [${request.url}]`);
+    const response = await this.sendRequest(request);
 
     expiresOnParser =
       expiresOnParser ||
@@ -97,23 +98,25 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         return Date.now() + responseBody.expires_in * 1000;
       });
 
-    if (response.status === 200 || response.status === 201) {
+
+    if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
+      const parsedBody = JSON.parse(response.bodyAsText);
       const token = {
         accessToken: {
-          token: response.parsedBody.access_token,
-          expiresOnTimestamp: expiresOnParser(response.parsedBody)
+          token: parsedBody.access_token,
+          expiresOnTimestamp: expiresOnParser(parsedBody)
         },
-        refreshToken: response.parsedBody.refresh_token
+        refreshToken: parsedBody.refresh_token
       };
 
       logger.info(
-        `IdentityClient: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
+        `IdentityClient: [${request.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
       );
       return token;
     } else {
       const error = new AuthenticationError(
         response.status,
-        response.parsedBody || response.bodyAsText
+        response.bodyAsText
       );
       logger.warning(
         `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`
@@ -153,19 +156,19 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-      const webResource = this.createWebResource({
+      const webResource = createPipelineRequest({
         url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
-        disableJsonStringifyOnBody: true,
-        deserializationMapper: undefined,
         body: qs.stringify(refreshParams),
-        headers: {
+        abortSignal: options && options.abortSignal,
+        headers: createHttpHeaders({
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
+        }),
+        tracingOptions: {
+          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+          tracingContext: updatedOptions?.tracingOptions?.tracingContext,
         },
-        spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-        tracingContext: updatedOptions?.tracingOptions?.tracingContext,
-        abortSignal: options && options.abortSignal
       });
 
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
@@ -246,22 +249,18 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
-    const webResource = new WebResource(
+    const request = createPipelineRequest({
       url,
-      "GET",
-      options?.body,
-      {},
-      options?.headers,
-      false,
-      false,
-      // MSAL doesn't send the correlation ID on the get requests.
-      this.generateAbortSignal()
-    );
+      method: "GET",
+      body: options?.body,
+      headers: createHttpHeaders(options?.headers),
+      abortSignal: this.generateAbortSignal()
+    });
 
-    return this.sendRequest(webResource).then((response) => {
+    return this.sendRequest(request).then((response) => {
       return {
-        body: response.parsedBody as T,
-        headers: response.headers.rawHeaders(),
+        body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
+        headers: response.headers.toJSON(),
         status: response.status
       };
     });
@@ -271,22 +270,19 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
-    const webResource = new WebResource(
+    const request = createPipelineRequest({
       url,
-      "POST",
-      options?.body,
-      {},
-      options?.headers,
-      false,
-      false,
+      method: "POST",
+      body: options?.body,
+      headers: createHttpHeaders(options?.headers),
       // MSAL doesn't send the correlation ID on the get requests.
-      this.generateAbortSignal(this.getCorrelationId(options))
-    );
+      abortSignal: this.generateAbortSignal(this.getCorrelationId(options))
+    });
 
-    return this.sendRequest(webResource).then((response) => {
+    return this.sendRequest(request).then((response) => {
       return {
-        body: response.parsedBody as T,
-        headers: response.headers.rawHeaders(),
+        body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
+        headers: response.headers.toJSON(),
         status: response.status
       };
     });
@@ -297,7 +293,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
  * Provides options to configure how the Identity library makes authentication
  * requests to Azure Active Directory.
  */
-export interface TokenCredentialOptions extends PipelineOptions {
+export interface TokenCredentialOptions extends ServiceClientOptions {
   /**
    * The authority host to use for authentication requests.
    * Possible values are available through {@link AzureAuthorityHosts}.

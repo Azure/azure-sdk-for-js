@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { createHttpHeaders, PipelineRequestOptions } from "../../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
 
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
@@ -16,7 +17,7 @@ function expiresInParser(requestBody: any): number {
   return Date.parse(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": "2017-09-01"
@@ -26,14 +27,15 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
     queryParameters.clientid = clientId;
   }
 
+  const query = new URLSearchParams(queryParameters);
+
   return {
-    url: process.env.MSI_ENDPOINT,
+    url: `${process.env.MSI_ENDPOINT!}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      secret: process.env.MSI_SECRET
-    }
+      secret: process.env.MSI_SECRET!
+    })
   };
 }
 

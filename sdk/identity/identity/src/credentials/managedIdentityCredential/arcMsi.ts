@@ -9,28 +9,30 @@ import { msiGenericGetToken } from "./utils";
 import { azureArcAPIVersion } from "./constants";
 import { AuthenticationError } from "../../client/errors";
 import { readFile } from "fs";
+import { createHttpHeaders, createPipelineRequest, PipelineRequestOptions } from "../../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
 
 const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
 
 // Azure Arc MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
-function prepareRequestOptions(resource?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": azureArcAPIVersion
   };
 
-  return {
+  const query = new URLSearchParams(queryParameters);
+
+  return createPipelineRequest({
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
-    url: process.env.IDENTITY_ENDPOINT,
+    url: `${process.env.IDENTITY_ENDPOINT!}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: true
-    }
-  };
+      Metadata: "true"
+    })
+  });
 }
 
 // Since "fs"'s readFileSync locks the thread, and to avoid extra dependencies.
@@ -47,10 +49,10 @@ function readFileAsync(path: string, options: { encoding: string }): Promise<str
 
 async function filePathRequest(
   identityClient: IdentityClient,
-  requestPrepareOptions: RequestPrepareOptions
+  requestPrepareOptions: PipelineRequestOptions
 ): Promise<string | undefined> {
   const response = await identityClient.sendRequest(
-    identityClient.createWebResource(requestPrepareOptions)
+    createPipelineRequest(requestPrepareOptions)
   );
 
   if (response.status !== 401) {
@@ -105,7 +107,7 @@ export const arcMsi: MSI = {
     }
 
     const key = await readFileAsync(filePath, { encoding: "utf-8" });
-    requestOptions.headers!["Authorization"] = `Basic ${key}`;
+    requestOptions.headers?.set("Authorization", `Basic ${key}`);
 
     return msiGenericGetToken(identityClient, requestOptions, expiresInParser, getTokenOptions);
   }
