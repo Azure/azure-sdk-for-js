@@ -227,7 +227,7 @@ stages:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
                 $packageInfoPath = $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
-                $pkgInfo = Get-Content $packageInfoPath | ConvertFrom-Json
+                $pkgInfo = Get-Content -Path $packageInfoPath | ConvertFrom-Json
                 $publishAlphaVersion = $false
                 if ($pkgInfo.SdkType -eq "client") {
                   $publishAlphaVersion = $true
