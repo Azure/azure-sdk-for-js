@@ -156,6 +156,7 @@ function Get-PkgPropsForEntireService ($serviceDirectoryPath)
 
     foreach ($directory in (Get-ChildItem $serviceDirectoryPath -Directory))
     {
+        LogWarning "==========directory = '$directory'==================="
         $pkgProps = &$GetPackageInfoFromRepoFn $directory.FullName $serviceDirectory
         if ($null -ne $pkgProps)
         {
