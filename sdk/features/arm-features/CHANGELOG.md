@@ -11,4 +11,4 @@ Please note that this version has breaking changes, all of which were made after
 - Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
 - List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
 - Long running operations i.e. the methods whose names started with `begin` now return a poller object that gives you a better control over the operation. To get the final result like before use the corresponding method that will have the suffix `AndWait`.
-- The sdk is based on ES6.
+- The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
