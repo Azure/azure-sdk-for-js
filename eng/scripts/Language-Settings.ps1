@@ -22,7 +22,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
     LogWarning "==========pre create pkgProp==================="
     $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-    LogWarning "==========PackageProps = '$PackageProps'==================="
+    LogWarning "==========pkgProp = '$pkgProp'==================="
     if ($projectJson.psobject.properties.name -contains 'sdk-type') {
       $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
     }
@@ -34,7 +34,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
     $pkgProp.ArtifactName = $jsStylePkgName
-    LogWarning "==========return PackageProps = '$PackageProps'==================="
+    LogWarning "==========return pkgProp = '$pkgProp'==================="
     return $pkgProp
   }
   return $null
