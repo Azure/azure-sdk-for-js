@@ -8,7 +8,7 @@ An Azure Table storage based solution to store checkpoints and to aid in load ba
 
 ### Install the package
 
-Install the Azure Event Hubs Checkpoint Store Tables library using npm
+Install the Azure Event Hubs Checkpoint Store Tables library using npm.
 
 `npm install @azure/eventhubs-checkpointstore-tables`
 
