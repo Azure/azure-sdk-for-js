@@ -37,6 +37,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
+    retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
 }
 
@@ -173,6 +174,12 @@ export function parseFeatureFlag(setting: ConfigurationSetting): ConfigurationSe
 
 // @public
 export function parseSecretReference(setting: ConfigurationSetting): ConfigurationSetting<SecretReferenceValue>;
+
+// @public
+export interface RetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+}
 
 // @public
 export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";

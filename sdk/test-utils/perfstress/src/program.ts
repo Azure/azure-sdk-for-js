@@ -122,47 +122,6 @@ export class PerfStressProgram {
    * @param durationMilliseconds When to abort any execution.
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
-  private runLoopSync(
-    test: PerfStressTest,
-    parallel: PerfStressParallel,
-    durationMilliseconds: number,
-    abortController: AbortController
-  ): void {
-    if (!test.run) {
-      throw new Error(`The "run" method is missing in the test ${this.testName}`);
-    }
-    const start = process.hrtime();
-    while (!abortController.signal.aborted) {
-      test.run(abortController.signal);
-
-      const elapsed = process.hrtime(start);
-      const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
-
-      parallel.completedOperations += 1;
-      parallel.lastMillisecondsElapsed = elapsedMilliseconds;
-
-      // In runTest we create a setTimeout that is intended to abort the abortSignal
-      // once the durationMilliseconds have elapsed. That setTimeout might not get queued
-      // on time through the event loop, depending on the number of operations we might be executing.
-      // For this reason, we're also manually checking the elapsed time here.
-      if (abortController.signal.aborted || elapsedMilliseconds > durationMilliseconds) {
-        abortController.abort();
-        break;
-      }
-    }
-  }
-
-  /**
-   * Runs the test in scope repeatedly, without waiting for any promises to finish,
-   * as many times as possible until durationMilliseconds is reached.
-   * For each test run, it will report one more completedOperations on the PerfStressParallel given,
-   * as well as the lastMillisecondsElapsed that reports the last test execution's elapsed time in comparison
-   * to the beginning of the execution of runLoop.
-   *
-   * @param parallel Object where to log the results from each execution.
-   * @param durationMilliseconds When to abort any execution.
-   * @param abortController Allows us to send through a signal determining when to abort any execution.
-   */
   private async runLoopAsync(
     test: PerfStressTest,
     parallel: PerfStressParallel,
@@ -201,7 +160,7 @@ export class PerfStressProgram {
     title: string
   ): Promise<void> {
     const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(this.parallelNumber);
-    const parallelTestResults: Promise<void>[] | void[] = new Array<void>(this.parallelNumber);
+    const parallelTestResults: Array<Promise<void>> = new Array<Promise<void>>(this.parallelNumber);
 
     const abortController = new AbortController();
     const durationMilliseconds = durationSeconds * 1000;
@@ -231,8 +190,7 @@ export class PerfStressProgram {
       console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
     }, millisecondsToLog);
 
-    const isAsync = !this.parsedDefaultOptions.sync.value;
-    const runLoop = isAsync ? this.runLoopAsync : this.runLoopSync;
+    const runLoop = this.runLoopAsync;
 
     // Unhandled exceptions should stop the whole PerfStress process.
     process.on("unhandledRejection", (error) => {
@@ -260,10 +218,8 @@ export class PerfStressProgram {
       );
     }
 
-    if (isAsync) {
-      for (const promise of parallelTestResults) {
-        await promise;
-      }
+    for (const promise of parallelTestResults) {
+      await promise;
     }
 
     // Once we finish, we clear the log interval.

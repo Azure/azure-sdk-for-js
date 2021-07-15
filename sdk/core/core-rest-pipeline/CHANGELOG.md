@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
 - `proxyPolicy` now allows passing in a list of no-proxy patterns to override the global ones loaded from NO_PROXY environment variable.
 
 ### Breaking Changes
