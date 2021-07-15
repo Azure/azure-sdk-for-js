@@ -65,7 +65,6 @@ export interface DefaultPerfStressOptions {
   iterations: number;
   "no-cleanup": boolean;
   "milliseconds-to-log": number;
-  sync: boolean;
   "test-proxy": string;
 }
 
@@ -96,10 +95,6 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "Times to repeat the whole process, after warmup",
     shortName: "i",
     defaultValue: 1
-  },
-  sync: {
-    description: "Only runs the 'run' method instead of the 'runAsync' method",
-    defaultValue: false
   },
   "no-cleanup": {
     description: "Disables test cleanup"
