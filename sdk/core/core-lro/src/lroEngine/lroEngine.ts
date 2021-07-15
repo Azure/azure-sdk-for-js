@@ -30,13 +30,13 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 > {
   private config: PollerConfig;
 
-  constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions) {
+  constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions<TResult, TState>) {
     const { intervalInMs = 2000, resumeFrom } = options || {};
     const state: TState & ResumablePollOperationState<TResult> = resumeFrom
       ? deserializeState(resumeFrom)
       : ({} as TState & ResumablePollOperationState<TResult>);
 
-    const operation = new GenericPollOperation(state, lro, options?.lroResourceLocationConfig);
+    const operation = new GenericPollOperation(state, lro, options?.lroResourceLocationConfig, options?.processResult);
     super(operation);
 
     this.config = { intervalInMs: intervalInMs };

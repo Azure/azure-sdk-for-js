@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
+import { RawResponse } from "../models";
 import { PollOperation, PollOperationState } from "../pollOperation";
 import { logger } from "./logger";
 import {
@@ -10,7 +11,8 @@ import {
   LongRunningOperation,
   GetLroStatusFromResponse,
   LroResourceLocationConfig,
-  LroStatus
+  LroStatus,
+  LroResponse
 } from "./models";
 import { getPollingUrl } from "./requestUtils";
 import { createGetLroStatusFromResponse, createInitializeState, createPoll } from "./stateMachine";
@@ -28,7 +30,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   constructor(
     public state: TState & ResumablePollOperationState<TResult>,
     private lro: LongRunningOperation<TResult>,
-    private lroResourceLocationConfig?: LroResourceLocationConfig
+    private lroResourceLocationConfig?: LroResourceLocationConfig,
+    private processResult?: (result: unknown, state: TState) => TResult
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -51,18 +54,19 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
    *        the last known one
    */
   async update(options?: {
-    abortSignal?: AbortSignalLike | undefined;
-    fireProgress?: ((state: TState) => void) | undefined;
+    abortSignal?: AbortSignalLike;
+    fireProgress?: (state: TState, lastResponse?: RawResponse) => void;
   }): Promise<PollOperation<TState, TResult>> {
     const state = this.state;
+    let lastResponse: LroResponse<TResult> | undefined = undefined;
     if (!state.isStarted) {
       const initializeState = createInitializeState(
         state,
         this.lro.requestPath,
         this.lro.requestMethod
       );
-      const response = await this.lro.sendInitialRequest();
-      initializeState(response);
+      lastResponse = await this.lro.sendInitialRequest();
+      initializeState(lastResponse);
     }
 
     if (!state.isCompleted) {
@@ -91,15 +95,17 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       );
       logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
-        state.result = currentState.flatResponse;
+        state.result =
+          this.processResult?.(currentState.flatResponse, state) || currentState.flatResponse;
         state.isCompleted = true;
       } else {
         this.poll = currentState.next ?? this.poll;
         state.pollingURL = getPollingUrl(currentState.rawResponse, state.pollingURL);
       }
+      lastResponse = currentState;
     }
     logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
-    options?.fireProgress?.(state);
+    options?.fireProgress?.(state, lastResponse?.rawResponse );
     return this;
   }
 

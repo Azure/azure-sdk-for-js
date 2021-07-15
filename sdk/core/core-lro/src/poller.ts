@@ -3,6 +3,7 @@
 
 import { PollOperation, PollOperationState } from "./pollOperation";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { RawResponse } from "./models";
 
 /**
  * CancelOnProgress is used as the return value of a Poller's onProgress method.
@@ -17,7 +18,7 @@ export type CancelOnProgress = () => void;
  * These functions will receive a TState that is defined by your implementation of
  * the Poller class.
  */
-export type PollProgressCallback<TState> = (state: TState) => void;
+export type PollProgressCallback<TState> = (state: TState, lastResponse?: RawResponse) => void;
 
 /**
  * When a poller is manually stopped through the `stopPolling` method,
@@ -63,7 +64,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
    *
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
-  onProgress(callback: (state: TState) => void): CancelOnProgress;
+  onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress;
   /**
    * Returns true if the poller has finished polling.
    */
@@ -343,9 +344,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *
    * @param state - The current operation state.
    */
-  private fireProgress(state: TState): void {
+  private fireProgress(state: TState, lastResponse?: RawResponse): void {
     for (const callback of this.pollProgressCallbacks) {
-      callback(state);
+      callback(state, lastResponse);
     }
   }
 
@@ -396,7 +397,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
-  public onProgress(callback: (state: TState) => void): CancelOnProgress {
+  public onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress {
     this.pollProgressCallbacks.push(callback);
     return (): void => {
       this.pollProgressCallbacks = this.pollProgressCallbacks.filter((c) => c !== callback);

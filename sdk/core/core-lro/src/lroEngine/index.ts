@@ -4,7 +4,6 @@
 export { LroEngine } from "./lroEngine";
 export {
   LroResourceLocationConfig,
-  RawResponse,
   LongRunningOperation,
   LroResponse,
   LroEngineOptions

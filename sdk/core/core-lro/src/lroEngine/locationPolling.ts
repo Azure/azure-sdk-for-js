@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LroResponse, LroStatus, RawResponse } from "./models";
+import { RawResponse } from "../models";
+import { LroResponse, LroStatus } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
 function isLocationPollingDone(rawResponse: RawResponse): boolean {

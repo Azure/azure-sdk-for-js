@@ -19,14 +19,15 @@ export interface LongRunningOperation<T> {
 
 // @public
 export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
-    constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions);
+    constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions<TResult, TState>);
     delay(): Promise<void>;
 }
 
 // @public
-export interface LroEngineOptions {
+export interface LroEngineOptions<TResult, TState> {
     intervalInMs?: number;
     lroResourceLocationConfig?: LroResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => TResult;
     resumeFrom?: string;
 }
 
@@ -50,7 +51,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     getResult(): TResult | undefined;
     isDone(): boolean;
     isStopped(): boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress;
     protected operation: PollOperation<TState, TResult>;
     poll(options?: {
         abortSignal?: AbortSignalLike;
@@ -74,7 +75,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
     getResult(): TResult | undefined;
     isDone(): boolean;
     isStopped(): boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress;
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
@@ -97,7 +98,7 @@ export interface PollOperation<TState, TResult> {
     toString(): string;
     update(options?: {
         abortSignal?: AbortSignalLike;
-        fireProgress?: (state: TState) => void;
+        fireProgress?: (state: TState, lastResponse?: RawResponse) => void;
     }): Promise<PollOperation<TState, TResult>>;
 }
 
@@ -111,7 +112,7 @@ export interface PollOperationState<TResult> {
 }
 
 // @public
-export type PollProgressCallback<TState> = (state: TState) => void;
+export type PollProgressCallback<TState> = (state: TState, lastResponse?: RawResponse) => void;
 
 // @public
 export interface RawResponse {
