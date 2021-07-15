@@ -133,7 +133,7 @@ describe("proxyPolicy (node)", function() {
         port: 8080
       };
 
-      const policy1 = proxyPolicy(proxySettings, ["test.com"]);
+      const policy1 = proxyPolicy(proxySettings, { customNoProxyList: ["test.com"] });
       const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
       const request = createPipelineRequest({
@@ -153,7 +153,7 @@ describe("proxyPolicy (node)", function() {
       policy1.sendRequest(request, next);
       assert.strictEqual(request.proxySettings, proxySettings);
 
-      const policy2 = proxyPolicy(proxySettings, ["proxytest.com"]);
+      const policy2 = proxyPolicy(proxySettings, { customNoProxyList: ["proxytest.com"] });
       request.url = "http://test.com";
       request.proxySettings = undefined;
       policy2.sendRequest(request, next);

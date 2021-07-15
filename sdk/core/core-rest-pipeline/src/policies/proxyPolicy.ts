@@ -193,10 +193,14 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
  * If not passed static settings, they will be retrieved from the HTTPS_PROXY
  * or HTTP_PROXY environment variables.
  * @param proxySettings - ProxySettings to use on each request.
+ * @param options - additional settings, for example, custom NO_PROXY patterns
  */
 export function proxyPolicy(
   proxySettings = getDefaultProxySettings(),
-  customNoProxyList?: string[]
+  options?: {
+    /** a list of patterns to override those loaded from NO_PROXY environment variable. */
+    customNoProxyList?: string[];
+  }
 ): PipelinePolicy {
   if (!noProxyListLoaded) {
     globalNoProxyList.push(...loadNoProxy());
@@ -208,8 +212,8 @@ export function proxyPolicy(
         !request.proxySettings &&
         !isBypassed(
           request.url,
-          customNoProxyList ?? globalNoProxyList,
-          customNoProxyList ? undefined : globalBypassedMap
+          options?.customNoProxyList ?? globalNoProxyList,
+          options?.customNoProxyList ? undefined : globalBypassedMap
         )
       ) {
         request.proxySettings = proxySettings;

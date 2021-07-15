@@ -110,9 +110,19 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
   };
 }
 
+/**
+ * A policy that allows one to apply proxy settings to all requests.
+ * If not passed static settings, they will be retrieved from the HTTPS_PROXY
+ * or HTTP_PROXY environment variables.
+ * @param proxySettings - ProxySettings to use on each request.
+ * @param options - additional settings, for example, custom NO_PROXY patterns
+ */
 export function proxyPolicy(
   proxySettings?: ProxySettings,
-  customNoProxyList?: string[]
+  options?: {
+    /** a list of patterns to override those loaded from NO_PROXY environment variable. */
+    customNoProxyList?: string[];
+  }
 ): RequestPolicyFactory {
   if (!proxySettings) {
     proxySettings = getDefaultProxySettings();
@@ -121,8 +131,13 @@ export function proxyPolicy(
     globalNoProxyList.push(...loadNoProxy());
   }
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ProxyPolicy(nextPolicy, options, proxySettings!, customNoProxyList);
+    create: (nextPolicy: RequestPolicy, requestPolicyOptions: RequestPolicyOptions) => {
+      return new ProxyPolicy(
+        nextPolicy,
+        requestPolicyOptions,
+        proxySettings!,
+        options?.customNoProxyList
+      );
     }
   };
 }
