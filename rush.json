@@ -795,8 +795,23 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/arm-managedapplications",
-      "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "packageName": "@azure/arm-links",
+      "projectFolder": "sdk/links/arm-links",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policy",
+      "projectFolder": "sdk/policy/arm-policy",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-locks",
+      "projectFolder": "sdk/locks/arm-locks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-features",
+      "projectFolder": "sdk/features/arm-features",
       "versionPolicyName": "management"
     }
   ]
