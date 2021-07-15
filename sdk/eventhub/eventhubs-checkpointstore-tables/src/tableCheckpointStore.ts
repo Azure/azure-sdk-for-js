@@ -24,7 +24,6 @@ export class TableCheckpointStore implements CheckpointStore {
    *  - `tracingOptions`: Options for configuring tracing.
    * @returns Partition ownership details of all the partitions that have had an owner.
    */
-
   async listOwnership(): /*
         fullyQualifiedNamespace: string,
         eventHubName: string,
