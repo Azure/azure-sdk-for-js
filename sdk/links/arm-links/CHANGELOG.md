@@ -1,15 +1,13 @@
-## 30.0.0-beta.1 (2021-07-14)
+## 30.0.0-beta.1 (2021-07-15)
 
-This is beta preview version.
+This is the first preview for the new version of the `@azure/arm-links` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
-This version uses a next-generation code generator that introduces important breaking changes, but also important new features (like unified authentication and async programming).
+While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
 
-**General breaking changes**
+Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
 
-- Authentication system has been completely revamped:
-
-  - Package `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported, use package `@azure/identity` instead: https://www.npmjs.com/package/@azure/identity
-
-- Operation `list` used to return `Promise<Models.XXX>` now returns an iterable result: `PagedAsyncIterableIterator`.
-- The sdk is based on ES6.
-- Only LTS version of Node.js is supported, and you will get a warning if you are using old Node.js version.
+**Noteworthy changes and features**
+-	Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
+-	Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
+-	List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
+-	Long running operations i.e. the methods whose names started with `begin` now return a poller object that gives you a better control over the operation. To get the final result like before use the corresponding method that will have the suffix `AndWait`.
