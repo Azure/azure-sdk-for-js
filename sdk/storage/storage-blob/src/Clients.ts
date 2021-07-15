@@ -3154,7 +3154,10 @@ export interface BlockBlobQueryOptions extends CommonOptions {
   /**
    * Configurations for the query input.
    */
-  inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+  inputTextConfiguration?:
+    | BlobQueryJsonTextConfiguration
+    | BlobQueryCsvTextConfiguration
+    | BlobQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */

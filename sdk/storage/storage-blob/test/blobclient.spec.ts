@@ -1462,23 +1462,25 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   });
 
   afterEach(async function() {
-    const listResult = (
-      await containerClient
-        .listBlobsFlat()
-        .byPage()
-        .next()
-    ).value;
+    if (!this.currentTest?.isPending()) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat()
+          .byPage()
+          .next()
+      ).value;
 
-    for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-      let deleteBlobClient: BlobClient;
-      deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        let deleteBlobClient: BlobClient;
+        deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
 
-      await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.setLegalHold(false);
 
-      await deleteBlobClient.deleteImmutabilityPolicy();
-      await deleteBlobClient.delete();
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
+      }
+      await recorder.stop();
     }
-    await recorder.stop();
   });
 
   it("Set immutability policy", async () => {
