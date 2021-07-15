@@ -103,7 +103,7 @@ stages:
           - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
             - deployment: PublishDocs
               displayName: Docs.MS Release
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+              condition: ne(variables['Skip.PublishDocs'], 'true')
               environment: githubio
               dependsOn: PublishPackage
 
