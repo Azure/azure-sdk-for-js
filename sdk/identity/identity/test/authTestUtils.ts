@@ -3,41 +3,39 @@
 
 import assert from "assert";
 import * as sinon from "sinon";
-import {
-  PipelineRequestOptions,
-  PipelineRequest,
-} from "@azure/core-rest-pipeline";
+import * as https from "https";
+import * as http from "http";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { PassThrough } from "stream";
 import { IncomingMessage, IncomingHttpHeaders, ClientRequest } from "http";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { AuthenticationError } from "../src";
+import { AccessToken, AuthenticationError, TokenCredential } from "../src";
 
 export function assertClientCredentials(
-  authRequest: PipelineRequestOptions,
+  authRequest: http.RequestOptions,
   expectedTenantId: string,
   expectedClientId: string,
-  expectedClientSecret: string
+  _expectedClientSecret: string
 ): void {
   if (!authRequest) {
     assert.fail("No authentication request was intercepted");
   } else {
-    assert.strictEqual(
-      authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
-      true,
-      "Request body doesn't contain expected tenantId"
-    );
+    assert.strictEqual(authRequest.hostname, "authority");
+    assert.strictEqual(`/${authRequest.path}`, expectedTenantId);
 
     assert.strictEqual(
-      (authRequest.body as string).indexOf(`client_id=${expectedClientId}`) > -1,
+      (authRequest.path as string).indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
+    /**
     assert.strictEqual(
-      (authRequest.body as string).indexOf(`client_secret=${expectedClientSecret}`) > -1,
+      requestBodies[0].indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
       "Request body doesn't contain expected clientSecret"
     );
+    */
   }
 }
 
@@ -121,12 +119,16 @@ export class FakeRequest extends PassThrough {
 /**
  * @internal
  */
-export function createResponse(statusCode: number, body = "", headers?: IncomingHttpHeaders): IncomingMessage {
+export function createResponse(
+  statusCode: number,
+  body = "",
+  headers?: IncomingHttpHeaders
+): IncomingMessage {
   const response = new FakeResponse();
   response.headers = {};
   response.statusCode = statusCode;
   if (headers) {
-    response.headers = headers
+    response.headers = headers;
   }
   response.write(body);
   response.end();
@@ -145,6 +147,21 @@ export function createRequest(): ClientRequest {
 /**
  * @internal
  */
+export type SendCredentialRequests = (options: {
+  scopes: string | string[];
+  credential: TokenCredential;
+  insecureResponses?: { response?: IncomingMessage; error?: Error }[];
+  secureResponses?: { response?: IncomingMessage; error?: Error }[];
+  timeout?: number;
+}) => Promise<{
+  result: AccessToken | null;
+  insecureRequestOptions: http.RequestOptions[];
+  secureRequestOptions: https.RequestOptions[];
+}>;
+
+/**
+ * @internal
+ */
 export interface IdentityTestContext {
   sandbox: sinon.SinonSandbox;
   clock: sinon.SinonFakeTimers;
@@ -152,12 +169,19 @@ export interface IdentityTestContext {
   oldLogger: typeof AzureLogger.log;
   oldLogLevel: AzureLogLevel | undefined;
   restore: () => Promise<void>;
+  sendCredentialRequests: SendCredentialRequests;
 }
 
 /**
  * @internal
  */
-export async function prepareIdentityTests({ replaceLogger, logLevel }: { replaceLogger?: boolean, logLevel?: AzureLogLevel }): Promise<IdentityTestContext> {
+export async function prepareIdentityTests({
+  replaceLogger,
+  logLevel
+}: {
+  replaceLogger?: boolean;
+  logLevel?: AzureLogLevel;
+}): Promise<IdentityTestContext> {
   const sandbox = sinon.createSandbox();
   const clock = sandbox.useFakeTimers();
   const oldLogLevel = getLogLevel();
@@ -184,6 +208,58 @@ export async function prepareIdentityTests({ replaceLogger, logLevel }: { replac
       sandbox.restore();
       AzureLogger.log = oldLogger;
       setLogLevel(oldLogLevel);
+    },
+    async sendCredentialRequests({
+      scopes,
+      credential,
+      insecureResponses = [],
+      secureResponses = [],
+      timeout
+    }: {
+      scopes: string | string[];
+      credential: TokenCredential;
+      insecureResponses?: { response?: IncomingMessage; error?: Error }[];
+      secureResponses?: { response?: IncomingMessage; error?: Error }[];
+      timeout?: number;
+    }): Promise<{
+      result: AccessToken | null;
+      insecureRequestOptions: http.RequestOptions[];
+      secureRequestOptions: https.RequestOptions[];
+    }> {
+      const stubbedHttpsRequest = sandbox.stub(https, "request");
+      const stubbedHttpRequest = sandbox.stub(http, "request");
+
+      const promise = credential.getToken(scopes, { requestOptions: { timeout } });
+
+      insecureResponses.forEach(({ response, error }, index) => {
+        if (error) {
+          stubbedHttpRequest.throws(error);
+        } else {
+          stubbedHttpRequest.onCall(index).returns(createRequest());
+          stubbedHttpRequest.onCall(index).yields(response);
+        }
+      });
+
+      secureResponses.forEach(({ response, error }, index) => {
+        if (error) {
+          stubbedHttpsRequest.throws(error);
+        } else {
+          stubbedHttpsRequest.onCall(index).returns(createRequest());
+          stubbedHttpsRequest.onCall(index).yields(response);
+        }
+      });
+
+      await clock.runAllAsync();
+
+      return {
+        result: await promise,
+        insecureRequestOptions: stubbedHttpRequest.args.map(
+          (args) => args[0]
+        ) as http.RequestOptions[],
+        secureRequestOptions: stubbedHttpsRequest.args.map(
+          (args) => args[0]
+        ) as https.RequestOptions[]
+      };
     }
   };
 }

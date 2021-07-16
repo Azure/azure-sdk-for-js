@@ -3,20 +3,29 @@
 
 import qs from "qs";
 import assert from "assert";
-import * as https from "https";
-import * as http from "http";
-import { ManagedIdentityCredential, AccessToken, TokenCredential, AuthenticationError } from "../../../src";
-import { IncomingMessage } from "http";
+import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
-import { assertRejects, createRequest, createResponse, IdentityTestContext, prepareIdentityTests } from "../../authTestUtils";
-import { imdsApiVersion, imdsEndpoint } from "../../../src/credentials/managedIdentityCredential/constants";
+import {
+  assertRejects,
+  createResponse,
+  IdentityTestContext,
+  prepareIdentityTests,
+  SendCredentialRequests
+} from "../../authTestUtils";
+import {
+  imdsApiVersion,
+  imdsEndpoint
+} from "../../../src/credentials/managedIdentityCredential/constants";
 
-describe.only("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function() {
   let testContext: IdentityTestContext;
-  beforeEach(async function () {
+  let sendCredentialRequests: SendCredentialRequests;
+
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({});
+    sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
@@ -26,17 +35,20 @@ describe.only("ManagedIdentityCredential", function () {
     delete process.env.IMDS_ENDPOINT;
   });
 
-  it("sends an authorization request with a modified resource name", async function () {
-    const authDetails = await sendMsiTokenRequest({
+  it("sends an authorization request with a modified resource name", async function() {
+    const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       insecureResponses: [
         { response: createResponse(200) }, // IMDS Endpoint ping
         {
-          response: createResponse(200, JSON.stringify({
-            token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          }))
+          response: createResponse(
+            200,
+            JSON.stringify({
+              token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
         }
       ]
     });
@@ -61,16 +73,19 @@ describe.only("ManagedIdentityCredential", function () {
   });
 
   it("sends an authorization request with an unmodified resource name", async () => {
-    const authDetails = await sendMsiTokenRequest({
+    const authDetails = await sendCredentialRequests({
       scopes: ["someResource"],
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
         { response: createResponse(200) }, // IMDS Endpoint ping
         {
-          response: createResponse(200, JSON.stringify({
-            token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          }))
+          response: createResponse(
+            200,
+            JSON.stringify({
+              token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
         }
       ]
     });
@@ -85,25 +100,29 @@ describe.only("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.resource as string), "someResource");
   });
 
-  it("returns error when no MSI is available", async function () {
+  it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     await assertRejects(
-      sendMsiTokenRequest({
+      sendCredentialRequests({
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
-        insecureResponses: [{ error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 }) }]
+        insecureResponses: [
+          {
+            error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 })
+          }
+        ]
       }),
       (error: AuthenticationError) => error.message.indexOf("No MSI credential available") > -1
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function () {
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
     const errorMessage = "ManagedIdentityCredential authentication failed.";
 
     await assertRejects(
-      sendMsiTokenRequest({
+      sendCredentialRequests({
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
         insecureResponses: [
@@ -115,7 +134,7 @@ describe.only("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the network was unreachable", async function () {
+  it("returns expected error when the network was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", {
@@ -124,7 +143,7 @@ describe.only("ManagedIdentityCredential", function () {
     });
 
     await assertRejects(
-      sendMsiTokenRequest({
+      sendCredentialRequests({
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
         insecureResponses: [
@@ -136,7 +155,7 @@ describe.only("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the host was unreachable", async function () {
+  it("returns expected error when the host was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const hostError: RestError = new RestError("Request Timeout", {
@@ -145,7 +164,7 @@ describe.only("ManagedIdentityCredential", function () {
     });
 
     await assertRejects(
-      sendMsiTokenRequest({
+      sendCredentialRequests({
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
         insecureResponses: [
@@ -158,8 +177,8 @@ describe.only("ManagedIdentityCredential", function () {
     );
   });
 
-  it("IMDS MSI retries also retries on 503s", async function () {
-    const authDetails = await sendMsiTokenRequest({
+  it("IMDS MSI retries also retries on 503s", async function() {
+    const authDetails = await sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -172,7 +191,7 @@ describe.only("ManagedIdentityCredential", function () {
         { response: createResponse(503, "", { "Retry-After": "2" }) },
         { response: createResponse(503, "", { "Retry-After": "2" }) },
         { response: createResponse(503, "", { "Retry-After": "2" }) },
-        { response: createResponse(200, JSON.stringify({ access_token: "token" })) },
+        { response: createResponse(200, JSON.stringify({ access_token: "token" })) }
       ]
     });
 
@@ -217,15 +236,18 @@ describe.only("ManagedIdentityCredential", function () {
     process.env.MSI_ENDPOINT = "https://endpoint";
     process.env.MSI_SECRET = "secret";
 
-    const authDetails = await sendMsiTokenRequest({
+    const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         {
-          response: createResponse(200, JSON.stringify({
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          }))
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
         }
       ]
     });
@@ -236,7 +258,11 @@ describe.only("ManagedIdentityCredential", function () {
     assert.equal(authRequest.method, "GET");
     assert.equal(query.clientid, "client");
     assert.equal(decodeURIComponent(query.resource as string), "https://service");
-    assert.equal(`https://${authRequest.hostname}`, process.env.MSI_ENDPOINT, "URL does not start with expected host and path");
+    assert.equal(
+      `https://${authRequest.hostname}`,
+      process.env.MSI_ENDPOINT,
+      "URL does not start with expected host and path"
+    );
     assert.equal(authRequest.headers!.secret, process.env.MSI_SECRET);
     assert.ok(
       authRequest.path!.indexOf(`api-version=2017-09-01`) > -1,
@@ -253,11 +279,11 @@ describe.only("ManagedIdentityCredential", function () {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
 
-    const authDetails = await sendMsiTokenRequest({
+    const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
-        { response: createResponse(200, JSON.stringify({ access_token: "token" })) },
+        { response: createResponse(200, JSON.stringify({ access_token: "token" })) }
       ]
     });
 
@@ -281,7 +307,7 @@ describe.only("ManagedIdentityCredential", function () {
       [`${filePath}`]: key
     });
 
-    const authDetails = await sendMsiTokenRequest({
+    const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential(),
       secureResponses: [
@@ -291,11 +317,14 @@ describe.only("ManagedIdentityCredential", function () {
           })
         },
         {
-          response: createResponse(200, JSON.stringify({
-            access_token: "token",
-            expires_in: 1
-          }))
-        },
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_in: 1
+            })
+          )
+        }
       ]
     });
 
@@ -343,15 +372,18 @@ describe.only("ManagedIdentityCredential", function () {
     // We're not verifying the certificate yet, but we still check for it:
     process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
 
-    const authDetails = await sendMsiTokenRequest({
+    const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         {
-          response: createResponse(200, JSON.stringify({
-            token: "token",
-            expires_on: 1
-          }))
+          response: createResponse(
+            200,
+            JSON.stringify({
+              token: "token",
+              expires_on: 1
+            })
+          )
         }
       ]
     });
@@ -378,44 +410,4 @@ describe.only("ManagedIdentityCredential", function () {
       assert.fail("No token was returned!");
     }
   });
-
-  async function sendMsiTokenRequest({
-    scopes, credential, insecureResponses = [], secureResponses = [], timeout }: {
-      scopes: string | string[],
-      credential: TokenCredential,
-      insecureResponses?: { response?: IncomingMessage, error?: Error }[],
-      secureResponses?: { response?: IncomingMessage, error?: Error }[],
-      timeout?: number
-    }): Promise<{ result: AccessToken | null, insecureRequestOptions: http.RequestOptions[], secureRequestOptions: https.RequestOptions[] }> {
-    const stubbedHttpsRequest = testContext.sandbox.stub(https, "request");
-    const stubbedHttpRequest = testContext.sandbox.stub(http, "request");
-
-    const promise = credential.getToken(scopes, { requestOptions: { timeout } });
-
-    insecureResponses.forEach(({ response, error }, index) => {
-      if (error) {
-        stubbedHttpRequest.throws(error);
-      } else {
-        stubbedHttpRequest.onCall(index).returns(createRequest());
-        stubbedHttpRequest.onCall(index).yields(response)
-      }
-    });
-
-    secureResponses.forEach(({ response, error }, index) => {
-      if (error) {
-        stubbedHttpRequest.throws(error);
-      } else {
-        stubbedHttpsRequest.onCall(index).returns(createRequest());
-        stubbedHttpsRequest.onCall(index).yields(response);
-      }
-    });
-
-    await testContext.clock.runAllAsync();
-
-    return {
-      result: await promise,
-      insecureRequestOptions: stubbedHttpRequest.args.map(args => args[0]) as http.RequestOptions[],
-      secureRequestOptions: stubbedHttpsRequest.args.map(args => args[0]) as https.RequestOptions[],
-    };
-  }
 });

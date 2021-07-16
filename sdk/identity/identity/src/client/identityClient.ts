@@ -107,6 +107,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   ): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
+    console.log("IDENTITY CLIENT RESPONSE", response);
 
     expiresOnParser =
       expiresOnParser ||
@@ -118,7 +119,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       const parsedBody = parse(response.bodyAsText);
       const token = {
         accessToken: {
-          token: parsedBody.token || parsedBody.access_token,
+          token: parsedBody.token ?? parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(parsedBody)
         },
         refreshToken: parsedBody.refresh_token
@@ -271,7 +272,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return this.sendRequest(request).then((response) => {
       return {
-        body: response.bodyAsText ? parse(response.bodyAsText) as any : {},
+        body: response.bodyAsText ? (parse(response.bodyAsText) as any) : {},
         headers: response.headers.toJSON(),
         status: response.status
       };
@@ -293,7 +294,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return this.sendRequest(request).then((response) => {
       return {
-        body: response.bodyAsText ? parse(response.bodyAsText) as any : {},
+        body: response.bodyAsText ? (parse(response.bodyAsText) as any) : {},
         headers: response.headers.toJSON(),
         status: response.status
       };

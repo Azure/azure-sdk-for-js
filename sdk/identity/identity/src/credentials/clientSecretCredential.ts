@@ -42,7 +42,7 @@ export class ClientSecretCredential implements TokenCredential {
     clientSecret: string,
     options?: TokenCredentialOptions
   ) {
-    this.identityClient = new IdentityClient(options);
+    this.identityClient = new IdentityClient({ ...options });
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
@@ -62,13 +62,10 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions: newOptions } = createSpan(
-      "ClientSecretCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ClientSecretCredential-getToken", options);
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-      const webResource = createPipelineRequest({
+      const request = createPipelineRequest({
         url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
         body: qs.stringify({
@@ -84,12 +81,15 @@ export class ClientSecretCredential implements TokenCredential {
         }),
         abortSignal: options && options.abortSignal,
         tracingOptions: {
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-          tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+          spanOptions: updatedOptions.tracingOptions && updatedOptions.tracingOptions.spanOptions,
+          tracingContext:
+            updatedOptions.tracingOptions && updatedOptions.tracingOptions.tracingContext
         }
       });
 
-      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      console.log("BEFORE SEND TOKEN REQUEST");
+      const tokenResponse = await this.identityClient.sendTokenRequest(request);
+      console.log({ tokenResponse });
       logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
