@@ -6,7 +6,6 @@ import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/m
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { ServiceClient } from "@azure/core-client";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import {
   createHttpHeaders,
   createPipelineRequest,
@@ -20,17 +19,18 @@ import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
 import { isNode } from "../util/isNode";
 
-const noCorrelationId = "noCorrelationId";
-
 /**
  * Safe JSON parse.
  * @internal
  */
-function parse(input: string): Record<string, string> {
+function parse<T>(input: string | null | undefined): T {
+  if (!input) {
+    return {} as T;
+  }
   try {
     return JSON.parse(input);
   } catch (e) {
-    return {};
+    return {} as T;
   }
 }
 
@@ -75,7 +75,6 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
-  private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
     const packageDetails = `azsdk-js-identity/1.5.0`;
@@ -98,7 +97,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     });
 
     this.authorityHost = baseUri;
-    this.abortControllers = new Map();
   }
 
   async sendTokenRequest(
@@ -115,10 +113,15 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody = parse(response.bodyAsText);
+      const parsedBody = parse<{
+        token?: string;
+        access_token?: string;
+        refresh_token?: string;
+      }>(response.bodyAsText);
+
       const token = {
         accessToken: {
-          token: parsedBody.token ?? parsedBody.access_token,
+          token: parsedBody.token ?? parsedBody.access_token!,
           expiresOnTimestamp: expiresOnParser(parsedBody)
         },
         refreshToken: parsedBody.refresh_token
@@ -215,49 +218,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       span.end();
     }
   }
-
-  // Here is a custom layer that allows us to abort requests that go through MSAL,
-  // since MSAL doesn't allow us to pass options all the way through.
-
-  generateAbortSignal(correlationId?: string): AbortSignalLike {
-    const controller = new AbortController();
-    const key = correlationId || noCorrelationId;
-
-    const controllers = this.abortControllers.get(key) || [];
-    controllers.push(controller);
-    this.abortControllers.set(key, controllers);
-
-    return controller.signal;
-  }
-
-  abortRequests(correlationId: string = noCorrelationId): void {
-    const key = correlationId || noCorrelationId;
-    const controllers = [
-      ...(this.abortControllers.get(key) || []),
-      // MSAL passes no correlation ID to the get requests...
-      ...(this.abortControllers.get(noCorrelationId) || [])
-    ];
-    if (!controllers.length) {
-      return;
-    }
-    for (const controller of controllers) {
-      controller.abort();
-    }
-    this.abortControllers.set(key, undefined);
-    this.abortControllers.set(noCorrelationId, undefined);
-  }
-
-  getCorrelationId(options?: NetworkRequestOptions): string | undefined {
-    const parameter = options?.body
-      ?.split("&")
-      .map((part: string) => part.split("="))
-      .find(([key]: string[]) => key === "client-request-id");
-    return parameter && parameter.length ? parameter[1] : noCorrelationId;
-  }
-
   // The MSAL network module methods follow
 
-  sendGetRequestAsync<T>(
+  async sendGetRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
@@ -265,20 +228,18 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       url,
       method: "GET",
       body: options?.body,
-      headers: createHttpHeaders(options?.headers),
-      abortSignal: this.generateAbortSignal()
+      headers: createHttpHeaders(options?.headers)
     });
 
-    return this.sendRequest(request).then((response) => {
-      return {
-        body: response.bodyAsText ? (parse(response.bodyAsText) as any) : {},
-        headers: response.headers.toJSON(),
-        status: response.status
-      };
-    });
+    const response = await this.sendRequest(request);
+    return {
+      body: parse<T>(response.bodyAsText),
+      headers: response.headers.toJSON(),
+      status: response.status
+    };
   }
 
-  sendPostRequestAsync<T>(
+  async sendPostRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
@@ -286,18 +247,15 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       url,
       method: "POST",
       body: options?.body,
-      headers: createHttpHeaders(options?.headers),
-      // MSAL doesn't send the correlation ID on the get requests.
-      abortSignal: this.generateAbortSignal(this.getCorrelationId(options))
+      headers: createHttpHeaders(options?.headers)
     });
 
-    return this.sendRequest(request).then((response) => {
-      return {
-        body: response.bodyAsText ? (parse(response.bodyAsText) as any) : {},
-        headers: response.headers.toJSON(),
-        status: response.status
-      };
-    });
+    const response = await this.sendRequest(request);
+    return {
+      body: parse<T>(response.bodyAsText),
+      headers: response.headers.toJSON(),
+      status: response.status
+    };
   }
 }
 
