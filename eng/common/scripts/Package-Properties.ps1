@@ -15,7 +15,6 @@ class PackageProps
     [boolean]$IsNewSdk
     [string]$ArtifactName
     [string]$ReleaseStatus
-    [string]$DocsReadMeName
 
     PackageProps([string]$name, [string]$version, [string]$directoryPath, [string]$serviceDirectory)
     {
@@ -61,11 +60,6 @@ class PackageProps
         else
         {
             $this.ChangeLogPath = $null
-        }
-
-        if (Test-Path $directoryPath)
-        {
-          $this.DocsReadMeName = Split-Path -Path $directoryPath -Leaf
         }
     }
 
