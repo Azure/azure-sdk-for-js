@@ -10,14 +10,8 @@ import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  FeaturesImpl,
-  SubscriptionFeatureRegistrationsImpl
-} from "./operations";
-import {
-  Features,
-  SubscriptionFeatureRegistrations
-} from "./operationsInterfaces";
+import { FeaturesImpl } from "./operations";
+import { Features } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { FeatureClientContext } from "./featureClientContext";
@@ -37,21 +31,16 @@ export class FeatureClient extends FeatureClientContext {
   /**
    * Initializes a new instance of the FeatureClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID.
-   * @param providerNamespace The provider namespace.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    providerNamespace: string,
     options?: FeatureClientOptionalParams
   ) {
-    super(credentials, subscriptionId, providerNamespace, options);
+    super(credentials, subscriptionId, options);
     this.features = new FeaturesImpl(this);
-    this.subscriptionFeatureRegistrations = new SubscriptionFeatureRegistrationsImpl(
-      this
-    );
   }
 
   /**
@@ -186,7 +175,6 @@ export class FeatureClient extends FeatureClientContext {
   }
 
   features: Features;
-  subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -197,9 +185,6 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -213,9 +198,6 @@ const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -229,9 +211,6 @@ const listOperationsNextNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

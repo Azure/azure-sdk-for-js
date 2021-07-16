@@ -8,47 +8,22 @@ import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
-// @public
-export interface AuthorizationProfile {
-    readonly approvedTime?: Date;
-    readonly approver?: string;
-    readonly requestedTime?: Date;
-    readonly requester?: string;
-    readonly requesterObjectId?: string;
-}
-
-// @public
-export interface ErrorDefinition {
-    readonly code?: string;
-    details?: ErrorDefinition[];
-    readonly message?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDefinition;
-}
-
 // @public (undocumented)
 export class FeatureClient extends FeatureClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, providerNamespace: string, options?: FeatureClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FeatureClientOptionalParams);
     // (undocumented)
     features: Features;
     listOperations(options?: FeatureClientListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
     listOperationsNext(nextLink: string, options?: FeatureClientListOperationsNextOptionalParams): PagedAsyncIterableIterator<Operation>;
-    // (undocumented)
-    subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
-}
+    }
 
 // @public (undocumented)
 export class FeatureClientContext extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, providerNamespace: string, options?: FeatureClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FeatureClientOptionalParams);
     // (undocumented)
     apiVersion: string;
-    // (undocumented)
-    providerNamespace: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -175,34 +150,6 @@ export interface FeaturesUnregisterOptionalParams extends coreClient.OperationOp
 export type FeaturesUnregisterResponse = FeatureResult;
 
 // @public
-export enum KnownSubscriptionFeatureRegistrationApprovalType {
-    // (undocumented)
-    ApprovalRequired = "ApprovalRequired",
-    // (undocumented)
-    AutoApproval = "AutoApproval",
-    // (undocumented)
-    NotSpecified = "NotSpecified"
-}
-
-// @public
-export enum KnownSubscriptionFeatureRegistrationState {
-    // (undocumented)
-    NotRegistered = "NotRegistered",
-    // (undocumented)
-    NotSpecified = "NotSpecified",
-    // (undocumented)
-    Pending = "Pending",
-    // (undocumented)
-    Registered = "Registered",
-    // (undocumented)
-    Registering = "Registering",
-    // (undocumented)
-    Unregistered = "Unregistered",
-    // (undocumented)
-    Unregistering = "Unregistering"
-}
-
-// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -220,122 +167,6 @@ export interface OperationListResult {
     nextLink?: string;
     value?: Operation[];
 }
-
-// @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export type SubscriptionFeatureRegistration = ProxyResource & {
-    properties?: SubscriptionFeatureRegistrationProperties;
-};
-
-// @public
-export type SubscriptionFeatureRegistrationApprovalType = string;
-
-// @public
-export interface SubscriptionFeatureRegistrationList {
-    nextLink?: string;
-    value?: SubscriptionFeatureRegistration[];
-}
-
-// @public (undocumented)
-export interface SubscriptionFeatureRegistrationProperties {
-    readonly approvalType?: SubscriptionFeatureRegistrationApprovalType;
-    authorizationProfile?: AuthorizationProfile;
-    description?: string;
-    readonly displayName?: string;
-    readonly documentationLink?: string;
-    readonly featureName?: string;
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    readonly providerNamespace?: string;
-    readonly registrationDate?: Date;
-    readonly releaseDate?: Date;
-    shouldFeatureDisplayInPortal?: boolean;
-    state?: SubscriptionFeatureRegistrationState;
-    readonly subscriptionId?: string;
-    readonly tenantId?: string;
-}
-
-// @public
-export interface SubscriptionFeatureRegistrations {
-    createOrUpdate(featureName: string, options?: SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams): Promise<SubscriptionFeatureRegistrationsCreateOrUpdateResponse>;
-    delete(featureName: string, options?: SubscriptionFeatureRegistrationsDeleteOptionalParams): Promise<void>;
-    get(featureName: string, options?: SubscriptionFeatureRegistrationsGetOptionalParams): Promise<SubscriptionFeatureRegistrationsGetResponse>;
-    listAllBySubscription(options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
-    listAllBySubscriptionNext(nextLink: string, options?: SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
-    listBySubscription(options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
-    listBySubscriptionNext(nextLink: string, options?: SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
-}
-
-// @public
-export interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    subscriptionFeatureRegistrationType?: SubscriptionFeatureRegistration;
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse = SubscriptionFeatureRegistration;
-
-// @public
-export interface SubscriptionFeatureRegistrationsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SubscriptionFeatureRegistrationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsGetResponse = SubscriptionFeatureRegistration;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextNextResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListBySubscriptionNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListBySubscriptionNextNextResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListBySubscriptionResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export type SubscriptionFeatureRegistrationState = string;
 
 
 // (No @packageDocumentation comment for this package)
