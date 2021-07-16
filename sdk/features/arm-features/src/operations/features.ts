@@ -410,9 +410,6 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -427,9 +424,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -448,9 +442,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -470,9 +461,6 @@ const registerOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -492,9 +480,6 @@ const unregisterOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -513,9 +498,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -533,9 +515,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -554,9 +533,6 @@ const listAllNextNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -574,9 +550,6 @@ const listNextNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
