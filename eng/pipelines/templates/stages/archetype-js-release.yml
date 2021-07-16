@@ -87,7 +87,7 @@ stages:
 
                       - script: |
                           npm install $(Package.Archive)
-                        displayName: Install package $(Package.Archive)
+                        displayName: Install package
                         condition: succeeded()
 
                       - task: PowerShell@2
