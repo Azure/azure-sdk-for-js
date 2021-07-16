@@ -87,9 +87,7 @@ export class ClientSecretCredential implements TokenCredential {
         }
       });
 
-      console.log("BEFORE SEND TOKEN REQUEST");
       const tokenResponse = await this.identityClient.sendTokenRequest(request);
-      console.log({ tokenResponse });
       logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {

@@ -10,32 +10,32 @@ import { PassThrough } from "stream";
 import { IncomingMessage, IncomingHttpHeaders, ClientRequest } from "http";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { AccessToken, AuthenticationError, TokenCredential } from "../src";
+import { DefaultAuthorityHost } from "../src/constants";
 
 export function assertClientCredentials(
   authRequest: http.RequestOptions,
+  requestBody: string,
   expectedTenantId: string,
   expectedClientId: string,
-  _expectedClientSecret: string
+  expectedClientSecret: string
 ): void {
   if (!authRequest) {
     assert.fail("No authentication request was intercepted");
   } else {
-    assert.strictEqual(authRequest.hostname, "authority");
-    assert.strictEqual(`/${authRequest.path}`, expectedTenantId);
+    assert.strictEqual(`https://${authRequest.hostname}`, DefaultAuthorityHost);
+    assert.ok(authRequest.path?.indexOf(expectedTenantId) === 1);
 
     assert.strictEqual(
-      (authRequest.path as string).indexOf(`client_id=${expectedClientId}`) > -1,
+      requestBody.indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
-    /**
     assert.strictEqual(
-      requestBodies[0].indexOf(`client_secret=${expectedClientSecret}`) > -1,
+      requestBody.indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
       "Request body doesn't contain expected clientSecret"
     );
-    */
   }
 }
 
@@ -155,6 +155,8 @@ export type SendCredentialRequests = (options: {
   timeout?: number;
 }) => Promise<{
   result: AccessToken | null;
+  insecureRequestWriteSpies: sinon.SinonSpy[];
+  secureRequestWriteSpies: sinon.SinonSpy[];
   insecureRequestOptions: http.RequestOptions[];
   secureRequestOptions: https.RequestOptions[];
 }>;
@@ -223,19 +225,23 @@ export async function prepareIdentityTests({
       timeout?: number;
     }): Promise<{
       result: AccessToken | null;
+      insecureRequestWriteSpies: sinon.SinonSpy[];
+      secureRequestWriteSpies: sinon.SinonSpy[];
       insecureRequestOptions: http.RequestOptions[];
       secureRequestOptions: https.RequestOptions[];
     }> {
-      const stubbedHttpsRequest = sandbox.stub(https, "request");
       const stubbedHttpRequest = sandbox.stub(http, "request");
-
-      const promise = credential.getToken(scopes, { requestOptions: { timeout } });
+      const stubbedHttpsRequest = sandbox.stub(https, "request");
+      const insecureSpies: sinon.SinonSpy[] = [];
+      const secureSpies: sinon.SinonSpy[] = [];
 
       insecureResponses.forEach(({ response, error }, index) => {
         if (error) {
           stubbedHttpRequest.throws(error);
         } else {
-          stubbedHttpRequest.onCall(index).returns(createRequest());
+          const request = createRequest();
+          insecureSpies.push(sandbox.spy(request, "write"));
+          stubbedHttpRequest.onCall(index).returns(request);
           stubbedHttpRequest.onCall(index).yields(response);
         }
       });
@@ -244,15 +250,21 @@ export async function prepareIdentityTests({
         if (error) {
           stubbedHttpsRequest.throws(error);
         } else {
-          stubbedHttpsRequest.onCall(index).returns(createRequest());
+          const request = createRequest();
+          secureSpies.push(sandbox.spy(request, "write"));
+          stubbedHttpsRequest.onCall(index).returns(request);
           stubbedHttpsRequest.onCall(index).yields(response);
         }
       });
+
+      const promise = credential.getToken(scopes, { requestOptions: { timeout } });
 
       await clock.runAllAsync();
 
       return {
         result: await promise,
+        insecureRequestWriteSpies: insecureSpies,
+        secureRequestWriteSpies: secureSpies,
         insecureRequestOptions: stubbedHttpRequest.args.map(
           (args) => args[0]
         ) as http.RequestOptions[],

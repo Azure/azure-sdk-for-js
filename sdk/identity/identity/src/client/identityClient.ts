@@ -107,7 +107,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   ): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
-    console.log("IDENTITY CLIENT RESPONSE", response);
 
     expiresOnParser =
       expiresOnParser ||

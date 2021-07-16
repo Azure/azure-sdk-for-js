@@ -10,12 +10,12 @@ import {
   SendCredentialRequests
 } from "../authTestUtils";
 
-describe.only("ClientSecretCredential", function() {
+describe("ClientSecretCredential", function() {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
   beforeEach(async function() {
-    testContext = await prepareIdentityTests({ logLevel: "verbose" });
+    testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
   afterEach(async function() {
@@ -31,7 +31,7 @@ describe.only("ClientSecretCredential", function() {
           response: createResponse(
             200,
             JSON.stringify({
-              token: "token",
+              access_token: "token",
               expires_on: "06/20/2019 02:57:58 +00:00"
             })
           )
@@ -40,6 +40,8 @@ describe.only("ClientSecretCredential", function() {
     });
 
     const authRequest = authDetails.secureRequestOptions[0];
-    assertClientCredentials(authRequest, "tenant", "client", "secret");
+    const spy = authDetails.secureRequestWriteSpies[0];
+    const requestBody = spy.args[0][0];
+    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
   });
 });
