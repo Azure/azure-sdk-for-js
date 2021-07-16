@@ -9,7 +9,7 @@ import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { PassThrough } from "stream";
 import { IncomingMessage, IncomingHttpHeaders, ClientRequest } from "http";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { AccessToken, AuthenticationError, TokenCredential } from "../src";
+import { AccessToken, AuthenticationError, GetTokenOptions, TokenCredential } from "../src";
 import { DefaultAuthorityHost } from "../src/constants";
 
 export function assertClientCredentials(
@@ -149,10 +149,10 @@ export function createRequest(): ClientRequest {
  */
 export type SendCredentialRequests = (options: {
   scopes: string | string[];
+  getTokenOptions?: GetTokenOptions;
   credential: TokenCredential;
   insecureResponses?: { response?: IncomingMessage; error?: Error }[];
   secureResponses?: { response?: IncomingMessage; error?: Error }[];
-  timeout?: number;
 }) => Promise<{
   result: AccessToken | null;
   insecureRequestWriteSpies: sinon.SinonSpy[];
@@ -213,23 +213,11 @@ export async function prepareIdentityTests({
     },
     async sendCredentialRequests({
       scopes,
+      getTokenOptions,
       credential,
       insecureResponses = [],
-      secureResponses = [],
-      timeout
-    }: {
-      scopes: string | string[];
-      credential: TokenCredential;
-      insecureResponses?: { response?: IncomingMessage; error?: Error }[];
-      secureResponses?: { response?: IncomingMessage; error?: Error }[];
-      timeout?: number;
-    }): Promise<{
-      result: AccessToken | null;
-      insecureRequestWriteSpies: sinon.SinonSpy[];
-      secureRequestWriteSpies: sinon.SinonSpy[];
-      insecureRequestOptions: http.RequestOptions[];
-      secureRequestOptions: https.RequestOptions[];
-    }> {
+      secureResponses = []
+    }) {
       const stubbedHttpRequest = sandbox.stub(http, "request");
       const stubbedHttpsRequest = sandbox.stub(https, "request");
       const insecureSpies: sinon.SinonSpy[] = [];
@@ -257,7 +245,7 @@ export async function prepareIdentityTests({
         }
       });
 
-      const promise = credential.getToken(scopes, { requestOptions: { timeout } });
+      const promise = credential.getToken(scopes, getTokenOptions);
 
       await clock.runAllAsync();
 
