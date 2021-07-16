@@ -12,20 +12,17 @@ import {
   RestError
 } from "../src";
 import {
-  setTracer,
-  NoOpTracer,
   SpanContext,
   TraceFlags,
-  Span,
   TraceState,
   context,
   setSpan,
   SpanStatus,
   SpanStatusCode,
   SpanAttributes,
-  Tracer,
   SpanAttributeValue
 } from "@azure/core-tracing";
+import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
 
 class MockSpan implements Span {
   private _endCalled = false;
@@ -128,6 +125,10 @@ class MockTracer implements Tracer {
     private state = ""
   ) {}
 
+  startActiveSpan(): never {
+    throw new Error("Method not implemented.");
+  }
+
   getStartedSpans(): MockSpan[] {
     return this.spans;
   }
@@ -144,14 +145,42 @@ class MockTracer implements Tracer {
   }
 }
 
+class MockTracerProvider implements TracerProvider {
+  private mockTracer: Tracer = new MockTracer();
+
+  setTracer(tracer: Tracer) {
+    this.mockTracer = tracer;
+  }
+
+  getTracer(): Tracer {
+    return this.mockTracer;
+  }
+
+  register() {
+    trace.setGlobalTracerProvider(this);
+  }
+
+  disable() {
+    trace.disable();
+  }
+}
+
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 
 describe("tracingPolicy", function() {
   const TRACE_VERSION = "00";
+  const mockTracerProvider = new MockTracerProvider();
+
+  beforeEach(() => {
+    mockTracerProvider.register();
+  });
+
+  afterEach(() => {
+    mockTracerProvider.disable();
+  });
 
   it("will not create a span if spanOptions are missing", async () => {
     const mockTracer = new MockTracer();
-    setTracer(mockTracer);
     const request = createPipelineRequest({
       url: "https://bing.com"
     });
@@ -172,7 +201,7 @@ describe("tracingPolicy", function() {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
 
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -211,7 +240,7 @@ describe("tracingPolicy", function() {
     const mockSpanId = "2222222222222222";
     // leave out the TraceOptions
     const mockTracer = new MockTracer(mockTraceId, mockSpanId);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
 
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -250,7 +279,7 @@ describe("tracingPolicy", function() {
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
 
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -288,7 +317,7 @@ describe("tracingPolicy", function() {
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
 
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -326,7 +355,32 @@ describe("tracingPolicy", function() {
   });
 
   it("will not set headers if span is a NoOpSpan", async () => {
-    setTracer(new NoOpTracer());
+    mockTracerProvider.disable();
+
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), ROOT_SPAN)
+      }
+    });
+    const response: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request: request,
+      status: 200
+    };
+    const policy = tracingPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(response);
+    await policy.sendRequest(request, next);
+
+    assert.notExists(request.headers.get("traceparent"));
+    assert.notExists(request.headers.get("tracestate"));
+  });
+
+  it("will not set headers if context is invalid", async () => {
+    // This will create a tracer that produces invalid trace-id and span-id
+    const mockTracer = new MockTracer("invalid", "00", TraceFlags.SAMPLED, "foo=bar");
+    mockTracerProvider.setTracer(mockTracer);
 
     const request = createPipelineRequest({
       url: "https://bing.com",

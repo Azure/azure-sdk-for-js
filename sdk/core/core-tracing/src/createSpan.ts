@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getTracer } from "../src/tracerProxy";
 import {
   OperationTracingOptions,
   Span,
   SpanOptions,
   SpanKind,
   setSpan,
-  context as otContext
+  context as otContext,
+  getTracer
 } from "./interfaces";
+import { trace, INVALID_SPAN_CONTEXT } from "@opentelemetry/api";
 
 /**
  * Arguments for `createSpanFunction` that allow you to specify the
@@ -30,6 +31,21 @@ export interface CreateSpanFunctionArgs {
    * NOTE: if this is empty no `az.namespace` attribute will be added to created Spans.
    */
   namespace: string;
+}
+
+export function isTracingDisabled(): boolean {
+  if (typeof process === "undefined") {
+    // not supported in browser for now without polyfills
+    return false;
+  }
+
+  const azureTracingDisabledValue = process.env.AZURE_TRACING_DISABLED?.toLowerCase();
+
+  if (azureTracingDisabledValue === "false" || azureTracingDisabledValue === "0") {
+    return false;
+  }
+
+  return Boolean(azureTracingDisabledValue);
 }
 
 /**
@@ -63,7 +79,13 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     };
 
     const spanName = args.packagePrefix ? `${args.packagePrefix}.${operationName}` : operationName;
-    const span = tracer.startSpan(spanName, spanOptions, tracingOptions.tracingContext);
+
+    let span: Span;
+    if (isTracingDisabled()) {
+      span = trace.wrapSpanContext(INVALID_SPAN_CONTEXT);
+    } else {
+      span = tracer.startSpan(spanName, spanOptions, tracingOptions.tracingContext);
+    }
 
     if (args.namespace) {
       span.setAttribute("az.namespace", args.namespace);
