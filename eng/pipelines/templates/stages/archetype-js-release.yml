@@ -86,8 +86,8 @@ stages:
                         displayName: 'Set Tag and Additional Tag'
 
                       - script: |
-                          npm install {{parameters.ArtifactPath}}
-                        displayName: Install package {{parameters.ArtifactPath}}
+                          npm install $(Package.Archive)
+                        displayName: Install package $(Package.Archive)
                         condition: succeeded()
 
                       - task: PowerShell@2
