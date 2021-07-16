@@ -5,12 +5,13 @@ import qs from "qs";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
+import { ServiceClient } from "@azure/core-client";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequest
+  PipelineRequest,
+  PipelineOptions
 } from "@azure/core-rest-pipeline";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
@@ -20,6 +21,18 @@ import { logger } from "../util/logging";
 import { isNode } from "../util/isNode";
 
 const noCorrelationId = "noCorrelationId";
+
+/**
+ * Safe JSON parse.
+ * @internal
+ */
+function parse(input: string): Record<string, string> {
+  try {
+    return JSON.parse(input);
+  } catch (e) {
+    return {};
+  }
+}
 
 /**
  * An internal type used to communicate details of a token request's
@@ -65,7 +78,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.0.0-beta.5`;
+    const packageDetails = `azsdk-js-identity/1.5.0`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -102,10 +115,10 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody = JSON.parse(response.bodyAsText);
+      const parsedBody = parse(response.bodyAsText);
       const token = {
         accessToken: {
-          token: parsedBody.access_token,
+          token: parsedBody.token || parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(parsedBody)
         },
         refreshToken: parsedBody.refresh_token
@@ -258,7 +271,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return this.sendRequest(request).then((response) => {
       return {
-        body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
+        body: response.bodyAsText ? parse(response.bodyAsText) as any : {},
         headers: response.headers.toJSON(),
         status: response.status
       };
@@ -280,7 +293,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return this.sendRequest(request).then((response) => {
       return {
-        body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
+        body: response.bodyAsText ? parse(response.bodyAsText) as any : {},
         headers: response.headers.toJSON(),
         status: response.status
       };
@@ -292,7 +305,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
  * Provides options to configure how the Identity library makes authentication
  * requests to Azure Active Directory.
  */
-export interface TokenCredentialOptions extends ServiceClientOptions {
+export interface TokenCredentialOptions extends PipelineOptions {
   /**
    * The authority host to use for authentication requests.
    * Possible values are available through {@link AzureAuthorityHosts}.

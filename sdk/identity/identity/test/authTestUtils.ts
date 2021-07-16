@@ -2,100 +2,15 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { ClientCertificateCredentialOptions } from "../src";
+import * as sinon from "sinon";
 import {
-  RestError,
-  HttpHeaders,
-  HttpClient,
   PipelineRequestOptions,
-  createHttpHeaders,
   PipelineRequest,
-  PipelineResponse
 } from "@azure/core-rest-pipeline";
-
-export interface MockAuthResponse {
-  status?: number;
-  error?: RestError;
-  headers?: HttpHeaders;
-  parsedBody?: any;
-  bodyAsText?: string;
-}
-
-export interface MockAuthHttpClientOptions {
-  authResponse?: MockAuthResponse | MockAuthResponse[];
-  mockTimeout?: boolean;
-}
-
-export class MockAuthHttpClient implements HttpClient {
-  private authResponses: MockAuthResponse[] = [];
-  private currentResponseIndex: number = 0;
-  private mockTimeout: boolean;
-
-  public tokenCredentialOptions: ClientCertificateCredentialOptions;
-  public requests: PipelineRequest[] = [];
-
-  constructor(options?: MockAuthHttpClientOptions) {
-    options = options || {};
-
-    if (Array.isArray(options.authResponse)) {
-      if (options.authResponse.length === 0) {
-        throw new Error("authResponse array must have at least one item");
-      }
-      this.authResponses = options.authResponse;
-    } else {
-      this.authResponses = [
-        options.authResponse || {
-          status: 200,
-          headers: createHttpHeaders(),
-          parsedBody: {
-            access_token: "token",
-            expires_in: 120
-          }
-        }
-      ];
-    }
-
-    this.mockTimeout = options.mockTimeout !== undefined ? options.mockTimeout : false;
-
-    this.tokenCredentialOptions = {
-      authorityHost: "https://authority",
-      httpClient: this,
-      retryOptions: {
-        maxRetries: 0
-      }
-    };
-  }
-
-  async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
-    this.requests.push(httpRequest);
-
-    if (this.mockTimeout) {
-      throw new RestError("Request timed out", { code: RestError.REQUEST_SEND_ERROR });
-    }
-
-    if (this.requests.length > this.authResponses.length) {
-      throw new Error("The number of requests has exceeded the number of authResponses");
-    }
-
-    const authResponse = this.authResponses[this.currentResponseIndex];
-
-    if (authResponse.error) {
-      this.currentResponseIndex++;
-      throw authResponse.error;
-    }
-
-    const response = {
-      request: httpRequest,
-      headers: authResponse.headers || createHttpHeaders(),
-      status: authResponse.status || 200,
-      parsedBody: authResponse.parsedBody,
-      bodyAsText: authResponse.bodyAsText
-    };
-
-    this.currentResponseIndex++;
-    return response;
-  }
-}
+import { PassThrough } from "stream";
+import { IncomingMessage, IncomingHttpHeaders, ClientRequest } from "http";
+import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { AuthenticationError } from "../src";
 
 export function assertClientCredentials(
   authRequest: PipelineRequestOptions,
@@ -173,65 +88,102 @@ export async function assertRejects(
   }
 }
 
-export interface DelayInfo {
-  resolve: () => void;
-  reject: (e: Error) => void;
-  promise: Promise<void>;
-  timeout: number;
+/**
+ * @internal
+ */
+export function isExpectedError(expectedErrorName: string): (error: any) => boolean {
+  return (error: any) => {
+    if (!(error instanceof AuthenticationError)) {
+      assert.ifError(error);
+    }
+    return error.errorResponse.error === expectedErrorName;
+  };
 }
 
-export class DelayController {
-  private _waitPromise?: Promise<DelayInfo>;
-  private _resolve?: (info: DelayInfo) => void;
-  private _pendingRequests: DelayInfo[] = [];
+/**
+ * @internal
+ */
+export class FakeResponse extends PassThrough {
+  public statusCode?: number;
+  public headers?: IncomingHttpHeaders;
+}
 
-  private removeDelayInfo(info: DelayInfo): void {
-    const index = this._pendingRequests.indexOf(info);
-    if (index >= 0) {
-      this._pendingRequests.splice(index, 1);
-    }
+/**
+ * @internal
+ */
+export class FakeRequest extends PassThrough {
+  public finished?: boolean;
+  public abort(): void {
+    this.finished = true;
+  }
+}
+
+/**
+ * @internal
+ */
+export function createResponse(statusCode: number, body = "", headers?: IncomingHttpHeaders): IncomingMessage {
+  const response = new FakeResponse();
+  response.headers = {};
+  response.statusCode = statusCode;
+  if (headers) {
+    response.headers = headers
+  }
+  response.write(body);
+  response.end();
+  return (response as unknown) as IncomingMessage;
+}
+
+/**
+ * @internal
+ */
+export function createRequest(): ClientRequest {
+  const request = new FakeRequest();
+  request.finished = false;
+  return (request as unknown) as ClientRequest;
+}
+
+/**
+ * @internal
+ */
+export interface IdentityTestContext {
+  sandbox: sinon.SinonSandbox;
+  clock: sinon.SinonFakeTimers;
+  logMessages: string[];
+  oldLogger: typeof AzureLogger.log;
+  oldLogLevel: AzureLogLevel | undefined;
+  restore: () => Promise<void>;
+}
+
+/**
+ * @internal
+ */
+export async function prepareIdentityTests({ replaceLogger, logLevel }: { replaceLogger?: boolean, logLevel?: AzureLogLevel }): Promise<IdentityTestContext> {
+  const sandbox = sinon.createSandbox();
+  const clock = sandbox.useFakeTimers();
+  const oldLogLevel = getLogLevel();
+  const oldLogger = AzureLogger.log;
+  const logMessages: string[] = [];
+
+  if (logLevel) {
+    setLogLevel(logLevel);
   }
 
-  delayRequested(timeout: number): Promise<void> {
-    let resolveFunc: () => void;
-    let rejectFunc: (e: Error) => void;
-    const promise = new Promise<void>((resolve, reject) => {
-      resolveFunc = resolve;
-      rejectFunc = reject;
-    });
-    const info: DelayInfo = {
-      resolve: resolveFunc!,
-      reject: rejectFunc!,
-      promise,
-      timeout
+  if (replaceLogger) {
+    AzureLogger.log = (args) => {
+      logMessages.push(args);
     };
-    this._pendingRequests.push(info);
+  }
 
-    const removeThis = (): void => {
-      this.removeDelayInfo(info);
-    };
-
-    promise.then(removeThis).catch(removeThis);
-
-    if (this._resolve) {
-      this._resolve(info);
-      this._resolve = undefined;
-      this._waitPromise = undefined;
+  return {
+    clock,
+    logMessages,
+    oldLogLevel,
+    sandbox,
+    oldLogger,
+    async restore() {
+      sandbox.restore();
+      AzureLogger.log = oldLogger;
+      setLogLevel(oldLogLevel);
     }
-
-    return promise;
-  }
-
-  getPendingRequests(): DelayInfo[] {
-    return this._pendingRequests;
-  }
-
-  waitForDelay(): Promise<DelayInfo> {
-    if (!this._waitPromise) {
-      this._waitPromise = new Promise<DelayInfo>((resolve) => {
-        this._resolve = resolve;
-      });
-    }
-    return this._waitPromise;
-  }
+  };
 }

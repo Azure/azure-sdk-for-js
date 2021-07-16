@@ -7,7 +7,7 @@
 import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
-import { ServiceClientOptions } from '@azure/core-client';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
@@ -173,7 +173,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 export { TokenCredential }
 
 // @public
-export interface TokenCredentialOptions extends ServiceClientOptions {
+export interface TokenCredentialOptions extends PipelineOptions {
     authorityHost?: string;
 }
 

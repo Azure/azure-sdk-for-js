@@ -67,16 +67,16 @@ export const imdsMsi: MSI = {
       getTokenOptions
     );
 
-    const request = prepareRequestOptions(resource, clientId);
+    const requestOptions = prepareRequestOptions(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
-    if (request.headers) {
+    if (requestOptions.headers) {
       // Remove the Metadata header to invoke a request error from
       // IMDS endpoint
-      request.headers.delete("Metadata");
+      requestOptions.headers.delete("Metadata");
     }
 
-    request.tracingOptions = {
+    requestOptions.tracingOptions = {
       spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
       tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
     };
@@ -85,13 +85,16 @@ export const imdsMsi: MSI = {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
-      const webResource = createPipelineRequest(request);
+      const request = createPipelineRequest(requestOptions);
 
-      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 300;
+      request.timeout = (options.requestOptions && options.requestOptions.timeout) || 300;
+
+      // This MSI uses the imdsEndpoint to get the token, which only uses http://
+      request.allowInsecureConnection = true;
 
       try {
         logger.info(`Pinging IMDS endpoint`);
-        await identityClient.sendRequest(webResource);
+        await identityClient.sendRequest(request);
       } catch (err) {
         if (
           (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||

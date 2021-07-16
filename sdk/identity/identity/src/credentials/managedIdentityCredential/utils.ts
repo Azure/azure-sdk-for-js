@@ -34,17 +34,18 @@ export async function msiGenericGetToken(
   expiresInParser: MSIExpiresInParser | undefined,
   getTokenOptions: GetTokenOptions = {}
 ): Promise<AccessToken | null> {
-  const webResource = createPipelineRequest({
+  const request = createPipelineRequest({
     abortSignal: getTokenOptions.abortSignal,
     tracingOptions: {
       spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
       tracingContext:
         getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext
     },
-    ...requestOptions
+    ...requestOptions,
+    allowInsecureConnection: true
   });
 
-  const tokenResponse = await identityClient.sendTokenRequest(webResource, expiresInParser);
+  const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
 
   return (tokenResponse && tokenResponse.accessToken) || null;
 }

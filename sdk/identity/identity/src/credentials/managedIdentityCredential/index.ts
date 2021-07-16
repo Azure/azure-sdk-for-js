@@ -13,6 +13,7 @@ import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
+import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -55,7 +56,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options);
+      this.identityClient = new IdentityClient({
+        ...options
+      });
     } else {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
@@ -73,9 +76,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       return this.cachedMSI;
     }
 
-    // "fabricMsi" can't be added yet because our HTTPs pipeline doesn't allow skipping the SSL verification step,
-    // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
-    const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, imdsMsi];
+    const MSIs = [appServiceMsi2017, cloudShellMsi, fabricMsi, arcMsi, imdsMsi];
 
     for (const msi of MSIs) {
       if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
