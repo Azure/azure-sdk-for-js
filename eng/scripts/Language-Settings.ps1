@@ -30,11 +30,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
     else {
       $pkgProp.SdkType = "unknown"
     }
-    if ($projectJson.name.StartsWith("@azure/arm"))
-    {
-      $pkgProp.SdkType = "mgmt"
-    }
-    $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+    $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
     return $pkgProp
   }
@@ -294,11 +290,11 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
   $remainingPackages = @() 
   if ($Mode -eq 'preview') { 
-    $remainingPackages = $DocsMetadata.Where({ 
+    $remainingPackages = $DocsMetadata.Where({
       $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
-  } else { 
-    $remainingPackages = $DocsMetadata.Where({ 
+  } else {
+    $remainingPackages = $DocsMetadata.Where({
       $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
   }

@@ -43,9 +43,10 @@ import http from "http";
  *  HTTP SERVER SETUP
  **********************************************************************/
 /** Starts a HTTP server that receives requests on sample server port. */
+let server: http.Server;
 function startServer(port: number) {
   // Creates a server
-  const server = http.createServer(handleRequest);
+  server = http.createServer(handleRequest);
   // Starts the server
   server.listen(port, () => {
     console.log(`Node HTTP listening on ${port}`);
@@ -74,10 +75,8 @@ function handleRequest(request: any, response: any) {
     setTimeout(() => {
       span.end();
       response.end("Hello World!");
-      setTimeout(() => {
-        // terminate the process to stop CI pipeline from running forever
-        process.kill(process.pid, 'SIGTERM')
-      }, 2000);
+      // terminate the process to stop CI pipeline from running forever
+      server.close();
     }, 2000);
   });
 }

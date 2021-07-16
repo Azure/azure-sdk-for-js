@@ -35,6 +35,7 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -99,6 +100,11 @@ export interface AppConfigurationClientOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+
+  /**
+   * Options that control how to retry failed requests.
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -529,7 +535,7 @@ export function getGeneratedClientOptions(
   const retryPolicies = [
     exponentialRetryPolicy(),
     systemErrorRetryPolicy(),
-    throttlingRetryPolicy()
+    throttlingRetryPolicy(internalAppConfigOptions.retryOptions)
   ];
 
   const userAgent = getUserAgentPrefix(

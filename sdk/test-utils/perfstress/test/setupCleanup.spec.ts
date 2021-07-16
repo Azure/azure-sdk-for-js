@@ -47,5 +47,5 @@ export class SetupCleanupTest extends PerfStressTest {
     }
   }
 
-  run(): void {}
+  async runAsync() {}
 }

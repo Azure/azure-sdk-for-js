@@ -331,3 +331,18 @@ export interface SetReadOnlyResponse
   extends ConfigurationSetting,
     SyncTokenHeaderField,
     HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Options that control how to retry failed requests.
+ */
+export interface RetryOptions {
+  /**
+   * The maximum number of retry attempts.  Defaults to 3.
+   */
+  maxRetries?: number;
+
+  /**
+   * The maximum delay in milliseconds allowed before retrying an operation.
+   */
+  maxRetryDelayInMs?: number;
+}
