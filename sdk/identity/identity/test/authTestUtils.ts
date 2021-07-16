@@ -17,7 +17,7 @@ export function assertClientCredentials(
   requestBody: string,
   expectedTenantId: string,
   expectedClientId: string,
-  expectedClientSecret: string
+  expectedClientSecret?: string
 ): void {
   if (!authRequest) {
     assert.fail("No authentication request was intercepted");
@@ -31,11 +31,13 @@ export function assertClientCredentials(
       "Request body doesn't contain expected clientId"
     );
 
-    assert.strictEqual(
-      requestBody.indexOf(`client_secret=${expectedClientSecret}`) > -1,
-      true,
-      "Request body doesn't contain expected clientSecret"
-    );
+    if (expectedClientSecret) {
+      assert.strictEqual(
+        requestBody.indexOf(`client_secret=${expectedClientSecret}`) > -1,
+        true,
+        "Request body doesn't contain expected clientSecret"
+      );
+    }
   }
 }
 
