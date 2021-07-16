@@ -3,6 +3,7 @@
 ## 1.5.0 (2021-07-16)
 
 - With this release, we've migrated from `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests.
+- We've also enabled Service Fabric support on the `ManagedIdentityCredential`.
 
 ## 1.4.0 (2021-07-09)
 
