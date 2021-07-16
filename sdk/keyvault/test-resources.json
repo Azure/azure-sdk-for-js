@@ -65,6 +65,13 @@
       "metadata": {
         "description": "The base time to add 2 hours to for SAS token expiration. The default is the current time."
       }
+    },
+    "attestationBaseName": {
+      "type": "string",
+      "defaultValue": "skrattestation",
+      "metadata": {
+        "description": "The base name for attestation resources. The default is 'skrattestation' to point to an existing test fixture. Dynamic deployment of a test fixture is tracked in #16314"
+      }
     }
   },
   "variables": {
@@ -265,6 +272,11 @@
     "BLOB_CONTAINER_NAME": {
       "type": "string",
       "value": "[variables('blobContainerName')]"
+    },
+    "ATTESTATION_URL": {
+      "type": "string",
+      "condition": "[parameters('enableHsm')]",
+      "value": "[concat('https://', parameters('attestationBaseName'), '.azurewebsites.net']"
     }
   }
 }

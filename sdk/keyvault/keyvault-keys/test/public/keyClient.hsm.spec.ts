@@ -74,8 +74,7 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
-      // Moving this to a managed test resource is tracked in #16314
-      const attestationUrl = "https://skrattestation.azurewebsites.net/";
+      const attestationUrl = process.env.ATTESTATION_URL;
       const releasePolicy = {
         anyOf: [
           {
@@ -96,6 +95,9 @@ onVersions({ minVer: "7.2" }).describe(
       let attestation: string;
 
       beforeEach(async () => {
+        if (!attestationUrl) {
+          assert.fail("ATTESTATION_URL is empty or undefined");
+        }
         const client = new DefaultHttpClient();
         const response = await client.sendRequest(
           new WebResource(`${attestationUrl}/generate-test-token`)
