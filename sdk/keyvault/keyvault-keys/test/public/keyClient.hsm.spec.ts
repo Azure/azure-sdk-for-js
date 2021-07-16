@@ -129,12 +129,12 @@ onVersions({ minVer: "7.2" }).describe(
         assert.equal(releaseResult.algorithm, KnownKeyExportEncryptionAlgorithm.RsaAesKeyWrap256);
       });
 
-      it.only("errors when key is exportable without a release policy", async () => {
+      it("errors when key is exportable without a release policy", async () => {
         const keyName = recorder.getUniqueName("exportablenopolicy");
         await assert.isRejected(hsmClient.createRsaKey(keyName, { exportable: true }));
       });
 
-      it.only("errors when a key has a release policy but is not exportable", async () => {
+      it("errors when a key has a release policy but is not exportable", async () => {
         const keyName = recorder.getUniqueName("policynonexportable");
         await assert.isRejected(
           hsmClient.createRsaKey(keyName, { releasePolicy: { data: encodedReleasePolicy } })

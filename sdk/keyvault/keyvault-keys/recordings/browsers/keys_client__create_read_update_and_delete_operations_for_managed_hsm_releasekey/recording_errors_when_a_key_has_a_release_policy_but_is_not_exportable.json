@@ -1,0 +1,94 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://skrattestation.azurewebsites.net//generate-test-token",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh2d2xRVk9UZWJJZGgtU3Jyb2JuUGlEZTF4THZyeENteDBVMjM0bHBkUjAiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiI2UGVfa0o0SmVTR29BT1dzazFWS290TFZDZklrc1VuSzNlVW1EdjBjSnJHM2RTdWhLNm1ka3pCV3g0Q1JJQkVjdkxEcmRmcXZMX08wMHR0azdxSVliSXJ5d0lFRmNlNXZDOU9pYVZMTnd0cFVYTzIyUHNyNTk3OWdSYUZzQ3BSZ2VHWjhNNUItUzhiR3R5SENQQlFsV0drT1FiZGRsMTl0OU1Zc3d6cU53Ymd5Nmo1dE8yZWpDdmpFYjBSNjJqcFZBYnBieXlHellENmZlWjBOZnZxeEoyLXk0MVAzdDlsa2JYVXhuZUpPV1N6cXJBQjhmcXdMb2QtNHh0YVNhOUtqa05qbDg2WUNoMml6NkVaaWpoWVdDVGQ3S1lndWRyNVNaX1g2Z1cxc3huN0xTU1RpbTJrTUtxT09hUHRtQmI0alBEZVRRNWZmNjIxVGFwM3JvQVpuU1EifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjYzOTYzNTEsImV4cCI6MTYyNzAwMTE1MX0.RyWZ0ClKCEnnocxWcRehxREVgP9aZgIjvxsYOIIoKrCspXzblDxQEomHSNFSNZxclzRiFVK8BJxO6ZgBhrscN6UGewGiGBduObdbIM8zpA-AGSZRybcINXl4dDp0bFVBWwNZSTlsDpTZdCHxWChTidkuI0JU9ffvqxYmeu5-PhfEILBOLyv8RzqCdjbIGXD9M0j-pNfYpA2bWZwk3mCpsvrth9du-Rfjy84e3l7iIPRkLngM5vcUbPDcjNrakN-wiu-hW7sZ2WA05zGf9x_bsKviETvs6aIXqNFwRjWko5uBCO2w2fV54C-0NXFsEM7P2uaSrq87uSOXu7rv6XPHCw\"}",
+   "responseHeaders": {
+    "content-length": "1305",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 16 Jul 2021 00:45:51 GMT",
+    "etag": "W/\"519-RGUwRL01uwuNFc5b4y/RsRc9M6A\"",
+    "status": "200",
+    "x-powered-by": "Express"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162639635239408424/create",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "2baad8ea-e5cf-11eb-8b80-0022484c85ac",
+    "x-ms-server-latency": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 16 Jul 2021 00:45:51 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11898.8 - WUS2 ProdSlices",
+    "x-ms-request-id": "dc5991c8-8661-4a54-b809-f48ee2cf2300"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162639635239408424/create",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "{\"kty\":\"RSA\",\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyYXR0ZXN0YXRpb24uYXp1cmV3ZWJzaXRlcy5uZXQvIn1dLCJ2ZXJzaW9uIjoiMS4wIn0\"}}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: 2bd07960-e5cf-11eb-8b80-0022484c85ac)\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "146",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "2bd07960-e5cf-11eb-8b80-0022484c85ac",
+    "x-ms-server-latency": "20"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "policynonexportable": "policynonexportable162639635239408424"
+  },
+  "newDate": {}
+ },
+ "hash": "44db4225191a1adb36af8a8f62e12542"
+}
