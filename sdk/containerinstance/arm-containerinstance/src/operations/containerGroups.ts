@@ -619,7 +619,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    204: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
