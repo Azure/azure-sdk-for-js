@@ -42,7 +42,7 @@ export class ClientSecretCredential implements TokenCredential {
     clientSecret: string,
     options?: TokenCredentialOptions
   ) {
-    this.identityClient = new IdentityClient({ ...options });
+    this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
