@@ -73,7 +73,7 @@
 # PRLabel: %Tables
 /sdk/tables/ @joheredi
 
-# PRLabel: %Web PubSub
+# PRLabel: %WebPubSub
 /sdk/web-pubsub/ @xirzec @bterlson @vicancy
 
 # PRLabel: %EngSys
