@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Shows a simple bulk call with each BulkOperation type.
+ */
+
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { addEntropy } from "../test/public/common/TestHelpers";
-import { BulkOperationType } from "../src";
+import { addEntropy } from "../../../test/public/common/TestHelpers";
+import { BulkOperationType } from "../../../src";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../dist";
-import { endpoint, masterKey } from "../test/public/common/_testConfig";
+
+const endpoint = process.env.COSMOS_ENDPOINT;
+const masterKey = process.env.COSMOS_KEY;
 
 async function run() {
   const containerId = "bulkContainerV2";

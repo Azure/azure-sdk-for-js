@@ -14,7 +14,9 @@
     "resolveJsonModule": true,
     "composite": true,
     "stripInternal": true,
-    "rootDir": "src"
+    "paths": {
+      "cosmos": ["./src/index"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
 }
