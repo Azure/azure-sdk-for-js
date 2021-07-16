@@ -87,7 +87,7 @@ export const imdsMsi: MSI = {
       // returned quickly from the endpoint, proving its availability.
       const request = createPipelineRequest(requestOptions);
 
-      request.timeout = (options.requestOptions && options.requestOptions.timeout) || 300;
+      request.timeout = options.requestOptions?.timeout ?? 300;
 
       // This MSI uses the imdsEndpoint to get the token, which only uses http://
       request.allowInsecureConnection = true;
