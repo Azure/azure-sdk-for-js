@@ -120,8 +120,8 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 
 function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
   New-Object PSObject -Property @{ 
-    DocsMsReadMeName = $PackageInfo.Name -replace "^@azure/" , ""
-    LatestReadMeLocation = 'docs-ref-services/latest'
+    DocsMsReadMeName      = $PackageInfo.DocsReadMeName
+    LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
     Suffix = ''
   }
