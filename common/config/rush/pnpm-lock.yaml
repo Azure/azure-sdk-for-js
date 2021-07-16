@@ -7,6 +7,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
@@ -8501,6 +8502,26 @@ packages:
       integrity: sha512-ZalbO4/h/8f18obNws6h9Qju+P5EJIMnv3QhqesAvVmFqlmBtbIZ/+utm2ytKiYraa1UziGIVa1rijUoVZX8TQ==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
+  file:projects/arm-compute.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.10
+    dev: false
+    name: '@rush-temp/arm-compute'
+    resolution:
+      integrity: sha512-AFfYvORs6aoKWsklgNm3gOmLMF5RcP9kAduYwrJW7EO06vkdTvXu5mHoF6Sa7+AGxx0LI8596NcBtyVY+TvD9A==
+      tarball: file:projects/arm-compute.tgz
+    version: 0.0.0
   file:projects/arm-features.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -12199,6 +12220,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz

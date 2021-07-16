@@ -795,6 +795,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-compute",
+      "projectFolder": "sdk/compute/arm-compute",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-storage",
       "projectFolder": "sdk/storage/arm-storage",
       "versionPolicyName": "management"
