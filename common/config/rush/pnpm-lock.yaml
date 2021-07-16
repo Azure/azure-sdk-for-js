@@ -8687,7 +8687,7 @@ packages:
   file:projects/attestation.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 1.4.0
+      '@azure/identity': 2.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
@@ -8735,7 +8735,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-cDCCsnEFN+qopEX6j3+o08kPsSbXz3Scfaiv4zrrfSygCAD6C20ZFIJJlvOVldVCXQGyZgeCpS7D+lmu95e2lA==
+      integrity: sha512-SMEs3He6zgbcQEmu1zXcG2Id88IkSCyR1hNRF7Xk/EdHk+BxeXlXL5AxGPC+MANwG28tjvPnSHhxbcxh1ZzuBA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
