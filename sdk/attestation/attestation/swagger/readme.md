@@ -55,3 +55,74 @@ directive:
   transform: >
     $.required = [ "token" ];
 ```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AttestationResult
+  transform: >
+    $["x-ms-client-name"] = "GeneratedAttestationResult";
+    $.required = [ 
+      "iss",
+      "x-ms-ver",
+      "x-ms-policy-hash", 
+      "x-ms-sgx-mrsigner", 
+      "x-ms-sgx-is-debuggable",
+      "x-ms-sgx-mrenclave",
+      "x-ms-sgx-product-id",
+      "x-ms-sgx-svn",
+      "jti",
+      "x-ms-attestation-type",
+    ]
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyResult
+  transform: >
+    $.required = [ 
+     "x-ms-policy-result",
+     "x-ms-policy-token-hash"
+    ]
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesModificationResult
+  transform: >
+    $.required = [ "x-ms-certificate-thumbprint", "x-ms-policycertificates-result" ]
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesModifyResponse
+  transform: >
+    $.required = [ "token" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesResponse
+  transform: >
+    $.required = [ "token", "x-ms-policy-certificates" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyCertificatesResult
+  transform: >
+    $.required = [ "x-ms-policy-certificates" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.JSONWebKeySet
+  transform: >
+    $.required = [ "keys" ];
+```

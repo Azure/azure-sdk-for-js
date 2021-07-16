@@ -1,5 +1,15 @@
 # Release History
 
+## 3.12.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.12.0 (2021-07-06)
 
 ### Features Added
@@ -22,13 +32,6 @@ const client = new CosmosClient({
 const client = new CosmosClient()
 client.dispose() // cancels background endpoint refreshing
 ```
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
 
 ## 3.11.5 (2021-06-10)
 

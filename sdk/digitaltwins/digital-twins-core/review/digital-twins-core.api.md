@@ -84,7 +84,9 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 export class DigitalTwinsClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: DigitalTwinsClientOptions);
     createModels(dtdlModels: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
-    decomissionModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
+    // @deprecated (undocumented)
+    decomissionModel: (modelId: string, options?: OperationOptions) => Promise<RestResponse>;
+    decommissionModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDigitalTwin(digitalTwinId: string, options?: DigitalTwinsDeleteOptionalParams): Promise<RestResponse>;
     deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse>;
     deleteModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;

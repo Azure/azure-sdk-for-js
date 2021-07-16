@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -704,8 +704,7 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
 
     const rootSpan = tracer.startSpan("root");
 

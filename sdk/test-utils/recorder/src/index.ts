@@ -11,5 +11,5 @@ export {
   isSoftRecordMode,
   RecorderEnvironmentSetup
 } from "./utils";
-export { pluginForIdentitySDK } from "./utils/msalAuth.node";
+export { pluginForIdentitySDK, pluginForClientSecretCredentialTests } from "./utils/msalAuth.node";
 export { jsonRecordingFilterFunction } from "./basekarma.conf";

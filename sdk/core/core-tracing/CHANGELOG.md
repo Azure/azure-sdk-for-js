@@ -1,19 +1,33 @@
 # Release History
 
-## 1.0.0-preview.13 (Unreleased)
+## 1.0.0-preview.14 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
-### Key Bugs Fixed
+### Bugs Fixed
 
-### Fixed
+### Other Changes
 
+## 1.0.0-preview.13 (2021-07-15)
+
+### Features Added
+
+- Added support for disabling distributed tracing using the AZURE_TRACING_DISABLED environment variable.
+
+### Breaking Changes
+
+- Removed `TestTracer` and `TestSpan` from public API and into `@azure/test-utils`. [PR #16315](https://github.com/Azure/azure-sdk-for-js/pull/16315)
+  - `TestTracer` and `TestSpan` are intended for test support when used by other Azure packages and not intended for use by end users.
+- Removed `setTracer`, @azure/core-tracing will now rely on the `trace` API to fetch a tracer from the global tracer provider. [PR #16347](https://github.com/Azure/azure-sdk-for-js/pull/16347)
+  - If you are using `setTracer`, please use `trace.setGlobalTracerProvider(provider)` instead as described in the OpenTelemetry documentation.
+- Removed `NoOpTracer` and `NoOpSpan` from the public API. Please use `trace.wrapSpanContext(INVALID_SPAN_CONTEXT)` from `@opentelemetry/api` instead. [PR #16315](https://github.com/Azure/azure-sdk-for-js/pull/16315)
 
 ## 1.0.0-preview.12 (2021-06-30)
 
 - Update `@opentelemetry/api` to version 1.0.0 [PR #15883](https://github.com/Azure/azure-sdk-for-js/pull/15883)
+  - This version ships with ESM modules and fixes an issue where Angular projects would warn ab out optimization bailouts due to dependencies on CommonJS or AMD.
 
 ### Breaking Changes
 

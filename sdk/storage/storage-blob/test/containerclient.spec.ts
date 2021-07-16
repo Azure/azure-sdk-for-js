@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
