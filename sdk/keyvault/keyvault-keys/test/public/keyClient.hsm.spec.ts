@@ -78,8 +78,8 @@ onVersions({ minVer: "7.2" }).describe(
       let encodedReleasePolicy: Uint8Array;
 
       beforeEach(async () => {
-        let attestationUri = env.ATTESTATION_URI;
-        let releasePolicy = {
+        const attestationUri = env.ATTESTATION_URI;
+        const releasePolicy = {
           anyOf: [
             {
               anyOf: [
