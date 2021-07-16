@@ -74,38 +74,35 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
-      const attestationUri = env.ATTESTATION_URI;
-      const releasePolicy = {
-        anyOf: [
-          {
-            anyOf: [
-              {
-                claim: "sdk-test",
-                condition: "equals",
-                value: "true"
-              }
-            ],
-            authority: attestationUri
-          }
-        ],
-        version: "1.0"
-      };
-      const encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
-
       let attestation: string;
+      let encodedReleasePolicy: Uint8Array;
 
       beforeEach(async () => {
-        if (!attestationUri) {
-          assert.fail("ATTESTATION_URI is empty or undefined");
-        }
-      });
-
-      it("can import an exportable key and release it", async () => {
+        let attestationUri = env.ATTESTATION_URI;
+        let releasePolicy = {
+          anyOf: [
+            {
+              anyOf: [
+                {
+                  claim: "sdk-test",
+                  condition: "equals",
+                  value: "true"
+                }
+              ],
+              authority: attestationUri
+            }
+          ],
+          version: "1.0"
+        };
+        encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
         const client = new DefaultHttpClient();
         const response = await client.sendRequest(
           new WebResource(`${attestationUri}/generate-test-token`)
         );
         attestation = JSON.parse(response.bodyAsText!).token;
+      });
+
+      it("can import an exportable key and release it", async () => {
         const keyName = recorder.getUniqueName("importreleasekey");
 
         const importedKey = await hsmClient.importKey(keyName, createRsaKey(), {

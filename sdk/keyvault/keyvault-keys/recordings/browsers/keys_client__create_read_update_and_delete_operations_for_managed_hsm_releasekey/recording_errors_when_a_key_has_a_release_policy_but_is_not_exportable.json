@@ -1,8 +1,24 @@
 {
  "recordings": [
   {
+   "method": "GET",
+   "url": "https://skrattestation.azurewebsites.net//generate-test-token",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh2d2xRVk9UZWJJZGgtU3Jyb2JuUGlEZTF4THZyeENteDBVMjM0bHBkUjAiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJuR1loZDk3ZG1DSUpYQ1BiZjJoTkR6WDZLNDdxOVBUWHVrLXZ3LWY0Qm5zWVp1cjFXRk5VMjlrTWpPVU9lOFB3S0tzZGw0dHJtTUQyMjhDRTRKaEcwcHdhZmJhZnpqaFFOOEhXSnE5bS1DSWhFX0xjLV9sd2d0VmxjS1EwR3B4UlVxSU0yMGNRa004RDNPbjZHMWhoTUZteFpBRFFqV3lEWElxTmQ3dnZiX2VlYjU4UWZ5dElralBpRjhzdUloRlBRNkNVc3VDamlCaUNVUFJvOVhNZ1YwXzU2X2pId1d1Nzd2b3RWb1IxdmFGVUhLOGJwcldUMzdXbzA0MS02QTJPWjdTR3JEeEdtY0ZWd1lERkhVNnd5MjJoVlpzQzhWc3F5T2sweW9IX2ZLeGJDaHNCOGZiRG42OVg2cTNuUGFPamcyanVYSjlLeDVqSVpkdDhEMFdubVEifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjY0NjI2NTcsImV4cCI6MTYyNzA2NzQ1N30.VcXoocGIN9FytbjUVbpxQuet3Y16hdIWScxRYeliaIBOzdlvgQN3ara_4_taZkpRgNZ2a7w-K0C6la00Q3t0RJLUax7rAsn9d2LH5fbDW29HA7znhnE4EGVFoPpECD-gmn0MaN4wRG9OLIFb8YLri5H9DAKb3IWcJ767-ggJ5sy02YM0EXxHsQiCh9QFGPCWb35rc6PEeseURbdOCVX3EeBIfxWvIT-BxI-SvpTZaAjuyMctevPExv6-VGis1LvRhg5G--44ezAhzvZ2gwPrQcZUdV00UKaw9GgxKUcDvVZn9zQ4gYTskccQIHTGXUu6sVqQX_gNuQYZ1N7VoaPOKw\"}",
+   "responseHeaders": {
+    "content-length": "1305",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 16 Jul 2021 19:10:56 GMT",
+    "etag": "W/\"519-vDLWb2NXlCQkv8XJhBvZFMMmZio\"",
+    "status": "200",
+    "x-powered-by": "Express"
+   }
+  },
+  {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162646111764406809/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162646265828508854/create",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -18,7 +34,7 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "f69e9622-e665-11eb-80db-0022484c85ac",
+    "x-ms-request-id": "8ce92284-e669-11eb-8cb9-0022484c85ac",
     "x-ms-server-latency": "0"
    }
   },
@@ -33,7 +49,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Jul 2021 18:45:16 GMT",
+    "date": "Fri, 16 Jul 2021 19:10:57 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -42,19 +58,19 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - EUS ProdSlices",
-    "x-ms-request-id": "5fa43027-5ad7-497a-8272-0b25da871002"
+    "x-ms-ests-server": "2.1.11898.8 - WUS2 ProdSlices",
+    "x-ms-request-id": "5273f695-7f12-4d1e-8855-4e152f4c1c00"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162646111764406809/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162646265828508854/create",
    "query": {
     "api-version": "7.3-preview"
    },
    "requestBody": "{\"kty\":\"RSA\",\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyYXR0ZXN0YXRpb24uYXp1cmV3ZWJzaXRlcy5uZXQvIn1dLCJ2ZXJzaW9uIjoiMS4wIn0\"}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: f6c04088-e665-11eb-80db-0022484c85ac)\"}}",
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: 8d0dc6f2-e669-11eb-8cb9-0022484c85ac)\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "146",
@@ -63,16 +79,16 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "f6c04088-e665-11eb-80db-0022484c85ac",
-    "x-ms-server-latency": "12"
+    "x-ms-request-id": "8d0dc6f2-e669-11eb-8cb9-0022484c85ac",
+    "x-ms-server-latency": "14"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "policynonexportable": "policynonexportable162646111764406809"
+   "policynonexportable": "policynonexportable162646265828508854"
   },
   "newDate": {}
  },
- "hash": "44db4225191a1adb36af8a8f62e12542"
+ "hash": "b4388594083301f06799ce5dbc32960d"
 }
