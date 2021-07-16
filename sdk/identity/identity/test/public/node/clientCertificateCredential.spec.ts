@@ -5,11 +5,28 @@ import qs from "qs";
 import jws from "jws";
 import path from "path";
 import assert from "assert";
+import {
+  createResponse,
+  IdentityTestContext,
+  prepareIdentityTests,
+  SendCredentialRequests
+} from "./nodeAuthTestUtils";
 import { ClientCertificateCredential } from "../../../src";
-import { MockAuthHttpClient } from "../../authTestUtils";
 import { setTracer, TestTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
+import { DefaultAuthorityHost } from "../../../src/constants";
 
 describe("ClientCertificateCredential", function() {
+  let testContext: IdentityTestContext;
+  let sendCredentialRequests: SendCredentialRequests;
+
+  beforeEach(async function() {
+    testContext = await prepareIdentityTests({});
+    sendCredentialRequests = testContext.sendCredentialRequests;
+  });
+  afterEach(async function() {
+    await testContext.restore();
+  });
+
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -38,40 +55,59 @@ describe("ClientCertificateCredential", function() {
   it("sends a correctly formatted token request", async () => {
     const tenantId = "tenantId";
     const clientId = "clientId";
-    const mockHttpClient = new MockAuthHttpClient();
-
     const credential = new ClientCertificateCredential(
       tenantId,
       clientId,
-      path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.tokenCredentialOptions
+      path.resolve(__dirname, "../test/azure-identity-test.crt")
     );
 
-    await credential.getToken("scope");
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
-    const authRequest = mockHttpClient.requests[0];
+    const authRequest = authDetails.secureRequestOptions[0];
     if (!authRequest) {
       assert.fail("No authentication request was intercepted");
     } else {
-      assert.strictEqual(
-        authRequest.url.startsWith(`https://authority/${tenantId}`),
-        true,
+      assert.equal(
+        `https://${authRequest.hostname}`,
+        DefaultAuthorityHost,
+        "Request URL doesn't contain expected hostname"
+      );
+      assert.equal(
+        authRequest.path,
+        `/${tenantId}/oauth2/v2.0/token`,
         "Request URL doesn't contain expected tenantId"
       );
+
+      const spy = authDetails.secureRequestWriteSpies[0];
+      const requestBody = spy.args[0][0];
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        requestBody.indexOf(`client_id=${clientId}`) > -1,
         true,
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams = qs.parse(requestBody);
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
       assert.strictEqual(jwtToken.payload.iss, clientId);
       assert.strictEqual(jwtToken.payload.sub, clientId);
       assert.strictEqual(
-        jwtToken.payload.aud.startsWith(`https://authority/${tenantId}`),
+        jwtToken.payload.aud.startsWith(`${DefaultAuthorityHost}/${tenantId}/oauth2/v2.0/token`),
         true,
         "Audience does not have the correct authority or tenantId"
       );
@@ -81,35 +117,55 @@ describe("ClientCertificateCredential", function() {
   it("sends a correctly formatted token request with x5c enabled", async () => {
     const tenantId = "tenantId";
     const clientId = "clientId";
-    const mockHttpClient = new MockAuthHttpClient();
-    // Enable X5c flag
-    mockHttpClient.tokenCredentialOptions.sendCertificateChain = true;
 
     const credential = new ClientCertificateCredential(
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.tokenCredentialOptions
+      // Enable X5c flag
+      { sendCertificateChain: true }
     );
 
-    await credential.getToken("scope");
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
-    const authRequest = mockHttpClient.requests[0];
+    const authRequest = authDetails.secureRequestOptions[0];
     if (!authRequest) {
       assert.fail("No authentication request was intercepted");
     } else {
-      assert.strictEqual(
-        authRequest.url.startsWith(`https://authority/${tenantId}`),
-        true,
+      assert.equal(
+        `https://${authRequest.hostname}`,
+        DefaultAuthorityHost,
+        "Request URL doesn't contain expected hostname"
+      );
+      assert.equal(
+        authRequest.path,
+        `/${tenantId}/oauth2/v2.0/token`,
         "Request URL doesn't contain expected tenantId"
       );
+
+      const spy = authDetails.secureRequestWriteSpies[0];
+      const requestBody = spy.args[0][0];
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        requestBody.indexOf(`client_id=${clientId}`) > -1,
         true,
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams = qs.parse(requestBody);
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
@@ -117,7 +173,7 @@ describe("ClientCertificateCredential", function() {
       assert.strictEqual(jwtToken.payload.iss, clientId);
       assert.strictEqual(jwtToken.payload.sub, clientId);
       assert.strictEqual(
-        jwtToken.payload.aud.startsWith(`https://authority/${tenantId}`),
+        jwtToken.payload.aud.startsWith(`${DefaultAuthorityHost}/${tenantId}/oauth2/v2.0/token`),
         true,
         "Audience does not have the correct authority or tenantId"
       );
@@ -127,35 +183,55 @@ describe("ClientCertificateCredential", function() {
   it("sends a correctly formatted token request with a chained x5c enabled", async () => {
     const tenantId = "tenantId";
     const clientId = "clientId";
-    const mockHttpClient = new MockAuthHttpClient();
-    // Enable X5c flag
-    mockHttpClient.tokenCredentialOptions.sendCertificateChain = true;
 
     const credential = new ClientCertificateCredential(
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-chain-test.crt"),
-      mockHttpClient.tokenCredentialOptions
+      // Enable X5c flag
+      { sendCertificateChain: true }
     );
 
-    await credential.getToken("scope");
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
-    const authRequest = mockHttpClient.requests[0];
+    const authRequest = authDetails.secureRequestOptions[0];
     if (!authRequest) {
       assert.fail("No authentication request was intercepted");
     } else {
-      assert.strictEqual(
-        authRequest.url.startsWith(`https://authority/${tenantId}`),
-        true,
+      assert.equal(
+        `https://${authRequest.hostname}`,
+        DefaultAuthorityHost,
+        "Request URL doesn't contain expected hostname"
+      );
+      assert.equal(
+        authRequest.path,
+        `/${tenantId}/oauth2/v2.0/token`,
         "Request URL doesn't contain expected tenantId"
       );
+
+      const spy = authDetails.secureRequestWriteSpies[0];
+      const requestBody = spy.args[0][0];
       assert.strictEqual(
-        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        requestBody.indexOf(`client_id=${clientId}`) > -1,
         true,
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams = qs.parse(requestBody);
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
@@ -164,7 +240,7 @@ describe("ClientCertificateCredential", function() {
       assert.strictEqual(jwtToken.payload.iss, clientId);
       assert.strictEqual(jwtToken.payload.sub, clientId);
       assert.strictEqual(
-        jwtToken.payload.aud.startsWith(`https://authority/${tenantId}`),
+        jwtToken.payload.aud.startsWith(`${DefaultAuthorityHost}/${tenantId}/oauth2/v2.0/token`),
         true,
         "Audience does not have the correct authority or tenantId"
       );
@@ -176,21 +252,34 @@ describe("ClientCertificateCredential", function() {
     setTracer(tracer);
     const tenantId = "tenantId";
     const clientId = "clientId";
-    const mockHttpClient = new MockAuthHttpClient();
 
     const rootSpan = tracer.startSpan("root");
 
     const credential = new ClientCertificateCredential(
       tenantId,
       clientId,
-      path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.tokenCredentialOptions
+      path.resolve(__dirname, "../test/azure-identity-test.crt")
     );
 
-    await credential.getToken("scope", {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+    await sendCredentialRequests({
+      scopes: ["scope"],
+      getTokenOptions: {
+        tracingOptions: {
+          tracingContext: setSpan(context.active(), rootSpan)
+        }
+      },
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
     });
 
     rootSpan.end();

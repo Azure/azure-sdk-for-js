@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -61,17 +62,12 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions: newOptions } = createSpan(
-      "ClientSecretCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ClientSecretCredential-getToken", options);
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-      const webResource = this.identityClient.createWebResource({
+      const request = createPipelineRequest({
         url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
-        disableJsonStringifyOnBody: true,
-        deserializationMapper: undefined,
         body: qs.stringify({
           response_type: "token",
           grant_type: "client_credentials",
@@ -79,16 +75,19 @@ export class ClientSecretCredential implements TokenCredential {
           client_secret: this.clientSecret,
           scope: typeof scopes === "string" ? scopes : scopes.join(" ")
         }),
-        headers: {
+        headers: createHttpHeaders({
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
-        },
+        }),
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+        tracingOptions: {
+          spanOptions: updatedOptions.tracingOptions && updatedOptions.tracingOptions.spanOptions,
+          tracingContext:
+            updatedOptions.tracingOptions && updatedOptions.tracingOptions.tracingContext
+        }
       });
 
-      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      const tokenResponse = await this.identityClient.sendTokenRequest(request);
       logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {

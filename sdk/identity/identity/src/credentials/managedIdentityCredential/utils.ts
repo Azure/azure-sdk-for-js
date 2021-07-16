@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { PipelineRequestOptions, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { IdentityClient } from "../../client/identityClient";
 import { DefaultScopeSuffix } from "./constants";
 import { MSIExpiresInParser } from "./models";
@@ -29,20 +30,22 @@ export function mapScopesToResource(scopes: string | string[]): string {
 
 export async function msiGenericGetToken(
   identityClient: IdentityClient,
-  requestOptions: RequestPrepareOptions,
+  requestOptions: PipelineRequestOptions,
   expiresInParser: MSIExpiresInParser | undefined,
   getTokenOptions: GetTokenOptions = {}
 ): Promise<AccessToken | null> {
-  const webResource = identityClient.createWebResource({
-    disableJsonStringifyOnBody: true,
-    deserializationMapper: undefined,
+  const request = createPipelineRequest({
     abortSignal: getTokenOptions.abortSignal,
-    spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
-    tracingContext: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext,
-    ...requestOptions
+    tracingOptions: {
+      spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
+      tracingContext:
+        getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext
+    },
+    ...requestOptions,
+    allowInsecureConnection: true
   });
 
-  const tokenResponse = await identityClient.sendTokenRequest(webResource, expiresInParser);
+  const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
 
   return (tokenResponse && tokenResponse.accessToken) || null;
 }

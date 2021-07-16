@@ -2,26 +2,37 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import {
-  AccessToken,
-  ServiceClient,
-  PipelineOptions,
-  WebResource,
-  RequestPrepareOptions,
-  GetTokenOptions,
-  createPipelineFromOptions,
-  isNode
-} from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
-
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { ServiceClient } from "@azure/core-client";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequest,
+  PipelineOptions
+} from "@azure/core-rest-pipeline";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
-import { getAuthorityHostEnvironment } from "../util/authHostEnv";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { isNode } from "../util/isNode";
 
-const DefaultAuthorityHost = "https://login.microsoftonline.com";
+/**
+ * Safe JSON parse.
+ * @internal
+ */
+function parse<T>(input: string | null | undefined): T {
+  if (!input) {
+    return {} as T;
+  }
+  try {
+    return JSON.parse(input);
+  } catch (e) {
+    return {} as T;
+  }
+}
 
 /**
  * An internal type used to communicate details of a token request's
@@ -39,45 +50,61 @@ export interface TokenResponse {
   refreshToken?: string;
 }
 
+/**
+ * @internal
+ */
+export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string {
+  // The authorityHost can come from options or from the AZURE_AUTHORITY_HOST environment variable.
+  let authorityHost = options?.authorityHost;
+
+  // The AZURE_AUTHORITY_HOST environment variable can only be provided in NodeJS.
+  if (isNode) {
+    authorityHost = authorityHost ?? process.env.AZURE_AUTHORITY_HOST;
+  }
+
+  // If the authorityHost is not provided, we use the default one from the public cloud: https://login.microsoftonline.com
+  return authorityHost ?? DefaultAuthorityHost;
+}
+
+/**
+ * The network module used by the Identity credentials.
+ *
+ * It allows for credentials to abort any pending request independently of the MSAL flow,
+ * by calling to the `abortRequests()` method.
+ *
+ */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
-    if (isNode) {
-      options = options || getAuthorityHostEnvironment();
-    }
-    options = options || IdentityClient.getDefaultOptions();
-    super(
-      undefined,
-      createPipelineFromOptions({
-        ...options,
-        deserializationOptions: {
-          expectedContentTypes: {
-            json: ["application/json", "text/json", "text/plain"]
-          }
-        }
-      })
-    );
+    const packageDetails = `azsdk-js-identity/1.5.0`;
+    const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+      : `${packageDetails}`;
 
-    this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
-
-    if (!this.baseUri.startsWith("https:")) {
+    const baseUri = getIdentityClientAuthorityHost(options);
+    if (!baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
     }
-  }
 
-  createWebResource(requestOptions: RequestPrepareOptions): WebResource {
-    const webResource = new WebResource();
-    webResource.prepare(requestOptions);
-    return webResource;
+    super({
+      requestContentType: "application/json; charset=utf-8",
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri
+    });
+
+    this.authorityHost = baseUri;
   }
 
   async sendTokenRequest(
-    webResource: WebResource,
+    request: PipelineRequest,
     expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
-    logger.info(`IdentityClient: sending token request to [${webResource.url}]`);
-    const response = await this.sendRequest(webResource);
+    logger.info(`IdentityClient: sending token request to [${request.url}]`);
+    const response = await this.sendRequest(request);
 
     expiresOnParser =
       expiresOnParser ||
@@ -85,24 +112,27 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         return Date.now() + responseBody.expires_in * 1000;
       });
 
-    if (response.status === 200 || response.status === 201) {
+    if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
+      const parsedBody = parse<{
+        token?: string;
+        access_token?: string;
+        refresh_token?: string;
+      }>(response.bodyAsText);
+
       const token = {
         accessToken: {
-          token: response.parsedBody.access_token,
-          expiresOnTimestamp: expiresOnParser(response.parsedBody)
+          token: parsedBody.token ?? parsedBody.access_token!,
+          expiresOnTimestamp: expiresOnParser(parsedBody)
         },
-        refreshToken: response.parsedBody.refresh_token
+        refreshToken: parsedBody.refresh_token
       };
 
       logger.info(
-        `IdentityClient: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
+        `IdentityClient: [${request.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
       );
       return token;
     } else {
-      const error = new AuthenticationError(
-        response.status,
-        response.parsedBody || response.bodyAsText
-      );
+      const error = new AuthenticationError(response.status, response.bodyAsText);
       logger.warning(
         `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`
       );
@@ -126,10 +156,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
 
-    const { span, updatedOptions: newOptions } = createSpan(
-      "IdentityClient-refreshAccessToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
     const refreshParams = {
       grant_type: "refresh_token",
@@ -144,19 +171,19 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-      const webResource = this.createWebResource({
+      const webResource = createPipelineRequest({
         url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
-        disableJsonStringifyOnBody: true,
-        deserializationMapper: undefined,
         body: qs.stringify(refreshParams),
-        headers: {
+        abortSignal: options && options.abortSignal,
+        headers: createHttpHeaders({
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
-        },
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext,
-        abortSignal: options && options.abortSignal
+        }),
+        tracingOptions: {
+          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+          tracingContext: updatedOptions?.tracingOptions?.tracingContext
+        }
       });
 
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
@@ -191,40 +218,43 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       span.end();
     }
   }
+  // The MSAL network module methods follow
 
-  sendGetRequestAsync<T>(
+  async sendGetRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
-    const webResource = new WebResource(url, "GET", options?.body, {}, options?.headers);
-
-    return this.sendRequest(webResource).then((response) => {
-      return {
-        body: response.parsedBody as T,
-        headers: response.headers.rawHeaders(),
-        status: response.status
-      };
+    const request = createPipelineRequest({
+      url,
+      method: "GET",
+      body: options?.body,
+      headers: createHttpHeaders(options?.headers)
     });
-  }
 
-  sendPostRequestAsync<T>(
-    url: string,
-    options?: NetworkRequestOptions
-  ): Promise<NetworkResponse<T>> {
-    const webResource = new WebResource(url, "POST", options?.body, {}, options?.headers);
-
-    return this.sendRequest(webResource).then((response) => {
-      return {
-        body: response.parsedBody as T,
-        headers: response.headers.rawHeaders(),
-        status: response.status
-      };
-    });
-  }
-
-  static getDefaultOptions(): TokenCredentialOptions {
+    const response = await this.sendRequest(request);
     return {
-      authorityHost: DefaultAuthorityHost
+      body: parse<T>(response.bodyAsText),
+      headers: response.headers.toJSON(),
+      status: response.status
+    };
+  }
+
+  async sendPostRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const request = createPipelineRequest({
+      url,
+      method: "POST",
+      body: options?.body,
+      headers: createHttpHeaders(options?.headers)
+    });
+
+    const response = await this.sendRequest(request);
+    return {
+      body: parse<T>(response.bodyAsText),
+      headers: response.headers.toJSON(),
+      status: response.status
     };
   }
 }
@@ -235,8 +265,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
  */
 export interface TokenCredentialOptions extends PipelineOptions {
   /**
-   * The authority host to use for authentication requests.  The default is
-   * "https://login.microsoftonline.com".
+   * The authority host to use for authentication requests.
+   * Possible values are available through {@link AzureAuthorityHosts}.
+   * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
 }

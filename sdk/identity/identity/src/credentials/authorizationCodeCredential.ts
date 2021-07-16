@@ -3,7 +3,8 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
@@ -160,11 +161,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
       if (tokenResponse === null) {
         const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-        const webResource = this.identityClient.createWebResource({
+        const webResource = createPipelineRequest({
           url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
           method: "POST",
-          disableJsonStringifyOnBody: true,
-          deserializationMapper: undefined,
           body: qs.stringify({
             client_id: this.clientId,
             grant_type: "authorization_code",
@@ -173,13 +172,15 @@ export class AuthorizationCodeCredential implements TokenCredential {
             redirect_uri: this.redirectUri,
             client_secret: this.clientSecret
           }),
-          headers: {
+          headers: createHttpHeaders({
             Accept: "application/json",
             "Content-Type": "application/x-www-form-urlencoded"
-          },
+          }),
           abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-          tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+          tracingOptions: {
+            spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
+            tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+          }
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);

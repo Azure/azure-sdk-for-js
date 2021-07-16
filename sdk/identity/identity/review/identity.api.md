@@ -4,11 +4,11 @@
 
 ```ts
 
-import { AccessToken } from '@azure/core-http';
+import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
-import { GetTokenOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { GetTokenOptions } from '@azure/core-auth';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
 

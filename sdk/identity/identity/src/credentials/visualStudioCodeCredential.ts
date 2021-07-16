@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
+import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import fs from "fs";
 import os from "os";

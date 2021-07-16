@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
 import { AuthenticationError, CredentialUnavailable } from "../../client/errors";
@@ -55,7 +55,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options);
+      this.identityClient = new IdentityClient({
+        ...options
+      });
     } else {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);

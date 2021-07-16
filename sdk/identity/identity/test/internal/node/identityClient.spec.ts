@@ -2,62 +2,53 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { assertRejects, MockAuthHttpClient } from "../authTestUtils";
-import { IdentityClient } from "../../src/client/identityClient";
-import { ClientSecretCredential, AuthenticationError } from "../../src";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { isNode } from "@azure/core-http";
-
-function isExpectedError(expectedErrorName: string): (error: any) => boolean {
-  return (error: any) => {
-    if (!(error instanceof AuthenticationError)) {
-      assert.ifError(error);
-    }
-    return error.errorResponse.error === expectedErrorName;
-  };
-}
+import * as https from "https";
+import { IdentityClient, TokenResponse } from "../../../src/client/identityClient";
+import { ClientSecretCredential } from "../../../src";
+import { isNode } from "../../../src/util/isNode";
+import {
+  createRequest,
+  createResponse,
+  IdentityTestContext,
+  isExpectedError,
+  prepareIdentityTests
+} from "../../public/node/nodeAuthTestUtils";
+import { IncomingMessage } from "http";
+import { assertRejects } from "../../authTestUtils";
 
 describe("IdentityClient", function() {
-  let logMessages: string[];
-  let oldLogger: typeof AzureLogger.log;
-  let oldLogLevel: AzureLogLevel | undefined;
-
-  beforeEach(() => {
-    oldLogLevel = getLogLevel();
-    setLogLevel("verbose");
-
-    oldLogger = AzureLogger.log;
-
-    logMessages = [];
-
-    AzureLogger.log = (args) => {
-      logMessages.push(args);
-    };
+  let testContext: IdentityTestContext;
+  beforeEach(async function() {
+    testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
+  });
+  afterEach(async function() {
+    await testContext.restore();
   });
 
-  afterEach(() => {
-    AzureLogger.log = oldLogger;
-    setLogLevel(oldLogLevel);
-  });
+  async function sendRequest<T>(
+    sendPromise: () => Promise<T | null>,
+    response: IncomingMessage
+  ): Promise<T | null> {
+    const stubbedHttpsRequest = testContext.sandbox.stub(https, "request");
+
+    stubbedHttpsRequest.returns(createRequest());
+    const promise = sendPromise();
+    stubbedHttpsRequest.yield(response);
+    await testContext.clock.runAllAsync();
+    return promise;
+  }
 
   it("throws an exception when an authentication request fails", async () => {
-    const mockHttp = new MockAuthHttpClient({
-      authResponse: {
-        status: 400,
-        parsedBody: { error: "test_error", error_description: "This is a test error" }
+    await assertRejects(
+      sendRequest(async () => {
+        const credential = new ClientSecretCredential("tenant", "client", "secret");
+        return credential.getToken("https://test/.default");
+      }, createResponse(400, JSON.stringify({ error: "test_error", error_description: "This is a test error" }))),
+      (e: Error) => {
+        assert.strictEqual(e.name, "AuthenticationError");
+        return true;
       }
-    });
-
-    const credential = new ClientSecretCredential(
-      "tenant",
-      "client",
-      "secret",
-      mockHttp.tokenCredentialOptions
     );
-    await assertRejects(credential.getToken("https://test/.default"), (error) => {
-      assert.strictEqual(error.name, "AuthenticationError");
-      return true;
-    });
   });
 
   it("throws an exception when an authorityHost using 'http' is provided", async () => {
@@ -108,44 +99,30 @@ describe("IdentityClient", function() {
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
-    const mockHttp = new MockAuthHttpClient({
-      authResponse: {
-        status: 500,
-        bodyAsText: ""
-      }
-    });
-
-    const credential = new ClientSecretCredential(
-      "tenant",
-      "client",
-      "secret",
-      mockHttp.tokenCredentialOptions
-    );
-
     await assertRejects(
-      credential.getToken("https://test/.default"),
+      sendRequest(async () => {
+        const credential = new ClientSecretCredential("tenant", "client", "secret");
+        return credential.getToken("https://test/.default", {
+          requestOptions: {}
+        });
+      }, createResponse(300, "")),
       isExpectedError("unknown_error")
     );
   });
 
   it("returns null when the token refresh request returns an 'interaction_required' error", async () => {
-    const mockHttp = new MockAuthHttpClient({
-      authResponse: {
-        status: 401,
-        parsedBody: {
+    const tokenResponse = await sendRequest<TokenResponse>(
+      async () => {
+        const client = new IdentityClient({ authorityHost: "https://authority" });
+        return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
+      },
+      createResponse(
+        401,
+        JSON.stringify({
           error: "interaction_required",
           error_description: "Interaction required"
-        }
-      }
-    });
-
-    const client = new IdentityClient(mockHttp.tokenCredentialOptions);
-    const tokenResponse = await client.refreshAccessToken(
-      "tenant",
-      "client",
-      "scopes",
-      "token",
-      undefined
+        })
+      )
     );
 
     assert.equal(tokenResponse, null);
@@ -157,7 +134,9 @@ describe("IdentityClient", function() {
       /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/
     ];
 
-    logMessages = logMessages.filter((msg) => msg.indexOf("azure:identity:") >= 0);
+    const logMessages = testContext.logMessages.filter(
+      (msg: string) => msg.indexOf("azure:identity:") >= 0
+    );
 
     assert.equal(expectedMessages.length, logMessages.length);
 
@@ -167,19 +146,20 @@ describe("IdentityClient", function() {
   });
 
   it("rethrows any other error that is thrown while refreshing the access token", async () => {
-    const mockHttp = new MockAuthHttpClient({
-      authResponse: {
-        status: 401,
-        parsedBody: {
-          error: "invalid_client",
-          error_description: "Invalid client"
-        }
-      }
-    });
-
-    const client = new IdentityClient(mockHttp.tokenCredentialOptions);
     await assertRejects(
-      client.refreshAccessToken("tenant", "client", "scopes", "token", undefined),
+      sendRequest<TokenResponse>(
+        async () => {
+          const client = new IdentityClient();
+          return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
+        },
+        createResponse(
+          401,
+          JSON.stringify({
+            error: "interaction_required",
+            error_description: "Interaction required"
+          })
+        )
+      ),
       isExpectedError("invalid_client")
     );
   });

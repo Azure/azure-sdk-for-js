@@ -6,7 +6,8 @@ import jws from "jws";
 import { v4 as uuidV4 } from "uuid";
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { IdentityClient } from "../client/identityClient";
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { createSpan } from "../util/tracing";
@@ -153,11 +154,9 @@ export class ClientCertificateCredential implements TokenCredential {
         secret: this.certificateString
       });
 
-      const webResource = this.identityClient.createWebResource({
+      const webResource = createPipelineRequest({
         url: audienceUrl,
         method: "POST",
-        disableJsonStringifyOnBody: true,
-        deserializationMapper: undefined,
         body: qs.stringify({
           response_type: "token",
           grant_type: "client_credentials",
@@ -166,13 +165,15 @@ export class ClientCertificateCredential implements TokenCredential {
           client_assertion: clientAssertion,
           scope: typeof scopes === "string" ? scopes : scopes.join(" ")
         }),
-        headers: {
+        headers: createHttpHeaders({
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
-        },
+        }),
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+        tracingOptions: {
+          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
+          tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+        }
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

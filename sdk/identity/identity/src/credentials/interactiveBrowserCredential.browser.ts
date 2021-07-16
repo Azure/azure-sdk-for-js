@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import * as msal from "msal";
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { IdentityClient } from "../client/identityClient";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import {
   BrowserLoginStyle,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
+import { DefaultAuthorityHost, DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -36,7 +35,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   constructor(options?: InteractiveBrowserCredentialOptions) {
     options = {
-      ...IdentityClient.getDefaultOptions(),
+      authorityHost: DefaultAuthorityHost,
       ...options,
       tenantId: (options && options.tenantId) || DefaultTenantId,
       // TODO: temporary - this is the Azure CLI clientID - we'll replace it when

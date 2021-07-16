@@ -3,14 +3,16 @@
 
 import assert from "assert";
 import path from "path";
-import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../../src";
 import {
-  MockAuthHttpClient,
   assertClientCredentials,
-  assertClientUsernamePassword,
-  assertRejects
-} from "../../authTestUtils";
+  createResponse,
+  IdentityTestContext,
+  prepareIdentityTests,
+  SendCredentialRequests
+} from "./nodeAuthTestUtils";
 import { TestTracer, setTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
+import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../../src";
+import { assertRejects } from "../../authTestUtils";
 
 interface OAuthErrorResponse {
   error: string;
@@ -22,22 +24,46 @@ interface OAuthErrorResponse {
 }
 
 describe("EnvironmentCredential", function() {
+  let testContext: IdentityTestContext;
+  let sendCredentialRequests: SendCredentialRequests;
+
+  beforeEach(async function() {
+    testContext = await prepareIdentityTests({});
+    sendCredentialRequests = testContext.sendCredentialRequests;
+  });
+  afterEach(async function() {
+    await testContext.restore();
+  });
+
   it("finds and uses client credential environment variables", async () => {
     process.env.AZURE_TENANT_ID = "tenant";
     process.env.AZURE_CLIENT_ID = "client";
     process.env.AZURE_CLIENT_SECRET = "secret";
 
-    const mockHttpClient = new MockAuthHttpClient();
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await credential.getToken("scope");
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential: new EnvironmentCredential(),
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
     delete process.env.AZURE_TENANT_ID;
     delete process.env.AZURE_CLIENT_ID;
     delete process.env.AZURE_CLIENT_SECRET;
 
-    const authRequest = mockHttpClient.requests[0];
-    assertClientCredentials(authRequest, "tenant", "client", "secret");
+    const authRequest = authDetails.secureRequestOptions[0];
+    const spy = authDetails.secureRequestWriteSpies[0];
+    const requestBody = spy.args[0][0];
+    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
   });
 
   it("finds and uses client certificate path environment variables", async () => {
@@ -48,10 +74,22 @@ describe("EnvironmentCredential", function() {
       "../test/azure-identity-test.crt"
     );
 
-    const mockHttpClient = new MockAuthHttpClient();
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await credential.getToken("scope");
+    const credential = new EnvironmentCredential();
+    await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
     delete process.env.AZURE_TENANT_ID;
     delete process.env.AZURE_CLIENT_ID;
@@ -74,18 +112,37 @@ describe("EnvironmentCredential", function() {
     process.env.AZURE_USERNAME = "user";
     process.env.AZURE_PASSWORD = "password";
 
-    const mockHttpClient = new MockAuthHttpClient();
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await credential.getToken("scope");
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential: new EnvironmentCredential(),
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
     delete process.env.AZURE_TENANT_ID;
     delete process.env.AZURE_CLIENT_ID;
     delete process.env.AZURE_USERNAME;
     delete process.env.AZURE_PASSWORD;
 
-    const authRequest = mockHttpClient.requests[0];
-    assertClientUsernamePassword(authRequest, "tenant", "client", "user", "password");
+    const authRequest = authDetails.secureRequestOptions[0];
+    const spy = authDetails.secureRequestWriteSpies[0];
+    const requestBody = spy.args[0][0];
+    assertClientCredentials(authRequest, requestBody, "tenant", "client");
+
+    assert.strictEqual(
+      requestBody.indexOf(`password=password`) > -1,
+      true,
+      "Request body doesn't contain expected password"
+    );
   });
 
   it("finds and uses client credential environment variables with tracing", async () => {
@@ -93,17 +150,31 @@ describe("EnvironmentCredential", function() {
     process.env.AZURE_CLIENT_ID = "client";
     process.env.AZURE_CLIENT_SECRET = "secret";
 
-    const mockHttpClient = new MockAuthHttpClient();
     const tracer = new TestTracer();
     setTracer(tracer);
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     const rootSpan = tracer.startSpan("root");
-    await credential.getToken("scope", {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+
+    await sendCredentialRequests({
+      scopes: ["scope"],
+      getTokenOptions: {
+        tracingOptions: {
+          tracingContext: setSpan(context.active(), rootSpan)
+        }
+      },
+      credential: new EnvironmentCredential(),
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
     });
+
     rootSpan.end();
 
     delete process.env.AZURE_TENANT_ID;
@@ -143,22 +214,26 @@ describe("EnvironmentCredential", function() {
   });
 
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
-    const mockHttpClient = new MockAuthHttpClient();
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
-      credential.getToken("scope"),
+      sendCredentialRequests({
+        scopes: ["scope"],
+        credential: new EnvironmentCredential()
+      }),
       (error: CredentialUnavailable) =>
         error.message.indexOf(
           "EnvironmentCredential is unavailable. Environment variables are not fully configured."
         ) > -1
     );
+  });
 
+  it("throws an CredentialUnavailable when getToken is called and no credential was configured (this time only with AZURE_TENANT_ID)", async () => {
     process.env.AZURE_TENANT_ID = "Itme";
 
-    const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
-      credentialDeux.getToken("scope"),
+      sendCredentialRequests({
+        scopes: ["scope"],
+        credential: new EnvironmentCredential()
+      }),
       (error: CredentialUnavailable) =>
         error.message.indexOf(
           "EnvironmentCredential is unavailable. Environment variables are not fully configured."
@@ -178,13 +253,16 @@ describe("EnvironmentCredential", function() {
       error_description: ""
     };
 
-    const mockHttpClient = new MockAuthHttpClient({
-      authResponse: [{ status: 400, parsedBody: errResponse }]
-    });
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
-      credential.getToken("scope"),
+      sendCredentialRequests({
+        scopes: ["scope"],
+        credential: new EnvironmentCredential(),
+        secureResponses: [
+          {
+            response: createResponse(400, JSON.stringify(errResponse))
+          }
+        ]
+      }),
       (error: AuthenticationError) =>
         error.errorResponse.error.indexOf("EnvironmentCredential authentication failed.") > -1
     );

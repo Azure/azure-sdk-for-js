@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
+import qs from "qs";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { MSI } from "./models";
@@ -15,7 +18,7 @@ function expiresInParser(requestBody: any): number {
   return Date.parse(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": "2017-09-01"
@@ -25,21 +28,26 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
     queryParameters.clientid = clientId;
   }
 
+  const query = qs.stringify(queryParameters);
+
   return {
-    url: process.env.MSI_ENDPOINT,
+    url: `${process.env.MSI_ENDPOINT!}?${query}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      secret: process.env.MSI_SECRET
-    }
+      secret: process.env.MSI_SECRET!
+    })
   };
 }
 
 export const appServiceMsi2017: MSI = {
   async isAvailable(): Promise<boolean> {
     const env = process.env;
-    return Boolean(env.MSI_ENDPOINT && env.MSI_SECRET);
+    const result = Boolean(env.MSI_ENDPOINT && env.MSI_SECRET);
+    if (!result) {
+      logger.info("The Azure App Service MSI 2017 is unavailable.");
+    }
+    return result;
   },
   async getToken(
     identityClient: IdentityClient,

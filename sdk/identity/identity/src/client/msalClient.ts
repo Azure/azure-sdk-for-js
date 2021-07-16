@@ -17,7 +17,7 @@ import {
 import axios, { AxiosRequestConfig } from "axios";
 
 import { IdentityClient, TokenCredentialOptions } from "./identityClient";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
 import { credentialLogger } from "../util/logging";
 import { NodeAuthOptions } from "@azure/msal-node/dist/config/Configuration";
 
