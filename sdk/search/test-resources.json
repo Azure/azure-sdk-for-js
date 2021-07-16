@@ -11,7 +11,7 @@
     },
     "searchSku": {
       "type": "string",
-      "defaultValue": "free",
+      "defaultValue": "standard",
       "metadata": {
         "description": "SKU for search resource. The default is 'free'"
       }
