@@ -12,6 +12,7 @@ dependencies:
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
+  '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
@@ -6334,6 +6335,7 @@ packages:
     resolution:
       integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring/0.2.0:
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
     engines:
       node: '>=0.4.x'
@@ -8601,6 +8603,26 @@ packages:
     resolution:
       integrity: sha512-6g75qP/hVQl60mMmjJ9ZD/ZP8LjGQ73IGGLN8RaI8mOux0T7eor4PLvNtyf7H9s6hSVTjxbAb/JeBEPHY7TEBw==
       tarball: file:projects/arm-managedapplications.tgz
+    version: 0.0.0
+  file:projects/arm-network.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.10
+    dev: false
+    name: '@rush-temp/arm-network'
+    resolution:
+      integrity: sha512-zAjXnTm/W00kKfha3sV7PzaU2DkputaRvF1a06x+ReooHZviN15bVBsDErcoPHGuFUdknpFC/OkdxFIilqxlkg==
+      tarball: file:projects/arm-network.tgz
     version: 0.0.0
   file:projects/arm-policy.tgz:
     dependencies:
@@ -12225,6 +12247,7 @@ specifiers:
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
+  '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
