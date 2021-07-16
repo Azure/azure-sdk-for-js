@@ -23,6 +23,8 @@ class PolicyInsightsClient extends PolicyInsightsClientContext {
   policyStates: operations.PolicyStates;
   operations: operations.Operations;
   policyMetadata: operations.PolicyMetadataOperations;
+  policyRestrictions: operations.PolicyRestrictions;
+  attestations: operations.Attestations;
 
   /**
    * Initializes a new instance of the PolicyInsightsClient class.
@@ -32,16 +34,19 @@ class PolicyInsightsClient extends PolicyInsightsClientContext {
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
+   * @param subscriptionId2 The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, options?: Models.PolicyInsightsClientOptions) {
-    super(credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId2: string, options?: Models.PolicyInsightsClientOptions) {
+    super(credentials, subscriptionId2, options);
     this.policyTrackedResources = new operations.PolicyTrackedResources(this);
     this.remediations = new operations.Remediations(this);
     this.policyEvents = new operations.PolicyEvents(this);
     this.policyStates = new operations.PolicyStates(this);
     this.operations = new operations.Operations(this);
     this.policyMetadata = new operations.PolicyMetadataOperations(this);
+    this.policyRestrictions = new operations.PolicyRestrictions(this);
+    this.attestations = new operations.Attestations(this);
   }
 }
 
