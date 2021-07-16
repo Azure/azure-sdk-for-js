@@ -5,14 +5,14 @@ import assert from "assert";
 import path from "path";
 import {
   assertClientCredentials,
-  assertRejects,
   createResponse,
   IdentityTestContext,
   prepareIdentityTests,
   SendCredentialRequests
-} from "../../authTestUtils";
+} from "./nodeAuthTestUtils";
 import { TestTracer, setTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
 import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../../src";
+import { assertRejects } from "../../authTestUtils";
 
 interface OAuthErrorResponse {
   error: string;

@@ -8,8 +8,8 @@ import {
   IdentityTestContext,
   prepareIdentityTests,
   SendCredentialRequests
-} from "../authTestUtils";
-import { UsernamePasswordCredential } from "../../src";
+} from "./nodeAuthTestUtils";
+import { UsernamePasswordCredential } from "../../../src";
 
 describe("UsernamePasswordCredential", function() {
   let testContext: IdentityTestContext;

@@ -8,7 +8,7 @@ import {
   IdentityTestContext,
   prepareIdentityTests,
   SendCredentialRequests
-} from "../../authTestUtils";
+} from "./nodeAuthTestUtils";
 import { AuthorizationCodeCredential } from "../../../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { setSpan, context as otContext } from "@azure/core-tracing";

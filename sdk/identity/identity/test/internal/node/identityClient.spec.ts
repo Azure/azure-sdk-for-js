@@ -3,18 +3,18 @@
 
 import assert from "assert";
 import * as https from "https";
-import { IdentityClient, TokenResponse } from "../../src/client/identityClient";
-import { ClientSecretCredential } from "../../src";
-import { isNode } from "../../src/util/isNode";
+import { IdentityClient, TokenResponse } from "../../../src/client/identityClient";
+import { ClientSecretCredential } from "../../../src";
+import { isNode } from "../../../src/util/isNode";
 import {
-  assertRejects,
   createRequest,
   createResponse,
   IdentityTestContext,
   isExpectedError,
   prepareIdentityTests
-} from "../authTestUtils";
+} from "../../public/node/nodeAuthTestUtils";
 import { IncomingMessage } from "http";
+import { assertRejects } from "../../authTestUtils";
 
 describe("IdentityClient", function() {
   let testContext: IdentityTestContext;
@@ -44,7 +44,7 @@ describe("IdentityClient", function() {
         const credential = new ClientSecretCredential("tenant", "client", "secret");
         return credential.getToken("https://test/.default");
       }, createResponse(400, JSON.stringify({ error: "test_error", error_description: "This is a test error" }))),
-      (e) => {
+      (e: Error) => {
         assert.strictEqual(e.name, "AuthenticationError");
         return true;
       }
@@ -135,7 +135,7 @@ describe("IdentityClient", function() {
     ];
 
     const logMessages = testContext.logMessages.filter(
-      (msg) => msg.indexOf("azure:identity:") >= 0
+      (msg: string) => msg.indexOf("azure:identity:") >= 0
     );
 
     assert.equal(expectedMessages.length, logMessages.length);

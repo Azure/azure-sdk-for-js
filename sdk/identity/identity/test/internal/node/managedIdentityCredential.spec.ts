@@ -6,16 +6,16 @@ import assert from "assert";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
 import {
-  assertRejects,
   createResponse,
   IdentityTestContext,
   prepareIdentityTests,
   SendCredentialRequests
-} from "../../authTestUtils";
+} from "../../public/node/nodeAuthTestUtils";
 import {
   imdsApiVersion,
   imdsEndpoint
 } from "../../../src/credentials/managedIdentityCredential/constants";
+import { assertRejects } from "../../authTestUtils";
 
 describe("ManagedIdentityCredential", function() {
   let testContext: IdentityTestContext;

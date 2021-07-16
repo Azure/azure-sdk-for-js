@@ -10,7 +10,7 @@ import {
   IdentityTestContext,
   prepareIdentityTests,
   SendCredentialRequests
-} from "../../authTestUtils";
+} from "./nodeAuthTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { setTracer, TestTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
 import { DefaultAuthorityHost } from "../../../src/constants";

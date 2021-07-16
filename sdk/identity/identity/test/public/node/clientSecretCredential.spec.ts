@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "../../src";
+import { ClientSecretCredential } from "../../../src";
 import {
   assertClientCredentials,
   createResponse,
   IdentityTestContext,
   prepareIdentityTests,
   SendCredentialRequests
-} from "../authTestUtils";
+} from "./nodeAuthTestUtils";
 
 describe("ClientSecretCredential", function() {
   let testContext: IdentityTestContext;
