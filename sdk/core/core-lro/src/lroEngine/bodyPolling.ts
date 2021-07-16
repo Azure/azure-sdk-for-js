@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawResponse } from "../models";
-import { failureStates, LroBody, LroResponse, LroStatus, successStates } from "./models";
+import {
+  failureStates,
+  LroBody,
+  LroResponse,
+  LroStatus,
+  RawResponse,
+  successStates
+} from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
 function getProvisioningState(rawResponse: RawResponse): string {

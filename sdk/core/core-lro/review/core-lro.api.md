@@ -28,6 +28,7 @@ export interface LroEngineOptions<TResult, TState> {
     intervalInMs?: number;
     lroResourceLocationConfig?: LroResourceLocationConfig;
     processResult?: (result: unknown, state: TState) => TResult;
+    processState?: (state: TState, lastResponse: RawResponse) => void;
     resumeFrom?: string;
 }
 
@@ -51,7 +52,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     getResult(): TResult | undefined;
     isDone(): boolean;
     isStopped(): boolean;
-    onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
     protected operation: PollOperation<TState, TResult>;
     poll(options?: {
         abortSignal?: AbortSignalLike;
@@ -75,7 +76,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
     getResult(): TResult | undefined;
     isDone(): boolean;
     isStopped(): boolean;
-    onProgress(callback: (state: TState, lastResponse?: RawResponse) => void): CancelOnProgress;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
     poll(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
@@ -98,7 +99,7 @@ export interface PollOperation<TState, TResult> {
     toString(): string;
     update(options?: {
         abortSignal?: AbortSignalLike;
-        fireProgress?: (state: TState, lastResponse?: RawResponse) => void;
+        fireProgress?: (state: TState) => void;
     }): Promise<PollOperation<TState, TResult>>;
 }
 
@@ -112,7 +113,7 @@ export interface PollOperationState<TResult> {
 }
 
 // @public
-export type PollProgressCallback<TState> = (state: TState, lastResponse?: RawResponse) => void;
+export type PollProgressCallback<TState> = (state: TState) => void;
 
 // @public
 export interface RawResponse {

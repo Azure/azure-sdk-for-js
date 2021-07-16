@@ -4,4 +4,3 @@
 export * from "./pollOperation";
 export * from "./poller";
 export * from "./lroEngine";
-export * from "./models";

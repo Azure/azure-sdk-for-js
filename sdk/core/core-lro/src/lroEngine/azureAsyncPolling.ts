@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawResponse } from "../models";
 import {
   failureStates,
   LroResourceLocationConfig,
@@ -9,7 +8,8 @@ import {
   LroBody,
   LroResponse,
   LroStatus,
-  successStates
+  successStates,
+  RawResponse
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 

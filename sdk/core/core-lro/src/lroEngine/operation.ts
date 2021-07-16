@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RawResponse } from "../models";
 import { PollOperation, PollOperationState } from "../pollOperation";
 import { logger } from "./logger";
 import {
@@ -12,7 +11,8 @@ import {
   GetLroStatusFromResponse,
   LroResourceLocationConfig,
   LroStatus,
-  LroResponse
+  LroResponse,
+  RawResponse
 } from "./models";
 import { getPollingUrl } from "./requestUtils";
 import { createGetLroStatusFromResponse, createInitializeState, createPoll } from "./stateMachine";
@@ -31,7 +31,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     public state: TState & ResumablePollOperationState<TResult>,
     private lro: LongRunningOperation<TResult>,
     private lroResourceLocationConfig?: LroResourceLocationConfig,
-    private processResult?: (result: unknown, state: TState) => TResult
+    private processResult?: (result: unknown, state: TState) => TResult,
+    private processState?: (state: TState, lastResponse: RawResponse) => void
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -55,7 +56,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
    */
   async update(options?: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: TState, lastResponse?: RawResponse) => void;
+    fireProgress?: (state: TState) => void;
   }): Promise<PollOperation<TState, TResult>> {
     const state = this.state;
     let lastResponse: LroResponse<TResult> | undefined = undefined;
@@ -105,7 +106,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       lastResponse = currentState;
     }
     logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
-    options?.fireProgress?.(state, lastResponse?.rawResponse);
+    if (lastResponse) {
+      this.processState?.(state, lastResponse?.rawResponse);
+    } else {
+      logger.error(`LRO: no response was received`);
+    }
+    options?.fireProgress?.(state);
     return this;
   }
 

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawResponse } from "../models";
-import { LroConfig } from "./models";
+import { LroConfig, RawResponse } from "./models";
 
 /**
  * Detects where the continuation token is and returns it. Notice that azure-asyncoperation

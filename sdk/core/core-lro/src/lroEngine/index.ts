@@ -6,5 +6,6 @@ export {
   LroResourceLocationConfig,
   LongRunningOperation,
   LroResponse,
-  LroEngineOptions
+  LroEngineOptions,
+  RawResponse
 } from "./models";

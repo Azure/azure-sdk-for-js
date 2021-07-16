@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { RawResponse } from "../src/lroEngine/models";
 import { mockedPoller, runMockedLro } from "./utils/router";
 
 describe("Lro Engine", function() {
@@ -557,12 +558,28 @@ describe("Lro Engine", function() {
   describe("mutate state", () => {
     it("The state can be mutated in onProgress", async () => {
       const poller = mockedPoller("POST", "/error/postasync/retry/nopayload");
-      poller.onProgress((currentState, lastResponse) => {
-        assert.ok(lastResponse);
-        assert.ok(lastResponse?.statusCode);
+      poller.onProgress((currentState) => {
         // Abruptly stop the LRO after the first poll request without getting a result
         currentState.isCompleted = true;
       });
+      const result = await poller.pollUntilDone();
+      // there is no result because the poller did not run to completion.
+      assert.isUndefined(result);
+    });
+
+    it("The state can be mutated in processState", async () => {
+      const poller = mockedPoller(
+        "POST",
+        "/error/postasync/retry/nopayload",
+        undefined,
+        undefined,
+        (state: any, lastResponse: RawResponse) => {
+          assert.ok(lastResponse);
+          assert.ok(lastResponse?.statusCode);
+          // Abruptly stop the LRO after the first poll request without getting a result
+          state.isCompleted = true;
+        }
+      );
       const result = await poller.pollUntilDone();
       // there is no result because the poller did not run to completion.
       assert.isUndefined(result);

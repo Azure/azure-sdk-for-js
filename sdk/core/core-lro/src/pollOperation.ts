@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RawResponse } from "./models";
 
 /**
  * PollOperationState contains an opinionated list of the smallest set of properties needed
@@ -63,7 +62,7 @@ export interface PollOperation<TState, TResult> {
    */
   update(options?: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: TState, lastResponse?: RawResponse) => void;
+    fireProgress?: (state: TState) => void;
   }): Promise<PollOperation<TState, TResult>>;
 
   /**

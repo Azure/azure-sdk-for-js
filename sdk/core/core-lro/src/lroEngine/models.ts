@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawResponse } from "../models";
 import { PollOperationState } from "../pollOperation";
 
 /**
@@ -24,6 +23,10 @@ export interface LroEngineOptions<TResult, TState> {
    * A function to process the result of the LRO.
    */
   processResult?: (result: unknown, state: TState) => TResult;
+  /**
+   * A function to process the state of the LRO.
+   */
+  processState?: (state: TState, lastResponse: RawResponse) => void;
 }
 
 export const successStates = ["succeeded"];
@@ -49,6 +52,20 @@ export interface LroBody extends Record<string, unknown> {
   provisioningState?: string;
   /** The properties of the provisioning process */
   properties?: { provisioningState?: string } & Record<string, unknown>;
+}
+
+/**
+ * Simple type of the raw response.
+ */
+export interface RawResponse {
+  /** The HTTP status code */
+  statusCode: number;
+  /** A HttpHeaders collection in the response represented as a simple JSON object where all header names have been normalized to be lower-case. */
+  headers: {
+    [headerName: string]: string;
+  };
+  /** The parsed response body */
+  body?: unknown;
 }
 
 /**
