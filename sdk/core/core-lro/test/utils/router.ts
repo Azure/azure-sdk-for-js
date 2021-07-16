@@ -74,7 +74,7 @@ export function mockedPoller<TState>(
   url: string,
   lroResourceLocationConfig?: LroResourceLocationConfig,
   processResult?: (result: unknown, state: TState) => Response,
-  processState?: (state: TState, lastResponse: RawResponse) => void
+  updateState?: (state: TState, lastResponse: RawResponse) => void
 ): PollerLike<PollOperationState<Response>, Response> {
   const lro = new CoreRestPipelineLro(runRouter, {
     method: method,
@@ -88,7 +88,7 @@ export function mockedPoller<TState>(
     intervalInMs: 0,
     lroResourceLocationConfig: lroResourceLocationConfig,
     processResult: processResult,
-    processState: processState
+    updateState: updateState
   });
 }
 

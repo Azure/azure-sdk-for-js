@@ -26,7 +26,7 @@ export interface LroEngineOptions<TResult, TState> {
   /**
    * A function to process the state of the LRO.
    */
-  processState?: (state: TState, lastResponse: RawResponse) => void;
+  updateState?: (state: TState, lastResponse: RawResponse) => void;
 }
 
 export const successStates = ["succeeded"];

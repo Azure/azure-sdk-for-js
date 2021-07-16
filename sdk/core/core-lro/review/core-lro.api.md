@@ -28,8 +28,8 @@ export interface LroEngineOptions<TResult, TState> {
     intervalInMs?: number;
     lroResourceLocationConfig?: LroResourceLocationConfig;
     processResult?: (result: unknown, state: TState) => TResult;
-    processState?: (state: TState, lastResponse: RawResponse) => void;
     resumeFrom?: string;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
 }
 
 // @public

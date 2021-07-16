@@ -32,7 +32,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     private lro: LongRunningOperation<TResult>,
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
-    private processState?: (state: TState, lastResponse: RawResponse) => void
+    private updateState?: (state: TState, lastResponse: RawResponse) => void
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -96,8 +96,9 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
       );
       logger.verbose(`LRO: polling response: ${JSON.stringify(currentState.rawResponse)}`);
       if (currentState.done) {
-        state.result =
-          this.processResult?.(currentState.flatResponse, state) || currentState.flatResponse;
+        state.result = this.processResult
+          ? this.processResult(currentState.flatResponse, state)
+          : currentState.flatResponse;
         state.isCompleted = true;
       } else {
         this.poll = currentState.next ?? this.poll;
@@ -107,7 +108,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     }
     logger.verbose(`LRO: current state: ${JSON.stringify(state)}`);
     if (lastResponse) {
-      this.processState?.(state, lastResponse?.rawResponse);
+      this.updateState?.(state, lastResponse?.rawResponse);
     } else {
       logger.error(`LRO: no response was received`);
     }
