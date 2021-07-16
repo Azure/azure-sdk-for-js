@@ -575,7 +575,11 @@ describe("Lro Engine", function() {
         "POST",
         "/postasync/noretry/succeeded",
         undefined,
-        (result: unknown) => {
+        (result: unknown, state: any) => {
+          const serializedState = JSON.stringify({ state: state });
+          assert.equal(serializedState, poller.toString());
+          assert.ok(state.initialRawResponse);
+          assert.ok(state.pollingURL);
           assert.equal((result as any).id, "100");
           return { ...(result as any), id: "200" };
         }
