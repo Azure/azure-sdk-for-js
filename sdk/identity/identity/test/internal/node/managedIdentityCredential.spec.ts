@@ -361,9 +361,6 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet
-  // because our HTTPs pipeline doesn't allow skipping the SSL verification step,
-  // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
   it("sends an authorization request correctly in an Azure Fabric environment", async () => {
     // Trigger App Service behavior by setting environment variables
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
