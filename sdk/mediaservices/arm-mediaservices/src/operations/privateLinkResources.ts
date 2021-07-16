@@ -117,7 +117,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -143,7 +143,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResource
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
