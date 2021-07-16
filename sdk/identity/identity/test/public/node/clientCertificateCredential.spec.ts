@@ -1,0 +1,313 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import qs from "qs";
+import jws from "jws";
+import path from "path";
+import assert from "assert";
+import {
+  createResponse,
+  IdentityTestContext,
+  prepareIdentityTests,
+  SendCredentialRequests
+} from "../../authTestUtils";
+import { ClientCertificateCredential } from "../../../src";
+import { setTracer, TestTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
+import { DefaultAuthorityHost } from "../../../src/constants";
+
+describe("ClientCertificateCredential", function() {
+  let testContext: IdentityTestContext;
+  let sendCredentialRequests: SendCredentialRequests;
+
+  beforeEach(async function() {
+    testContext = await prepareIdentityTests({});
+    sendCredentialRequests = testContext.sendCredentialRequests;
+  });
+  afterEach(async function() {
+    await testContext.restore();
+  });
+
+  it("loads a PEM-formatted certificate from a file", () => {
+    const credential = new ClientCertificateCredential(
+      "tenant",
+      "client",
+      path.resolve(__dirname, "../test/azure-identity-test.crt")
+    );
+
+    assert.strictEqual(
+      (credential as any).certificateThumbprint,
+      "47080F3BAA6BF8DF068531106FBCF2DC6E5F6919"
+    );
+
+    assert.strictEqual((credential as any).certificateX5t, "RwgPO6pr+N8GhTEQb7zy3G5faRk=");
+  });
+
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
+    assert.throws(() => {
+      new ClientCertificateCredential(
+        "tenant",
+        "client",
+        path.resolve(__dirname, "../src/index.ts")
+      );
+    });
+  });
+
+  it("sends a correctly formatted token request", async () => {
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt")
+    );
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
+
+    const authRequest = authDetails.secureRequestOptions[0];
+    if (!authRequest) {
+      assert.fail("No authentication request was intercepted");
+    } else {
+      assert.equal(
+        `https://${authRequest.hostname}`,
+        DefaultAuthorityHost,
+        "Request URL doesn't contain expected hostname"
+      );
+      assert.equal(
+        authRequest.path,
+        `/${tenantId}/oauth2/v2.0/token`,
+        "Request URL doesn't contain expected tenantId"
+      );
+
+      const spy = authDetails.secureRequestWriteSpies[0];
+      const requestBody = spy.args[0][0];
+      assert.strictEqual(
+        requestBody.indexOf(`client_id=${clientId}`) > -1,
+        true,
+        "Request URL doesn't contain expected clientId"
+      );
+
+      const queryParams = qs.parse(requestBody);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
+
+      assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
+      assert.strictEqual(jwtToken.payload.iss, clientId);
+      assert.strictEqual(jwtToken.payload.sub, clientId);
+      assert.strictEqual(
+        jwtToken.payload.aud.startsWith(`${DefaultAuthorityHost}/${tenantId}/oauth2/v2.0/token`),
+        true,
+        "Audience does not have the correct authority or tenantId"
+      );
+    }
+  });
+
+  it("sends a correctly formatted token request with x5c enabled", async () => {
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt"),
+      // Enable X5c flag
+      { sendCertificateChain: true }
+    );
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
+
+    const authRequest = authDetails.secureRequestOptions[0];
+    if (!authRequest) {
+      assert.fail("No authentication request was intercepted");
+    } else {
+      assert.equal(
+        `https://${authRequest.hostname}`,
+        DefaultAuthorityHost,
+        "Request URL doesn't contain expected hostname"
+      );
+      assert.equal(
+        authRequest.path,
+        `/${tenantId}/oauth2/v2.0/token`,
+        "Request URL doesn't contain expected tenantId"
+      );
+
+      const spy = authDetails.secureRequestWriteSpies[0];
+      const requestBody = spy.args[0][0];
+      assert.strictEqual(
+        requestBody.indexOf(`client_id=${clientId}`) > -1,
+        true,
+        "Request URL doesn't contain expected clientId"
+      );
+
+      const queryParams = qs.parse(requestBody);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
+
+      assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
+      assert.deepStrictEqual(jwtToken.header.x5c, (credential as any).certificateX5c);
+      assert.strictEqual(jwtToken.payload.iss, clientId);
+      assert.strictEqual(jwtToken.payload.sub, clientId);
+      assert.strictEqual(
+        jwtToken.payload.aud.startsWith(`${DefaultAuthorityHost}/${tenantId}/oauth2/v2.0/token`),
+        true,
+        "Audience does not have the correct authority or tenantId"
+      );
+    }
+  });
+
+  it("sends a correctly formatted token request with a chained x5c enabled", async () => {
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-chain-test.crt"),
+      // Enable X5c flag
+      { sendCertificateChain: true }
+    );
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
+
+    const authRequest = authDetails.secureRequestOptions[0];
+    if (!authRequest) {
+      assert.fail("No authentication request was intercepted");
+    } else {
+      assert.equal(
+        `https://${authRequest.hostname}`,
+        DefaultAuthorityHost,
+        "Request URL doesn't contain expected hostname"
+      );
+      assert.equal(
+        authRequest.path,
+        `/${tenantId}/oauth2/v2.0/token`,
+        "Request URL doesn't contain expected tenantId"
+      );
+
+      const spy = authDetails.secureRequestWriteSpies[0];
+      const requestBody = spy.args[0][0];
+      assert.strictEqual(
+        requestBody.indexOf(`client_id=${clientId}`) > -1,
+        true,
+        "Request URL doesn't contain expected clientId"
+      );
+
+      const queryParams = qs.parse(requestBody);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
+
+      assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
+      assert.deepStrictEqual(jwtToken.header.x5c, (credential as any).certificateX5c);
+      assert.strictEqual(2, (credential as any).certificateX5c.length);
+      assert.strictEqual(jwtToken.payload.iss, clientId);
+      assert.strictEqual(jwtToken.payload.sub, clientId);
+      assert.strictEqual(
+        jwtToken.payload.aud.startsWith(`${DefaultAuthorityHost}/${tenantId}/oauth2/v2.0/token`),
+        true,
+        "Audience does not have the correct authority or tenantId"
+      );
+    }
+  });
+
+  it("sends a correctly formatted token request while tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+
+    const rootSpan = tracer.startSpan("root");
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt")
+    );
+
+    await sendCredentialRequests({
+      scopes: ["scope"],
+      getTokenOptions: {
+        tracingOptions: {
+          tracingContext: setSpan(context.active(), rootSpan)
+        }
+      },
+      credential,
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
+
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Identity.ClientCertificateCredential-getToken",
+              children: [
+                {
+                  children: [],
+                  name: "/tenantId/oauth2/v2.0/token"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+});
