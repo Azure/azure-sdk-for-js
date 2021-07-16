@@ -1211,7 +1211,7 @@ const listDeploymentsAtSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1236,7 +1236,7 @@ const cancelAtSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1260,7 +1260,7 @@ const listForSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations",
   urlParameters: [
-    Parameters.subscriptionId
+    Parameters.subscriptionId0
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -1285,7 +1285,7 @@ const createOrUpdateAtSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1319,7 +1319,7 @@ const getAtSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1343,7 +1343,7 @@ const deleteAtSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1368,8 +1368,8 @@ const listDeploymentsAtResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1394,8 +1394,8 @@ const cancelAtResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1419,8 +1419,8 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -1445,8 +1445,8 @@ const createOrUpdateAtResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1480,8 +1480,8 @@ const getAtResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.remediationName
   ],
   queryParameters: [
@@ -1505,8 +1505,8 @@ const deleteAtResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.remediationName
   ],
   queryParameters: [
