@@ -6,7 +6,7 @@ import { PollOperationState } from "../pollOperation";
 /**
  * Options for the LRO poller.
  */
-export interface LroEngineOptions {
+export interface LroEngineOptions<TResult, TState> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
@@ -19,6 +19,14 @@ export interface LroEngineOptions {
    * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
    */
   lroResourceLocationConfig?: LroResourceLocationConfig;
+  /**
+   * A function to process the result of the LRO.
+   */
+  processResult?: (result: unknown, state: TState) => TResult;
+  /**
+   * A function to process the state of the LRO.
+   */
+  updateState?: (state: TState, lastResponse: RawResponse) => void;
 }
 
 export const successStates = ["succeeded"];

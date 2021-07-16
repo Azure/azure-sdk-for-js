@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { RawResponse } from "../src/lroEngine/models";
 import { mockedPoller, runMockedLro } from "./utils/router";
 
 describe("Lro Engine", function() {
@@ -551,6 +552,57 @@ describe("Lro Engine", function() {
       });
       await poller.pollUntilDone();
       assert.ok(state.initialRawResponse);
+    });
+  });
+
+  describe("mutate state", () => {
+    it("The state can be mutated in onProgress", async () => {
+      const poller = mockedPoller("POST", "/error/postasync/retry/nopayload");
+      poller.onProgress((currentState) => {
+        // Abruptly stop the LRO after the first poll request without getting a result
+        currentState.isCompleted = true;
+      });
+      const result = await poller.pollUntilDone();
+      // there is no result because the poller did not run to completion.
+      assert.isUndefined(result);
+    });
+
+    it("The state can be mutated in processState", async () => {
+      const poller = mockedPoller(
+        "POST",
+        "/error/postasync/retry/nopayload",
+        undefined,
+        undefined,
+        (state: any, lastResponse: RawResponse) => {
+          assert.ok(lastResponse);
+          assert.ok(lastResponse?.statusCode);
+          // Abruptly stop the LRO after the first poll request without getting a result
+          state.isCompleted = true;
+        }
+      );
+      const result = await poller.pollUntilDone();
+      // there is no result because the poller did not run to completion.
+      assert.isUndefined(result);
+    });
+  });
+
+  describe("process result", () => {
+    it("The final result can be processed using processResult", async () => {
+      const poller = await mockedPoller(
+        "POST",
+        "/postasync/noretry/succeeded",
+        undefined,
+        (result: unknown, state: any) => {
+          const serializedState = JSON.stringify({ state: state });
+          assert.equal(serializedState, poller.toString());
+          assert.ok(state.initialRawResponse);
+          assert.ok(state.pollingURL);
+          assert.equal((result as any).id, "100");
+          return { ...(result as any), id: "200" };
+        }
+      );
+      const result = await poller.pollUntilDone();
+      assert.deepInclude(result, { id: "200", name: "foo" });
     });
   });
 });
