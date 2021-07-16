@@ -11,14 +11,6 @@ import { PerfStressTest } from "../src";
 export class Exception extends PerfStressTest {
   public options = {};
 
-  run(): void {
-    try {
-      throw new Error();
-    } catch (e) {
-      // Nothing to do here
-    }
-  }
-
   async runAsync(): Promise<void> {
     try {
       throw new Error();

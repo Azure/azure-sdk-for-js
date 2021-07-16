@@ -13,4 +13,5 @@ export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
 
 export { TestSpan } from "./tracing/testSpan";
-export { TestTracer, SpanGraph, SpanGraphNode } from "./tracing/testTracer";
+export * from "./tracing/testTracer";
+export * from "./tracing/testTracerProvider";
