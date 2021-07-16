@@ -48,6 +48,7 @@ module.exports = function(config) {
       "KEYVAULT_NAME",
       "KEYVAULT_URI",
       "AZURE_MANAGEDHSM_URI",
+      "ATTESTATION_URI",
       "TEST_MODE"
     ],
 

@@ -17,7 +17,8 @@ export async function authenticate(that: Context, version: string): Promise<any>
       AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
-      AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/"
+      AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
+      ATTESTATION_URI: "https://skrattestation.azurewebsites.net/"
     },
     customizationsOnRecordings: [
       (recording: any): any =>

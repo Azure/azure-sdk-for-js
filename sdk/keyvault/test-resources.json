@@ -273,10 +273,10 @@
       "type": "string",
       "value": "[variables('blobContainerName')]"
     },
-    "ATTESTATION_URL": {
+    "ATTESTATION_URI": {
       "type": "string",
       "condition": "[parameters('enableHsm')]",
-      "value": "[concat('https://', parameters('attestationBaseName'), '.azurewebsites.net']"
+      "value": "[concat('https://', parameters('attestationBaseName'), '.azurewebsites.net/')]"
     }
   }
 }

@@ -1,24 +1,8 @@
 {
  "recordings": [
   {
-   "method": "GET",
-   "url": "https://skrattestation.azurewebsites.net//generate-test-token",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh2d2xRVk9UZWJJZGgtU3Jyb2JuUGlEZTF4THZyeENteDBVMjM0bHBkUjAiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiIwUjJsdHhJVnc3dnV5aXE1WlprWmFNbmZ5TjNGQ3lVb1VpMHBBc1dmeTBTSm9IbkdTdGJwM3V4SlF6bDU3dVlLeHl5aFlkV1prazlzUDVLdUlrWWM1RUEtN2NJaGQxQWhVenJBWDlrTUJObUhNRzFqQXJ2T3N0NFd6ZHhFeGJsalZ2X0hEbTE1MUNYaWs2ZVBQWGhBYndkYWVhOTlfN2YtT1FyTzcxR2Q1QjFreHNZOUR4eFlxa1NXZDdTeWd6RW9lQ1c4Z3BrSFVEQllyTFdoM1BjZHo5NDRBWVVDNXJ3cVJBMHl4N0EzeXNOZ05mQzdRVzVyWUVvVXJXd0ZDb3V5QWdBN05ULWo0bVllUkV3VF9sam1oaXdvODg3dG8zVW5SUzlDLXV5aHdmNFhVdk93ZmVqdlJnTnJSbUxBS3pjX2wzOC1YTGFZS0ZwcjIxSEJ1TjNLTHcifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjYzOTYzNTAsImV4cCI6MTYyNzAwMTE1MH0.eK-ZDy61ZRtoF2_M2dom-rSclMYQvn_qLNm9zg2ztXyduBAgVSg5_LHhp6tDDrplMgkdfSFBsxlPAANUVhrwt46cG1NuzPfhFgqiav3gdXt0TScZullg8Ecq33Vl906BMpKC6fT0fnFr0uBnwDPVCc3t_cAlO3-vQRf_WYmAJ8YOh02qzdYtvDejJeloVr6Pq69TVEY4SNz4Y4muSndsDKiRbFzd19dm4xjknnydmR0fIGrZZpBp90KC2YFA7tURA8WXdvZUAHZNRGBsr4OTUkYtvsR0x3cXqjHpIqK9T268EKb43iOQKckkgQ2ozImmaWETh3y3fmW0kb6JiCfpcw\"}",
-   "responseHeaders": {
-    "content-length": "1305",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Jul 2021 00:45:49 GMT",
-    "etag": "W/\"519-lZqUfnNABe6qmYJ5GHjso1BwPsY\"",
-    "status": "200",
-    "x-powered-by": "Express"
-   }
-  },
-  {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162639635114700643/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162646111724806551/create",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -34,8 +18,8 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "2b25167e-e5cf-11eb-8b80-0022484c85ac",
-    "x-ms-server-latency": "1"
+    "x-ms-request-id": "f662205c-e665-11eb-80db-0022484c85ac",
+    "x-ms-server-latency": "0"
    }
   },
   {
@@ -49,7 +33,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Jul 2021 00:45:50 GMT",
+    "date": "Fri, 16 Jul 2021 18:45:16 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -58,19 +42,19 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - SCUS ProdSlices",
-    "x-ms-request-id": "c3d1ce51-cac0-442e-9e8b-b80bd299c501"
+    "x-ms-ests-server": "2.1.11898.8 - WUS2 ProdSlices",
+    "x-ms-request-id": "4ec8194a-98f3-4e98-9af2-908daa4c4d00"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162639635114700643/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162646111724806551/create",
    "query": {
     "api-version": "7.3-preview"
    },
    "requestBody": "{\"kty\":\"RSA\",\"attributes\":{\"exportable\":true}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Exportable keys must have release policy (Activity ID: 2b6224ec-e5cf-11eb-8b80-0022484c85ac)\"}}",
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Exportable keys must have release policy (Activity ID: f68bbff2-e665-11eb-80db-0022484c85ac)\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "138",
@@ -79,14 +63,14 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "2b6224ec-e5cf-11eb-8b80-0022484c85ac",
-    "x-ms-server-latency": "28"
+    "x-ms-request-id": "f68bbff2-e665-11eb-80db-0022484c85ac",
+    "x-ms-server-latency": "26"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "exportablenopolicy": "exportablenopolicy162639635114700643"
+   "exportablenopolicy": "exportablenopolicy162646111724806551"
   },
   "newDate": {}
  },

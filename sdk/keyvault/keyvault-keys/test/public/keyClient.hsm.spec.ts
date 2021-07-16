@@ -74,7 +74,7 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
-      const attestationUrl = process.env.ATTESTATION_URL;
+      const attestationUri = env.ATTESTATION_URI;
       const releasePolicy = {
         anyOf: [
           {
@@ -85,7 +85,7 @@ onVersions({ minVer: "7.2" }).describe(
                 value: "true"
               }
             ],
-            authority: attestationUrl
+            authority: attestationUri
           }
         ],
         version: "1.0"
@@ -95,17 +95,17 @@ onVersions({ minVer: "7.2" }).describe(
       let attestation: string;
 
       beforeEach(async () => {
-        if (!attestationUrl) {
-          assert.fail("ATTESTATION_URL is empty or undefined");
+        if (!attestationUri) {
+          assert.fail("ATTESTATION_URI is empty or undefined");
         }
-        const client = new DefaultHttpClient();
-        const response = await client.sendRequest(
-          new WebResource(`${attestationUrl}/generate-test-token`)
-        );
-        attestation = JSON.parse(response.bodyAsText!).token;
       });
 
       it("can import an exportable key and release it", async () => {
+        const client = new DefaultHttpClient();
+        const response = await client.sendRequest(
+          new WebResource(`${attestationUri}/generate-test-token`)
+        );
+        attestation = JSON.parse(response.bodyAsText!).token;
         const keyName = recorder.getUniqueName("importreleasekey");
 
         const importedKey = await hsmClient.importKey(keyName, createRsaKey(), {
@@ -133,13 +133,17 @@ onVersions({ minVer: "7.2" }).describe(
 
       it("errors when key is exportable without a release policy", async () => {
         const keyName = recorder.getUniqueName("exportablenopolicy");
-        await assert.isRejected(hsmClient.createRsaKey(keyName, { exportable: true }));
+        await assert.isRejected(
+          hsmClient.createRsaKey(keyName, { exportable: true }),
+          /exportable/i
+        );
       });
 
       it("errors when a key has a release policy but is not exportable", async () => {
         const keyName = recorder.getUniqueName("policynonexportable");
         await assert.isRejected(
-          hsmClient.createRsaKey(keyName, { releasePolicy: { data: encodedReleasePolicy } })
+          hsmClient.createRsaKey(keyName, { releasePolicy: { data: encodedReleasePolicy } }),
+          /exportable/i
         );
       });
 
