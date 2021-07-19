@@ -5,6 +5,8 @@ import * as openTelemetry from "@opentelemetry/api";
 import * as coreAuth from "@azure/core-auth";
 import * as coreTracing from "../src/interfaces";
 import { assert } from "chai";
+import { getTracer } from "../src/interfaces";
+import { TestTracer } from "./util/testTracer";
 
 type coreAuthTracingOptions = Required<coreAuth.GetTokenOptions>["tracingOptions"];
 
@@ -80,5 +82,19 @@ describe("interface compatibility", () => {
 
     const authTracingOptions: coreAuth.GetTokenOptions["tracingOptions"] = coreTracingOptions;
     assert.ok(authTracingOptions);
+  });
+
+  describe("getTracer", () => {
+    it("returns a tracer with a given name and version", () => {
+      const tracer = getTracer("test", "1.0.0") as TestTracer;
+      assert.equal(tracer.name, "test");
+      assert.equal(tracer.version, "1.0.0");
+    });
+
+    it("returns a tracer with a default name no version if not provided", () => {
+      const tracer = getTracer() as TestTracer;
+      assert.isNotEmpty(tracer.name);
+      assert.isUndefined(tracer.version);
+    });
   });
 });

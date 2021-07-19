@@ -1,15 +1,17 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (Unreleased)
 
 ### Features Added
+
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
 
 ### Breaking Changes
 
 ### Key Bugs Fixed
 
 ### Fixed
-
 
 ## 2.0.0 (2021-06-30)
 

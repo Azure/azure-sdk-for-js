@@ -19,15 +19,17 @@ export interface LongRunningOperation<T> {
 
 // @public
 export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
-    constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions);
+    constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions<TResult, TState>);
     delay(): Promise<void>;
 }
 
 // @public
-export interface LroEngineOptions {
+export interface LroEngineOptions<TResult, TState> {
     intervalInMs?: number;
     lroResourceLocationConfig?: LroResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => TResult;
     resumeFrom?: string;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
 }
 
 // @public

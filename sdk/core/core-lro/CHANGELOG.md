@@ -1,17 +1,10 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 2.1.0 (2021-07-19)
 
 ### Features Added
 
 - Provides a long-running operation engine.
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
 
 ## 2.0.0 (2021-06-30)
 

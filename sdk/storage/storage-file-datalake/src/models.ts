@@ -1291,6 +1291,16 @@ export interface FileQueryCsvTextConfiguration {
 }
 
 /**
+ * Options to query file with Parquet format.
+ */
+export interface FileQueryParquetConfiguration {
+  /**
+   * Kind.
+   */
+  kind: "parquet";
+}
+
+/**
  * File query error type.
  */
 export interface FileQueryError {
@@ -1327,7 +1337,10 @@ export interface FileQueryOptions extends CommonOptions {
   /**
    * Configurations for the query input.
    */
-  inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+  inputTextConfiguration?:
+    | FileQueryJsonTextConfiguration
+    | FileQueryCsvTextConfiguration
+    | FileQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */

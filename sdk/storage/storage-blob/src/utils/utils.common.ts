@@ -7,7 +7,8 @@ import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-ht
 import {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
-  BlobQueryJsonTextConfiguration
+  BlobQueryJsonTextConfiguration,
+  BlobQueryParquetConfiguration
 } from "../Clients";
 import { QuerySerialization, BlobTags } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
@@ -15,7 +16,8 @@ import {
   Tags,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
-  ObjectReplicationStatus
+  ObjectReplicationStatus,
+  HttpAuthorization
 } from "../models";
 
 /**
@@ -646,6 +648,7 @@ export function toQuerySerialization(
     | BlobQueryJsonTextConfiguration
     | BlobQueryCsvTextConfiguration
     | BlobQueryArrowConfiguration
+    | BlobQueryParquetConfiguration
 ): QuerySerialization | undefined {
   if (textConfiguration === undefined) {
     return undefined;
@@ -681,6 +684,12 @@ export function toQuerySerialization(
           arrowConfiguration: {
             schema: textConfiguration.schema
           }
+        }
+      };
+    case "parquet":
+      return {
+        format: {
+          type: "parquet"
         }
       };
 
@@ -735,4 +744,12 @@ export function parseObjectReplicationRecord(
 export function attachCredential<T>(thing: T, credential: TokenCredential): T {
   (thing as any).credential = credential;
   return thing;
+}
+
+export function httpAuthorizationToString(
+  httpAuthorization?: HttpAuthorization
+): string | undefined {
+  return httpAuthorization
+    ? httpAuthorization.scheme + " " + httpAuthorization.parameter
+    : undefined;
 }

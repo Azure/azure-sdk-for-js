@@ -8,8 +8,8 @@ import {
   LroBody,
   LroResponse,
   LroStatus,
-  RawResponse,
-  successStates
+  successStates,
+  RawResponse
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
