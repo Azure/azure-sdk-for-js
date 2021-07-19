@@ -222,6 +222,7 @@ Refer to [@azure/core-lro](https://www.npmjs.com/package/@azure/core-lro) for mo
 
 ## Additional Samples
 
+We also provide some samples [here](https://github.com/Azure-Samples/azure-samples-js-management) for customers on how to use the next generation of Azure Javascript/Typescript management libraries.
 
 ## Need help
 
