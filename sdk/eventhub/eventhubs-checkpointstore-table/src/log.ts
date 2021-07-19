@@ -5,9 +5,9 @@ import { createClientLogger } from "@azure/logger";
 
 /**
  * The `@azure/logger` configuration for this package.
- * This will output logs using the `azure:eventhubs-checkpointstore-tables` namespace prefix.
+ * This will output logs using the `azure:eventhubs-checkpointstore-table` namespace prefix.
  */
-export const logger = createClientLogger("eventhubs-checkpointstore-tables");
+export const logger = createClientLogger("eventhubs-checkpointstore-table");
 
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
