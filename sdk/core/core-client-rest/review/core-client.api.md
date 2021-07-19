@@ -42,7 +42,6 @@ export type ClientOptions = PipelineOptions & {
     };
     baseUrl?: string;
     apiVersion?: string;
-    allowInsecureConnection?: boolean;
 };
 
 // @public
@@ -52,7 +51,7 @@ export function createDefaultPipeline(baseUrl: string, credential?: TokenCredent
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;

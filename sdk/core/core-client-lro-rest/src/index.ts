@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * A helper library which implements Autorest x-ms-pageable spec for pagination
+ * A helper library which implements Autorest x-ms-long-running-operation spec for long-running operations
  *
  * @packageDocumentation
  */
 export { getLongRunningPoller } from "./getLongRunningHelper";
-export { PollerLike, PollOperationState } from "@azure/core-lro";
-export { LROPollerOptions, FinalStateVia } from "./lroEngine";
+export { PollerLike, PollOperationState, LroEngineOptions } from "@azure/core-lro";

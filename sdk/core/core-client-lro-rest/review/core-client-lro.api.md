@@ -6,29 +6,17 @@
 
 import { Client } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { LroEngineOptions } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-
-// @public (undocumented)
-export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
 
 // @public
 export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult): PollerLike<PollOperationState<TResult>, TResult>;
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, pollerOptions: LROPollerOptions): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, pollerOptions: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
 
-// @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, finalStateVia: FinalStateVia): PollerLike<PollOperationState<TResult>, TResult>;
-
-// @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, pollerOptions: LROPollerOptions, finalStateVia: FinalStateVia): PollerLike<PollOperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface LROPollerOptions {
-    intervalInMs?: number;
-    resumeFrom?: string;
-}
+export { LroEngineOptions }
 
 export { PollerLike }
 
