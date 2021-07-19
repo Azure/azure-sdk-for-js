@@ -524,6 +524,7 @@ describe("bulk item operations", function() {
     });
   });
 
+  // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
   describe("item read retries", async function() {
     it("retries on 429", async function() {
       const client = new CosmosClient({ key: masterKey, endpoint });
