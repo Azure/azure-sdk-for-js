@@ -108,7 +108,7 @@ describe("LRO helper", () => {
     assert.deepEqual(result.body, expectedBody);
   });
 
-  it("LROs_put200UpdatingSucceeded204", async () => {
+  it("LROs_put200UpdatingSucceeded200", async () => {
     // Long running put request, service returns a 201 to the initial request, with an entity that contains ProvisioningState=’Updating’.  Polls return this value until the last poll returns a ‘200’ with ProvisioningState=’Succeeded’
     const expectedBody = { properties: { provisioningState: "Succeeded" }, id: "100", name: "foo" };
     mockResponse(client, [
@@ -159,7 +159,10 @@ describe("LRO helper", () => {
       await poller.pollUntilDone();
       assert.fail("Expected exception");
     } catch (error) {
-      assert.equal(error.message, "The long running operation has failed. The provisioning state: failed.");
+      assert.equal(
+        error.message,
+        "The long running operation has failed. The provisioning state: failed."
+      );
     }
   });
 
@@ -188,7 +191,10 @@ describe("LRO helper", () => {
       await poller.pollUntilDone();
       assert.fail("Expected exception");
     } catch (error) {
-      assert.equal(error.message, "The long running operation has failed. The provisioning state: canceled.");
+      assert.equal(
+        error.message,
+        "The long running operation has failed. The provisioning state: canceled."
+      );
     }
   });
 
