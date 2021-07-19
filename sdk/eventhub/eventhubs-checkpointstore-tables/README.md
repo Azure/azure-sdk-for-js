@@ -20,7 +20,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 - An [Azure subscription](https://azure.microsoft.com/free/)
 - An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package 
-- A [Storage account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
+- A [Storage account](https://docs.microsoft.com/azure/storage/tables/table-storage-overview)
 
 ### Install the package
 
