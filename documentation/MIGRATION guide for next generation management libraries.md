@@ -114,7 +114,7 @@ getInstanceView(resourceGroupName, cloudServiceName)
 ## List Operations
 
 List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.  
-which means previously, you can get the list result directly like
+The below example shows how you could handle the list result in previous version:
 ```typescript
 await client.availabilitySets.list(this.resourceName).then(
     response => handle(response)
