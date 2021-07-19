@@ -15,5 +15,5 @@ export function getPoller<TResult extends HttpResponse>(
   client: FarmBeatsRestClient,
   initialResponse: TResult
 ): PollerLike<PollOperationState<TResult>, TResult> {
-  return getLongRunningPoller(client, initialResponse, "location");
+  return getLongRunningPoller(client, initialResponse);
 }
