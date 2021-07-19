@@ -14,6 +14,7 @@
   - [Command to run](#command-to-run)
   - [Adding Readme/Instructions](#adding-readme/instructions)
   - [Testing an older track 2 version](#testing-an-older-track-2-version)
+- [Using Proxy Tool](#using-proxy-tool)
 
 ## [Setting up the project](#setting-up-the-project)
 
@@ -261,3 +262,11 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
 - `rush build -t perf-test-<service-sdk>`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
+
+## [Using Proxy Tool](#using-proxy-tool)
+
+### Running the proxy server
+
+Run this command
+
+- `docker run -v temp-location:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`

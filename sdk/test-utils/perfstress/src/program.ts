@@ -35,7 +35,9 @@ export type TestType = "";
  */
 export class PerfStressProgram {
   private testName: string;
-  private parsedDefaultOptions: Required<PerfStressOptionDictionary<DefaultPerfStressOptions>>;
+  private parsedDefaultOptions: Required<
+    PerfStressOptionDictionary<DefaultPerfStressOptions>
+  >;
   private parallelNumber: number;
   private tests: PerfStressTest[];
 
@@ -52,8 +54,12 @@ export class PerfStressProgram {
     this.parsedDefaultOptions = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.parsedDefaultOptions.parallel.value);
 
-    console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<DefaultPerfStressOptions>>(this.parallelNumber);
+    console.log(
+      `=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`
+    );
+    this.tests = new Array<PerfStressTest<DefaultPerfStressOptions>>(
+      this.parallelNumber
+    );
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -67,7 +73,10 @@ export class PerfStressProgram {
 
   private getOperationsPerSecond(parallels: PerfStressParallel[]): number {
     return parallels.reduce((sum, parallel) => {
-      return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
+      return (
+        sum +
+        parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000)
+      );
     }, 0);
   }
 
@@ -97,13 +106,17 @@ export class PerfStressProgram {
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
-      `Completed ${totalOperations.toLocaleString(undefined, { maximumFractionDigits: 0 })} ` +
+      `Completed ${totalOperations.toLocaleString(undefined, {
+        maximumFractionDigits: 0
+      })} ` +
         `operations in a weighted-average of ` +
         `${weightedAverage.toLocaleString(undefined, {
           maximumFractionDigits: 2,
           minimumFractionDigits: 2
         })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, { maximumFractionDigits: 2 })} ops/s, ` +
+        `(${operationsPerSecond.toLocaleString(undefined, {
+          maximumFractionDigits: 2
+        })} ops/s, ` +
         `${secondsPerOperation.toLocaleString(undefined, {
           maximumFractionDigits: 3,
           minimumFractionDigits: 3
@@ -129,7 +142,9 @@ export class PerfStressProgram {
     abortController: AbortController
   ): Promise<void> {
     if (!test.runAsync) {
-      throw new Error(`The "runAsync" method is missing in the test ${this.testName}`);
+      throw new Error(
+        `The "runAsync" method is missing in the test ${this.testName}`
+      );
     }
     const start = process.hrtime();
     while (!abortController.signal.aborted) {
@@ -145,7 +160,10 @@ export class PerfStressProgram {
       // once the durationMilliseconds have elapsed. That setTimeout might not get queued
       // on time through the event loop, depending on the number of operations we might be executing.
       // For this reason, we're also manually checking the elapsed time here.
-      if (abortController.signal.aborted || elapsedMilliseconds > durationMilliseconds) {
+      if (
+        abortController.signal.aborted ||
+        elapsedMilliseconds > durationMilliseconds
+      ) {
         abortController.abort();
         break;
       }
@@ -159,8 +177,12 @@ export class PerfStressProgram {
     durationSeconds: number,
     title: string
   ): Promise<void> {
-    const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(this.parallelNumber);
-    const parallelTestResults: Array<Promise<void>> = new Array<Promise<void>>(this.parallelNumber);
+    const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(
+      this.parallelNumber
+    );
+    const parallelTestResults: Array<Promise<void>> = new Array<Promise<void>>(
+      this.parallelNumber
+    );
 
     const abortController = new AbortController();
     const durationMilliseconds = durationSeconds * 1000;
@@ -174,10 +196,12 @@ export class PerfStressProgram {
     // This is how we customize how frequently we log how many completed operations have been executed.
     // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
     // of operations running.
-    const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
+    const millisecondsToLog = Number(
+      this.parsedDefaultOptions["milliseconds-to-log"].value
+    );
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      `\n=== ${title} mode, iteration ${iterationIndex +
+        1}. Logs every ${millisecondsToLog / 1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -187,13 +211,17 @@ export class PerfStressProgram {
       const averageCompleted = this.getOperationsPerSecond(parallels);
 
       lastCompleted = totalCompleted;
-      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
+      console.log(
+        `${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
+          2
+        )}`
+      );
     }, millisecondsToLog);
 
     const runLoop = this.runLoopAsync;
 
     // Unhandled exceptions should stop the whole PerfStress process.
-    process.on("unhandledRejection", (error) => {
+    process.on("unhandledRejection", error => {
       throw error;
     });
 
@@ -226,7 +254,9 @@ export class PerfStressProgram {
     clearInterval(logInterval);
 
     // Finally, we show the results.
-    console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
+    console.log(
+      `=== ${title} mode, results of iteration ${iterationIndex + 1} ===`
+    );
     this.logResults(parallels);
   }
 
@@ -277,6 +307,10 @@ export class PerfStressProgram {
       }
     }
 
+    if (options["test-proxy"]) {
+      await this.recordAndStartPlayback(this.tests[0]);
+    }
+
     if (Number(options.warmup.value) > 0) {
       await this.runTest(0, Number(options.warmup.value), "warmup");
     }
@@ -284,6 +318,10 @@ export class PerfStressProgram {
     const iterations = Number(options.iterations.value);
     for (let i = 0; i < iterations; i++) {
       await this.runTest(i, Number(options.duration.value), "test");
+    }
+
+    if (options["test-proxy"]) {
+      await this.stopPlayback(this.tests[0]);
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -303,5 +341,24 @@ export class PerfStressProgram {
         await this.tests[0].globalCleanup();
       }
     }
+  }
+
+  private async recordAndStartPlayback(test: PerfStressTest<{}>) {
+    // TODO:
+    //
+    // If test-proxy,
+    // => then start record
+    // => run the runAsync
+    // => stop record
+    // => start playback
+    test.recorder._mode = "record";
+    await test.recorder.start();
+    await test.runAsync!();
+    await test.recorder.stop();
+    test.recorder._mode = "playback";
+    await test.recorder.start();
+  }
+  private async stopPlayback(test: PerfStressTest<{}>) {
+    await test.recorder.stop();
   }
 }

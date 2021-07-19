@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse, URLBuilder } from "@azure/core-http";
-import { DefaultHttpClient, WebResource, WebResourceLike } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  WebResource,
+  WebResourceLike
+} from "@azure/core-http";
 
 const paths = {
   playback: "/playback",
@@ -12,49 +16,50 @@ const paths = {
 };
 
 export class RecordingHttpClient extends DefaultHttpClient {
+  private _uri: string;
   private _httpClient: DefaultHttpClient;
   private _recordingId?: string;
-  // private _sessionFile: string;
-  private _startUri: string;
-  private _stopUri: string;
-  private _mode: string;
+  public _mode!: string;
 
   constructor(uri: string) {
     super();
-    // this._sessionFile = sessionFile;
-    const playback = true;
-    this._startUri = uri + (playback ? paths.playback : paths.record) + paths.start;
-    this._stopUri = uri + (playback ? paths.playback : paths.record) + paths.stop;
-    this._mode = playback ? "playback" : "record";
+    this._uri = uri;
     this._httpClient = new DefaultHttpClient();
-    console.log("in the RecordingHttpClient constructor");
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    console.log("in the RecordingHttpClient: prepareRequest");
-    await this.start();
-
     if (!request.headers.contains("x-recording-id")) {
+      console.log("mode", this._mode);
+      console.log("id", this._recordingId);
       request.headers.set("x-recording-id", this._recordingId!);
       request.headers.set("x-recording-mode", this._mode);
+      request.headers.set("x-recording-remove", "false");
 
       const upstreamUrl = URLBuilder.parse(request.url);
       const redirectedUrl: URLBuilder = URLBuilder.parse(request.url);
-      redirectedUrl.setHost("localhost:5000");
-      redirectedUrl.setScheme("http");
+
+      const providedUrl = URLBuilder.parse(this._uri);
+      redirectedUrl.setHost(providedUrl.getHost());
+      redirectedUrl.setScheme(providedUrl.getScheme());
+      redirectedUrl.setPort(providedUrl.getPort());
       upstreamUrl.setPath(undefined);
-      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.headers.set(
+        "x-recording-upstream-base-uri",
+        upstreamUrl.toString()
+      );
       request.url = redirectedUrl.toString();
     }
 
-    console.log("in the RecordingHttpClient: callign super.prepareRequest");
     return await super.sendRequest(request);
   }
 
   async start(): Promise<void> {
     if (this._recordingId === undefined) {
-      const req = this._createRecordingRequest(this._startUri);
-      console.log("in the RecordingHttpClient: inside start - calling _httpClient.sendRequest");
+      const startUri =
+        this._uri +
+        (this._mode === "playback" ? paths.playback : paths.record) +
+        paths.start;
+      const req = this._createRecordingRequest(startUri);
       const rsp = await this._httpClient.sendRequest(req);
       if (rsp.status !== 200) {
         throw new Error("Start request failed.");
@@ -69,17 +74,23 @@ export class RecordingHttpClient extends DefaultHttpClient {
 
   async stop(): Promise<void> {
     if (this._recordingId !== undefined) {
-      const req = this._createRecordingRequest(this._stopUri);
-      req.headers.set("x-recording-save", "true");
-      console.log("in the RecordingHttpClient: inside stop - calling _httpClient.sendRequest");
-
+      const stopUri =
+        this._uri +
+        (this._mode === "playback" ? paths.playback : paths.record) +
+        paths.stop;
+      const req = this._createRecordingRequest(stopUri);
+      console.log(
+        "in the RecordingHttpClient: inside stop - calling _httpClient.sendRequest"
+      );
+      if (this._mode === "playback") {
+        req.headers.set("x-purge-inmemory-recording", "true");
+      }
       await this._httpClient.sendRequest(req);
     }
   }
 
   private _createRecordingRequest(uri: string) {
     const req = new WebResource(uri, "POST");
-    // req.headers.set("x-recording-file", this._sessionFile);
     if (this._recordingId !== undefined) {
       req.headers.set("x-recording-id", this._recordingId);
     }
