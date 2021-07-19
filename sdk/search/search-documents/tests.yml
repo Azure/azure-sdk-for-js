@@ -5,5 +5,5 @@ stages:
     parameters:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
-      TimeoutInMinutes: 180
+      TimeoutInMinutes: 300
       Clouds: 'Public,UsGov,China,Canary'
