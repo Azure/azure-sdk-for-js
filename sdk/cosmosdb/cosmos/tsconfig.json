@@ -18,5 +18,5 @@
       "cosmos": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*", "samples-dev/**/*"]
 }

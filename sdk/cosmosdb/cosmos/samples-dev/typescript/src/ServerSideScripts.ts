@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { logSampleHeader, logStep, finish, handleError } from "../Shared/handleError";
-import { endpoint, key, database as databaseId, container as containerId } from "../Shared/config";
+import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
+import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
 import { CosmosClient, ErrorResponse } from "../../../../dist-esm";
 import { FeedOptions, Item, Resource } from "cosmos";
 

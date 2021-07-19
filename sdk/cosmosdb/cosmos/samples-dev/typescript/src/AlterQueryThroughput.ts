@@ -5,7 +5,7 @@
  * @summary Updates a container offer to change query throughput.
  */
 
-import { finish, handleError, logStep, logSampleHeader } from "../Shared/handleError";
+import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import {
   CosmosClient,
   OfferDefinition,
@@ -14,7 +14,7 @@ import {
   DatabaseDefinition,
   FeedResponse
 } from "../../../../dist-esm";
-import { database as databaseId, container as containerId, endpoint, key } from "../Shared/config";
+import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
 
 logSampleHeader("Alter Query Throughput");
 
