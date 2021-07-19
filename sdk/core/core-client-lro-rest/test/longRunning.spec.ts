@@ -12,7 +12,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { URL } from "../src/url";
 
-describe("Paginate heleper", () => {
+describe("LRO helper", () => {
   let client: Client;
 
   beforeEach(() => {
@@ -123,14 +123,14 @@ describe("Paginate heleper", () => {
       {
         path: "/lro/put/200/updating/succeeded/200",
         method: "GET",
-        response: { status: 204, body: expectedBody },
+        response: { status: 200, body: expectedBody },
       },
     ]);
     const initialResponse = await client.pathUnchecked("/lro/put/200/updating/succeeded/200").put();
     const poller = getLongRunningPoller(client, initialResponse, { intervalInMs: 1 });
     const result = await poller.pollUntilDone();
 
-    assert.equal(result.status, "204");
+    assert.equal(result.status, "200");
     assert.deepEqual(result.body, expectedBody);
   });
 
@@ -159,7 +159,7 @@ describe("Paginate heleper", () => {
       await poller.pollUntilDone();
       assert.fail("Expected exception");
     } catch (error) {
-      assert.equal(error.message, "Provisioning state: failed");
+      assert.equal(error.message, "The long running operation has failed. The provisioning state: failed.");
     }
   });
 
@@ -188,7 +188,7 @@ describe("Paginate heleper", () => {
       await poller.pollUntilDone();
       assert.fail("Expected exception");
     } catch (error) {
-      assert.equal(error.message, "Provisioning state: canceled");
+      assert.equal(error.message, "The long running operation has failed. The provisioning state: canceled.");
     }
   });
 
