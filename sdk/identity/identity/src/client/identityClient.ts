@@ -6,6 +6,7 @@ import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/m
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
+import { createHttpHeaders, createPipelineRequest, PipelineRequest } from "../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
@@ -13,7 +14,7 @@ import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
 import { isNode } from "../util/isNode";
-import { createHttpHeaders, createPipelineRequest, PipelineRequest } from "../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
+import { parse } from "../util/safeJSONParse";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -100,10 +101,15 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody = JSON.parse(response.bodyAsText);
+      const parsedBody = parse<{
+        token?: string;
+        access_token?: string;
+        refresh_token?: string;
+      }>(response.bodyAsText);
+
       const token = {
         accessToken: {
-          token: parsedBody.access_token,
+          token: parsedBody.token ?? parsedBody.access_token!,
           expiresOnTimestamp: expiresOnParser(parsedBody)
         },
         refreshToken: parsedBody.refresh_token
@@ -156,7 +162,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-      const webResource = createPipelineRequest({
+      const request = createPipelineRequest({
         url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
         body: qs.stringify(refreshParams),
@@ -171,7 +177,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         },
       });
 
-      const response = await this.sendTokenRequest(webResource, expiresOnParser);
+      const response = await this.sendTokenRequest(request, expiresOnParser);
       logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
       return response;
     } catch (err) {
@@ -245,7 +251,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   // The MSAL network module methods follow
 
-  sendGetRequestAsync<T>(
+  async sendGetRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
@@ -257,13 +263,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       abortSignal: this.generateAbortSignal()
     });
 
-    return this.sendRequest(request).then((response) => {
-      return {
-        body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
-        headers: response.headers.toJSON(),
-        status: response.status
-      };
-    });
+    const response = await this.sendRequest(request);
+    return {
+      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
+      headers: response.headers.toJSON(),
+      status: response.status
+    };
   }
 
   sendPostRequestAsync<T>(
