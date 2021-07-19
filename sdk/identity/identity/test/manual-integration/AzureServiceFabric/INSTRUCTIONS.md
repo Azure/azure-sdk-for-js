@@ -222,7 +222,7 @@ Verify in a browser:
 1. [Connect to your cluster on Service Fabric Explorer](https://docs.microsoft.com/azure/service-fabric/service-fabric-connect-to-secure-cluster#connect-to-a-secure-cluster-using-service-fabric-explorer).
    a. Set up the keyvault certificate on your remote computer
    You can download the certificate from the Azure Portal and save it on your remote computer and then follow the instructions here -
-   https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-connect-to-secure-cluster#set-up-a-client-certificate-on-the-remote-computer
+   https://docs.microsoft.com/azure/service-fabric/service-fabric-connect-to-secure-cluster#set-up-a-client-certificate-on-the-remote-computer
    You can either double click on the certificate that you downloaded on your computer to save it to the local certificate store or add it to the browser
 2. In the Explorer, you should see the applications running under the Applications tab. Otherwise, you may need to double check your deployment process.
 3. Under the Nodes tab, expand each node tab to see if it hosts an application ("fabric:/sfmitestsystem" or "fabric:/sfmitestuser").
