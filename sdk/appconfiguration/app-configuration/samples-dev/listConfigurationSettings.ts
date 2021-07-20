@@ -65,7 +65,7 @@ export async function main() {
   // Passing marker as an argument
   let iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage();
   let response = await iterator.next();
-  if (!response.done && response.value.items) {
+  if (!response.done) {
     for (const setting of response.value.items) {
       console.log(`  Found key: ${setting.key}`);
     }
