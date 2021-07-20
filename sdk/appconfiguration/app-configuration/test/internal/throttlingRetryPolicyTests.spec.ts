@@ -16,7 +16,7 @@ import { assertThrowsRestError } from "../public/utils/testHelpers";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
-    constructor(private _response: HttpOperationResponse) {}
+    constructor(private _response: HttpOperationResponse) { }
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       const response = {
         ...this._response,
@@ -34,11 +34,11 @@ describe("ThrottlingRetryPolicy", () => {
   };
 
   function createDefaultThrottlingRetryPolicy(
-    response: HttpOperationResponse = defaultResponse,
+    httpOperationResponse: HttpOperationResponse = defaultResponse,
     nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) =>
       new PassThroughPolicy(response)
   ): ThrottlingRetryPolicy {
-    return new ThrottlingRetryPolicy(nextPolicyCreator(response), new RequestPolicyOptions());
+    return new ThrottlingRetryPolicy(nextPolicyCreator(httpOperationResponse), new RequestPolicyOptions());
   }
 
   describe("sendRequest", () => {
@@ -81,7 +81,7 @@ describe("ThrottlingRetryPolicy", () => {
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_) => {
         return {
-          sendRequest: (_: WebResource) => {
+          sendRequest: (_wr: WebResource) => {
             throw new RestError("some other error, but not an 429 with a timeout", "", 500);
           }
         };
@@ -154,18 +154,18 @@ describe("ThrottlingRetryPolicy", () => {
   });
 
   describe("parseRetryAfterHeader", () => {
-    it("should return undefined for ill-formed header", function() {
+    it("should return undefined for ill-formed header", function () {
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("foobar");
       chai.assert.equal(retryAfter, undefined);
     });
 
-    it("should return sleep interval value in milliseconds if parameter is a number", function(done) {
+    it("should return sleep interval value in milliseconds if parameter is a number", function (done) {
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("1");
       chai.assert.equal(retryAfter, 1000);
       done();
     });
 
-    it("should return sleep interval value in milliseconds for full date format", function(done) {
+    it("should return sleep interval value in milliseconds for full date format", function (done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader(
         "Fri, 31 Dec 1999 23:02:00 GMT"
@@ -177,7 +177,7 @@ describe("ThrottlingRetryPolicy", () => {
       done();
     });
 
-    it("should return sleep interval value in milliseconds for shorter date format", function(done) {
+    it("should return sleep interval value in milliseconds for shorter date format", function (done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("31 Dec 1999 23:03:00 GMT");
 

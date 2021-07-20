@@ -367,7 +367,7 @@ export class AppConfigurationClient {
 
   private *createListConfigurationPageFromResponse(
     currentResponse: AppConfigurationGetKeyValuesResponse
-  ) {
+  ): Generator<ListConfigurationSettingPage> {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
@@ -517,7 +517,7 @@ export class AppConfigurationClient {
   /**
    * Adds an external synchronization token to ensure service requests receive up-to-date values.
    *
-   * @param syncToken The synchronization token value.
+   * @param syncToken - The synchronization token value.
    */
   updateSyncToken(syncToken: string): void {
     this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
@@ -540,7 +540,7 @@ export function getGeneratedClientOptions(
 
   const userAgent = getUserAgentPrefix(
     internalAppConfigOptions.userAgentOptions &&
-      internalAppConfigOptions.userAgentOptions.userAgentPrefix
+    internalAppConfigOptions.userAgentOptions.userAgentPrefix
   );
 
   return {

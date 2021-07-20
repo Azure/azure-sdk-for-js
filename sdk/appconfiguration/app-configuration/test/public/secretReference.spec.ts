@@ -19,12 +19,12 @@ describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     await recorder.stop();
   });
 
@@ -44,7 +44,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     function assertSecretReferenceProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
       expected: ConfigurationSetting<SecretReferenceValue>
-    ) {
+    ): void {
       assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");
       const actualSecretReference = parseSecretReference(actual);
       if (isSecretReference(actual)) {

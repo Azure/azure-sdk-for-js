@@ -237,10 +237,10 @@ export function transformKeyValueResponseWithStatusCode<
 >(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
   return normalizeResponse(kvp, <
     ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
-  >{
-    ...transformKeyValue(kvp),
-    statusCode: kvp._response.status
-  });
+    >{
+      ...transformKeyValue(kvp),
+      statusCode: kvp._response.status
+    });
 }
 
 /**
@@ -308,6 +308,6 @@ export function formatFieldsForSelect(
 export function errorMessageForUnexpectedSetting(
   key: string,
   expectedType: "FeatureFlag" | "SecretReference"
-) {
+): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }
