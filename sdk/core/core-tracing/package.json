@@ -8,6 +8,9 @@
   "browser": {
     "./dist-esm/src/utils/global.js": "./dist-esm/src/utils/global.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "types/core-tracing.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

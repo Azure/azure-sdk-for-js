@@ -41,6 +41,9 @@
     "os": false,
     "process": false
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
