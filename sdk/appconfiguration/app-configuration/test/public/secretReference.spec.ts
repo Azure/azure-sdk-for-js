@@ -19,12 +19,12 @@ describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function(this: Context) {
     await recorder.stop();
   });
 

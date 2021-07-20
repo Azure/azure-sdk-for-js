@@ -41,7 +41,9 @@ describe("tracingHelpers", () => {
       {
         tracingOptions: {}
       },
-      async (_newOptions, _span) => {/** empty */ },
+      async (_newOptions, _span) => {
+        /** empty */
+      },
       fakeCreateSpan
     );
 

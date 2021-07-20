@@ -19,12 +19,12 @@ describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function(this: Context) {
     await recorder.stop();
   });
 
@@ -537,7 +537,9 @@ describe("AppConfigurationClient", () => {
     after(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
-      } catch (e) { /** empty */ }
+      } catch (e) {
+        /** empty */
+      }
     });
 
     it("undefined doesn't throw and will just return everything", async () => {

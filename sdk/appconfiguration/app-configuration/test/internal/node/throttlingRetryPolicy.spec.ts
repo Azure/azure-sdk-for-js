@@ -34,7 +34,7 @@ describe("Should not retry forever", () => {
     client = new AppConfigurationClient(connectionString);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     nock.restore();
     nock.cleanAll();
     nock.enableNetConnect();

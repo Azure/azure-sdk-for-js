@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClientCredentials, WebResource, URLBuilder, WebResourceLike } from "@azure/core-http";
+import {
+  ServiceClientCredentials,
+  WebResource,
+  URLBuilder,
+  WebResourceLike
+} from "@azure/core-http";
 import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**

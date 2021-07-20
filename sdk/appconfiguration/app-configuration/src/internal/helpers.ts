@@ -237,10 +237,10 @@ export function transformKeyValueResponseWithStatusCode<
 >(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
   return normalizeResponse(kvp, <
     ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
-    >{
-      ...transformKeyValue(kvp),
-      statusCode: kvp._response.status
-    });
+  >{
+    ...transformKeyValue(kvp),
+    statusCode: kvp._response.status
+  });
 }
 
 /**
