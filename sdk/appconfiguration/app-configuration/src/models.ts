@@ -327,7 +327,7 @@ export interface ListRevisionsOptions extends OperationOptions, ListSettingsOpti
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
   /**
    * The configuration settings for this page of results.
    */

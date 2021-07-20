@@ -394,7 +394,7 @@ export class AppConfigurationClient {
    */
   listRevisions(
     options?: ListRevisionsOptions
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage> {
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
     const iter = this.getListRevisionsIterator(options);
 
     return {
@@ -404,10 +404,13 @@ export class AppConfigurationClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_: PageSettings = {}) => {
+      byPage: (settings: PageSettings = {}) => {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
-        return this.listRevisionsByPage(options);
+        return this.listRevisionsByPage({
+          ...options,
+          continuationToken: settings.continuationToken
+        });
       }
     };
   }
@@ -423,22 +426,20 @@ export class AppConfigurationClient {
   }
 
   private async *listRevisionsByPage(
-    options: ListRevisionsOptions = {}
+    options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
     let currentResponse = await this._trace("listRevisions", options, async (newOptions) => {
       const response = await this.client.getRevisions({
         ...newOptions,
         ...formatAcceptDateTime(options),
-        ...formatFiltersAndSelect(newOptions)
+        ...formatFiltersAndSelect(newOptions),
+        after: options.continuationToken
       });
 
       return response;
     });
 
-    yield {
-      ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
-    };
+    yield* this.createListRevisionsPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
       currentResponse = await this._trace("listRevisions", options, (newOptions) => {
@@ -454,11 +455,20 @@ export class AppConfigurationClient {
         break;
       }
 
-      yield {
-        ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
-      };
+      yield* this.createListRevisionsPageFromResponse(currentResponse);
     }
+  }
+
+  private *createListRevisionsPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined
+    };
   }
 
   /**
