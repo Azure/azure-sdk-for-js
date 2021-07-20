@@ -536,7 +536,7 @@ export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
   algorithm?: KeyExportEncryptionAlgorithm;
 
   /**
-   * The version of the key to retrieve. Defaults to the latest version of the key if omitted.
+   * The version of the key to release. Defaults to the latest version of the key if omitted.
    */
   version?: string;
 }
