@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { createHttpHeaders, PipelineRequestOptions } from "../../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
-
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { MSI } from "./models";
@@ -29,8 +28,13 @@ function prepareRequestOptions(resource: string, clientId?: string): PipelineReq
 
   const query = new URLSearchParams(queryParameters);
 
+  // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
+  if (!process.env.MSI_ENDPOINT) {
+    throw new Error("Missing environment variable: MSI_ENDPOINT");
+  }
+
   return {
-    url: `${process.env.MSI_ENDPOINT!}?${query.toString()}`,
+    url: `${process.env.MSI_ENDPOINT}?${query.toString()}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",

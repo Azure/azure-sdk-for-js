@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { readFile } from "fs";
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { msiGenericGetToken } from "./utils";
 import { azureArcAPIVersion } from "./constants";
 import { AuthenticationError } from "../../client/errors";
-import { readFile } from "fs";
-import { createHttpHeaders, createPipelineRequest, PipelineRequestOptions } from "../../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
 
 const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
 
@@ -24,9 +28,14 @@ function prepareRequestOptions(resource?: string): PipelineRequestOptions {
 
   const query = new URLSearchParams(queryParameters);
 
+  // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
+  if (!process.env.IDENTITY_ENDPOINT) {
+    throw new Error("Missing environment variable: IDENTITY_ENDPOINT");
+  }
+
   return createPipelineRequest({
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
-    url: `${process.env.IDENTITY_ENDPOINT!}?${query.toString()}`,
+    url: `${process.env.IDENTITY_ENDPOINT}?${query.toString()}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
@@ -51,9 +60,7 @@ async function filePathRequest(
   identityClient: IdentityClient,
   requestPrepareOptions: PipelineRequestOptions
 ): Promise<string | undefined> {
-  const response = await identityClient.sendRequest(
-    createPipelineRequest(requestPrepareOptions)
-  );
+  const response = await identityClient.sendRequest(createPipelineRequest(requestPrepareOptions));
 
   if (response.status !== 401) {
     let message = "";

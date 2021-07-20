@@ -8,16 +8,16 @@ import {
   cliCredentialInternals
 } from "../../../src/credentials/azureCliCredential";
 
-describe("AzureCliCredential (internal)", function () {
+describe("AzureCliCredential (internal)", function() {
   let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     sandbox = createSandbox();
     sandbox
       .stub(cliCredentialInternals, "getAzureCliAccessToken")
-      .callsFake(async function (
+      .callsFake(async function(
         _resource: string
       ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
         return new Promise((resolve) => {
@@ -26,11 +26,11 @@ describe("AzureCliCredential (internal)", function () {
       });
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     sandbox?.restore();
   });
 
-  it("get access token without error", async function () {
+  it("get access token without error", async function() {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential();

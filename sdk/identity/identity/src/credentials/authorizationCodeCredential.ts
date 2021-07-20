@@ -3,6 +3,7 @@
 
 import qs from "qs";
 
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { createSpan } from "../util/tracing";
 import { CredentialUnavailableError } from "../client/errors";
@@ -12,7 +13,6 @@ import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { createHttpHeaders, createPipelineRequest } from "../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 

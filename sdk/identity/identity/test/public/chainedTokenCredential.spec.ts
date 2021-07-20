@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { assertRejects } from "../authTestUtils";
 import {
   ChainedTokenCredential,
   TokenCredential,
@@ -11,6 +10,7 @@ import {
   CredentialUnavailableError,
   AuthenticationRequiredError
 } from "../../src";
+import { getError } from "../authTestUtils";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {
@@ -18,7 +18,7 @@ function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCreden
   };
 }
 
-describe("ChainedTokenCredential", function () {
+describe("ChainedTokenCredential", function() {
   it("returns the first token received from a credential", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
@@ -45,9 +45,9 @@ describe("ChainedTokenCredential", function () {
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable.")))
     );
 
-    await assertRejects(
-      chainedTokenCredential.getToken("scope"),
-      (err: AggregateAuthenticationError) => err.errors.length === 2
+    const error = await getError<AggregateAuthenticationError>(
+      chainedTokenCredential.getToken("scope")
     );
+    assert.equal(error.errors.length, 2);
   });
 });

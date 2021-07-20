@@ -6,17 +6,12 @@
 import sinon from "sinon";
 import { assert } from "chai";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
-import {
-  AuthenticationError,
-  CredentialUnavailableError,
-  EnvironmentCredential,
-  UsernamePasswordCredential
-} from "../../../src";
+import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
-import { assertRejects } from "../../authTestUtils";
 import { Context } from "mocha";
+import { getError } from "../../authTestUtils";
 
-describe("EnvironmentCredential", function () {
+describe("EnvironmentCredential", function() {
   let cleanup: MsalTestCleanup;
   const environmentVariableNames = [
     "AZURE_TENANT_ID",
@@ -28,7 +23,7 @@ describe("EnvironmentCredential", function () {
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {
@@ -36,7 +31,7 @@ describe("EnvironmentCredential", function () {
       delete process.env[name];
     });
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await cleanup();
     environmentVariableNames.forEach((name) => {
       process.env[name] = cachedValues[name];
@@ -45,7 +40,7 @@ describe("EnvironmentCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with a client secret on the environment variables", async function () {
+  it("authenticates with a client secret on the environment variables", async function() {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -59,7 +54,7 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a client certificate on the environment variables", async function (this: Context) {
+  it("authenticates with a client certificate on the environment variables", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -135,7 +130,7 @@ describe("EnvironmentCredential", function () {
     })
   );
 
-  it("supports tracing with environment client certificate", async function (this: Context) {
+  it("supports tracing with environment client certificate", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -208,12 +203,12 @@ describe("EnvironmentCredential", function () {
 
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
     const credential = new EnvironmentCredential();
-    await assertRejects(
-      credential.getToken(scope),
-      (error: CredentialUnavailableError) =>
-        error.message.indexOf(
-          "EnvironmentCredential is unavailable. No underlying credential could be used."
-        ) > -1
+    const error = await getError(credential.getToken(scope));
+    assert.equal(error.name, "CredentialUnavailableError");
+    assert.ok(
+      error.message.indexOf(
+        "EnvironmentCredential is unavailable. No underlying credential could be used."
+      ) > -1
     );
   });
 
@@ -223,10 +218,8 @@ describe("EnvironmentCredential", function () {
     process.env.AZURE_CLIENT_SECRET = "secret";
 
     const credential = new EnvironmentCredential();
-    await assertRejects(
-      credential.getToken(scope),
-      (error: AuthenticationError) =>
-        error.errorResponse.error.indexOf("EnvironmentCredential authentication failed.") > -1
-    );
+    const error = await getError(credential.getToken(scope));
+    assert.equal(error.name, "AuthenticationError");
+    assert.ok(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);
   });
 });

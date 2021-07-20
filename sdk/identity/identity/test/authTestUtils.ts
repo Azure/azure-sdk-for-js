@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import * as sinon from "sinon";
 import * as https from "https";
 import * as http from "http";
@@ -11,6 +11,20 @@ import { IncomingMessage, IncomingHttpHeaders, ClientRequest } from "http";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { AccessToken, AuthenticationError, GetTokenOptions, TokenCredential } from "../src";
 import { DefaultAuthorityHost } from "../src/constants";
+
+/**
+ * Waits for the given promise to resolve, then returns the resulted error.
+ * Throws an exception if the promise doesn't reject.
+ * @internal
+ */
+export async function getError<T = Error>(promise: Promise<any>): Promise<T> {
+  try {
+    await promise;
+    throw new Error("Expected an error");
+  } catch (error) {
+    return error;
+  }
+}
 
 export function assertClientCredentials(
   authRequest: http.RequestOptions,
@@ -79,10 +93,10 @@ export function assertClientUsernamePassword(
  */
 export function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: Error) => {
-    if (!(error instanceof AuthenticationError)) {
+    if (!(error.name === "AuthenticationError")) {
       assert.ifError(error);
     }
-    return error.errorResponse.error === expectedErrorName;
+    return (error as AuthenticationError).errorResponse.error === expectedErrorName;
   };
 }
 

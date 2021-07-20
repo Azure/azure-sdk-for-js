@@ -10,18 +10,18 @@ import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestU
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { Context } from "mocha";
 
-describe("ClientSecretCredential", function () {
+describe("ClientSecretCredential", function() {
   let cleanup: MsalTestCleanup;
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function () {
+  it("authenticates", async function() {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -33,7 +33,7 @@ describe("ClientSecretCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function () {
+  it("allows cancelling the authentication", async function() {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -82,7 +82,7 @@ describe("ClientSecretCredential", function () {
     })
   );
 
-  it("supports specifying the regional authority", async function (this: Context) {
+  it("supports specifying the regional authority", async function(this: Context) {
     // This test is extremely slow. Let's skip it for now.
     // I've tried Sinon's clock and it doesn't affect it.
     // We have internal tests that check that the parameters are properly sent to MSAL, which should be enough from the perspective of the SDK.

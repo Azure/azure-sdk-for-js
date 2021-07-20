@@ -1,109 +1,142 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import assert from "assert";
+import {
+  assertClientCredentials,
+  createResponse,
+  IdentityTestContext,
+  prepareIdentityTests,
+  SendCredentialRequests
+} from "../../authTestUtils";
 import { AuthorizationCodeCredential } from "../../../src";
-import { TestTracer, SpanGraph } from "@azure/test-utils";
-import { setTracer } from "@azure/core-tracing";
-import { MockAuthHttpClient, assertClientCredentials } from "../../authTestUtils";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { setSpan, context as otContext } from "@azure/core-tracing";
 
-describe("AuthorizationCodeCredential", function () {
+describe("AuthorizationCodeCredential", function() {
+  let testContext: IdentityTestContext;
+  let sendCredentialRequests: SendCredentialRequests;
+
+  beforeEach(async function() {
+    testContext = await prepareIdentityTests({});
+    sendCredentialRequests = testContext.sendCredentialRequests;
+  });
+  afterEach(async function() {
+    await testContext.restore();
+  });
+
   it("sends an authorization request with the given credentials and authorization code", async () => {
-    const mockHttpClient = new MockAuthHttpClient();
     const redirectUri = "http://localhost:8080/authresponse";
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential: new AuthorizationCodeCredential(
+        "tenant",
+        "client",
+        "secret",
+        "authCode",
+        redirectUri
+      ),
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
-    const credential = new AuthorizationCodeCredential(
-      "tenant",
-      "client",
-      "secret",
-      "authCode",
-      redirectUri,
-      { ...mockHttpClient.tokenCredentialOptions }
-    );
-
-    await credential.getToken("scope");
-
-    const authRequest = mockHttpClient.requests[0];
-    assertClientCredentials(authRequest, "tenant", "client", "secret");
+    const authRequest = authDetails.secureRequestOptions[0];
+    const spy = authDetails.secureRequestWriteSpies[0];
+    const requestBody = spy.args[0][0];
+    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
 
     assert.strictEqual(
-      authRequest.body.indexOf(`code=authCode`) > -1,
+      requestBody.indexOf(`code=authCode`) > -1,
       true,
       "Request body doesn't contain expected authorization code"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`redirect_uri=${encodeURIComponent(redirectUri)}`) > -1,
+      requestBody.indexOf(`redirect_uri=${encodeURIComponent(redirectUri)}`) > -1,
       true,
       "Request body doesn't contain expected redirect URI"
     );
   });
 
   it("omits the client_secret field in authorization request if it is not provided", async () => {
-    const mockHttpClient = new MockAuthHttpClient();
     const redirectUri = "http://localhost:8080/authresponse";
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential: new AuthorizationCodeCredential("tenant", "client", "authCode", redirectUri),
+      secureResponses: [
+        {
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
+        }
+      ]
+    });
 
-    const credential = new AuthorizationCodeCredential(
-      "tenant",
-      "client",
-      "authCode",
-      redirectUri,
-      {
-        ...mockHttpClient.tokenCredentialOptions
-      }
-    );
-
-    await credential.getToken("scope");
-
-    const authRequest = mockHttpClient.requests[0];
+    const spy = authDetails.secureRequestWriteSpies[0];
+    const requestBody = spy.args[0][0];
     assert.strictEqual(
-      authRequest.body.indexOf(`client_id=client`) > -1,
+      requestBody.indexOf(`client_id=client`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
     assert.strictEqual(
-      authRequest.body.indexOf(`client_secret=`),
+      requestBody.indexOf(`client_secret=`),
       -1,
       "Request body contains unexpected client_secret"
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function () {
+  it("traces the authorization code request when tracing is enabled", async function() {
     const tracer = new TestTracer();
     setTracer(tracer);
 
     const redirectUri = "http://localhost:8080/authresponse";
-    const mockHttpClient = new MockAuthHttpClient({
-      authResponse: [
+    const rootSpan = tracer.startSpan("root");
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scope"],
+      getTokenOptions: {
+        tracingOptions: {
+          tracingContext: setSpan(otContext.active(), rootSpan)
+        }
+      },
+      credential: new AuthorizationCodeCredential(
+        "tenant",
+        "client",
+        "secret",
+        "authCode",
+        redirectUri
+      ),
+      secureResponses: [
         {
-          status: 200,
-          parsedBody: {
-            token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          }
+          response: createResponse(
+            200,
+            JSON.stringify({
+              access_token: "token",
+              expires_on: "06/20/2019 02:57:58 +00:00"
+            })
+          )
         }
       ]
     });
 
-    const rootSpan = tracer.startSpan("root");
-
-    const credential = new AuthorizationCodeCredential(
-      "tenant",
-      "client",
-      "secret",
-      "authCode",
-      redirectUri,
-      {
-        ...mockHttpClient.tokenCredentialOptions
-      }
-    );
-
-    await credential.getToken("scope", {
-      tracingOptions: {
-        tracingContext: setSpan(otContext.active(), rootSpan)
-      }
-    });
+    const authRequest = authDetails.secureRequestOptions[0];
+    const spy = authDetails.secureRequestWriteSpies[0];
+    const requestBody = spy.args[0][0];
+    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
 
     rootSpan.end();
 
