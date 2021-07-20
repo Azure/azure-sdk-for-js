@@ -185,7 +185,7 @@
         "tenantId": "[parameters('tenantId')]",
         "initialAdminObjectIds": ["[parameters('testApplicationOid')]"],
         "enablePurgeProtection": false,
-        "enableSoftDelete": "[parameters('enableSoftDelete')]",
+        "enableSoftDelete": true,
         "softDeleteRetentionInDays": 7
       }
     },

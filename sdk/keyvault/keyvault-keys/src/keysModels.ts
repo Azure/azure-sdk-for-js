@@ -534,17 +534,19 @@ export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
 
   /** The {@link KeyExportEncryptionAlgorithm} to for protecting the exported key material. */
   algorithm?: KeyExportEncryptionAlgorithm;
+
+  /**
+   * The version of the key to retrieve. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
 }
 
 /**
  * Result of the {@link KeyClient.releaseKey} operation.
  */
 export interface ReleaseKeyResult {
-  /** A signed object containing the released key. */
+  /** A signed token containing the released key. */
   value: string;
-
-  /** The {@link KeyExportEncryptionAlgorithm} used when releasing the key, if provided. */
-  algorithm?: KeyExportEncryptionAlgorithm;
 }
 
 /** Known values of {@link KeyOperation} that the service accepts. */

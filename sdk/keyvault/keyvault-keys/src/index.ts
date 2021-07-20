@@ -693,22 +693,26 @@ export class KeyClient {
    * ```
    *
    * @param name - The name of the key.
-   * @param version - The version of the key.
    * @param options - The optional parameters.
    */
   public releaseKey(
     name: string,
-    version: string,
     target: string,
     options: ReleaseKeyOptions = {}
   ): Promise<ReleaseKeyResult> {
     return withTrace("releaseKey", options, async (updatedOptions) => {
       const { nonce, algorithm, ...rest } = updatedOptions;
-      const result = await this.client.release(this.vaultUrl, name, version, target, {
-        enc: algorithm,
-        nonce,
-        ...rest
-      });
+      const result = await this.client.release(
+        this.vaultUrl,
+        name,
+        options?.version || "",
+        target,
+        {
+          enc: algorithm,
+          nonce,
+          ...rest
+        }
+      );
 
       return {
         algorithm,

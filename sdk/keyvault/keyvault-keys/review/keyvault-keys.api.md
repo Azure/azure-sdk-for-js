@@ -232,7 +232,7 @@ export class KeyClient {
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-    releaseKey(name: string, version: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
+    releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
@@ -419,11 +419,11 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
     algorithm?: KeyExportEncryptionAlgorithm;
     nonce?: string;
+    version?: string;
 }
 
 // @public
 export interface ReleaseKeyResult {
-    algorithm?: KeyExportEncryptionAlgorithm;
     value: string;
 }
 
