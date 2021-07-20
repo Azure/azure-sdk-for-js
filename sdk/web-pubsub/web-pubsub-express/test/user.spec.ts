@@ -181,12 +181,11 @@ describe("Can handle user event", function() {
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
       handleUserEvent: async (_, res) => {
-        res
-          .setState("key1", "val1")
-          .setState("key2", "val2")
-          .setState("key1", "val3")
-          .setState("key3", "")
-          .success();
+        res.setState("key1", "val1");
+        res.setState("key2", "val2");
+        res.setState("key1", "val3");
+        res.setState("key3", "");
+        res.success();
       }
     });
     var process = dispatcher.processRequest(req, res);

@@ -13,7 +13,8 @@ const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.
   handleConnect(req, res) {
     console.log(req);
     // You can set the state for the connection, it lasts throughout the lifetime of the connection
-    res.setState("calledTime", 1).success();
+    res.setState("calledTime", 1);
+    res.success();
     // or fail
     // res.fail(401);
   },
@@ -24,7 +25,8 @@ const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.
     var calledTime = req.context.states.calledTime++;
     console.log(calledTime);
     // You can also set the state here
-    res.setState("calledTime", calledTime).success("Hello", "text");
+    res.setState("calledTime", calledTime);
+    res.success("Hello", "text");
   }
 });
 

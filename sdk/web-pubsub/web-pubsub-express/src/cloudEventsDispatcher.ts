@@ -33,10 +33,9 @@ function getConnectResponseHandler(
   let states: Record<string, any> = connectRequest.context.states;
   let modified = false;
   const handler = {
-    setState(name: string, value: unknown): ConnectResponseHandler {
+    setState(name: string, value: unknown): void {
       states[name] = value;
       modified = true;
-      return handler;
     },
     success(res?: ConnectResponse): void {
       response.statusCode = 200;
@@ -66,10 +65,9 @@ function getUserEventResponseHandler(
   let states: Record<string, any> = userRequest.context.states;
   let modified = false;
   const handler = {
-    setState(name: string, value: unknown): UserEventResponseHandler {
+    setState(name: string, value: unknown): void {
       modified = true;
       states[name] = value;
-      return handler;
     },
     success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
       response.statusCode = 200;
