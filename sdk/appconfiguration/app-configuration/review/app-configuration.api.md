@@ -29,7 +29,7 @@ export class AppConfigurationClient {
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
-    listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
+    listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
@@ -153,7 +153,7 @@ export interface ListRevisionsOptions extends OperationOptions, ListSettingsOpti
 }
 
 // @public
-export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
 
