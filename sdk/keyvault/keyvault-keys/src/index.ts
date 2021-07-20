@@ -689,7 +689,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * let result = await client.releaseKey("myKey", "keyVersion", target)
+   * let result = await client.releaseKey("myKey", target)
    * ```
    *
    * @param name - The name of the key.
