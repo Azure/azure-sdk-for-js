@@ -10,7 +10,7 @@ import {
   HttpHeaders,
   HttpMethods,
 } from "@azure/core-rest-pipeline";
-import { URL } from "../src/url";
+import { URL } from "./utils/url";
 
 describe("LRO helper", () => {
   let client: Client;
