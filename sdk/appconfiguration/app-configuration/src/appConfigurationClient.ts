@@ -6,7 +6,7 @@
 
 import { AppConfigCredential } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   isTokenCredential,
   exponentialRetryPolicy,
@@ -35,6 +35,7 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  PageSettings,
   RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
@@ -293,7 +294,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {}
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage> {
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const iter = this.getListConfigurationSettingsIterator(options);
 
     return {
@@ -303,10 +304,13 @@ export class AppConfigurationClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_: PageSettings = {}) => {
+      byPage: (settings: PageSettings = {}) => {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
-        return this.listConfigurationSettingsByPage(options);
+        return this.listConfigurationSettingsByPage({
+          ...options,
+          continuationToken: settings.continuationToken
+        });
       }
     };
   }
@@ -322,7 +326,7 @@ export class AppConfigurationClient {
   }
 
   private async *listConfigurationSettingsByPage(
-    options: ListConfigurationSettingsOptions = {}
+    options: ListConfigurationSettingsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
     let currentResponse = await this._trace(
       "listConfigurationSettings",
@@ -331,7 +335,8 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options)
+          ...formatFiltersAndSelect(options),
+          after: options.continuationToken
         });
 
         return response;
@@ -370,7 +375,10 @@ export class AppConfigurationClient {
   ) {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined
     };
   }
 
@@ -540,7 +548,7 @@ export function getGeneratedClientOptions(
 
   const userAgent = getUserAgentPrefix(
     internalAppConfigOptions.userAgentOptions &&
-      internalAppConfigOptions.userAgentOptions.userAgentPrefix
+    internalAppConfigOptions.userAgentOptions.userAgentPrefix
   );
 
   return {
