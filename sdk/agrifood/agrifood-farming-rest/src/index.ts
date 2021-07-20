@@ -7,7 +7,6 @@ export * from "./farmBeats";
 export * from "./models";
 export * from "./parameters";
 export * from "./responses";
-export { getPoller } from "./getPoller";
 
 export { paginate, PaginateReturn, GetArrayType } from "./paging";
 
