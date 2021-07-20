@@ -1053,6 +1053,7 @@ export const SignalRTlsSettings: msRest.CompositeMapper = {
     modelProperties: {
       clientCertEnabled: {
         serializedName: "clientCertEnabled",
+        defaultValue: true,
         type: {
           name: "Boolean"
         }
@@ -1209,6 +1210,27 @@ export const SignalRResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SignalRNetworkACLs"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        defaultValue: 'Enabled',
+        type: {
+          name: "String"
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      disableAadAuth: {
+        serializedName: "properties.disableAadAuth",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       },
       kind: {
