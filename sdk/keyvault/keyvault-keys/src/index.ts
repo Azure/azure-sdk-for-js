@@ -714,10 +714,7 @@ export class KeyClient {
         }
       );
 
-      return {
-        algorithm,
-        value: result.value!
-      };
+      return { value: result.value! };
     });
   }
   /**
