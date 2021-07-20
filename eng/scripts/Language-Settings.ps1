@@ -142,7 +142,7 @@ function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
       Write-Warning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
     }
   } catch { 
-    Write-Warning "Error getting package info from NPM"
+    Write-Warning "Error getting package info from NPM for $($packageInfo.Name)"
     Write-Warning $_.Exception
     Write-Warning $_.Exception.StackTrace
   }
