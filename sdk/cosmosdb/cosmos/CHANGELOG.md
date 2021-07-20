@@ -1,6 +1,6 @@
 # Release History
 
-## 3.12.1 (Unreleased)
+## 3.12.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.12.1 (2021-07-16)
+
+### Bugs Fixed
+
+- Returned default retryPolicy option `fixedRetryIntervalInMilliseconds` to its original default 0.
 
 ## 3.12.0 (2021-07-06)
 
