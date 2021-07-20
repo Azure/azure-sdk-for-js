@@ -61,7 +61,7 @@ export class CheckNameAvailability {
 const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBForPostgreSql/checkNameAvailability",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/checkNameAvailability",
   urlParameters: [
     Parameters.subscriptionId
   ],
