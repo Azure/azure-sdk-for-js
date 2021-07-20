@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import { AuthorizationCodeCredential } from "../../../src";
 import { TestTracer, SpanGraph } from "@azure/test-utils";
 import { setTracer } from "@azure/core-tracing";
 import { MockAuthHttpClient, assertClientCredentials } from "../../authTestUtils";
 import { setSpan, context as otContext } from "@azure/core-tracing";
 
-describe("AuthorizationCodeCredential", function() {
+describe("AuthorizationCodeCredential", function () {
   it("sends an authorization request with the given credentials and authorization code", async () => {
     const mockHttpClient = new MockAuthHttpClient();
     const redirectUri = "http://localhost:8080/authresponse";
@@ -69,7 +69,7 @@ describe("AuthorizationCodeCredential", function() {
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function() {
+  it("traces the authorization code request when tracing is enabled", async function () {
     const tracer = new TestTracer();
     setTracer(tracer);
 

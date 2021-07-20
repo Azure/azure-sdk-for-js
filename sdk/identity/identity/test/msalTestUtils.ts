@@ -9,7 +9,7 @@ import {
   pluginForIdentitySDK
 } from "@azure/test-utils-recorder";
 import Sinon, { createSandbox } from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import {
   OperationTracingOptions,
   setSpan,
@@ -117,7 +117,7 @@ export interface TestTracingOptions {
 }
 
 export function testTracing(options: TestTracingOptions): () => Promise<void> {
-  return async function() {
+  return async function () {
     const { test, children } = options;
     const tracer = new TestTracer();
     setTracer(tracer);

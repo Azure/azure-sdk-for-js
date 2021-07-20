@@ -6,7 +6,7 @@ import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/m
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
-import { createHttpHeaders, createPipelineRequest, PipelineRequest } from "../../../../core/core-rest-pipeline/core-rest-pipeline.shims";
+import { createHttpHeaders, createPipelineRequest, PipelineRequest } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
@@ -265,13 +265,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     const response = await this.sendRequest(request);
     return {
-      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
+      body: parse<T>(response.bodyAsText),
       headers: response.headers.toJSON(),
       status: response.status
     };
   }
 
-  sendPostRequestAsync<T>(
+  async sendPostRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
@@ -284,13 +284,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       abortSignal: this.generateAbortSignal(this.getCorrelationId(options))
     });
 
-    return this.sendRequest(request).then((response) => {
-      return {
-        body: response.bodyAsText ? JSON.parse(response.bodyAsText) : {},
-        headers: response.headers.toJSON(),
-        status: response.status
-      };
-    });
+    const response = await this.sendRequest(request);
+    return {
+      body: parse<T>(response.bodyAsText),
+      headers: response.headers.toJSON(),
+      status: response.status
+    };
   }
 }
 

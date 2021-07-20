@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { PublicClientApplication } from "@azure/msal-node";
 import { env, isLiveMode } from "@azure/test-utils-recorder";
 import { DeviceCodeCredential } from "../../../src";
@@ -12,12 +12,12 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
-describe("DeviceCodeCredential (internal)", function() {
+describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -29,13 +29,13 @@ describe("DeviceCodeCredential (internal)", function() {
       "acquireTokenByDeviceCode"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();

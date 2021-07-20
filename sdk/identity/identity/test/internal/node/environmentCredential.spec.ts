@@ -4,19 +4,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { EnvironmentCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
-describe("EnvironmentCredential (internal)", function() {
+describe("EnvironmentCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -28,13 +28,13 @@ describe("EnvironmentCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function() {
+  it("Authenticates silently after the initial request", async function () {
     const credential = new EnvironmentCredential();
 
     const { token: firstToken } = await credential.getToken(scope);

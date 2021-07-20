@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
@@ -16,12 +16,12 @@ import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential (internal)", function() {
+describe("ClientCertificateCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -33,7 +33,7 @@ describe("ClientCertificateCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
@@ -50,7 +50,7 @@ describe("ClientCertificateCredential (internal)", function() {
     });
   });
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -77,7 +77,7 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 2);
   });
 
-  it("supports specifying the regional authority", async function() {
+  it("supports specifying the regional authority", async function () {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,

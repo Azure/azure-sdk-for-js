@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import assert from "assert";
+import { assert } from "chai";
 
 import { AccessToken } from "@azure/core-auth";
 
-import { RestError } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
@@ -408,7 +408,7 @@ describe("ManagedIdentityCredential", function () {
         authResponse: [
           {
             status: 401,
-            headers: new HttpHeaders({
+            headers: createHttpHeaders({
               "www-authenticate": `we don't pay much attention about this format=${tempFile}`
             })
           },

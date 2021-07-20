@@ -3,123 +3,46 @@
 
 import assert from "assert";
 import * as sinon from "sinon";
-import { ClientCertificateCredentialOptions } from "../src";
-
-export interface MockAuthResponse {
-  status?: number;
-  error?: RestError;
-  headers?: HttpHeaders;
-  parsedBody?: any;
-  bodyAsText?: string;
-}
-
-export interface MockAuthHttpClientOptions {
-  authResponse?: MockAuthResponse | MockAuthResponse[];
-  mockTimeout?: boolean;
-}
-
-export class MockAuthHttpClient implements HttpClient {
-  private authResponses: MockAuthResponse[] = [];
-  private currentResponseIndex: number = 0;
-  private mockTimeout: boolean;
-
-  public tokenCredentialOptions: ClientCertificateCredentialOptions;
-  public requests: WebResource[] = [];
-
-  constructor(options?: MockAuthHttpClientOptions) {
-    options = options || {};
-
-    if (Array.isArray(options.authResponse)) {
-      if (options.authResponse.length === 0) {
-        throw new Error("authResponse array must have at least one item");
-      }
-      this.authResponses = options.authResponse;
-    } else {
-      this.authResponses = [
-        options.authResponse || {
-          status: 200,
-          headers: new HttpHeaders(),
-          parsedBody: {
-            access_token: "token",
-            expires_in: 120
-          }
-        }
-      ];
-    }
-
-    this.mockTimeout = options.mockTimeout !== undefined ? options.mockTimeout : false;
-
-    this.tokenCredentialOptions = {
-      authorityHost: "https://authority",
-      httpClient: this,
-      retryOptions: {
-        maxRetries: 0
-      }
-    };
-  }
-
-  async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    this.requests.push(httpRequest);
-
-    if (this.mockTimeout) {
-      throw new RestError("Request timed out", RestError.REQUEST_SEND_ERROR);
-    }
-
-    if (this.requests.length > this.authResponses.length) {
-      throw new Error("The number of requests has exceeded the number of authResponses");
-    }
-
-    const authResponse = this.authResponses[this.currentResponseIndex];
-
-    if (authResponse.error) {
-      this.currentResponseIndex++;
-      throw authResponse.error;
-    }
-
-    const response = {
-      request: httpRequest,
-      headers: authResponse.headers || new HttpHeaders(),
-      status: authResponse.status || 200,
-      parsedBody: authResponse.parsedBody,
-      bodyAsText: authResponse.bodyAsText
-    };
-
-    this.currentResponseIndex++;
-    return response;
-  }
-}
+import * as https from "https";
+import * as http from "http";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
+import { PassThrough } from "stream";
+import { IncomingMessage, IncomingHttpHeaders, ClientRequest } from "http";
+import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { AccessToken, AuthenticationError, GetTokenOptions, TokenCredential } from "../src";
+import { DefaultAuthorityHost } from "../src/constants";
 
 export function assertClientCredentials(
-  authRequest: WebResource,
+  authRequest: http.RequestOptions,
+  requestBody: string,
   expectedTenantId: string,
   expectedClientId: string,
-  expectedClientSecret: string
+  expectedClientSecret?: string
 ): void {
   if (!authRequest) {
     assert.fail("No authentication request was intercepted");
   } else {
-    assert.strictEqual(
-      authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
-      true,
-      "Request body doesn't contain expected tenantId"
-    );
+    assert.strictEqual(`https://${authRequest.hostname}`, DefaultAuthorityHost);
+    assert.ok(authRequest.path?.indexOf(expectedTenantId) === 1);
 
     assert.strictEqual(
-      authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
+      requestBody.indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
-    assert.strictEqual(
-      authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
-      true,
-      "Request body doesn't contain expected clientSecret"
-    );
+    if (expectedClientSecret) {
+      assert.strictEqual(
+        requestBody.indexOf(`client_secret=${expectedClientSecret}`) > -1,
+        true,
+        "Request body doesn't contain expected clientSecret"
+      );
+    }
   }
 }
 
 export function assertClientUsernamePassword(
-  authRequest: WebResource,
+  authRequest: PipelineRequest,
   expectedTenantId: string,
   expectedClientId: string,
   expectedUsername: string,
@@ -134,119 +57,197 @@ export function assertClientUsernamePassword(
       "Request body doesn't contain expected tenantId"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
+      (authRequest.body as string).indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`username=${expectedUsername}`) > -1,
+      (authRequest.body as string).indexOf(`username=${expectedUsername}`) > -1,
       true,
       "Request body doesn't contain expected username"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`password=${expectedPassword}`) > -1,
+      (authRequest.body as string).indexOf(`password=${expectedPassword}`) > -1,
       true,
       "Request body doesn't contain expected password"
     );
   }
 }
 
-// Node's `assert.rejects` doesn't appear until 8.13.0 so we'll
-// use our own simple implementation here
-export async function assertRejects(
-  promise: Promise<any>,
-  expected: (error: any) => boolean,
-  message?: string
-): Promise<any> {
-  try {
-    await promise;
-  } catch (error) {
-    assert.ok(expected(error), message || "The error didn't pass the assertion predicate.");
+/**
+ * @internal
+ */
+export function isExpectedError(expectedErrorName: string): (error: any) => boolean {
+  return (error: Error) => {
+    if (!(error instanceof AuthenticationError)) {
+      assert.ifError(error);
+    }
+    return error.errorResponse.error === expectedErrorName;
+  };
+}
+
+/**
+ * @internal
+ */
+export class FakeResponse extends PassThrough {
+  public statusCode?: number;
+  public headers?: IncomingHttpHeaders;
+}
+
+/**
+ * @internal
+ */
+export class FakeRequest extends PassThrough {
+  public finished?: boolean;
+  public abort(): void {
+    this.finished = true;
   }
 }
 
-export interface DelayInfo {
-  resolve: () => void;
-  reject: (e: Error) => void;
-  promise: Promise<void>;
-  timeout: number;
+/**
+ * @internal
+ */
+export function createResponse(
+  statusCode: number,
+  body = "",
+  headers?: IncomingHttpHeaders
+): IncomingMessage {
+  const response = new FakeResponse();
+  response.headers = {};
+  response.statusCode = statusCode;
+  if (headers) {
+    response.headers = headers;
+  }
+  response.write(body);
+  response.end();
+  return (response as unknown) as IncomingMessage;
 }
 
-export class DelayController {
-  private _waitPromise?: Promise<DelayInfo>;
-  private _resolve?: (info: DelayInfo) => void;
-  private _pendingRequests: DelayInfo[] = [];
+/**
+ * @internal
+ */
+export function createRequest(): ClientRequest {
+  const request = new FakeRequest();
+  request.finished = false;
+  return (request as unknown) as ClientRequest;
+}
 
-  private removeDelayInfo(info: DelayInfo): void {
-    const index = this._pendingRequests.indexOf(info);
-    if (index >= 0) {
-      this._pendingRequests.splice(index, 1);
-    }
+/**
+ * @internal
+ */
+export type SendCredentialRequests = (options: {
+  scopes: string | string[];
+  getTokenOptions?: GetTokenOptions;
+  credential: TokenCredential;
+  insecureResponses?: { response?: IncomingMessage; error?: Error }[];
+  secureResponses?: { response?: IncomingMessage; error?: Error }[];
+}) => Promise<{
+  result: AccessToken | null;
+  insecureRequestWriteSpies: sinon.SinonSpy[];
+  secureRequestWriteSpies: sinon.SinonSpy[];
+  insecureRequestOptions: http.RequestOptions[];
+  secureRequestOptions: https.RequestOptions[];
+}>;
+
+/**
+ * @internal
+ */
+export interface IdentityTestContext {
+  sandbox: sinon.SinonSandbox;
+  clock: sinon.SinonFakeTimers;
+  logMessages: string[];
+  oldLogger: typeof AzureLogger.log;
+  oldLogLevel: AzureLogLevel | undefined;
+  restore: () => Promise<void>;
+  sendCredentialRequests: SendCredentialRequests;
+}
+
+/**
+ * @internal
+ */
+export async function prepareIdentityTests({
+  replaceLogger,
+  logLevel
+}: {
+  replaceLogger?: boolean;
+  logLevel?: AzureLogLevel;
+}): Promise<IdentityTestContext> {
+  const sandbox = sinon.createSandbox();
+  const clock = sandbox.useFakeTimers();
+  const oldLogLevel = getLogLevel();
+  const oldLogger = AzureLogger.log;
+  const logMessages: string[] = [];
+
+  if (logLevel) {
+    setLogLevel(logLevel);
   }
 
-  delayRequested(timeout: number): Promise<void> {
-    let resolveFunc: () => void;
-    let rejectFunc: (e: Error) => void;
-    const promise = new Promise<void>((resolve, reject) => {
-      resolveFunc = resolve;
-      rejectFunc = reject;
-    });
-    const info: DelayInfo = {
-      resolve: resolveFunc!,
-      reject: rejectFunc!,
-      promise,
-      timeout
+  if (replaceLogger) {
+    AzureLogger.log = (args) => {
+      logMessages.push(args);
     };
-    this._pendingRequests.push(info);
-
-    const removeThis = (): void => {
-      this.removeDelayInfo(info);
-    };
-
-    promise.then(removeThis).catch(removeThis);
-
-    if (this._resolve) {
-      this._resolve(info);
-      this._resolve = undefined;
-      this._waitPromise = undefined;
-    }
-
-    return promise;
   }
 
-  getPendingRequests(): DelayInfo[] {
-    return this._pendingRequests;
-  }
+  return {
+    clock,
+    logMessages,
+    oldLogLevel,
+    sandbox,
+    oldLogger,
+    async restore() {
+      sandbox.restore();
+      AzureLogger.log = oldLogger;
+      setLogLevel(oldLogLevel);
+    },
+    async sendCredentialRequests({
+      scopes,
+      getTokenOptions,
+      credential,
+      insecureResponses = [],
+      secureResponses = []
+    }) {
+      const stubbedHttpRequest = sandbox.stub(http, "request");
+      const stubbedHttpsRequest = sandbox.stub(https, "request");
+      const insecureSpies: sinon.SinonSpy[] = [];
+      const secureSpies: sinon.SinonSpy[] = [];
 
-  waitForDelay(): Promise<DelayInfo> {
-    if (!this._waitPromise) {
-      this._waitPromise = new Promise<DelayInfo>((resolve) => {
-        this._resolve = resolve;
+      insecureResponses.forEach(({ response, error }, index) => {
+        if (error) {
+          stubbedHttpRequest.throws(error);
+        } else {
+          const request = createRequest();
+          insecureSpies.push(sandbox.spy(request, "write"));
+          stubbedHttpRequest.onCall(index).returns(request);
+          stubbedHttpRequest.onCall(index).yields(response);
+        }
       });
+
+      secureResponses.forEach(({ response, error }, index) => {
+        if (error) {
+          stubbedHttpsRequest.throws(error);
+        } else {
+          const request = createRequest();
+          secureSpies.push(sandbox.spy(request, "write"));
+          stubbedHttpsRequest.onCall(index).returns(request);
+          stubbedHttpsRequest.onCall(index).yields(response);
+        }
+      });
+
+      const promise = credential.getToken(scopes, getTokenOptions);
+
+      await clock.runAllAsync();
+
+      return {
+        result: await promise,
+        insecureRequestWriteSpies: insecureSpies,
+        secureRequestWriteSpies: secureSpies,
+        insecureRequestOptions: stubbedHttpRequest.args.map(
+          (args) => args[0]
+        ) as http.RequestOptions[],
+        secureRequestOptions: stubbedHttpsRequest.args.map(
+          (args) => args[0]
+        ) as https.RequestOptions[]
+      };
     }
-    return this._waitPromise;
-  }
-}
-
-const sandbox = sinon.createSandbox();
-
-export function setDelayInstantlyCompletes(): void {
-  sandbox.replace(coreHttp, "delay", (): any => Promise.resolve());
-}
-
-export function createDelayController(): DelayController {
-  const controller = new DelayController();
-  sandbox.restore();
-  sandbox.replace(
-    coreHttp,
-    "delay",
-    (t: any): Promise<any> => {
-      return controller.delayRequested(t);
-    }
-  );
-  return controller;
-}
-
-export function restoreDelayBehavior(): void {
-  sandbox.restore();
+  };
 }

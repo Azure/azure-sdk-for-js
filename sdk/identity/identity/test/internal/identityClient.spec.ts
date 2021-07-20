@@ -1,69 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-import { assertRejects, MockAuthHttpClient } from "../authTestUtils";
+import { assert } from "chai";
+import * as https from "https";
 import { getIdentityClientAuthorityHost, IdentityClient } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { Context } from "mocha";
-
-function isExpectedError(expectedErrorName: string): (error: any) => boolean {
-  return (error: any) => {
-    if (error?.name !== "AuthenticationError") {
-      assert.ifError(error);
-    }
-    return error.errorResponse.error === expectedErrorName;
-  };
-}
+import { isNode } from "../../src/util/isNode";
+import { IdentityTestContext, prepareIdentityTests } from "../authTestUtils";
+import { IncomingMessage } from "http";
 
 describe("IdentityClient", function () {
-  let logMessages: string[];
-  let oldLogger: typeof AzureLogger.log;
-  let oldLogLevel: AzureLogLevel | undefined;
-
-  beforeEach(() => {
-    oldLogLevel = getLogLevel();
-    setLogLevel("verbose");
-
-    oldLogger = AzureLogger.log;
-
-    logMessages = [];
-
-    AzureLogger.log = (args) => {
-      logMessages.push(args);
-    };
+  let testContext: IdentityTestContext;
+  beforeEach(async function () {
+    testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
+  });
+  afterEach(async function () {
+    await testContext.restore();
   });
 
-  afterEach(() => {
-    AzureLogger.log = oldLogger;
-    setLogLevel(oldLogLevel);
-  });
+  async function sendRequest<T>(
+    sendPromise: () => Promise<T | null>,
+    response: IncomingMessage
+  ): Promise<T | null> {
+    const stubbedHttpsRequest = testContext.sandbox.stub(https, "request");
+
+    stubbedHttpsRequest.returns(createRequest());
+    const promise = sendPromise();
+    stubbedHttpsRequest.yield(response);
+    await testContext.clock.runAllAsync();
+    return promise;
+  }
 
   it("throws an exception when an authentication request fails", async () => {
-    const mockHttp = new MockAuthHttpClient({
-      authResponse: {
-        status: 400,
-        parsedBody: { error: "test_error", error_description: "This is a test error" }
+    await assertRejects(
+      sendRequest(async () => {
+        const credential = new ClientSecretCredential("tenant", "client", "secret");
+        return credential.getToken("https://test/.default");
+      }, createResponse(400, JSON.stringify({ error: "test_error", error_description: "This is a test error" }))),
+      (e: Error) => {
+        assert.strictEqual(e.name, "AuthenticationError");
+        return true;
       }
-    });
-
-    const credential = new ClientSecretCredential(
-      "tenant",
-      "client",
-      "secret",
-      mockHttp.tokenCredentialOptions
     );
-
-    await assertRejects(credential.getToken("https://test/.default"), (error) => {
-      // Keep in mind that this credential has different implementations in Node and in browsers.
-      if (isNode) {
-        assert.equal(error.name, "CredentialUnavailableError");
-      } else {
-        assert.equal(error.name, "AuthenticationError");
-      }
-      return true;
-    });
   });
 
   it("throws an exception when an authorityHost using 'http' is provided", async () => {
@@ -203,3 +183,6 @@ describe("IdentityClient", function () {
     );
   });
 });
+function https(https: any, arg1: string) {
+  throw new Error("Function not implemented.");
+}

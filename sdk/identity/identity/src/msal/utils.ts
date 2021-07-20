@@ -13,6 +13,7 @@ import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
+import { isNode } from "../util/isNode";
 
 /**
  * Latest AuthenticationRecord version

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { createSpanFunction, SpanStatusCode, Span } from "@azure/core-tracing";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * Creates a span using the global tracer.
