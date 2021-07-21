@@ -58,6 +58,26 @@
    }
   },
   {
+    "method": "GET",
+    "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979122585102248",
+    "query": {
+     "api-version": "2021-01-01"
+    },
+    "requestBody": null,
+    "status": 200,
+    "response": "{\"id\":\"conversionId161979122585102248\",\"creationTime\":\"2021-04-30T14:00:25.9571606Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"boxWhichDoesNotExist.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"boxWhichDoesNotExist.arrAsset\"}},\"error\":null,\"status\":\"NotStarted\"}",
+    "responseHeaders": {
+     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
+     "cache-control": "no-store,no-cache",
+     "content-length": "455",
+     "content-type": "application/json; charset=utf-8",
+     "date": "Fri, 30 Apr 2021 14:00:26 GMT",
+     "ms-cv": "nKuoCkQTwkWt7d7nV2oaNg.0",
+     "pragma": "no-cache",
+     "x-content-type-options": "nosniff"
+    }
+  },
+  {
    "method": "GET",
    "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979122585102248",
    "query": {
