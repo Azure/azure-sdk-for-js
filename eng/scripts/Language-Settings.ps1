@@ -132,16 +132,22 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
 function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
-  try { 
+  try
+  {
     $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
 
-    if ($npmPackageInfo.'dist-tags'.dev) {
+    if ($npmPackageInfo.'dist-tags'.dev)
+    {
       Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
       $packageInfo.Version = $npmPackageInfo.'dist-tags'.dev
-    } else {
+    }
+    else
+    {
       Write-Warning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
     }
-  } catch { 
+  }
+  catch
+  {
     Write-Warning "Error getting package info from NPM for $($packageInfo.Name)"
     Write-Warning $_.Exception
     Write-Warning $_.Exception.StackTrace
