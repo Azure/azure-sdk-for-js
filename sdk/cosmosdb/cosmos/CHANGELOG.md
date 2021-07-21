@@ -1,14 +1,10 @@
 # Release History
 
-## 3.12.2 (Unreleased)
+## 3.12.2 (2021-07-21)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Adopted target ES2017 to reduce bundle size.
 
 ## 3.12.1 (2021-07-16)
 
