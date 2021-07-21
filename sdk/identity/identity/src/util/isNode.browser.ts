@@ -4,4 +4,4 @@
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
-export const isNode = Boolean(process?.version && !!process?.versions?.node);
+export const isNode = false;

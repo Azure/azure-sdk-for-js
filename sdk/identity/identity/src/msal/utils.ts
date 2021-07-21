@@ -54,7 +54,10 @@ export function ensureValidMsalToken(
  * Generates a valid authority by combining a host with a tenantId.
  * @internal
  */
-export function getAuthority(tenantId: string, host: string = DefaultAuthorityHost): string {
+export function getAuthority(tenantId: string, host?: string): string {
+  if (!host) {
+    host = DefaultAuthorityHost;
+  }
   if (host.endsWith("/")) {
     return host + tenantId;
   } else {
@@ -68,11 +71,12 @@ export function getAuthority(tenantId: string, host: string = DefaultAuthorityHo
  * Otherwise, it is safe to return an empty array.
  * @internal
  */
-export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
-  if (tenantId === "adfs" && authorityHost) {
-    return [authorityHost];
-  }
-  return [];
+export function getKnownAuthorities(_tenantId: string, authorityHost: string): string[] {
+  // if (tenantId === "adfs" && authorityHost) {
+  //  return [authorityHost];
+  // }
+  // It seems safer to me to always specify the authority host.
+  return [authorityHost];
 }
 
 /**

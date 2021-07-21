@@ -30,6 +30,7 @@ export class MsalClientSecret extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
+      console.log("options.authority", options.authority);
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,

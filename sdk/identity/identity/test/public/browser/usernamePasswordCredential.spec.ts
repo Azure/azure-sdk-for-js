@@ -4,22 +4,20 @@
 import assert from "assert";
 import {
   assertClientCredentials,
-  createResponse,
-  IdentityTestContext,
-  prepareIdentityTests,
-  SendCredentialRequests
 } from "../../authTestUtils";
 import { UsernamePasswordCredential } from "../../../src";
+import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
+import { createResponse, prepareIdentityTests } from "../../httpRequests";
 
-describe("UsernamePasswordCredential", function() {
+describe("UsernamePasswordCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
@@ -33,22 +31,20 @@ describe("UsernamePasswordCredential", function() {
         {
           response: createResponse(
             200,
-            JSON.stringify({
+            {
               access_token: "token",
               expires_on: "06/20/2019 02:57:58 +00:00"
-            })
+            }
           )
         }
       ]
     });
 
-    const authRequest = authDetails.secureRequestOptions[0];
-    const spy = authDetails.secureRequestWriteSpies[0];
-    const requestBody = spy.args[0][0];
-    assertClientCredentials(authRequest, requestBody, "tenant", "client");
+    const authRequest = authDetails.requests[0];
+    assertClientCredentials(authRequest.url, authRequest.body, "tenant", "client");
 
     assert.strictEqual(
-      requestBody.indexOf(`password=${encodeURIComponent(password)}`) > -1,
+      authRequest.body.indexOf(`password=${encodeURIComponent(password)}`) > -1,
       true,
       "Request body doesn't contain expected password"
     );

@@ -2,23 +2,19 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "../../../src";
-import {
-  assertClientCredentials,
-  createResponse,
-  IdentityTestContext,
-  prepareIdentityTests,
-  SendCredentialRequests
-} from "../../authTestUtils";
+import { assertClientCredentials } from "../../authTestUtils";
+import { createResponse, prepareIdentityTests } from "../../httpRequests";
+import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
 
-describe("ClientSecretCredential", function() {
+describe("ClientSecretCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
@@ -30,18 +26,15 @@ describe("ClientSecretCredential", function() {
         {
           response: createResponse(
             200,
-            JSON.stringify({
+            {
               access_token: "token",
               expires_on: "06/20/2019 02:57:58 +00:00"
-            })
+            }
           )
         }
       ]
     });
 
-    const authRequest = authDetails.secureRequestOptions[0];
-    const spy = authDetails.secureRequestWriteSpies[0];
-    const requestBody = spy.args[0][0];
-    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
+    assertClientCredentials(authDetails.requests[0].url, authDetails.requests[0].body, "tenant", "client", "secret");
   });
 });

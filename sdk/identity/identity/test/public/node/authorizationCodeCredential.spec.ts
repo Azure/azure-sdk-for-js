@@ -4,24 +4,22 @@
 import assert from "assert";
 import {
   assertClientCredentials,
-  createResponse,
-  IdentityTestContext,
-  prepareIdentityTests,
-  SendCredentialRequests
 } from "../../authTestUtils";
 import { AuthorizationCodeCredential } from "../../../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { setSpan, context as otContext } from "@azure/core-tracing";
+import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
+import { createResponse, prepareIdentityTests } from "../../httpRequests";
 
-describe("AuthorizationCodeCredential", function() {
+describe("AuthorizationCodeCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
@@ -40,27 +38,25 @@ describe("AuthorizationCodeCredential", function() {
         {
           response: createResponse(
             200,
-            JSON.stringify({
+            {
               access_token: "token",
               expires_on: "06/20/2019 02:57:58 +00:00"
-            })
+            }
           )
         }
       ]
     });
 
-    const authRequest = authDetails.secureRequestOptions[0];
-    const spy = authDetails.secureRequestWriteSpies[0];
-    const requestBody = spy.args[0][0];
-    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
+    const authRequest = authDetails.requests[0];
+    assertClientCredentials(authRequest.url, authRequest.body, "tenant", "client", "secret");
 
     assert.strictEqual(
-      requestBody.indexOf(`code=authCode`) > -1,
+      authRequest.body.indexOf(`code=authCode`) > -1,
       true,
       "Request body doesn't contain expected authorization code"
     );
     assert.strictEqual(
-      requestBody.indexOf(`redirect_uri=${encodeURIComponent(redirectUri)}`) > -1,
+      authRequest.body.indexOf(`redirect_uri=${encodeURIComponent(redirectUri)}`) > -1,
       true,
       "Request body doesn't contain expected redirect URI"
     );
@@ -75,31 +71,30 @@ describe("AuthorizationCodeCredential", function() {
         {
           response: createResponse(
             200,
-            JSON.stringify({
+            {
               access_token: "token",
               expires_on: "06/20/2019 02:57:58 +00:00"
-            })
+            }
           )
         }
       ]
     });
 
-    const spy = authDetails.secureRequestWriteSpies[0];
-    const requestBody = spy.args[0][0];
+    const request = authDetails.requests[0];
     assert.strictEqual(
-      requestBody.indexOf(`client_id=client`) > -1,
+      request.body.indexOf(`client_id=client`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
 
     assert.strictEqual(
-      requestBody.indexOf(`client_secret=`),
+      request.body.indexOf(`client_secret=`),
       -1,
       "Request body contains unexpected client_secret"
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function() {
+  it("traces the authorization code request when tracing is enabled", async function () {
     const tracer = new TestTracer();
     setTracer(tracer);
 
@@ -124,19 +119,17 @@ describe("AuthorizationCodeCredential", function() {
         {
           response: createResponse(
             200,
-            JSON.stringify({
+            {
               access_token: "token",
               expires_on: "06/20/2019 02:57:58 +00:00"
-            })
+            }
           )
         }
       ]
     });
 
-    const authRequest = authDetails.secureRequestOptions[0];
-    const spy = authDetails.secureRequestWriteSpies[0];
-    const requestBody = spy.args[0][0];
-    assertClientCredentials(authRequest, requestBody, "tenant", "client", "secret");
+    const authRequest = authDetails.requests[0];
+    assertClientCredentials(authRequest.url, authRequest.body, "tenant", "client", "secret");
 
     rootSpan.end();
 
