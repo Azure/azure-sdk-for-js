@@ -30,11 +30,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
     else {
       $pkgProp.SdkType = "unknown"
     }
-    if ($projectJson.name.StartsWith("@azure/arm"))
-    {
-      $pkgProp.SdkType = "mgmt"
-    }
-    $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+    $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
     return $pkgProp
   }
@@ -136,7 +132,27 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
 function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
-  $packageInfo.Version = 'dev'
+  try
+  {
+    $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
+
+    if ($npmPackageInfo.'dist-tags'.dev)
+    {
+      Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
+      $packageInfo.Version = $npmPackageInfo.'dist-tags'.dev
+    }
+    else
+    {
+      Write-Warning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
+    }
+  }
+  catch
+  {
+    Write-Warning "Error getting package info from NPM for $($packageInfo.Name)"
+    Write-Warning $_.Exception
+    Write-Warning $_.Exception.StackTrace
+  }
+
   return $packageInfo
 }
 
@@ -209,6 +225,8 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
 $PackageExclusions = @{ 
   '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
   '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+  '@azure/arm-network' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16474';
+  '@azure/arm-compute' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16476';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
@@ -254,7 +272,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
     # This handles packages which are not tracked in metadata but still need to
     # be built in Docs CI.
     if ($matchingPublishedPackageArray.Count -eq 0) {
-      Write-Host "Keep non-tracked preview package: $($package.name)"
+      Write-Host "Keep non-tracked package: $($package.name)"
       $outputPackages += $package
       continue
     }
@@ -294,11 +312,11 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
   $remainingPackages = @() 
   if ($Mode -eq 'preview') { 
-    $remainingPackages = $DocsMetadata.Where({ 
+    $remainingPackages = $DocsMetadata.Where({
       $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
-  } else { 
-    $remainingPackages = $DocsMetadata.Where({ 
+  } else {
+    $remainingPackages = $DocsMetadata.Where({
       $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
   }

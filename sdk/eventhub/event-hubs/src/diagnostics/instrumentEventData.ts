@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "@azure/core-tracing";
+import {
+  extractSpanContextFromTraceParentHeader,
+  getTraceParentHeader,
+  isSpanContextValid
+} from "@azure/core-tracing";
 import { Span, SpanContext } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, isAmqpAnnotatedMessage } from "../eventData";
@@ -40,7 +44,7 @@ export function instrumentEventData(
   }
 
   const traceParent = getTraceParentHeader(span.spanContext());
-  if (traceParent) {
+  if (traceParent && isSpanContextValid(span.spanContext())) {
     copiedProps[TRACEPARENT_PROPERTY] = traceParent;
   }
 

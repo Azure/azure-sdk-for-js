@@ -28,8 +28,8 @@ export class AppConfigurationClient {
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
-    listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
+    listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
@@ -37,6 +37,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
+    retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
 }
 
@@ -139,7 +140,7 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
 
@@ -152,7 +153,7 @@ export interface ListRevisionsOptions extends OperationOptions, ListSettingsOpti
 }
 
 // @public
-export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
 
@@ -169,10 +170,21 @@ export interface OptionalFields {
 }
 
 // @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export function parseFeatureFlag(setting: ConfigurationSetting): ConfigurationSetting<FeatureFlagValue>;
 
 // @public
 export function parseSecretReference(setting: ConfigurationSetting): ConfigurationSetting<SecretReferenceValue>;
+
+// @public
+export interface RetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+}
 
 // @public
 export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";

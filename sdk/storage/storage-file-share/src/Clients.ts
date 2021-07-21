@@ -67,7 +67,8 @@ import {
   truncatedISO8061Date,
   extractConnectionStringParts,
   getShareNameAndPathFromUrl,
-  appendToURLQuery
+  appendToURLQuery,
+  httpAuthorizationToString
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -92,7 +93,8 @@ import {
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
   ShareProtocols,
   toShareProtocolsString,
-  toShareProtocols
+  toShareProtocols,
+  HttpAuthorization
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -111,6 +113,7 @@ import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
 import { FileSASPermissions } from "./FileSASPermissions";
+import { ListFilesIncludeType } from "./generatedModels";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -1408,6 +1411,13 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    */
   maxResults?: number;
+  /** Include this parameter to specify one or more datasets to include in the response. */
+  include?: ListFilesIncludeType[];
+  /**
+   * Optional. Specified that extended info should be included in the returned {@link FileItem} or {@link DirectoryItem}.
+   * If true, the Content-Length property will be up-to-date, FileId will be returned in response.
+   */
+  includeExtendedInfo?: boolean;
 }
 
 /**
@@ -1424,6 +1434,27 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
    * name begins with the specified prefix.
    */
   prefix?: string;
+  /*
+   * Optional. Specified that time stamps should be included in the response.
+   */
+  includeTimestamps?: boolean;
+  /*
+   * Optional. Specified that ETag should be included in the response.
+   */
+  includeEtag?: boolean;
+  /*
+   * Optional. Specified that file attributes should be included in the response.
+   */
+  includeAttributes?: boolean;
+  /*
+   * Optional. Specified that permission key should be included in the response.
+   */
+  includePermissionKey?: boolean;
+  /**
+   * Optional. Specified that extended info should be included in the returned {@link FileItem} or {@link DirectoryItem}.
+   * If true, the Content-Length property will be up-to-date, FileId will be returned in response.
+   */
+  includeExtendedInfo?: boolean;
 }
 
 /**
@@ -2307,12 +2338,30 @@ export class ShareDirectoryClient extends StorageClient {
     ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem),
     DirectoryListFilesAndDirectoriesSegmentResponse
   > {
+    const include: ListFilesIncludeType[] = [];
+    if (options.includeTimestamps) {
+      include.push("Timestamps");
+    }
+    if (options.includeEtag) {
+      include.push("Etag");
+    }
+    if (options.includeAttributes) {
+      include.push("Attributes");
+    }
+    if (options.includePermissionKey) {
+      include.push("PermissionKey");
+    }
     if (options.prefix === "") {
       options.prefix = undefined;
     }
 
+    const updatedOptions: DirectoryListFilesAndDirectoriesSegmentOptions = {
+      ...options,
+      ...(include.length > 0 ? { include: include } : {})
+    };
+
     // AsyncIterableIterator to iterate over files and directories
-    const iter = this.listFilesAndDirectoriesItems(options);
+    const iter = this.listFilesAndDirectoriesItems(updatedOptions);
     return {
       /**
        * The next method, part of the iteration protocol
@@ -2332,7 +2381,7 @@ export class ShareDirectoryClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
           maxResults: settings.maxPageSize,
-          ...options
+          ...updatedOptions
         });
       }
     };
@@ -2846,6 +2895,10 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -4037,6 +4090,7 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions)
         }

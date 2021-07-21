@@ -161,20 +161,20 @@ export type CertificateModification = string;
 export function createAttestationPolicyToken(policy: string, privateKey?: string, certificate?: string): AttestationPolicyToken;
 
 // @public
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
     OpenEnclave = "OpenEnclave",
     SgxEnclave = "SgxEnclave",
     Tpm = "Tpm"
 }
 
 // @public
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
     IsAbsent = "IsAbsent",
     IsPresent = "IsPresent"
 }
 
 // @public
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
 }

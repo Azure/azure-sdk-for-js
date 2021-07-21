@@ -4,7 +4,7 @@
 import assert from "assert";
 import { assertClientCredentials } from "../../authTestUtils";
 import { AuthorizationCodeCredential } from "../../../src";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { setSpan, context as otContext } from "@azure/core-tracing";
 import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
 import { createResponse, prepareIdentityTests } from "../../httpRequests";
@@ -87,8 +87,7 @@ describe("AuthorizationCodeCredential", function() {
   });
 
   it("traces the authorization code request when tracing is enabled", async function() {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
 
     const redirectUri = "http://localhost:8080/authresponse";
     const rootSpan = tracer.startSpan("root");

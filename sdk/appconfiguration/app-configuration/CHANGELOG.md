@@ -4,9 +4,16 @@
 
 ### Features Added
 
+- Added "continuationToken" option for the `byPage` APIs of the listing methods (`listConfigurationSettings` and the `listRevisions`), this lets you keep track of where to continue the iterator from.
+  [#16472](https://github.com/Azure/azure-sdk-for-js/pull/16472)
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Throttling may have resulted in retrying the request indefinitely if the service responded with `retry-after-ms` header in the error for each retried request. The behaviour has been changed to retry for a maximum of 3 times by default from [#16376](https://github.com/Azure/azure-sdk-for-js/pull/16376).
+  - Additionally, [#16376](https://github.com/Azure/azure-sdk-for-js/pull/16376) also exposes retryOptions on the `AppConfigurationClient`'s client options, which lets you configure the `maxRetries` and the `maxRetryDelayInMs`.
+  - More resources - [App Configuration | Throttling](https://docs.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://docs.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
 
 ### Other Changes
 
@@ -128,8 +135,14 @@ In previous previews:
 ```typescript
 // 1.0.0-preview.3 and below
 await client.getConfigurationSetting("MyKey", { label: "MyLabel" });
-await client.addConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
-await client.setConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
+await client.addConfigurationSetting("MyKey", {
+  label: "MyLabel",
+  value: "MyValue"
+});
+await client.setConfigurationSetting("MyKey", {
+  label: "MyLabel",
+  value: "MyValue"
+});
 await client.deleteConfigurationSetting("MyKey", { label: "MyLabel" });
 ```
 
@@ -138,8 +151,16 @@ Now in preview.4:
 ```typescript
 // 1.0.0-preview.4
 await client.getConfigurationSetting({ key: "MyKey", label: "MyLabel" });
-await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
-await client.setConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
+await client.addConfigurationSetting({
+  key: "MyKey",
+  label: "MyLabel",
+  value: "MyValue"
+});
+await client.setConfigurationSetting({
+  key: "MyKey",
+  label: "MyLabel",
+  value: "MyValue"
+});
 await client.deleteConfigurationSetting({ key: "MyKey", label: "MyLabel" });
 ```
 
