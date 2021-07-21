@@ -232,7 +232,8 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
 #   ...
 # }
 function ValidatePackagesForDocs($packages) {
-  $tempDirectory = Join-Path $env:TEMP ([System.IO.Path]::GetRandomFileName())
+  # Using GetTempPath because it works on linux and windows
+  $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
   New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
 
   $scriptRoot = $PSScriptRoot
