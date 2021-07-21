@@ -4,23 +4,23 @@
 import * as sinon from "sinon";
 import { assert } from "chai";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { RestError } from "@azure/core-rest-pipeline";
+import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import { getError } from "./authTestUtils";
-import { FakeResponse, IdentityTestContext, SendCredentialRequests } from "./httpRequestsTypes";
+import { TestResponse, IdentityTestContext, SendCredentialRequests } from "./httpRequestsTypes";
 
 /**
  * @internal
  */
 export function createResponse(
   statusCode: number,
-  body = "",
-  headers?: Record<string, string>
-): FakeResponse {
+  body: Record<string, string | string[] | boolean | number> = {},
+  headers: RawHttpHeaders = {}
+): TestResponse {
   return {
     statusCode,
-    body,
+    body: JSON.stringify(body),
     headers
-  }
+  };
 }
 
 /**
@@ -52,7 +52,7 @@ export async function prepareIdentityTests({
   // Browser specific code
   const xhrMock = sandbox.useFakeXMLHttpRequest();
   const requests: sinon.SinonFakeXMLHttpRequest[] = [];
-  const responses: { response?: FakeResponse, error?: RestError }[] = [];
+  const responses: { response?: TestResponse; error?: RestError }[] = [];
   xhrMock.onCreate = (xhr) => {
     const response = responses.shift();
     if (!response) {
@@ -64,9 +64,15 @@ export async function prepareIdentityTests({
       xhr.statusText = response.error.code!;
       xhr.error();
     } else if (response.response) {
-      xhr.respond(response.response.statusCode, response.response.headers, response.response.body || "");
+      xhr.respond(
+        response.response.statusCode,
+        response.response.headers,
+        response.response.body || ""
+      );
     } else {
-      throw new Error("Bad fake response structure. Expected either an `error` or a `response` property.");
+      throw new Error(
+        "Bad fake response structure. Expected either an `error` or a `response` property."
+      );
     }
   };
 
@@ -75,7 +81,7 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
-    response: FakeResponse
+    response: TestResponse
   ): Promise<T | null> {
     responses.push({ response });
     const promise = sendPromise();
@@ -89,7 +95,7 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
-    response: FakeResponse
+    response: TestResponse
   ): Promise<Error> {
     return getError(sendIndividualRequest(sendPromise, response));
   }
@@ -104,26 +110,23 @@ export async function prepareIdentityTests({
     insecureResponses = [],
     secureResponses = []
   }) => {
-    responses.push(...[
-      ...insecureResponses,
-      ...secureResponses
-    ])
+    responses.push(...[...insecureResponses, ...secureResponses]);
 
     const promise = credential.getToken(scopes, getTokenOptions);
     await clock.runAllAsync();
 
     return {
       result: await promise,
-      requests: requests.map(request => {
+      requests: requests.map((request) => {
         return {
           url: request.url,
           body: request.requestBody,
           method: request.method,
           headers: request.requestHeaders
-        }
+        };
       })
     };
-  }
+  };
 
   return {
     clock,

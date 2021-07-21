@@ -10,63 +10,70 @@ import {
 import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
 import { isNode } from "../../src/util/isNode";
-import {
-  isExpectedError,
-  getError,
-} from "../authTestUtils";
+import { isExpectedError, getError } from "../authTestUtils";
 import { openIdConfigurationResponse, PlaybackTenantId } from "../msalTestUtils";
-import { FakeResponse, IdentityTestContext, SendCredentialRequests, SendIndividualRequest, SendIndividualRequestAndGetError } from "../httpRequestsTypes";
+import {
+  IdentityTestContext,
+  SendCredentialRequests,
+  SendIndividualRequest,
+  SendIndividualRequestAndGetError,
+  TestResponse
+} from "../httpRequestsTypes";
 import { createResponse, prepareIdentityTests } from "../httpRequests";
 
-describe.only("IdentityClient", function () {
+describe.only("IdentityClient", function() {
   let testContext: IdentityTestContext;
   let sendIndividualRequest: SendIndividualRequest;
   let sendIndividualRequestAndGetError: SendIndividualRequestAndGetError;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
     sendIndividualRequest = testContext.sendIndividualRequest;
-    sendIndividualRequestAndGetError
+    sendIndividualRequestAndGetError;
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
   });
 
   it.only("throws an exception if the credential is not available", async () => {
-    const error = await getError(sendCredentialRequests({
-      scopes: ["scope"],
-      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
-      secureResponses: [
-        {
-          response: createResponse(
-            400,
-            { error: "test_error", error_description: "This is a test error" }
-          )
-        }
-      ]
-    }));
+    const error = await getError(
+      sendCredentialRequests({
+        scopes: ["scope"],
+        credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+        secureResponses: [
+          {
+            response: createResponse(400, {
+              error: "test_error",
+              error_description: "This is a test error"
+            })
+          }
+        ]
+      })
+    );
     assert.strictEqual(error.name, "CredentialUnavailableError");
   });
 
   it.only("throws an exception when an authentication request fails", async () => {
-    let responses: { response: FakeResponse }[] = [];
+    let responses: { response: TestResponse }[] = [];
     if (isNode) {
       responses.push({ response: createResponse(200, openIdConfigurationResponse) });
     }
     responses.push({
-      response: createResponse(
-        400,
-        { error: "test_error", error_description: "This is a test error" }
-      )
+      response: createResponse(400, {
+        error: "test_error",
+        error_description: "This is a test error"
+      })
     });
 
-    const error = await getError(sendCredentialRequests({
-      scopes: ["https://vault.azure.net/.default"],
-      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
-      secureResponses: responses
-    }));
+    const error = await getError(
+      sendCredentialRequests({
+        scopes: ["https://vault.azure.net/.default"],
+        credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+        secureResponses: responses
+      })
+    );
     assert.strictEqual(error.name, "AuthenticationRequiredError");
   });
 
@@ -87,7 +94,7 @@ describe.only("IdentityClient", function () {
     );
   });
 
-  it("parses authority host environment variable as expected", function (this: Context) {
+  it("parses authority host environment variable as expected", function(this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -96,7 +103,7 @@ describe.only("IdentityClient", function () {
     return;
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (this: Context) {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -146,7 +153,7 @@ describe.only("IdentityClient", function () {
     }
   });
 
-  it("parses authority host environment variable as expected", function (this: Context) {
+  it("parses authority host environment variable as expected", function(this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -158,23 +165,22 @@ describe.only("IdentityClient", function () {
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const credential = new ClientSecretCredential("tenant", "client", "secret");
     const response = createResponse(300);
-    const error = await getError(sendCredentialRequests({
-      scopes: ["scope"],
-      credential,
-      secureResponses: [{ response }]
-    }));
+    const error = await getError(
+      sendCredentialRequests({
+        scopes: ["scope"],
+        credential,
+        secureResponses: [{ response }]
+      })
+    );
     isExpectedError("unknown_error")(error);
   });
 
   it("returns null when the token refresh request returns an 'interaction_required' error", async () => {
     const client = new IdentityClient({ authorityHost: "https://authority" });
-    const response = createResponse(
-      401,
-      {
-        error: "interaction_required",
-        error_description: "Interaction required"
-      }
-    );
+    const response = createResponse(401, {
+      error: "interaction_required",
+      error_description: "Interaction required"
+    });
     const tokenResponse = await sendIndividualRequest<TokenResponse>(async () => {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);
@@ -201,13 +207,10 @@ describe.only("IdentityClient", function () {
 
   it("rethrows any other error that is thrown while refreshing the access token", async () => {
     const client = new IdentityClient();
-    const response = createResponse(
-      401,
-      {
-        error: "interaction_required",
-        error_description: "Interaction required"
-      }
-    );
+    const response = createResponse(401, {
+      error: "interaction_required",
+      error_description: "Interaction required"
+    });
     const error = await sendIndividualRequestAndGetError(async () => {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);

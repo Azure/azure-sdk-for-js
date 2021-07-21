@@ -2,24 +2,22 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import {
-  assertClientCredentials,
-} from "../../authTestUtils";
+import { assertClientCredentials } from "../../authTestUtils";
 import { AuthorizationCodeCredential } from "../../../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { setSpan, context as otContext } from "@azure/core-tracing";
 import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
 import { createResponse, prepareIdentityTests } from "../../httpRequests";
 
-describe("AuthorizationCodeCredential", function () {
+describe("AuthorizationCodeCredential", function() {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
   });
 
@@ -36,13 +34,10 @@ describe("AuthorizationCodeCredential", function () {
       ),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });
@@ -69,13 +64,10 @@ describe("AuthorizationCodeCredential", function () {
       credential: new AuthorizationCodeCredential("tenant", "client", "authCode", redirectUri),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });
@@ -94,7 +86,7 @@ describe("AuthorizationCodeCredential", function () {
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function () {
+  it("traces the authorization code request when tracing is enabled", async function() {
     const tracer = new TestTracer();
     setTracer(tracer);
 
@@ -117,13 +109,10 @@ describe("AuthorizationCodeCredential", function () {
       ),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });

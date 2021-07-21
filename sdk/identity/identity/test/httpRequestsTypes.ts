@@ -3,16 +3,16 @@
 
 import * as sinon from "sinon";
 import { AzureLogger, AzureLogLevel } from "@azure/logger";
-import { RestError } from "@azure/core-rest-pipeline";
+import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 
 /**
  * @internal
  */
-export interface FakeResponse {
+export interface TestResponse {
   statusCode: number;
-  headers?: Record<string, string>;
-  body?: string;
+  headers: RawHttpHeaders;
+  body: string;
 }
 
 /**
@@ -20,7 +20,7 @@ export interface FakeResponse {
  */
 export type SendIndividualRequest = <T>(
   sendPromise: () => Promise<T | null>,
-  response: FakeResponse
+  response: TestResponse
 ) => Promise<T | null>;
 
 /**
@@ -28,7 +28,7 @@ export type SendIndividualRequest = <T>(
  */
 export type SendIndividualRequestAndGetError = <T>(
   sendPromise: () => Promise<T | null>,
-  response: FakeResponse
+  response: TestResponse
 ) => Promise<Error>;
 
 /**
@@ -38,15 +38,15 @@ export type SendCredentialRequests = (options: {
   scopes: string | string[];
   getTokenOptions?: GetTokenOptions;
   credential: TokenCredential;
-  insecureResponses?: { response?: FakeResponse; error?: RestError }[];
-  secureResponses?: { response?: FakeResponse; error?: RestError }[];
+  insecureResponses?: { response?: TestResponse; error?: RestError }[];
+  secureResponses?: { response?: TestResponse; error?: RestError }[];
 }) => Promise<{
   result: AccessToken | null;
   requests: {
     url: string;
     body: string;
     method: string;
-    headers: Record<string, string>
+    headers: Record<string, string>;
   }[];
 }>;
 

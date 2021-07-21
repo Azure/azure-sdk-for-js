@@ -2,22 +2,20 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import {
-  assertClientCredentials,
-} from "../../authTestUtils";
+import { assertClientCredentials } from "../../authTestUtils";
 import { UsernamePasswordCredential } from "../../../src";
 import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
 import { createResponse, prepareIdentityTests } from "../../httpRequests";
 
-describe("UsernamePasswordCredential", function () {
+describe("UsernamePasswordCredential", function() {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
   });
 
@@ -29,13 +27,10 @@ describe("UsernamePasswordCredential", function () {
       credential: new UsernamePasswordCredential("tenant", "client", "user@domain.com", password),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });

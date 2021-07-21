@@ -6,10 +6,10 @@ import * as https from "https";
 import * as http from "http";
 import { ClientRequest } from "http";
 import { PassThrough } from "stream";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { getError } from "./authTestUtils";
-import { FakeResponse, IdentityTestContext, SendCredentialRequests } from "./httpRequestsTypes";
+import { IdentityTestContext, SendCredentialRequests, TestResponse } from "./httpRequestsTypes";
 
 /**
  * @internal
@@ -27,13 +27,13 @@ export class FakeRequest extends PassThrough {
 export function createResponse(
   statusCode: number,
   body: Record<string, string | string[] | boolean | number> = {},
-  headers?: Record<string, string>
-): FakeResponse {
+  headers: RawHttpHeaders = {}
+): TestResponse {
   return {
     statusCode,
     body: JSON.stringify(body),
     headers
-  }
+  };
 }
 
 /**
@@ -48,11 +48,13 @@ export function createRequest(): ClientRequest {
 /**
  * @internal
  */
-function responseToPassThrough(response: FakeResponse): PassThrough {
+function responseToPassThrough(response: TestResponse): PassThrough {
   const passThroughResponse = new PassThrough();
   (passThroughResponse as any).statusCode = response.statusCode;
   if (response.headers) {
-    (passThroughResponse as any).headers = createHttpHeaders(response.headers);
+    (passThroughResponse as any).headers = createHttpHeaders({
+      ...response.headers
+    });
   }
   passThroughResponse.write(response.body);
   passThroughResponse.end();
@@ -90,7 +92,7 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
-    response: FakeResponse
+    response: TestResponse
   ): Promise<T | null> {
     const stubbedHttpsRequest = sandbox.stub(https, "request");
 
@@ -107,7 +109,7 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
-    response: FakeResponse
+    response: TestResponse
   ): Promise<Error> {
     return getError(sendIndividualRequest(sendPromise, response));
   }
@@ -136,7 +138,9 @@ export async function prepareIdentityTests({
         stubbedHttpRequest.onCall(index).returns(request);
         stubbedHttpRequest.onCall(index).yields(responseToPassThrough(response));
       } else {
-        throw new Error("Bad fake response structure. Expected either an `error` or a `response` property.");
+        throw new Error(
+          "Bad fake response structure. Expected either an `error` or a `response` property."
+        );
       }
     });
 
@@ -149,7 +153,9 @@ export async function prepareIdentityTests({
         stubbedHttpsRequest.onCall(index).returns(request);
         stubbedHttpsRequest.onCall(index).yields(responseToPassThrough(response));
       } else {
-        throw new Error("Bad fake response structure. Expected either an `error` or a `response` property.");
+        throw new Error(
+          "Bad fake response structure. Expected either an `error` or a `response` property."
+        );
       }
     });
 
@@ -170,11 +176,11 @@ export async function prepareIdentityTests({
               method: requestOptions.method,
               headers: requestOptions.headers
             }
-          ]
-        }, []),
+          ];
+        }, [])
       ]
     };
-  }
+  };
 
   return {
     clock,

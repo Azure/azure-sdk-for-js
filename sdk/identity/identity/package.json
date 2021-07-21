@@ -69,7 +69,7 @@
     "authentication",
     "credential",
     "certificate",
-    "managed service identity",
+    "managed identity",
     "client secret",
     "access token"
   ],

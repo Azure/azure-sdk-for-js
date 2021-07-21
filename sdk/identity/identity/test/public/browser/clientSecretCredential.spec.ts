@@ -6,15 +6,15 @@ import { assertClientCredentials } from "../../authTestUtils";
 import { createResponse, prepareIdentityTests } from "../../httpRequests";
 import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
 
-describe("ClientSecretCredential", function () {
+describe("ClientSecretCredential", function() {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
   });
 
@@ -24,17 +24,20 @@ describe("ClientSecretCredential", function () {
       credential: new ClientSecretCredential("tenant", "client", "secret"),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });
 
-    assertClientCredentials(authDetails.requests[0].url, authDetails.requests[0].body, "tenant", "client", "secret");
+    assertClientCredentials(
+      authDetails.requests[0].url,
+      authDetails.requests[0].body,
+      "tenant",
+      "client",
+      "secret"
+    );
   });
 });

@@ -14,18 +14,16 @@ import {
   imdsMsi,
   imdsMsiRetryConfig
 } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import {
-  getError,
-} from "../../authTestUtils";
+import { getError } from "../../authTestUtils";
 import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
 import { createResponse, prepareIdentityTests } from "../../httpRequests";
 
-describe("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     envCopy = JSON.stringify(process.env);
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
@@ -38,7 +36,7 @@ describe("ManagedIdentityCredential", function () {
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     const env = JSON.parse(envCopy);
     process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
     process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
@@ -50,20 +48,17 @@ describe("ManagedIdentityCredential", function () {
     await testContext.restore();
   });
 
-  it("sends an authorization request with a modified resource name", async function () {
+  it("sends an authorization request with a modified resource name", async function() {
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       insecureResponses: [
         { response: createResponse(200) }, // IMDS Endpoint ping
         {
-          response: createResponse(
-            200,
-            {
-              token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });
@@ -94,13 +89,10 @@ describe("ManagedIdentityCredential", function () {
       insecureResponses: [
         { response: createResponse(200) }, // IMDS Endpoint ping
         {
-          response: createResponse(
-            200,
-            {
-              token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });
@@ -115,7 +107,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.resource as string), "someResource");
   });
 
-  it("returns error when no MSI is available", async function () {
+  it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const error = await getError(
@@ -132,7 +124,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error.message.startsWith("No MSI credential available"));
   });
 
-  it("an unexpected error bubbles all the way up", async function () {
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
     const errorMessage = "ManagedIdentityCredential authentication failed.";
 
@@ -149,7 +141,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error.message.startsWith(errorMessage));
   });
 
-  it("returns expected error when the network was unreachable", async function () {
+  it("returns expected error when the network was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", {
@@ -170,7 +162,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error.message.startsWith("Network unreachable."));
   });
 
-  it("returns expected error when the host was unreachable", async function () {
+  it("returns expected error when the host was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const hostError: RestError = new RestError("Request Timeout", {
@@ -191,7 +183,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error.message.startsWith("No managed identity endpoint found."));
   });
 
-  it("IMDS MSI retries and succeeds on 404", async function () {
+  it("IMDS MSI retries and succeeds on 404", async function() {
     const { result } = await sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
@@ -200,12 +192,9 @@ describe("ManagedIdentityCredential", function () {
         { response: createResponse(404) },
         { response: createResponse(404) },
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token"
+          })
         }
       ]
     });
@@ -213,7 +202,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(result?.token, "token");
   });
 
-  it("IMDS MSI retries up to a limit on 404", async function () {
+  it("IMDS MSI retries up to a limit on 404", async function() {
     const error = await getError(
       sendCredentialRequests({
         scopes: ["scopes"],
@@ -235,7 +224,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("IMDS MSI retries also retries on 503s", async function () {
+  it("IMDS MSI retries also retries on 503s", async function() {
     const { result } = await sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
@@ -256,7 +245,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(result?.token, "token");
   });
 
-  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_TOKEN_URL environment variable is available", async function () {
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_TOKEN_URL environment variable is available", async function() {
     process.env.AZURE_POD_IDENTITY_TOKEN_URL = "token URL";
 
     assert.ok(await imdsMsi.isAvailable());
@@ -305,13 +294,10 @@ describe("ManagedIdentityCredential", function () {
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              access_token: "token",
-              expires_on: "06/20/2019 02:57:58 +00:00"
-            }
-          )
+          response: createResponse(200, {
+            access_token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          })
         }
       ]
     });
@@ -345,9 +331,7 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
-      secureResponses: [
-        { response: createResponse(200, { access_token: "token" }) }
-      ]
+      secureResponses: [{ response: createResponse(200, { access_token: "token" }) }]
     });
 
     const authRequest = authDetails.requests[0];
@@ -375,18 +359,19 @@ describe("ManagedIdentityCredential", function () {
       credential: new ManagedIdentityCredential(),
       secureResponses: [
         {
-          response: createResponse(401, {}, {
-            "www-authenticate": `we don't pay much attention about this format=${filePath}`
-          })
-        },
-        {
           response: createResponse(
-            200,
+            401,
+            {},
             {
-              access_token: "token",
-              expires_in: 1
+              "www-authenticate": `we don't pay much attention about this format=${filePath}`
             }
           )
+        },
+        {
+          response: createResponse(200, {
+            access_token: "token",
+            expires_in: 1
+          })
         }
       ]
     });
@@ -440,13 +425,10 @@ describe("ManagedIdentityCredential", function () {
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         {
-          response: createResponse(
-            200,
-            {
-              token: "token",
-              expires_on: 1
-            }
-          )
+          response: createResponse(200, {
+            token: "token",
+            expires_on: 1
+          })
         }
       ]
     });
