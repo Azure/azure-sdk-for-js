@@ -517,8 +517,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/eventhubs-checkpointstore-tables",
-      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-tables",
+      "packageName": "@azure/eventhubs-checkpointstore-table",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-table",
       "versionPolicyName": "client"
     },
     {
