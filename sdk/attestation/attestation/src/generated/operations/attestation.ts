@@ -6,30 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Attestation } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
   AttestOpenEnclaveRequest,
+  AttestationAttestOpenEnclaveOptionalParams,
   AttestationAttestOpenEnclaveResponse,
   AttestSgxEnclaveRequest,
+  AttestationAttestSgxEnclaveOptionalParams,
   AttestationAttestSgxEnclaveResponse,
   TpmAttestationRequest,
+  AttestationAttestTpmOptionalParams,
   AttestationAttestTpmResponse
 } from "../models";
 
-/**
- * Class representing a Attestation.
- */
-export class Attestation {
-  private readonly client: GeneratedClient;
+/** Class representing a Attestation. */
+export class AttestationImpl implements Attestation {
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class Attestation class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -41,16 +43,12 @@ export class Attestation {
    */
   attestOpenEnclave(
     request: AttestOpenEnclaveRequest,
-    options?: coreHttp.OperationOptions
+    options?: AttestationAttestOpenEnclaveOptionalParams
   ): Promise<AttestationAttestOpenEnclaveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { request, options },
       attestOpenEnclaveOperationSpec
-    ) as Promise<AttestationAttestOpenEnclaveResponse>;
+    );
   }
 
   /**
@@ -61,16 +59,12 @@ export class Attestation {
    */
   attestSgxEnclave(
     request: AttestSgxEnclaveRequest,
-    options?: coreHttp.OperationOptions
+    options?: AttestationAttestSgxEnclaveOptionalParams
   ): Promise<AttestationAttestSgxEnclaveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { request, options },
       attestSgxEnclaveOperationSpec
-    ) as Promise<AttestationAttestSgxEnclaveResponse>;
+    );
   }
 
   /**
@@ -81,23 +75,18 @@ export class Attestation {
    */
   attestTpm(
     request: TpmAttestationRequest,
-    options?: coreHttp.OperationOptions
+    options?: AttestationAttestTpmOptionalParams
   ): Promise<AttestationAttestTpmResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { request, options },
       attestTpmOperationSpec
-    ) as Promise<AttestationAttestTpmResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const attestOpenEnclaveOperationSpec: coreHttp.OperationSpec = {
+const attestOpenEnclaveOperationSpec: coreClient.OperationSpec = {
   path: "/attest/OpenEnclave",
   httpMethod: "POST",
   responses: {
@@ -115,7 +104,7 @@ const attestOpenEnclaveOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const attestSgxEnclaveOperationSpec: coreHttp.OperationSpec = {
+const attestSgxEnclaveOperationSpec: coreClient.OperationSpec = {
   path: "/attest/SgxEnclave",
   httpMethod: "POST",
   responses: {
@@ -133,7 +122,7 @@ const attestSgxEnclaveOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const attestTpmOperationSpec: coreHttp.OperationSpec = {
+const attestTpmOperationSpec: coreClient.OperationSpec = {
   path: "/attest/Tpm",
   httpMethod: "POST",
   responses: {

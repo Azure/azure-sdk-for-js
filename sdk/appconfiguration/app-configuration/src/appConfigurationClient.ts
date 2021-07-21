@@ -35,6 +35,7 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -70,7 +71,7 @@ const packageName = "azsdk-js-app-configuration";
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.2.0-beta.1";
+export const packageVersion = "1.2.1";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -99,6 +100,11 @@ export interface AppConfigurationClientOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+
+  /**
+   * Options that control how to retry failed requests.
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -204,7 +210,6 @@ export class AppConfigurationClient {
         entity: keyValue,
         ...newOptions
       });
-
       return transformKeyValueResponse(originalResponse);
     });
   }
@@ -530,7 +535,7 @@ export function getGeneratedClientOptions(
   const retryPolicies = [
     exponentialRetryPolicy(),
     systemErrorRetryPolicy(),
-    throttlingRetryPolicy()
+    throttlingRetryPolicy(internalAppConfigOptions.retryOptions)
   ];
 
   const userAgent = getUserAgentPrefix(

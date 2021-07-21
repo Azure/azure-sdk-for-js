@@ -11,14 +11,14 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ArtifactTagProperties,
   ArtifactManifestProperties,
-  ContentProperties,
-  TagOrderBy
-} from "./model";
-import { URL } from "./url";
+  TagOrderBy,
+  TagPageResponse
+} from "./models";
+import { URL } from "./utils/url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
-import { extractNextLink, isDigest } from "./utils";
-import { toServiceTagOrderBy } from "./transformations";
+import { extractNextLink, isDigest } from "./utils/helpers";
+import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.
@@ -38,44 +38,57 @@ export interface GetManifestPropertiesOptions extends OperationOptions {}
 export interface GetTagPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `setTagProperties` method of `RegistryArtifact`.
+ * Options for the `updateTagProperties` method of `RegistryArtifact`.
  */
-export type SetTagPropertiesOptions = ContentProperties & OperationOptions;
+export interface UpdateTagPropertiesOptions extends OperationOptions {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
 
 /**
- * Options for the `setManifestProperties` method of `RegistryArtifact`.
+ * Options for the `updateManifestProperties` method of `RegistryArtifact`.
  */
-export type SetManifestPropertiesOptions = ContentProperties & OperationOptions;
+export interface UpdateManifestPropertiesOptions extends OperationOptions {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
 
 /**
- * Options for the `listTags` method of `RegistryArtifact`.
+ * Options for the `listTagProperties` method of `RegistryArtifact`.
  */
-export interface ListTagsOptions extends OperationOptions {
+export interface ListTagPropertiesOptions extends OperationOptions {
   /** orderby query parameter */
   orderBy?: TagOrderBy;
 }
 
 /**
- * The helper used to interact with the Container Registry service.
+ * The helper used to interact with the Container Registry artifact.
  */
 export interface RegistryArtifact {
   /**
    * The Azure Container Registry endpoint.
    */
-  readonly registryUrl: string;
+  readonly registryEndpoint: string;
   /**
    * Repository name.
    */
   readonly repositoryName: string;
   /**
-   * Registry name.
+   * fully qualified reference of the artifact.
    */
-  readonly tagOrDigest: string;
-
-  /**
-   * fully qualified name of the artifact.
-   */
-  readonly fullyQualifiedName: string;
+  readonly fullyQualifiedReference: string;
   /**
    * Deletes this artifact.
    * @param options -
@@ -98,8 +111,8 @@ export interface RegistryArtifact {
    * Updates manifest artifact attributes.
    * @param options -
    */
-  setManifestProperties(
-    options?: SetManifestPropertiesOptions
+  updateManifestProperties(
+    options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
    * Retrieves properties of a tag.
@@ -112,22 +125,56 @@ export interface RegistryArtifact {
    * @param tag - name of the tag
    * @param options -
    */
-  setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+  updateTagProperties(
+    tag: string,
+    options: UpdateTagPropertiesOptions
+  ): Promise<ArtifactTagProperties>;
   /**
-   * Iterates tags.
+   * Returns an async iterable iterator to list tag properties.
    *
-   * Example usage:
-   * ```ts
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName);
    * const artifact = repository.getArtifact(digest)
-   * for await (const tag of artifact.listTags()) {
+   * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = artifact.listTagProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("tag properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = artifact.listTagProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const tagProperties of page.value) {
+   *      console.log(`  repository name: ${tagProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
    */
-  listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
+  listTagProperties(
+    options?: ListTagPropertiesOptions
+  ): PagedAsyncIterableIterator<ArtifactTagProperties>;
 }
 
 /**
@@ -139,40 +186,61 @@ export class RegistryArtifactImpl {
   /**
    * The Azure Container Registry endpoint.
    */
-  public readonly registryUrl: string;
+  public readonly registryEndpoint: string;
   /**
    * Repository name.
    */
   public readonly repositoryName: string;
+
   /**
-   * Registry name.
+   * Name of the form 'registry-login-server/repository-name\@digest' or
+   *   'registry-login-server/repository-name:tag'
    */
-  public readonly tagOrDigest: string;
+  public readonly fullyQualifiedReference: string;
 
-  public readonly fullyQualifiedName: string;
-
+  private digest?: string;
   /**
    * Creates an instance of a RegistryArtifact.
-   * @param registryUrl - the URL to the Container Registry endpoint
+   * @param registryEndpoint - the URL to the Container Registry endpoint
    * @param repositoryName - the name of the repository
    * @param tagOrDigest - the tag or digest of this artifact
    * @param client - the generated client that interacts with service
    */
   constructor(
-    registryUrl: string,
+    registryEndpoint: string,
     repositoryName: string,
-    tagOrDigest: string,
+    private tagOrDigest: string,
     client: GeneratedClient
   ) {
-    this.registryUrl = registryUrl;
+    this.registryEndpoint = registryEndpoint;
     this.repositoryName = repositoryName;
-    this.tagOrDigest = tagOrDigest;
-    const parsedUrl = new URL(registryUrl);
-    this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}${
-      isDigest(tagOrDigest) ? "@" : ":"
-    }${tagOrDigest}`;
+
+    const parsedUrl = new URL(registryEndpoint);
+    if (isDigest(tagOrDigest)) {
+      this.digest = tagOrDigest;
+      this.fullyQualifiedReference = `${parsedUrl.hostname}/${repositoryName}@${this.digest}`;
+    } else {
+      this.fullyQualifiedReference = `${parsedUrl.hostname}/${repositoryName}:${tagOrDigest}`;
+    }
 
     this.client = client;
+  }
+
+  /**
+   * digest of this artifact.
+   */
+  private async getDigest(): Promise<string> {
+    if (this.digest) {
+      return this.digest;
+    }
+
+    if (!isDigest(this.tagOrDigest)) {
+      this.digest = (await this.getTagProperties(this.tagOrDigest)).digest;
+    } else {
+      this.digest = this.tagOrDigest;
+    }
+
+    return this.digest;
   }
 
   /**
@@ -185,7 +253,7 @@ export class RegistryArtifactImpl {
     try {
       await this.client.containerRegistry.deleteManifest(
         this.repositoryName,
-        this.tagOrDigest,
+        await this.getDigest(),
         updatedOptions
       );
     } catch (e) {
@@ -202,6 +270,10 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<void> {
+    if (!tag) {
+      throw new Error("invalid tag");
+    }
+
     const { span, updatedOptions } = createSpan("RegistryArtifact-deleteTag", options);
 
     try {
@@ -223,32 +295,13 @@ export class RegistryArtifactImpl {
   ): Promise<ArtifactManifestProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-getManifestProperties", options);
 
-    let digest: string = this.tagOrDigest;
-    if (!isDigest(this.tagOrDigest)) {
-      digest = (await this.getTagProperties(this.tagOrDigest)).digest;
-    }
-
     try {
       const result = await this.client.containerRegistry.getManifestProperties(
         this.repositoryName,
-        digest,
+        await this.getDigest(),
         updatedOptions
       );
-      return {
-        repositoryName: result.repositoryName,
-        digest: result.digest,
-        size: result.size,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        architecture: result.architecture ?? undefined,
-        operatingSystem: result.operatingSystem ?? undefined,
-        manifests:
-          result.references?.map((r) => {
-            return { ...r, manifests: [], tags: [] };
-          }) ?? [],
-        tags: result.tags ?? [],
-        writeableProperties: result.writeableProperties
-      };
+      return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -261,10 +314,10 @@ export class RegistryArtifactImpl {
    * Updates manifest artifact attributes.
    * @param options -
    */
-  public async setManifestProperties(
-    options: SetManifestPropertiesOptions = {}
+  public async updateManifestProperties(
+    options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties> {
-    const { span, updatedOptions } = createSpan("RegistryArtifact-setManifestProperties", {
+    const { span, updatedOptions } = createSpan("RegistryArtifact-updateManifestProperties", {
       ...options,
       value: {
         canDelete: options.canDelete,
@@ -274,38 +327,13 @@ export class RegistryArtifactImpl {
       }
     });
 
-    let digest: string = this.tagOrDigest;
-    if (!isDigest(this.tagOrDigest)) {
-      digest = (await this.getTagProperties(this.tagOrDigest)).digest;
-    }
     try {
-      const t = await this.client.containerRegistry.updateManifestProperties(
+      const result = await this.client.containerRegistry.updateManifestProperties(
         this.repositoryName,
-        digest,
+        await this.getDigest(),
         updatedOptions
       );
-      return {
-        repositoryName: this.repositoryName,
-        digest: t.digest,
-        size: t.size,
-        createdOn: t.createdOn,
-        lastUpdatedOn: t.lastUpdatedOn,
-        architecture: t.architecture ?? undefined,
-        operatingSystem: t.operatingSystem ?? undefined,
-        manifests:
-          t.references?.map((r) => {
-            return { ...r, manifests: [], tags: [] };
-          }) ?? [],
-        tags: t.tags ?? [],
-        writeableProperties: t.writeableProperties
-          ? {
-              canDelete: t.writeableProperties.canDelete,
-              canList: t.writeableProperties.canList,
-              canRead: t.writeableProperties.canRead,
-              canWrite: t.writeableProperties.canWrite
-            }
-          : undefined
-      };
+      return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -323,14 +351,17 @@ export class RegistryArtifactImpl {
     tag: string,
     options: GetTagPropertiesOptions = {}
   ): Promise<ArtifactTagProperties> {
+    if (!tag) {
+      throw new Error("invalid tag");
+    }
+
     const { span, updatedOptions } = createSpan("RegistryArtifact-getTagProperties", options);
     try {
-      const result = await this.client.containerRegistry.getTagProperties(
+      return await this.client.containerRegistry.getTagProperties(
         this.repositoryName,
         tag,
         updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -344,11 +375,15 @@ export class RegistryArtifactImpl {
    * @param tag - name of the tag
    * @param options -
    */
-  public async setTagProperties(
+  public async updateTagProperties(
     tag: string,
-    options: SetTagPropertiesOptions
+    options: UpdateTagPropertiesOptions
   ): Promise<ArtifactTagProperties> {
-    const { span, updatedOptions } = createSpan("RegistryArtifact-setTagProperties", {
+    if (!tag) {
+      throw new Error("invalid tag");
+    }
+
+    const { span, updatedOptions } = createSpan("RegistryArtifact-updateTagProperties", {
       ...options,
       value: {
         canDelete: options.canDelete,
@@ -373,22 +408,51 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Iterates tags.
+   * Returns an async iterable iterator to list tag properties.
    *
-   * Example usage:
-   * ```ts
+   * Example using `for-await-of` syntax:
+   *
+   * ```javascript
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName);
    * const artifact = repository.getArtifact(digest)
-   * for await (const tag of artifact.listTags()) {
+   * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```javascript
+   * const iter = artifact.listTagProperties();
+   * let item = await iter.next();
+   * while (!item.done) {
+   *   console.log("tag properties: ", item.value);
+   *   item = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```javascript
+   * const pages = artifact.listTagProperties().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const tagProperties of page.value) {
+   *      console.log(`  repository name: ${tagProperties}`);
+   *    }
+   *  }
+   *  page = await pages.next();
    * }
    * ```
    * @param options -
    */
-  public listTags(
-    options: ListTagsOptions = {}
-  ): PagedAsyncIterableIterator<ArtifactTagProperties> {
+  public listTagProperties(
+    options: ListTagPropertiesOptions = {}
+  ): PagedAsyncIterableIterator<ArtifactTagProperties, TagPageResponse> {
     const iter = this.listTagsItems(options);
 
     return {
@@ -403,7 +467,7 @@ export class RegistryArtifactImpl {
   }
 
   private async *listTagsItems(
-    options: ListTagsOptions = {}
+    options: ListTagPropertiesOptions = {}
   ): AsyncIterableIterator<ArtifactTagProperties> {
     for await (const page of this.listTagsPage({}, options)) {
       yield* page;
@@ -412,8 +476,8 @@ export class RegistryArtifactImpl {
 
   private async *listTagsPage(
     continuationState: PageSettings,
-    options: ListTagsOptions = {}
-  ): AsyncIterableIterator<ArtifactTagProperties[]> {
+    options: ListTagPropertiesOptions = {}
+  ): AsyncIterableIterator<TagPageResponse> {
     const orderby = toServiceTagOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
@@ -427,11 +491,16 @@ export class RegistryArtifactImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {
-        yield currentPage.tagAttributeBases.map((t) => {
+        const array = currentPage.tagAttributeBases.map((t) => {
           return {
-            ...t,
-            repository: currentPage.repository
+            registryLoginServer: currentPage.registryLoginServer,
+            repositoryName: currentPage.repository,
+            ...t
           };
+        });
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
         });
       }
     }
@@ -443,11 +512,16 @@ export class RegistryArtifactImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {
-        yield currentPage.tagAttributeBases.map((t) => {
+        const array = currentPage.tagAttributeBases.map((t) => {
           return {
-            ...t,
-            repository: currentPage.repository
+            registryLoginServer: currentPage.registryLoginServer,
+            repositoryName: currentPage.repository,
+            ...t
           };
+        });
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
         });
       }
     }

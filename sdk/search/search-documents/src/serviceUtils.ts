@@ -19,6 +19,8 @@ import {
   DataChangeDetectionPolicyUnion,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   DataDeletionDetectionPolicyUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
   LexicalAnalyzerName,
@@ -39,6 +41,10 @@ import {
   DocumentExtractionSkill,
   CustomEntityLookupSkill,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
   LuceneStandardAnalyzer,
@@ -46,7 +52,8 @@ import {
   PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
   PatternTokenizer,
-  LexicalNormalizerName
+  LexicalNormalizerName,
+  SearchIndexerDataIdentityUnion
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -70,13 +77,16 @@ import {
   SimilarityAlgorithm,
   SearchResourceEncryptionKey,
   PatternAnalyzer,
-  LexicalNormalizer
+  LexicalNormalizer,
+  SearchIndexerDataIdentity
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
   SearchResult as GeneratedSearchResult
 } from "./generated/data/models";
+
+export const DEFAULT_SEARCH_SCOPE = "https://search.azure.com/.default";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -115,6 +125,18 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
+        break;
+      case "#Microsoft.Skills.Text.PIIDetectionSkill":
+        result.push(skill as PIIDetectionSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
+        result.push(skill as EntityRecognitionSkillV3);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityLinkingSkill":
+        result.push(skill as EntityLinkingSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.SentimentSkill":
+        result.push(skill as SentimentSkillV3);
         break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
@@ -392,7 +414,8 @@ export function convertEncryptionKeyToPublic(
   const result: SearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUrl: encryptionKey.vaultUri
+    vaultUrl: encryptionKey.vaultUri,
+    identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity)
   };
 
   if (encryptionKey.accessCredentials) {
@@ -413,7 +436,8 @@ export function convertEncryptionKeyToGenerated(
   const result: GeneratedSearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUri: encryptionKey.vaultUrl
+    vaultUri: encryptionKey.vaultUrl,
+    identity: encryptionKey.identity
   };
 
   if (encryptionKey.applicationId) {
@@ -600,6 +624,7 @@ export function publicDataSourceToGeneratedDataSource(
       connectionString: dataSource.connectionString
     },
     container: dataSource.container,
+    identity: dataSource.identity,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -616,6 +641,7 @@ export function generatedDataSourceToPublicDataSource(
     type: dataSource.type,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
+    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
@@ -625,6 +651,22 @@ export function generatedDataSourceToPublicDataSource(
     ),
     encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey)
   };
+}
+
+export function convertSearchIndexerDataIdentityToPublic(
+  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion | null
+): SearchIndexerDataIdentity | undefined | null {
+  if (!searchIndexerDataIdentity) {
+    return searchIndexerDataIdentity;
+  }
+
+  if (
+    searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
+  ) {
+    return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
+  } else {
+    return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
+  }
 }
 
 export function convertDataChangeDetectionPolicyToPublic(

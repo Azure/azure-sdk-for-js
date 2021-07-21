@@ -18,7 +18,11 @@ import {
   KeyRestoreParameters as KeyRestoreParametersMapper,
   KeyOperationsParameters as KeyOperationsParametersMapper,
   KeySignParameters as KeySignParametersMapper,
-  KeyVerifyParameters as KeyVerifyParametersMapper
+  KeyVerifyParameters as KeyVerifyParametersMapper,
+  KeyExportParameters as KeyExportParametersMapper,
+  KeyReleaseParameters as KeyReleaseParametersMapper,
+  KeyRotationPolicy as KeyRotationPolicyMapper,
+  GetRandomBytesRequest as GetRandomBytesRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -80,6 +84,11 @@ export const curve: OperationParameter = {
   mapper: KeyCreateParametersMapper
 };
 
+export const releasePolicy: OperationParameter = {
+  parameterPath: ["options", "releasePolicy"],
+  mapper: KeyCreateParametersMapper
+};
+
 export const vaultBaseUrl: OperationURLParameter = {
   parameterPath: "vaultBaseUrl",
   mapper: {
@@ -137,6 +146,11 @@ export const tags1: OperationParameter = {
   mapper: KeyImportParametersMapper
 };
 
+export const releasePolicy1: OperationParameter = {
+  parameterPath: ["options", "releasePolicy"],
+  mapper: KeyImportParametersMapper
+};
+
 export const keyName1: OperationURLParameter = {
   parameterPath: "keyName",
   mapper: {
@@ -160,6 +174,11 @@ export const keyAttributes2: OperationParameter = {
 
 export const tags2: OperationParameter = {
   parameterPath: ["options", "tags"],
+  mapper: KeyUpdateParametersMapper
+};
+
+export const releasePolicy2: OperationParameter = {
+  parameterPath: ["options", "releasePolicy"],
   mapper: KeyUpdateParametersMapper
 };
 
@@ -241,6 +260,46 @@ export const digest: OperationParameter = {
 export const signature: OperationParameter = {
   parameterPath: "signature",
   mapper: KeyVerifyParametersMapper
+};
+
+export const wrappingKey: OperationParameter = {
+  parameterPath: ["options", "wrappingKey"],
+  mapper: KeyExportParametersMapper
+};
+
+export const wrappingKid: OperationParameter = {
+  parameterPath: ["options", "wrappingKid"],
+  mapper: KeyExportParametersMapper
+};
+
+export const enc: OperationParameter = {
+  parameterPath: ["options", "enc"],
+  mapper: KeyExportParametersMapper
+};
+
+export const target: OperationParameter = {
+  parameterPath: "target",
+  mapper: KeyReleaseParametersMapper
+};
+
+export const nonce: OperationParameter = {
+  parameterPath: ["options", "nonce"],
+  mapper: KeyReleaseParametersMapper
+};
+
+export const enc1: OperationParameter = {
+  parameterPath: ["options", "enc"],
+  mapper: KeyReleaseParametersMapper
+};
+
+export const keyRotationPolicy: OperationParameter = {
+  parameterPath: "keyRotationPolicy",
+  mapper: KeyRotationPolicyMapper
+};
+
+export const count: OperationParameter = {
+  parameterPath: "count",
+  mapper: GetRandomBytesRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

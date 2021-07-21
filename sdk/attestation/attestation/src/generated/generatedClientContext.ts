@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreAuth from "@azure/core-auth";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/attestation";
-const packageVersion = "1.0.0";
-
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends coreClient.ServiceClient {
   instanceUrl: string;
   apiVersion: string;
 
@@ -23,7 +21,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     instanceUrl: string,
     options?: GeneratedClientOptionalParams
   ) {
@@ -38,22 +36,29 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-attestation/1.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
     if (!options.credentialScopes) {
       options.credentialScopes = ["https://attest.azure.net/.default"];
     }
-
-    super(credentials, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{instanceUrl}";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{instanceUrl}"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.instanceUrl = instanceUrl;
 

@@ -19,9 +19,9 @@ export interface AnalysisPollOperationState<TResult> extends PollOperationState<
 
 // @public
 export interface AnalyzeActionsOperationMetadata extends OperationMetadata {
-    actionsFailedCount?: number;
-    actionsInProgressCount?: number;
-    actionsSucceededCount?: number;
+    actionsFailedCount: number;
+    actionsInProgressCount: number;
+    actionsSucceededCount: number;
     displayName?: string;
 }
 
@@ -65,12 +65,11 @@ export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationSt
 }
 
 // @public
-export type AnalyzeSentimentAction = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface AnalyzeSentimentAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     includeOpinionMining?: boolean;
-};
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type AnalyzeSentimentActionErrorResult = TextAnalyticsActionErrorResult;
@@ -209,12 +208,11 @@ export interface EntityDataSource {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "NotFound";
+export type ErrorCodeValue = string;
 
 // @public
-export interface ExtractKeyPhrasesAction {
+export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-    modelVersion?: string;
 }
 
 // @public
@@ -252,9 +250,13 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 // @public
 export interface HealthcareEntity extends Entity {
     assertion?: EntityAssertion;
+    category: HealthcareEntityCategory;
     dataSources: EntityDataSource[];
     normalizedText?: string;
 }
+
+// @public
+export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
@@ -276,6 +278,62 @@ export type HealthcareEntityRelationType = string;
 
 // @public
 export type InnerErrorCodeValue = string;
+
+// @public
+export const enum KnownHealthcareEntityCategory {
+    // (undocumented)
+    AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+    // (undocumented)
+    AGE = "AGE",
+    // (undocumented)
+    BodyStructure = "BODY_STRUCTURE",
+    // (undocumented)
+    CareEnvironment = "CARE_ENVIRONMENT",
+    // (undocumented)
+    ConditionQualifier = "CONDITION_QUALIFIER",
+    // (undocumented)
+    Date = "DATE",
+    // (undocumented)
+    Diagnosis = "DIAGNOSIS",
+    // (undocumented)
+    Direction = "DIRECTION",
+    // (undocumented)
+    Dosage = "DOSAGE",
+    // (undocumented)
+    ExaminationName = "EXAMINATION_NAME",
+    // (undocumented)
+    FamilyRelation = "FAMILY_RELATION",
+    // (undocumented)
+    Frequency = "FREQUENCY",
+    // (undocumented)
+    Gender = "GENDER",
+    // (undocumented)
+    GeneORProtein = "GENE_OR_PROTEIN",
+    // (undocumented)
+    HealthcareProfession = "HEALTHCARE_PROFESSION",
+    // (undocumented)
+    MeasurementUnit = "MEASUREMENT_UNIT",
+    // (undocumented)
+    MeasurementValue = "MEASUREMENT_VALUE",
+    // (undocumented)
+    MedicationClass = "MEDICATION_CLASS",
+    // (undocumented)
+    MedicationForm = "MEDICATION_FORM",
+    // (undocumented)
+    MedicationName = "MEDICATION_NAME",
+    // (undocumented)
+    MedicationRoute = "MEDICATION_ROUTE",
+    // (undocumented)
+    RelationalOperator = "RELATIONAL_OPERATOR",
+    // (undocumented)
+    SymptomORSign = "SYMPTOM_OR_SIGN",
+    // (undocumented)
+    Time = "TIME",
+    // (undocumented)
+    TreatmentName = "TREATMENT_NAME",
+    // (undocumented)
+    Variant = "VARIANT"
+}
 
 // @public
 export const enum KnownInnerErrorCodeValue {
@@ -328,11 +386,11 @@ export interface Match {
 
 // @public
 export interface OperationMetadata {
-    createdOn?: Date;
+    createdOn: Date;
     expiresOn?: Date;
-    lastModifiedOn?: Date;
-    operationId?: string;
-    status?: TextAnalyticsOperationStatus;
+    lastModifiedOn: Date;
+    operationId: string;
+    status: TextAnalyticsOperationStatus;
 }
 
 // @public
@@ -365,16 +423,15 @@ export interface PiiEntity extends Entity {
 export type PiiEntityCategory = string;
 
 // @public
-export enum PiiEntityDomainType {
+export enum PiiEntityDomain {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
 // @public
-export type RecognizeCategorizedEntitiesAction = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-};
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
@@ -410,11 +467,10 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 }
 
 // @public
-export type RecognizeLinkedEntitiesAction = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-};
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizeLinkedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
@@ -450,12 +506,12 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export type RecognizePiiEntitiesAction = {
-    domain?: PiiEntityDomainType;
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
+    categoriesFilter?: PiiEntityCategory[];
     disableServiceLogs?: boolean;
-};
+    domainFilter?: PiiEntityDomain;
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizePiiEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
@@ -474,7 +530,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
-    domainFilter?: PiiEntityDomainType;
+    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
 }
 
@@ -544,6 +600,12 @@ export interface TargetSentiment {
     offset: number;
     sentiment: TokenSentimentValue;
     text: string;
+}
+
+// @public
+export interface TextAnalyticsAction {
+    actionName?: string;
+    modelVersion?: string;
 }
 
 // @public
@@ -618,7 +680,7 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 }
 
 // @public
-export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted";
+export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling";
 
 // @public
 export interface TextAnalyticsSuccessResult {

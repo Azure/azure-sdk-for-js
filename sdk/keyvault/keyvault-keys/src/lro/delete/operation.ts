@@ -7,7 +7,12 @@ import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
-import { withTrace } from "./poller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Keys.DeleteKeyPoller");
 
 /**
  * An interface representing the state of a delete key's poll operation

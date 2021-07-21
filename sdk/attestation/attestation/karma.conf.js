@@ -57,15 +57,18 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "AAD_ATTESTATION_URL",
-      "ISOLATED_ATTESTATION_URL",
+      "ATTESTATION_AAD_URL",
+      "ATTESTATION_ISOLATED_URL",
+      "ATTESTATION_LOCATION_SHORT_NAME",
       "policySigningCertificate0",
       "policySigningCertificate1",
       "policySigningCertificate2",
       "isolatedSigningCertificate",
+      "ATTESTATION_ISOLATED_SIGNING_CERTIFICATE",
+      "ATTESTATION_ISOLATED_SIGNING_KEY",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use

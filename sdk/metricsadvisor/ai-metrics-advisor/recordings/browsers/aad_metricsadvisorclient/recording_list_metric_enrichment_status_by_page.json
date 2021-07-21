@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 27 Apr 2021 03:45:01 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:48 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.16 - SCUS ProdSlices",
-    "x-ms-request-id": "6b2b2cc7-6874-43ee-914b-c82b8571f200"
+    "x-ms-ests-server": "2.1.11722.26 - EUS ProdSlices",
+    "x-ms-request-id": "fc0ea750-0e69-404f-aff4-9697ec4ab500"
    }
   },
   {
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-01-01T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2021-04-07T22:33:32.366Z\\\",\\\"CreateTime\\\":\\\"2021-04-07T22:33:32.366Z\\\"}\"},{\"timestamp\":\"2020-01-02T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2021-04-07T22:33:32.372Z\\\",\\\"CreateTime\\\":\\\"2021-04-07T22:33:32.372Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "112cdf42-c426-4547-b4b6-86c3f14c2f93",
+    "apim-request-id": "36293e1f-e17e-4fc9-81dc-32cc09142838",
     "content-length": "533",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 27 Apr 2021 03:45:06 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5350",
-    "x-request-id": "112cdf42-c426-4547-b4b6-86c3f14c2f93"
+    "x-envoy-upstream-service-time": "5232",
+    "x-request-id": "36293e1f-e17e-4fc9-81dc-32cc09142838"
    }
   },
   {
@@ -55,14 +55,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-01-03T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2021-04-07T22:33:32.372Z\\\",\\\"CreateTime\\\":\\\"2021-04-07T22:33:32.372Z\\\"}\"},{\"timestamp\":\"2020-01-04T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2021-04-07T22:33:32.372Z\\\",\\\"CreateTime\\\":\\\"2021-04-07T22:33:32.372Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "4de300c4-e855-486a-8e35-5728c4120d9d",
+    "apim-request-id": "2bbb9b42-7e54-4096-ac57-ba6e4d9cc197",
     "content-length": "533",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 27 Apr 2021 03:45:12 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5284",
-    "x-request-id": "4de300c4-e855-486a-8e35-5728c4120d9d"
+    "x-envoy-upstream-service-time": "168",
+    "x-request-id": "2bbb9b42-7e54-4096-ac57-ba6e4d9cc197"
    }
   }
  ],

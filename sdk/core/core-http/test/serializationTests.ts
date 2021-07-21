@@ -1150,6 +1150,50 @@ describe("msrest", function() {
       done();
     });
 
+    it("should correctly deserialize a pageable type with nextLink first in mapper", function(done) {
+      const client = new TestClient("http://localhost:9090");
+      const mapper = Mappers.ProductListResultNextLinkFirst;
+      const responseBody = {
+        value: [
+          {
+            id: 101,
+            name: "TestProduct",
+            properties: {
+              provisioningState: "Succeeded"
+            }
+          },
+          {
+            id: 104,
+            name: "TestProduct1",
+            properties: {
+              provisioningState: "Failed"
+            }
+          }
+        ],
+        nextLink: "https://helloworld.com"
+      };
+      const deserializedProduct = client.serializer.deserialize(
+        mapper,
+        responseBody,
+        "responseBody"
+      );
+      Array.isArray(deserializedProduct).should.be.true;
+      deserializedProduct.length.should.equal(2);
+      deserializedProduct.nextLink.should.equal("https://helloworld.com");
+      for (let i = 0; i < deserializedProduct.length; i++) {
+        if (i === 0) {
+          deserializedProduct[i].id.should.equal(101);
+          deserializedProduct[i].name.should.equal("TestProduct");
+          deserializedProduct[i].provisioningState.should.equal("Succeeded");
+        } else if (i === 1) {
+          deserializedProduct[i].id.should.equal(104);
+          deserializedProduct[i].name.should.equal("TestProduct1");
+          deserializedProduct[i].provisioningState.should.equal("Failed");
+        }
+      }
+      done();
+    });
+
     it("should correctly deserialize object version of polymorphic discriminator", function(done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Fish;

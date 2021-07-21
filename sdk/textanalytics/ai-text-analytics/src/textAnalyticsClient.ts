@@ -50,9 +50,10 @@ import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
-  AddParamsToTask,
+  addParamsToTask,
   compose,
   handleInvalidDocumentBatch,
+  setCategoriesFilter,
   setOpinionMining,
   setStrEncodingParam,
   setStrEncodingParamValue,
@@ -74,6 +75,7 @@ import {
   AnalyzeActionsOperationState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -146,7 +148,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
 /**
  * The types of PII domains the user can choose from.
  */
-export enum PiiEntityDomainType {
+export enum PiiEntityDomain {
   /**
    * @see {@link https://aka.ms/tanerpii} for more information.
    */
@@ -162,7 +164,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domainFilter?: PiiEntityDomainType;
+  domainFilter?: PiiEntityDomain;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -170,7 +172,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    */
   stringIndexType?: StringIndexType;
   /**
-   * Specifies the list of Pii categories to return.
+   * Filters entities to ones only included in the specified array of categories
    */
   categoriesFilter?: PiiCategory[];
 }
@@ -195,12 +197,7 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
 /**
  * Options for an entities recognition action.
  */
-export type RecognizeCategorizedEntitiesAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -213,23 +210,22 @@ export type RecognizeCategorizedEntitiesAction = {
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for a Pii entities recognition action.
  */
-export type RecognizePiiEntitiesAction = {
+export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiEntityDomainType;
+  domainFilter?: PiiEntityDomain;
   /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
+   * Filters entities to ones only included in the specified array of categories
    */
-  modelVersion?: string;
+  categoriesFilter?: PiiCategory[];
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -242,17 +238,12 @@ export type RecognizePiiEntitiesAction = {
    * enables input logging.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for a key phrases recognition action.
  */
-export interface ExtractKeyPhrasesAction {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
   /**
    * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
    * will not log your input text for pii entities recognition. Setting this parameter to false,
@@ -264,12 +255,7 @@ export interface ExtractKeyPhrasesAction {
 /**
  * Options for an entities linking action.
  */
-export type RecognizeLinkedEntitiesAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -282,17 +268,12 @@ export type RecognizeLinkedEntitiesAction = {
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for an analyze sentiment action.
  */
-export type AnalyzeSentimentAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface AnalyzeSentimentAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -314,30 +295,30 @@ export type AnalyzeSentimentAction = {
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
-};
+}
 
 /**
- * Description of collection of actions for the analyze API to perform on input documents
+ * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
  */
 export interface TextAnalyticsActions {
   /**
-   * A collection of descriptions of entities recognition actions.
+   * A collection of descriptions of entities recognition actions. However, currently, the service can accept up to one action only for `recognizeEntities`.
    */
   recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
   /**
-   * A collection of descriptions of Pii entities recognition actions.
+   * A collection of descriptions of Pii entities recognition actions. However, currently, the service can accept up to one action only for `recognizePiiEntities`.
    */
   recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
   /**
-   * A collection of descriptions of key phrases recognition actions.
+   * A collection of descriptions of key phrases recognition actions. However, currently, the service can accept up to one action only for `extractKeyPhrases`.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
   /**
-   * A collection of descriptions of entities linking actions.
+   * A collection of descriptions of entities linking actions. However, currently, the service can accept up to one action only for `recognizeLinkedEntities`.
    */
   recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
   /**
-   * A collection of descriptions of sentiment analysis actions.
+   * A collection of descriptions of sentiment analysis actions. However, currently, the service can accept up to one action only for `analyzeSentiment`.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
 }
@@ -1014,6 +995,7 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeActionsOptions) || {};
     }
+    validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
     const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
     const poller = new BeginAnalyzeActionsPoller({
@@ -1030,23 +1012,38 @@ export class TextAnalyticsClient {
   }
 }
 
+function validateActions(actions: TextAnalyticsActions): void {
+  function validateActionType(actionList: unknown[] | undefined, actionType: string): void {
+    if ((actionList?.length ?? 0) > 1) {
+      throw new Error(
+        `beginAnalyzeActions: Currently, the service can accept up to one action only for ${actionType} actions.`
+      );
+    }
+  }
+  validateActionType(actions.analyzeSentimentActions, `analyzeSentiment`);
+  validateActionType(actions.extractKeyPhrasesActions, `extractKeyPhrases`);
+  validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
+  validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
+  validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
+}
+
 /**
  * @internal
  */
 function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask))
     ),
     entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask)
     ),
-    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask),
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(addParamsToTask),
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask)
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
-      compose(setStrEncodingParam, compose(setOpinionMining, AddParamsToTask))
+      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
     )
   };
 }

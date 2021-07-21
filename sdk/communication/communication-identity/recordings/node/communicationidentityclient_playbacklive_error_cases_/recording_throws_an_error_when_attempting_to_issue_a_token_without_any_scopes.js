@@ -15,19 +15,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'Gh7Rkd3o/kqpY1vUV3KVxg.0',
+  'VHJ+ypufOUeoQhtJ+Xbm0Q.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '11ms',
+  '87ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '07Dh+YAAAAAB1iEDobMZtQaj/c7uWSY88WVZSMzBFREdFMDMxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0HK62YAAAAADUtiAdbYDDTrclhheKKDU/WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:04 GMT'
+  'Tue, 01 Jun 2021 22:00:59 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -41,17 +43,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'rfs7xCla+0ui55yHenvC6w.0',
+  'IvnoNqxeQ0SC3bzTmavmoQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '13ms',
+  '18ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '07Dh+YAAAAACG6Iw4xe3kRKR+9HuxgcUDWVZSMzBFREdFMDMxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0HK62YAAAAABbuB7xYK7NTqGzifYzdjndWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:04 GMT'
+  'Tue, 01 Jun 2021 22:00:59 GMT'
 ]);

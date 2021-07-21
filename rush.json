@@ -1,8 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */
-{
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -186,16 +185,16 @@
      * The URL of this Git repository, used by "rush change" to determine the base branch for your PR.
      *
      * The "rush change" command needs to determine which files are affected by your PR diff.
-     * If you merged or cherry-picked commits from the master branch into your PR branch, those commits
+     * If you merged or cherry-picked commits from the main branch into your PR branch, those commits
      * should be excluded from this diff (since they belong to some other PR).  In order to do that,
      * Rush needs to know where to find the base branch for your PR.  This information cannot be
      * determined from Git alone, since the "pull request" feature is not a Git concept.  Ideally
      * Rush would use a vendor-specific protocol to query the information from GitHub, Azure DevOps, etc.
-     * But to keep things simple, "rush change" simply assumes that your PR is against the "master" branch
+     * But to keep things simple, "rush change" simply assumes that your PR is against the "main" branch
      * of the Git remote indicated by the respository.url setting in rush.json.  If you are working in
      * a GitHub "fork" of the real repo, this setting will be different from the repository URL of your
      * your PR branch, and in this situation "rush change" will also automatically invoke "git fetch"
-     * to retrieve the latest activity for the remote master branch.
+     * to retrieve the latest activity for the remote main branch.
      */
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
@@ -333,6 +332,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/agrifood-farming",
+      "projectFolder": "sdk/agrifood/agrifood-farming-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-catalog",
       "projectFolder": "sdk/purview/purview-catalog-rest"
     },
@@ -428,7 +432,12 @@
     },
     {
       "packageName": "@azure-rest/core-client",
-      "projectFolder": "sdk/core-rest/core-client",
+      "projectFolder": "sdk/core/core-client-rest",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client-paging",
+      "projectFolder": "sdk/core/core-client-paging-rest",
       "versionPolicyName": "core"
     },
     {
@@ -497,6 +506,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
@@ -534,6 +548,16 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-vscode",
+      "projectFolder": "sdk/identity/identity-vscode",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-cache-persistence",
+      "projectFolder": "sdk/identity/identity-cache-persistence",
       "versionPolicyName": "client"
     },
     {
@@ -676,7 +700,7 @@
       "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
-    {      
+    {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository"
     },
@@ -731,8 +755,8 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixedreality-authentication",
-      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "packageName": "@azure/mixed-reality-authentication",
+      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
       "versionPolicyName": "client"
     },
     {
@@ -764,6 +788,61 @@
       "packageName": "@azure-tests/perf-core-rest-pipeline",
       "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-app-configuration",
+      "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixed-reality-remote-rendering",
+      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-network",
+      "projectFolder": "sdk/network/arm-network",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-compute",
+      "projectFolder": "sdk/compute/arm-compute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storage",
+      "projectFolder": "sdk/storage/arm-storage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources",
+      "projectFolder": "sdk/resources/arm-resources",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-links",
+      "projectFolder": "sdk/links/arm-links",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policy",
+      "projectFolder": "sdk/policy/arm-policy",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-locks",
+      "projectFolder": "sdk/locks/arm-locks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-features",
+      "projectFolder": "sdk/features/arm-features",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managedapplications",
+      "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
     }
   ]
 }

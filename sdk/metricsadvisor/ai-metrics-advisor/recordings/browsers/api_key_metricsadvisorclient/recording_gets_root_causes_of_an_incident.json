@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Electronics (Consumer)\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.34265262137636504,\"description\":\"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "f01df321-a549-4a9c-9e50-6cd714cbfc34",
+    "apim-request-id": "63039c90-2b55-404c-9b4e-23828364ca46",
     "content-length": "259",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:41:00 GMT",
+    "date": "Wed, 02 Jun 2021 07:09:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "383",
-    "x-request-id": "f01df321-a549-4a9c-9e50-6cd714cbfc34"
+    "x-envoy-upstream-service-time": "261",
+    "x-request-id": "63039c90-2b55-404c-9b4e-23828364ca46"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9a71eee78338ceb6a13417ac15be758e"
+ "hash": "6c672b7710aa631741a79d28da4fda2d"
 }

@@ -141,13 +141,13 @@ export { BaseRequestPolicy }
 // @public (undocumented)
 export interface BlobHierarchyListSegment {
     // (undocumented)
-    blobItems: BlobItemInternal[];
+    blobItems: BlobItemModel[];
     // (undocumented)
     blobPrefixes?: BlobPrefix[];
 }
 
 // @public
-export interface BlobItemInternal {
+export interface BlobItemModel {
     // (undocumented)
     deleted: boolean;
     // (undocumented)
@@ -156,7 +156,7 @@ export interface BlobItemInternal {
     isCurrentVersion?: boolean;
     // (undocumented)
     name: string;
-    properties: BlobPropertiesInternal;
+    properties: BlobPropertiesModel;
     // (undocumented)
     snapshot: string;
     // (undocumented)
@@ -170,7 +170,7 @@ export interface BlobPrefix {
 }
 
 // @public
-export interface BlobPropertiesInternal {
+export interface BlobPropertiesModel {
     // (undocumented)
     accessTierChangeTime?: Date;
     // (undocumented)
@@ -207,8 +207,6 @@ export interface BlobPropertiesInternal {
     // (undocumented)
     deletedTime?: Date;
     // (undocumented)
-    deleteTime?: Date;
-    // (undocumented)
     destinationSnapshot?: string;
     encryptionScope?: string;
     // (undocumented)
@@ -218,13 +216,13 @@ export interface BlobPropertiesInternal {
     // (undocumented)
     incrementalCopy?: boolean;
     // (undocumented)
-    isSealed?: boolean;
-    // (undocumented)
     lastAccessedOn?: Date;
     // (undocumented)
     lastModified: Date;
     // (undocumented)
     remainingRetentionDays?: number;
+    // (undocumented)
+    sealed?: boolean;
     // (undocumented)
     serverEncrypted?: boolean;
     // (undocumented)
@@ -603,10 +601,15 @@ export interface FileQueryJsonTextConfiguration {
 export interface FileQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: DataLakeRequestConditions;
-    inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+    inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryParquetConfiguration;
     onError?: (error: FileQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
     outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
+}
+
+// @public
+export interface FileQueryParquetConfiguration {
+    kind: "parquet";
 }
 
 // @public (undocumented)

@@ -16,8 +16,8 @@ import {
   TransactionAction,
   TableTransactionResponse
 } from "../models";
-import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
+import { NamedKeyCredential } from "@azure/core-auth";
 import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
@@ -57,7 +57,7 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>>
 export interface ClientParamsFromConnectionString {
   url: string;
   options?: TableServiceClientOptions;
-  credential?: TablesSharedKeyCredential;
+  credential?: NamedKeyCredential;
 }
 
 /**
@@ -92,6 +92,10 @@ export interface InternalTransactionClientOptions extends TableServiceClientOpti
  * Describes the shape of a TableClient
  */
 export interface TableClientLike {
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   */
+  pipeline: Pipeline;
   /**
    * Name of the table to perform operations on.
    */

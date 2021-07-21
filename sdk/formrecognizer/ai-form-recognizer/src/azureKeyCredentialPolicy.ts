@@ -17,6 +17,8 @@ const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 /**
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for Azure Form Recognizer
+ *
+ * @internal
  */
 export function createFormRecognizerAzureKeyCredentialPolicy(
   credential: KeyCredential

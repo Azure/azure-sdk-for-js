@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CompositeMapper } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 
-export const EventGridEvent: CompositeMapper = {
+export const EventGridEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventGridEvent",
@@ -72,7 +72,7 @@ export const EventGridEvent: CompositeMapper = {
   }
 };
 
-export const CloudEvent: CompositeMapper = {
+export const CloudEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudEvent",
@@ -146,7 +146,7 @@ export const CloudEvent: CompositeMapper = {
   }
 };
 
-export const StorageBlobCreatedEventData: CompositeMapper = {
+export const StorageBlobCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobCreatedEventData",
@@ -239,7 +239,7 @@ export const StorageBlobCreatedEventData: CompositeMapper = {
   }
 };
 
-export const StorageBlobDeletedEventData: CompositeMapper = {
+export const StorageBlobDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobDeletedEventData",
@@ -311,7 +311,7 @@ export const StorageBlobDeletedEventData: CompositeMapper = {
   }
 };
 
-export const StorageDirectoryCreatedEventData: CompositeMapper = {
+export const StorageDirectoryCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageDirectoryCreatedEventData",
@@ -376,7 +376,7 @@ export const StorageDirectoryCreatedEventData: CompositeMapper = {
   }
 };
 
-export const StorageDirectoryDeletedEventData: CompositeMapper = {
+export const StorageDirectoryDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageDirectoryDeletedEventData",
@@ -441,7 +441,7 @@ export const StorageDirectoryDeletedEventData: CompositeMapper = {
   }
 };
 
-export const StorageBlobRenamedEventData: CompositeMapper = {
+export const StorageBlobRenamedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobRenamedEventData",
@@ -506,7 +506,7 @@ export const StorageBlobRenamedEventData: CompositeMapper = {
   }
 };
 
-export const StorageDirectoryRenamedEventData: CompositeMapper = {
+export const StorageDirectoryRenamedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageDirectoryRenamedEventData",
@@ -571,7 +571,7 @@ export const StorageDirectoryRenamedEventData: CompositeMapper = {
   }
 };
 
-export const StorageLifecyclePolicyCompletedEventData: CompositeMapper = {
+export const StorageLifecyclePolicyCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageLifecyclePolicyCompletedEventData",
@@ -608,7 +608,7 @@ export const StorageLifecyclePolicyCompletedEventData: CompositeMapper = {
   }
 };
 
-export const StorageLifecyclePolicyActionSummaryDetail: CompositeMapper = {
+export const StorageLifecyclePolicyActionSummaryDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageLifecyclePolicyActionSummaryDetail",
@@ -638,7 +638,7 @@ export const StorageLifecyclePolicyActionSummaryDetail: CompositeMapper = {
   }
 };
 
-export const StorageBlobTierChangedEventData: CompositeMapper = {
+export const StorageBlobTierChangedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobTierChangedEventData",
@@ -717,7 +717,7 @@ export const StorageBlobTierChangedEventData: CompositeMapper = {
   }
 };
 
-export const StorageAsyncOperationInitiatedEventData: CompositeMapper = {
+export const StorageAsyncOperationInitiatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageAsyncOperationInitiatedEventData",
@@ -796,7 +796,65 @@ export const StorageAsyncOperationInitiatedEventData: CompositeMapper = {
   }
 };
 
-export const EventHubCaptureFileCreatedEventData: CompositeMapper = {
+export const StorageBlobInventoryPolicyCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlobInventoryPolicyCompletedEventData",
+    modelProperties: {
+      scheduleDateTime: {
+        serializedName: "scheduleDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        serializedName: "accountName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      ruleName: {
+        serializedName: "ruleName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatus: {
+        serializedName: "policyRunStatus",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatusMessage: {
+        serializedName: "policyRunStatusMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunId: {
+        serializedName: "policyRunId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      manifestBlobUrl: {
+        serializedName: "manifestBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventHubCaptureFileCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubCaptureFileCreatedEventData",
@@ -868,7 +926,7 @@ export const EventHubCaptureFileCreatedEventData: CompositeMapper = {
   }
 };
 
-export const ResourceWriteSuccessEventData: CompositeMapper = {
+export const ResourceWriteSuccessEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceWriteSuccessEventData",
@@ -954,7 +1012,7 @@ export const ResourceWriteSuccessEventData: CompositeMapper = {
   }
 };
 
-export const ResourceWriteFailureEventData: CompositeMapper = {
+export const ResourceWriteFailureEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceWriteFailureEventData",
@@ -1040,7 +1098,7 @@ export const ResourceWriteFailureEventData: CompositeMapper = {
   }
 };
 
-export const ResourceWriteCancelEventData: CompositeMapper = {
+export const ResourceWriteCancelEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceWriteCancelEventData",
@@ -1126,7 +1184,7 @@ export const ResourceWriteCancelEventData: CompositeMapper = {
   }
 };
 
-export const ResourceDeleteSuccessEventData: CompositeMapper = {
+export const ResourceDeleteSuccessEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceDeleteSuccessEventData",
@@ -1212,7 +1270,7 @@ export const ResourceDeleteSuccessEventData: CompositeMapper = {
   }
 };
 
-export const ResourceDeleteFailureEventData: CompositeMapper = {
+export const ResourceDeleteFailureEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceDeleteFailureEventData",
@@ -1298,7 +1356,7 @@ export const ResourceDeleteFailureEventData: CompositeMapper = {
   }
 };
 
-export const ResourceDeleteCancelEventData: CompositeMapper = {
+export const ResourceDeleteCancelEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceDeleteCancelEventData",
@@ -1384,7 +1442,7 @@ export const ResourceDeleteCancelEventData: CompositeMapper = {
   }
 };
 
-export const ResourceActionSuccessEventData: CompositeMapper = {
+export const ResourceActionSuccessEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceActionSuccessEventData",
@@ -1470,7 +1528,7 @@ export const ResourceActionSuccessEventData: CompositeMapper = {
   }
 };
 
-export const ResourceActionFailureEventData: CompositeMapper = {
+export const ResourceActionFailureEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceActionFailureEventData",
@@ -1556,7 +1614,7 @@ export const ResourceActionFailureEventData: CompositeMapper = {
   }
 };
 
-export const ResourceActionCancelEventData: CompositeMapper = {
+export const ResourceActionCancelEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceActionCancelEventData",
@@ -1642,7 +1700,7 @@ export const ResourceActionCancelEventData: CompositeMapper = {
   }
 };
 
-export const SubscriptionValidationEventData: CompositeMapper = {
+export const SubscriptionValidationEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionValidationEventData",
@@ -1667,7 +1725,7 @@ export const SubscriptionValidationEventData: CompositeMapper = {
   }
 };
 
-export const SubscriptionValidationResponse: CompositeMapper = {
+export const SubscriptionValidationResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionValidationResponse",
@@ -1683,7 +1741,7 @@ export const SubscriptionValidationResponse: CompositeMapper = {
   }
 };
 
-export const SubscriptionDeletedEventData: CompositeMapper = {
+export const SubscriptionDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionDeletedEventData",
@@ -1700,7 +1758,7 @@ export const SubscriptionDeletedEventData: CompositeMapper = {
   }
 };
 
-export const DeviceLifeCycleEvent: CompositeMapper = {
+export const DeviceLifeCycleEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceLifeCycleEvent",
@@ -1730,7 +1788,7 @@ export const DeviceLifeCycleEvent: CompositeMapper = {
   }
 };
 
-export const DeviceTwinInfo: CompositeMapper = {
+export const DeviceTwinInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinInfo",
@@ -1816,7 +1874,7 @@ export const DeviceTwinInfo: CompositeMapper = {
   }
 };
 
-export const DeviceTwinInfoProperties: CompositeMapper = {
+export const DeviceTwinInfoProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinInfoProperties",
@@ -1839,7 +1897,7 @@ export const DeviceTwinInfoProperties: CompositeMapper = {
   }
 };
 
-export const DeviceTwin: CompositeMapper = {
+export const DeviceTwin: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwin",
@@ -1862,7 +1920,7 @@ export const DeviceTwin: CompositeMapper = {
   }
 };
 
-export const DeviceTwinMetadata: CompositeMapper = {
+export const DeviceTwinMetadata: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinMetadata",
@@ -1878,7 +1936,7 @@ export const DeviceTwinMetadata: CompositeMapper = {
   }
 };
 
-export const DeviceTwinInfoX509Thumbprint: CompositeMapper = {
+export const DeviceTwinInfoX509Thumbprint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinInfoX509Thumbprint",
@@ -1899,7 +1957,7 @@ export const DeviceTwinInfoX509Thumbprint: CompositeMapper = {
   }
 };
 
-export const DeviceConnectionStateEvent: CompositeMapper = {
+export const DeviceConnectionStateEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceConnectionStateEvent",
@@ -1936,7 +1994,7 @@ export const DeviceConnectionStateEvent: CompositeMapper = {
   }
 };
 
-export const DeviceConnectionStateEventInfo: CompositeMapper = {
+export const DeviceConnectionStateEventInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceConnectionStateEventInfo",
@@ -1952,7 +2010,7 @@ export const DeviceConnectionStateEventInfo: CompositeMapper = {
   }
 };
 
-export const DeviceTelemetryEvent: CompositeMapper = {
+export const DeviceTelemetryEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTelemetryEvent",
@@ -1984,7 +2042,7 @@ export const DeviceTelemetryEvent: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventData: CompositeMapper = {
+export const ContainerRegistryEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventData",
@@ -2042,7 +2100,7 @@ export const ContainerRegistryEventData: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventTarget: CompositeMapper = {
+export const ContainerRegistryEventTarget: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventTarget",
@@ -2100,7 +2158,7 @@ export const ContainerRegistryEventTarget: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventRequest: CompositeMapper = {
+export const ContainerRegistryEventRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventRequest",
@@ -2144,7 +2202,7 @@ export const ContainerRegistryEventRequest: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventActor: CompositeMapper = {
+export const ContainerRegistryEventActor: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventActor",
@@ -2160,7 +2218,7 @@ export const ContainerRegistryEventActor: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventSource: CompositeMapper = {
+export const ContainerRegistryEventSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventSource",
@@ -2183,7 +2241,7 @@ export const ContainerRegistryEventSource: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryArtifactEventData: CompositeMapper = {
+export const ContainerRegistryArtifactEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryArtifactEventData",
@@ -2220,7 +2278,7 @@ export const ContainerRegistryArtifactEventData: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryArtifactEventTarget: CompositeMapper = {
+export const ContainerRegistryArtifactEventTarget: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryArtifactEventTarget",
@@ -2278,7 +2336,7 @@ export const ContainerRegistryArtifactEventTarget: CompositeMapper = {
   }
 };
 
-export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: CompositeMapper = {
+export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceBusActiveMessagesAvailableWithNoListenersEventData",
@@ -2329,7 +2387,7 @@ export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: Composit
   }
 };
 
-export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: CompositeMapper = {
+export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceBusDeadletterMessagesAvailableWithNoListenersEventData",
@@ -2380,7 +2438,7 @@ export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: Comp
   }
 };
 
-export const ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData: CompositeMapper = {
+export const ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className:
@@ -2432,7 +2490,7 @@ export const ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData: Co
   }
 };
 
-export const ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData: CompositeMapper = {
+export const ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className:
@@ -2484,7 +2542,7 @@ export const ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData
   }
 };
 
-export const MediaJobStateChangeEventData: CompositeMapper = {
+export const MediaJobStateChangeEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobStateChangeEventData",
@@ -2535,7 +2593,7 @@ export const MediaJobStateChangeEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobError: CompositeMapper = {
+export const MediaJobError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobError",
@@ -2609,7 +2667,7 @@ export const MediaJobError: CompositeMapper = {
   }
 };
 
-export const MediaJobErrorDetail: CompositeMapper = {
+export const MediaJobErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobErrorDetail",
@@ -2634,7 +2692,7 @@ export const MediaJobErrorDetail: CompositeMapper = {
   }
 };
 
-export const MediaJobOutput: CompositeMapper = {
+export const MediaJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobOutput",
@@ -2646,6 +2704,7 @@ export const MediaJobOutput: CompositeMapper = {
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
+        required: true,
         type: {
           name: "String"
         }
@@ -2690,7 +2749,7 @@ export const MediaJobOutput: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputProgressEventData: CompositeMapper = {
+export const MediaJobOutputProgressEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputProgress",
   type: {
     name: "Composite",
@@ -2722,7 +2781,7 @@ export const MediaJobOutputProgressEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputStateChangeEventData: CompositeMapper = {
+export const MediaJobOutputStateChangeEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobOutputStateChangeEventData",
@@ -2763,7 +2822,7 @@ export const MediaJobOutputStateChangeEventData: CompositeMapper = {
   }
 };
 
-export const MediaLiveEventEncoderConnectedEventData: CompositeMapper = {
+export const MediaLiveEventEncoderConnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventEncoderConnectedEventData",
@@ -2804,7 +2863,7 @@ export const MediaLiveEventEncoderConnectedEventData: CompositeMapper = {
   }
 };
 
-export const MediaLiveEventConnectionRejectedEventData: CompositeMapper = {
+export const MediaLiveEventConnectionRejectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventConnectionRejectedEventData",
@@ -2853,7 +2912,7 @@ export const MediaLiveEventConnectionRejectedEventData: CompositeMapper = {
   }
 };
 
-export const MediaLiveEventEncoderDisconnectedEventData: CompositeMapper = {
+export const MediaLiveEventEncoderDisconnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventEncoderDisconnectedEventData",
@@ -2902,7 +2961,7 @@ export const MediaLiveEventEncoderDisconnectedEventData: CompositeMapper = {
   }
 };
 
-export const MediaLiveEventIncomingStreamReceivedEventData: CompositeMapper = {
+export const MediaLiveEventIncomingStreamReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingStreamReceivedEventData",
@@ -2983,7 +3042,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: CompositeMapper = {
   }
 };
 
-export const MediaLiveEventIncomingStreamsOutOfSyncEventData: CompositeMapper = {
+export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingStreamsOutOfSyncEventData",
@@ -3040,7 +3099,7 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: CompositeMapper = 
   }
 };
 
-export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: CompositeMapper = {
+export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingVideoStreamsOutOfSyncEventData",
@@ -3089,7 +3148,7 @@ export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: CompositeMapp
   }
 };
 
-export const MediaLiveEventIncomingDataChunkDroppedEventData: CompositeMapper = {
+export const MediaLiveEventIncomingDataChunkDroppedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingDataChunkDroppedEventData",
@@ -3146,7 +3205,7 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: CompositeMapper = 
   }
 };
 
-export const MediaLiveEventIngestHeartbeatEventData: CompositeMapper = {
+export const MediaLiveEventIngestHeartbeatEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIngestHeartbeatEventData",
@@ -3251,7 +3310,7 @@ export const MediaLiveEventIngestHeartbeatEventData: CompositeMapper = {
   }
 };
 
-export const MediaLiveEventTrackDiscontinuityDetectedEventData: CompositeMapper = {
+export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventTrackDiscontinuityDetectedEventData",
@@ -3316,7 +3375,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: CompositeMapper 
   }
 };
 
-export const MapsGeofenceEvent: CompositeMapper = {
+export const MapsGeofenceEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MapsGeofenceEvent",
@@ -3369,7 +3428,7 @@ export const MapsGeofenceEvent: CompositeMapper = {
   }
 };
 
-export const MapsGeofenceGeometry: CompositeMapper = {
+export const MapsGeofenceGeometry: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MapsGeofenceGeometry",
@@ -3420,7 +3479,7 @@ export const MapsGeofenceGeometry: CompositeMapper = {
   }
 };
 
-export const AppConfigurationKeyValueModifiedEventData: CompositeMapper = {
+export const AppConfigurationKeyValueModifiedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppConfigurationKeyValueModifiedEventData",
@@ -3457,7 +3516,7 @@ export const AppConfigurationKeyValueModifiedEventData: CompositeMapper = {
   }
 };
 
-export const AppConfigurationKeyValueDeletedEventData: CompositeMapper = {
+export const AppConfigurationKeyValueDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppConfigurationKeyValueDeletedEventData",
@@ -3494,7 +3553,7 @@ export const AppConfigurationKeyValueDeletedEventData: CompositeMapper = {
   }
 };
 
-export const SignalRServiceClientConnectionConnectedEventData: CompositeMapper = {
+export const SignalRServiceClientConnectionConnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SignalRServiceClientConnectionConnectedEventData",
@@ -3531,7 +3590,7 @@ export const SignalRServiceClientConnectionConnectedEventData: CompositeMapper =
   }
 };
 
-export const SignalRServiceClientConnectionDisconnectedEventData: CompositeMapper = {
+export const SignalRServiceClientConnectionDisconnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SignalRServiceClientConnectionDisconnectedEventData",
@@ -3575,7 +3634,7 @@ export const SignalRServiceClientConnectionDisconnectedEventData: CompositeMappe
   }
 };
 
-export const KeyVaultCertificateNewVersionCreatedEventData: CompositeMapper = {
+export const KeyVaultCertificateNewVersionCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultCertificateNewVersionCreatedEventData",
@@ -3633,7 +3692,7 @@ export const KeyVaultCertificateNewVersionCreatedEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultCertificateNearExpiryEventData: CompositeMapper = {
+export const KeyVaultCertificateNearExpiryEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultCertificateNearExpiryEventData",
@@ -3691,7 +3750,7 @@ export const KeyVaultCertificateNearExpiryEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultCertificateExpiredEventData: CompositeMapper = {
+export const KeyVaultCertificateExpiredEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultCertificateExpiredEventData",
@@ -3749,7 +3808,7 @@ export const KeyVaultCertificateExpiredEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyNewVersionCreatedEventData: CompositeMapper = {
+export const KeyVaultKeyNewVersionCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultKeyNewVersionCreatedEventData",
@@ -3807,7 +3866,7 @@ export const KeyVaultKeyNewVersionCreatedEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyNearExpiryEventData: CompositeMapper = {
+export const KeyVaultKeyNearExpiryEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultKeyNearExpiryEventData",
@@ -3865,7 +3924,7 @@ export const KeyVaultKeyNearExpiryEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyExpiredEventData: CompositeMapper = {
+export const KeyVaultKeyExpiredEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultKeyExpiredEventData",
@@ -3923,7 +3982,7 @@ export const KeyVaultKeyExpiredEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretNewVersionCreatedEventData: CompositeMapper = {
+export const KeyVaultSecretNewVersionCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultSecretNewVersionCreatedEventData",
@@ -3981,7 +4040,7 @@ export const KeyVaultSecretNewVersionCreatedEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretNearExpiryEventData: CompositeMapper = {
+export const KeyVaultSecretNearExpiryEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultSecretNearExpiryEventData",
@@ -4039,7 +4098,7 @@ export const KeyVaultSecretNearExpiryEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretExpiredEventData: CompositeMapper = {
+export const KeyVaultSecretExpiredEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultSecretExpiredEventData",
@@ -4097,7 +4156,7 @@ export const KeyVaultSecretExpiredEventData: CompositeMapper = {
   }
 };
 
-export const KeyVaultAccessPolicyChangedEventData: CompositeMapper = {
+export const KeyVaultAccessPolicyChangedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultAccessPolicyChangedEventData",
@@ -4155,7 +4214,7 @@ export const KeyVaultAccessPolicyChangedEventData: CompositeMapper = {
   }
 };
 
-export const MachineLearningServicesModelRegisteredEventData: CompositeMapper = {
+export const MachineLearningServicesModelRegisteredEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesModelRegisteredEventData",
@@ -4192,7 +4251,7 @@ export const MachineLearningServicesModelRegisteredEventData: CompositeMapper = 
   }
 };
 
-export const MachineLearningServicesModelDeployedEventData: CompositeMapper = {
+export const MachineLearningServicesModelDeployedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesModelDeployedEventData",
@@ -4236,7 +4295,7 @@ export const MachineLearningServicesModelDeployedEventData: CompositeMapper = {
   }
 };
 
-export const MachineLearningServicesRunCompletedEventData: CompositeMapper = {
+export const MachineLearningServicesRunCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesRunCompletedEventData",
@@ -4287,7 +4346,7 @@ export const MachineLearningServicesRunCompletedEventData: CompositeMapper = {
   }
 };
 
-export const MachineLearningServicesDatasetDriftDetectedEventData: CompositeMapper = {
+export const MachineLearningServicesDatasetDriftDetectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesDatasetDriftDetectedEventData",
@@ -4352,7 +4411,7 @@ export const MachineLearningServicesDatasetDriftDetectedEventData: CompositeMapp
   }
 };
 
-export const MachineLearningServicesRunStatusChangedEventData: CompositeMapper = {
+export const MachineLearningServicesRunStatusChangedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesRunStatusChangedEventData",
@@ -4410,7 +4469,7 @@ export const MachineLearningServicesRunStatusChangedEventData: CompositeMapper =
   }
 };
 
-export const RedisPatchingCompletedEventData: CompositeMapper = {
+export const RedisPatchingCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisPatchingCompletedEventData",
@@ -4440,7 +4499,7 @@ export const RedisPatchingCompletedEventData: CompositeMapper = {
   }
 };
 
-export const RedisScalingCompletedEventData: CompositeMapper = {
+export const RedisScalingCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisScalingCompletedEventData",
@@ -4470,7 +4529,7 @@ export const RedisScalingCompletedEventData: CompositeMapper = {
   }
 };
 
-export const RedisExportRDBCompletedEventData: CompositeMapper = {
+export const RedisExportRDBCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisExportRDBCompletedEventData",
@@ -4500,7 +4559,7 @@ export const RedisExportRDBCompletedEventData: CompositeMapper = {
   }
 };
 
-export const RedisImportRDBCompletedEventData: CompositeMapper = {
+export const RedisImportRDBCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisImportRDBCompletedEventData",
@@ -4530,7 +4589,7 @@ export const RedisImportRDBCompletedEventData: CompositeMapper = {
   }
 };
 
-export const WebAppUpdatedEventData: CompositeMapper = {
+export const WebAppUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebAppUpdatedEventData",
@@ -4588,7 +4647,7 @@ export const WebAppUpdatedEventData: CompositeMapper = {
   }
 };
 
-export const AppEventTypeDetail: CompositeMapper = {
+export const AppEventTypeDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppEventTypeDetail",
@@ -4604,7 +4663,7 @@ export const AppEventTypeDetail: CompositeMapper = {
   }
 };
 
-export const WebBackupOperationStartedEventData: CompositeMapper = {
+export const WebBackupOperationStartedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebBackupOperationStartedEventData",
@@ -4662,7 +4721,7 @@ export const WebBackupOperationStartedEventData: CompositeMapper = {
   }
 };
 
-export const WebBackupOperationCompletedEventData: CompositeMapper = {
+export const WebBackupOperationCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebBackupOperationCompletedEventData",
@@ -4720,7 +4779,7 @@ export const WebBackupOperationCompletedEventData: CompositeMapper = {
   }
 };
 
-export const WebBackupOperationFailedEventData: CompositeMapper = {
+export const WebBackupOperationFailedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebBackupOperationFailedEventData",
@@ -4778,7 +4837,7 @@ export const WebBackupOperationFailedEventData: CompositeMapper = {
   }
 };
 
-export const WebRestoreOperationStartedEventData: CompositeMapper = {
+export const WebRestoreOperationStartedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebRestoreOperationStartedEventData",
@@ -4836,7 +4895,7 @@ export const WebRestoreOperationStartedEventData: CompositeMapper = {
   }
 };
 
-export const WebRestoreOperationCompletedEventData: CompositeMapper = {
+export const WebRestoreOperationCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebRestoreOperationCompletedEventData",
@@ -4894,7 +4953,7 @@ export const WebRestoreOperationCompletedEventData: CompositeMapper = {
   }
 };
 
-export const WebRestoreOperationFailedEventData: CompositeMapper = {
+export const WebRestoreOperationFailedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebRestoreOperationFailedEventData",
@@ -4952,7 +5011,7 @@ export const WebRestoreOperationFailedEventData: CompositeMapper = {
   }
 };
 
-export const WebSlotSwapStartedEventData: CompositeMapper = {
+export const WebSlotSwapStartedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapStartedEventData",
@@ -5010,7 +5069,7 @@ export const WebSlotSwapStartedEventData: CompositeMapper = {
   }
 };
 
-export const WebSlotSwapCompletedEventData: CompositeMapper = {
+export const WebSlotSwapCompletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapCompletedEventData",
@@ -5068,7 +5127,7 @@ export const WebSlotSwapCompletedEventData: CompositeMapper = {
   }
 };
 
-export const WebSlotSwapFailedEventData: CompositeMapper = {
+export const WebSlotSwapFailedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapFailedEventData",
@@ -5126,7 +5185,7 @@ export const WebSlotSwapFailedEventData: CompositeMapper = {
   }
 };
 
-export const WebSlotSwapWithPreviewStartedEventData: CompositeMapper = {
+export const WebSlotSwapWithPreviewStartedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapWithPreviewStartedEventData",
@@ -5184,7 +5243,7 @@ export const WebSlotSwapWithPreviewStartedEventData: CompositeMapper = {
   }
 };
 
-export const WebSlotSwapWithPreviewCancelledEventData: CompositeMapper = {
+export const WebSlotSwapWithPreviewCancelledEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapWithPreviewCancelledEventData",
@@ -5242,7 +5301,7 @@ export const WebSlotSwapWithPreviewCancelledEventData: CompositeMapper = {
   }
 };
 
-export const WebAppServicePlanUpdatedEventData: CompositeMapper = {
+export const WebAppServicePlanUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebAppServicePlanUpdatedEventData",
@@ -5307,7 +5366,7 @@ export const WebAppServicePlanUpdatedEventData: CompositeMapper = {
   }
 };
 
-export const AppServicePlanEventTypeDetail: CompositeMapper = {
+export const AppServicePlanEventTypeDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppServicePlanEventTypeDetail",
@@ -5337,7 +5396,7 @@ export const AppServicePlanEventTypeDetail: CompositeMapper = {
   }
 };
 
-export const WebAppServicePlanUpdatedEventDataSku: CompositeMapper = {
+export const WebAppServicePlanUpdatedEventDataSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebAppServicePlanUpdatedEventDataSku",
@@ -5376,7 +5435,7 @@ export const WebAppServicePlanUpdatedEventDataSku: CompositeMapper = {
   }
 };
 
-export const CommunicationIdentifierModel: CompositeMapper = {
+export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentifierModel",
@@ -5413,7 +5472,7 @@ export const CommunicationIdentifierModel: CompositeMapper = {
   }
 };
 
-export const CommunicationUserIdentifierModel: CompositeMapper = {
+export const CommunicationUserIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationUserIdentifierModel",
@@ -5429,7 +5488,7 @@ export const CommunicationUserIdentifierModel: CompositeMapper = {
   }
 };
 
-export const PhoneNumberIdentifierModel: CompositeMapper = {
+export const PhoneNumberIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberIdentifierModel",
@@ -5445,7 +5504,7 @@ export const PhoneNumberIdentifierModel: CompositeMapper = {
   }
 };
 
-export const MicrosoftTeamsUserIdentifierModel: CompositeMapper = {
+export const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MicrosoftTeamsUserIdentifierModel",
@@ -5473,7 +5532,7 @@ export const MicrosoftTeamsUserIdentifierModel: CompositeMapper = {
   }
 };
 
-export const AcsChatEventBase: CompositeMapper = {
+export const AcsChatEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatEventBase",
@@ -5503,7 +5562,7 @@ export const AcsChatEventBase: CompositeMapper = {
   }
 };
 
-export const AcsChatEventInThreadBase: CompositeMapper = {
+export const AcsChatEventInThreadBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatEventInThreadBase",
@@ -5526,7 +5585,7 @@ export const AcsChatEventInThreadBase: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadParticipant: CompositeMapper = {
+export const AcsChatThreadParticipant: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadParticipant",
@@ -5549,7 +5608,7 @@ export const AcsChatThreadParticipant: CompositeMapper = {
   }
 };
 
-export const AcsSmsDeliveryAttempt: CompositeMapper = {
+export const AcsSmsDeliveryAttempt: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsSmsDeliveryAttempt",
@@ -5579,7 +5638,7 @@ export const AcsSmsDeliveryAttempt: CompositeMapper = {
   }
 };
 
-export const AcsSmsEventBase: CompositeMapper = {
+export const AcsSmsEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsSmsEventBase",
@@ -5609,7 +5668,7 @@ export const AcsSmsEventBase: CompositeMapper = {
   }
 };
 
-export const AcsRecordingFileStatusUpdatedEventData: CompositeMapper = {
+export const AcsRecordingFileStatusUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsRecordingFileStatusUpdatedEventData",
@@ -5646,7 +5705,7 @@ export const AcsRecordingFileStatusUpdatedEventData: CompositeMapper = {
   }
 };
 
-export const AcsRecordingStorageInfo: CompositeMapper = {
+export const AcsRecordingStorageInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsRecordingStorageInfo",
@@ -5668,7 +5727,7 @@ export const AcsRecordingStorageInfo: CompositeMapper = {
   }
 };
 
-export const AcsRecordingChunkInfo: CompositeMapper = {
+export const AcsRecordingChunkInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsRecordingChunkInfo",
@@ -5693,12 +5752,26 @@ export const AcsRecordingChunkInfo: CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      metadataLocation: {
+        serializedName: "metadataLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLocation: {
+        serializedName: "contentLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const PolicyInsightsPolicyStateCreatedEventData: CompositeMapper = {
+export const PolicyInsightsPolicyStateCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyInsightsPolicyStateCreatedEventData",
@@ -5756,7 +5829,7 @@ export const PolicyInsightsPolicyStateCreatedEventData: CompositeMapper = {
   }
 };
 
-export const PolicyInsightsPolicyStateChangedEventData: CompositeMapper = {
+export const PolicyInsightsPolicyStateChangedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyInsightsPolicyStateChangedEventData",
@@ -5814,7 +5887,7 @@ export const PolicyInsightsPolicyStateChangedEventData: CompositeMapper = {
   }
 };
 
-export const PolicyInsightsPolicyStateDeletedEventData: CompositeMapper = {
+export const PolicyInsightsPolicyStateDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyInsightsPolicyStateDeletedEventData",
@@ -5872,7 +5945,7 @@ export const PolicyInsightsPolicyStateDeletedEventData: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceCreatedEventData: CompositeMapper = {
+export const IotHubDeviceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDeviceCreatedEventData",
@@ -5882,7 +5955,7 @@ export const IotHubDeviceCreatedEventData: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceDeletedEventData: CompositeMapper = {
+export const IotHubDeviceDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDeviceDeletedEventData",
@@ -5892,7 +5965,7 @@ export const IotHubDeviceDeletedEventData: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceConnectedEventData: CompositeMapper = {
+export const IotHubDeviceConnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDeviceConnectedEventData",
@@ -5902,7 +5975,7 @@ export const IotHubDeviceConnectedEventData: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceDisconnectedEventData: CompositeMapper = {
+export const IotHubDeviceDisconnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDeviceDisconnectedEventData",
@@ -5912,7 +5985,7 @@ export const IotHubDeviceDisconnectedEventData: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceTelemetryEventData: CompositeMapper = {
+export const IotHubDeviceTelemetryEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDeviceTelemetryEventData",
@@ -5922,7 +5995,7 @@ export const IotHubDeviceTelemetryEventData: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryImagePushedEventData: CompositeMapper = {
+export const ContainerRegistryImagePushedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryImagePushedEventData",
@@ -5932,7 +6005,7 @@ export const ContainerRegistryImagePushedEventData: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryImageDeletedEventData: CompositeMapper = {
+export const ContainerRegistryImageDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryImageDeletedEventData",
@@ -5942,7 +6015,7 @@ export const ContainerRegistryImageDeletedEventData: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryChartPushedEventData: CompositeMapper = {
+export const ContainerRegistryChartPushedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryChartPushedEventData",
@@ -5952,7 +6025,7 @@ export const ContainerRegistryChartPushedEventData: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryChartDeletedEventData: CompositeMapper = {
+export const ContainerRegistryChartDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryChartDeletedEventData",
@@ -5962,7 +6035,7 @@ export const ContainerRegistryChartDeletedEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobScheduledEventData: CompositeMapper = {
+export const MediaJobScheduledEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobScheduled",
   type: {
     name: "Composite",
@@ -5973,7 +6046,7 @@ export const MediaJobScheduledEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobProcessingEventData: CompositeMapper = {
+export const MediaJobProcessingEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobProcessing",
   type: {
     name: "Composite",
@@ -5984,7 +6057,7 @@ export const MediaJobProcessingEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobCancelingEventData: CompositeMapper = {
+export const MediaJobCancelingEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobCanceling",
   type: {
     name: "Composite",
@@ -5995,7 +6068,7 @@ export const MediaJobCancelingEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobFinishedEventData: CompositeMapper = {
+export const MediaJobFinishedEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobFinished",
   type: {
     name: "Composite",
@@ -6019,7 +6092,7 @@ export const MediaJobFinishedEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobCanceledEventData: CompositeMapper = {
+export const MediaJobCanceledEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobCanceled",
   type: {
     name: "Composite",
@@ -6043,7 +6116,7 @@ export const MediaJobCanceledEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobErroredEventData: CompositeMapper = {
+export const MediaJobErroredEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobErrored",
   type: {
     name: "Composite",
@@ -6067,7 +6140,7 @@ export const MediaJobErroredEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputAsset: CompositeMapper = {
+export const MediaJobOutputAsset: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputAsset",
   type: {
     name: "Composite",
@@ -6087,7 +6160,7 @@ export const MediaJobOutputAsset: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputCanceledEventData: CompositeMapper = {
+export const MediaJobOutputCanceledEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputCanceled",
   type: {
     name: "Composite",
@@ -6098,7 +6171,7 @@ export const MediaJobOutputCanceledEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputCancelingEventData: CompositeMapper = {
+export const MediaJobOutputCancelingEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputCanceling",
   type: {
     name: "Composite",
@@ -6109,7 +6182,7 @@ export const MediaJobOutputCancelingEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputErroredEventData: CompositeMapper = {
+export const MediaJobOutputErroredEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputErrored",
   type: {
     name: "Composite",
@@ -6120,7 +6193,7 @@ export const MediaJobOutputErroredEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputFinishedEventData: CompositeMapper = {
+export const MediaJobOutputFinishedEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputFinished",
   type: {
     name: "Composite",
@@ -6131,7 +6204,7 @@ export const MediaJobOutputFinishedEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputProcessingEventData: CompositeMapper = {
+export const MediaJobOutputProcessingEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputProcessing",
   type: {
     name: "Composite",
@@ -6142,7 +6215,7 @@ export const MediaJobOutputProcessingEventData: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputScheduledEventData: CompositeMapper = {
+export const MediaJobOutputScheduledEventData: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputScheduled",
   type: {
     name: "Composite",
@@ -6153,7 +6226,7 @@ export const MediaJobOutputScheduledEventData: CompositeMapper = {
   }
 };
 
-export const MapsGeofenceEnteredEventData: CompositeMapper = {
+export const MapsGeofenceEnteredEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MapsGeofenceEnteredEventData",
@@ -6163,7 +6236,7 @@ export const MapsGeofenceEnteredEventData: CompositeMapper = {
   }
 };
 
-export const MapsGeofenceExitedEventData: CompositeMapper = {
+export const MapsGeofenceExitedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MapsGeofenceExitedEventData",
@@ -6173,7 +6246,7 @@ export const MapsGeofenceExitedEventData: CompositeMapper = {
   }
 };
 
-export const MapsGeofenceResultEventData: CompositeMapper = {
+export const MapsGeofenceResultEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MapsGeofenceResultEventData",
@@ -6183,7 +6256,7 @@ export const MapsGeofenceResultEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatMessageEventBase: CompositeMapper = {
+export const AcsChatMessageEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageEventBase",
@@ -6235,7 +6308,7 @@ export const AcsChatMessageEventBase: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadEventBase: CompositeMapper = {
+export const AcsChatThreadEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadEventBase",
@@ -6259,7 +6332,7 @@ export const AcsChatThreadEventBase: CompositeMapper = {
   }
 };
 
-export const AcsChatMessageEventInThreadBase: CompositeMapper = {
+export const AcsChatMessageEventInThreadBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageEventInThreadBase",
@@ -6311,7 +6384,7 @@ export const AcsChatMessageEventInThreadBase: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadEventInThreadBase: CompositeMapper = {
+export const AcsChatThreadEventInThreadBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadEventInThreadBase",
@@ -6335,7 +6408,7 @@ export const AcsChatThreadEventInThreadBase: CompositeMapper = {
   }
 };
 
-export const AcsChatParticipantAddedToThreadEventData: CompositeMapper = {
+export const AcsChatParticipantAddedToThreadEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatParticipantAddedToThreadEventData",
@@ -6373,7 +6446,7 @@ export const AcsChatParticipantAddedToThreadEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatParticipantRemovedFromThreadEventData: CompositeMapper = {
+export const AcsChatParticipantRemovedFromThreadEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatParticipantRemovedFromThreadEventData",
@@ -6411,7 +6484,7 @@ export const AcsChatParticipantRemovedFromThreadEventData: CompositeMapper = {
   }
 };
 
-export const AcsSmsDeliveryReportReceivedEventData: CompositeMapper = {
+export const AcsSmsDeliveryReportReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsSmsDeliveryReportReceivedEventData",
@@ -6462,7 +6535,7 @@ export const AcsSmsDeliveryReportReceivedEventData: CompositeMapper = {
   }
 };
 
-export const AcsSmsReceivedEventData: CompositeMapper = {
+export const AcsSmsReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsSmsReceivedEventData",
@@ -6486,7 +6559,7 @@ export const AcsSmsReceivedEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatMessageReceivedEventData: CompositeMapper = {
+export const AcsChatMessageReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageReceivedEventData",
@@ -6498,12 +6571,20 @@ export const AcsChatMessageReceivedEventData: CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
 };
 
-export const AcsChatMessageEditedEventData: CompositeMapper = {
+export const AcsChatMessageEditedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageEditedEventData",
@@ -6514,6 +6595,14 @@ export const AcsChatMessageEditedEventData: CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       editTime: {
@@ -6527,7 +6616,7 @@ export const AcsChatMessageEditedEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatMessageDeletedEventData: CompositeMapper = {
+export const AcsChatMessageDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageDeletedEventData",
@@ -6544,7 +6633,7 @@ export const AcsChatMessageDeletedEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadCreatedWithUserEventData: CompositeMapper = {
+export const AcsChatThreadCreatedWithUserEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadCreatedWithUserEventData",
@@ -6582,7 +6671,7 @@ export const AcsChatThreadCreatedWithUserEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadWithUserDeletedEventData: CompositeMapper = {
+export const AcsChatThreadWithUserDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadWithUserDeletedEventData",
@@ -6606,7 +6695,7 @@ export const AcsChatThreadWithUserDeletedEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadPropertiesUpdatedPerUserEventData: CompositeMapper = {
+export const AcsChatThreadPropertiesUpdatedPerUserEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadPropertiesUpdatedPerUserEventData",
@@ -6638,7 +6727,7 @@ export const AcsChatThreadPropertiesUpdatedPerUserEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatParticipantAddedToThreadWithUserEventData: CompositeMapper = {
+export const AcsChatParticipantAddedToThreadWithUserEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatParticipantAddedToThreadWithUserEventData",
@@ -6669,7 +6758,7 @@ export const AcsChatParticipantAddedToThreadWithUserEventData: CompositeMapper =
   }
 };
 
-export const AcsChatParticipantRemovedFromThreadWithUserEventData: CompositeMapper = {
+export const AcsChatParticipantRemovedFromThreadWithUserEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatParticipantRemovedFromThreadWithUserEventData",
@@ -6700,7 +6789,7 @@ export const AcsChatParticipantRemovedFromThreadWithUserEventData: CompositeMapp
   }
 };
 
-export const AcsChatMessageReceivedInThreadEventData: CompositeMapper = {
+export const AcsChatMessageReceivedInThreadEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageReceivedInThreadEventData",
@@ -6712,12 +6801,20 @@ export const AcsChatMessageReceivedInThreadEventData: CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
 };
 
-export const AcsChatMessageEditedInThreadEventData: CompositeMapper = {
+export const AcsChatMessageEditedInThreadEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageEditedInThreadEventData",
@@ -6728,6 +6825,14 @@ export const AcsChatMessageEditedInThreadEventData: CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       editTime: {
@@ -6741,7 +6846,7 @@ export const AcsChatMessageEditedInThreadEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatMessageDeletedInThreadEventData: CompositeMapper = {
+export const AcsChatMessageDeletedInThreadEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatMessageDeletedInThreadEventData",
@@ -6758,7 +6863,7 @@ export const AcsChatMessageDeletedInThreadEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadCreatedEventData: CompositeMapper = {
+export const AcsChatThreadCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadCreatedEventData",
@@ -6796,7 +6901,7 @@ export const AcsChatThreadCreatedEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadDeletedEventData: CompositeMapper = {
+export const AcsChatThreadDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadDeletedEventData",
@@ -6820,7 +6925,7 @@ export const AcsChatThreadDeletedEventData: CompositeMapper = {
   }
 };
 
-export const AcsChatThreadPropertiesUpdatedEventData: CompositeMapper = {
+export const AcsChatThreadPropertiesUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsChatThreadPropertiesUpdatedEventData",

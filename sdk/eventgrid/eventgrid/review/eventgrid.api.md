@@ -10,6 +10,7 @@ import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { SASCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcsChatEventBase {
@@ -30,8 +31,25 @@ export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
 };
 
 // @public
+export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    deleteTime: string;
+};
+
+// @public
 export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+    editTime: string;
+};
+
+// @public
+export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     editTime: string;
 };
 
@@ -46,8 +64,29 @@ export type AcsChatMessageEventBase = AcsChatEventBase & {
 };
 
 // @public
+export type AcsChatMessageEventInThreadBase = AcsChatEventInThreadBase & {
+    messageId: string;
+    senderCommunicationIdentifier: CommunicationIdentifierModel;
+    senderDisplayName: string;
+    composeTime: string;
+    type: string;
+    version: number;
+};
+
+// @public
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -118,9 +157,11 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 
 // @public
 export interface AcsRecordingChunkInfo {
+    contentLocation: string;
     documentId: string;
     endReason: string;
     index: number;
+    metadataLocation: string;
 }
 
 // @public
@@ -398,7 +439,7 @@ export interface EventGridEvent<T> {
 
 // @public
 export class EventGridPublisherClient<T extends InputSchema> {
-    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
+    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
     send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
@@ -1161,6 +1202,17 @@ export interface StorageBlobDeletedEventData {
 }
 
 // @public
+export interface StorageBlobInventoryPolicyCompletedEventData {
+    accountName: string;
+    manifestBlobUrl: string;
+    policyRunId: string;
+    policyRunStatus: string;
+    policyRunStatusMessage: string;
+    ruleName: string;
+    scheduleDateTime: string;
+}
+
+// @public
 export interface StorageBlobRenamedEventData {
     api: string;
     clientRequestId: string;
@@ -1253,8 +1305,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
     "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
@@ -1332,10 +1387,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
     "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
     "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
     "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
     "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
     "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
     "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
     "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
     "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;

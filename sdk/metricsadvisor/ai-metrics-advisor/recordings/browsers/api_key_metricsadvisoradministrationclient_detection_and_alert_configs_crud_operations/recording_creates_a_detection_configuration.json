@@ -4,42 +4,42 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations",
    "query": {},
-   "requestBody": "{\"name\":\"js-detection-config-162011445234403780\",\"description\":\"fresh detection\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"AND\",\"hardThresholdCondition\":{\"upperBound\":400,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2}},\"changeThresholdCondition\":{\"changePercentage\":33,\"shiftPoint\":1,\"withinRange\":true,\"anomalyDetectorDirection\":\"Both\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2}}},\"dimensionGroupOverrideConfigurations\":[],\"seriesOverrideConfigurations\":[]}",
+   "requestBody": "{\"name\":\"js-detection-config-162265513566100357\",\"description\":\"fresh detection\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"AND\",\"hardThresholdCondition\":{\"upperBound\":400,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2}},\"changeThresholdCondition\":{\"changePercentage\":33,\"shiftPoint\":1,\"withinRange\":true,\"anomalyDetectorDirection\":\"Both\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2}}},\"dimensionGroupOverrideConfigurations\":[],\"seriesOverrideConfigurations\":[]}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "4a701ea6-2f97-4a52-a442-b123b1e2c4c3",
+    "apim-request-id": "d01012aa-3f27-4389-ac75-17d05c4e7eea",
     "content-length": "0",
-    "date": "Tue, 04 May 2021 07:47:32 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/6eea0573-d615-48ae-b07d-1430c050ee55",
+    "date": "Wed, 02 Jun 2021 17:32:15 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/53a753a0-06cb-4ff1-870d-ec6907edc0e9",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "164",
-    "x-request-id": "4a701ea6-2f97-4a52-a442-b123b1e2c4c3"
+    "x-envoy-upstream-service-time": "127",
+    "x-request-id": "d01012aa-3f27-4389-ac75-17d05c4e7eea"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/6eea0573-d615-48ae-b07d-1430c050ee55",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/53a753a0-06cb-4ff1-870d-ec6907edc0e9",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyDetectionConfigurationId\":\"6eea0573-d615-48ae-b07d-1430c050ee55\",\"name\":\"js-detection-config-162011445234403780\",\"description\":\"fresh detection\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"AND\",\"hardThresholdCondition\":{\"upperBound\":400.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}},\"changeThresholdCondition\":{\"changePercentage\":33.0,\"shiftPoint\":1,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}},\"dimensionGroupOverrideConfigurations\":[],\"seriesOverrideConfigurations\":[]}",
+   "response": "{\"anomalyDetectionConfigurationId\":\"53a753a0-06cb-4ff1-870d-ec6907edc0e9\",\"name\":\"js-detection-config-162265513566100357\",\"description\":\"fresh detection\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"AND\",\"hardThresholdCondition\":{\"upperBound\":400.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}},\"changeThresholdCondition\":{\"changePercentage\":33.0,\"shiftPoint\":1,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}},\"dimensionGroupOverrideConfigurations\":[],\"seriesOverrideConfigurations\":[]}",
    "responseHeaders": {
-    "apim-request-id": "4577c6f9-8832-4fa9-8948-b8a7db556b77",
+    "apim-request-id": "58778b04-33f1-458f-b21b-efe507afb20e",
     "content-length": "636",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 07:47:37 GMT",
+    "date": "Wed, 02 Jun 2021 17:32:20 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5205",
-    "x-request-id": "4577c6f9-8832-4fa9-8948-b8a7db556b77"
+    "x-envoy-upstream-service-time": "5133",
+    "x-request-id": "58778b04-33f1-458f-b21b-efe507afb20e"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "js-detection-config-": "js-detection-config-162011445234403780"
+   "js-detection-config-": "js-detection-config-162265513566100357"
   },
   "newDate": {}
  },

@@ -10,34 +10,47 @@ import {
   RequestPolicyOptions
 } from "../../src/coreHttp";
 import {
-  setTracer,
-  NoOpTracer,
-  NoOpSpan,
-  SpanOptions,
   SpanContext,
   TraceFlags,
   TraceState,
   setSpan,
   context,
   SpanStatusCode,
-  SpanStatus
+  SpanStatus,
+  SpanAttributes,
+  SpanAttributeValue
 } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
+import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";
 
-class MockSpan extends NoOpSpan {
+class MockSpan implements Span {
   private _endCalled = false;
   private _status: SpanStatus = {
     code: SpanStatusCode.UNSET
   };
-  private _attributes: { [s: string]: unknown } = {};
+  private _attributes: SpanAttributes = {};
 
   constructor(
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
     private state: string
-  ) {
-    super();
+  ) {}
+
+  addEvent(): this {
+    throw new Error("Not implemented.");
+  }
+
+  isRecording(): boolean {
+    return true;
+  }
+
+  recordException(): void {
+    throw new Error("Not implemented.");
+  }
+
+  updateName(): this {
+    throw new Error("Not implemented.");
   }
 
   didEnd(): boolean {
@@ -57,7 +70,12 @@ class MockSpan extends NoOpSpan {
     return this;
   }
 
-  setAttribute(key: string, value: unknown) {
+  setAttributes(attributes: SpanAttributes): this {
+    this._attributes = attributes;
+    return this;
+  }
+
+  setAttribute(key: string, value: SpanAttributeValue) {
     this._attributes[key] = value;
     return this;
   }
@@ -66,7 +84,7 @@ class MockSpan extends NoOpSpan {
     return this._attributes[key];
   }
 
-  context(): SpanContext {
+  spanContext(): SpanContext {
     const state = this.state;
 
     const traceState = {
@@ -95,7 +113,7 @@ class MockSpan extends NoOpSpan {
   }
 }
 
-class MockTracer extends NoOpTracer {
+class MockTracer implements Tracer {
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
@@ -104,8 +122,10 @@ class MockTracer extends NoOpTracer {
     private spanId = "",
     private flags = TraceFlags.NONE,
     private state = ""
-  ) {
-    super();
+  ) {}
+
+  startActiveSpan(): never {
+    throw new Error("Method not implemented.");
   }
 
   getStartedSpans(): MockSpan[] {
@@ -124,10 +144,31 @@ class MockTracer extends NoOpTracer {
   }
 }
 
+class MockTracerProvider implements TracerProvider {
+  private mockTracer: Tracer = new MockTracer();
+
+  setTracer(tracer: Tracer) {
+    this.mockTracer = tracer;
+  }
+
+  getTracer(): Tracer {
+    return this.mockTracer;
+  }
+
+  register() {
+    trace.setGlobalTracerProvider(this);
+  }
+
+  disable() {
+    trace.disable();
+  }
+}
+
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 
 describe("tracingPolicy", function() {
   const TRACE_VERSION = "00";
+  const mockTracerProvider = new MockTracerProvider();
 
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -139,9 +180,16 @@ describe("tracingPolicy", function() {
     }
   };
 
+  beforeEach(() => {
+    mockTracerProvider.register();
+  });
+
+  afterEach(() => {
+    mockTracerProvider.disable();
+  });
+
   it("will not create a span if spanOptions are missing", async () => {
     const mockTracer = new MockTracer();
-    setTracer(mockTracer);
     const request = new WebResource();
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -153,7 +201,8 @@ describe("tracingPolicy", function() {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
+
     const request = new WebResource();
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
@@ -179,7 +228,8 @@ describe("tracingPolicy", function() {
     const mockSpanId = "2222222222222222";
     // leave out the TraceOptions
     const mockTracer = new MockTracer(mockTraceId, mockSpanId);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
+
     const request = new WebResource();
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
@@ -207,7 +257,7 @@ describe("tracingPolicy", function() {
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
     const request = new WebResource();
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
@@ -235,7 +285,7 @@ describe("tracingPolicy", function() {
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    setTracer(mockTracer);
+    mockTracerProvider.setTracer(mockTracer);
     const request = new WebResource();
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
@@ -278,8 +328,23 @@ describe("tracingPolicy", function() {
   });
 
   it("will not set headers if span is a NoOpSpan", async () => {
-    setTracer(new NoOpTracer());
+    mockTracerProvider.disable();
     const request = new WebResource();
+
+    const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
+    await policy.sendRequest(request);
+
+    assert.notExists(request.headers.get("traceparent"));
+    assert.notExists(request.headers.get("tracestate"));
+  });
+
+  it("will not set headers if context is invalid", async () => {
+    // This will create a tracer that produces invalid trace-id and span-id
+    const mockTracer = new MockTracer("invalid", "00", TraceFlags.SAMPLED, "foo=bar");
+    mockTracerProvider.setTracer(mockTracer);
+
+    const request = new WebResource();
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);

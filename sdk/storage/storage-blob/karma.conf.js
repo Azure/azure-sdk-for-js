@@ -34,9 +34,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator,Number.isInteger",
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
@@ -64,6 +61,7 @@ module.exports = function(config) {
       "ACCOUNT_TOKEN",
       "MD_ACCOUNT_NAME",
       "MD_ACCOUNT_SAS",
+      "IMMUTABLE_CONTAINER_NAME",
       "ENCRYPTION_SCOPE_1",
       "ENCRYPTION_SCOPE_2",
       "ORS_DEST_ACCOUNT_NAME",

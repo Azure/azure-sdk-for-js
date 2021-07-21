@@ -1,7 +1,43 @@
 # Release History
 
-## 1.1.0-beta.3 (Unreleased)
+## 1.2.0 (Unreleased)
 
+### Features Added
+
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.1 (2021-07-13)
+
+### Key Bugs Fixed
+
+- Fixed an issue with `HEAD` HTTP Requests. Destroyed the response before resolving the promise which will ensure that the code does not hang up. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
+
+## 1.1.0 (2021-06-30)
+
+### Fixed
+
+- Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+
+### Features Added
+
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- The `ExponentialRetryPolicy` will now ignore `503` responses if they have the `Retry-After` header.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
+## 1.1.0-beta.3 (2021-06-03)
+
+- Merged `bearerTokenChallengeAuthenticationPolicy` into `bearerTokenAuthenticationPolicy`. This will keep the functionality of `bearerTokenAuthenticationPolicy`, but also adds the `challengeCallbacks` feature.
 
 ## 1.1.0-beta.2 (2021-05-20)
 
@@ -28,7 +64,7 @@
 
 ### Breaking Changes
 
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.0.2 (2021-03-25)
 

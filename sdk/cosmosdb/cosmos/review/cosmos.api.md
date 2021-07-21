@@ -112,7 +112,11 @@ export class ClientContext {
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
+    getReadEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
     getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoints(): Promise<readonly string[]>;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -235,7 +239,9 @@ export enum ConnectionMode {
 // @public
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
+    enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
+    endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -403,6 +409,10 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    EffectivePartitionKeyConstants: {
+        MinimumInclusiveEffectivePartitionKey: string;
+        MaximumExclusiveEffectivePartitionKey: string;
+    };
 };
 
 // @public
@@ -486,9 +496,12 @@ export class CosmosClient {
     constructor(options: CosmosClientOptions);
     database(id: string): Database;
     readonly databases: Databases;
+    dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     getReadEndpoint(): Promise<string>;
+    getReadEndpoints(): Promise<readonly string[]>;
     getWriteEndpoint(): Promise<string>;
+    getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
 }
@@ -1545,6 +1558,8 @@ export interface StatusCodesType {
     Conflict: 409;
     // (undocumented)
     Created: 201;
+    // (undocumented)
+    ENOTFOUND: "ENOTFOUND";
     // (undocumented)
     Forbidden: 403;
     // (undocumented)

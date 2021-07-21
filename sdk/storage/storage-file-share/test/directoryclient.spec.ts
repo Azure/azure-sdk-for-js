@@ -8,7 +8,7 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
@@ -289,6 +289,76 @@ describe("DirectoryClient", () => {
     i = 0;
     for (const entry of result.segment.fileItems) {
       assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
+  it("listFilesAndDirectories - with all attributes", async () => {
+    const subDirClients = [];
+
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    const result = (
+      await dirClient
+        .listFilesAndDirectories({
+          prefix: "",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+
+    let i = 0;
+    for (const entry of result.segment.directoryItems) {
+      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    i = 0;
+    for (const entry of result.segment.fileItems) {
+      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
     }
 
     for (const subFile of subFileClients) {
@@ -669,8 +739,7 @@ describe("DirectoryClient", () => {
   });
 
   it("createFile and deleteFile with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     const tracingOptions = {
       tracingContext: setSpan(context.active(), rootSpan)
@@ -794,7 +863,7 @@ describe("DirectoryClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 

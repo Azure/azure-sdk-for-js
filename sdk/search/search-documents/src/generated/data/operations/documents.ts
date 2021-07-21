@@ -274,7 +274,9 @@ const searchGetOperationSpec: coreHttp.OperationSpec = {
     Parameters.sessionId,
     Parameters.select,
     Parameters.skip,
-    Parameters.top
+    Parameters.top,
+    Parameters.captions,
+    Parameters.semanticFields
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],

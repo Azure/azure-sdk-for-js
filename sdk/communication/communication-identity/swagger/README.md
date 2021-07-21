@@ -8,12 +8,12 @@
 package-name: azure-communication-identity
 override-client-name: IdentityRestClient
 description: Communication identity client
-package-version: 1.0.1
+package-version: 1.1.0-beta.1
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2021-03-07
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/896d05e37dbb00712726620b8d679cc3c3be09fb/specification/communication/data-plane/Identity/readme.md
+tag: package-2021-03-31-preview1
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/communication/data-plane/Identity/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

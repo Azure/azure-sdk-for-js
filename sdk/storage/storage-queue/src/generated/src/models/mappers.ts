@@ -283,7 +283,8 @@ export const GeoReplication: coreHttp.CompositeMapper = {
         required: true,
         xmlName: "Status",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["live", "bootstrap", "unavailable"]
         }
       },
       lastSyncOn: {
@@ -1046,6 +1047,7 @@ export const QueueGetPropertiesHeaders: coreHttp.CompositeMapper = {
     modelProperties: {
       metadata: {
         serializedName: "x-ms-meta",
+        xmlName: "x-ms-meta",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }

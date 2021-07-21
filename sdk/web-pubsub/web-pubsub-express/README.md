@@ -9,18 +9,19 @@ Use the express library to:
 - Add Web PubSub CloudEvents middleware to handle incoming client events
   - Handle abuse validation requests
   - Handle client events requests
-
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express) |
-[API reference documentation](https://aka.ms/awps/sdk/js) |
-[Product documentation](https://aka.ms/awps/doc) |
-[Samples][samples_ref]
+  
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express)
+- [API reference documentation](https://aka.ms/awps/sdk/js)
+- [Product documentation](https://aka.ms/awps/doc)
+- [Samples][samples_ref]
 
 ## Getting started
 
 ### Currently supported environments
 
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - [Express](https://expressjs.com/) version 4.x.x or higher
 
 ### Prerequisites
@@ -72,10 +73,6 @@ Hub is a logic set of connections. All connections to Web PubSub connect to a sp
 
 Group allow broadcast messages to a subset of connections to the hub. You can add and remove users and connections as needed. A client can join multiple groups, and a group can contain multiple clients.
 
-### Group
-
-Group allow broadcast messages to a subset of connections to the hub. You can add and remove users and connections as needed. A client can join multiple groups, and a group can contain multiple clients.
-
 ### User
 
 Connections to Web PubSub can belong to one user. A user might have multiple connections, for example when a single user is connected across multiple devices or multiple browser tabs.
@@ -108,7 +105,7 @@ directory for detailed examples on how to use this library.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

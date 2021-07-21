@@ -44,7 +44,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: imdsEndpoint,
+    url: process.env.AZURE_POD_IDENTITY_TOKEN_URL ?? imdsEndpoint,
     method: "GET",
     queryParameters,
     headers: {
@@ -73,6 +73,11 @@ export const imdsMsi: MSI = {
       getTokenOptions
     );
 
+    // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
+    if (process.env.AZURE_POD_IDENTITY_TOKEN_URL) {
+      return true;
+    }
+
     const request = prepareRequestOptions(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
@@ -90,10 +95,13 @@ export const imdsMsi: MSI = {
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
-      webResource.timeout = updatedOptions?.requestOptions?.timeout || 500;
+
+      // In Kubernetes pods, node-fetch (used by core-http) takes longer than 2 seconds to begin sending the network request,
+      // So smaller timeouts will cause this credential to be immediately aborted.
+      // This won't be a problem once we move Identity to core-rest-pipeline.
+      webResource.timeout = updatedOptions?.requestOptions?.timeout || 3000;
 
       try {
-        logger.info(`Pinging IMDS endpoint`);
         await identityClient.sendRequest(webResource);
       } catch (err) {
         if (

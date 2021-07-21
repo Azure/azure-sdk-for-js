@@ -7,7 +7,7 @@
   "description": "internal avro parser",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-internal-avro/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-internal-avro/",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -27,7 +27,7 @@
   },
   "types": "./types/latest/storage-internal-avro.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "dist/",
@@ -66,7 +66,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -76,7 +76,7 @@
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "assert": "^1.4.1",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
@@ -57,8 +57,7 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("setMetadata with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
 
     const metadata = {
@@ -102,7 +101,7 @@ describe("DataLakeFileSystemClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 

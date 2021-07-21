@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "3a37cbbea59193aa25c1ea185e7b6448";
+module.exports.hash = "f524cc3eaf0f0c60159570d26aaf8719";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -10,13 +10,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Thu, 06 May 2021 00:21:32 GMT',
+  'Fri, 11 Jun 2021 20:57:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '196',
   'Connection',
-  'close',
+  'keep-alive',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -34,7 +34,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '70dcc8af-b0d7-41dc-8c65-d6136577dd41',
+  'e2950b84-1712-4c00-84d4-77be9e42debc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -45,15 +45,15 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Thu, 06 May 2021 00:21:32 GMT',
+  'Fri, 11 Jun 2021 20:57:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
   'chunked',
   'Connection',
-  'close',
+  'keep-alive',
   'X-Ms-Correlation-Request-Id',
-  '1d72c6e8-fb90-405b-94a8-20699cf47782',
+  '058a0ddf-a3a0-460f-8a06-03a49417dd9e',
   'x-ms-ratelimit-remaining-calls-per-second',
   '166.65',
   'Strict-Transport-Security',
@@ -66,13 +66,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Thu, 06 May 2021 00:21:33 GMT',
+  'Fri, 11 Jun 2021 20:57:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '105',
   'Connection',
-  'close',
+  'keep-alive',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -88,7 +88,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '6f2bc303-166e-47a5-8633-c65029e75f61',
+  'b73f1251-5994-48bf-8823-aead2c5e9f3e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);

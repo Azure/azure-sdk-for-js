@@ -77,6 +77,19 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
+export function getImmutableContainerName(): string {
+  const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
+  let immutableContainerName: string | undefined;
+
+  immutableContainerName = (self as any).__env__[immutableContainerEnvVar];
+
+  if (!immutableContainerName || immutableContainerName === "") {
+    throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
+  }
+
+  return immutableContainerName;
+}
+
 export function getBSU(): BlobServiceClient {
   return getGenericBSU("");
 }
@@ -141,21 +154,6 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
   }
 
   return true;
-}
-
-export function isIE(): boolean {
-  const sAgent = self.navigator.userAgent;
-  const Idx = sAgent.indexOf("MSIE");
-
-  // If IE, return version number.
-  if (Idx > 0) {
-    return true;
-  } else if (navigator.userAgent.match(/Trident\/7\./)) {
-    // IE 11
-    return true;
-  } else {
-    return false;
-  } // It is not IE
 }
 
 // Mock a Browser file with specified name and size

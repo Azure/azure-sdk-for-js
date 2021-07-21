@@ -6,27 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { PolicyCertificates } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
+  PolicyCertificatesGetOptionalParams,
   PolicyCertificatesGetResponse,
+  PolicyCertificatesAddOptionalParams,
   PolicyCertificatesAddResponse,
+  PolicyCertificatesRemoveOptionalParams,
   PolicyCertificatesRemoveResponse
 } from "../models";
 
-/**
- * Class representing a PolicyCertificates.
- */
-export class PolicyCertificates {
-  private readonly client: GeneratedClient;
+/** Class representing a PolicyCertificates. */
+export class PolicyCertificatesImpl implements PolicyCertificates {
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class PolicyCertificates class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -35,15 +37,9 @@ export class PolicyCertificates {
    * @param options The options parameters.
    */
   get(
-    options?: coreHttp.OperationOptions
+    options?: PolicyCertificatesGetOptionalParams
   ): Promise<PolicyCertificatesGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<PolicyCertificatesGetResponse>;
+    return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 
   /**
@@ -54,16 +50,12 @@ export class PolicyCertificates {
    */
   add(
     policyCertificateToAdd: string,
-    options?: coreHttp.OperationOptions
+    options?: PolicyCertificatesAddOptionalParams
   ): Promise<PolicyCertificatesAddResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      policyCertificateToAdd,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { policyCertificateToAdd, options },
       addOperationSpec
-    ) as Promise<PolicyCertificatesAddResponse>;
+    );
   }
 
   /**
@@ -76,23 +68,18 @@ export class PolicyCertificates {
    */
   remove(
     policyCertificateToRemove: string,
-    options?: coreHttp.OperationOptions
+    options?: PolicyCertificatesRemoveOptionalParams
   ): Promise<PolicyCertificatesRemoveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      policyCertificateToRemove,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { policyCertificateToRemove, options },
       removeOperationSpec
-    ) as Promise<PolicyCertificatesRemoveResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/certificates",
   httpMethod: "GET",
   responses: {
@@ -108,7 +95,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const addOperationSpec: coreHttp.OperationSpec = {
+const addOperationSpec: coreClient.OperationSpec = {
   path: "/certificates:add",
   httpMethod: "POST",
   responses: {
@@ -126,7 +113,7 @@ const addOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const removeOperationSpec: coreHttp.OperationSpec = {
+const removeOperationSpec: coreClient.OperationSpec = {
   path: "/certificates:remove",
   httpMethod: "POST",
   responses: {

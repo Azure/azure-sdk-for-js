@@ -154,7 +154,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 export { HttpHeaders }
 

@@ -13,6 +13,7 @@ import { toRecognizedFormArray } from "../../transforms";
 
 /**
  * Options for Form Recognition shared between prebuilt and custom models.
+ * @internal
  */
 export interface FormPollerOperationOptions {
   /**
@@ -35,6 +36,8 @@ export interface FormPollerOperationOptions {
 /**
  * Encapsulates the steps to start and query the status of
  * a form recognition operation
+ *
+ * @internal
  */
 export interface FormRecognitionOperationClient {
   /**
@@ -133,6 +136,7 @@ function makeFormRecognitionOperation(
 
 /**
  * Set of intrinsic properties that describe a form recognition polling operation.
+ * @internal
  */
 export type FormPollerOperationDescription = FormPollerOperationOptions &
   FormRecognitionOperationClient & {
@@ -152,6 +156,8 @@ const DEFAULT_POLLING_INTERVAL = 5000;
 /**
  * A poller for Form Recognition that works for all analysis endpoints
  * that return the basic, weakly-typed `RecognizedFormArray` type.
+ *
+ * @internal
  */
 export class FormRecognitionPoller extends Poller<
   RecognizeFormsOperationState,

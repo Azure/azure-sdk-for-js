@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   AttestOpenEnclaveRequest as AttestOpenEnclaveRequestMapper,
   AttestSgxEnclaveRequest as AttestSgxEnclaveRequestMapper,
@@ -126,7 +126,7 @@ export const policyCertificateToAdd: OperationParameter = {
   parameterPath: "policyCertificateToAdd",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+      Pattern: new RegExp("[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*")
     },
     serializedName: "policyCertificateToAdd",
     required: true,
@@ -140,7 +140,7 @@ export const policyCertificateToRemove: OperationParameter = {
   parameterPath: "policyCertificateToRemove",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+      Pattern: new RegExp("[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*")
     },
     serializedName: "policyCertificateToRemove",
     required: true,

@@ -421,6 +421,7 @@ export interface BlobItem {
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
   objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+  hasVersionsOnly?: boolean;
 }
 
 /**
@@ -516,6 +517,18 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob tags be returned in the response.
    */
   includeTags?: boolean;
+  /**
+   * Specifies whether deleted blob with versions be returned in the response.
+   */
+  includeDeletedwithVersions?: boolean;
+  /**
+   * Specifies whether blob immutability policy be returned in the response.
+   */
+  includeImmutabilityPolicy?: boolean;
+  /**
+   * Specifies whether blob legal hold be returned in the response.
+   */
+  includeLegalHold?: boolean;
 }
 
 /**
@@ -1254,6 +1267,7 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
+
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
         _response: response._response, // _response is made non-enumerable
@@ -1473,6 +1487,15 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
+    if (options.includeDeletedwithVersions) {
+      include.push("deletedwithversions");
+    }
+    if (options.includeImmutabilityPolicy) {
+      include.push("immutabilitypolicy");
+    }
+    if (options.includeLegalHold) {
+      include.push("legalhold");
+    }
     if (options.prefix === "") {
       options.prefix = undefined;
     }
@@ -1680,6 +1703,15 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeTags) {
       include.push("tags");
+    }
+    if (options.includeDeletedwithVersions) {
+      include.push("deletedwithversions");
+    }
+    if (options.includeImmutabilityPolicy) {
+      include.push("immutabilitypolicy");
+    }
+    if (options.includeLegalHold) {
+      include.push("legalhold");
     }
     if (options.prefix === "") {
       options.prefix = undefined;

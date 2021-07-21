@@ -25,9 +25,13 @@ export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from
 export {
   AcsChatEventBase,
   AcsChatEventInThreadBase,
+  AcsChatMessageEventInThreadBase,
   AcsChatMessageDeletedEventData,
+  AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
+  AcsChatMessageEditedInThreadEventData,
   AcsChatMessageReceivedEventData,
+  AcsChatMessageReceivedInThreadEventData,
   AcsChatMessageEventBase,
   AcsChatThreadCreatedWithUserEventData,
   AcsChatThreadPropertiesUpdatedPerUserEventData,
@@ -180,5 +184,6 @@ export {
   PolicyInsightsPolicyStateCreatedEventData,
   PolicyInsightsPolicyStateDeletedEventData,
   StorageAsyncOperationInitiatedEventData,
-  StorageBlobTierChangedEventData
+  StorageBlobTierChangedEventData,
+  StorageBlobInventoryPolicyCompletedEventData
 } from "./generated/models";

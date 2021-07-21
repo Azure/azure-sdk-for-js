@@ -6,28 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Policy } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
   AttestationType,
+  PolicyGetOptionalParams,
   PolicyGetResponse,
+  PolicySetModelOptionalParams,
   PolicySetModelResponse,
+  PolicyResetOptionalParams,
   PolicyResetResponse
 } from "../models";
 
-/**
- * Class representing a Policy.
- */
-export class Policy {
-  private readonly client: GeneratedClient;
+/** Class representing a Policy. */
+export class PolicyImpl implements Policy {
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class Policy class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -39,16 +41,12 @@ export class Policy {
    */
   get(
     attestationType: AttestationType,
-    options?: coreHttp.OperationOptions
+    options?: PolicyGetOptionalParams
   ): Promise<PolicyGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      attestationType,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { attestationType, options },
       getOperationSpec
-    ) as Promise<PolicyGetResponse>;
+    );
   }
 
   /**
@@ -62,17 +60,12 @@ export class Policy {
   set(
     attestationType: AttestationType,
     newAttestationPolicy: string,
-    options?: coreHttp.OperationOptions
+    options?: PolicySetModelOptionalParams
   ): Promise<PolicySetModelResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      attestationType,
-      newAttestationPolicy,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { attestationType, newAttestationPolicy, options },
       setOperationSpec
-    ) as Promise<PolicySetModelResponse>;
+    );
   }
 
   /**
@@ -85,24 +78,18 @@ export class Policy {
   reset(
     attestationType: AttestationType,
     policyJws: string,
-    options?: coreHttp.OperationOptions
+    options?: PolicyResetOptionalParams
   ): Promise<PolicyResetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      attestationType,
-      policyJws,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { attestationType, policyJws, options },
       resetOperationSpec
-    ) as Promise<PolicyResetResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/policies/{attestationType}",
   httpMethod: "GET",
   responses: {
@@ -118,7 +105,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const setOperationSpec: coreHttp.OperationSpec = {
+const setOperationSpec: coreClient.OperationSpec = {
   path: "/policies/{attestationType}",
   httpMethod: "PUT",
   responses: {
@@ -136,7 +123,7 @@ const setOperationSpec: coreHttp.OperationSpec = {
   mediaType: "text",
   serializer
 };
-const resetOperationSpec: coreHttp.OperationSpec = {
+const resetOperationSpec: coreClient.OperationSpec = {
   path: "/policies/{attestationType}:reset",
   httpMethod: "POST",
   responses: {

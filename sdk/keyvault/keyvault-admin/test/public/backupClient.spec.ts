@@ -10,7 +10,7 @@ import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
 import { getSasToken } from "../utils/common";
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { KeyClient } from "@azure/keyvault-keys";
 
@@ -62,15 +62,13 @@ describe("KeyVaultBackupClient", () => {
       assert.match(backupResult.folderUri!, new RegExp(blobStorageUri));
     });
 
-    // There is a service issue that prevents errors from showing up in the
-    // error field. Pending until it's resolved. ADO 8750375
-    it.skip("returns the correct backup result when fails to authenticate", async function() {
+    it("throws when polling errors", async function() {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         "invalid_sas_token",
         testPollerProperties
       );
-      assert.isRejected(backupPoller.pollUntilDone());
+      await assert.isRejected(backupPoller.pollUntilDone(), /SAS token/);
     });
   });
 
@@ -167,15 +165,13 @@ describe("KeyVaultBackupClient", () => {
       await keyClient.getKey(keyName);
     });
 
-    // There is a service issue that prevents errors from showing up in the
-    // error field. Pending until it's resolved. ADO 8750375
-    it.skip("contains an error when fails to authenticate", async function() {
+    it("throws when polling errors", async function() {
       const restorePoller = await client.beginRestore(
         blobStorageUri,
         "bad_token",
         testPollerProperties
       );
-      await assert.isRejected(restorePoller.pollUntilDone());
+      await assert.isRejected(restorePoller.pollUntilDone(), /SAS token is malformed/);
     });
   });
 });

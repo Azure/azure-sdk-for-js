@@ -1,7 +1,45 @@
 # Release History
 
-## 11.2.0-beta.3 (Unreleased)
+## 11.3.0-beta.2 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 11.3.0-beta.1 (2021-07-07)
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+- Regenerated the search SDK with the latest swaggers that includes the following changes:
+
+  - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
+  - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
+  - The following new skills have been added:
+    - SentimentSkill(V3)
+    - EntityLinkingSkill(V3)
+    - EntityRecognitionSkill(V3)
+    - PIIDetectionSkill
+  - A new property `lineEnding` has been added to the skill `OcrSkill`.
+
+## 11.2.0 (2021-06-08)
+
+The list of changes in 11.2.0 since 11.1.0 & 11.2.0-beta.2 are provided below:
+
+**Changes since 11.1.0**
+
+- Added support for Knowledge Store feature through the new `SearchIndexerKnowledgeStore` in the `SearchIndexerSkillset` object.
+- The `skillsetCounter` property in `ServiceCounters` object has been made optional.
+- Added Support for new datasource `adlsgen2`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+
+**Changes since 11.2.0-beta.2**
+
+- Removed Support for Semantic Search and introduced new properties in `SearchOptions`, `SearchRequest`, `SearchResult` and `SearchDocumentsResult` objects.
+- Removed Support for normalizers `LexicalNormalizer` & `CustomNormalizer`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
 
 ## 11.2.0-beta.2 (2021-05-11)
 

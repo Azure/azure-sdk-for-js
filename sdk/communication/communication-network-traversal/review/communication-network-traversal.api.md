@@ -11,6 +11,13 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface CommunicationIceServer {
+    credential: string;
+    urls: string[];
+    username: string;
+}
+
+// @public
 export class CommunicationRelayClient {
     constructor(connectionString: string, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
@@ -25,14 +32,7 @@ export interface CommunicationRelayClientOptions extends PipelineOptions {
 // @public
 export interface CommunicationRelayConfiguration {
     expiresOn: Date;
-    turnServers: CommunicationTurnServer[];
-}
-
-// @public
-export interface CommunicationTurnServer {
-    credential: string;
-    urls: string[];
-    username: string;
+    iceServers: CommunicationIceServer[];
 }
 
 

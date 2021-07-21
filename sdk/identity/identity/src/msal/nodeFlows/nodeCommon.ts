@@ -3,8 +3,10 @@
 
 import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
+
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { resolveTenantId } from "../../util/resolveTenantId";
@@ -14,20 +16,49 @@ import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
-  getAuthorityHost,
+  getAuthority,
   getKnownAuthorities,
   MsalBaseUtilities,
   msalToPublic,
   publicToMsal
 } from "../utils";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { RegionalAuthority } from "../../regionalAuthority";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
  * @internal
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
+  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
+  allowMultiTenantAuthentication?: boolean;
+  /**
+   * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
+   * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
+   * If the property is not specified, uses a non-regional authority endpoint.
+   */
+  regionalAuthority?: string;
 }
+
+/**
+ * The current persistence provider, undefined by default.
+ * @internal
+ */
+let persistenceProvider:
+  | ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>)
+  | undefined = undefined;
+
+/**
+ * An object that allows setting the persistence provider.
+ * @internal
+ */
+export const msalNodeFlowCacheControl = {
+  setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
+    persistenceProvider = pluginProvider;
+  }
+};
 
 /**
  * MSAL partial base client for NodeJS.
@@ -43,13 +74,34 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
+  protected tenantId: string;
+  protected allowMultiTenantAuthentication?: boolean;
+  protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
+  protected azureRegion?: string;
+  protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
+    this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.clientId = this.msalConfig.auth.clientId;
+
+    // If persistence has been configured
+    if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
+      this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);
+    } else if (options.tokenCachePersistenceOptions?.enabled) {
+      throw new Error(
+        "Persistent token caching was requested, but no persistence provider was configured (do you need to use the `@azure/identity-cache-persistence` package?)"
+      );
+    }
+
+    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+      this.azureRegion = "AUTO_DISCOVER";
+    }
   }
 
   /**
@@ -58,16 +110,19 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected defaultNodeMsalConfig(options: MsalNodeOptions): msalNode.Configuration {
     const clientId = options.clientId || DeveloperSignOnClientId;
     const tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    const authorityHost = getAuthorityHost(tenantId, options.authorityHost);
+
+    this.authorityHost = options.authorityHost || process.env.AZURE_AUTHORITY_HOST;
+    const authority = getAuthority(tenantId, this.authorityHost);
+
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
-      authorityHost
+      authorityHost: authority
     });
     return {
       auth: {
         clientId,
-        authority: authorityHost,
-        knownAuthorities: getKnownAuthorities(tenantId, authorityHost)
+        authority,
+        knownAuthorities: getKnownAuthorities(tenantId, authority)
       },
       // Cache is defined in this.prepare();
       system: {
@@ -93,6 +148,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (this.publicApp || this.confidentialApp) {
       return;
+    }
+
+    if (this.createCachePlugin !== undefined) {
+      this.msalConfig.cache = {
+        cachePlugin: await this.createCachePlugin()
+      };
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
@@ -141,7 +202,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (this.account) {
       return this.account;
     }
-    const cache = this.publicApp?.getTokenCache();
+    const cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
     const accountsByTenant = await cache?.getAllAccounts();
 
     if (!accountsByTenant) {
@@ -164,13 +225,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   }
 
   /**
-   * Clears MSAL's cache.
-   */
-  async logout(): Promise<void> {
-    // Intentionally empty
-  }
-
-  /**
    * Attempts to retrieve a token from cache.
    */
   async getTokenSilent(
@@ -186,12 +240,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       // To be able to re-use the account, the Token Cache must also have been provided.
       account: publicToMsal(this.account),
       correlationId: options?.correlationId,
-      scopes
+      scopes,
+      authority: options?.authority
     };
 
     try {
       this.logger.info("Attempting to acquire token silently");
-      const response = await this.publicApp!.acquireTokenSilent(silentRequest);
+      const response =
+        (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
+        (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err) {
       throw this.handleError(scopes, err, options);
@@ -211,8 +268,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
+    options.authority = getAuthority(tenantId, this.authorityHost);
+
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
+
     return this.getTokenSilent(scopes, options).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;

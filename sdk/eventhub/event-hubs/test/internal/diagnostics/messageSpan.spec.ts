@@ -3,20 +3,18 @@
 
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
-import { TestTracer, setTracer, getTracer } from "@azure/core-tracing";
+import { setTracer, resetTracer } from "@azure/test-utils";
 
 const should = chai.should();
 const assert = chai.assert;
 
 describe("#createMessageSpan()", () => {
-  const origTracer = getTracer();
-
   before(() => {
-    setTracer(new TestTracer());
+    setTracer();
   });
 
   after(() => {
-    setTracer(origTracer);
+    resetTracer();
   });
 
   it("should create a span without a parent", () => {
@@ -29,8 +27,8 @@ describe("#createMessageSpan()", () => {
     );
 
     should.exist(span);
-    should.exist(span.context().spanId);
-    should.exist(span.context().traceId);
+    should.exist(span.spanContext().spanId);
+    should.exist(span.spanContext().traceId);
 
     should.equal((span as any).name, "Azure.EventHubs.message");
     assert.deepStrictEqual((span as any).attributes, {

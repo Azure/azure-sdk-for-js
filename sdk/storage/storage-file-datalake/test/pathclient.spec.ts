@@ -3,7 +3,7 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
@@ -149,8 +149,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
 
     const rootSpan = tracer.startSpan("root");
 
@@ -192,7 +191,7 @@ describe("DataLakePathClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 

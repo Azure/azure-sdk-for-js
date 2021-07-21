@@ -10,8 +10,6 @@ export {
   TableDeleteEntityResponse as DeleteTableEntityResponse,
   TableUpdateEntityResponse as UpdateEntityResponse,
   TableMergeEntityResponse as UpsertEntityResponse,
-  TableGetAccessPolicyResponse as GetAccessPolicyResponse,
-  SignedIdentifier,
   TableSetAccessPolicyResponse as SetAccessPolicyResponse,
   TableInsertEntityHeaders,
   TableCreateHeaders,
@@ -31,6 +29,5 @@ export {
   Logging,
   TableSetAccessPolicyHeaders,
   ServiceSetPropertiesHeaders,
-  AccessPolicy,
   TableUpdateEntityHeaders
 } from "./generated/models";

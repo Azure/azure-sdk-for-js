@@ -34,7 +34,7 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool/",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/",
   "sideEffects": false,
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
@@ -45,7 +45,7 @@
     "minimist": "~1.2.5",
     "prettier": "^1.16.4",
     "ts-node": "^9.0.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "typescript": "~4.2.0",
     "yaml": "~1.10.0"
   },
@@ -59,7 +59,7 @@
     "@types/fs-extra": "^8.0.0",
     "@types/minimist": "~1.2.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/prettier": "~2.0.1",
     "builtin-modules": "~3.1.0",
     "chai": "^4.2.0",
