@@ -37,7 +37,7 @@ dependencies:
   '@rush-temp/event-processor-host': file:projects/event-processor-host.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
-  '@rush-temp/eventhubs-checkpointstore-tables': file:projects/eventhubs-checkpointstore-tables.tgz
+  '@rush-temp/eventhubs-checkpointstore-table': file:projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/identity': file:projects/identity.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
@@ -6141,7 +6141,7 @@ packages:
     resolution:
       integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
   /querystring/0.2.1:
-    deprecated: The
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
     engines:
       node: '>=0.4.x'
@@ -9777,7 +9777,7 @@ packages:
       integrity: sha512-+IkU2ATSSMXaGRwCmLYsC6zjHzXJdbyPHp2Hj9r90C/odBUHvsffC0Pr0Z6VKqb9V1DZfFDoLlQTUdjwkS2NHg==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
-  file:projects/eventhubs-checkpointstore-tables.tgz:
+  file:projects/eventhubs-checkpointstore-table.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -9830,10 +9830,10 @@ packages:
       typescript: 4.2.4
       util: 0.12.3
     dev: false
-    name: '@rush-temp/eventhubs-checkpointstore-tables'
+    name: '@rush-temp/eventhubs-checkpointstore-table'
     resolution:
-      integrity: sha512-bagZAiP3W4qg4sITSMEzTvEDjbrBw4fP0LGeVXDYgTadMmBpnVFDKAV1hqI+cvTE8Wyyo5lRwOTdxOlySGTddg==
-      tarball: file:projects/eventhubs-checkpointstore-tables.tgz
+      integrity: sha512-DDxC6qxGxXQxIvXk6mCJhnIRSBYu9g92qNIbHBcNR+20cGPyn0P5sjrQ6wYjvEpBxP4Gaa0+/HjnpVK5Z+7wzg==
+      tarball: file:projects/eventhubs-checkpointstore-table.tgz
     version: 0.0.0
   file:projects/identity.tgz:
     dependencies:
@@ -11786,7 +11786,7 @@ specifiers:
   '@rush-temp/event-processor-host': file:./projects/event-processor-host.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
-  '@rush-temp/eventhubs-checkpointstore-tables': file:./projects/eventhubs-checkpointstore-tables.tgz
+  '@rush-temp/eventhubs-checkpointstore-table': file:./projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
