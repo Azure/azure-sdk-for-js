@@ -5,11 +5,11 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
-import { UsernamePasswordCredential } from "@azure/identity";
+const { UsernamePasswordCredential } = require("@azure/identity");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../../../dist";
-import { handleError, finish, logStep } from "./Shared/handleError";
+const { CosmosClient } = require("../../../dist");
+const { handleError, finish, logStep } = require("./Shared/handleError");
 
 const endpoint = "your-endpoint";
 const masterKey = "your-master-key";

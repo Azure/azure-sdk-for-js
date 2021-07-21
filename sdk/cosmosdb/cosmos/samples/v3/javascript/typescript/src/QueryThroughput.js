@@ -1,12 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-/**
- * @summary Demonstrates query throughput scenarios.
- */
-
-import { Container, FeedOptions, SqlQuerySpec } from "../../../dist-esm";
-
+//@@TS-MAGIC-NEWLINE@@
 const { CosmosClient } = require("../../../../dist/types/latest/cosmos");
 
 const {
@@ -52,11 +44,7 @@ async function run() {
   }
 }
 
-async function runScenario(
-  container: Container,
-  query: string | SqlQuerySpec,
-  options: FeedOptions
-) {
+async function runScenario(container, query, options) {
   const queryIterator = container.items.query(query, options);
   let count = 0;
   while (queryIterator.hasMoreResults() && count <= 100000) {
@@ -68,3 +56,4 @@ async function runScenario(
 }
 
 run().catch(console.error);
+export {};

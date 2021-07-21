@@ -5,7 +5,8 @@ import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
 import { RequestOptions } from "..";
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
+const uuid = v4;
 
 export type Operation =
   | CreateOperation

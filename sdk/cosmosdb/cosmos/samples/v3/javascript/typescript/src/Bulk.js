@@ -5,20 +5,20 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-import { handleError, finish, logStep } from "./Shared/handleError";
-import { BulkOperationType } from "../../../src";
+const { handleError, finish, logStep } = require("./Shared/handleError");
+const { BulkOperationType } = require("../../../src");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../../../dist";
+const { CosmosClient } = require("../../../dist");
 
 const endpoint = process.env.COSMOS_ENDPOINT;
 const masterKey = process.env.COSMOS_KEY;
 
-function addEntropy(name: string): string {
+function addEntropy(name) {
   return name + getEntropy();
 }
 
-function getEntropy(): string {
+function getEntropy() {
   return `${Math.floor(Math.random() * 10000)}`;
 }
 

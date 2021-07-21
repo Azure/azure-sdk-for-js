@@ -1,13 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
  * @summary Demonstrates database create, read, delete and reading all databases.
  */
 
-import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
-import { CosmosClient } from "../../../dist-esm";
-import assert from "assert";
+const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError");
+const { CosmosClient } = require("../../../dist-esm");
+const assert = require("assert");
 
 const {
   COSMOS_DATABASE: databaseId,
@@ -21,7 +21,7 @@ logSampleHeader("Database Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   logStep("Create database, if it doesn't already exist");
   await client.databases.createIfNotExists({ id: databaseId });
   console.log("Database with id " + databaseId + " created.");

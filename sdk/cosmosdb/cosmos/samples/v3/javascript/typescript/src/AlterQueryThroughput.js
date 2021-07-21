@@ -5,15 +5,8 @@
  * @summary Updates a container offer to change query throughput.
  */
 
-import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
-import {
-  CosmosClient,
-  OfferDefinition,
-  Resource,
-  ContainerDefinition,
-  DatabaseDefinition,
-  FeedResponse
-} from "../../../dist-esm";
+const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError");
+const { CosmosClient } = require("../../../dist-esm");
 const {
   COSMOS_DATABASE: databaseId,
   COSMOS_CONTAINER: containerId,
@@ -27,7 +20,7 @@ logSampleHeader("Alter Query Throughput");
 const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   logStep(`Create container with id : ${containerId}`);
@@ -37,7 +30,7 @@ async function run(): Promise<void> {
   const { resources: offers } = await client.offers.readAll().fetchAll();
 
   const newRups = 700;
-  await asyncForEach(offers, async (offerDefinition: OfferDefinition) => {
+  await asyncForEach(offers, async (offerDefinition) => {
     await updateOfferForCollection(newRups, databaseId, containerId, offerDefinition);
   });
 
@@ -59,14 +52,9 @@ async function run(): Promise<void> {
 
 run().catch(handleError);
 
-async function updateOfferForCollection(
-  newRups: number,
-  dbName: string,
-  collectionName: string,
-  oldOfferDefinition: OfferDefinition
-): Promise<void> {
+async function updateOfferForCollection(newRups, dbName, collectionName, oldOfferDefinition) {
   if (!oldOfferDefinition || !oldOfferDefinition.content) throw "found invalid offer";
-  const newOfferDefinition: OfferDefinition = {
+  const newOfferDefinition = {
     ...oldOfferDefinition,
     content: {
       offerThroughput: newRups,
@@ -80,10 +68,10 @@ async function updateOfferForCollection(
   const { resources: databases } = await client.databases.readAll().fetchAll();
 
   logStep("Read corresponding containers");
-  const containerResponses: FeedResponse<ContainerDefinition & Resource>[] = await Promise.all(
+  const containerResponses = await Promise.all(
     databases
-      .filter((database: DatabaseDefinition & Resource) => database.id === dbName)
-      .map((database: DatabaseDefinition & Resource) => {
+      .filter((database) => database.id === dbName)
+      .map((database) => {
         return client
           .database(database.id)
           .containers.readAll()
@@ -91,17 +79,13 @@ async function updateOfferForCollection(
       })
   );
 
-  const flat = <T>(nestedArrays: T[][]): T[] => [].concat(...nestedArrays);
+  const flat = (nestedArrays) => [].concat(...nestedArrays);
 
-  const containers: (ContainerDefinition & Resource)[] = flat(
-    containerResponses.map(
-      (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
-    )
-  );
+  const containers = flat(containerResponses.map((response) => response.resources));
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(
-    (containerParam: ContainerDefinition & Resource) =>
+    (containerParam) =>
       containerParam._rid === oldOfferDefinition.offerResourceId &&
       containerParam.id === collectionName
   );
@@ -113,10 +97,7 @@ async function updateOfferForCollection(
   }
 }
 
-async function asyncForEach<T>(
-  array: Array<T>,
-  callback: (element: T, index?: number, array?: T[]) => Promise<void>
-): Promise<void> {
+async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index]);
   }

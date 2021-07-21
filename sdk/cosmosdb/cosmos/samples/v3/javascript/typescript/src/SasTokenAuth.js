@@ -1,15 +1,7 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-/**
- * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
- */
-
-import { SasTokenProperties } from "../../../dist-esm/client/SasToken/SasTokenProperties";
-import { SasTokenPermissionKind } from "../../../dist-esm/common/constants";
-import { createAuthorizationSasToken } from "../../../dist-esm/utils/SasToken";
-import { handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient } from "../../../dist-esm/CosmosClient";
+const { SasTokenPermissionKind } = require("../../../dist-esm/common/constants");
+const { createAuthorizationSasToken } = require("../../../dist-esm/utils/SasToken");
+const { handleError, finish, logStep } = require("./Shared/handleError");
+const { CosmosClient } = require("../../../dist-esm/CosmosClient");
 
 const { COSMOS_ENDPOINT: endpoint, COSMOS_KEY: masterKey } = process.env;
 const sasToken = "your-sas-token";
@@ -17,7 +9,7 @@ const sasToken = "your-sas-token";
 async function run() {
   logStep("Create a SasToken object");
 
-  const sasTokenProperties = <SasTokenProperties>{
+  const sasTokenProperties = {
     user: "your-user",
     userTag: "your-userTag",
     databaseName: "your-databaseName",
@@ -61,7 +53,7 @@ async function run() {
   // read all items in the Items container
   const { resources: items } = await container.items.query(querySpec).fetchAll();
 
-  items.forEach((item: { id: any; description: any }) => {
+  items.forEach((item) => {
     console.log(`${item.id} - ${item.description}`);
   });
 

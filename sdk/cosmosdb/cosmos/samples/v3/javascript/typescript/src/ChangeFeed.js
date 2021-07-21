@@ -1,10 +1,18 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { finish, handleError, logSampleHeader } from "./Shared/handleError";
-import { CosmosClient } from "../../dist-esm";
+/**
+ * @summary Demonstrates using a ChangeFeed.
+ */
 
-const { database: databaseId, container: containerId, COSMOS_ENDPOINT: endpoint, COSMOS_KEY: key } = process.env
+const { finish, handleError, logSampleHeader } = require("./Shared/handleError");
+const { CosmosClient } = require("../../../dist-esm");
+const {
+  COSMOS_DATABASE: databaseId,
+  COSMOS_CONTAINER: containerId,
+  COSMOS_ENDPOINT: endpoint,
+  COSMOS_KEY: key
+} = process.env;
 
 logSampleHeader("Change Feed");
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -13,7 +21,7 @@ const client = new CosmosClient({ endpoint, key });
 // We'll use the same pk value for all these samples
 const pk = "0";
 
-function doesMatch(actual: any[], expected: any[]): string {
+function doesMatch(actual, expected) {
   for (let i = 0; i < actual.length; i++) {
     if (actual[i] !== expected[i]) {
       return "❌";
@@ -22,14 +30,14 @@ function doesMatch(actual: any[], expected: any[]): string {
   return "✅";
 }
 
-function logResult(scenario: string, actual: any[], expected: any[]): void {
+function logResult(scenario, actual, expected) {
   const status = doesMatch(actual, expected);
   console.log(
     `  ${status} ${scenario} - expected: [${expected.join(", ")}] - actual: [${actual.join(", ")}]`
   );
 }
 
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
@@ -84,7 +92,7 @@ async function run(): Promise<void> {
     logResult(
       "initial specific Continuation scenario",
       [3],
-      specificContinuationResult.map((v: any) => parseInt(v.id))
+      specificContinuationResult.map((v) => parseInt(v.id))
     );
 
     // First page is empty. It is catching up to a valid continuation.
@@ -92,28 +100,28 @@ async function run(): Promise<void> {
     logResult(
       "initial specific point in time scenario should be empty while it finds the right continuation",
       [],
-      shouldBeEmpty.map((v: any) => parseInt(v.id))
+      shouldBeEmpty.map((v) => parseInt(v.id))
     );
     // Second page should have results
     const { result: specificPointInTimeResults } = await specificPointInTimeIterator.fetchNext();
     logResult(
       "second specific point in time scenario should have caught up now",
       [2, 3],
-      specificPointInTimeResults.map((v: any) => parseInt(v.id))
+      specificPointInTimeResults.map((v) => parseInt(v.id))
     );
 
     const { result: fromBeginningResults } = await fromBeginningIterator.fetchNext();
     logResult(
       "initial from beginning scenario",
       [1, 2, 3],
-      fromBeginningResults.map((v: any) => parseInt(v.id))
+      fromBeginningResults.map((v) => parseInt(v.id))
     );
 
     const { result: fromNowResultsShouldBeEmpty } = await fromNowIterator.fetchNext();
     logResult(
       "initial from now scenario should be empty",
       [],
-      fromNowResultsShouldBeEmpty.map((v: any) => parseInt(v.id))
+      fromNowResultsShouldBeEmpty.map((v) => parseInt(v.id))
     );
 
     // Now they should all be caught up to the point after id=3, so if we insert a id=4, they should all get it.
@@ -126,28 +134,28 @@ async function run(): Promise<void> {
     logResult(
       "after insert, Specific Continuation scenario",
       [4],
-      specificContinuationResult2.map((v: any) => parseInt(v.id))
+      specificContinuationResult2.map((v) => parseInt(v.id))
     );
 
     const { result: specificPointInTimeResults2 } = await specificPointInTimeIterator.fetchNext();
     logResult(
       "after insert, specific point in time scenario",
       [4],
-      specificPointInTimeResults2.map((v: any) => parseInt(v.id))
+      specificPointInTimeResults2.map((v) => parseInt(v.id))
     );
 
     const { result: fromBeginningResults2 } = await fromBeginningIterator.fetchNext();
     logResult(
       "after insert, from beginning scenario",
       [4],
-      fromBeginningResults2.map((v: any) => parseInt(v.id))
+      fromBeginningResults2.map((v) => parseInt(v.id))
     );
 
     const { result: fromNowResults2 } = await fromNowIterator.fetchNext();
     logResult(
       "after insert, from now scenario",
       [4],
-      fromNowResults2.map((v: any) => parseInt(v.id))
+      fromNowResults2.map((v) => parseInt(v.id))
     );
   } catch (err) {
     handleError(err);

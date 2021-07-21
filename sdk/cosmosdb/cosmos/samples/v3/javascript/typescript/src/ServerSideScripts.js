@@ -5,9 +5,8 @@
  * @summary Demonstrates using stored procedures for server side run functions
  */
 
-import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
-import { CosmosClient, ErrorResponse } from "../../../dist-esm";
-import { FeedOptions, Item, Resource } from "../../../dist-esm";
+const { logSampleHeader, logStep, finish, handleError } = require("./Shared/handleError");
+const { CosmosClient } = require("../../../dist-esm");
 
 logSampleHeader("Server Side Scripts");
 const {
@@ -28,7 +27,7 @@ const sprocParams = [
   }
 ];
 
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.create({ id: databaseId });
   const { container } = await database.containers.create({ id: containerId });
 
@@ -68,10 +67,10 @@ run().catch(handleError);
  * @returns {Object.<string>} Returns an object with the property:<br/>
  *   op - created (or) replaced.
  */
-let getContext: any;
+let getContext;
 const sprocDefinition = {
   id: "upsert",
-  body: function(document: Item) {
+  body: function(document) {
     var context = getContext();
     var collection = context.getCollection();
     var collectionLink = collection.getSelfLink();
@@ -83,31 +82,31 @@ const sprocDefinition = {
 
     tryCreate(document, callback);
 
-    function tryCreate(doc: Item, callback: any) {
+    function tryCreate(doc, callback) {
       var isAccepted = collection.createDocument(collectionLink, doc, callback);
       if (!isAccepted) throw new Error("Unable to schedule create document");
       response.setBody({ op: "created" });
     }
 
     // To replace the document, first issue a query to find it and then call replace.
-    function tryReplace(doc: Item, callback: any) {
-      retrieveDoc(doc, null, function(retrievedDocs: Resource[]) {
+    function tryReplace(doc, callback) {
+      retrieveDoc(doc, null, function(retrievedDocs) {
         var isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, callback);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
       });
     }
 
-    function retrieveDoc(doc: Item, continuation: string, callback: any) {
+    function retrieveDoc(doc, continuation, callback) {
       var query = {
         query: "select * from root r where r.id = @id",
         parameters: [{ name: "@id", value: doc.id }]
       };
       var requestOptions = { continuation: continuation };
       var isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function(
-        err: Error,
-        retrievedDocs: Resource[],
-        responseOptions: FeedOptions
+        err,
+        retrievedDocs,
+        responseOptions
       ) {
         if (err) throw err;
 
@@ -125,7 +124,7 @@ const sprocDefinition = {
 
     // This is called when collection.createDocument is done in order to
     // process the result.
-    function callback(err: ErrorResponse) {
+    function callback(err) {
       if (err) {
         // Replace the document if status code is 409 and upsert is enabled
         if (err.status == errorCodes.CONFLICT) {

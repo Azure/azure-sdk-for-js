@@ -7,19 +7,19 @@
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../../dist";
+const { CosmosClient } = require("../../dist");
 
 const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });
 
-export async function handleError(error: { code: string }): Promise<void> {
+export async function handleError(error) {
   console.log("\nAn error with code '" + error.code + "' has occurred:");
   console.log(error);
   await finish();
   process.exitCode = 1;
 }
 
-export async function finish(): Promise<void> {
+export async function finish() {
   try {
     await client.database(database).delete();
     console.log("\nEnd of demo.");
@@ -32,12 +32,12 @@ export async function finish(): Promise<void> {
 }
 
 let currentStep = 0;
-export function logStep(message: string): void {
+export function logStep(message) {
   currentStep++;
   console.log(`\n${currentStep}: ${message}`);
 }
 
-export function logSampleHeader(sampleName: string): void {
+export function logSampleHeader(sampleName) {
   console.log("Azure Cosmos DB Node.js Samples");
   console.log("================================");
   console.log(sampleName);

@@ -10,7 +10,7 @@ import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleEr
 // @ts-ignore
 import { CosmosClient } from "../../../dist";
 import { v4 } from "uuid";
-const uuid = v4;
+const uuid = v4
 
 const {
   COSMOS_DATABASE: databaseId,

@@ -4,8 +4,10 @@ import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleEr
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../dist";
-import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
+const uuid = v4
+
+const { database: databaseId, container: containerId, COSMOS_ENDPOINT: endpoint, COSMOS_KEY: key } = process.env
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy

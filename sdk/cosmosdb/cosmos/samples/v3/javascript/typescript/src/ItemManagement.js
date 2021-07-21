@@ -1,13 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { readFileSync } from "fs";
-import { CosmosClient } from "../../../dist-esm";
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+const { readFileSync } = require("fs");
+const { CosmosClient } = require("../../../dist-esm");
 const {
   COSMOS_DATABASE: databaseId,
   COSMOS_CONTAINER: containerId,
@@ -22,14 +22,14 @@ const itemDefs = JSON.parse(readFileSync("./Shared/Data/Families.json", "utf8"))
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   // ensuring a database & container exists for us to work with
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
   logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
-  await Promise.all(itemDefs.map((itemDef: any) => container.items.create(itemDef)));
+  await Promise.all(itemDefs.map((itemDef) => container.items.create(itemDef)));
   console.log(itemDefs.length + " items created");
 
   logStep("List items in container '" + container.id + "'");

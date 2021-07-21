@@ -1,12 +1,12 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
  * @summary Shows various ways to manage indexing items or changing container index policies.
  */
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient, IndexKind, DataType } from "../../../dist-esm";
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+const { CosmosClient, IndexKind, DataType } = require("../../../dist-esm");
 
 const {
   COSMOS_DATABASE: databaseId,
@@ -20,7 +20,7 @@ logSampleHeader("Index Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   // We're using the default indexing policy because by default indexingMode == consistent & automatic == true
