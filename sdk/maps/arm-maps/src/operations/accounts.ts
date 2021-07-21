@@ -34,24 +34,14 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccount: Models.MapsAccount,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, accountName: string, mapsAccount: Models.MapsAccount, options?: msRest.RequestOptionsBase): Promise<Models.AccountsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param mapsAccount The new or updated parameters for the Maps Account.
    * @param callback The callback
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccount: Models.MapsAccount,
-    callback: msRest.ServiceCallback<Models.MapsAccount>
-  ): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, mapsAccount: Models.MapsAccount, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -59,20 +49,8 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccount: Models.MapsAccount,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccount>
-  ): void;
-  createOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccount: Models.MapsAccount,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>,
-    callback?: msRest.ServiceCallback<Models.MapsAccount>
-  ): Promise<Models.AccountsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, mapsAccount: Models.MapsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, mapsAccount: Models.MapsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,8 +59,7 @@ export class Accounts {
         options
       },
       createOrUpdateOperationSpec,
-      callback
-    ) as Promise<Models.AccountsCreateOrUpdateResponse>;
+      callback) as Promise<Models.AccountsCreateOrUpdateResponse>;
   }
 
   /**
@@ -94,24 +71,14 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.AccountsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param mapsAccountUpdateParameters The updated parameters for the Maps Account.
    * @param callback The callback
    */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters,
-    callback: msRest.ServiceCallback<Models.MapsAccount>
-  ): void;
+  update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -119,20 +86,8 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccount>
-  ): void;
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>,
-    callback?: msRest.ServiceCallback<Models.MapsAccount>
-  ): Promise<Models.AccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
+  update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,8 +96,7 @@ export class Accounts {
         options
       },
       updateOperationSpec,
-      callback
-    ) as Promise<Models.AccountsUpdateResponse>;
+      callback) as Promise<Models.AccountsUpdateResponse>;
   }
 
   /**
@@ -152,39 +106,21 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param callback The callback
    */
-  deleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteMethod(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,8 +128,7 @@ export class Accounts {
         options
       },
       deleteMethodOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -203,39 +138,21 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.MapsAccount>
-  ): void;
+  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccount>
-  ): void;
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>,
-    callback?: msRest.ServiceCallback<Models.MapsAccount>
-  ): Promise<Models.AccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,8 +160,7 @@ export class Accounts {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.AccountsGetResponse>;
+      callback) as Promise<Models.AccountsGetResponse>;
   }
 
   /**
@@ -253,41 +169,26 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListByResourceGroupResponse>
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>,
-    callback?: msRest.ServiceCallback<Models.MapsAccounts>
-  ): Promise<Models.AccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback
-    ) as Promise<Models.AccountsListByResourceGroupResponse>;
+      callback) as Promise<Models.AccountsListByResourceGroupResponse>;
   }
 
   /**
@@ -295,9 +196,7 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListBySubscriptionResponse>
    */
-  listBySubscription(
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsListBySubscriptionResponse>;
+  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AccountsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -306,21 +205,14 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
-  listBySubscription(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>,
-    callback?: msRest.ServiceCallback<Models.MapsAccounts>
-  ): Promise<Models.AccountsListBySubscriptionResponse> {
+  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback
-    ) as Promise<Models.AccountsListBySubscriptionResponse>;
+      callback) as Promise<Models.AccountsListBySubscriptionResponse>;
   }
 
   /**
@@ -332,39 +224,21 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListKeysResponse>
    */
-  listKeys(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsListKeysResponse>;
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param callback The callback
    */
-  listKeys(
-    resourceGroupName: string,
-    accountName: string,
-    callback: msRest.ServiceCallback<Models.MapsAccountKeys>
-  ): void;
+  listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.MapsAccountKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(
-    resourceGroupName: string,
-    accountName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccountKeys>
-  ): void;
-  listKeys(
-    resourceGroupName: string,
-    accountName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccountKeys>,
-    callback?: msRest.ServiceCallback<Models.MapsAccountKeys>
-  ): Promise<Models.AccountsListKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccountKeys>): void;
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccountKeys>, callback?: msRest.ServiceCallback<Models.MapsAccountKeys>): Promise<Models.AccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,8 +246,7 @@ export class Accounts {
         options
       },
       listKeysOperationSpec,
-      callback
-    ) as Promise<Models.AccountsListKeysResponse>;
+      callback) as Promise<Models.AccountsListKeysResponse>;
   }
 
   /**
@@ -385,24 +258,14 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsRegenerateKeysResponse>
    */
-  regenerateKeys(
-    resourceGroupName: string,
-    accountName: string,
-    keySpecification: Models.MapsKeySpecification,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsRegenerateKeysResponse>;
+  regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, options?: msRest.RequestOptionsBase): Promise<Models.AccountsRegenerateKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param keySpecification Which key to regenerate:  primary or secondary.
    * @param callback The callback
    */
-  regenerateKeys(
-    resourceGroupName: string,
-    accountName: string,
-    keySpecification: Models.MapsKeySpecification,
-    callback: msRest.ServiceCallback<Models.MapsAccountKeys>
-  ): void;
+  regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, callback: msRest.ServiceCallback<Models.MapsAccountKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -410,20 +273,8 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(
-    resourceGroupName: string,
-    accountName: string,
-    keySpecification: Models.MapsKeySpecification,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccountKeys>
-  ): void;
-  regenerateKeys(
-    resourceGroupName: string,
-    accountName: string,
-    keySpecification: Models.MapsKeySpecification,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccountKeys>,
-    callback?: msRest.ServiceCallback<Models.MapsAccountKeys>
-  ): Promise<Models.AccountsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccountKeys>): void;
+  regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccountKeys>, callback?: msRest.ServiceCallback<Models.MapsAccountKeys>): Promise<Models.AccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -432,8 +283,7 @@ export class Accounts {
         options
       },
       regenerateKeysOperationSpec,
-      callback
-    ) as Promise<Models.AccountsRegenerateKeysResponse>;
+      callback) as Promise<Models.AccountsRegenerateKeysResponse>;
   }
 
   /**
@@ -442,41 +292,26 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>,
-    callback?: msRest.ServiceCallback<Models.MapsAccounts>
-  ): Promise<Models.AccountsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.AccountsListByResourceGroupNextResponse>;
+      callback) as Promise<Models.AccountsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -485,41 +320,26 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AccountsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MapsAccounts>
-  ): void;
-  listBySubscriptionNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>,
-    callback?: msRest.ServiceCallback<Models.MapsAccounts>
-  ): Promise<Models.AccountsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback
-    ) as Promise<Models.AccountsListBySubscriptionNextResponse>;
+      callback) as Promise<Models.AccountsListBySubscriptionNextResponse>;
   }
 }
 
@@ -527,11 +347,18 @@ export class Accounts {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "mapsAccount",
     mapper: {
@@ -555,11 +382,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "mapsAccountUpdateParameters",
     mapper: {
@@ -580,11 +414,18 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -597,11 +438,18 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MapsAccount
@@ -615,11 +463,17 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MapsAccounts
@@ -634,9 +488,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Maps/accounts",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MapsAccounts
@@ -650,11 +510,18 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MapsAccountKeys
@@ -668,11 +535,18 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "keySpecification",
     mapper: {
@@ -695,9 +569,15 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MapsAccounts
@@ -713,9 +593,15 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MapsAccounts

@@ -86,6 +86,66 @@ export interface SystemData {
 }
 
 /**
+ * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
+ */
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity dictionary key
+   * references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue };
+}
+
+/**
+ * Linked resource is reference to a resource deployed in an Azure subscription, add the linked
+ * resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial
+ * REST APIs.
+ */
+export interface LinkedResource {
+  /**
+   * A provided name which uniquely identifies the linked resource.
+   */
+  uniqueName: string;
+  /**
+   * ARM resource id in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.
+   */
+  id: string;
+}
+
+/**
  * Additional Map account properties
  */
 export interface MapsAccountProperties {
@@ -100,10 +160,15 @@ export interface MapsAccountProperties {
    */
   disableLocalAuth?: boolean;
   /**
-   * the state of the provisioning.
+   * The provisioning state of the Map account resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Sets the resources to be used for Managed Identities based operations for the Map account
+   * resource.
+   */
+  linkedResources?: LinkedResource[];
 }
 
 /**
@@ -123,6 +188,10 @@ export interface MapsAccount extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+  /**
+   * Sets the identity property for maps account.
+   */
+  identity?: ManagedServiceIdentity;
   /**
    * The map account properties.
    */
@@ -149,6 +218,10 @@ export interface MapsAccountUpdateParameters {
    */
   sku?: Sku;
   /**
+   * Sets the identity property for maps account.
+   */
+  identity?: ManagedServiceIdentity;
+  /**
    * A unique identifier for the maps account
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -159,10 +232,15 @@ export interface MapsAccountUpdateParameters {
    */
   disableLocalAuth?: boolean;
   /**
-   * the state of the provisioning.
+   * The provisioning state of the Map account resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Sets the resources to be used for Managed Identities based operations for the Map account
+   * resource.
+   */
+  linkedResources?: LinkedResource[];
 }
 
 /**
@@ -259,6 +337,22 @@ export interface Dimension {
    * Display name of dimension.
    */
   displayName?: string;
+  /**
+   * Internal name of the dimension.
+   */
+  internalName?: string;
+  /**
+   * Internal metric name of the dimension.
+   */
+  internalMetricName?: string;
+  /**
+   * Source Mdm Namespace of the dimension.
+   */
+  sourceMdmNamespace?: string;
+  /**
+   * Flag to indicate exporting to Azure Monitor.
+   */
+  toBeExportedToShoebox?: boolean;
 }
 
 /**
@@ -368,7 +462,8 @@ export interface Resource extends BaseResource {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * The resource model definition for an Azure Resource Manager resource with an etag.
@@ -509,7 +604,7 @@ export interface CreatorList extends Array<Creator> {
  * @readonly
  * @enum {string}
  */
-export type Name = "S0" | "S1" | "G2";
+export type Name = 'S0' | 'S1' | 'G2';
 
 /**
  * Defines values for Kind.
@@ -517,7 +612,7 @@ export type Name = "S0" | "S1" | "G2";
  * @readonly
  * @enum {string}
  */
-export type Kind = "Gen1" | "Gen2";
+export type Kind = 'Gen1' | 'Gen2';
 
 /**
  * Defines values for CreatedByType.
@@ -525,7 +620,16 @@ export type Kind = "Gen1" | "Gen2";
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for KeyType.
@@ -533,7 +637,7 @@ export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
  * @readonly
  * @enum {string}
  */
-export type KeyType = "primary" | "secondary";
+export type KeyType = 'primary' | 'secondary';
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -543,16 +647,16 @@ export type AccountsCreateOrUpdateResponse = MapsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccount;
+    };
 };
 
 /**
@@ -563,16 +667,16 @@ export type AccountsUpdateResponse = MapsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccount;
+    };
 };
 
 /**
@@ -583,16 +687,16 @@ export type AccountsGetResponse = MapsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccount;
+    };
 };
 
 /**
@@ -603,16 +707,16 @@ export type AccountsListByResourceGroupResponse = MapsAccounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccounts;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccounts;
+    };
 };
 
 /**
@@ -623,16 +727,16 @@ export type AccountsListBySubscriptionResponse = MapsAccounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccounts;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccounts;
+    };
 };
 
 /**
@@ -643,16 +747,16 @@ export type AccountsListKeysResponse = MapsAccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccountKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccountKeys;
+    };
 };
 
 /**
@@ -663,16 +767,16 @@ export type AccountsRegenerateKeysResponse = MapsAccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccountKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccountKeys;
+    };
 };
 
 /**
@@ -683,16 +787,16 @@ export type AccountsListByResourceGroupNextResponse = MapsAccounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccounts;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccounts;
+    };
 };
 
 /**
@@ -703,16 +807,16 @@ export type AccountsListBySubscriptionNextResponse = MapsAccounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsAccounts;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsAccounts;
+    };
 };
 
 /**
@@ -723,16 +827,16 @@ export type MapsListOperationsResponse = MapsOperations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsOperations;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsOperations;
+    };
 };
 
 /**
@@ -743,16 +847,16 @@ export type MapsListOperationsNextResponse = MapsOperations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MapsOperations;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MapsOperations;
+    };
 };
 
 /**
@@ -763,16 +867,16 @@ export type CreatorsListByAccountResponse = CreatorList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CreatorList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CreatorList;
+    };
 };
 
 /**
@@ -783,16 +887,16 @@ export type CreatorsCreateOrUpdateResponse = Creator & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Creator;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Creator;
+    };
 };
 
 /**
@@ -803,16 +907,16 @@ export type CreatorsUpdateResponse = Creator & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Creator;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Creator;
+    };
 };
 
 /**
@@ -823,16 +927,16 @@ export type CreatorsGetResponse = Creator & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Creator;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Creator;
+    };
 };
 
 /**
@@ -843,14 +947,14 @@ export type CreatorsListByAccountNextResponse = CreatorList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CreatorList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CreatorList;
+    };
 };

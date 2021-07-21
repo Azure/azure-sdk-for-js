@@ -128,6 +128,102 @@ export const SystemData: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedServiceIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ManagedServiceIdentityUserAssignedIdentitiesValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LinkedResource: msRest.CompositeMapper = {
+  serializedName: "LinkedResource",
+  type: {
+    name: "Composite",
+    className: "LinkedResource",
+    modelProperties: {
+      uniqueName: {
+        required: true,
+        serializedName: "uniqueName",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MapsAccountProperties: msRest.CompositeMapper = {
   serializedName: "MapsAccountProperties",
   type: {
@@ -154,6 +250,18 @@ export const MapsAccountProperties: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      linkedResources: {
+        serializedName: "linkedResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedResource"
+            }
+          }
+        }
       }
     }
   }
@@ -175,7 +283,7 @@ export const MapsAccount: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: "Gen1",
+        defaultValue: 'Gen1',
         type: {
           name: "String"
         }
@@ -186,6 +294,13 @@ export const MapsAccount: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
         }
       },
       properties: {
@@ -218,7 +333,7 @@ export const MapsAccountUpdateParameters: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: "Gen1",
+        defaultValue: 'Gen1',
         type: {
           name: "String"
         }
@@ -228,6 +343,13 @@ export const MapsAccountUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
         }
       },
       uniqueId: {
@@ -249,6 +371,18 @@ export const MapsAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      linkedResources: {
+        serializedName: "properties.linkedResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedResource"
+            }
+          }
         }
       }
     }
@@ -399,6 +533,30 @@ export const Dimension: msRest.CompositeMapper = {
         serializedName: "displayName",
         type: {
           name: "String"
+        }
+      },
+      internalName: {
+        serializedName: "internalName",
+        type: {
+          name: "String"
+        }
+      },
+      internalMetricName: {
+        serializedName: "internalMetricName",
+        type: {
+          name: "String"
+        }
+      },
+      sourceMdmNamespace: {
+        serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      toBeExportedToShoebox: {
+        serializedName: "toBeExportedToShoebox",
+        type: {
+          name: "Boolean"
         }
       }
     }
