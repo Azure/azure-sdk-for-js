@@ -293,12 +293,11 @@ export interface ListSettingsOptions extends OptionalFields {
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
- * @interface
  * An interface that tracks the settings for paged iteration
  */
 export interface PageSettings {
   /**
-   * @member {string} [continuationToken] The token that keeps track of where to continue the iterator
+   * The token that keeps track of where to continue the iterator
    */
   continuationToken?: string;
   // The appconfig service doesn't currently support letting you select a page size
