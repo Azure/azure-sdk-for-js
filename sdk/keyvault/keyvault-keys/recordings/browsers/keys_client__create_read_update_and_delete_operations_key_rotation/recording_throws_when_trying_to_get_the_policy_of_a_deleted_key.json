@@ -1,0 +1,2007 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248/create",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"AKV10000: Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "97",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:42 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "cf922ec5-d5e3-49ea-84ef-7de4c51f9cd8",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "88f8f445-9f7c-49a3-b8b8-3f2aaa0ba67e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1315",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:43 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11898.12 - EUS ProdSlices",
+    "x-ms-request-id": "129b4c61-8f21-48fc-8fdd-82c1f5122701"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248/create",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "{\"kty\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248/5f6eaa654be84937827c6594bc366ccf\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"p49Yp20KrIYi57HlYBh7tUw_eRMuYbGGpvzDm2Iy7ttAjvY5JtN1yQ3tb3Z_cW2Ngzc_7sNG0IBxQZUgrqSwkSIpD9Z4bUVJ8RhEJL1O2_NZFxmUXvtUS4qTKGPYqNucUmPdadDiiBKHv2EtN7I4PiNV5TSZJ-5bSMQ5WAhjscEr_hTSho_sFbNlA0qDok0DJwpAQNyu10B_j6nlnyLjMwVwXjIhb6qBISChkixwKIKY1tTeWpGpzUd6oQchsHeW2xLpBz05X-sB2Ly9ZxoVpp486xJzvRMkRfeBgXxTf2nS8lUUF4GAuJevB6lAWFRrqt7HMNISpbR0cm27EwxwXQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1628020123,\"updated\":1628020123,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "712",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:42 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "cf922ec5-d5e3-49ea-84ef-7de4c51f9cd8",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "2071c15e-c19e-40af-bf1d-9a08d611700e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248\",\"deletedDate\":1628020123,\"scheduledPurgeDate\":1628624923,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248/5f6eaa654be84937827c6594bc366ccf\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"p49Yp20KrIYi57HlYBh7tUw_eRMuYbGGpvzDm2Iy7ttAjvY5JtN1yQ3tb3Z_cW2Ngzc_7sNG0IBxQZUgrqSwkSIpD9Z4bUVJ8RhEJL1O2_NZFxmUXvtUS4qTKGPYqNucUmPdadDiiBKHv2EtN7I4PiNV5TSZJ-5bSMQ5WAhjscEr_hTSho_sFbNlA0qDok0DJwpAQNyu10B_j6nlnyLjMwVwXjIhb6qBISChkixwKIKY1tTeWpGpzUd6oQchsHeW2xLpBz05X-sB2Ly9ZxoVpp486xJzvRMkRfeBgXxTf2nS8lUUF4GAuJevB6lAWFRrqt7HMNISpbR0cm27EwxwXQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1628020123,\"updated\":1628020123,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "869",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "5be212da-ca66-4ed3-abca-9822b3b6d72a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "a9cddab1-3c27-494f-8691-d795951d8993",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "1c88597d-aa43-4218-b9cd-72b8480d85c9",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "c09e79fb-be3b-40f3-b4ac-9e5ce2c10409",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "b8e7eba2-a770-4bfe-bad9-47988399d3fc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "a2bde701-d8df-48ed-b28b-13314dfb9fd3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:46 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "60853917-9f15-49d6-9730-d37b836f4931",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "f8d24084-30b5-49f4-98e2-28c911bc423e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "bb8223d6-629b-4a3a-a513-113d83db82c0",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "887a73e6-3a1f-4c72-b572-7725f7f0e689",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:50 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "6e4d302d-2b67-42a7-b83b-58306932e7b7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "235fd977-90f5-4850-a748-ed8445279462",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:51 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "32bed994-d137-4cff-b6ae-c2f4b569e097",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "f13390e8-d42f-4f66-bd97-5eb0c097ecdd",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:53 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "f514ba49-45c3-453b-96c0-d1dbb45ac9d0",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "1dd2b69a-1430-4e96-bc87-3cda3c6892a3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:55 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "48cd78ab-5e80-4852-9b1a-53f00123092e",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "7c4921de-f5bb-48ca-8f23-6c42accbd508",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:48:57 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "363d7100-dca8-4cc9-9c66-68e6cfcbcef2",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "56001670-1f7d-46de-b90b-1e8353485f15",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:00 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "905fa112-7245-493f-9504-b9e5ae344696",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "ed75be22-5fae-41ac-871d-6c920cb7db8c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:02 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "4a263a2b-00ad-4958-a336-433ee2ba0f6f",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "66bf19f0-f270-47ab-880e-09cc383a28c6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:05 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "fa77d208-4269-44e4-ab76-48946b3ae2fd",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "558621ab-76ef-4166-a304-50c64aee965b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:07 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "32dfe07c-9756-4387-b72a-90ab569f9095",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "587507d4-fcf6-41ad-8b54-29e15f85c3a7",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:09 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "12358ad1-0cf6-4065-bc30-14673f0d1fb1",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "322d4435-75b5-4149-97b9-e83a0af7ba4d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:11 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "010aafe7-11ec-403a-b0bb-ef9e1d08d9d0",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "4e01b477-8ac9-422c-b06e-b363376ecb3f",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:12 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "b0f774c7-122a-48e6-a20c-89b2d6a5ed77",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "35f20311-f45d-4719-a11e-547d923564db",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:14 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "23fbee5b-7f05-4c45-b316-90d0bc920b10",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "0eba3e74-70f7-415c-981c-9653b5605447",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:17 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "8b39faa3-1f2d-42a3-b866-b4a5cab53b37",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "a860fc88-0dec-423f-97f1-fb301d257960",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:19 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "fb0cab11-c514-4059-a4ca-2b63de3feb3d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "0b968e15-4df0-4150-a0df-f73b5aacd23f",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:21 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "efecd9dd-6ba1-4896-b36c-63a4d8b40624",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "f239811c-2b19-400b-ac3e-2bd36e2ec323",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:23 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "5cbb2917-2f62-478a-9973-5bc2a3c03719",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "1741afae-d3f9-4986-b911-ad5dbfa407e5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:25 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "df3207ca-ecda-418a-86d6-2f021f6bb345",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "d3bbcbdd-932f-49c7-8c84-2f93e614941b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:27 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "313d19fc-3eb7-4c6e-9e38-c01253dd4931",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "d8cb5d1a-68db-4a5f-bb42-4c17ba3f1179",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:29 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "db4b7c31-a8df-4706-89d9-fe6d1fc6ebe6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "24e46217-188c-4ce0-8162-ecfb913320e6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:32 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "eb4746fc-0b8f-47f7-81f5-acc5a953e23c",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "c262570d-4dd6-4d79-a330-7340a55a888c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:34 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "77970865-9b2e-4393-b36e-155ed3602d31",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "14bc7c3b-bed2-498e-97ac-f9e20d1e0a26",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:36 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "f723f555-b8dc-4833-85e3-86d6fc2bb4d9",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "22e4dbfe-3825-43b2-8d13-95fef9c3a0c2",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:38 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3c18440d-e8cf-48dd-8f55-c6b537aa6ea6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "63474b3b-c78d-469b-b767-ea79c3508a02",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:40 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "0d619537-062a-412b-b348-064be0a133b7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "09663254-7b48-435f-a359-189d610ced2f",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:42 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "c5ef56e3-ad7a-4251-a2f8-25d3334340b6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "8c788642-e764-43df-a3bc-043c8df4349a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:45 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "0b97716f-8e41-483b-bc9b-32446ba73d47",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "0a8b42e6-d882-4598-a8e9-6041cdd04ffa",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:46 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "5251be77-06dd-4518-bbf0-2207ffd7f312",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "5ffe3137-e914-4617-bac9-6f3e792ce215",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3bd4fe8a-b535-4963-abd8-63862b85decb",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "d0c2e08a-d104-4d9a-8ea3-d67642f98720",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:50 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "b555954e-7ad5-484e-aaf1-d00124c98416",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "92a8d7e5-0ea4-459f-a6d0-43248c696154",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:53 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3e689ed9-f297-47e9-ac90-f32a0986fff9",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "422779bb-2a34-48ec-9900-e8a7a06c4447",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:55 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "f1dd60b3-3ef1-467b-9131-5490a574da62",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "a2980066-8dbc-44f7-9e47-48df7a3d8c7c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:57 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "47488963-e54c-4147-9b02-0594ae97477b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "5b1ba5d2-71f6-4d92-b7d8-220c7164b254",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:49:59 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "ad18d6c7-416d-417c-a15b-64ac2322e55a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "76a150d8-e58b-47ff-9a53-ddd942c600f5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:01 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "6f9eaa8e-0950-4883-ad02-416d4a83e88d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "2d6035b3-87fd-4d1a-9116-f7a763b08898",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:03 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "c45a4da7-66f9-4bd2-a789-9bd4f8de14c6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "a9bcb55d-0680-4d89-b468-6640719b8e55",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:06 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "a0d4e311-77fd-415e-b045-80b96adb79a5",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "e3d41b3d-bbc7-4326-bb45-23456460d5b8",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:07 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "afb7cf52-3266-4d2f-b8bf-2600b3620266",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "ef7a21f7-84eb-4ec5-b9a0-d5bcff7ef183",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:09 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "83f6979b-411d-4ccc-9f51-2d4dea67d918",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "ee0bd404-59cf-4ec2-8f6c-60369d90334b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:11 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "dde0e022-e554-421c-82e2-88f09158e1fc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "43ca7134-65fc-449c-9de0-3c56e82d64cf",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:14 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "74020ea8-aa2e-4941-b1ee-a2e165046a42",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "0caee112-8d97-4336-8913-0ccbd6ef9f17",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:16 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "8430ee0c-fe6a-4723-85d4-8a4c112e6ba4",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "5ee9737e-d542-4e0b-8ff2-aee1821dd90c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:18 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "2c3ea8f7-cdfb-458e-89b7-4526c53510e5",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "d3718d50-4ea3-4f1a-83d3-5eaf8ab396e0",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:20 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "a95d5014-74da-4522-8f8e-34b169dc84fc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "3791ad2f-fb31-43f3-b61a-2d142b90c970",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:22 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "accc9aa4-4fda-406a-82d8-b3c8a207d472",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "c0bf3b2f-ef2b-4de6-b3ce-28872cdde8a0",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:25 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "a19af04d-4bc0-4d9b-814d-d600358f10c7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "9b464a4b-a51a-4cdd-bb97-4d2624f81b96",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:26 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3889d1a5-5337-49dc-91fe-9526684362bc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "6cfb3256-08f7-426a-a65e-85bc16a4eda6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:28 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3fc795fa-ce97-4862-ac6d-7ebe8c7ffd5b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "5ebc5e22-44ab-4cea-a770-ad7ddc52efb6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:30 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "16e7e028-c42e-40ed-9e3a-32299fc7fe6c",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "85f687b2-e1bd-4bc2-91e2-88f0cd5421fc",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:33 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "c75385cf-4faf-45f5-8323-e4f91d41023e",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "66396fba-f174-4ad4-be64-924748ce252e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:35 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "63eb3067-260b-464d-ba0b-4322e2858285",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "df8cc9fd-800d-4b96-adf3-5318d628d182",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:37 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "f5aaed87-f1d0-42cb-a90d-1f64c1c5c537",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "28e9d493-8efb-4c3f-88f0-7bc6c0895503",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:39 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "7f7d5748-0cb8-46a0-b4a1-db18f46f88b1",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "13e0770a-d1b6-432b-abb5-055b099ae0d1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:40 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "cd0ed391-d8a3-4c29-ad77-a9531f788446",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "04519eee-3ac4-4209-822b-b7a0a79f7d97",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "b5e6d292-7f4e-41ee-9bad-6858759998f8",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "70936f00-2876-4f43-a90a-c473c2000415",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:45 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "b8a75931-2764-426d-a64c-d37f8206468d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "f19c04ae-78b2-4c64-b482-eb13c9633ee3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:47 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "47786339-0229-458d-a629-14b02a5beea5",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "7e245564-9e95-4f4c-853b-e06cedb2deb1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:49 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "007c6830-9c33-469f-9203-d18ff4c77d82",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "79f1e676-fe98-4872-a208-3b96aa8114ae",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:52 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "2235d3e3-6c52-4585-97ba-a73e9ddc2c32",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "2cfa3b95-116f-4181-82ec-7e62b1ce5731",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:54 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "28cecf8f-2c72-4801-880a-ffac6f08a0b6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "9cd70001-d1b3-41d8-86ae-e35de8ce903d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:55 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "4b75c8b5-cc19-4517-b2b6-b66dca18b93b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "8304a7b9-2112-433c-800e-dec9ee03119b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:57 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "4223c2f1-2ac1-4222-9e95-1dc7d8cc9402",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "d541db83-8512-48fe-ad44-ac3a70cd3ffa",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:50:59 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "b33f732f-afa9-439b-ae16-f865314236e9",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "ce836625-e3ee-4d74-a0ef-28e5e29b66fa",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: getrotationpolicy162802012354208248\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "103",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:51:01 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "96fd3044-753e-49af-9132-b44ca32537dc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "3887ad2c-508e-4910-ace0-03c697659dca",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/getrotationpolicy162802012354208248\",\"deletedDate\":1628020123,\"scheduledPurgeDate\":1628624923,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248/5f6eaa654be84937827c6594bc366ccf\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"p49Yp20KrIYi57HlYBh7tUw_eRMuYbGGpvzDm2Iy7ttAjvY5JtN1yQ3tb3Z_cW2Ngzc_7sNG0IBxQZUgrqSwkSIpD9Z4bUVJ8RhEJL1O2_NZFxmUXvtUS4qTKGPYqNucUmPdadDiiBKHv2EtN7I4PiNV5TSZJ-5bSMQ5WAhjscEr_hTSho_sFbNlA0qDok0DJwpAQNyu10B_j6nlnyLjMwVwXjIhb6qBISChkixwKIKY1tTeWpGpzUd6oQchsHeW2xLpBz05X-sB2Ly9ZxoVpp486xJzvRMkRfeBgXxTf2nS8lUUF4GAuJevB6lAWFRrqt7HMNISpbR0cm27EwxwXQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1628020123,\"updated\":1628020123,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "869",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:51:04 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "380edbe8-1e1e-4c20-8932-4705846455f3",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "2f51ac2d-0b29-43e9-897c-be0676889c04",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/getrotationpolicy162802012354208248/rotationpolicy",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) getrotationpolicy162802012354208248 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "323",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 19:51:04 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "ca9654cb-f6d1-4913-a5f0-ed5f232cd8ef",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.9.48.0",
+    "x-ms-request-id": "4e002235-89f6-43d3-aefb-5bbd361d0307",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "getrotationpolicy": "getrotationpolicy162802012354208248"
+  },
+  "newDate": {}
+ },
+ "hash": "ac10c735209853a3db2081b223d31eec"
+}

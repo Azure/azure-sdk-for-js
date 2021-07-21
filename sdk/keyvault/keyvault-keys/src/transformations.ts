@@ -6,10 +6,21 @@ import {
   DeletedKeyItem,
   KeyAttributes,
   KeyBundle,
-  KeyItem
+  KeyItem,
+  KeyRotationPolicy as GeneratedPolicy,
+  LifetimeActions
 } from "./generated/models";
 import { parseKeyVaultKeyIdentifier } from "./identifier";
-import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation, KeyProperties } from "./keysModels";
+import {
+  DeletedKey,
+  KeyVaultKey,
+  JsonWebKey,
+  KeyOperation,
+  KeyProperties,
+  KeyRotationPolicy,
+  KeyRotationLifetimeAction,
+  KeyRotationPolicyProperties
+} from "./keysModels";
 
 /**
  * @internal
@@ -111,3 +122,54 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
 
   return resultObject;
 }
+
+// TODO: tests and docs
+export const keyRotationTransformations = {
+  propertiesToGenerated: function(
+    parameters: KeyRotationPolicyProperties
+  ): Partial<GeneratedPolicy> {
+    const policy: GeneratedPolicy = {
+      attributes: {
+        expiryTime: parameters.expiresIn
+      },
+      lifetimeActions: keyRotationTransformations.convertLifetimeActions(parameters.lifetimeActions)
+    };
+    return policy;
+  },
+  convertLifetimeActions(
+    publicActions?: KeyRotationLifetimeAction[]
+  ): LifetimeActions[] | undefined {
+    return publicActions?.map((action) => {
+      const generatedAction: LifetimeActions = {
+        action: { type: action.action },
+        trigger: {}
+      };
+
+      if (action.timeAfterCreate) {
+        generatedAction.trigger!.timeAfterCreate = action.timeAfterCreate;
+      }
+
+      if (action.timeBeforeExpiry) {
+        generatedAction.trigger!.timeBeforeExpiry = action.timeBeforeExpiry;
+      }
+
+      return generatedAction;
+    });
+  },
+  generatedToPublic(generated: GeneratedPolicy): KeyRotationPolicy {
+    const policy: KeyRotationPolicy = {
+      id: generated.id!,
+      createdOn: generated.attributes!.created!,
+      updatedOn: generated.attributes?.updated,
+      expiresIn: generated.attributes?.expiryTime,
+      lifetimeActions: generated.lifetimeActions?.map((action) => {
+        return {
+          action: action.action?.type,
+          timeAfterCreate: action.trigger?.timeAfterCreate,
+          timeBeforeExpiry: action.trigger?.timeBeforeExpiry
+        };
+      })
+    };
+    return policy;
+  }
+};
