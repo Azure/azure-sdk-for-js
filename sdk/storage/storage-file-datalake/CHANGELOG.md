@@ -1,5 +1,10 @@
 # Release History
 
+## 12.6.0 (Unreleased)
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+
 ## 12.5.0 (2021-06-09)
 
 - Includes all features released in 12.5.0-beta.1.
