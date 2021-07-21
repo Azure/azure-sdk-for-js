@@ -4,11 +4,6 @@ import chai from "chai";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
 
-if (typeof TableCheckpointStore == "function") {
-  console.log("TableCheckpointstore is a function");
-} else {
-  console.log("Error: TableCheckpointstore is not a function");
-}
 
 
 /*test to show that test framework is set up well*/
