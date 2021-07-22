@@ -53,6 +53,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
+  console.log("111111111111",testEnv.AZURE_AUTHORITY_HOST);
   switch(testEnv.AZURE_AUTHORITY_HOST)
   {
     case "https://login.microsoftonline.us":

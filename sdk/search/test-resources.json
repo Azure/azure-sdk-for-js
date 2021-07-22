@@ -13,14 +13,7 @@
       "type": "string",
       "defaultValue": "standard",
       "metadata": {
-        "description": "SKU for search resource. The default is 'free'"
-      }
-    },
-    "endpointSuffix": {
-      "type": "string",
-      "defaultValue": ".search.windows.net",
-      "metadata": {
-        "description": "Endpoint suffix for sovereign clouds. The default uses the public Azure Cloud (.search.windows.net)"
+        "description": "SKU for search resource. The default is 'standard'"
       }
     }
   },
@@ -54,7 +47,7 @@
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', parameters('baseName'), parameters('endpointSuffix'))]"
+      "value": "[concat('https://', parameters('baseName'), '.search.windows.net')]"
     }
   }
 }
