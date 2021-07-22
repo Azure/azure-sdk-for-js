@@ -38,14 +38,16 @@ function GetResult($success, $package, $output) {
   return @{ Success = $success; Package = $package; Output = $output }
 }
 
+$prefixDirectory = New-Item -ItemType Directory -Force -Path "$WorkingDirectory\$($Package.name)"
+
 $additionalParameters = @()
 if ($Package.registry) {
   Write-Host $Package.registry
   $additionalParameters += @("--registry", $Package.registry)
 }
 
-Write-Host "npm install $($Package.name) --prefix $WorkingDirectory $additionalParameters"
-$installOutput = npm install $Package.name --prefix $WorkingDirectory @additionalParameters 2>&1
+Write-Host "npm install $($Package.name) --prefix $prefixDirectory $additionalParameters"
+$installOutput = npm install $Package.name --prefix $prefixDirectory @additionalParameters 2>&1
 if ($LASTEXITCODE -ne 0) {
   LogWarning "Package install failed: $($Package.name)"
   return GetResult $false $package $installOutput
