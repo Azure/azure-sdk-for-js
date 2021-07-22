@@ -55,12 +55,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
   switch (testEnv.AZURE_AUTHORITY_HOST) {
     case "https://login.microsoftonline.us":
-      console.log("22222222222222");
-      testEnv.ENDPOINT = testEnv.ENDPOINT.replace(/\.[a-zA-Z]{7}\.[a-zA-Z]{3}/, ".azure.us");
+      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(/\.[a-zA-Z]{7}\.[a-zA-Z]{3}/, ".azure.us");
       break;
     case "https://login.chinacloudapi.cn":
-      console.log("33333333333333");
-      testEnv.ENDPOINT = testEnv.ENDPOINT.replace(/\.[a-zA-Z]{7}\.[a-zA-Z]{3}/, ".azure.cn");
+      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(/\.[a-zA-Z]{7}\.[a-zA-Z]{3}/, ".azure.cn");
       break;
   }
 
