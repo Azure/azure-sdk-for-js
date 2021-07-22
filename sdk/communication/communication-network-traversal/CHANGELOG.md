@@ -21,5 +21,3 @@ The first preview of the Azure Communication Relay Client has the following feat
 
 - Added `CommunicationRelayClient` in preview.
 - Added `CommunicationRelayClient.getRelayConfiguration` in preview.
-
-### Breaking Changes
