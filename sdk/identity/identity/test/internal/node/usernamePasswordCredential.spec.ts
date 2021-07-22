@@ -5,12 +5,12 @@
 
 import Sinon from "sinon";
 import { assert } from "chai";
+import { Context } from "mocha";
 import { env, isLiveMode } from "@azure/test-utils-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { Context } from "mocha";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { AuthenticationError } from "../src";
 import { DefaultAuthorityHost } from "../src/constants";
 
@@ -21,6 +20,7 @@ export async function getError<T = Error>(promise: Promise<any>): Promise<T> {
 }
 
 /**
+ * Helps test some common expected values out of the credential responses.
  * @internal
  */
 export function assertClientCredentials(
@@ -49,42 +49,7 @@ export function assertClientCredentials(
 }
 
 /**
- * @internal
- */
-export function assertClientUsernamePassword(
-  authRequest: PipelineRequest,
-  expectedTenantId: string,
-  expectedClientId: string,
-  expectedUsername: string,
-  expectedPassword: string
-): void {
-  if (!authRequest) {
-    assert.fail("No authentication request was intercepted");
-  } else {
-    assert.strictEqual(
-      authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
-      true,
-      "Request body doesn't contain expected tenantId"
-    );
-    assert.strictEqual(
-      (authRequest.body as string).indexOf(`client_id=${expectedClientId}`) > -1,
-      true,
-      "Request body doesn't contain expected clientId"
-    );
-    assert.strictEqual(
-      (authRequest.body as string).indexOf(`username=${expectedUsername}`) > -1,
-      true,
-      "Request body doesn't contain expected username"
-    );
-    assert.strictEqual(
-      (authRequest.body as string).indexOf(`password=${expectedPassword}`) > -1,
-      true,
-      "Request body doesn't contain expected password"
-    );
-  }
-}
-
-/**
+ * Helps test common AuthenticationErrors triggered by the Identity credentials.
  * @internal
  */
 export function isExpectedError(expectedErrorName: string): (error: any) => boolean {

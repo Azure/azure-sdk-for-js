@@ -20,6 +20,8 @@ import { AccessToken } from "../src";
 import { openIdConfigurationResponse } from "./msalTestUtils";
 
 /**
+ * Helps write responses that extend the PassThrough class.
+ * These are necessary to emulate the http/https module request/response wiring.
  * @internal
  */
 export class PassThroughResponse extends PassThrough {
@@ -28,6 +30,8 @@ export class PassThroughResponse extends PassThrough {
 }
 
 /**
+ * Helps write requests that extend the PassThrough class.
+ * These are necessary to emulate the http/https module request/response wiring.
  * @internal
  */
 export class FakeRequest extends PassThrough {
@@ -38,6 +42,8 @@ export class FakeRequest extends PassThrough {
 }
 
 /**
+ * Helps creating a PassThrough request that can be manually altered by our tests.
+ * This could be done inline, but in case in the future it needs further setup, it seemed safe to abstract it out.
  * @internal
  */
 export function createRequest(): ClientRequest {
@@ -47,6 +53,8 @@ export function createRequest(): ClientRequest {
 }
 
 /**
+ * Traduces a simple key-value response object into a response in the shape of
+ * an IncomingMessage, as required by the http & https modules.
  * @internal
  */
 function responseToIncomingMessage(response: TestResponse): IncomingMessage {
@@ -62,6 +70,17 @@ function responseToIncomingMessage(response: TestResponse): IncomingMessage {
 }
 
 /**
+ * Helps specify a different number of responses for Node and for the browser.
+ * In Node, this method will return an array that will have a response
+ * for the MSAL's initial discovery request.
+ *
+ * In the browser, it will return an array with no responses.
+ * This is due to the fact that the only browser credential using MSAL
+ * is the InteractiveBrowserCredential, which we won't test this way (it requires user interaction).
+ *
+ * The other credentials that we technically support in the browser are meant to work without CORS verifications.
+ * These credentials are supported both as a way to comply with v1 credentials, and to make it easier for us to test
+ * our clients in the browser.
  * @internal
  */
 export function prepareMSALResponses(): RawTestResponse[] {
@@ -69,6 +88,12 @@ export function prepareMSALResponses(): RawTestResponse[] {
 }
 
 /**
+ * Sets up the environment necessary to do unit testing to Identity credentials.
+ * We leverage Sinon to mock the internals of the http and the https modules (in Node, and the SinonFakeXMLHttpRequest in the browser).
+ * Once the environment is set, we return a set of utility functions.
+ * Some of these functions can be used to test promises that send individual requests,
+ * others allow testing or full-on credential requests
+ * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
 export async function prepareIdentityTests({
@@ -95,7 +120,8 @@ export async function prepareIdentityTests({
   }
 
   /**
-   * Safely stubs an object's method
+   * Safely stubs an object's method.
+   * Meaning, it will try to restore it if it has been previously stubbed.
    */
   function safelyStub(obj: any, method: string): sinon.SinonStub {
     const maybeStub = obj[method] as { restore?: () => void };
@@ -131,7 +157,8 @@ export async function prepareIdentityTests({
   }
 
   /**
-   * Wraps a credential's getToken in a mocked environment, then returns the results from the request.
+   * Wraps a credential's getToken in a mocked environment, then returns the results from the request,
+   * including potentially an AccessToken, an error and the list of outgoing requests in a simplified format.
    */
   const sendCredentialRequests: SendCredentialRequests = async ({
     scopes,
@@ -140,6 +167,11 @@ export async function prepareIdentityTests({
     insecureResponses = [],
     secureResponses = []
   }) => {
+    /**
+     * Helps loop over a list of responses,
+     * and assign them as answers to a stubbed <module>.request() method.
+     * It also fills up a given spies array, for later inspection.
+     */
     const registerResponses = (
       responses: { response?: TestResponse; error?: RestError }[],
       stubbedRequest: sinon.SinonStub,
@@ -160,10 +192,16 @@ export async function prepareIdentityTests({
         }
       });
 
+    // We optimistically order the incoming responses as:
+    // The first set of responses will be those that are expected to come from insecure endpoints,
+    // Then all of the remaining responses will be expected to come from secure endpoints.
+    //
+    // Generally, there should be no insecure requests, but in practice, some authentication methods require
+    // requests to go out to insecure endpoints, specially at the beginning of the authentication flow.
+    // An example would be the IMDS endpoint.
     const insecureSpies: sinon.SinonSpy[] = [];
     const stubbedHttpRequest = safelyStub(http, "request");
     registerResponses(insecureResponses, stubbedHttpRequest, insecureSpies);
-
     const secureSpies: sinon.SinonSpy[] = [];
     const stubbedHttpsRequest = safelyStub(https, "request");
     registerResponses(secureResponses, stubbedHttpsRequest, secureSpies);
@@ -171,12 +209,23 @@ export async function prepareIdentityTests({
     let result: AccessToken | null = null;
     let error: RestError | undefined;
     try {
+      // In Node, due to Node 16 dropping uncaught rejections,
+      // we need to make sure to trigger the promise and wait for it on the same line.
+      // So loosely tell Sinon's clock to advance the time,
+      // and then we trigger our main getToken request, and wait for it.
+      // All the errors will be safely be caught by the try surrounding the getToken request.
       clock.runAllAsync();
       result = await credential.getToken(scopes, getTokenOptions);
     } catch (e) {
       error = e;
     }
 
+    /**
+     * Working with the http/https modules is a bit weird.
+     * We use this function to extract information from the outgoing requests into a format easy to work with.
+     * We have to use both the stub for the http/https <module>.request() method,
+     * and the request spies we've been accumulating throughout the getToken() execution.
+     */
     const extractRequests = (
       stubbedRequest: sinon.SinonStub,
       spies: sinon.SinonSpy[],

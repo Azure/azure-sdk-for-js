@@ -14,6 +14,17 @@ import {
 } from "./httpRequestsCommon";
 
 /**
+ * Helps specify a different number of responses for Node and for the browser.
+ * In Node, this method will return an array that will have a response
+ * for the MSAL's initial discovery request.
+ *
+ * In the browser, it will return an array with no responses.
+ * This is due to the fact that the only browser credential using MSAL
+ * is the InteractiveBrowserCredential, which we won't test this way (it requires user interaction).
+ *
+ * The other credentials that we technically support in the browser are meant to work without CORS verifications.
+ * These credentials are supported both as a way to comply with v1 credentials, and to make it easier for us to test
+ * our clients in the browser.
  * @internal
  */
 export function prepareMSALResponses(): RawTestResponse[] {
@@ -21,6 +32,12 @@ export function prepareMSALResponses(): RawTestResponse[] {
 }
 
 /**
+ * Sets up the environment necessary to do unit testing to Identity credentials.
+ * We leverage Sinon to mock the internals of the http and the https modules (in Node, and the SinonFakeXMLHttpRequest in the browser).
+ * Once the environment is set, we return a set of utility functions.
+ * Some of these functions can be used to test promises that send individual requests,
+ * others allow testing or full-on credential requests
+ * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
 export async function prepareIdentityTests({
@@ -46,18 +63,26 @@ export async function prepareIdentityTests({
     };
   }
 
-  // Browser specific code
+  /**
+   * Browser specific code.
+   * Sets up a fake server that will be used to answer any outgoing request.
+   */
   const server = sandbox.useFakeServer();
   const requests: sinon.SinonFakeXMLHttpRequest[] = [];
   const responses: RawTestResponse[] = [];
 
   /**
-   * Wraps the outgoing request in a mocked environment, then returns the result of the request.
+   * Wraps a credential's getToken in a mocked environment, then returns the results from the request,
+   * including potentially an AccessToken, an error and the list of outgoing requests in a simplified format.
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
+    /**
+     * Both keeps track of the outgoing requests,
+     * and ensures each request answers with each received response, in order.
+     */
     server.respondWith((xhr) => {
       requests.push(xhr);
       xhr.respond(response.statusCode, response.headers, response.body);
@@ -107,6 +132,10 @@ export async function prepareIdentityTests({
     let result: AccessToken | null = null;
     let error: RestError | undefined;
     try {
+      // This only makes sense in the browser:
+      // By this point we've queued up responses to go out on our Sinon server.
+      // We need the promises to begin triggering, so the server has something to respond to,
+      // and only then we can wait for all of the async processes to finish.
       const promise = credential.getToken(scopes, getTokenOptions);
       server.respond();
       await clock.runAllAsync();

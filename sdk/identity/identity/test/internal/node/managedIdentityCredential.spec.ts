@@ -3,7 +3,6 @@
 
 import qs from "qs";
 import { assert } from "chai";
-
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
 import {
