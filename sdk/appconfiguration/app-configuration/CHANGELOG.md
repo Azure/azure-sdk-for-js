@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added "continuationToken" option for the `byPage` APIs of the listing methods (`listConfigurationSettings` and the `listRevisions`), this lets you keep track of where to continue the iterator from.
+  [#16472](https://github.com/Azure/azure-sdk-for-js/pull/16472)
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -132,8 +135,14 @@ In previous previews:
 ```typescript
 // 1.0.0-preview.3 and below
 await client.getConfigurationSetting("MyKey", { label: "MyLabel" });
-await client.addConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
-await client.setConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
+await client.addConfigurationSetting("MyKey", {
+  label: "MyLabel",
+  value: "MyValue"
+});
+await client.setConfigurationSetting("MyKey", {
+  label: "MyLabel",
+  value: "MyValue"
+});
 await client.deleteConfigurationSetting("MyKey", { label: "MyLabel" });
 ```
 
@@ -142,8 +151,16 @@ Now in preview.4:
 ```typescript
 // 1.0.0-preview.4
 await client.getConfigurationSetting({ key: "MyKey", label: "MyLabel" });
-await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
-await client.setConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
+await client.addConfigurationSetting({
+  key: "MyKey",
+  label: "MyLabel",
+  value: "MyValue"
+});
+await client.setConfigurationSetting({
+  key: "MyKey",
+  label: "MyLabel",
+  value: "MyValue"
+});
 await client.deleteConfigurationSetting({ key: "MyKey", label: "MyLabel" });
 ```
 

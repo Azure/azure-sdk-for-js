@@ -18,6 +18,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
+    let baseSetting: ConfigurationSetting<FeatureFlagValue>;
+    let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async function(this: Context) {
       recorder = startRecorder(this);
@@ -70,13 +72,10 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       await recorder.stop();
     });
 
-    let baseSetting: ConfigurationSetting<FeatureFlagValue>;
-    let addResponse: AddConfigurationSettingResponse;
-
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
       expected: ConfigurationSetting<FeatureFlagValue>
-    ) {
+    ): void {
       assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
       assert.isDefined(actual.value, "Expected the value to be defined");
       const featureFlagValue = parseFeatureFlag(actual).value;
