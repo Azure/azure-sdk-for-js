@@ -53,12 +53,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: [
-      "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
-      "TEST_MODE"
-    ],
+    envPreprocessor: ["AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "AZURE_TENANT_ID", "TEST_MODE"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

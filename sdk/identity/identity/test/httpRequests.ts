@@ -70,8 +70,8 @@ function responseToIncomingMessage(response: TestResponse): IncomingMessage {
 }
 
 /**
-* @internal
-*/
+ * @internal
+ */
 export function createWTFResponse(
   statusCode: number,
   body = "",
@@ -114,7 +114,6 @@ export async function prepareIdentityTests({
     };
   }
 
-
   /**
    * Wraps the outgoing request in a mocked environment, then returns the result of the request.
    */
@@ -122,9 +121,7 @@ export async function prepareIdentityTests({
     sendPromise: () => Promise<T | null>,
     response: TestResponse
   ): Promise<T | null> {
-    // const wtfResponse = createWTFResponse(400, JSON.stringify({ error: "test_error", error_description: "This is a test error" }));
     const incomingMessageResponse = responseToIncomingMessage(response);
-    // console.log({ wtfResponse, incomingMessageResponse });
     const stubbedHttpsRequest = sandbox.stub(https, "request");
 
     stubbedHttpsRequest.returns(createRequest());
@@ -154,93 +151,69 @@ export async function prepareIdentityTests({
     insecureResponses = [],
     secureResponses = []
   }) => {
+    const registerResponses = (
+      responses: { response?: TestResponse; error?: RestError }[],
+      stubbedRequest: sinon.SinonStub,
+      spies: sinon.SinonSpy[]
+    ) =>
+      responses.forEach(({ response, error }, index) => {
+        if (error) {
+          stubbedRequest.onCall(index).throws(error);
+        } else if (response) {
+          const request = createRequest();
+          spies.push(sandbox.spy(request, "write"));
+          stubbedRequest.onCall(index).returns(request);
+          sandbox.stub(request, "once").yields(responseToIncomingMessage(response));
+        } else {
+          throw new Error(
+            "Bad fake response structure. Expected either an `error` or a `response` property."
+          );
+        }
+      });
+
     const insecureSpies: sinon.SinonSpy[] = [];
     const stubbedHttpRequest = sandbox.stub(http, "request");
-    insecureResponses.forEach(({ response, error }, index) => {
-      if (error) {
-        stubbedHttpRequest.throws(error);
-      } else if (response) {
-        const request = createRequest();
-        insecureSpies.push(sandbox.spy(request, "write"));
-        stubbedHttpRequest.onCall(index).returns(request);
-        stubbedHttpRequest.onCall(index).yields(responseToIncomingMessage(response));
-      } else {
-        throw new Error(
-          "Bad fake response structure. Expected either an `error` or a `response` property."
-        );
-      }
-    });
+    registerResponses(insecureResponses, stubbedHttpRequest, insecureSpies);
 
     const secureSpies: sinon.SinonSpy[] = [];
     const stubbedHttpsRequest = sandbox.stub(https, "request");
-    secureResponses.forEach(({ response, error }, index) => {
-      if (error) {
-        stubbedHttpsRequest.throws(error);
-      } else if (response) {
-        console.log({ response });
-        const request = createRequest();
-        secureSpies.push(sandbox.spy(request, "write"));
-        stubbedHttpsRequest.onCall(index).returns(request);
-        stubbedHttpsRequest.onCall(index).yields(responseToIncomingMessage(response));
-      } else {
-        throw new Error(
-          "Bad fake response structure. Expected either an `error` or a `response` property."
-        );
-      }
-    });
-
-    const promise = credential.getToken(scopes, getTokenOptions);
-
-    await clock.runAllAsync();
+    registerResponses(secureResponses, stubbedHttpsRequest, secureSpies);
 
     let result: AccessToken | null = null;
     let error: RestError | undefined;
     try {
+      const promise = credential.getToken(scopes, getTokenOptions);
+      await clock.runAllAsync();
       result = await promise;
     } catch (e) {
       error = e;
     }
 
+    const extractRequests = (stubbedRequest: sinon.SinonStub, spies: sinon.SinonSpy[]) =>
+      (stubbedRequest.args as any).reduce((accumulator: any, args: any, index: number) => {
+        const requestOptions = args[0] as http.RequestOptions;
+        const spiesArgs = spies[index]?.args;
+        let body = "";
+        if (spiesArgs && spiesArgs[0] && spiesArgs[0][0]) {
+          body = spiesArgs[0][0];
+        }
+        return [
+          ...accumulator,
+          {
+            url: `https://${requestOptions.hostname}${requestOptions.path}`,
+            body,
+            method: requestOptions.method,
+            headers: requestOptions.headers
+          }
+        ];
+      }, []);
+
     return {
       result,
       error,
       requests: [
-        ...(stubbedHttpRequest.args as any).reduce((accumulator: any, args: any, index: number) => {
-          console.log("AAAAAA HTTP REQUESTS", index);
-          const requestOptions = args[0] as http.RequestOptions;
-          const spiesArgs = insecureSpies[index]?.args;
-          let body = "";
-          if (spiesArgs && spiesArgs[0] && spiesArgs[0][0]) {
-            body = spiesArgs[0][0];
-          }
-          return [
-            ...accumulator,
-            {
-              url: `https://${requestOptions.hostname}/${requestOptions.path}`,
-              body,
-              method: requestOptions.method,
-              headers: requestOptions.headers
-            }
-          ];
-        }, []),
-        ...(stubbedHttpsRequest.args as any).reduce((accumulator: any, args: any, index: number) => {
-          console.log("AAAAAA HTTPS REQUESTS", index);
-          const requestOptions = args[0] as http.RequestOptions;
-          const spiesArgs = secureSpies[index]?.args;
-          let body = "";
-          if (spiesArgs && spiesArgs[0] && spiesArgs[0][0]) {
-            body = spiesArgs[0][0];
-          }
-          return [
-            ...accumulator,
-            {
-              url: `https://${requestOptions.hostname}/${requestOptions.path}`,
-              body,
-              method: requestOptions.method,
-              headers: requestOptions.headers
-            }
-          ];
-        }, [])
+        ...extractRequests(stubbedHttpRequest, insecureSpies),
+        ...extractRequests(stubbedHttpsRequest, secureSpies)
       ]
     };
   };
