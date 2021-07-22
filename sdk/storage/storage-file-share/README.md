@@ -24,7 +24,17 @@ Use the client libraries in this package to:
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/files/storage-how-to-use-files-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
 
@@ -40,28 +50,6 @@ Azure Storage supports several ways to authenticate. In order to interact with t
 
 - [Shared Key](#with-storagesharedkeycredential)
 - [Shared access signatures](#with-sas-token)
-
-### Compatibility
-
-This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
-
-#### Compatible with IE11
-
-You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-
-You can also load separate polyfills for missed ES feature(s).
-This library depends on following ES features which need external polyfills loaded.
-
-- `Promise`
-- `String.prototype.startsWith`
-- `String.prototype.endsWith`
-- `String.prototype.repeat`
-- `String.prototype.includes`
-- `Array.prototype.includes`
-- `Object.assign`
-- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
-- `Symbol`
-- `Symbol.iterator`
 
 #### Differences between Node.js and browsers
 
