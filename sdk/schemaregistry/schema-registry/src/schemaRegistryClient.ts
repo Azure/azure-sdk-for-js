@@ -4,7 +4,10 @@
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy, InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions
+} from "@azure/core-rest-pipeline";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
@@ -64,8 +67,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
     };
 
     this.client = new GeneratedSchemaRegistryClient(endpoint, internalPipelineOptions);
-    
-    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE })
+
+    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     this.client.pipeline.addPolicy(authPolicy);
   }
 
@@ -83,14 +86,18 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaId> {
-    const { flatResponse, rawResponse } = await getRawResponse((options) => this.client.schema.register(
-      schema.group,
-      schema.name,
-      schema.serializationType,
-      schema.content,
-      options
-    ), options || {});
-    return convertSchemaIdResponse(flatResponse as any, rawResponse);
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) =>
+        this.client.schema.register(
+          schema.group,
+          schema.name,
+          schema.serializationType,
+          schema.content,
+          paramOptions
+        ),
+      options || {}
+    );
+    return convertSchemaIdResponse(flatResponse, rawResponse);
   }
 
   /**
@@ -105,14 +112,18 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: GetSchemaIdOptions
   ): Promise<SchemaId | undefined> {
     try {
-      const { flatResponse, rawResponse } = await getRawResponse((options) => this.client.schema.queryIdByContent(
-        schema.group,
-        schema.name,
-        schema.serializationType,
-        schema.content,
-        options
-      ), options || {});
-      return convertSchemaIdResponse(flatResponse as any, rawResponse);
+      const { flatResponse, rawResponse } = await getRawResponse(
+        (paramOptions) =>
+          this.client.schema.queryIdByContent(
+            schema.group,
+            schema.name,
+            schema.serializationType,
+            schema.content,
+            paramOptions
+          ),
+        options || {}
+      );
+      return convertSchemaIdResponse(flatResponse, rawResponse);
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -129,8 +140,11 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
     try {
-      const { flatResponse, rawResponse } = await getRawResponse((options) => this.client.schema.getById(id,options), options || {});
-      return convertSchemaResponse(flatResponse as any, rawResponse);
+      const { flatResponse, rawResponse } = await getRawResponse(
+        (paramOptions) => this.client.schema.getById(id, paramOptions),
+        options || {}
+      );
+      return convertSchemaResponse(flatResponse, rawResponse);
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -141,16 +155,22 @@ export class SchemaRegistryClient implements SchemaRegistry {
 }
 
 interface ReturnType<T> {
-  flatResponse: T,
+  flatResponse: T;
   rawResponse: FullOperationResponse;
 }
 
-async function getRawResponse<TOptions extends OperationOptions, TResult>(f: (options: TOptions) => Promise<TResult>, options: TOptions): Promise<ReturnType<TResult>> {
+async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<ReturnType<TResult>> {
   const { onResponse } = options || {};
-  let rawResponse : FullOperationResponse | undefined = undefined;
-  const flatResponse = await f({ ...options, onResponse: (response: FullOperationResponse) => {
-    rawResponse = response;
-    onResponse?.(response, flatResponse);
-  }});
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse) => {
+      rawResponse = response;
+      onResponse?.(response, flatResponse);
+    }
+  });
   return { flatResponse, rawResponse: rawResponse! };
 }

@@ -30,7 +30,10 @@ type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
  *
  * @internal
  */
-export function convertSchemaResponse(response: GeneratedSchemaResponse, rawResponse: FullOperationResponse): Schema {
+export function convertSchemaResponse(
+  response: GeneratedSchemaResponse,
+  rawResponse: FullOperationResponse
+): Schema {
   return convertResponse(response, rawResponse, { content: rawResponse.bodyAsText! });
 }
 
@@ -39,13 +42,20 @@ export function convertSchemaResponse(response: GeneratedSchemaResponse, rawResp
  *
  * @internal
  */
-export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse, rawResponse: FullOperationResponse): SchemaId {
+export function convertSchemaIdResponse(
+  response: GeneratedSchemaIdResponse,
+  rawResponse: FullOperationResponse
+): SchemaId {
   // `!` here because server is required to return this on success, but that
   // is not modeled by the generated client.
   return convertResponse(response, rawResponse, { id: response.id! });
 }
 
-function convertResponse<T>(response: GeneratedResponse, rawResponse: FullOperationResponse, additionalProperties: T): SchemaId & T {
+function convertResponse<T>(
+  response: GeneratedResponse,
+  rawResponse: FullOperationResponse,
+  additionalProperties: T
+): SchemaId & T {
   const converted = {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
