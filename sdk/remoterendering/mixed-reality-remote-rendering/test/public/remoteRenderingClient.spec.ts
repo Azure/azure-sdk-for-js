@@ -26,9 +26,7 @@ import {
 } from "@azure/core-auth";
 import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 
-import {
-  isPlaybackMode
-} from "@azure/test-utils-recorder";
+import { isPlaybackMode } from "@azure/test-utils-recorder";
 
 /// No need to wait when polling in playback mode.
 const pollerSettings = isPlaybackMode() ? { intervalInMs: 1 } : {};
