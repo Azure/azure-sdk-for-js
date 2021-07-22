@@ -11,7 +11,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
  */
 export interface TestResponse {
   statusCode: number;
-  headers: RawHttpHeaders;
+  headers?: RawHttpHeaders;
   body: string;
 }
 
@@ -42,6 +42,7 @@ export type SendCredentialRequests = (options: {
   secureResponses?: { response?: TestResponse; error?: RestError }[];
 }) => Promise<{
   result: AccessToken | null;
+  error?: RestError;
   requests: {
     url: string;
     body: string;

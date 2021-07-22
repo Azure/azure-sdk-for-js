@@ -21,38 +21,37 @@ import {
 } from "../httpRequestsTypes";
 import { createResponse, prepareIdentityTests } from "../httpRequests";
 
-describe.only("IdentityClient", function() {
+describe.only("IdentityClient", function () {
   let testContext: IdentityTestContext;
   let sendIndividualRequest: SendIndividualRequest;
   let sendIndividualRequestAndGetError: SendIndividualRequestAndGetError;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
     sendIndividualRequest = testContext.sendIndividualRequest;
-    sendIndividualRequestAndGetError;
+    sendIndividualRequestAndGetError = testContext.sendIndividualRequestAndGetError;
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
-  it.only("throws an exception if the credential is not available", async () => {
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["scope"],
-        credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
-        secureResponses: [
-          {
-            response: createResponse(400, {
-              error: "test_error",
-              error_description: "This is a test error"
-            })
-          }
-        ]
-      })
-    );
-    assert.strictEqual(error.name, "CredentialUnavailableError");
+  it.only("throws an exception if the credential is not available (can't resolve discovery endpoint)", async () => {
+    const { error } = await sendCredentialRequests({
+      scopes: ["scope"],
+      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+      secureResponses: [
+        {
+          response: createResponse(400, {
+            error: "test_error",
+            error_description: "This is a test error"
+          })
+        }
+      ]
+    });
+    console.log("11111 ERROR", error);
+    assert.strictEqual(error!.name, "CredentialUnavailableError");
   });
 
   it.only("throws an exception when an authentication request fails", async () => {
@@ -67,14 +66,12 @@ describe.only("IdentityClient", function() {
       })
     });
 
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["https://vault.azure.net/.default"],
-        credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
-        secureResponses: responses
-      })
-    );
-    assert.strictEqual(error.name, "AuthenticationRequiredError");
+    const { error } = await sendCredentialRequests({
+      scopes: ["https://test/.default"],
+      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+      secureResponses: responses
+    });
+    assert.strictEqual(error!.name, "AuthenticationRequiredError");
   });
 
   it("throws an exception when an authorityHost using 'http' is provided", async () => {
@@ -94,7 +91,7 @@ describe.only("IdentityClient", function() {
     );
   });
 
-  it("parses authority host environment variable as expected", function(this: Context) {
+  it("parses authority host environment variable as expected", function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -103,7 +100,7 @@ describe.only("IdentityClient", function() {
     return;
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -153,7 +150,7 @@ describe.only("IdentityClient", function() {
     }
   });
 
-  it("parses authority host environment variable as expected", function(this: Context) {
+  it("parses authority host environment variable as expected", function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
