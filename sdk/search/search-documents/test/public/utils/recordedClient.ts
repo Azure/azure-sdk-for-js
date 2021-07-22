@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
+import * as assert from "assert"
 
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
@@ -53,16 +54,23 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
-  console.log("111111111111",testEnv.AZURE_AUTHORITY_HOST);
-  switch(testEnv.AZURE_AUTHORITY_HOST)
-  {
+  console.log("111111111111", process.env.AZURE_AUTHORITY_HOST);
+  switch (testEnv.AZURE_AUTHORITY_HOST) {
     case "https://login.microsoftonline.us":
-      testEnv.ENDPOINT = testEnv.ENDPOINT.replace(".windows.net",".azure.us");
+      console.log("22222222222222");
+      testEnv.ENDPOINT = testEnv.ENDPOINT.replace(".windows.net", ".azure.us");
       break;
     case "https://login.chinacloudapi.cn":
-      testEnv.ENDPOINT = testEnv.ENDPOINT.replace(".windows.net",".azure.cn");
+      console.log("33333333333333");
+      testEnv.ENDPOINT = testEnv.ENDPOINT.replace(".windows.net", ".azure.cn");
       break;
   }
+  assert.ok(process.env.AZURE_AUTHORITY_HOST);
+  assert.ok(testEnv.AZURE_AUTHORITY_HOST);
+  assert.strictEqual(undefined, process.env.AZURE_AUTHORITY_HOST);
+  assert.strictEqual(undefined, testEnv.AZURE_AUTHORITY_HOST);
+  assert.strictEqual("https://login.microsoftonline.us", process.env.AZURE_AUTHORITY_HOST);
+  assert.strictEqual("https://login.microsoftonline.us", testEnv.AZURE_AUTHORITY_HOST);
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
   const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);
