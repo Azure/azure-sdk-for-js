@@ -9,7 +9,7 @@ import {
   pluginForIdentitySDK
 } from "@azure/test-utils-recorder";
 import Sinon, { createSandbox } from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
@@ -166,7 +166,7 @@ export interface TestTracingOptions {
 }
 
 export function testTracing(options: TestTracingOptions): () => Promise<void> {
-  return async function() {
+  return async function () {
     const { test, children } = options;
     const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");

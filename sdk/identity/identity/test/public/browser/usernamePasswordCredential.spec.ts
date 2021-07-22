@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
 import { UsernamePasswordCredential } from "../../../src";
 import {
@@ -11,15 +11,15 @@ import {
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
 
-describe("UsernamePasswordCredential", function() {
+describe("UsernamePasswordCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
