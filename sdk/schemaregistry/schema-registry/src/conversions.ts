@@ -8,6 +8,7 @@ import {
   SchemaRegisterResponse,
   SchemaQueryIdByContentResponse
 } from "./generated/models";
+import { FullOperationResponse } from "@azure/core-client";
 
 /**
  * Union of generated client's responses that return schema content.
@@ -25,15 +26,12 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByContent
 type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
 
 /**
- * Converts generated client's reponse to IdentifiedSchemaResponse.
+ * Converts generated client's response to IdentifiedSchemaResponse.
  *
  * @internal
  */
-export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema {
-  // https://github.com/Azure/azure-sdk-for-js/issues/11649
-  // Although response.body is typed as string, it is a parsed JSON object,
-  // so we use _response.bodyAsText instead as a workaround.
-  return convertResponse(response, { content: response._response.bodyAsText });
+export function convertSchemaResponse(response: GeneratedSchemaResponse, rawResponse: FullOperationResponse): Schema {
+  return convertResponse(response, rawResponse, { content: rawResponse.bodyAsText! });
 }
 
 /**
@@ -41,13 +39,13 @@ export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema
  *
  * @internal
  */
-export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaId {
+export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse, rawResponse: FullOperationResponse): SchemaId {
   // `!` here because server is required to return this on success, but that
   // is not modeled by the generated client.
-  return convertResponse(response, { id: response.id! });
+  return convertResponse(response, rawResponse, { id: response.id! });
 }
 
-function convertResponse<T>(response: GeneratedResponse, additionalProperties: T): SchemaId & T {
+function convertResponse<T>(response: GeneratedResponse, rawResponse: FullOperationResponse, additionalProperties: T): SchemaId & T {
   const converted = {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
@@ -59,6 +57,6 @@ function convertResponse<T>(response: GeneratedResponse, additionalProperties: T
     ...additionalProperties
   };
 
-  Object.defineProperty(converted, "_response", { value: response._response, enumerable: false });
+  Object.defineProperty(converted, "_response", { value: rawResponse, enumerable: false });
   return converted;
 }

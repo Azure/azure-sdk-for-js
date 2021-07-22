@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
-import { TokenCredential } from "@azure/core-http";
-import { createPipeline } from "./pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy, InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
@@ -16,6 +17,8 @@ import {
   SchemaId,
   Schema
 } from "./models";
+import { DEFAULT_SCOPE, LIB_INFO } from "./constants";
+import { logger } from "./logger";
 
 /**
  * Client for Azure Schema Registry service.
@@ -40,9 +43,30 @@ export class SchemaRegistryClient implements SchemaRegistry {
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {}
   ) {
-    const pipeline = createPipeline(options, credential);
     this.endpoint = endpoint;
-    this.client = new GeneratedSchemaRegistryClient(endpoint, { ...pipeline, endpoint });
+    if (!options.userAgentOptions) {
+      options.userAgentOptions = {};
+    }
+    if (options.userAgentOptions.userAgentPrefix) {
+      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
+    } else {
+      options.userAgentOptions.userAgentPrefix = LIB_INFO;
+    }
+
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...options,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+        }
+      }
+    };
+
+    this.client = new GeneratedSchemaRegistryClient(endpoint, internalPipelineOptions);
+    
+    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE })
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -59,14 +83,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaId> {
-    const response = await this.client.schema.register(
+    const { flatResponse, rawResponse } = await getRawResponse((options) => this.client.schema.register(
       schema.group,
       schema.name,
       schema.serializationType,
       schema.content,
       options
-    );
-    return convertSchemaIdResponse(response);
+    ), options || {});
+    return convertSchemaIdResponse(flatResponse as any, rawResponse);
   }
 
   /**
@@ -81,14 +105,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: GetSchemaIdOptions
   ): Promise<SchemaId | undefined> {
     try {
-      const response = await this.client.schema.queryIdByContent(
+      const { flatResponse, rawResponse } = await getRawResponse((options) => this.client.schema.queryIdByContent(
         schema.group,
         schema.name,
         schema.serializationType,
         schema.content,
         options
-      );
-      return convertSchemaIdResponse(response);
+      ), options || {});
+      return convertSchemaIdResponse(flatResponse as any, rawResponse);
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -105,8 +129,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
     try {
-      const response = await this.client.schema.getById(id, options);
-      return convertSchemaResponse(response);
+      const { flatResponse, rawResponse } = await getRawResponse((options) => this.client.schema.getById(id,options), options || {});
+      return convertSchemaResponse(flatResponse as any, rawResponse);
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -114,4 +138,19 @@ export class SchemaRegistryClient implements SchemaRegistry {
       throw error;
     }
   }
+}
+
+interface ReturnType<T> {
+  flatResponse: T,
+  rawResponse: FullOperationResponse;
+}
+
+async function getRawResponse<TOptions extends OperationOptions, TResult>(f: (options: TOptions) => Promise<TResult>, options: TOptions): Promise<ReturnType<TResult>> {
+  const { onResponse } = options || {};
+  let rawResponse : FullOperationResponse | undefined = undefined;
+  const flatResponse = await f({ ...options, onResponse: (response: FullOperationResponse) => {
+    rawResponse = response;
+    onResponse?.(response, flatResponse);
+  }});
+  return { flatResponse, rawResponse: rawResponse! };
 }

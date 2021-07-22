@@ -4,41 +4,43 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 28 Dec 2020 22:21:19 GMT",
+    "date": "Thu, 22 Jul 2021 23:25:11 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - NCUS ProdSlices",
-    "x-ms-request-id": "b727b4af-214d-414e-b73c-6063c3af2402"
+    "x-ms-ests-server": "2.1.11898.8 - WUS2 ProdSlices",
+    "x-ms-request-id": "41c85ba2-cc9d-4bc4-8040-cbfac5ba2000"
    }
   },
   {
    "method": "PUT",
-   "url": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test",
+   "url": "https://sdktesting.servicebus.windows.net/$schemagroups/group-1/schemas/azsdk_js_test",
    "query": {
     "api-version": "2020-09-01-preview"
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 200,
-   "response": "{\"id\":\"f1675059e3c9410d8b06564af2eb4645\"}",
+   "response": "{\"id\":\"db4ca9d7ba3c4dcf8457d111ffdbb04f\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Mon, 28 Dec 2020 22:21:20 GMT",
-    "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
-    "schema-id": "f1675059e3c9410d8b06564af2eb4645",
-    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/f1675059e3c9410d8b06564af2eb4645?api-version=2020-09-01-preview",
+    "date": "Thu, 22 Jul 2021 23:25:12 GMT",
+    "location": "https://sdktesting.servicebus.windows.net:443/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
+    "schema-id": "db4ca9d7ba3c4dcf8457d111ffdbb04f",
+    "schema-id-location": "https://sdktesting.servicebus.windows.net:443/$schemagroups/getschemabyid/db4ca9d7ba3c4dcf8457d111ffdbb04f?api-version=2020-09-01-preview",
     "schema-version": "1",
-    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
+    "schema-versions-location": "https://sdktesting.servicebus.windows.net:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
     "serialization-type": "Avro",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
@@ -50,5 +52,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c63a201ebf22eab178c42df46356a670"
+ "hash": "5f3b7ce0d52d13a7aa35c165b92ec5a6"
 }

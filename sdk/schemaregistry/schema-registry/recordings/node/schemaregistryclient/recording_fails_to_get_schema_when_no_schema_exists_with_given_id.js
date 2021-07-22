@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "8a7a25f38a53c528d64492b8a40d024c";
+module.exports.hash = "b7a82bbd07caa00fea0b29b3433b4989";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,30 +23,28 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c1779042-5e29-4106-a3db-14918e931303',
+  '4eeb4ab6-38c6-4853-a2f9-f280f73a0c00',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11898.8 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AtHIiBCUTTZKphY4SWnZ2Ay1n5RgBAAAAJO5G9gOAAAA; expires=Fri, 28-May-2021 20:16:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnTZ5dOZjndGnA1tejtREiDmLYaiBQAAAE31i9gOAAAA; expires=Sat, 21-Aug-2021 23:25:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrBis5W0-RGOYBFzwhJEVSwWUPSsVUQPLeyPeT-Z1rKwEygnVEJ6Ml_7u0jFcpQzJijntbOgszZqYNFy-7Jc0-BIzBVHaDaeuYUoPLKqgfK9YUCEBi8SUD71-4O8SBPhsEjAC76wcv-TeKNxyyDX1MP_OgjlFbsMyzFo25ifjVxhUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrtfLLRSfQdxj-K6vWq4zzJjs4p6RMI7bx5ALUm8HmrtvMWa_tE-m9BaFewOkvXoi1AN4AivQeX_bYrU0uugaf3X7WCTWe9o04rgxbOyjB2IvzNN1RxOVPfshW15t6R0TsmTW7ie5tKDY_fzhScuwklLZNDllbIdXNgsfcDq4VNkYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 20:16:24 GMT',
+  'Thu, 22 Jul 2021 23:25:06 GMT',
   'Content-Length',
   '980'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .get('/azuretenantid/v2.0/.well-known/openid-configuration')
-  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/azuretenantid/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/azuretenantid/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/azuretenantid/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/azuretenantid/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/azuretenantid/kerberos","tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
   'Cache-Control',
   'max-age=86400, private',
-  'Content-Length',
-  '1651',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
@@ -60,33 +58,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e87435ef-c35e-4fcd-ae69-757527e85901',
+  'd1a7dc28-648a-45d0-83bc-0be0da802400',
   'x-ms-ests-server',
-  '2.1.11654.16 - SCUS ProdSlices',
+  '2.1.11898.8 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AtHIiBCUTTZKphY4SWnZ2Ay1n5RgBAAAAJO5G9gOAAAA; expires=Fri, 28-May-2021 20:16:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnTZ5dOZjndGnA1tejtREiDmLYaiBQAAAE31i9gOAAAA; expires=Sat, 21-Aug-2021 23:25:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZAGqtw6YDfX5A6JUvGqGnpe9PlNJXYCrcbNzoFVC7XwVnziuatGWxrKPQ27N30Ey1LA3_uv-sgaPGZoKMDlZPVbh-Dhmg_K0UnTy5ZE0ILtDyEjpUqUhcndLtoQk4Ua9sz64xUcj6m5LKvaAIuFsQCj3aDmnfGLOvmFzyqpk8fkgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr7cuqxut8PeV1bcw28T0VOAfahuJqC2S55FtliHPo23UYLKaWElca42ga_byXVizp7OZ-hEEIHlAIQhR7CvpgbE_YoH4MW2GG01TAcqRpDgvcrnIyKJVjzkjKogUXy8mkiO1poPRJ63fxMmCV2tzME_DEDr32gFowhn--C4TJKLogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 20:16:24 GMT'
+  'Thu, 22 Jul 2021 23:25:07 GMT',
+  'Content-Length',
+  '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .filteringRequestBody(function (body) {
-            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
-        })
-  .post('/azuretenantid/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Feventhubs.azure.net%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
+  .post('/azuretenantid/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=23479c71-f10e-402c-9fb6-173b3a3cf8de&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -98,25 +93,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'cf435074-b750-4948-9d1f-1ed2ca7f6a01',
+  '50ef361d-ac80-4e14-a881-d0bba6a30600',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11898.8 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AtHIiBCUTTZKphY4SWnZ2Ay1n5RgBQAAAJO5G9gOAAAA; expires=Fri, 28-May-2021 20:16:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnTZ5dOZjndGnA1tejtREiDmLYaiBgAAAE31i9gOAAAA; expires=Sat, 21-Aug-2021 23:25:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 20:16:24 GMT'
+  'Thu, 22 Jul 2021 23:25:07 GMT',
+  'Content-Length',
+  '1321'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://sdktesting.servicebus.windows.net:443', {"encodedQueryParams":true})
   .get('/$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff')
   .query(true)
-  .reply(404, {"Code":404,"Detail":"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:717699a5-239b-4e99-b230-8a52b30d75dd_G16, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2021-04-28T20:16:25"}, [
+  .reply(404, {"Code":404,"Detail":"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:4cbf654e-3200-44e2-8b09-b530ef9d5f9c_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2021-07-22T23:25:08"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -126,5 +123,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Wed, 28 Apr 2021 20:16:25 GMT'
+  'Thu, 22 Jul 2021 23:25:08 GMT'
 ]);
