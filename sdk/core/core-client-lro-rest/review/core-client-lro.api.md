@@ -20,6 +20,12 @@ export { LroEngineOptions }
 
 export { PollerLike }
 
+// @public
+export interface PollerOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
+
 export { PollOperationState }
 
 

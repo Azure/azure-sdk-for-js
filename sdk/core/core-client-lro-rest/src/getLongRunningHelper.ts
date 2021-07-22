@@ -12,6 +12,20 @@ import {
 } from "@azure/core-lro";
 
 /**
+ * Options for the poller
+ */
+export interface PollerOptions {
+  /**
+   * Defines how much time the poller is going to wait before making a new request to the service.
+   */
+  intervalInMs?: number;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
+  resumeFrom?: string;
+}
+
+/**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.
  * @param initialResponse - The initial response.

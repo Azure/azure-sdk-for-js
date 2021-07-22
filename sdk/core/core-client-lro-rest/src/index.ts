@@ -6,5 +6,5 @@
  *
  * @packageDocumentation
  */
-export { getLongRunningPoller } from "./getLongRunningHelper";
+export { getLongRunningPoller, PollerOptions } from "./getLongRunningHelper";
 export { PollerLike, PollOperationState, LroEngineOptions } from "@azure/core-lro";
