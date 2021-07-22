@@ -95,13 +95,24 @@ export async function prepareIdentityTests({
   }
 
   /**
+   * Safely stubs an object's method
+   */
+  function safelyStub(obj: any, method: string): sinon.SinonStub {
+    const maybeStub = obj[method] as { restore?: () => void };
+    if (maybeStub.restore) {
+      maybeStub.restore();
+    }
+    return sandbox.stub(obj, method);
+  }
+
+  /**
    * Wraps the outgoing request in a mocked environment, then returns the result of the request.
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
-    const stubbedHttpsRequest = sandbox.stub(https, "request");
+    const stubbedHttpsRequest = safelyStub(https, "request");
     const request = createRequest();
     sandbox.stub(request, "once").yields(responseToIncomingMessage(response));
     stubbedHttpsRequest.returns(request);
@@ -150,11 +161,11 @@ export async function prepareIdentityTests({
       });
 
     const insecureSpies: sinon.SinonSpy[] = [];
-    const stubbedHttpRequest = sandbox.stub(http, "request");
+    const stubbedHttpRequest = safelyStub(http, "request");
     registerResponses(insecureResponses, stubbedHttpRequest, insecureSpies);
 
     const secureSpies: sinon.SinonSpy[] = [];
-    const stubbedHttpsRequest = sandbox.stub(https, "request");
+    const stubbedHttpsRequest = safelyStub(https, "request");
     registerResponses(secureResponses, stubbedHttpsRequest, secureSpies);
 
     let result: AccessToken | null = null;
@@ -166,7 +177,11 @@ export async function prepareIdentityTests({
       error = e;
     }
 
-    const extractRequests = (stubbedRequest: sinon.SinonStub, spies: sinon.SinonSpy[]) =>
+    const extractRequests = (
+      stubbedRequest: sinon.SinonStub,
+      spies: sinon.SinonSpy[],
+      protocol: "http" | "https"
+    ) =>
       (stubbedRequest.args as any).reduce((accumulator: any, args: any, index: number) => {
         const requestOptions = args[0] as http.RequestOptions;
         const spiesArgs = spies[index]?.args;
@@ -177,7 +192,7 @@ export async function prepareIdentityTests({
         return [
           ...accumulator,
           {
-            url: `https://${requestOptions.hostname}${requestOptions.path}`,
+            url: `${protocol}://${requestOptions.hostname}${requestOptions.path}`,
             body,
             method: requestOptions.method,
             headers: requestOptions.headers
@@ -189,8 +204,8 @@ export async function prepareIdentityTests({
       result,
       error,
       requests: [
-        ...extractRequests(stubbedHttpRequest, insecureSpies),
-        ...extractRequests(stubbedHttpsRequest, secureSpies)
+        ...extractRequests(stubbedHttpRequest, insecureSpies, "http"),
+        ...extractRequests(stubbedHttpsRequest, secureSpies, "https")
       ]
     };
   };

@@ -31,7 +31,7 @@ export function assertClientCredentials(
   expectedClientSecret?: string
 ): void {
   assert.ok(requestUrl.indexOf(DefaultAuthorityHost) > -1);
-  assert.ok(requestUrl.indexOf(expectedTenantId) === 1);
+  assert.ok(requestUrl.indexOf(expectedTenantId) > -1);
 
   assert.strictEqual(
     requestBody.indexOf(`client_id=${expectedClientId}`) > -1,

@@ -14,7 +14,6 @@ import {
   imdsMsi,
   imdsMsiRetryConfig
 } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import { getError } from "../../authTestUtils";
 import {
   createResponse,
   IdentityTestContext,
@@ -110,35 +109,34 @@ describe("ManagedIdentityCredential", function() {
   it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["scopes"],
-        credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
-        insecureResponses: [
-          {
-            error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 })
-          }
-        ]
-      })
+    const { error } = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      insecureResponses: [
+        {
+          error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 })
+        }
+      ]
+    });
+    assert.ok(
+      error!.message!.indexOf("No MSI credential available") > -1,
+      "Failed to match the expected error"
     );
-    assert.ok(error.message.startsWith("No MSI credential available"));
   });
 
   it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
     const errorMessage = "ManagedIdentityCredential authentication failed.";
 
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["scopes"],
-        credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
-        insecureResponses: [
-          createResponse(200), // IMDS Endpoint ping
-          { error: new RestError(errorMessage, { statusCode: 500 }) }
-        ]
-      })
-    );
-    assert.ok(error.message.startsWith(errorMessage));
+    const { error } = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        { error: new RestError(errorMessage, { statusCode: 500 }) }
+      ]
+    });
+    assert.ok(error?.message.startsWith(errorMessage));
   });
 
   it("returns expected error when the network was unreachable", async function() {
@@ -149,17 +147,15 @@ describe("ManagedIdentityCredential", function() {
       statusCode: 408
     });
 
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["scopes"],
-        credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
-        insecureResponses: [
-          createResponse(200), // IMDS Endpoint ping
-          { error: netError }
-        ]
-      })
-    );
-    assert.ok(error.message.startsWith("Network unreachable."));
+    const { error } = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        { error: netError }
+      ]
+    });
+    assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
   });
 
   it("returns expected error when the host was unreachable", async function() {
@@ -170,17 +166,15 @@ describe("ManagedIdentityCredential", function() {
       statusCode: 408
     });
 
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["scopes"],
-        credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
-        insecureResponses: [
-          createResponse(200), // IMDS Endpoint ping
-          { error: hostError }
-        ]
-      })
-    );
-    assert.ok(error.message.startsWith("No managed identity endpoint found."));
+    const { error } = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        { error: hostError }
+      ]
+    });
+    assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
 
   it("IMDS MSI retries and succeeds on 404", async function() {
@@ -201,24 +195,22 @@ describe("ManagedIdentityCredential", function() {
   });
 
   it("IMDS MSI retries up to a limit on 404", async function() {
-    const error = await getError(
-      sendCredentialRequests({
-        scopes: ["scopes"],
-        credential: new ManagedIdentityCredential("errclient"),
-        insecureResponses: [
-          createResponse(200),
-          createResponse(404),
-          createResponse(404),
-          createResponse(404),
-          createResponse(404)
-        ]
-      })
-    );
+    const { error } = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        createResponse(200),
+        createResponse(404),
+        createResponse(404),
+        createResponse(404),
+        createResponse(404)
+      ]
+    });
 
     assert.ok(
-      error.message.startsWith(
+      error!.message!.indexOf(
         `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
-      )
+      ) > -1
     );
   });
 
@@ -249,38 +241,35 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(await imdsMsi.isAvailable());
   });
 
-  // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
-  // it("can extend timeout for IMDS endpoint", async function() {
-  //   // Mock a timeout so that the endpoint ping fails
-  //   const authDetails = await getMsiTokenAuthRequest(
-  //     ["https://service/.default"],
-  //     "client",
-  //     { mockTimeout: true },
-  //     5000
-  //   ); // Set the timeout higher
+  it("doesn't try IMDS endpoint again once it can't be detected", async function() {
+    const credential = new ManagedIdentityCredential("errclient");
+    const authDetails = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential,
+      insecureResponses: [
+        // Satisfying the ping
+        createResponse(200),
+        // Retries until exhaustion
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" })
+      ]
+    });
+    assert.equal(authDetails.requests.length, 5);
+    assert.ok(authDetails.error!.message.indexOf("authentication failed") > -1);
 
-  //   assert.strictEqual(authDetails.requests[0].timeout, 5000);
-  //   assert.strictEqual(authDetails.token, null);
-  // });
-
-  // unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
-  // it("doesn't try IMDS endpoint again once it can't be detected", async function() {
-  //   const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
-  //   const credential = new ManagedIdentityCredential("client", {
-  //     ...mockHttpClient.tokenCredentialOptions
-  //   });
-
-  //   // Run getToken twice and verify that an auth request is only
-  //   // attempted the first time.  It should be skipped the second
-  //   // time after no IMDS endpoint was found.
-
-  //   const firstGetToken = await credential.getToken("scopes");
-  //   const secondGetToken = await credential.getToken("scopes");
-
-  //   assert.strictEqual(firstGetToken, null);
-  //   assert.strictEqual(secondGetToken, null);
-  //   assert.strictEqual(mockHttpClient.requests.length, 1);
-  // });
+    const authDetails2 = await sendCredentialRequests({
+      scopes: ["scopes"],
+      credential,
+      insecureResponses: [
+        // This time, no ping should be triggered
+        createResponse(200, { access_token: "token" })
+      ]
+    });
+    assert.equal(authDetails2.requests.length, 1);
+    assert.equal(authDetails2.result?.token, "token");
+  });
 
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
@@ -381,7 +370,7 @@ describe("ManagedIdentityCredential", function() {
     );
 
     // Authorization request, which comes after getting the file path, for now at least.
-    const authRequest = authDetails.requests[0];
+    const authRequest = authDetails.requests[1];
     query = qs.parse(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
@@ -399,6 +388,8 @@ describe("ManagedIdentityCredential", function() {
     } else {
       assert.fail("No token was returned!");
     }
+
+    mockFs.restore();
   });
 
   // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet

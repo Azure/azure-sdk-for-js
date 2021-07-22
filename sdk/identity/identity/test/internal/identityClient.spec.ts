@@ -21,7 +21,7 @@ import {
 } from "../httpRequestsCommon";
 import { prepareIdentityTests, prepareMSALResponses } from "../httpRequests";
 
-describe.only("IdentityClient", function() {
+describe("IdentityClient", function() {
   let testContext: IdentityTestContext;
   let sendIndividualRequest: SendIndividualRequest;
   let sendIndividualRequestAndGetError: SendIndividualRequestAndGetError;
