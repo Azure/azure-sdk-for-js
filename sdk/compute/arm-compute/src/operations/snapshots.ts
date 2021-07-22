@@ -36,20 +36,9 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    snapshotName: string,
-    snapshot: Models.Snapshot,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(
-      resourceGroupName,
-      snapshotName,
-      snapshot,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SnapshotsCreateOrUpdateResponse
-    >;
+  createOrUpdate(resourceGroupName: string, snapshotName: string, snapshot: Models.Snapshot, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,snapshotName,snapshot,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsCreateOrUpdateResponse>;
   }
 
   /**
@@ -62,15 +51,9 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    snapshotName: string,
-    snapshot: Models.SnapshotUpdate,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName, snapshotName, snapshot, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    ) as Promise<Models.SnapshotsUpdateResponse>;
+  update(resourceGroupName: string, snapshotName: string, snapshot: Models.SnapshotUpdate, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,snapshotName,snapshot,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsUpdateResponse>;
   }
 
   /**
@@ -82,11 +65,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsGetResponse>;
+  get(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
@@ -94,11 +73,7 @@ export class Snapshots {
    * max name length is 80 characters.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    snapshotName: string,
-    callback: msRest.ServiceCallback<Models.Snapshot>
-  ): void;
+  get(resourceGroupName: string, snapshotName: string, callback: msRest.ServiceCallback<Models.Snapshot>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
@@ -107,18 +82,8 @@ export class Snapshots {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    snapshotName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.Snapshot>
-  ): void;
-  get(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>,
-    callback?: msRest.ServiceCallback<Models.Snapshot>
-  ): Promise<Models.SnapshotsGetResponse> {
+  get(resourceGroupName: string, snapshotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Snapshot>): void;
+  get(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>, callback?: msRest.ServiceCallback<Models.Snapshot>): Promise<Models.SnapshotsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,8 +91,7 @@ export class Snapshots {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.SnapshotsGetResponse>;
+      callback) as Promise<Models.SnapshotsGetResponse>;
   }
 
   /**
@@ -139,14 +103,9 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName, snapshotName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  deleteMethod(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,snapshotName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -155,41 +114,26 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsListByResourceGroupResponse>
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.SnapshotList>
-  ): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SnapshotList>
-  ): void;
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>,
-    callback?: msRest.ServiceCallback<Models.SnapshotList>
-  ): Promise<Models.SnapshotsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback
-    ) as Promise<Models.SnapshotsListByResourceGroupResponse>;
+      callback) as Promise<Models.SnapshotsListByResourceGroupResponse>;
   }
 
   /**
@@ -206,21 +150,14 @@ export class Snapshots {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SnapshotList>
-  ): void;
-  list(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>,
-    callback?: msRest.ServiceCallback<Models.SnapshotList>
-  ): Promise<Models.SnapshotsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.SnapshotsListResponse>;
+      callback) as Promise<Models.SnapshotsListResponse>;
   }
 
   /**
@@ -234,20 +171,9 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsGrantAccessResponse>
    */
-  grantAccess(
-    resourceGroupName: string,
-    snapshotName: string,
-    grantAccessData: Models.GrantAccessData,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsGrantAccessResponse> {
-    return this.beginGrantAccess(
-      resourceGroupName,
-      snapshotName,
-      grantAccessData,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.SnapshotsGrantAccessResponse
-    >;
+  grantAccess(resourceGroupName: string, snapshotName: string, grantAccessData: Models.GrantAccessData, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsGrantAccessResponse> {
+    return this.beginGrantAccess(resourceGroupName,snapshotName,grantAccessData,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsGrantAccessResponse>;
   }
 
   /**
@@ -259,14 +185,9 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  revokeAccess(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginRevokeAccess(resourceGroupName, snapshotName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  revokeAccess(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRevokeAccess(resourceGroupName,snapshotName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -279,12 +200,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    snapshotName: string,
-    snapshot: Models.Snapshot,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, snapshotName: string, snapshot: Models.Snapshot, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -293,8 +209,7 @@ export class Snapshots {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -307,12 +222,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(
-    resourceGroupName: string,
-    snapshotName: string,
-    snapshot: Models.SnapshotUpdate,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, snapshotName: string, snapshot: Models.SnapshotUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -321,8 +231,7 @@ export class Snapshots {
         options
       },
       beginUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -334,11 +243,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -346,8 +251,7 @@ export class Snapshots {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -361,12 +265,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginGrantAccess(
-    resourceGroupName: string,
-    snapshotName: string,
-    grantAccessData: Models.GrantAccessData,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginGrantAccess(resourceGroupName: string, snapshotName: string, grantAccessData: Models.GrantAccessData, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -375,8 +274,7 @@ export class Snapshots {
         options
       },
       beginGrantAccessOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -388,11 +286,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRevokeAccess(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginRevokeAccess(resourceGroupName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -400,8 +294,7 @@ export class Snapshots {
         options
       },
       beginRevokeAccessOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -410,41 +303,26 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.SnapshotList>
-  ): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SnapshotList>
-  ): void;
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>,
-    callback?: msRest.ServiceCallback<Models.SnapshotList>
-  ): Promise<Models.SnapshotsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.SnapshotsListByResourceGroupNextResponse>;
+      callback) as Promise<Models.SnapshotsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -453,10 +331,7 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SnapshotsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -467,24 +342,15 @@ export class Snapshots {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SnapshotList>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>,
-    callback?: msRest.ServiceCallback<Models.SnapshotList>
-  ): Promise<Models.SnapshotsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotList>, callback?: msRest.ServiceCallback<Models.SnapshotList>): Promise<Models.SnapshotsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.SnapshotsListNextResponse>;
+      callback) as Promise<Models.SnapshotsListNextResponse>;
   }
 }
 
@@ -492,11 +358,18 @@ export class Snapshots {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.snapshotName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.Snapshot
@@ -510,11 +383,17 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotList
@@ -529,9 +408,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotList
@@ -545,11 +430,18 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.snapshotName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "snapshot",
     mapper: {
@@ -573,11 +465,18 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.snapshotName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "snapshot",
     mapper: {
@@ -601,11 +500,18 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.snapshotName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -619,11 +525,18 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginGrantAccessOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.snapshotName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "grantAccessData",
     mapper: {
@@ -645,11 +558,18 @@ const beginGrantAccessOperationSpec: msRest.OperationSpec = {
 
 const beginRevokeAccessOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.snapshotName],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -664,9 +584,15 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotList
@@ -682,9 +608,15 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotList
