@@ -7,7 +7,7 @@
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/core-auth';
 import { UserAgentOptions } from '@azure/core-http';
 
 // @public
