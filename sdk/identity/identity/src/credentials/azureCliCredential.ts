@@ -15,8 +15,12 @@ import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
+ * @internal
  */
 export const cliCredentialInternals = {
+  /**
+   * @internal
+   */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
       if (!process.env.SystemRoot) {

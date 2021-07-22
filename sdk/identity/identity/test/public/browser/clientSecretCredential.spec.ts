@@ -3,8 +3,12 @@
 
 import { ClientSecretCredential } from "../../../src";
 import { assertClientCredentials } from "../../authTestUtils";
-import { createResponse, prepareIdentityTests } from "../../httpRequests";
-import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
+import { prepareIdentityTests } from "../../httpRequests";
+import {
+  createResponse,
+  IdentityTestContext,
+  SendCredentialRequests
+} from "../../httpRequestsCommon";
 
 describe("ClientSecretCredential", function() {
   let testContext: IdentityTestContext;
@@ -23,12 +27,10 @@ describe("ClientSecretCredential", function() {
       scopes: ["scope"],
       credential: new ClientSecretCredential("tenant", "client", "secret"),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 

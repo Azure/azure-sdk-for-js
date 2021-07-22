@@ -6,8 +6,12 @@ import { assertClientCredentials } from "../../authTestUtils";
 import { AuthorizationCodeCredential } from "../../../src";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { setSpan, context as otContext } from "@azure/core-tracing";
-import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
-import { createResponse, prepareIdentityTests } from "../../httpRequests";
+import {
+  createResponse,
+  IdentityTestContext,
+  SendCredentialRequests
+} from "../../httpRequestsCommon";
+import { prepareIdentityTests } from "../../httpRequests";
 
 describe("AuthorizationCodeCredential", function() {
   let testContext: IdentityTestContext;
@@ -33,12 +37,10 @@ describe("AuthorizationCodeCredential", function() {
         redirectUri
       ),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 
@@ -63,12 +65,10 @@ describe("AuthorizationCodeCredential", function() {
       scopes: ["scope"],
       credential: new AuthorizationCodeCredential("tenant", "client", "authCode", redirectUri),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 
@@ -107,12 +107,10 @@ describe("AuthorizationCodeCredential", function() {
         redirectUri
       ),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 

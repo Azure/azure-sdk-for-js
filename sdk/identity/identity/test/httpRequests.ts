@@ -6,11 +6,18 @@ import * as https from "https";
 import * as http from "http";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
-import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { getError } from "./authTestUtils";
-import { IdentityTestContext, SendCredentialRequests, TestResponse } from "./httpRequestsTypes";
+import {
+  createResponse,
+  IdentityTestContext,
+  RawTestResponse,
+  SendCredentialRequests,
+  TestResponse
+} from "./httpRequestsCommon";
 import { AccessToken } from "../src";
+import { openIdConfigurationResponse } from "./msalTestUtils";
 
 /**
  * @internal
@@ -28,21 +35,6 @@ export class FakeRequest extends PassThrough {
   public abort(): void {
     this.finished = true;
   }
-}
-
-/**
- * @internal
- */
-export function createResponse(
-  statusCode: number,
-  body: Record<string, string | string[] | boolean | number> = {},
-  headers?: RawHttpHeaders
-): TestResponse {
-  return {
-    statusCode,
-    body: JSON.stringify(body),
-    headers
-  };
 }
 
 /**
@@ -72,20 +64,8 @@ function responseToIncomingMessage(response: TestResponse): IncomingMessage {
 /**
  * @internal
  */
-export function createWTFResponse(
-  statusCode: number,
-  body = "",
-  headers?: IncomingHttpHeaders
-): IncomingMessage {
-  const response = new PassThroughResponse();
-  response.headers = {};
-  response.statusCode = statusCode;
-  if (headers) {
-    response.headers = headers;
-  }
-  response.write(body);
-  response.end();
-  return (response as unknown) as IncomingMessage;
+export function prepareMSALResponses(): RawTestResponse[] {
+  return [createResponse(200, openIdConfigurationResponse)];
 }
 
 /**
@@ -119,16 +99,14 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
-    response: TestResponse
+    { response }: { response: TestResponse }
   ): Promise<T | null> {
-    const incomingMessageResponse = responseToIncomingMessage(response);
     const stubbedHttpsRequest = sandbox.stub(https, "request");
-
-    stubbedHttpsRequest.returns(createRequest());
-    const promise = sendPromise();
-    stubbedHttpsRequest.yield(incomingMessageResponse);
-    await clock.runAllAsync();
-    return promise;
+    const request = createRequest();
+    sandbox.stub(request, "once").yields(responseToIncomingMessage(response));
+    stubbedHttpsRequest.returns(request);
+    clock.runAllAsync();
+    return sendPromise();
   }
 
   /**
@@ -136,7 +114,7 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
-    response: TestResponse
+    response: { response: TestResponse }
   ): Promise<Error> {
     return getError(sendIndividualRequest(sendPromise, response));
   }
@@ -182,9 +160,8 @@ export async function prepareIdentityTests({
     let result: AccessToken | null = null;
     let error: RestError | undefined;
     try {
-      const promise = credential.getToken(scopes, getTokenOptions);
-      await clock.runAllAsync();
-      result = await promise;
+      clock.runAllAsync();
+      result = await credential.getToken(scopes, getTokenOptions);
     } catch (e) {
       error = e;
     }

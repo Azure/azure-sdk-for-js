@@ -113,14 +113,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     this.authorityHost = options.authorityHost || process.env.AZURE_AUTHORITY_HOST;
     const authority = getAuthority(tenantId, this.authorityHost);
-    console.log("AUTHORITY", authority);
 
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
       authorityHost: authority
     });
 
-    console.log("KNOWN AUTHORITIES", getKnownAuthorities(tenantId, authority));
     return {
       auth: {
         clientId,
@@ -280,7 +278,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
 
-    return this.getTokenSilent(scopes, options).catch((err) => {
+    try {
+      return await this.getTokenSilent(scopes, options);
+    } catch (err) {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
@@ -293,6 +293,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);
       return this.doGetToken(scopes, options);
-    });
+    }
   }
 }

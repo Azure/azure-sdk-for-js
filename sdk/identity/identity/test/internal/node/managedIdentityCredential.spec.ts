@@ -15,8 +15,12 @@ import {
   imdsMsiRetryConfig
 } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { getError } from "../../authTestUtils";
-import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
-import { createResponse, prepareIdentityTests } from "../../httpRequests";
+import {
+  createResponse,
+  IdentityTestContext,
+  SendCredentialRequests
+} from "../../httpRequestsCommon";
+import { prepareIdentityTests } from "../../httpRequests";
 
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
@@ -53,13 +57,11 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       insecureResponses: [
-        { response: createResponse(200) }, // IMDS Endpoint ping
-        {
-          response: createResponse(200, {
-            token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 
@@ -87,13 +89,11 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["someResource"],
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
-        { response: createResponse(200) }, // IMDS Endpoint ping
-        {
-          response: createResponse(200, {
-            token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 
@@ -133,7 +133,7 @@ describe("ManagedIdentityCredential", function() {
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
         insecureResponses: [
-          { response: createResponse(200) }, // IMDS Endpoint ping
+          createResponse(200), // IMDS Endpoint ping
           { error: new RestError(errorMessage, { statusCode: 500 }) }
         ]
       })
@@ -154,7 +154,7 @@ describe("ManagedIdentityCredential", function() {
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
         insecureResponses: [
-          { response: createResponse(200) }, // IMDS Endpoint ping
+          createResponse(200), // IMDS Endpoint ping
           { error: netError }
         ]
       })
@@ -175,7 +175,7 @@ describe("ManagedIdentityCredential", function() {
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
         insecureResponses: [
-          { response: createResponse(200) }, // IMDS Endpoint ping
+          createResponse(200), // IMDS Endpoint ping
           { error: hostError }
         ]
       })
@@ -188,14 +188,12 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        { response: createResponse(200) },
-        { response: createResponse(404) },
-        { response: createResponse(404) },
-        {
-          response: createResponse(200, {
-            access_token: "token"
-          })
-        }
+        createResponse(200),
+        createResponse(404),
+        createResponse(404),
+        createResponse(200, {
+          access_token: "token"
+        })
       ]
     });
 
@@ -208,11 +206,11 @@ describe("ManagedIdentityCredential", function() {
         scopes: ["scopes"],
         credential: new ManagedIdentityCredential("errclient"),
         insecureResponses: [
-          { response: createResponse(200) },
-          { response: createResponse(404) },
-          { response: createResponse(404) },
-          { response: createResponse(404) },
-          { response: createResponse(404) }
+          createResponse(200),
+          createResponse(404),
+          createResponse(404),
+          createResponse(404),
+          createResponse(404)
         ]
       })
     );
@@ -229,16 +227,16 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        { response: createResponse(503, {}, { "Retry-After": "2" }) },
-        { response: createResponse(503, {}, { "Retry-After": "2" }) },
-        { response: createResponse(503, {}, { "Retry-After": "2" }) },
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
         // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
-        // { status: 503, headers: createHttpHeaders({ "Retry-After": "2" }) },
-        { response: createResponse(200) },
-        { response: createResponse(503, {}, { "Retry-After": "2" }) },
-        { response: createResponse(503, {}, { "Retry-After": "2" }) },
-        { response: createResponse(503, {}, { "Retry-After": "2" }) },
-        { response: createResponse(200, { access_token: "token" }) }
+        // createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(200),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(200, { access_token: "token" })
       ]
     });
 
@@ -293,12 +291,10 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 
@@ -331,7 +327,7 @@ describe("ManagedIdentityCredential", function() {
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
-      secureResponses: [{ response: createResponse(200, { access_token: "token" }) }]
+      secureResponses: [createResponse(200, { access_token: "token" })]
     });
 
     const authRequest = authDetails.requests[0];
@@ -358,21 +354,17 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential(),
       secureResponses: [
-        {
-          response: createResponse(
-            401,
-            {},
-            {
-              "www-authenticate": `we don't pay much attention about this format=${filePath}`
-            }
-          )
-        },
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_in: 1
-          })
-        }
+        createResponse(
+          401,
+          {},
+          {
+            "www-authenticate": `we don't pay much attention about this format=${filePath}`
+          }
+        ),
+        createResponse(200, {
+          access_token: "token",
+          expires_in: 1
+        })
       ]
     });
 
@@ -424,12 +416,10 @@ describe("ManagedIdentityCredential", function() {
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            token: "token",
-            expires_on: 1
-          })
-        }
+        createResponse(200, {
+          token: "token",
+          expires_on: 1
+        })
       ]
     });
 

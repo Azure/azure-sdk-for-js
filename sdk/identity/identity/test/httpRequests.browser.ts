@@ -2,26 +2,22 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { assert } from "chai";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
 import { AccessToken } from "@azure/core-auth";
 import { getError } from "./authTestUtils";
-import { TestResponse, IdentityTestContext, SendCredentialRequests } from "./httpRequestsTypes";
+import {
+  IdentityTestContext,
+  SendCredentialRequests,
+  RawTestResponse,
+  TestResponse
+} from "./httpRequestsCommon";
 
 /**
  * @internal
  */
-export function createResponse(
-  statusCode: number,
-  body: Record<string, string | string[] | boolean | number> = {},
-  headers: RawHttpHeaders = {}
-): TestResponse {
-  return {
-    statusCode,
-    body: JSON.stringify(body),
-    headers
-  };
+export function prepareMSALResponses(): RawTestResponse[] {
+  return [];
 }
 
 /**
@@ -53,18 +49,21 @@ export async function prepareIdentityTests({
   // Browser specific code
   const server = sandbox.useFakeServer();
   const requests: sinon.SinonFakeXMLHttpRequest[] = [];
-  const responses: { response?: TestResponse; error?: RestError }[] = [];
+  const responses: RawTestResponse[] = [];
 
   /**
    * Wraps the outgoing request in a mocked environment, then returns the result of the request.
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
-    response: TestResponse
+    { response }: { response: TestResponse }
   ): Promise<T | null> {
-    responses.push({ response });
+    server.respondWith((xhr) => {
+      requests.push(xhr);
+      xhr.respond(response.statusCode, response.headers, response.body);
+    });
     const promise = sendPromise();
-    assert.equal(requests.length, 1);
+    server.respond();
     await clock.runAllAsync();
     return promise;
   }
@@ -74,7 +73,7 @@ export async function prepareIdentityTests({
    */
   async function sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
-    response: TestResponse
+    response: { response: TestResponse }
   ): Promise<Error> {
     return getError(sendIndividualRequest(sendPromise, response));
   }

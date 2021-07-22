@@ -20,7 +20,7 @@ export interface TestResponse {
  */
 export type SendIndividualRequest = <T>(
   sendPromise: () => Promise<T | null>,
-  response: TestResponse
+  response: { response: TestResponse }
 ) => Promise<T | null>;
 
 /**
@@ -28,8 +28,13 @@ export type SendIndividualRequest = <T>(
  */
 export type SendIndividualRequestAndGetError = <T>(
   sendPromise: () => Promise<T | null>,
-  response: TestResponse
+  response: { response: TestResponse }
 ) => Promise<Error>;
+
+/**
+ * @internal
+ */
+export type RawTestResponse = { response?: TestResponse; error?: RestError };
 
 /**
  * @internal
@@ -38,8 +43,8 @@ export type SendCredentialRequests = (options: {
   scopes: string | string[];
   getTokenOptions?: GetTokenOptions;
   credential: TokenCredential;
-  insecureResponses?: { response?: TestResponse; error?: RestError }[];
-  secureResponses?: { response?: TestResponse; error?: RestError }[];
+  insecureResponses?: RawTestResponse[];
+  secureResponses?: RawTestResponse[];
 }) => Promise<{
   result: AccessToken | null;
   error?: RestError;
@@ -64,4 +69,21 @@ export interface IdentityTestContext {
   sendIndividualRequest: SendIndividualRequest;
   sendIndividualRequestAndGetError: SendIndividualRequestAndGetError;
   sendCredentialRequests: SendCredentialRequests;
+}
+
+/**
+ * @internal
+ */
+export function createResponse(
+  statusCode: number,
+  body: Record<string, string | string[] | boolean | number> = {},
+  headers: RawHttpHeaders = {}
+): { response: TestResponse } {
+  return {
+    response: {
+      statusCode,
+      body: JSON.stringify(body),
+      headers
+    }
+  };
 }

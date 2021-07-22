@@ -13,8 +13,8 @@ import { DefaultAuthorityHost } from "../src/constants";
  */
 export async function getError<T = Error>(promise: Promise<any>): Promise<T> {
   try {
-    await promise;
-    throw new Error("Expected an error");
+    const result = await promise;
+    throw new Error(`Expected an error. Received: ${result}`);
   } catch (error) {
     return error;
   }

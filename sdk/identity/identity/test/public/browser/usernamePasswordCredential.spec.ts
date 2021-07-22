@@ -4,8 +4,12 @@
 import assert from "assert";
 import { assertClientCredentials } from "../../authTestUtils";
 import { UsernamePasswordCredential } from "../../../src";
-import { IdentityTestContext, SendCredentialRequests } from "../../httpRequestsTypes";
-import { createResponse, prepareIdentityTests } from "../../httpRequests";
+import {
+  createResponse,
+  IdentityTestContext,
+  SendCredentialRequests
+} from "../../httpRequestsCommon";
+import { prepareIdentityTests } from "../../httpRequests";
 
 describe("UsernamePasswordCredential", function() {
   let testContext: IdentityTestContext;
@@ -26,12 +30,10 @@ describe("UsernamePasswordCredential", function() {
       scopes: ["scope"],
       credential: new UsernamePasswordCredential("tenant", "client", "user@domain.com", password),
       secureResponses: [
-        {
-          response: createResponse(200, {
-            access_token: "token",
-            expires_on: "06/20/2019 02:57:58 +00:00"
-          })
-        }
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
       ]
     });
 
