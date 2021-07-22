@@ -5,6 +5,7 @@ import * as sinon from "sinon";
 import { assert } from "chai";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { AccessToken } from "@azure/core-auth";
 import { getError } from "./authTestUtils";
 import { TestResponse, IdentityTestContext, SendCredentialRequests } from "./httpRequestsTypes";
 
@@ -50,31 +51,9 @@ export async function prepareIdentityTests({
   }
 
   // Browser specific code
-  const xhrMock = sandbox.useFakeXMLHttpRequest();
+  const server = sandbox.useFakeServer();
   const requests: sinon.SinonFakeXMLHttpRequest[] = [];
   const responses: { response?: TestResponse; error?: RestError }[] = [];
-  xhrMock.onCreate = (xhr) => {
-    const response = responses.shift();
-    if (!response) {
-      throw new Error("Insufficient responses");
-    }
-    requests.push(xhr);
-    if (response.error) {
-      xhr.status = response.error.statusCode!;
-      xhr.statusText = response.error.code!;
-      xhr.error();
-    } else if (response.response) {
-      xhr.respond(
-        response.response.statusCode,
-        response.response.headers,
-        response.response.body || ""
-      );
-    } else {
-      throw new Error(
-        "Bad fake response structure. Expected either an `error` or a `response` property."
-      );
-    }
-  };
 
   /**
    * Wraps the outgoing request in a mocked environment, then returns the result of the request.
@@ -111,12 +90,35 @@ export async function prepareIdentityTests({
     secureResponses = []
   }) => {
     responses.push(...[...insecureResponses, ...secureResponses]);
+    server.respondWith((xhr) => {
+      requests.push(xhr);
+      if (!responses.length) {
+        throw new Error("No responses to send");
+      }
+      const { response, error } = responses.shift()!;
+      if (response) {
+        xhr.respond(response.statusCode, response.headers, response.body);
+      } else if (error) {
+        xhr.respond(error.statusCode!, {}, error.message);
+      } else {
+        throw new Error("No response or error to send");
+      }
+    });
 
-    const promise = credential.getToken(scopes, getTokenOptions);
-    await clock.runAllAsync();
+    let result: AccessToken | null = null;
+    let error: RestError | undefined;
+    try {
+      const promise = credential.getToken(scopes, getTokenOptions);
+      server.respond();
+      await clock.runAllAsync();
+      result = await promise;
+    } catch (e) {
+      error = e;
+    }
 
     return {
-      result: await promise,
+      result,
+      error,
       requests: requests.map((request) => {
         return {
           url: request.url,

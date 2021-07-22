@@ -50,7 +50,14 @@ describe.only("IdentityClient", function() {
         }
       ]
     });
-    assert.strictEqual(error!.name, "CredentialUnavailableError");
+    if (isNode) {
+      assert.strictEqual(error!.name, "CredentialUnavailableError");
+    } else {
+      // The browser version of this credential uses a legacy approach.
+      // While the Node version uses MSAL, the browser version does the network requests directly.
+      // While that means the browser version is simpler, it also means the browser version will not keep the same behavior.
+      assert.strictEqual(error!.name, "AuthenticationError");
+    }
   });
 
   it.only("throws an exception when an authentication request fails", async () => {
@@ -70,7 +77,14 @@ describe.only("IdentityClient", function() {
       credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
       secureResponses: responses
     });
-    assert.strictEqual(error!.name, "AuthenticationRequiredError");
+    if (isNode) {
+      assert.strictEqual(error!.name, "AuthenticationRequiredError");
+    } else {
+      // The browser version of this credential uses a legacy approach.
+      // While the Node version uses MSAL, the browser version does the network requests directly.
+      // While that means the browser version is simpler, it also means the browser version will not keep the same behavior.
+      assert.strictEqual(error!.name, "AuthenticationError");
+    }
   });
 
   it("throws an exception when an authorityHost using 'http' is provided", async () => {
