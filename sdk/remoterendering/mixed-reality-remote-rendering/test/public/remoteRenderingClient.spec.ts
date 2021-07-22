@@ -26,6 +26,13 @@ import {
 } from "@azure/core-auth";
 import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 
+import {
+  isPlaybackMode
+} from "@azure/test-utils-recorder";
+
+/// No need to wait when polling in playback mode.
+const pollerSettings = isPlaybackMode() ? { intervalInMs: 1 } : {};
+
 describe("RemoteRenderingClient construction", () => {
   const accountDomain = "mixedreality.azure.com";
   const accountId = "00000000-0000-0000-0000-000000000000";
@@ -139,7 +146,8 @@ describe("RemoteRendering functional tests", () => {
 
     const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
       conversionId,
-      conversionSettings
+      conversionSettings,
+      pollerSettings
     );
     assert.equal(conversionPoller.getOperationState().latestResponse.conversionId, conversionId);
     assert.equal(
@@ -195,7 +203,7 @@ describe("RemoteRendering functional tests", () => {
 
     let didThrowExpected: boolean = false;
     try {
-      await client.beginConversion(conversionId, conversionSettings);
+      await client.beginConversion(conversionId, conversionSettings, pollerSettings);
     } catch (e) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
@@ -231,7 +239,8 @@ describe("RemoteRendering functional tests", () => {
 
     const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
       conversionId,
-      conversionSettings
+      conversionSettings,
+      pollerSettings
     );
 
     const assetConversion: AssetConversion = await client.getConversion(conversionId);
@@ -258,7 +267,8 @@ describe("RemoteRendering functional tests", () => {
 
     const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
       sessionId,
-      sessionSettings
+      sessionSettings,
+      pollerSettings
     );
 
     assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
@@ -311,7 +321,7 @@ describe("RemoteRendering functional tests", () => {
 
     let didThrowExpected: boolean = false;
     try {
-      await client.beginSession(sessionId, sessionSettings);
+      await client.beginSession(sessionId, sessionSettings, pollerSettings);
     } catch (e) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
