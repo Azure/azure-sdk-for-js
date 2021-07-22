@@ -11,15 +11,15 @@ import {
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
 
-describe("UsernamePasswordCredential", function () {
+describe("UsernamePasswordCredential", function() {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
   });
 

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -159,12 +158,14 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       (refreshParams as any).client_secret = clientSecret;
     }
 
+    const query = new URLSearchParams(refreshParams);
+
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
       const request = createPipelineRequest({
         url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
-        body: qs.stringify(refreshParams),
+        body: query.toString(),
         abortSignal: options && options.abortSignal,
         headers: createHttpHeaders({
           Accept: "application/json",
@@ -212,18 +213,22 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   // Here is a custom layer that allows us to abort requests that go through MSAL,
   // since MSAL doesn't allow us to pass options all the way through.
 
-  generateAbortSignal(correlationId?: string): AbortSignalLike {
+  generateAbortSignal(correlationId: string): AbortSignalLike {
     const controller = new AbortController();
-    const key = correlationId || noCorrelationId;
-
-    const controllers = this.abortControllers.get(key) || [];
+    const controllers = this.abortControllers.get(correlationId) || [];
     controllers.push(controller);
-    this.abortControllers.set(key, controllers);
-
+    this.abortControllers.set(correlationId, controllers);
+    const existingOnAbort = controller.signal.onabort;
+    controller.signal.onabort = (...params) => {
+      this.abortControllers.set(correlationId, undefined);
+      if (existingOnAbort) {
+        existingOnAbort(...params);
+      }
+    };
     return controller.signal;
   }
 
-  abortRequests(correlationId: string = noCorrelationId): void {
+  abortRequests(correlationId?: string): void {
     const key = correlationId || noCorrelationId;
     const controllers = [
       ...(this.abortControllers.get(key) || []),
@@ -237,15 +242,14 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       controller.abort();
     }
     this.abortControllers.set(key, undefined);
-    this.abortControllers.set(noCorrelationId, undefined);
   }
 
-  getCorrelationId(options?: NetworkRequestOptions): string | undefined {
+  getCorrelationId(options?: NetworkRequestOptions): string {
     const parameter = options?.body
       ?.split("&")
       .map((part) => part.split("="))
       .find(([key]) => key === "client-request-id");
-    return parameter && parameter.length ? parameter[1] : noCorrelationId;
+    return parameter && parameter.length ? parameter[1] || noCorrelationId : noCorrelationId;
   }
 
   // The MSAL network module methods follow
@@ -259,7 +263,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       method: "GET",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
-      abortSignal: this.generateAbortSignal()
+      abortSignal: this.generateAbortSignal(noCorrelationId)
     });
 
     const response = await this.sendRequest(request);

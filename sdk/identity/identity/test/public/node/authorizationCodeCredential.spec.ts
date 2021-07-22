@@ -13,15 +13,15 @@ import {
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
 
-describe("AuthorizationCodeCredential", function () {
+describe("AuthorizationCodeCredential", function() {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await testContext.restore();
   });
 
@@ -86,7 +86,7 @@ describe("AuthorizationCodeCredential", function () {
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function () {
+  it("traces the authorization code request when tracing is enabled", async function() {
     const tracer = setTracer();
 
     const redirectUri = "http://localhost:8080/authresponse";
