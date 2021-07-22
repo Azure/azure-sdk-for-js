@@ -32,7 +32,7 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
-export function startRecorder(that: any): Recorder {
+export function startRecorder(that: Mocha.Context): Recorder {
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       APPCONFIG_CONNECTION_STRING:
@@ -178,7 +178,10 @@ export async function assertThrowsRestError(
   return new Error("We won't reach this - both cases above throw because of assert.fail()");
 }
 
-export async function assertThrowsAbortError(testFunction: () => Promise<any>, message = "") {
+export async function assertThrowsAbortError(
+  testFunction: () => Promise<any>,
+  message = ""
+): Promise<Error> {
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);

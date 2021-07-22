@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { join } from "path";
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
 
 import { packageVersion } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
+import path from "path";
+import fs from "fs";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
@@ -22,14 +23,16 @@ describe("packagejson related tests", () => {
 
     try {
       // For integration tests
-      const packageJsonFilePath = join(__dirname, "../../../package.json");
-      packageJsonContents = require(packageJsonFilePath);
+      packageJsonContents = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" })
+      );
     } catch (e) {
       // For unit tests
-      const packageJsonFilePath = join(__dirname, "../package.json");
-      packageJsonContents = require(packageJsonFilePath);
+      packageJsonContents = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
+      );
     }
 
-    assert.equal(packageJsonContents.version, packageVersion);
+    assert.strictEqual(packageJsonContents.version, packageVersion);
   });
 });

@@ -73,7 +73,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
           throw new AbortError(StandardAbortMessage);
         }
 
-        if (this.retryOptions.maxRetries == undefined) {
+        if (this.retryOptions.maxRetries === undefined || this.retryOptions.maxRetries === null) {
           this.retryOptions.maxRetries = DEFAULT_CLIENT_RETRY_COUNT;
         }
 

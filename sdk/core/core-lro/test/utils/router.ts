@@ -10,7 +10,12 @@ import {
   RestError
 } from "@azure/core-rest-pipeline";
 import { LroEngine, PollerLike, PollOperationState } from "../../src";
-import { LroResourceLocationConfig, LroBody, LroResponse } from "../../src/lroEngine/models";
+import {
+  LroResourceLocationConfig,
+  LroBody,
+  LroResponse,
+  RawResponse
+} from "../../src/lroEngine/models";
 import { CoreRestPipelineLro } from "./coreRestPipelineLro";
 import { paramRoutes } from "./router/paramRoutes";
 import { routes, routesTable } from "./router/routesTable";
@@ -64,10 +69,12 @@ async function runRouter(request: PipelineRequest): Promise<LroResponse<Response
   };
 }
 
-export function mockedPoller(
+export function mockedPoller<TState>(
   method: HttpMethods,
   url: string,
-  lroResourceLocationConfig?: LroResourceLocationConfig
+  lroResourceLocationConfig?: LroResourceLocationConfig,
+  processResult?: (result: unknown, state: TState) => Response,
+  updateState?: (state: TState, lastResponse: RawResponse) => void
 ): PollerLike<PollOperationState<Response>, Response> {
   const lro = new CoreRestPipelineLro(runRouter, {
     method: method,
@@ -77,9 +84,11 @@ export function mockedPoller(
     timeout: 0,
     withCredentials: false
   });
-  return new LroEngine(lro, {
+  return new LroEngine<Response, TState>(lro, {
     intervalInMs: 0,
-    lroResourceLocationConfig: lroResourceLocationConfig
+    lroResourceLocationConfig: lroResourceLocationConfig,
+    processResult: processResult,
+    updateState: updateState
   });
 }
 

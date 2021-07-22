@@ -14,19 +14,16 @@ export class FeatureClientContext extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
-  providerNamespace: string;
 
   /**
    * Initializes a new instance of the FeatureClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID.
-   * @param providerNamespace The provider namespace.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    providerNamespace: string,
     options?: FeatureClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -34,9 +31,6 @@ export class FeatureClientContext extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
-    }
-    if (providerNamespace === undefined) {
-      throw new Error("'providerNamespace' cannot be null");
     }
 
     // Initializing default values for options
@@ -48,7 +42,7 @@ export class FeatureClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-features/30.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-features/30.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -68,10 +62,9 @@ export class FeatureClientContext extends coreClient.ServiceClient {
     super(optionsWithDefaults);
     // Parameter assignments
     this.subscriptionId = subscriptionId;
-    this.providerNamespace = providerNamespace;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-07-01";
+    this.apiVersion = options.apiVersion || "2015-12-01";
   }
 }

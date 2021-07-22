@@ -14,7 +14,8 @@ export {
   TimeNowType,
   TimePreserveType,
   FileAttributesPreserveType,
-  CloseHandlesInfo
+  CloseHandlesInfo,
+  HttpAuthorization
 } from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";
