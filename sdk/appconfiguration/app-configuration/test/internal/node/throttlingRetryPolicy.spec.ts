@@ -11,7 +11,7 @@ describe("Should not retry forever", () => {
   let client: AppConfigurationClient;
   const connectionString = "Endpoint=https://myappconfig.azconfig.io;Id=key:ai/u/fake;Secret=abcd=";
 
-  function mockErrorResponse(retryAfterMs: string, persistence: boolean = true) {
+  function mockErrorResponse(retryAfterMs: string, persistence: boolean = true): void {
     if (!nock.isActive()) {
       nock.activate();
     }

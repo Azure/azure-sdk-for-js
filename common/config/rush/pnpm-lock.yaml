@@ -8915,6 +8915,7 @@ packages:
     dependencies:
       '@azure/communication-identity': 1.0.0
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -8962,7 +8963,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-network-traversal'
     resolution:
-      integrity: sha512-dWmoe8djuWi7xAMrywjjngQ83p1JxH8CzlTXoOllR/vDGRgJieHmwa4YwoqsOgKJxheq5XbWwuRIIaICxgtZAA==
+      integrity: sha512-WaXb4hUyl1T0+cSke7IdsKa1CS/0rUGTCUoucoC1lNfqeOIwbrVtaGW2h1HnlPfZN5C2c2ltVuxZ0vmYN4jMfw==
       tarball: file:projects/communication-network-traversal.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -11030,7 +11031,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-czd5NHgehoF+yTVUvMKIz+JnRA2f8QZd8bcu3K153y+4Wq8TwWIKu5akJ6ATyDALoNg8tIoxKMMEuVCRCOf38g==
+      integrity: sha512-JvaatDMPTFvpFTZAPBW+XYD19rWf7lSkp9iJPxm/bUwIVKR38e7J8mqA7+/IHAbDosQrdHkWo21+UHL+NYRlVw==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -11048,7 +11049,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-file-datalake'
     resolution:
-      integrity: sha512-PJ5n95MlbLuFKMnFbeOyxcigzd9VNz2HAAnL4xk0JuS8dSrSQ7WLol5mwSGZ61aw5waBS2xV5w0/dJ+aMYmI1Q==
+      integrity: sha512-vepQiPpEOpjtZO4CA6FHj5njhGkgztRKmb2q4+Iuf4rlWf2++9tPxdqePngQ48kANbgxA6r0G7Z2s8uYM9AFxA==
       tarball: file:projects/perf-storage-file-datalake.tgz
     version: 0.0.0
   file:projects/perf-storage-file-share.tgz:
@@ -11066,7 +11067,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-file-share'
     resolution:
-      integrity: sha512-19ccpqkNaCG8ZiKpSw+0oauL0ovqq425yjVXFoPHSll6egKRE3guKJOlg6jXIeWUOmztPRQw9FvXUkVatevFLw==
+      integrity: sha512-puMNDli8g8FHzU3hcpWibrKOoXVSBbeZz2/mq+Eoan4HwJzUqyaTOllfsc0NXbFn2aNV9ETSLtcldPLsWckq9w==
       tarball: file:projects/perf-storage-file-share.tgz
     version: 0.0.0
   file:projects/purview-catalog.tgz:
@@ -11497,7 +11498,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob-changefeed'
     resolution:
-      integrity: sha512-mG1v+71ero7RhKm9Ewlh8mTVtOUCD6YbVRW+QR5YLl/f2bpNTJGVDpggDOpF9LD/OPv2OeUjRfWY3tzEizCF2g==
+      integrity: sha512-mwGBn01L/7QBV7WzEaMvYiY44RA1v/FFLAjLAsIqDcPsHjjWXsycBycK8rjJa0FSk054LrAT/K1Ff5AWgMn6Bg==
       tarball: file:projects/storage-blob-changefeed.tgz
     version: 0.0.0
   file:projects/storage-blob.tgz:
@@ -11615,7 +11616,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-a4zPCcfUb25YsCNPgbarUcmC4Wv+5Nug4Pd50Q5f09G2qHQO8RsNfZYXKFgLC1+Nxyp/2KO4kJU6OMuzQTXh5A==
+      integrity: sha512-OHBBPEh+SdTPsqvcbsNar5v4qV1ptWP1gPG/mW32XXpm9HuSRNTjwUEiO1xeQCbpp01iYsiQXehf7H78SpyD0Q==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
@@ -11670,7 +11671,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-ETcduTvswk5Plf/S9xydZUnOBrZ9s13LZImC8xkBtC4s6kQFZFElR5T1MRdeW8NiBpLcmISEmcxzc4G3WZuF6Q==
+      integrity: sha512-mC6M83OChGFyGm3fA8LdX+4AU7UOqxGAHBCI5C4pHYpDWtcDm95gEsqWeFn28Ex3nxFl5mgWFvo/Kc3zPI2pwg==
       tarball: file:projects/storage-file-share.tgz
     version: 0.0.0
   file:projects/storage-internal-avro.tgz:
