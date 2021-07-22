@@ -2794,6 +2794,22 @@ export const TerminateNotificationProfile: coreClient.CompositeMapper = {
   }
 };
 
+export const CapacityReservationProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationProfile",
+    modelProperties: {
+      capacityReservationGroup: {
+        serializedName: "capacityReservationGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3104,6 +3120,13 @@ export const VirtualMachineScaleSetVMProfile: coreClient.CompositeMapper = {
         serializedName: "userData",
         type: {
           name: "String"
+        }
+      },
+      capacityReservation: {
+        serializedName: "capacityReservation",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationProfile"
         }
       }
     }
@@ -3588,6 +3611,27 @@ export const ScaleInPolicy: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const SpotRestorePolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpotRestorePolicy",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      restoreTimeout: {
+        serializedName: "restoreTimeout",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4103,6 +4147,134 @@ export const RestorePointCollectionListResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "RestorePointCollection"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationGroupInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationGroupInstanceView",
+    modelProperties: {
+      capacityReservations: {
+        serializedName: "capacityReservations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CapacityReservationInstanceViewWithName"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationInstanceView",
+    modelProperties: {
+      utilizationInfo: {
+        serializedName: "utilizationInfo",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationUtilization"
+        }
+      },
+      statuses: {
+        serializedName: "statuses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InstanceViewStatus"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationUtilization: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationUtilization",
+    modelProperties: {
+      virtualMachinesAllocated: {
+        serializedName: "virtualMachinesAllocated",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationGroupListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationGroupListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CapacityReservationGroup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CapacityReservation"
             }
           }
         }
@@ -10471,6 +10643,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      capacityReservation: {
+        serializedName: "properties.capacityReservation",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationProfile"
+        }
       }
     }
   }
@@ -10619,6 +10798,13 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      spotRestorePolicy: {
+        serializedName: "properties.spotRestorePolicy",
+        type: {
+          name: "Composite",
+          className: "SpotRestorePolicy"
+        }
       }
     }
   }
@@ -10706,6 +10892,129 @@ export const RestorePointCollection: coreClient.CompositeMapper = {
               className: "RestorePoint"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationGroup",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      capacityReservations: {
+        serializedName: "properties.capacityReservations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      },
+      virtualMachinesAssociated: {
+        serializedName: "properties.virtualMachinesAssociated",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationGroupInstanceView"
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservation",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      reservationId: {
+        serializedName: "properties.reservationId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      virtualMachinesAssociated: {
+        serializedName: "properties.virtualMachinesAssociated",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      },
+      provisioningTime: {
+        serializedName: "properties.provisioningTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationInstanceView"
         }
       }
     }
@@ -12758,6 +13067,13 @@ export const VirtualMachineUpdate: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      capacityReservation: {
+        serializedName: "properties.capacityReservation",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationProfile"
+        }
       }
     }
   }
@@ -12801,6 +13117,107 @@ export const RestorePointCollectionUpdate: coreClient.CompositeMapper = {
               className: "RestorePoint"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationGroupUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationGroupUpdate",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties,
+      capacityReservations: {
+        serializedName: "properties.capacityReservations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      },
+      virtualMachinesAssociated: {
+        serializedName: "properties.virtualMachinesAssociated",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationGroupInstanceView"
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationUpdate",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      reservationId: {
+        serializedName: "properties.reservationId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      virtualMachinesAssociated: {
+        serializedName: "properties.virtualMachinesAssociated",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
+      },
+      provisioningTime: {
+        serializedName: "properties.provisioningTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "CapacityReservationInstanceView"
         }
       }
     }
@@ -13438,6 +13855,23 @@ export const RestorePoint: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RestorePointProvisioningDetails"
+        }
+      }
+    }
+  }
+};
+
+export const CapacityReservationInstanceViewWithName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityReservationInstanceViewWithName",
+    modelProperties: {
+      ...CapacityReservationInstanceView.type.modelProperties,
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
