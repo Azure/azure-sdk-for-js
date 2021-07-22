@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 import url from "url";
 import { diag } from "@opentelemetry/api";
+import { FullOperationResponse } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
 import { Sender, SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
-  ApplicationInsightsClientOptionalParams
+  ApplicationInsightsClientOptionalParams,
+  ApplicationInsightsClientTrackOptionalParams
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
 
@@ -34,9 +37,29 @@ export class HttpSender implements Sender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
+    let options: ApplicationInsightsClientTrackOptionalParams = {};
     try {
-      const { _response: res } = await this._appInsightsClient.track(envelopes);
-      return { statusCode: res.status, result: res.bodyAsText ?? "" };
+      let response: FullOperationResponse | undefined;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        response = rawResponse;
+        if (options.onResponse) {
+          options.onResponse(rawResponse, flatResponse);
+        }
+      }
+      await this._appInsightsClient.track(envelopes, {
+        ...options,
+        onResponse
+      });
+
+      if (response?.status === 404) {
+        throw new RestError(response?.bodyAsText!, {
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
+        });
+      }
+
+      return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
     } catch (e) {
       throw e;
     }
