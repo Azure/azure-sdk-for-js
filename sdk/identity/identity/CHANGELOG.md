@@ -39,7 +39,7 @@
 ### Key Bugs Fixed
 
 - Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
-- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in NodeJS.
+- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in Node.js.
 
 ## 2.0.0-beta.3 (2021-05-12)
 
@@ -140,7 +140,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.2.3 (2021-02-09)
 
-- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
+- Fixed Azure Stack support for the Node.js version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
 - The 'keytar' dependency has been updated to the latest version.
 - No longer overrides global Axios defaults. This includes an update in `@azure/identity`'s source, and an update of the `@azure/msal-node` dependency. Fixes issue [13343](https://github.com/Azure/azure-sdk-for-js/issues/13343).
 

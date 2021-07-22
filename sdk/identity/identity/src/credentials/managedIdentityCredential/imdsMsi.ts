@@ -116,7 +116,7 @@ export const imdsMsi: MSI = {
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down
         ) {
-          // If the request failed, or NodeJS was unable to establish a connection,
+          // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`The Azure IMDS endpoint is unavailable`);
           span.setStatus({

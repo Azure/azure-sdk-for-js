@@ -61,7 +61,7 @@ export const msalNodeFlowCacheControl = {
 };
 
 /**
- * MSAL partial base client for NodeJS.
+ * MSAL partial base client for Node.js.
  *
  * It completes the input configuration with some default values.
  * It also provides with utility protected methods that can be used from any of the clients,
@@ -105,7 +105,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   }
 
   /**
-   * Generates a MSAL configuration that generally works for NodeJS
+   * Generates a MSAL configuration that generally works for Node.js
    */
   protected defaultNodeMsalConfig(options: MsalNodeOptions): msalNode.Configuration {
     const clientId = options.clientId || DeveloperSignOnClientId;

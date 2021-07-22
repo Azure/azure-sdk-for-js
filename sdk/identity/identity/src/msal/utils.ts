@@ -67,8 +67,6 @@ export function getAuthority(tenantId: string, host?: string): string {
 
 /**
  * Generates the known authorities.
- * If the tenantId is "adfs", we will return an array with the authorityHost as the only known authority.
- * Otherwise, it is safe to return an empty array.
  * @internal
  */
 export function getKnownAuthorities(_tenantId: string, authorityHost: string): string[] {
@@ -76,6 +74,7 @@ export function getKnownAuthorities(_tenantId: string, authorityHost: string): s
   //  return [authorityHost];
   // }
   // It seems safer to me to always specify the authority host.
+  // I'm keeping this function in case I change my mind, to have a simple way to alter this everywhere at once.
   return [authorityHost];
 }
 

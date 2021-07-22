@@ -44,7 +44,7 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
   // The authorityHost can come from options or from the AZURE_AUTHORITY_HOST environment variable.
   let authorityHost = options?.authorityHost;
 
-  // The AZURE_AUTHORITY_HOST environment variable can only be provided in NodeJS.
+  // The AZURE_AUTHORITY_HOST environment variable can only be provided in Node.js.
   if (isNode) {
     authorityHost = authorityHost ?? process.env.AZURE_AUTHORITY_HOST;
   }

@@ -176,7 +176,7 @@ export async function prepareIdentityTests({
       responses: { response?: TestResponse; error?: RestError }[],
       stubbedRequest: sinon.SinonStub,
       spies: sinon.SinonSpy[]
-    ) =>
+    ): void =>
       responses.forEach(({ response, error }, index) => {
         if (error) {
           stubbedRequest.onCall(index).throws(error);
@@ -230,7 +230,12 @@ export async function prepareIdentityTests({
       stubbedRequest: sinon.SinonStub,
       spies: sinon.SinonSpy[],
       protocol: "http" | "https"
-    ) =>
+    ): {
+      url: string;
+      body: string;
+      method: string;
+      headers: Record<string, string>;
+    }[] =>
       (stubbedRequest.args as any).reduce((accumulator: any, args: any, index: number) => {
         const requestOptions = args[0] as http.RequestOptions;
         const spiesArgs = spies[index]?.args;

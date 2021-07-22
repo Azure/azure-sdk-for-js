@@ -7,6 +7,9 @@ import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 
 /**
+ * A simple structure representing a response.
+ * Things will be converted from their original shape, depending on the environment,
+ * into this shape in order for tests to look similar both in Node.js and in the browser.
  * @internal
  */
 export interface TestResponse {
@@ -16,6 +19,15 @@ export interface TestResponse {
 }
 
 /**
+ * A simple structure that can contain either a response or an error.
+ * @internal
+ */
+export type RawTestResponse = { response?: TestResponse; error?: RestError };
+
+/**
+ * The cross-environment representation of a function that...
+ * wraps a credential's getToken in a mocked environment, then returns the results from the request,
+ * including potentially an AccessToken, an error and the list of outgoing requests in a simplified format.
  * @internal
  */
 export type SendIndividualRequest = <T>(
@@ -24,6 +36,8 @@ export type SendIndividualRequest = <T>(
 ) => Promise<T | null>;
 
 /**
+ * The cross-environment representation of a function that...
+ * wraps the outgoing request in a mocked environment, then returns the error that results from the request.
  * @internal
  */
 export type SendIndividualRequestAndGetError = <T>(
@@ -32,11 +46,8 @@ export type SendIndividualRequestAndGetError = <T>(
 ) => Promise<Error>;
 
 /**
- * @internal
- */
-export type RawTestResponse = { response?: TestResponse; error?: RestError };
-
-/**
+ * The cross-environment representation of a function that...
+ * wraps a credential's getToken in a mocked environment, then returns the results from the request.
  * @internal
  */
 export type SendCredentialRequests = (options: {
@@ -57,6 +68,8 @@ export type SendCredentialRequests = (options: {
 }>;
 
 /**
+ * The cross-environment representation of the set of tools that can be used to test Identity credential requests.
+ * This is the returned value of the `prepareIdentityTests` function that is both available in Node.js and in the browser.
  * @internal
  */
 export interface IdentityTestContext {
@@ -72,6 +85,7 @@ export interface IdentityTestContext {
 }
 
 /**
+ * A simple function that makes it more pleasing to build a test response.
  * @internal
  */
 export function createResponse(
