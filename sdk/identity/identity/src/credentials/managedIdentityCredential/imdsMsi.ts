@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
+import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
   createHttpHeaders,
@@ -17,7 +18,6 @@ import { imdsApiVersion, imdsEndpoint } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
 import { AuthenticationError } from "../../client/errors";
-import { delay } from "../../util/delay";
 
 const logger = credentialLogger("ManagedIdentityCredential - IMDS");
 

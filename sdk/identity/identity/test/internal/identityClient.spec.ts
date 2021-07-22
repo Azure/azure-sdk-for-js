@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { isNode } from "@azure/core-util";
 import {
   getIdentityClientAuthorityHost,
   IdentityClient,
@@ -9,7 +10,6 @@ import {
 } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
-import { isNode } from "../../src/util/isNode";
 import { isExpectedError } from "../authTestUtils";
 import { PlaybackTenantId } from "../msalTestUtils";
 import {

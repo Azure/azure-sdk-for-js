@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-
+import { isNode } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortError } from "@azure/abort-controller";
 
@@ -13,7 +13,6 @@ import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
-import { isNode } from "../util/isNode";
 
 /**
  * Latest AuthenticationRecord version

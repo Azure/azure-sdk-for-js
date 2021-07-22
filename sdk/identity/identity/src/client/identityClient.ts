@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
+import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
+import { isNode } from "@azure/core-util";
 import {
   createHttpHeaders,
   createPipelineRequest,
@@ -16,7 +17,6 @@ import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
-import { isNode } from "../util/isNode";
 import { parse } from "../util/safeJSONParse";
 
 const noCorrelationId = "noCorrelationId";
