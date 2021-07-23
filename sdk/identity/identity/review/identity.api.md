@@ -6,8 +6,8 @@
 
 import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
+import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
-import { ServiceClientOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
@@ -308,7 +308,7 @@ export interface TokenCachePersistenceOptions {
 export { TokenCredential }
 
 // @public
-export interface TokenCredentialOptions extends ServiceClientOptions {
+export interface TokenCredentialOptions extends CommonClientOptions {
     allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }

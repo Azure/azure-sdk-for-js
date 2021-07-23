@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
-import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
+import { CommonClientOptions, ServiceClient } from "@azure/core-client";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { isNode } from "@azure/core-util";
@@ -300,7 +300,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
  * Provides options to configure how the Identity library makes authentication
  * requests to Azure Active Directory.
  */
-export interface TokenCredentialOptions extends ServiceClientOptions {
+export interface TokenCredentialOptions extends CommonClientOptions {
   /**
    * The authority host to use for authentication requests.
    * Possible values are available through {@link AzureAuthorityHosts}.
