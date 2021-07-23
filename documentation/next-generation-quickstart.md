@@ -1,5 +1,5 @@
 
-Getting Started - the next generation of Azure SDK for Javascript/Typescript
+Getting Started - Using the next-generation management libraries of Azure SDK for Javascript/Typescript
 =============================================================
 
 We are excited to announce that a new set of management libraries are
