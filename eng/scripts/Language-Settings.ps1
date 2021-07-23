@@ -143,14 +143,14 @@ function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
     }
     else
     {
-      Write-Warning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
+      LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
     }
   }
   catch
   {
-    Write-Warning "Error getting package info from NPM for $($packageInfo.Name)"
-    Write-Warning $_.Exception
-    Write-Warning $_.Exception.StackTrace
+    LogWarning "Error getting package info from NPM for $($packageInfo.Name)"
+    LogWarning $_.Exception
+    LogWarning $_.Exception.StackTrace
   }
 
   return $packageInfo
@@ -222,6 +222,35 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
+
+# Performs package validation for a list of packages provided in the doc 
+# onboarding format ("name" is the only required field): 
+# @{
+#   name = "@azure/attestation@dev";
+#   folder = "./types";
+#   registry = "<url>";
+#   ...
+# }
+function ValidatePackagesForDocs($packages) {
+  # Using GetTempPath because it works on linux and windows
+  $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
+  New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
+
+  $scriptRoot = $PSScriptRoot
+  # Run this in parallel as each step takes a long time to run
+  $validationOutput = $packages | Foreach-Object -Parallel {
+    # Get value for variables outside of the Foreach-Object scope
+    $scriptRoot = "$using:scriptRoot"
+    $workingDirectory = "$using:tempDirectory"
+    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -WorkingDirectory $workingDirectory
+  }
+
+  # Clean up temp folder
+  Remove-Item -Path $tempDirectory -Force -Recurse -ErrorAction Ignore | Out-Null
+
+  return $validationOutput
+}
+
 $PackageExclusions = @{ 
   '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
   '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
@@ -241,15 +270,17 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
-    $FilteredMetadata 
+    $FilteredMetadata `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') # Log file for package validation
 
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
-    $FilteredMetadata
+    $FilteredMetadata `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') # Log file for package validation
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile) {
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
   $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
@@ -340,8 +371,34 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
     $outputPackages += @{ name = $packageName }
   }
 
-  $packageConfig.npm_package_sources = $outputPackages
+  $packageValidation = ValidatePackagesForDocs $outputPackages
+  $validationHash = @{}
+  foreach ($result in $packageValidation) {
+    $validationHash[$result.Package.name] = $result
+  }
+
+  # Remove invalid packages
+  $finalOutput = @()
+  foreach ($package in $outputPackages) {
+    if (!$validationHash[$package.name].Success) {
+      LogWarning "Removing invalid package: $($package.name)"
+
+      # If a package is removed create log entry for the removal
+      Add-Content `
+        -Path $PackageHistoryLogFile `
+        -Value @"
+Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
+`t$($validationHash[$package.name].Output -join "`n`t")
+"@
+      continue
+    }
+
+    $finalOutput += $package
+  }
+
+  $packageConfig.npm_package_sources = $finalOutput
   $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
+  Write-Host "Onboarding configuration written to: $DocConfigFile"
 }
 
 # function is used to auto generate API View
