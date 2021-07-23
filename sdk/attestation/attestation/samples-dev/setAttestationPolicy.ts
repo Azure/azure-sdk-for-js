@@ -135,12 +135,10 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   const [privateKey, publicKey] = createRSAKey();
   const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
 
-  const setPolicyResult = await client.setPolicy(
-    KnownAttestationType.OpenEnclave,
-    newPolicy,
-    { privateKey: privateKey,
-    certificate: certificate}
-  );
+  const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy, {
+    privateKey: privateKey,
+    certificate: certificate
+  });
 
   // Verify that the attestation service received the new policy.
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
@@ -207,12 +205,10 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   const privateKey = pemFromBase64(base64PrivateKey, "PRIVATE KEY");
   const certificate = pemFromBase64(base64Certificate, "CERTIFICATE");
 
-  const setPolicyResult = await client.setPolicy(
-    KnownAttestationType.SgxEnclave,
-    newPolicy,
-  { privateKey: privateKey,
-    certificate: certificate}
-  );
+  const setPolicyResult = await client.setPolicy(KnownAttestationType.SgxEnclave, newPolicy, {
+    privateKey: privateKey,
+    certificate: certificate
+  });
 
   // Verify that the attestation service received the new policy.
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
@@ -232,11 +228,10 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy.
-  const resetPolicyResult = await client.resetPolicy(
-    KnownAttestationType.SgxEnclave,
-    { privateKey: privateKey,
-    certificate: certificate}
-  );
+  const resetPolicyResult = await client.resetPolicy(KnownAttestationType.SgxEnclave, {
+    privateKey: privateKey,
+    certificate: certificate
+  });
 
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
