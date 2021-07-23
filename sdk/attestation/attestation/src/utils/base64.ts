@@ -78,4 +78,3 @@ export function hexToByteArray(value: string): Uint8Array {
 export function byteArrayToHex(value: Uint8Array): string {
   return value.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
 }
-

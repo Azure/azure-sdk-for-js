@@ -168,7 +168,7 @@ describe("[AAD] Attestation Client", function() {
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
   it("#attestTpm", async () => {
-    const client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD", true);
     const adminClient = createRecordedAdminClient("AAD");
 
     // Set the policy on the instance to a known value.
@@ -259,15 +259,6 @@ describe("[AAD] Attestation Client", function() {
           runTimeJson: binaryRuntimeData
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
-    }
-
-    {
-      // If you say you're handing JSON to the service, it should be JSON.
-      await expect(
-        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeJson: stringToBytes("{ xx: abcdefg, }")
-        })
-      ).to.eventually.be.rejectedWith("runTimeJson value cannot be parsed as JSON");
     }
 
     {

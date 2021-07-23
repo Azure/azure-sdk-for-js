@@ -138,8 +138,8 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   const setPolicyResult = await client.setPolicy(
     KnownAttestationType.OpenEnclave,
     newPolicy,
-    privateKey,
-    certificate
+    { privateKey: privateKey,
+    certificate: certificate}
   );
 
   // Verify that the attestation service received the new policy.
@@ -210,8 +210,8 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   const setPolicyResult = await client.setPolicy(
     KnownAttestationType.SgxEnclave,
     newPolicy,
-    privateKey,
-    certificate
+  { privateKey: privateKey,
+    certificate: certificate}
   );
 
   // Verify that the attestation service received the new policy.
@@ -234,8 +234,8 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   // Now reset the policy to the default policy.
   const resetPolicyResult = await client.resetPolicy(
     KnownAttestationType.SgxEnclave,
-    privateKey,
-    certificate
+    { privateKey: privateKey,
+    certificate: certificate}
   );
 
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);

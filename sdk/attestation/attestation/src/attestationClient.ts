@@ -28,8 +28,7 @@ import { bytesToString, stringToBytes } from "./utils/utf8";
 import { _attestationResultFromGenerated } from "./models/attestationResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
 import { AttestationTokenImpl } from "./models/attestationToken";
-import { convertToUint8ArrayN } from "./utils/blobConvert";
-import { convertToUint8ArrayB } from "./utils/blobConvert.browser";
+
 /**
  * Attestation Client Construction Options.
  */
@@ -65,22 +64,22 @@ export interface AttestOpenEnclaveOptions extends AttestationClientOperationOpti
    *initTimeData : data provided at the time the enclave was initialized, to be interpreted as binary data.
    *
    */
-  initTimeData?: Uint8Array | Buffer | Blob;
+  initTimeData?: Uint8Array;
 
   /**
    * inittimeJson : data provided at the time the enclave was initialized, to be interpreted as JSON data.
    */
-  initTimeJson?: Uint8Array | Buffer | Blob;
+  initTimeJson?: Uint8Array;
 
   /**
    * runTimeData  - data provided at the time the OpenEnclave report being attested was created to be interpreted as binary data.
    */
-  runTimeData?: Uint8Array | Buffer | Blob;
+  runTimeData?: Uint8Array;
 
   /**
    * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
    */
-  runTimeJson?: Uint8Array | Buffer | Blob;
+  runTimeJson?: Uint8Array;
 
   /**
    * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
@@ -116,41 +115,6 @@ export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptio
    * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
    */
   runTimeJson?: Uint8Array;
-
-  /**
-   * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
-   */
-  draftPolicyForAttestation?: string;
-}
-
-/**
- * Optional parameters for the AttestSgxEnclave API.
- *
- * @param initTimeData - data provided at the time the enclave was initialized.
- * @param runTimeData - data provided at the time the SGX quote being attested was created.
- * @param draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
- */
- export interface AttestSgxEnclaveBrowserOptions extends AttestationClientOperationOptions {
-  /**
-   *initTimeData : data provided at the time the enclave was initialized, to be interpreted as binary data.
-   *
-   */
-  initTimeData?: Uint8Array | Blob;
-
-  /**
-   * inittimeJson : data provided at the time the enclave was initialized, to be interpreted as JSON data.
-   */
-  initTimeJson?: Uint8Array | Blob;
-
-  /**
-   * runTimeData  - data provided at the time the OpenEnclave report being attested was created to be interpreted as binary data.
-   */
-  runTimeData?: Uint8Array | Blob;
-
-  /**
-   * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
-   */
-  runTimeJson?: Uint8Array | Blob;
 
   /**
    * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
@@ -238,12 +202,8 @@ export class AttestationClient {
    * @throws {@link Error} if the `initTimeJson` option is provided and the value of `initTimeJson` is not JSON.
    * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
-   public async attestOpenEnclave(
-    reportB: Uint8Array | Blob,
-    options: AttestSgxEnclaveBrowserOptions
-  ): Promise<AttestationResponse<AttestationResult>>;
   public async attestOpenEnclave(
-    reportN: Uint8Array,
+    report: Uint8Array,
     options: AttestOpenEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestOpenEnclave", options);
@@ -261,7 +221,7 @@ export class AttestationClient {
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
-            data: await convertToUint8Array(initData),
+            data: initData,
             dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
           }
         : undefined;
@@ -270,14 +230,14 @@ export class AttestationClient {
 
       const runTimeData: RuntimeData | undefined = runData
         ? {
-            data: await convertToUint8Array(runData),
+            data: runData,
             dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
           }
         : undefined;
 
       const attestationResponse = await this._client.attestation.attestOpenEnclave(
         {
-          report: reportB ? await convertToUintArrayB(reportB) : await convertToUint8ArrayN(reportN),
+          report: report,
           initTimeData: initTimeData,
           runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
@@ -286,10 +246,13 @@ export class AttestationClient {
       );
 
       const token = new AttestationTokenImpl(attestationResponse.token);
-      token.validateToken(
+      const problems = token.getTokenProblems(
         await this._signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
+      if (problems.length) {
+        throw new Error(problems.join(";"));
+      }
 
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
@@ -324,7 +287,7 @@ export class AttestationClient {
    * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestSgxEnclave(
-    quote: Uint8Array | Buffer | Blob,
+    quote: Uint8Array,
     options: AttestSgxEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
@@ -341,7 +304,7 @@ export class AttestationClient {
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
-            data: await convertToUint8Array(initData),
+            data: initData,
             dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
           }
         : undefined;
@@ -349,14 +312,14 @@ export class AttestationClient {
       const runData = options.runTimeData ?? options.runTimeJson;
       const runTimeData: RuntimeData | undefined = runData
         ? {
-            data: await convertToUint8Array(runData),
+            data: runData,
             dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
           }
         : undefined;
 
       const attestationResponse = await this._client.attestation.attestSgxEnclave(
         {
-          quote: await convertToUint8Array(quote),
+          quote: quote,
           initTimeData: initTimeData,
           runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
@@ -365,10 +328,13 @@ export class AttestationClient {
       );
 
       const token = new AttestationTokenImpl(attestationResponse.token);
-      token.validateToken(
+      const problems = token.getTokenProblems(
         await this._signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
+      if (problems.length) {
+        throw new Error(problems.join(";"));
+      }
 
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
@@ -412,6 +378,10 @@ export class AttestationClient {
    * ```
    * 
    * where stringToBytes converts the string to UTF8.
+   * 
+   * Note that the attestTpm requires an attestation client which is configured with
+   * authentication credentials.
+   * 
    */
   public async attestTpm(request: string, options: AttestTpmOptions = {}): Promise<string> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);

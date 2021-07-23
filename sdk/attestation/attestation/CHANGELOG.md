@@ -14,6 +14,10 @@ The attestation family of APIs no longer requires authentication credentials
 
 * Removed `credentials` top level parameter for `AttestationClient` constructor, moved
   to the `AttestationClientOptions` object.
+* Renamed the `validateToken` API in the `AttestationToken` class to `getTokenProblems` returning
+  an array of strings.
+* Attestation Policy APIs (`setPolicy`, `resetPolicy`) have had their `privateKey` and `certificate` parameters moved to options.
+* Renamed `instanceUrl` to `endpoint` to be consistent with other APIs.
 * Removed `policyCertificates` from `AttestationAdministrationClient`.
 * Removed `StoredAttestationPolicy` and replaced it with `AttestationPolicyToken`.
 * Removed `AttestationData` type. Instead of specifying an `AttestationData` for `initTimeData` and `runTimeData` to the Attest APIs, the attest APIs take an `initTimeJson`, `initTimeData`, `runTimeData` and `runTimeJson` object and determine

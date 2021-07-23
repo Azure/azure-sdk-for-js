@@ -15,8 +15,14 @@ export class AttestationAdministrationClient {
     getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
     getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
     removePolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
-    resetPolicy(attestationType: AttestationType, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
-    setPolicy(attestationType: AttestationType, newPolicyDocument: string, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    resetPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions & {
+        privateKey?: string;
+        certificate?: string;
+    }): Promise<AttestationResponse<PolicyResult>>;
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, options?: AttestationAdministrationClientOperationOptions & {
+        privateKey?: string;
+        certificate?: string;
+    }): Promise<AttestationResponse<PolicyResult>>;
     }
 
 // @public
@@ -32,8 +38,8 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
 // @public
 export class AttestationClient {
     constructor(endpoint: string, options?: AttestationClientOptions);
-    attestOpenEnclave(report: Uint8Array | Buffer | Blob, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
-    attestSgxEnclave(quote: Uint8Array | Buffer | Blob, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<Record<string, unknown>>;
@@ -109,6 +115,7 @@ export interface AttestationToken {
     critical?: boolean;
     expiresOn?: Date;
     getBody(): unknown;
+    getTokenProblems(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): string[];
     issuedAt?: Date;
     issuer?: string;
     keyId?: string;
@@ -116,19 +123,18 @@ export interface AttestationToken {
     notBefore?: Date;
     serialize(): string;
     type?: string;
-    validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
     x509Url?: string;
 }
 
 // @public
 export interface AttestationTokenValidationOptions {
     expectedIssuer?: string;
+    getProblemsCallback?: (token: AttestationToken, signer?: AttestationSigner) => string[] | undefined;
     timeValidationSlack?: number;
     validateExpirationTime?: boolean;
     validateIssuer?: boolean;
     validateNotBeforeTime?: boolean;
     validateToken?: boolean;
-    validationCallback?: (token: AttestationToken, signer?: AttestationSigner) => void;
 }
 
 // @public
@@ -137,19 +143,19 @@ export type AttestationType = string;
 // @public
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array | Buffer | Blob;
-    initTimeJson?: Uint8Array | Buffer | Blob;
-    runTimeData?: Uint8Array | Buffer | Blob;
-    runTimeJson?: Uint8Array | Buffer | Blob;
+    initTimeData?: Uint8Array;
+    initTimeJson?: Uint8Array;
+    runTimeData?: Uint8Array;
+    runTimeJson?: Uint8Array;
 }
 
 // @public
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array | Buffer | Blob;
-    initTimeJson?: Uint8Array | Buffer | Blob;
-    runTimeData?: Uint8Array | Buffer | Blob;
-    runTimeJson?: Uint8Array | Buffer | Blob;
+    initTimeData?: Uint8Array;
+    initTimeJson?: Uint8Array;
+    runTimeData?: Uint8Array;
+    runTimeJson?: Uint8Array;
 }
 
 // @public

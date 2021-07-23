@@ -96,6 +96,7 @@ export function getIsolatedSigningKey(): { privateKey: string; certificate: stri
 // Note that the AttestationClient does not require authentication.
 export function createRecordedClient(
   endpointType: EndpointType,
+  authenticatedClient?: boolean,
   options?: AttestationClientOptions
 ): AttestationClient {
   // If we're talking to a live server, we should validate the time results,
@@ -111,6 +112,13 @@ export function createRecordedClient(
         expectedIssuer: getAttestationUri(endpointType)
       }
     };
+  }
+  if (authenticatedClient !== undefined && authenticatedClient) {
+    options.credentials = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
   return new AttestationClient(getAttestationUri(endpointType), options);
