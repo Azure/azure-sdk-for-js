@@ -3,7 +3,7 @@
 An Azure Table storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
 Key Links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-table) 
+- [Source code](#) 
 - [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-table) 
 - [API Reference Documentation](#) 
 - [Samples](#)
