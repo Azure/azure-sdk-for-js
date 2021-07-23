@@ -397,7 +397,7 @@ function deleteVirtualMachine() {
 
 ## Code Samples
 
-More code samples for using the management library for Go SDK can be found in [JS/TS SDK Code Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+More code samples for using the management library for JS/TS SDK can be found in [JS/TS SDK Code Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 
 Need help?
