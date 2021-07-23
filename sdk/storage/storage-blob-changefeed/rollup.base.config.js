@@ -8,6 +8,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import * as path from "path";
 // import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
@@ -55,6 +56,14 @@ export function nodeConfig(test = false) {
       cjs()
     ],
     onwarn(warning, warn) {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
+      ) {
+        // opentelemetry contains circular references but it doesn't cause issues.
+        // Tracked in https://github.com/open-telemetry/opentelemetry-js-api/issues/87
+        return;
+      }
       if (warning.code === "CIRCULAR_DEPENDENCY") {
         throw new Error(warning.message);
       }

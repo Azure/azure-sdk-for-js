@@ -6,7 +6,7 @@ import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer } from "@azure/core-tracing";
+import { TestTracer, setTracer } from "./utils/tracingutils";
 import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";

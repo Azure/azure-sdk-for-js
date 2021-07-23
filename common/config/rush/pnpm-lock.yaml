@@ -6680,14 +6680,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-m0aa+/TM6Cl5qu+mHNPn7aadNf1525WxpKwQKINP/knvoi4otB74G16iPDoTDbnGcJo1lc0AQEbVku8Gdoqmuw==
-  /rhea-promise/2.0.0:
-    dependencies:
-      debug: 3.2.7
-      rhea: 2.0.2
-      tslib: 2.2.0
-    dev: false
-    resolution:
-      integrity: sha512-hoK6pTrFyIFDp0jrC2FQXzZPFnJXG78OHikpSHeC2gjdKGT+ofoFsbbxA0FcYjBqU2r2hDKRZbacBBvGtGAzhw==
   /rhea-promise/2.1.0:
     dependencies:
       debug: 3.2.7
@@ -6702,12 +6694,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-PEl62U2EhxCO5wMUZ2/bCBcXAVKN9AdMSNQOrp3+R5b77TEaOSiy16MQ0sIOmzj/iqsgIAgPs1mt3FYfu1vIXA==
-  /rhea/2.0.2:
-    dependencies:
-      debug: 3.2.7
-    dev: false
-    resolution:
-      integrity: sha512-G2QqyVzRnZvv+WkpKBmWrVmkeeLRX7xKZB3wutU2fs/qvr4PJvAqKO7ymSYX/0dm2xt1QhNJO/Af17x49f7FBw==
   /rhea/2.0.3:
     dependencies:
       debug: 3.2.7
@@ -9065,8 +9051,8 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea: 2.0.2
-      rhea-promise: 2.0.0
+      rhea: 2.0.3
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9890,7 +9876,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 2.0.0
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10075,7 +10061,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-lGyKDo6jilmZwYwsf1u9+e2JY0tizUwxaQ9J5aR4YNUcPgQO0PM88ntiTWO/H1OofRH3i/YRMaABpTeWPLI4Dg==
+      integrity: sha512-2K4Ww0XlM9HP3aGZqRSqXEFP/xFulbrSqRgJvnO01aI2ELxE6Ycs/bZ9rkpNQnmCrZ1LzsRpuASRZixai2V8RQ==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity.tgz:
@@ -10551,7 +10537,7 @@ packages:
       dotenv: 8.2.0
       eslint: 7.23.0
       prettier: 1.19.1
-      rhea: 2.0.2
+      rhea: 2.0.3
       rimraf: 3.0.2
       tslib: 2.2.0
       typescript: 4.2.4
@@ -10831,7 +10817,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-P4LhI9+Yj8e3NAQrWVtykCHFm+TqTRyUqZJl1ByArq0iUBmMwKrSf28qas15IkBwuG/XxYhXvFPvscOOm9nyYQ==
+      integrity: sha512-raUJYXYTZ3Rlh2qQtor+OgWSmvmwh+2llg58rOTa8NTMcfXxbTt4Q9aAszEYUmefQZytmJiRUNMhv+LRRCGUnw==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -11230,7 +11216,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 2.0.0
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -11250,7 +11236,7 @@ packages:
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 1.3.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -11303,7 +11289,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob-changefeed'
     resolution:
-      integrity: sha512-9P9QjSXeSJRC+jAtLZt9zTtQ6jXvzp5qoylpuTeN7H39CQqOf6i/wtaD+UT4Q1hDeQG68uof21dSg4HW/Z8wPQ==
+      integrity: sha512-wnS1Ojp83bS5ywZ2cM0FONQNMo4IMS272rURA10jDjyWIPI5NtEu4JFAnDT2FRNTJDbUH48bRjzWQsAD1TYLUA==
       tarball: file:projects/storage-blob-changefeed.tgz
     version: 0.0.0
   file:projects/storage-blob.tgz:
@@ -11428,7 +11414,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-nmeC3Vw32mcAba4vw9TLrnEgdi0KnDGS/tqo7zYkX1cW2tjRnY+O+jUWeFmnLOY54Quy+dlvODb7sp3OqVvVng==
+      integrity: sha512-S5gC2M0f3Tyw8tWVGoURhk8I3bjlNZeeNAUbBmoMEaMXyTknriLVxcWwQzCoL08TIDkCJ59TN+JdtXkjssLhmA==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
