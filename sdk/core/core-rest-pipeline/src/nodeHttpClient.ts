@@ -209,8 +209,10 @@ class NodeHttpClient implements HttpClient {
           setTimeout(() => req.emit("timeout"), request.timeout);
         });
         req.on("socket", (socket) => {
-          // We know that socket will be undefined in our tests,
-          // but in case we receive something unexpected in the wild.
+          // Node warrantees that an instance of the <net.Socket> class will be passed,
+          // unless the user specifies a socket type other than <net.Socket>.
+          // Meaning that we may see unexpected sockets in the wild.
+          // For our tests though, we know that socket will be undefined.
           if (socket?.setTimeout) {
             socket.setTimeout(request.timeout);
           } else {
