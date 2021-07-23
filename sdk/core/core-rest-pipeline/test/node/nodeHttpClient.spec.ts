@@ -183,11 +183,58 @@ describe("NodeHttpClient", function() {
       timeout: timeoutLength
     });
     const promise = client.sendRequest(request);
+    clientRequest.emit("connect");
     clock.tick(timeoutLength);
     try {
       await promise;
       assert.fail("Expected await to throw");
     } catch (e) {
+      assert.strictEqual(e.name, "AbortError");
+    }
+  });
+
+  it("timeout should not stop the request from succeeding before the timeout is reached", async function() {
+    const client = createDefaultHttpClient();
+
+    const timeoutLength = 2000;
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      timeout: timeoutLength
+    });
+    const promise = client.sendRequest(request);
+    clientRequest.emit("connect");
+    const responseText = "An appropriate response.";
+    clientRequest.emit("response", createResponse(200, responseText));
+    const response = await promise;
+    assert.strictEqual(response.bodyAsText, responseText);
+  });
+
+  it("timeout should be respected even if connect doesn't happen", async function() {
+    const client = createDefaultHttpClient();
+
+    const timeoutLength = 2000;
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      timeout: timeoutLength
+    });
+    const promise = client.sendRequest(request);
+
+    // Connect never happens
+    // clientRequest.emit("connect");
+
+    // However, at least it should receive a "socket" event
+    clientRequest.emit("socket");
+
+    try {
+      clock.tick(timeoutLength);
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      console.log("ERROR", e);
       assert.strictEqual(e.name, "AbortError");
     }
   });

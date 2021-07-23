@@ -11,6 +11,8 @@
 
 ### Bugs Fixed
 
+- On Node, the `timeout` parameter of the `PipelineRequestOptions` object will now only begin counting once the underlying socket is connected. If a socket never connects, a manual timeout will be triggered.
+
 ### Other Changes
 
 ## 1.1.1 (2021-07-13)

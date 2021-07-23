@@ -86,12 +86,6 @@ class NodeHttpClient implements HttpClient {
       request.abortSignal.addEventListener("abort", abortListener);
     }
 
-    if (request.timeout > 0) {
-      setTimeout(() => {
-        abortController.abort();
-      }, request.timeout);
-    }
-
     const acceptEncoding = request.headers.get("Accept-Encoding");
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
@@ -209,6 +203,22 @@ class NodeHttpClient implements HttpClient {
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {
       const req = isInsecure ? http.request(options) : https.request(options);
+
+      if (request.timeout > 0) {
+        req.on("connect", () => {
+          setTimeout(() => req.emit("timeout"), request.timeout);
+        });
+        req.on("socket", (socket) => {
+          // We know that socket will be undefined in our tests,
+          // but in case we receive something unexpected in the wild.
+          if (socket?.setTimeout) {
+            socket.setTimeout(request.timeout);
+          } else {
+            setTimeout(() => req.emit("timeout"), request.timeout);
+          }
+        });
+        req.on("timeout", () => abortController.abort());
+      }
 
       req.once("response", (res: http.IncomingMessage) => {
         resolve(res);
