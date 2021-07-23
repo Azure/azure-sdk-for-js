@@ -41,11 +41,10 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
-    /** In this hotfix branch, we updated storage-blob to use core-tracing preview.13, but to avoid
-     * breaking existing code, we need to allow the old version to be used since it won't be released (and the version on main branch already did the update)
-     */
-    "@azure/storage-blob": ["12.4.1"],
     "@azure/ms-rest-js": ["^2.0.0"],
+
+    /** keeping quantum jobs out of this hotfix branch hotfix/storage-opentelemetry-ga */
+    "@azure/storage-blob": ["^12.6.0-beta.1"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
