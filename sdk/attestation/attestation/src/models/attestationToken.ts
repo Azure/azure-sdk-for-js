@@ -58,7 +58,7 @@ export interface AttestationTokenValidationOptions {
   timeValidationSlack?: number;
 
   /**
-   * Validation Callback which allows customers to provide their own validation
+   * Validation Callback which allows developers to provide their own validation
    * functionality for the attestation token. This can be used to validate
    * the signing certificate in AttestationSigner.
    *

@@ -37,7 +37,7 @@ dotenv.config();
 async function getPolicyManagementCertificates() {
   writeBanner("Get Current Attestation Policy Management Certificates.");
 
-  // Use the customer specified attestion URL.
+  // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
   if (endpoint === undefined) {
     throw new Error("Attestation endpoint must be provided.");

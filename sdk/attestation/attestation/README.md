@@ -181,13 +181,26 @@ azure credentials (`DefaultAzureCredential`).
 
 ```ts
 const credentials = new DefaultAzureCredential();
-const client = new AttestationClient(credentials, endpoint);
+const client = new AttestationClient(endpoint, {credentials: credentials});
+
+// Retrieve the set of attestation policy signers from the attestation client.
+const attestationSigners = await client.getAttestationSigners();
+```
+
+If your `endpoint` is one of the shared attestation endpoints, then you do not need
+to provide credentials to access the endpoint. So a shared client can be created
+with:
+
+```ts
+const client = new AttestationClient(endpoint);
 
 // Retrieve the set of attestation policy signers from the attestation client.
 const attestationSigners = await client.getAttestationSigners();
 ```
 
 Creates an instance of the Attestation Administration Client at uri `endpoint`.
+
+Note that the administration client *requires* Azure credentials.
 
 ```ts
   const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
@@ -216,7 +229,20 @@ const policyResult = await adminClient.getPolicy(attestationType);
 
 If the attestation service instance is running in Isolated mode, the set_policy API needs to provide a signing certificate (and private key) which can be used to validate that the caller is authorized to modify policy on the attestation instance. If the service instance is running in AAD mode, then the signing certificate and key are optional.
 
-Under the covers, the setPolicy APIs create a [JSON Web Token][json_web_token] based on the policy document and signing information which is sent to the attestation service.
+If the service instance is running in AAD mode, the call to setPolicy is as expected:
+
+```js
+const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+
+const newPolicy = `<New Attestation Policy>`;
+
+// Set the new attestation policy. Set the policy as an unsecured policy.
+const setPolicyResult = await client.setPolicy(KnownAttestationType.SgxEnclave, newPolicy);
+```
+
+If the service instance is running in Isolated mode, the call to setPolicy requires that
+the client be able to prove that they have access to one of the policy management private keys
+and certificates.
 
 ```js
 const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
@@ -224,45 +250,26 @@ const client = new AttestationAdministrationClient(new DefaultAzureCredential(),
 const newPolicy = `<New Policy Document>`;
 
 // Set the new attestation policy. Set the policy as an secured policy.
-
-// Start by creating an RSA Key and Certificate (note: normally the key would
-// be stored securely in Key Value or other location. For the purposes of this
-// sample, an ephemeral key and self-signed certificate is sufficient).
-
-const [privateKey, publicKey] = createRSAKey();
-const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
+const privateKey = <Get isolated mode private key from storage>
+const certificate = <Get certificate associated with that private key>
 
 const setPolicyResult = await client.setPolicy(
   KnownAttestationType.OpenEnclave,
   newPolicy,
-  privateKey,
-  certificate
+  {
+    privateKey: privateKey,
+    certificate: certificate
+  }
 );
 ```
 
-If the service instance is running in AAD mode, the call to setPolicy can be
-simplified:
-
-```js
-const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
-
-// This attestation policy blocks all non-debug SGX enclaves,
-// and requires that the product ID be 1, the SVN be greater than 0,
-// and that the enclave is signed with the specified signer value.
-//
-// It also issues a claim named "My-MrSigner" whose value matches the MRSIGNER
-// SGX property.
-const newPolicy = `<New Attestation Policy>`;
-
-// Set the new attestation policy. Set the policy as an unsecured policy.
-const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy);
-```
+Under the covers, the setPolicy APIs create a [JSON Web Token][json_web_token] based on the policy document and signing information which is sent to the attestation service.
 
 Clients need to be able to verify that the attestation policy document was not modified before the policy document was received by the attestation service's enclave.
 
 There are two properties provided in the [PolicyResult][attestation_policy_result] that can be used to verify that the service received the policy document:
 
-- [`policySsigner`][attestation_policy_result_parameters] - if the `setPolicy` call included a signing certificate, this will be the certificate provided at the time of the `setPolicy` call. If no policy signer was set, this will be null.
+- [`policySigner`][attestation_policy_result_parameters] - if the `setPolicy` call included a signing certificate, this will be the certificate provided at the time of the `setPolicy` call. If no policy signer was set, this will be null.
 - [`policyTokenHash`][attestation_policy_result_parameters] - this is the hash of the [JSON Web Signature][json_web_token] sent to the service for the setPolicy API.
 
 To verify the hash, clients can create an attestation policy token (a helper class which represents the token used to set the attestation policy) and verify the hash generated from that token:
@@ -305,13 +312,19 @@ This example assumes that you have an existing `AttestationClient` object which 
 
 ```ts
 const attestationResult = await client.attestOpenEnclave(quote, {
-  runTimeData: new AttestationData(binaryRuntimeData, false)
+  runTimeData: binaryRuntimeData
 });
 ```
 
-If the `isJson` parameter to the `AttestationData` constructor is not provided,
-the code will attempt to determine if binaryRuntimeData is JSON or not by attempting
-to parse the data.
+It is also possible that the `binaryRuntimeData` sent to the attestation service is
+intended to be interpreted as JSON data. In that case, the client should specify `runTimeJson` in
+the attest API call:
+
+```ts
+const attestationResult = await client.attestOpenEnclave(quote, {
+  runTimeJson: binaryRuntimeData
+});
+```
 
 Additional information on how to perform attestation token validation can be found in the [MAA Service Attestation Sample](https://github.com/Azure-Samples/microsoft-azure-attestation).
 
@@ -406,4 +419,4 @@ section of the project.
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fattestation%attestation%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fattestation%2Fattestation%2FREADME.png)

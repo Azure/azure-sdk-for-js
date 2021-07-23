@@ -6,6 +6,7 @@ export {
   AttestationClientOptions,
   AttestOpenEnclaveOptions,
   AttestSgxEnclaveOptions,
+  AttestSgxEnclaveBrowserOptions,
   AttestTpmOptions,
   AttestationClientOperationOptions
 } from "./attestationClient";

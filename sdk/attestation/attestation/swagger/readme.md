@@ -27,8 +27,9 @@ clear-output-folder: true
 typescript: true
 require: 
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/attestation/data-plane/readme.md
-add-credentials: true
-credential-scopes: https://attest.azure.net/.default
+add-credentials: false
+#credential-scopes:
+#  - https://attest.azure.net/.default
 override-client-name: GeneratedClient
 title: AzureAttestationRestClient
 v3: true

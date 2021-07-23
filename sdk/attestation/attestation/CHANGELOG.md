@@ -8,9 +8,12 @@ Added hand authored implementation for policy management certificate APIs: `getP
 
 Simplified the calling pattern for the Attest family of APIs.
 Simplified some model types to be reflected as either parameters or interfaces.
+The attestation family of APIs no longer requires authentication credentials
 
 ### Breaking Changes
 
+* Removed `credentials` top level parameter for `AttestationClient` constructor, moved
+  to the `AttestationClientOptions` object.
 * Removed `policyCertificates` from `AttestationAdministrationClient`.
 * Removed `StoredAttestationPolicy` and replaced it with `AttestationPolicyToken`.
 * Removed `AttestationData` type. Instead of specifying an `AttestationData` for `initTimeData` and `runTimeData` to the Attest APIs, the attest APIs take an `initTimeJson`, `initTimeData`, `runTimeData` and `runTimeJson` object and determine

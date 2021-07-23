@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AttestationAdministrationClient {
-    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
+    constructor(credentials: TokenCredential, endpoint: string, options?: AttestationAdministrationClientOptions);
     addPolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
     getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
@@ -31,9 +31,9 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
 
 // @public
 export class AttestationClient {
-    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
-    attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
-    attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    constructor(endpoint: string, options?: AttestationClientOptions);
+    attestOpenEnclave(report: Uint8Array | Buffer | Blob, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    attestSgxEnclave(quote: Uint8Array | Buffer | Blob, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<Record<string, unknown>>;
@@ -46,6 +46,8 @@ export interface AttestationClientOperationOptions extends OperationOptions {
 
 // @public
 export interface AttestationClientOptions extends CommonClientOptions {
+    // (undocumented)
+    credentials?: TokenCredential;
     validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -135,19 +137,19 @@ export type AttestationType = string;
 // @public
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array;
-    initTimeJson?: Uint8Array;
-    runTimeData?: Uint8Array;
-    runTimeJson?: Uint8Array;
+    initTimeData?: Uint8Array | Buffer | Blob;
+    initTimeJson?: Uint8Array | Buffer | Blob;
+    runTimeData?: Uint8Array | Buffer | Blob;
+    runTimeJson?: Uint8Array | Buffer | Blob;
 }
 
 // @public
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array;
-    initTimeJson?: Uint8Array;
-    runTimeData?: Uint8Array;
-    runTimeJson?: Uint8Array;
+    initTimeData?: Uint8Array | Buffer | Blob;
+    initTimeJson?: Uint8Array | Buffer | Blob;
+    runTimeData?: Uint8Array | Buffer | Blob;
+    runTimeJson?: Uint8Array | Buffer | Blob;
 }
 
 // @public

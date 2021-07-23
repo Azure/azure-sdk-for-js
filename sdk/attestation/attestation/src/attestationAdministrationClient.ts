@@ -91,14 +91,14 @@ export class AttestationAdministrationClient {
    * );
    * ```
    *
-   * @param instanceUrl - The attestation instance base URI, for example https://mytenant.attest.azure.net.
+   * @param endpoint - The attestation instance endpoint, for example https://mytenant.attest.azure.net.
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Form Recognizer client.
    */
 
   constructor(
     credentials: TokenCredential,
-    instanceUrl: string,
+    endpoint: string,
     options: AttestationAdministrationClientOptions = {}
   ) {
     // The below code helps us set a proper User-Agent header on all requests
@@ -117,6 +117,8 @@ export class AttestationAdministrationClient {
     const internalPipelineOptions: GeneratedClientOptionalParams = {
       ...options,
       ...{
+        credential: credentials,
+        credentialScopes: ["https://attest.azure.net/.default"],
         loggingOptions: {
           logger: logger.info,
           allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"]
@@ -124,7 +126,7 @@ export class AttestationAdministrationClient {
       }
     };
 
-    this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
+    this._client = new GeneratedClient(endpoint, internalPipelineOptions);
   }
 
   /**

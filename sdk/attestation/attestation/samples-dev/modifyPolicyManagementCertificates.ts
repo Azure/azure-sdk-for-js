@@ -36,15 +36,14 @@ import { X509 } from "jsrsasign";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { pemFromBase64, writeBanner } from "./utils/helpers";
+import { writeBanner } from "./utils/helpers";
 import { byteArrayToHex } from "../src/utils/base64";
 dotenv.config();
 
 async function modifyPolicyManagementCertificates() {
   writeBanner("Get Current Attestation Policy Management Certificates.");
 
-  // Use the customer specified attestion URL.
-  // Use the customer specified attestion URL.
+  // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_ISOLATED_URL must be defined.");
@@ -100,6 +99,24 @@ async function modifyPolicyManagementCertificates() {
     console.log("Modified Certificate Thumbprint: ", removeResult.body.certificateThumbprint);
     console.log("Expected Certificate Thumbprint: ", expectedThumbprint);
   }
+}
+
+export type PemType = "CERTIFICATE" | "PRIVATE KEY";
+
+/**
+ *
+ * @param base64 - Base64 encoded DER object to encode as PEM.
+ * @param pemType - PEM object type - typically "CERTIFICATE" |
+ */
+export function pemFromBase64(base64: string, pemType: PemType): string {
+  let pem = "-----BEGIN " + pemType + "-----\n";
+  while (base64 !== "") {
+    pem += base64.substr(0, 64) + "\n";
+    base64 = base64.substr(64);
+  }
+  pem += "-----END " + pemType + "-----\n";
+
+  return pem;
 }
 
 export async function main() {
