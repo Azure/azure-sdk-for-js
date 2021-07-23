@@ -165,7 +165,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
       if (tokenResponse === null) {
         const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-        const webResource = createPipelineRequest({
+        const pipelineRequest = createPipelineRequest({
           url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
           method: "POST",
           body: qs.stringify({
@@ -186,7 +186,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
           }
         });
 
-        tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+        tokenResponse = await this.identityClient.sendTokenRequest(
+          pipelineRequest,
+          (response: any) => new Date(response?.expires_on).getTime()
+        );
       }
 
       this.lastTokenResponse = tokenResponse;

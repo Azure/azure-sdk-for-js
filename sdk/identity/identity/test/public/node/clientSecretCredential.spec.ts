@@ -54,7 +54,6 @@ describe("ClientSecretCredential", function() {
     } catch (e) {
       error = e;
     }
-    console.log(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });

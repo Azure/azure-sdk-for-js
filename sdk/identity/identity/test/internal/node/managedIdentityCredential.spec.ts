@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
 import { assert } from "chai";
+import { join } from "path";
+import { tmpdir } from "os";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
 import {
@@ -67,11 +69,11 @@ describe("ManagedIdentityCredential", function() {
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.requests[1];
 
-    const query = qs.parse(authRequest.url.split("?")[1]);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(query.client_id, "client");
-    assert.equal(decodeURIComponent(query.resource as string), "https://service");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(imdsEndpoint),
       "URL does not start with expected host and path"
@@ -99,10 +101,10 @@ describe("ManagedIdentityCredential", function() {
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.requests[1];
 
-    const query = qs.parse(authRequest.url.split("?")[1]);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
-    assert.equal(query.client_id, undefined);
-    assert.equal(decodeURIComponent(query.resource as string), "someResource");
+    assert.equal(query.get("client_id"), undefined);
+    assert.equal(decodeURIComponent(query.get("resource")!), "someResource");
   });
 
   it("returns error when no MSI is available", async function() {
@@ -287,11 +289,11 @@ describe("ManagedIdentityCredential", function() {
     });
 
     const authRequest = authDetails.requests[0];
-    const query = qs.parse(authRequest.url.split("?")[1]);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(query.clientid, "client");
-    assert.equal(decodeURIComponent(query.resource as string), "https://service");
+    assert.equal(query.get("clientid"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.MSI_ENDPOINT),
       "URL does not start with expected host and path"
@@ -323,72 +325,73 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(authDetails.result!.token, "token");
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async () => {
+  it("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const mockFs = require("mock-fs");
-    const filePath = "path/to/file";
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
+    writeFileSync(tempFile, key, { encoding: "utf8" });
 
-    mockFs({
-      [`${filePath}`]: key
-    });
+    try {
+      const authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default"],
+        credential: new ManagedIdentityCredential(),
+        secureResponses: [
+          createResponse(
+            401,
+            {},
+            {
+              "www-authenticate": `we don't pay much attention about this format=${tempFile}`
+            }
+          ),
+          createResponse(200, {
+            access_token: "token",
+            expires_in: 1
+          })
+        ]
+      });
 
-    const authDetails = await sendCredentialRequests({
-      scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential(),
-      secureResponses: [
-        createResponse(
-          401,
-          {},
-          {
-            "www-authenticate": `we don't pay much attention about this format=${filePath}`
-          }
-        ),
-        createResponse(200, {
-          access_token: "token",
-          expires_in: 1
-        })
-      ]
-    });
+      // File request
+      const validationRequest = authDetails.requests[0];
+      let query = new URLSearchParams(validationRequest.url.split("?")[1]);
 
-    // File request
-    const validationRequest = authDetails.requests[0];
-    let query = qs.parse(validationRequest.url.split("?")[1]);
+      assert.equal(validationRequest.method, "GET");
+      assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
 
-    assert.equal(validationRequest.method, "GET");
-    assert.equal(decodeURIComponent(query.resource as string), "https://service");
+      assert.ok(
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
 
-    assert.ok(
-      validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
+      // Authorization request, which comes after getting the file path, for now at least.
+      const authRequest = authDetails.requests[1];
+      query = new URLSearchParams(authRequest.url.split("?")[1]);
 
-    // Authorization request, which comes after getting the file path, for now at least.
-    const authRequest = authDetails.requests[1];
-    query = qs.parse(authRequest.url.split("?")[1]);
+      assert.equal(authRequest.method, "GET");
+      assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
 
-    assert.equal(authRequest.method, "GET");
-    assert.equal(decodeURIComponent(query.resource as string), "https://service");
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
 
-    assert.ok(
-      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    assert.equal(authRequest.headers.authorization, `Basic ${key}`);
-    if (authDetails.result!.token) {
-      // We use Date.now underneath.
-      assert.ok(authDetails.result!.expiresOnTimestamp);
-    } else {
-      assert.fail("No token was returned!");
+      assert.equal(authRequest.headers.authorization, `Basic ${key}`);
+      if (authDetails.result!.token) {
+        // We use Date.now underneath.
+        assert.ok(authDetails.result!.expiresOnTimestamp);
+      } else {
+        assert.fail("No token was returned!");
+      }
+    } finally {
+      unlinkSync(tempFile);
+      rmdirSync(tempDir);
     }
-
-    mockFs.restore();
   });
 
   // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet
@@ -416,11 +419,11 @@ describe("ManagedIdentityCredential", function() {
     // Authorization request, which comes after validating again, for now at least.
     const authRequest = authDetails.requests[0];
 
-    const query = qs.parse(authRequest.url.split("?")[1]);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(query.client_id, "client");
-    assert.equal(decodeURIComponent(query.resource as string), "https://service");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"

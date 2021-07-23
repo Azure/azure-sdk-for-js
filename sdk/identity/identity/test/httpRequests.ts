@@ -178,12 +178,12 @@ export async function prepareIdentityTests({
       spies: sinon.SinonSpy[]
     ): void =>
       responses.forEach(({ response, error }, index) => {
+        const request = createRequest();
+        spies.push(sandbox.spy(request, "end"));
+        stubbedRequest.onCall(index).returns(request);
         if (error) {
           stubbedRequest.onCall(index).throws(error);
         } else if (response) {
-          const request = createRequest();
-          spies.push(sandbox.spy(request, "write"));
-          stubbedRequest.onCall(index).returns(request);
           sandbox.stub(request, "once").yields(responseToIncomingMessage(response));
         } else {
           throw new Error(
@@ -236,18 +236,16 @@ export async function prepareIdentityTests({
       method: string;
       headers: Record<string, string>;
     }[] =>
-      (stubbedRequest.args as any).reduce((accumulator: any, args: any, index: number) => {
-        const requestOptions = args[0] as http.RequestOptions;
-        const spiesArgs = spies[index]?.args;
-        let body = "";
-        if (spiesArgs && spiesArgs[0] && spiesArgs[0][0]) {
-          body = spiesArgs[0][0];
+      spies.reduce((accumulator: any, spy: sinon.SinonSpy, index: number) => {
+        if (!stubbedRequest.args[index]) {
+          return accumulator;
         }
+        const requestOptions = stubbedRequest.args[index][0];
         return [
           ...accumulator,
           {
             url: `${protocol}://${requestOptions.hostname}${requestOptions.path}`,
-            body,
+            body: (spy.args[0] && spy.args[0][0]) || "",
             method: requestOptions.method,
             headers: requestOptions.headers
           }

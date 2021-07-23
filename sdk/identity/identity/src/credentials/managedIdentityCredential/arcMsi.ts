@@ -74,7 +74,11 @@ async function filePathRequest(
   }
 
   const authHeader = response.headers.get("www-authenticate") || "";
-  return authHeader.split("=").slice(1)[0];
+  try {
+    return authHeader.split("=").slice(1)[0];
+  } catch (e) {
+    throw Error(`Invalid www-authenticate header format: ${authHeader}`);
+  }
 }
 
 export const arcMsi: MSI = {

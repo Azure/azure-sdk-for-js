@@ -44,6 +44,8 @@ describe("AuthorizationCodeCredential", function() {
       ]
     });
 
+    assert.isNumber(authDetails.result?.expiresOnTimestamp);
+    assert.equal(authDetails.result?.token, "token");
     const authRequest = authDetails.requests[0];
     assertClientCredentials(authRequest.url, authRequest.body, "tenant", "client", "secret");
 
@@ -71,6 +73,9 @@ describe("AuthorizationCodeCredential", function() {
         })
       ]
     });
+
+    assert.isNumber(authDetails.result?.expiresOnTimestamp);
+    assert.equal(authDetails.result?.token, "token");
 
     const request = authDetails.requests[0];
     assert.strictEqual(
