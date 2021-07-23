@@ -54,7 +54,7 @@ export class GetPrivateDnsZoneSuffix {
 const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.DBForPostgreSql/getPrivateDnsZoneSuffix",
+  path: "providers/Microsoft.DBforPostgreSQL/getPrivateDnsZoneSuffix",
   queryParameters: [
     Parameters.apiVersion
   ],
