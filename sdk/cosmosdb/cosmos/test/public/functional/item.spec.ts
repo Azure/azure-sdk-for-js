@@ -561,7 +561,6 @@ describe("bulk item operations", function() {
       ];
 
       const createResponse = await container.items.bulk(operations);
-      console.log(createResponse);
       assert.equal(createResponse[0].statusCode, 201);
     });
   });
