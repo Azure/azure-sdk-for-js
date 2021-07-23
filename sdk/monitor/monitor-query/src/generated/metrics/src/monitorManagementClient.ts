@@ -6,14 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Metrics } from "./operations";
+import { MetricsImpl } from "./operations";
+import { Metrics } from "./operationsInterfaces";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
   MonitorManagementClientOptionalParams,
-  ApiVersion201801
+  ApiVersion20170501Preview
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
    * Initializes a new instance of the MonitorManagementClient class.
@@ -21,11 +22,11 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion201801,
+    apiVersion: ApiVersion20170501Preview,
     options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);
-    this.metrics = new Metrics(this);
+    this.metrics = new MetricsImpl(this);
   }
 
   metrics: Metrics;
