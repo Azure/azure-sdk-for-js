@@ -269,4 +269,16 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 
 Run this command
 
-- `docker run -v temp-location:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+- `docker run -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+
+[Note: Update `temp-location` in the command to your desired location.]
+
+If the above command doesn't work directly, try logging in. [@Scott Beddall is trying to iron out the kinks :)]
+
+> az login
+
+> az acr login --name azsdkengsys
+
+And then repeat the above command.
+
+Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
