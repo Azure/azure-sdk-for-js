@@ -115,6 +115,18 @@ describe("#AzureMonitorBaseExporter", () => {
         assert.strictEqual(persistedEnvelopes, null);
       });
 
+      it("should not persist non-retriable failed telemetry", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 404);
+        scope.reply(404, JSON.stringify(response));
+
+        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.FAILED);
+
+        const persistedEnvelopes = await exporter["_persister"].shift();
+        assert.strictEqual(persistedEnvelopes, null);
+      });
+
       it("should not persist when an error is caught", async () => {
         const exporter = new TestExporter();
         scope.reply(1, ""); // httpSender will throw
