@@ -3,7 +3,8 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, setTracer, SpanGraph } from "./utils/tracingutils";
+import { context, setSpan } from "@azure/core-tracing";
 import {
   bodyToString,
   getBSU,
@@ -20,7 +21,6 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-import { context, setSpan } from "@azure/core-tracing";
 dotenv.config();
 
 describe("ContainerClient", () => {
@@ -734,7 +734,7 @@ describe("ContainerClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
 
     await containerClient.deleteBlob(blobName);

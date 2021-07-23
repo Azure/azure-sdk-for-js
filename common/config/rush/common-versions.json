@@ -41,11 +41,10 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
-    // "^12.4.1" is required for eventhubs-checkpointstore-blob to use the latest GA version
-    // when there is a new beta version which is being maintained in the repo.
-    // Remove "^12.4.1" when the storage-blob releases a stable version.
-    // Add a new entry in case a new version is being tested through the perf tests (Example: "12.2.0").
-    "@azure/storage-blob": ["^12.4.1"],
+    /** In this hotfix branch, we updated storage-blob to use core-tracing preview.13, but to avoid
+     * breaking existing code, we need to allow the old version to be used since it won't be released (and the version on main branch already did the update)
+     */
+    "@azure/storage-blob": ["12.4.1"],
     "@azure/ms-rest-js": ["^2.0.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
@@ -56,14 +55,11 @@
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"],
-    "@opentelemetry/api": ["^0.18.1"],
+    "@opentelemetry/api": ["^0.18.1", "^1.0.1"],
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     // eslint v7.15 needs node v10.12
     "@types/node": ["^10.0.0", "^10.12.0"],
-    // @azure/test-utils-perfstress should depend on lowest version of @azure/core-http for maximum compatibility, allowing test
-    // projects to choose a higher version if desired.
-    "@azure/core-http": ["^1.0.0"],
     // @azure/container-registry is using the beta version for CAE support
     "@azure/core-rest-pipeline": ["1.1.0-beta.3"],
     // @azure/event-processor-host is on a much lower major version
@@ -74,6 +70,12 @@
     "@azure/keyvault-secrets": ["^4.1.0", "^4.2.0-beta.4"],
     // Issue #14771 tracks updating to these versions
     "@microsoft/api-extractor": ["7.13.2"],
-    "prettier": ["2.2.1"]
+    "prettier": ["2.2.1"],
+
+    // In this hotfix branch we needed to update our dependencies for core-http, core-lro, and core-tracing for storage packages
+    "@azure/core-http": ["^1.0.0", "^2.0.0"],
+    "@azure/core-lro": ["^2.0.0"],
+    "@azure/core-tracing": ["1.0.0-preview.13"],
+
   }
 }
