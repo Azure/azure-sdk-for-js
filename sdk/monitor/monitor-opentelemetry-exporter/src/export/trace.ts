@@ -122,11 +122,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       }
     } catch (error) {
       const restError = error as RestError;
-      if (
-        restError.statusCode &&
-        (restError.statusCode === 307 || // Temporary redirect
-          restError.statusCode === 308)
-      ) {
+      if (restError.statusCode && restError.statusCode === 308) {
         // Permanent redirect
         this._numConsecutiveRedirects++;
         // To prevent circular redirects
