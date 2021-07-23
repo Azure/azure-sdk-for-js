@@ -8,7 +8,6 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import * as path from "path";
 // import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
