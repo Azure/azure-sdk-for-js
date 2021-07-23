@@ -5,7 +5,7 @@
   "description": "An Azure Storage Table solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-table/",
+  "homepage": "#",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
