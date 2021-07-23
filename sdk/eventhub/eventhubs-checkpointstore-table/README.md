@@ -5,7 +5,7 @@ An Azure Table storage based solution to store checkpoints and to aid in load ba
 Key Links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-table) 
 - [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-table) 
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-table/) 
+- [API Reference Documentation](#) 
 - [Samples](#)
 
 ## Getting started
