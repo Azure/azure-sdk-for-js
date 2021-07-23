@@ -134,8 +134,9 @@ export function hasResource(
 }
 
 export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
+  console.log(partitionProperty);
   const toHashKey = hasResource(operation)
-    ? (operation.resourceBody as any)[partitionProperty]
+    ? deepFind(operation.resourceBody, partitionProperty)
     : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
       operation.partitionKey;
   // We check for empty object since replace will stringify the value
@@ -185,4 +186,14 @@ export function decorateOperation(
     return { ...operation, partitionKey: "[{}]" };
   }
   return operation as Operation;
+}
+
+function deepFind<T, P extends string>(document: T, path: P): JSONObject {
+  const apath = path.split("/");
+  let h: any = document;
+  for (const p of apath) {
+    if (p in h) h = h[p];
+    else throw new Error(`Invalid path: ${path} at ${p}`);
+  }
+  return h;
 }

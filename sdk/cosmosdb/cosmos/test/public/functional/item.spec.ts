@@ -523,6 +523,48 @@ describe("bulk item operations", function() {
       assert.equal(deleteResponse[0].statusCode, 204);
     });
   });
+  describe("v2 multi partition container", async function() {
+    let container: Container;
+    let createItemId: string;
+    let upsertItemId: string;
+    before(async function() {
+      container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/nested/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      createItemId = addEntropy("createItem");
+      upsertItemId = addEntropy("upsertItem");
+    });
+    it("creates an item with nested object partition key", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            id: createItemId,
+            nested: {
+              key: "A"
+            }
+          }
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: {
+            id: upsertItemId,
+            nested: {
+              key: false
+            }
+          }
+        }
+      ];
+
+      const createResponse = await container.items.bulk(operations);
+      console.log(createResponse);
+      assert.equal(createResponse[0].statusCode, 201);
+    });
+  });
 
   // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
   describe("item read retries", async function() {
