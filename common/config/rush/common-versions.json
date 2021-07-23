@@ -43,8 +43,8 @@
   "allowedAlternativeVersions": {
     "@azure/ms-rest-js": ["^2.0.0"],
 
-    /** keeping quantum jobs out of this hotfix branch hotfix/storage-opentelemetry-ga */
-    "@azure/storage-blob": ["^12.6.0-beta.1"],
+    /** keeping quantum jobs and storage-blob-changefeed out of this hotfix branch hotfix/storage-opentelemetry-ga */
+    "@azure/storage-blob": ["^12.6.0-beta.1", "12.6.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
