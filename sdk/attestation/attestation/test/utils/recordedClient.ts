@@ -23,7 +23,7 @@ import { pemFromBase64 } from "../utils/helpers";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   ATTESTATION_LOCATION_SHORT_NAME: "wus",
   ATTESTATION_ISOLATED_URL: "https://isolated_attestation_url.wus.attest.azure.net",
   ATTESTATION_AAD_URL: "https://aad_attestation_url.wus.attest.azure.net",

@@ -514,17 +514,6 @@ export interface MessageIdDeleteExceptionHeaders {
   clientRequestId?: string;
 }
 
-/**
- * Defines values for GeoReplicationStatusType. \
- * {@link KnownGeoReplicationStatusType} can be used interchangeably with GeoReplicationStatusType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **live** \
- * **bootstrap** \
- * **unavailable**
- */
-export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
-
 /** Known values of {@link StorageErrorCode} that the service accepts. */
 export const enum KnownStorageErrorCode {
   AccountAlreadyExists = "AccountAlreadyExists",
@@ -650,6 +639,8 @@ export const enum KnownStorageErrorCode {
  * **FeatureVersionMismatch**
  */
 export type StorageErrorCode = string;
+/** Defines values for GeoReplicationStatusType. */
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
@@ -730,7 +721,7 @@ export interface ServiceListQueuesSegmentOptionalParams
   marker?: string;
   /** Specifies the maximum number of queues to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
   maxPageSize?: number;
-  /** Include this parameter to specify that the queues's metadata be returned as part of the response body. */
+  /** Include this parameter to specify that the queues' metadata be returned as part of the response body. */
   include?: string[];
 }
 

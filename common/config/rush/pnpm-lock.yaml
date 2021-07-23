@@ -8763,7 +8763,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-cDCCsnEFN+qopEX6j3+o08kPsSbXz3Scfaiv4zrrfSygCAD6C20ZFIJJlvOVldVCXQGyZgeCpS7D+lmu95e2lA==
+      integrity: sha512-SMEs3He6zgbcQEmu1zXcG2Id88IkSCyR1hNRF7Xk/EdHk+BxeXlXL5AxGPC+MANwG28tjvPnSHhxbcxh1ZzuBA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8933,6 +8933,7 @@ packages:
     dependencies:
       '@azure/communication-identity': 1.0.0
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -8980,7 +8981,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-network-traversal'
     resolution:
-      integrity: sha512-dWmoe8djuWi7xAMrywjjngQ83p1JxH8CzlTXoOllR/vDGRgJieHmwa4YwoqsOgKJxheq5XbWwuRIIaICxgtZAA==
+      integrity: sha512-WaXb4hUyl1T0+cSke7IdsKa1CS/0rUGTCUoucoC1lNfqeOIwbrVtaGW2h1HnlPfZN5C2c2ltVuxZ0vmYN4jMfw==
       tarball: file:projects/communication-network-traversal.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -10125,6 +10126,7 @@ packages:
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
     dependencies:
+      '@azure/storage-blob': 12.6.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -10179,7 +10181,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-ZbTYmUpsTQoYJzB3dYD3p/97f5h49sMXMd3Sqqw87qukePibqPUs9lLoU2TfLuNOxnkKazbDRki3C3LJfGQw7w==
+      integrity: sha512-KQaKknyZ0kx97nVIDP/C046RpouSNIifPKuDo7L+5G2/Fv22IYM9uPM2zA7JesB3b6qsDu6MIZ1nfRyEAF1Z7A==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity-cache-persistence.tgz:
@@ -11047,7 +11049,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-g9WCFy7NReAPcyICgkDcGEf2XqEKKbpimkrfr9AfVid/tmI5+utszeVwS7utEiQg8OrGPVndMxAclH5IXTnTkQ==
+      integrity: sha512-JvaatDMPTFvpFTZAPBW+XYD19rWf7lSkp9iJPxm/bUwIVKR38e7J8mqA7+/IHAbDosQrdHkWo21+UHL+NYRlVw==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -11065,7 +11067,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-file-datalake'
     resolution:
-      integrity: sha512-v2JLPEaagwTOCrUOE680t3lgwOm8gB4f1kss/28vKx31SHR4naXzzeBGAWTHHAxZL7cs1WfTj0F6p730T8NxdA==
+      integrity: sha512-vepQiPpEOpjtZO4CA6FHj5njhGkgztRKmb2q4+Iuf4rlWf2++9tPxdqePngQ48kANbgxA6r0G7Z2s8uYM9AFxA==
       tarball: file:projects/perf-storage-file-datalake.tgz
     version: 0.0.0
   file:projects/perf-storage-file-share.tgz:
@@ -11083,7 +11085,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-file-share'
     resolution:
-      integrity: sha512-PD56Vv21uqok0ycwDqH0QrVx9IB/ukQEtKEIarbCYPB5d4yufKL3zb1LztaaVK38oUP/w2EKxgMMQEqyo4NdUQ==
+      integrity: sha512-puMNDli8g8FHzU3hcpWibrKOoXVSBbeZz2/mq+Eoan4HwJzUqyaTOllfsc0NXbFn2aNV9ETSLtcldPLsWckq9w==
       tarball: file:projects/perf-storage-file-share.tgz
     version: 0.0.0
   file:projects/purview-catalog.tgz:
@@ -11173,6 +11175,7 @@ packages:
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/storage-blob': 12.6.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -11220,7 +11223,7 @@ packages:
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-vCB3qJel4X3giW+iYhJCxEuHg1E2hNqh8xb+Lix7wQFVkmAgpn01YGLDPde1olWGOlvk7PhiGUaLnRuGYP0MBg==
+      integrity: sha512-QmbIrY1oi9GveAr/aF66xEOl1zhTQt3xiuJNvy1hmR7GzNKVp7fE6n47+gmcDZBQYjKcIwXBXET52NPwCQOGHA==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:
@@ -11513,7 +11516,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob-changefeed'
     resolution:
-      integrity: sha512-uCbsN5J9fSV+Md24+5WOKV+fsYrGDZL+dWA8/59y0GP70fBCAy0dd3ZifJQOKViLh8ZrTVW1w+72AoOoe9tdpw==
+      integrity: sha512-mwGBn01L/7QBV7WzEaMvYiY44RA1v/FFLAjLAsIqDcPsHjjWXsycBycK8rjJa0FSk054LrAT/K1Ff5AWgMn6Bg==
       tarball: file:projects/storage-blob-changefeed.tgz
     version: 0.0.0
   file:projects/storage-blob.tgz:
@@ -11631,7 +11634,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-VwLRCsMV+Wf8/HDSCwSymBgzQFooukJu8OTkcQ/XeLNHfYLqCrPWV+wVamPwIlJTP9e+jt+TjQ0BIo0aTzS4mg==
+      integrity: sha512-OHBBPEh+SdTPsqvcbsNar5v4qV1ptWP1gPG/mW32XXpm9HuSRNTjwUEiO1xeQCbpp01iYsiQXehf7H78SpyD0Q==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
@@ -11686,7 +11689,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-VpGtvaXo9Sus1YMQN0VrDyLuIWpam98uehDQvSrl6ANllQBZRKuM1jmeqcik9Xb2MzBGCrMI1aqQxnTw2cbHEA==
+      integrity: sha512-mC6M83OChGFyGm3fA8LdX+4AU7UOqxGAHBCI5C4pHYpDWtcDm95gEsqWeFn28Ex3nxFl5mgWFvo/Kc3zPI2pwg==
       tarball: file:projects/storage-file-share.tgz
     version: 0.0.0
   file:projects/storage-internal-avro.tgz:

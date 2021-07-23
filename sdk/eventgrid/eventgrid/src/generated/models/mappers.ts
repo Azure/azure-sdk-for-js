@@ -6571,6 +6571,14 @@ export const AcsChatMessageReceivedEventData: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -6587,6 +6595,14 @@ export const AcsChatMessageEditedEventData: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       editTime: {
@@ -6785,6 +6801,14 @@ export const AcsChatMessageReceivedInThreadEventData: coreClient.CompositeMapper
         type: {
           name: "String"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -6801,6 +6825,14 @@ export const AcsChatMessageEditedInThreadEventData: coreClient.CompositeMapper =
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       editTime: {
