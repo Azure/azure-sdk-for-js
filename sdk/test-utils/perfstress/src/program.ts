@@ -109,18 +109,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -201,7 +201,7 @@ export class PerfStressProgram {
     );
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex +
-        1}. Logs every ${millisecondsToLog / 1000}s ===`
+      1}. Logs every ${millisecondsToLog / 1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -321,7 +321,7 @@ export class PerfStressProgram {
     }
 
     if (options["test-proxy"]) {
-      await this.stopPlayback(this.tests[0]);
+      await this.stopPlayback();
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -351,14 +351,22 @@ export class PerfStressProgram {
     // => run the runAsync
     // => stop record
     // => start playback
-    test.recorder._mode = "record";
-    await test.recorder.start();
+    PerfStressTest.recorder._mode = "record";
+    console.log("inside recordAndStartPlayback, start recording");
+    await PerfStressTest.recorder.start();
+    PerfStressTest.recorder
+    console.log("let's run runasync");
     await test.runAsync!();
-    await test.recorder.stop();
-    test.recorder._mode = "playback";
-    await test.recorder.start();
+    console.log("runasync done");
+    console.log("let's stop recording");
+
+    await PerfStressTest.recorder.stop();
+    PerfStressTest.recorder._mode = "playback";
+    console.log("inside recordAndStartPlayback still, start playback");
+    await PerfStressTest.recorder.start();
+    console.log("inside recordAndStartPlayback still, started playback");
   }
-  private async stopPlayback(test: PerfStressTest<{}>) {
-    await test.recorder.stop();
+  private async stopPlayback() {
+    await PerfStressTest.recorder.stop();
   }
 }

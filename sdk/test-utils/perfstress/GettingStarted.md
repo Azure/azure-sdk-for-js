@@ -282,3 +282,7 @@ If the above command doesn't work directly, try logging in. [@Scott Beddall is t
 And then repeat the above command.
 
 Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
+
+Sample command(using storage-blob perf tests as example!)
+
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000

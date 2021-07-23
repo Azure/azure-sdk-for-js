@@ -28,7 +28,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.headers.contains("x-recording-id")) {
+    if (!request.headers.contains("x-recording-id") && (this._mode === "record" || this._mode === "playback")) {
       console.log("mode", this._mode);
       console.log("id", this._recordingId);
       request.headers.set("x-recording-id", this._recordingId!);
@@ -54,7 +54,8 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async start(): Promise<void> {
-    if (this._recordingId === undefined) {
+    console.log("in start, mode = ", this._mode);
+    if (this._recordingId === undefined && (this._mode === "record" || this._mode === "playback")) {
       const startUri =
         this._uri +
         (this._mode === "playback" ? paths.playback : paths.record) +
@@ -73,7 +74,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async stop(): Promise<void> {
-    if (this._recordingId !== undefined) {
+    if (this._recordingId !== undefined && (this._mode === "record" || this._mode === "playback")) {
       const stopUri =
         this._uri +
         (this._mode === "playback" ? paths.playback : paths.record) +
@@ -86,6 +87,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
         req.headers.set("x-purge-inmemory-recording", "true");
       }
       await this._httpClient.sendRequest(req);
+      this._recordingId = undefined;
     }
   }
 
