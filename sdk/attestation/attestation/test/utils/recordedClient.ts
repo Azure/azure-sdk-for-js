@@ -148,5 +148,5 @@ export function createRecordedAdminClient(
       }
     };
   }
-  return new AttestationAdministrationClient(credential, getAttestationUri(endpointType), options);
+  return new AttestationAdministrationClient(getAttestationUri(endpointType), credential, options);
 }

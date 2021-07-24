@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AttestationAdministrationClient {
-    constructor(credentials: TokenCredential, endpoint: string, options?: AttestationAdministrationClientOptions);
+    constructor(endpoint: string, credentials: TokenCredential, options?: AttestationAdministrationClientOptions);
     addPolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
     getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;

@@ -40,7 +40,7 @@ async function getCurrentAttestationPolicyAad() {
   if (endpoint === undefined) {
     throw new Error("Attestation endpoint must be provided.");
   }
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const policy = await client.getPolicy(KnownAttestationType.SgxEnclave);
 
@@ -61,7 +61,7 @@ async function getCurrentAttestationPolicyShared() {
   //
   const endpoint = "https://sharedwus.wus.attest.azure.net";
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const policy = await client.getPolicy(KnownAttestationType.SgxEnclave);
 

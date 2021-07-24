@@ -97,8 +97,8 @@ export class AttestationAdministrationClient {
    */
 
   constructor(
-    credentials: TokenCredential,
     endpoint: string,
+    credentials: TokenCredential,
     options: AttestationAdministrationClientOptions = {}
   ) {
     // The below code helps us set a proper User-Agent header on all requests

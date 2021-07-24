@@ -58,7 +58,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   // This attestation policy blocks all non-debug SGX enclaves,
   // and requires that the product ID be 1, the SVN be greater than 0,
@@ -111,7 +111,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const newPolicy = `version= 1.0;
     authorizationrules
@@ -182,7 +182,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
     throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const newPolicy = `version= 1.0;
       authorizationrules

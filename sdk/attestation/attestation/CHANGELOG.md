@@ -12,6 +12,8 @@ The attestation family of APIs no longer requires authentication credentials
 
 ### Breaking Changes
 
+* Reversed the order of `credentials` and `endpoint` in `AttestationAdministrationClient` to be
+  consistent with other SDKs.
 * Removed `credentials` top level parameter for `AttestationClient` constructor, moved
   to the `AttestationClientOptions` object.
 * Renamed the `validateToken` API in the `AttestationToken` class to `getTokenProblems` returning

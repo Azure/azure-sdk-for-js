@@ -57,7 +57,7 @@ async function modifyPolicyManagementCertificates() {
     throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const [rsaKey, rsaPubKey] = createRSAKey();
   const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");

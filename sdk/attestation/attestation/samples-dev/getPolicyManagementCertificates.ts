@@ -42,7 +42,7 @@ async function getPolicyManagementCertificates() {
   if (endpoint === undefined) {
     throw new Error("Attestation endpoint must be provided.");
   }
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const policyCertificates = await client.getPolicyManagementCertificates();
   console.log(
