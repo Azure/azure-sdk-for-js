@@ -6,19 +6,19 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImpfRUZtUTVVQm9lNHJMNUltNmw1cU1rQXN0QXluaE5JQUJ6dFZLQ0RMV1UiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ5MkJNVlhFZU1nTVpDbUtZOTdDOGpfUkhBVHpIZFRoLWFIZV9WeXJMVzNkTHJVaDMxSmRWdUpESThjaWdWaUpLTzYtWXg4T3NsZnROb3VCVHF3SlllaVpxNlNNQ2tCMzJURlVxUm9RN0NKT2wwYjJsbXdNUFFGbFZrZUtFMU84SzBMVEpnTDZXWHA2YmlNdlVDOGkzc0l3MmZvQ1VMTm1ocnMtWU5GWXh0bVhNVkhKallIWkJNTEVSSlpuV2ltUlE3TUJVUFlMQk5SSHRQZlB6M1lVRVpIWUZOSEQzRjVYUkZiWS1xcW5pUmVtdGFVVDk0SXBHMklVZzh1QmVKbjJLMHhvMTZHb3RubjFra1RuRjVaZW9mNlZDTkJmbnB1YjRURzhJOGtlQjZOVklMa0NudjlTREc1WWNBRDdPR2RSUG9VR3Q1UTRLMXFRZFhtV0R0VHhoV1EifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjY3OTUxNTQsImV4cCI6MTk0MjM3MTE1NH0.Ml3g8zZ25jA4ORErcXK8PJ-ei9acgpNDPEukGzr-mgYXnSiX2W519OlWA44gVMO-twvSUzfhKNBR0EuJ1SxMPWOXoaFAm5Gcd1bALEBO4D2XYATqX2EtoRdaQCFflh3k9If1oOn8wRwSfTAr_J1aJ8v5-EAeDXW2AJ17v4x-O_b275GPI2w06WJ47dQXWun7V1zL4dj0XOYGsYyNp30S24elzLQPA4jI1A0ttukvTD_BY03qwaAwFcFgytt15li9bmmwdwx2KB06ZXfoHUW2wemVXLFojDR0qJnnWi9FjBuUMvf3giLME-6bGGxVXCDLyWuQ0q7iV-otTlwa_aY1Og\"}",
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImpfRUZtUTVVQm9lNHJMNUltNmw1cU1rQXN0QXluaE5JQUJ6dFZLQ0RMV1UiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJzTFQ5clY2anVJOUdVRHM2TFpBUkw0WENadXpZVGVjQmRpSDVDdmZwUXhzUFczYUEycDcyOXJVeXc3MHhkQWxlWEUydjVjZExkX1Nlcy1Ramg4NnlHc0lsZWdlSGtzSnFXNC1hejE1OWdhMWVkTnhYbndMb2k1b2Z3bnlfS1FVemt3T1IwdnhaV0Qtb0R4QWE4aXZxU0Z2OXdYdVU4aVZlRkE0VUZLYjU0N3BlWE1ZNkhkM2F0Z0JIanVEMWdhOHNBRjNOVXRBVE1IODVHWnFublpKOXRiMDVDT2tTaGVUbWJPaWdkRE1JUTFQX3YzTjFWVVBVVmNiWG5MdzYxMExuZG9Sd3MwdFh4c2UtblExaGRpU3JCVC0xNFZhcjBxX2YwU2drTzhXMm9WMVdLTmNkNVJKeWRXdS1rNWtYUkM4NHZBcVcyeGNCWU1XSWhnWWJaU21YUVEifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjcwODgyNTAsImV4cCI6MTk0MjY2NDI1MH0.aBReJ1rDr6SoYgMl8D9EchIG3u7MLtVNW2pReZj2mkokrKQVhpV-0dH9lIL3PcJctYIdat9ZTpZUMmuj8ezLUn6otAvLcOjAnkyOH2C7TzyqVkKEhRqj6xUd2_hyTzsEIc9QvkAXcbTm8QSXnwHI_NtzpC6Fdl0pZMfirltbzUgz_0LNkN_yOD4f7sTdu_O4BDfxicwvBRqYdqWtPCKA4rgjrS3R9ebeCuj3QgGL2pQT-9n4Sf2kgJdKtP4lV0gwNR9Zo2NoGWVPwJKyPxbNbe1iC8QikQNApd9Mc415mgLqn6OV90ajtyyhSye2xmZ2O1x-RsXJ9eM7JbUNceHEFA\"}",
    "responseHeaders": {
     "content-length": "1305",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 20 Jul 2021 15:32:33 GMT",
-    "etag": "W/\"519-WM7EI1c5aMx3YMuIYS0FXTrojzo\"",
+    "date": "Sat, 24 Jul 2021 00:57:30 GMT",
+    "etag": "W/\"519-MP7NTdL/4j3iR+8Ml5JJ4t82Btk\"",
     "status": "200",
     "x-powered-by": "Express"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162679515436207318/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162708825113401638/create",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -34,8 +34,8 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "b46824a0-e96f-11eb-9fee-000d3a028720",
-    "x-ms-server-latency": "1"
+    "x-ms-request-id": "1f8ce9da-ec1a-11eb-b771-000d3a7a3d40",
+    "x-ms-server-latency": "0"
    }
   },
   {
@@ -49,7 +49,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 20 Jul 2021 15:32:33 GMT",
+    "date": "Sat, 24 Jul 2021 00:57:30 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -58,19 +58,19 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - NCUS ProdSlices",
-    "x-ms-request-id": "a03d4a21-9e67-4c4a-b7c0-ea9e53f38a01"
+    "x-ms-ests-server": "2.1.11898.8 - EUS ProdSlices",
+    "x-ms-request-id": "3a5661f3-94b1-49c7-b525-5cf61c8c5500"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162679515436207318/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162708825113401638/create",
    "query": {
     "api-version": "7.3-preview"
    },
    "requestBody": "{\"kty\":\"RSA\",\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyYXR0ZXN0YXRpb24uYXp1cmV3ZWJzaXRlcy5uZXQvIn1dLCJ2ZXJzaW9uIjoiMS4wIn0\"}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: b48bef98-e96f-11eb-9fee-000d3a028720)\"}}",
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: 1fafded6-ec1a-11eb-b771-000d3a7a3d40)\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "146",
@@ -79,14 +79,14 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "b48bef98-e96f-11eb-9fee-000d3a028720",
-    "x-ms-server-latency": "14"
+    "x-ms-request-id": "1fafded6-ec1a-11eb-b771-000d3a7a3d40",
+    "x-ms-server-latency": "15"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "policynonexportable": "policynonexportable162679515436207318"
+   "policynonexportable": "policynonexportable162708825113401638"
   },
   "newDate": {}
  },

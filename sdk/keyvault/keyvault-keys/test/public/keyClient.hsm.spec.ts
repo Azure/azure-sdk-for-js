@@ -78,7 +78,7 @@ onVersions({ minVer: "7.2" }).describe(
       let encodedReleasePolicy: Uint8Array;
 
       beforeEach(async () => {
-        const attestationUri = env.ATTESTATION_URI;
+        const attestationUri = env.AZURE_KEYVAULT_ATTESTATION_URI;
         const releasePolicy = {
           anyOf: [
             {
