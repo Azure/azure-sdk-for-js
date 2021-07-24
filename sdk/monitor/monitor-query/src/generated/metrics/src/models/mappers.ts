@@ -35,6 +35,18 @@ export const Response: coreClient.CompositeMapper = {
           name: "TimeSpan"
         }
       },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String"
+        }
+      },
+      resourceregion: {
+        serializedName: "resourceregion",
+        type: {
+          name: "String"
+        }
+      },
       value: {
         serializedName: "value",
         required: true,
@@ -100,22 +112,7 @@ export const Metric: coreClient.CompositeMapper = {
         serializedName: "unit",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Count",
-            "Bytes",
-            "Seconds",
-            "CountPerSecond",
-            "BytesPerSecond",
-            "Percent",
-            "MilliSeconds",
-            "ByteSeconds",
-            "Unspecified",
-            "Cores",
-            "MilliCores",
-            "NanoCores",
-            "BitsPerSecond"
-          ]
+          name: "String"
         }
       },
       timeseries: {

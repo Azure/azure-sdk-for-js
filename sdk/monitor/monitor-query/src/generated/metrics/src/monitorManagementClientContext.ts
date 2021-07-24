@@ -8,14 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20170501Preview,
+  ApiVersion201801,
   MonitorManagementClientOptionalParams
 } from "./models";
 
 /** @internal */
 export class MonitorManagementClientContext extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: ApiVersion20170501Preview;
+  apiVersion: ApiVersion201801;
 
   /**
    * Initializes a new instance of the MonitorManagementClientContext class.
@@ -23,7 +23,7 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20170501Preview,
+    apiVersion: ApiVersion201801,
     options?: MonitorManagementClientOptionalParams
   ) {
     if (apiVersion === undefined) {

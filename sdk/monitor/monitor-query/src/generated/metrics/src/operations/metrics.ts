@@ -44,7 +44,7 @@ export class MetricsImpl implements Metrics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/microsoft.insights/metrics",
+  path: "/{resourceUri}/providers/Microsoft.Insights/metrics",
   httpMethod: "GET",
   responses: {
     200: {
@@ -57,13 +57,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timespan,
     Parameters.interval,
-    Parameters.metric,
+    Parameters.metricnames,
     Parameters.aggregation,
     Parameters.top,
     Parameters.orderby,
     Parameters.filter,
     Parameters.resultType,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.metricnamespace
   ],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],

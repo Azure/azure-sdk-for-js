@@ -16,6 +16,10 @@ export interface Response {
   timespan: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
   interval?: string;
+  /** The namespace of the metrics being queried */
+  namespace?: string;
+  /** The region of the resource being queried for metrics. */
+  resourceregion?: string;
   /** the value of the collection. */
   value: Metric[];
 }
@@ -34,8 +38,8 @@ export interface Metric {
   errorCode?: string;
   /** Error message encountered querying this specific metric. */
   errorMessage?: string;
-  /** the unit of the metric. */
-  unit: Unit;
+  /** The unit of the metric. */
+  unit: MetricUnit;
   /** the time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
 }
@@ -88,37 +92,60 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Known values of {@link ApiVersion20170501Preview} that the service accepts. */
-export enum KnownApiVersion20170501Preview {
-  /** Api Version '2017-05-01-preview' */
-  TwoThousandSeventeen0501Preview = "2017-05-01-preview"
+/** Known values of {@link ApiVersion201801} that the service accepts. */
+export enum KnownApiVersion201801 {
+  /** Api Version '2018-01-01' */
+  TwoThousandEighteen0101 = "2018-01-01"
 }
 
 /**
- * Defines values for ApiVersion20170501Preview. \
- * {@link KnownApiVersion20170501Preview} can be used interchangeably with ApiVersion20170501Preview,
+ * Defines values for ApiVersion201801. \
+ * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2017-05-01-preview**: Api Version '2017-05-01-preview'
+ * **2018-01-01**: Api Version '2018-01-01'
  */
-export type ApiVersion20170501Preview = string;
+export type ApiVersion201801 = string;
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export enum KnownMetricUnit {
+  Count = "Count",
+  Bytes = "Bytes",
+  Seconds = "Seconds",
+  CountPerSecond = "CountPerSecond",
+  BytesPerSecond = "BytesPerSecond",
+  Percent = "Percent",
+  MilliSeconds = "MilliSeconds",
+  ByteSeconds = "ByteSeconds",
+  Unspecified = "Unspecified",
+  Cores = "Cores",
+  MilliCores = "MilliCores",
+  NanoCores = "NanoCores",
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count** \
+ * **Bytes** \
+ * **Seconds** \
+ * **CountPerSecond** \
+ * **BytesPerSecond** \
+ * **Percent** \
+ * **MilliSeconds** \
+ * **ByteSeconds** \
+ * **Unspecified** \
+ * **Cores** \
+ * **MilliCores** \
+ * **NanoCores** \
+ * **BitsPerSecond**
+ */
+export type MetricUnit = string;
 /** Defines values for ResultType. */
 export type ResultType = "Data" | "Metadata";
-/** Defines values for Unit. */
-export type Unit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Percent"
-  | "MilliSeconds"
-  | "ByteSeconds"
-  | "Unspecified"
-  | "Cores"
-  | "MilliCores"
-  | "NanoCores"
-  | "BitsPerSecond";
 
 /** Optional parameters. */
 export interface MetricsListOptionalParams extends coreClient.OperationOptions {
@@ -126,8 +153,8 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
-  /** The name of the metric to retrieve. */
-  metric?: string;
+  /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
+  metricnames?: string;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregation?: string;
   /**
@@ -142,10 +169,12 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
    * Examples: sum asc.
    */
   orderby?: string;
-  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
   filter?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
   resultType?: ResultType;
+  /** Metric namespace to query metric definitions for. */
+  metricnamespace?: string;
 }
 
 /** Contains response data for the list operation. */

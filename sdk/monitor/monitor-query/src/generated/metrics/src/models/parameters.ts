@@ -68,10 +68,10 @@ export const interval: OperationQueryParameter = {
   }
 };
 
-export const metric: OperationQueryParameter = {
-  parameterPath: ["options", "metric"],
+export const metricnames: OperationQueryParameter = {
+  parameterPath: ["options", "metricnames"],
   mapper: {
-    serializedName: "metric",
+    serializedName: "metricnames",
     type: {
       name: "String"
     }
@@ -91,7 +91,7 @@ export const aggregation: OperationQueryParameter = {
 export const top: OperationQueryParameter = {
   parameterPath: ["options", "top"],
   mapper: {
-    serializedName: "$top",
+    serializedName: "top",
     type: {
       name: "Number"
     }
@@ -101,7 +101,7 @@ export const top: OperationQueryParameter = {
 export const orderby: OperationQueryParameter = {
   parameterPath: ["options", "orderby"],
   mapper: {
-    serializedName: "$orderby",
+    serializedName: "orderby",
     type: {
       name: "String"
     }
@@ -134,6 +134,16 @@ export const apiVersion: OperationQueryParameter = {
   mapper: {
     serializedName: "api-version",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const metricnamespace: OperationQueryParameter = {
+  parameterPath: ["options", "metricnamespace"],
+  mapper: {
+    serializedName: "metricnamespace",
     type: {
       name: "String"
     }

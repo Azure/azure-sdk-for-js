@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/2737ef83c687cd61721ece7af713921d0df2485a/specification/operationalinsights/data-plane/Microsoft.OperationalInsights/preview/2021-05-19_Preview/OperationalInsights.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/operationalinsights/data-plane/Microsoft.OperationalInsights/preview/2021-05-19_Preview/OperationalInsights.json
 output-folder: ../src/generated/logquery
 package-name: "monitor-log-query"
 clear-output-folder: true

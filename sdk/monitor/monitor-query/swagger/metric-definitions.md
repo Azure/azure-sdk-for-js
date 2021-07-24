@@ -5,7 +5,8 @@
 ## Configuration
 
 ```yaml
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/1202df7725a695d39cbc40475cab611f1d6aa5fd/specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/metricDefinitions_API.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/metricDefinitions_API.json
+service-name: MetricsDefinitions
 output-folder: ../src/generated/metricsdefinitions
 package-name: "monitor-metrics-definitions"
 clear-output-folder: true

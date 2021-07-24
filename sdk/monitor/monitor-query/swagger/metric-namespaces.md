@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/e134a5f2e59827fc73b21c12e397dead18548877/specification/monitor/resource-manager/Microsoft.Insights/preview/2017-12-01-preview/metricNamespaces_API.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/monitor/resource-manager/Microsoft.Insights/preview/2017-12-01-preview/metricNamespaces_API.json
 output-folder: ../src/generated/metricsnamespaces
 package-name: "monitor-metrics-namespaces"
 clear-output-folder: true
