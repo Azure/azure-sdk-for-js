@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 
-export const MetricDefinitionCollection: coreClient.CompositeMapper = {
+export const MetricDefinitionCollection: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricDefinitionCollection",
@@ -30,7 +30,7 @@ export const MetricDefinitionCollection: coreClient.CompositeMapper = {
   }
 };
 
-export const MetricDefinition: coreClient.CompositeMapper = {
+export const MetricDefinition: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricDefinition",
@@ -151,7 +151,7 @@ export const MetricDefinition: coreClient.CompositeMapper = {
   }
 };
 
-export const LocalizableString: coreClient.CompositeMapper = {
+export const LocalizableString: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LocalizableString",
@@ -173,7 +173,7 @@ export const LocalizableString: coreClient.CompositeMapper = {
   }
 };
 
-export const MetricAvailability: coreClient.CompositeMapper = {
+export const MetricAvailability: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricAvailability",
@@ -194,7 +194,7 @@ export const MetricAvailability: coreClient.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const ErrorResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",

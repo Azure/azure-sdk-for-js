@@ -7,7 +7,7 @@
  */
 
 import { Metrics } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorManagementClientContext } from "../monitorManagementClientContext";
@@ -34,16 +34,20 @@ export class MetricsImpl implements Metrics {
     resourceUri: string,
     options?: MetricsListOptionalParams
   ): Promise<MetricsListResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      resourceUri,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { resourceUri, options },
+      operationArguments,
       listOperationSpec
-    );
+    ) as Promise<MetricsListResponse>;
   }
 }
 // Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/metrics",
   httpMethod: "GET",
   responses: {

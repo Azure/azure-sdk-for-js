@@ -7,7 +7,7 @@
  */
 
 import { Query } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
@@ -47,10 +47,15 @@ export class QueryImpl implements Query {
     query: string,
     options?: QueryGetOptionalParams
   ): Promise<QueryGetResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      workspaceId,
+      query,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { workspaceId, query, options },
+      operationArguments,
       getOperationSpec
-    );
+    ) as Promise<QueryGetResponse>;
   }
 
   /**
@@ -68,10 +73,15 @@ export class QueryImpl implements Query {
     body: QueryBody,
     options?: QueryExecuteOptionalParams
   ): Promise<QueryExecuteResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      workspaceId,
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { workspaceId, body, options },
+      operationArguments,
       executeOperationSpec
-    );
+    ) as Promise<QueryExecuteResponse>;
   }
 
   /**
@@ -85,16 +95,20 @@ export class QueryImpl implements Query {
     body: BatchRequest,
     options?: QueryBatchOptionalParams
   ): Promise<QueryBatchResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { body, options },
+      operationArguments,
       batchOperationSpec
-    );
+    ) as Promise<QueryBatchResponse>;
   }
 }
 // Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   path: "/workspaces/{workspaceId}/query",
   httpMethod: "GET",
   responses: {
@@ -110,7 +124,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const executeOperationSpec: coreClient.OperationSpec = {
+const executeOperationSpec: coreHttp.OperationSpec = {
   path: "/workspaces/{workspaceId}/query",
   httpMethod: "POST",
   responses: {
@@ -131,7 +145,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const batchOperationSpec: coreClient.OperationSpec = {
+const batchOperationSpec: coreHttp.OperationSpec = {
   path: "/$batch",
   httpMethod: "POST",
   responses: {

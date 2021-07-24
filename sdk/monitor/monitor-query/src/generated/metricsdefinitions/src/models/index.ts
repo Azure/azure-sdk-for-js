@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 
 /** Represents collection of metric definitions. */
 export interface MetricDefinitionCollection {
@@ -153,17 +153,26 @@ export type AggregationType =
 
 /** Optional parameters. */
 export interface MetricDefinitionsListOptionalParams
-  extends coreClient.OperationOptions {
+  extends coreHttp.OperationOptions {
   /** Metric namespace to query metric definitions for. */
   metricnamespace?: string;
 }
 
 /** Contains response data for the list operation. */
-export type MetricDefinitionsListResponse = MetricDefinitionCollection;
+export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: MetricDefinitionCollection;
+  };
+};
 
 /** Optional parameters. */
 export interface MonitorManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

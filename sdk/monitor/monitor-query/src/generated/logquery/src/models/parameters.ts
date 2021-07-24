@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-client";
+} from "@azure/core-http";
 import {
   QueryBody as QueryBodyMapper,
   BatchRequest as BatchRequestMapper

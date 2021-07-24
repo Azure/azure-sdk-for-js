@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 
-export const QueryResults: coreClient.CompositeMapper = {
+export const QueryResults: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryResults",
@@ -51,7 +51,7 @@ export const QueryResults: coreClient.CompositeMapper = {
   }
 };
 
-export const Table: coreClient.CompositeMapper = {
+export const Table: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Table",
@@ -98,7 +98,7 @@ export const Table: coreClient.CompositeMapper = {
   }
 };
 
-export const Column: coreClient.CompositeMapper = {
+export const Column: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Column",
@@ -119,7 +119,7 @@ export const Column: coreClient.CompositeMapper = {
   }
 };
 
-export const ErrorInfo: coreClient.CompositeMapper = {
+export const ErrorInfo: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorInfo",
@@ -168,7 +168,7 @@ export const ErrorInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const ErrorDetail: coreClient.CompositeMapper = {
+export const ErrorDetail: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorDetail",
@@ -221,7 +221,7 @@ export const ErrorDetail: coreClient.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const ErrorResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",
@@ -237,7 +237,7 @@ export const ErrorResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const QueryBody: coreClient.CompositeMapper = {
+export const QueryBody: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryBody",
@@ -270,7 +270,7 @@ export const QueryBody: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataResults: coreClient.CompositeMapper = {
+export const MetadataResults: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataResults",
@@ -428,7 +428,7 @@ export const MetadataResults: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataCategory: coreClient.CompositeMapper = {
+export const MetadataCategory: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataCategory",
@@ -464,7 +464,7 @@ export const MetadataCategory: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataCategoryRelated: coreClient.CompositeMapper = {
+export const MetadataCategoryRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataCategoryRelated",
@@ -528,7 +528,7 @@ export const MetadataCategoryRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataResourceType: coreClient.CompositeMapper = {
+export const MetadataResourceType: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataResourceType",
@@ -595,7 +595,7 @@ export const MetadataResourceType: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataResourceTypeRelated: coreClient.CompositeMapper = {
+export const MetadataResourceTypeRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataResourceTypeRelated",
@@ -670,7 +670,7 @@ export const MetadataResourceTypeRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataSolution: coreClient.CompositeMapper = {
+export const MetadataSolution: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataSolution",
@@ -726,7 +726,7 @@ export const MetadataSolution: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataSolutionRelated: coreClient.CompositeMapper = {
+export const MetadataSolutionRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataSolutionRelated",
@@ -791,7 +791,7 @@ export const MetadataSolutionRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataTable: coreClient.CompositeMapper = {
+export const MetadataTable: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataTable",
@@ -870,7 +870,7 @@ export const MetadataTable: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataTableColumnsItem: coreClient.CompositeMapper = {
+export const MetadataTableColumnsItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataTableColumnsItem",
@@ -912,7 +912,7 @@ export const MetadataTableColumnsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataTableRelated: coreClient.CompositeMapper = {
+export const MetadataTableRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataTableRelated",
@@ -987,7 +987,7 @@ export const MetadataTableRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataFunction: coreClient.CompositeMapper = {
+export const MetadataFunction: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataFunction",
@@ -1056,7 +1056,7 @@ export const MetadataFunction: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataFunctionRelated: coreClient.CompositeMapper = {
+export const MetadataFunctionRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataFunctionRelated",
@@ -1120,7 +1120,7 @@ export const MetadataFunctionRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataQuery: coreClient.CompositeMapper = {
+export const MetadataQuery: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataQuery",
@@ -1187,7 +1187,7 @@ export const MetadataQuery: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataQueryRelated: coreClient.CompositeMapper = {
+export const MetadataQueryRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataQueryRelated",
@@ -1240,7 +1240,7 @@ export const MetadataQueryRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataApplication: coreClient.CompositeMapper = {
+export const MetadataApplication: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataApplication",
@@ -1284,7 +1284,7 @@ export const MetadataApplication: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataApplicationRelated: coreClient.CompositeMapper = {
+export const MetadataApplicationRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataApplicationRelated",
@@ -1315,7 +1315,7 @@ export const MetadataApplicationRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataWorkspace: coreClient.CompositeMapper = {
+export const MetadataWorkspace: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataWorkspace",
@@ -1359,7 +1359,7 @@ export const MetadataWorkspace: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataWorkspaceRelated: coreClient.CompositeMapper = {
+export const MetadataWorkspaceRelated: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataWorkspaceRelated",
@@ -1423,7 +1423,7 @@ export const MetadataWorkspaceRelated: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataPermissions: coreClient.CompositeMapper = {
+export const MetadataPermissions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissions",
@@ -1469,7 +1469,7 @@ export const MetadataPermissions: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataPermissionsWorkspacesItem: coreClient.CompositeMapper = {
+export const MetadataPermissionsWorkspacesItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissionsWorkspacesItem",
@@ -1496,7 +1496,7 @@ export const MetadataPermissionsWorkspacesItem: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataPermissionsResourcesItem: coreClient.CompositeMapper = {
+export const MetadataPermissionsResourcesItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissionsResourcesItem",
@@ -1523,7 +1523,7 @@ export const MetadataPermissionsResourcesItem: coreClient.CompositeMapper = {
   }
 };
 
-export const MetadataPermissionsApplicationsItem: coreClient.CompositeMapper = {
+export const MetadataPermissionsApplicationsItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissionsApplicationsItem",
@@ -1539,7 +1539,7 @@ export const MetadataPermissionsApplicationsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const BatchRequest: coreClient.CompositeMapper = {
+export const BatchRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchRequest",
@@ -1561,7 +1561,7 @@ export const BatchRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const BatchQueryRequest: coreClient.CompositeMapper = {
+export const BatchQueryRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchQueryRequest",
@@ -1614,7 +1614,7 @@ export const BatchQueryRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const BatchResponse: coreClient.CompositeMapper = {
+export const BatchResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchResponse",
@@ -1635,7 +1635,7 @@ export const BatchResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const BatchQueryResponse: coreClient.CompositeMapper = {
+export const BatchQueryResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchQueryResponse",
@@ -1670,7 +1670,7 @@ export const BatchQueryResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const BatchQueryResults: coreClient.CompositeMapper = {
+export const BatchQueryResults: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchQueryResults",

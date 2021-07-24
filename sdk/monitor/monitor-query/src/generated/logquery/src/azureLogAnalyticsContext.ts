@@ -6,11 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 import { AzureLogAnalyticsOptionalParams } from "./models";
 
+const packageName = "monitor-log-query";
+const packageVersion = "1.0.0-beta.1";
+
 /** @internal */
-export class AzureLogAnalyticsContext extends coreClient.ServiceClient {
+export class AzureLogAnalyticsContext extends coreHttp.ServiceClient {
   $host: string;
 
   /**
@@ -22,25 +25,21 @@ export class AzureLogAnalyticsContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureLogAnalyticsOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
-    };
 
-    const packageDetails = `azsdk-js-monitor-log-query/1.0.0-beta.1`;
-    const userAgentPrefix =
-      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
-        : `${packageDetails}`;
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      "@azure/",
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    const optionsWithDefaults = {
-      ...defaults,
+    super(undefined, {
       ...options,
-      userAgentOptions: {
-        userAgentPrefix
-      },
-      baseUri: options.endpoint || "https://api.loganalytics.io/v1"
-    };
-    super(optionsWithDefaults);
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
+
+    this.requestContentType = "application/json; charset=utf-8";
+    this.baseUri = options.endpoint || "https://api.loganalytics.io/v1";
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://api.loganalytics.io/v1";

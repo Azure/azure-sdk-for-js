@@ -43,7 +43,7 @@ export const Durations: {
 
 // @public
 export interface ErrorDetail {
-    additionalProperties?: any;
+    additionalProperties?: Record<string, unknown>;
     code: string;
     message: string;
     resources?: string[];
@@ -53,7 +53,7 @@ export interface ErrorDetail {
 
 // @public
 export interface ErrorInfo {
-    additionalProperties?: any;
+    additionalProperties?: Record<string, unknown>;
     code: string;
     details?: ErrorDetail[];
     innererror?: ErrorInfo;

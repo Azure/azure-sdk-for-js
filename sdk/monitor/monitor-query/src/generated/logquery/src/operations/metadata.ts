@@ -7,7 +7,7 @@
  */
 
 import { Metadata } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
@@ -41,10 +41,14 @@ export class MetadataImpl implements Metadata {
     workspaceId: string,
     options?: MetadataGetOptionalParams
   ): Promise<MetadataGetResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      workspaceId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { workspaceId, options },
+      operationArguments,
       getOperationSpec
-    );
+    ) as Promise<MetadataGetResponse>;
   }
 
   /**
@@ -58,16 +62,20 @@ export class MetadataImpl implements Metadata {
     workspaceId: string,
     options?: MetadataPostOptionalParams
   ): Promise<MetadataPostResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      workspaceId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { workspaceId, options },
+      operationArguments,
       postOperationSpec
-    );
+    ) as Promise<MetadataPostResponse>;
   }
 }
 // Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   path: "/workspaces/{workspaceId}/metadata",
   httpMethod: "GET",
   responses: {
@@ -82,7 +90,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const postOperationSpec: coreClient.OperationSpec = {
+const postOperationSpec: coreHttp.OperationSpec = {
   path: "/workspaces/{workspaceId}/metadata",
   httpMethod: "POST",
   responses: {
