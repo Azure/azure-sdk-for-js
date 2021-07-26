@@ -265,6 +265,9 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(searchResults.count, 6);
   });
 
+  // Currently semantic search is available only with
+  // certain subscriptions and could not be tested in CI.
+  // So, skipping this test for now.
   it.skip("search with semantic ranking", async function() {
     const searchResults = await searchClient.search("luxury", {
       skip: 0,
