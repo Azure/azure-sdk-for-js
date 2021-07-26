@@ -28,7 +28,7 @@ import { bytesToString, stringToBytes } from "./utils/utf8";
 import { _attestationResultFromGenerated } from "./models/attestationResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
 import { AttestationTokenImpl } from "./models/attestationToken";
-
+import { Uint8ArrayFromInput } from "./utils/buffer";
 /**
  * Attestation Client Construction Options.
  */
@@ -208,7 +208,7 @@ export class AttestationClient {
    * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestOpenEnclave(
-    report: Uint8Array,
+    report: Uint8Array | Buffer | Blob,
     options: AttestOpenEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestOpenEnclave", options);
@@ -242,7 +242,7 @@ export class AttestationClient {
 
       const attestationResponse = await this._client.attestation.attestOpenEnclave(
         {
-          report: report,
+          report: Uint8ArrayFromInput(report),
           initTimeData: initTimeData,
           runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
@@ -288,11 +288,9 @@ export class AttestationClient {
    *    the claims returned by the attestation service.
    * @throws {@link Error} if the `initTimeData` option and `initTimeJson` option is provided.
    * @throws {@link Error} if the `runTimeData` option and `runTimeJson` option is provided.
-   * @throws {@link Error} if the `initTimeJson` option is provided and the value of `initTimeJson` is not JSON.
-   * @throws {@link Error} if the `runTimeJson` option is provided and the value of `runTimeJson` is not JSON.
    */
   public async attestSgxEnclave(
-    quote: Uint8Array,
+    quote: Uint8Array | Buffer | Blob,
     options: AttestSgxEnclaveOptions = {}
   ): Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
@@ -324,7 +322,7 @@ export class AttestationClient {
 
       const attestationResponse = await this._client.attestation.attestSgxEnclave(
         {
-          quote: quote,
+          quote: Uint8ArrayFromInput(quote),
           initTimeData: initTimeData,
           runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
