@@ -267,11 +267,11 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.blobCacheControl,
     Parameters.blobContentType,
@@ -279,9 +279,12 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.tier,
     Parameters.blobTagsString,
+    Parameters.legalHold1,
     Parameters.blobType,
     Parameters.blobContentLength,
     Parameters.blobSequenceNumber
@@ -302,7 +305,7 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp17],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -311,17 +314,17 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.range,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.encryptionScope,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
-    Parameters.contentType2,
+    Parameters.contentType1,
     Parameters.accept2,
     Parameters.pageWrite,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
@@ -343,7 +346,7 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobClearPagesExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp17],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -353,12 +356,12 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.range,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.encryptionScope,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
@@ -381,7 +384,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobUploadPagesFromURLExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp17],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -391,18 +394,19 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
+    Parameters.encryptionScope,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
     Parameters.sourceIfMatch,
     Parameters.sourceIfNoneMatch,
-    Parameters.encryptionKey,
-    Parameters.encryptionKeySha256,
-    Parameters.encryptionAlgorithm,
-    Parameters.ifTags,
-    Parameters.encryptionScope,
     Parameters.sourceContentMD5,
+    Parameters.copySourceAuthorization,
     Parameters.pageWrite,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
@@ -431,7 +435,7 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp18
+    Parameters.comp20
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -441,9 +445,9 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
+    Parameters.range,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.range,
     Parameters.ifTags
   ],
   isXML: true,
@@ -465,7 +469,7 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp18,
+    Parameters.comp20,
     Parameters.prevsnapshot
   ],
   urlParameters: [Parameters.url],
@@ -476,9 +480,9 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
+    Parameters.range,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.range,
     Parameters.ifTags,
     Parameters.prevSnapshotUrl
   ],
@@ -506,11 +510,11 @@ const resizeOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.encryptionScope,
     Parameters.blobContentLength
@@ -560,7 +564,7 @@ const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobCopyIncrementalExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp21],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,

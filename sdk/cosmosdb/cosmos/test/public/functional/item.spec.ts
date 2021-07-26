@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container } from "../../../src";
+import { Container, CosmosClient } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -18,6 +18,7 @@ import {
   getTestContainer
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
+import { endpoint, masterKey } from "../common/_testConfig";
 
 interface TestItem {
   id?: string;
@@ -520,6 +521,28 @@ describe("bulk item operations", function() {
 
       const deleteResponse = await container.items.bulk([operation]);
       assert.equal(deleteResponse[0].statusCode, 204);
+    });
+  });
+
+  // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
+  describe("item read retries", async function() {
+    it("retries on 429", async function() {
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const { resource: db } = await client.databases.create({
+        id: `small db ${Math.random() * 1000}`
+      });
+      const containerResponse = await client
+        .database(db.id)
+        .containers.create({ id: `small container ${Math.random() * 1000}`, throughput: 400 });
+      const container = containerResponse.container;
+      await container.items.create({ id: "readme" });
+      const arr = new Array(400);
+      const promises = [];
+      for (let i = 0; i < arr.length; i++) {
+        promises.push(container.item("readme").read());
+      }
+      const resp = await Promise.all(promises);
+      assert.equal(resp[0].statusCode, 200);
     });
   });
 });

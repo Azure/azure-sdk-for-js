@@ -65,46 +65,6 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"NotStarted\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "429",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 13:59:22 GMT",
-    "ms-cv": "nuj7LuwRoUOIrlYEzkYwSQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979116029500129",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"NotStarted\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "429",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 13:59:22 GMT",
-    "ms-cv": "Sw0fbqprbkOcbfrilQ4C4g.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979116029500129",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
    "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"Running\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
@@ -113,86 +73,6 @@
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 30 Apr 2021 13:59:32 GMT",
     "ms-cv": "UlsRwsueUE2O5jKPAUVdXQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979116029500129",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"Running\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "426",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 13:59:42 GMT",
-    "ms-cv": "/5ZZA2Jw+0K3lTHdyllDfQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979116029500129",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"Running\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "426",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 13:59:53 GMT",
-    "ms-cv": "VBBeMJ86i0KCD17V07LtFQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979116029500129",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"Running\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "426",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:00:03 GMT",
-    "ms-cv": "Ume7qfVkY0SB/gpvQSku7g.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979116029500129",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"conversionId161979116029500129\",\"creationTime\":\"2021-04-30T13:59:22.0599934Z\",\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input/\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output/\",\"outputAssetFilename\":\"testBox.arrAsset\"}},\"error\":null,\"status\":\"Running\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "426",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:00:13 GMT",
-    "ms-cv": "w3nAW/S4DUS9DH8dSzTe5Q.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }

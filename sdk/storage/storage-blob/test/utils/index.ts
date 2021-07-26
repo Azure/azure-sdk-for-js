@@ -129,6 +129,17 @@ export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
+export function getImmutableContainerName(): string {
+  const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
+  const immutableContainerName = process.env[immutableContainerEnvVar];
+
+  if (!immutableContainerName) {
+    throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
+  }
+
+  return immutableContainerName;
+}
+
 export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
   const connectionString = process.env[connectionStringEnvVar];
@@ -262,12 +273,12 @@ export function getSASConnectionStringFromEnvironment(): string {
     {
       expiresOn: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-      permissions: AccountSASPermissions.parse("rwdlacup"),
+      permissions: AccountSASPermissions.parse("rwdlacupi"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
       startsOn: now,
-      version: "2016-05-31"
+      version: "2020-08-04"
     },
     sharedKeyCredential as StorageSharedKeyCredential
   ).toString();

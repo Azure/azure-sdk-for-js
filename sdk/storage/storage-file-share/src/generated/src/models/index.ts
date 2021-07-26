@@ -7,14 +7,13 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-
 /**
  * Defines values for FileType.
  * Possible values include: 'File'
  * @readonly
  * @enum {string}
  */
- export type FileType = "File";
+export type FileType = "File";
 
 /** Storage service properties. */
 export interface FileServiceProperties {
@@ -173,6 +172,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   /** Abstract for entries that can be listed from Directory. */
   segment: FilesAndDirectoriesListSegment;
   continuationToken: string;
+  directoryId?: string;
 }
 
 /** Abstract for entries that can be listed from Directory. */
@@ -184,19 +184,33 @@ export interface FilesAndDirectoriesListSegment {
 /** A listed directory item. */
 export interface DirectoryItem {
   name: string;
-}
-
-/** A listed file item. */
-export interface FileItem {
-  name: string;
+  fileId?: string;
   /** File properties. */
-  properties: FileProperty;
+  properties?: FileProperty;
+  attributes?: string;
+  permissionKey?: string;
 }
 
 /** File properties. */
 export interface FileProperty {
   /** Content length of the file. This value may not be up-to-date since an SMB client may have modified the file locally. The value of Content-Length may not reflect that fact until the handle is closed or the op-lock is broken. To retrieve current property values, call Get File Properties. */
   contentLength: number;
+  creationTime?: Date;
+  lastAccessTime?: Date;
+  lastWriteTime?: Date;
+  changeTime?: Date;
+  lastModified?: Date;
+  etag?: string;
+}
+
+/** A listed file item. */
+export interface FileItem {
+  name: string;
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  attributes?: string;
+  permissionKey?: string;
 }
 
 /** An enumeration of handles. */
@@ -344,7 +358,7 @@ export interface ShareGetPropertiesHeaders {
   accessTier?: string;
   /** Returns the last modified time (in UTC) of the access tier of the share. */
   accessTierChangeTime?: Date;
-  /** Returns the transition state betweeen access tiers, when present. */
+  /** Returns the transition state between access tiers, when present. */
   accessTierTransitionState?: string;
   /** The protocols that have been enabled on the share. */
   enabledProtocols?: string;
@@ -1605,6 +1619,12 @@ export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 /** Defines values for DeleteSnapshotsOptionType. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
+/** Defines values for ListFilesIncludeType. */
+export type ListFilesIncludeType =
+  | "Timestamps"
+  | "Etag"
+  | "Attributes"
+  | "PermissionKey";
 /** Defines values for CopyStatusType. */
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 /** Defines values for FileRangeWriteType. */
@@ -2030,9 +2050,9 @@ export interface ShareRestoreOptionalParams extends coreHttp.OperationOptions {
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** Specifies the name of the preivously-deleted share. */
+  /** Specifies the name of the previously-deleted share. */
   deletedShareName?: string;
-  /** Specifies the version of the preivously-deleted share. */
+  /** Specifies the version of the previously-deleted share. */
   deletedShareVersion?: string;
 }
 
@@ -2152,6 +2172,10 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Include this parameter to specify one or more datasets to include in the response. */
+  include?: ListFilesIncludeType[];
+  /** Include extended information. */
+  includeExtendedInfo?: boolean;
 }
 
 /** Contains response data for the listFilesAndDirectoriesSegment operation. */
@@ -2480,6 +2504,8 @@ export interface FileUploadRangeFromURLOptionalParams
   sourceRange?: string;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   sourceContentCrc64?: Uint8Array;
+  /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+  copySourceAuthorization?: string;
 }
 
 /** Contains response data for the uploadRangeFromURL operation. */
