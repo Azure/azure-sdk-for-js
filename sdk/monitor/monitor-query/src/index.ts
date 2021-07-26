@@ -45,8 +45,7 @@ export {
   Column as MetricColumn,
   // TODO: LogsColumnType might actually be a better name!
   LogsColumnType as ColumnDataType,
-  KnownMetadataColumnDataType,
-  KnownLogsColumnType,
+  MetadataColumnDataType,
   ErrorDetail,
   ErrorInfo
 } from "./generated/logquery/src";
