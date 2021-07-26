@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.0-beta.2 (UNRELEASED)
+## 1.0.0-beta.3 (UNRELEASED)
+
+- Add support to get and set connection state
+
+## 1.0.0-beta.2 (2021-07-20)
 
 - Removed unnecessary dependencies.
 
