@@ -491,7 +491,7 @@ export interface TemporaryDisk {
    */
   sizeInGB?: number;
   /**
-   * Mount path of the temporary disk
+   * Mount path of the temporary disk. Default value: '/tmp'.
    */
   mountPath?: string;
 }
@@ -543,7 +543,7 @@ export interface AppResourceProperties {
    */
   fqdn?: string;
   /**
-   * Indicate if only https is allowed.
+   * Indicate if only https is allowed. Default value: false.
    */
   httpsOnly?: boolean;
   /**
@@ -560,7 +560,7 @@ export interface AppResourceProperties {
    */
   persistentDisk?: PersistentDisk;
   /**
-   * Indicate if end to end TLS is enabled.
+   * Indicate if end to end TLS is enabled. Default value: false.
    */
   enableEndToEndTLS?: boolean;
 }
@@ -920,7 +920,8 @@ export interface DeploymentSettings {
    */
   environmentVariables?: { [propertyName: string]: string };
   /**
-   * Runtime version. Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
+   * Runtime version. Possible values include: 'Java_8', 'Java_11', 'NetCore_31'. Default value:
+   * 'Java_8'.
    */
   runtimeVersion?: RuntimeVersion;
 }
