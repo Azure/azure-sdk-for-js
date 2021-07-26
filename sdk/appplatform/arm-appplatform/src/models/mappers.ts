@@ -823,6 +823,7 @@ export const TemporaryDisk: msRest.CompositeMapper = {
       },
       mountPath: {
         serializedName: "mountPath",
+        defaultValue: '/tmp',
         type: {
           name: "String"
         }
@@ -908,6 +909,7 @@ export const AppResourceProperties: msRest.CompositeMapper = {
       },
       httpsOnly: {
         serializedName: "httpsOnly",
+        defaultValue: false,
         type: {
           name: "Boolean"
         }
@@ -935,6 +937,7 @@ export const AppResourceProperties: msRest.CompositeMapper = {
       },
       enableEndToEndTLS: {
         serializedName: "enableEndToEndTLS",
+        defaultValue: false,
         type: {
           name: "Boolean"
         }
@@ -1510,6 +1513,7 @@ export const DeploymentSettings: msRest.CompositeMapper = {
       },
       runtimeVersion: {
         serializedName: "runtimeVersion",
+        defaultValue: 'Java_8',
         type: {
           name: "String"
         }
