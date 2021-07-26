@@ -174,4 +174,37 @@ describe("Can handle user event", function() {
       "should be json"
     );
   });
+
+  it("Should be able to set connection state", async function() {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
+      handleUserEvent: async (_, res) => {
+        res.setState("key1", "val1");
+        res.setState("key2", "val2");
+        res.setState("key1", "val3");
+        res.setState("key3", "");
+        res.success();
+      }
+    });
+    var process = dispatcher.processRequest(req, res);
+    mockBody(req, JSON.stringify({}));
+    var result = await process;
+    assert.isTrue(result, "should handle");
+    assert.isTrue(endSpy.calledOnce, "should call once");
+    assert.equal(200, res.statusCode, "should be success");
+
+    assert.equal(
+      Buffer.from(
+        JSON.stringify({
+          key1: "val3",
+          key2: "val2",
+          key3: ""
+        })
+      ).toString("base64"),
+      res.getHeader("ce-connectionState"),
+      "should contain multiple state headers"
+    );
+  });
 });
