@@ -265,7 +265,7 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(searchResults.count, 6);
   });
 
-  it("search with semantic ranking", async function() {
+  it.skip("search with semantic ranking", async function() {
     const searchResults = await searchClient.search("luxury", {
       skip: 0,
       top: 5,
