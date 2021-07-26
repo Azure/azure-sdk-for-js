@@ -4,7 +4,7 @@
 import assert from "assert";
 import { deepFind } from "../../../../src/utils/batch";
 
-describe.only("batch utils", function() {
+describe("batch utils", function() {
   it("deep finds nested partition key values in objects", function() {
     const testTwiceNested = {
       nested: {
