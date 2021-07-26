@@ -69,22 +69,22 @@ export interface AttestOpenEnclaveOptions extends AttestationClientOperationOpti
    *initTimeData : data provided at the time the enclave was initialized, to be interpreted as binary data.
    *
    */
-  initTimeData?: Uint8Array;
+  initTimeData?: Uint8Array | Buffer | Blob;
 
   /**
    * inittimeJson : data provided at the time the enclave was initialized, to be interpreted as JSON data.
    */
-  initTimeJson?: Uint8Array;
+  initTimeJson?: Uint8Array | Buffer | Blob;
 
   /**
    * runTimeData  - data provided at the time the OpenEnclave report being attested was created to be interpreted as binary data.
    */
-  runTimeData?: Uint8Array;
+  runTimeData?: Uint8Array | Buffer | Blob;
 
   /**
    * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
    */
-  runTimeJson?: Uint8Array;
+  runTimeJson?: Uint8Array | Buffer | Blob;
 
   /**
    * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
@@ -104,22 +104,22 @@ export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptio
    *initTimeData : data provided at the time the enclave was initialized, to be interpreted as binary data.
    *
    */
-  initTimeData?: Uint8Array;
+  initTimeData?: Uint8Array | Buffer | Blob;
 
   /**
    * inittimeJson : data provided at the time the enclave was initialized, to be interpreted as JSON data.
    */
-  initTimeJson?: Uint8Array;
+  initTimeJson?: Uint8Array | Buffer | Blob;
 
   /**
    * runTimeData  - data provided at the time the OpenEnclave report being attested was created to be interpreted as binary data.
    */
-  runTimeData?: Uint8Array;
+  runTimeData?: Uint8Array | Buffer | Blob;
 
   /**
    * runTimeJson  - data provided at the time the OpenEnclave report being attested was created to be interpreted as JSON data.
    */
-  runTimeJson?: Uint8Array;
+  runTimeJson?: Uint8Array | Buffer | Blob;
 
   /**
    * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
@@ -222,7 +222,7 @@ export class AttestationClient {
         throw new Error("Cannot provide both runTimeData and runTimeJson.");
       }
 
-      const initData = options.initTimeData ?? options.initTimeJson;
+      const initData = await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
@@ -231,7 +231,7 @@ export class AttestationClient {
           }
         : undefined;
 
-      const runData = options.runTimeData ?? options.runTimeJson;
+      const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
 
       const runTimeData: RuntimeData | undefined = runData
         ? {
@@ -242,7 +242,7 @@ export class AttestationClient {
 
       const attestationResponse = await this._client.attestation.attestOpenEnclave(
         {
-          report: Uint8ArrayFromInput(report),
+          report: await Uint8ArrayFromInput(report),
           initTimeData: initTimeData,
           runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
@@ -303,7 +303,7 @@ export class AttestationClient {
         throw new Error("Cannot provide both runTimeData and runTimeJson.");
       }
 
-      const initData = options.initTimeData ?? options.initTimeJson;
+      const initData =await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
@@ -312,7 +312,7 @@ export class AttestationClient {
           }
         : undefined;
 
-      const runData = options.runTimeData ?? options.runTimeJson;
+      const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
       const runTimeData: RuntimeData | undefined = runData
         ? {
             data: runData,
@@ -322,7 +322,7 @@ export class AttestationClient {
 
       const attestationResponse = await this._client.attestation.attestSgxEnclave(
         {
-          quote: Uint8ArrayFromInput(quote),
+          quote: await Uint8ArrayFromInput(quote),
           initTimeData: initTimeData,
           runtimeData: runTimeData,
           draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined

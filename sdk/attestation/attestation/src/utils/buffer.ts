@@ -7,7 +7,10 @@
  * @param input - Input to attestation API.
  * @returns Promise which completes with the input data as a Uint8Array.
  */
-export function Uint8ArrayFromInput(input : Uint8Array | Buffer | Blob) : Uint8Array {
+export async function Uint8ArrayFromInput(input : Uint8Array | Buffer | Blob | undefined) : Promise<Uint8Array | undefined> {
+    if (input === undefined) {
+        return input;
+    }
 
     if ((input as any).byteLength === undefined) {
         throw TypeError("Blob is unsupported in node.");

@@ -142,19 +142,19 @@ export type AttestationType = string;
 // @public
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array;
-    initTimeJson?: Uint8Array;
-    runTimeData?: Uint8Array;
-    runTimeJson?: Uint8Array;
+    initTimeData?: Uint8Array | Buffer | Blob;
+    initTimeJson?: Uint8Array | Buffer | Blob;
+    runTimeData?: Uint8Array | Buffer | Blob;
+    runTimeJson?: Uint8Array | Buffer | Blob;
 }
 
 // @public
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array;
-    initTimeJson?: Uint8Array;
-    runTimeData?: Uint8Array;
-    runTimeJson?: Uint8Array;
+    initTimeData?: Uint8Array | Buffer | Blob;
+    initTimeJson?: Uint8Array | Buffer | Blob;
+    runTimeData?: Uint8Array | Buffer | Blob;
+    runTimeJson?: Uint8Array | Buffer | Blob;
 }
 
 // @public
