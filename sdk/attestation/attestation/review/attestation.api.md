@@ -10,13 +10,19 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AttestationAdministrationClient {
-    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
+    constructor(endpoint: string, credentials: TokenCredential, options?: AttestationAdministrationClientOptions);
     addPolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
     getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
     removePolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
-    resetPolicy(attestationType: AttestationType, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
-    setPolicy(attestationType: AttestationType, newPolicyDocument: string, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    resetPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions & {
+        privateKey?: string;
+        certificate?: string;
+    }): Promise<AttestationResponse<PolicyResult>>;
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, options?: AttestationAdministrationClientOperationOptions & {
+        privateKey?: string;
+        certificate?: string;
+    }): Promise<AttestationResponse<PolicyResult>>;
     }
 
 // @public
@@ -31,7 +37,7 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
 
 // @public
 export class AttestationClient {
-    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
+    constructor(endpoint: string, options?: AttestationClientOptions);
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
@@ -46,6 +52,7 @@ export interface AttestationClientOperationOptions extends OperationOptions {
 
 // @public
 export interface AttestationClientOptions extends CommonClientOptions {
+    credentials?: TokenCredential;
     validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -107,6 +114,7 @@ export interface AttestationToken {
     critical?: boolean;
     expiresOn?: Date;
     getBody(): unknown;
+    getTokenProblems(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): string[];
     issuedAt?: Date;
     issuer?: string;
     keyId?: string;
@@ -114,19 +122,18 @@ export interface AttestationToken {
     notBefore?: Date;
     serialize(): string;
     type?: string;
-    validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
     x509Url?: string;
 }
 
 // @public
 export interface AttestationTokenValidationOptions {
     expectedIssuer?: string;
+    getProblemsCallback?: (token: AttestationToken, signer?: AttestationSigner) => string[] | undefined;
     timeValidationSlack?: number;
     validateExpirationTime?: boolean;
     validateIssuer?: boolean;
     validateNotBeforeTime?: boolean;
     validateToken?: boolean;
-    validationCallback?: (token: AttestationToken, signer?: AttestationSigner) => void;
 }
 
 // @public
