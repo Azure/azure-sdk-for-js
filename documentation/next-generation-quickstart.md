@@ -126,53 +126,36 @@ Let's show our what final code looks like
 Example: Creating a Resource Group
 ---------------------------------
 
-***Import the packages***
+***Import the packages***  
+Typescript
 ```typescript
 import * as resources from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+```
+Javascript
+```javascript
+const resources = require("@azure/arm-resources");
+const identity = require("@azure/identity");
 ```
 
-***Define some global variables***
+***Define some global variables***  
+Typescript
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const credential = new DefaultAzureCredential();
 const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
 ```
-
-***Create a resource group***
-```typescript
-function createResourceGroup(resourceGroupName: string) {
-    const parameter: resources.ResourceGroup = {
-        location: "eastus",
-        tags: {
-            tag1: "value1"
-        }
-    };
-    await resourcesClient.resourceGroups.createOrUpdate(resourceGroupName, parameter).then(
-        result => {
-            console.log(result);
-        }
-    )
-}
-```
-
-Example: Managing Resource Groups with JS/TS SDK
----------------------------------
-
-***Import the packages***
-```typescript
-import * as resources from "@azure/arm-resources";
-```
-
-***Authentication and Setup***
-```typescript
+Javascript
+```javascript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
-const credential = new DefaultAzureCredential();
+const credential = new identity.DefaultAzureCredential();
 const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
 ```
 
-***Update a resource group***
+***Create a resource group***  
+Typescript
 ```typescript
-function updateResourceGroup(resourceGroupName: string) {
+async function updateResourceGroup(resourceGroupName: string) {
     const parameter:resources.ResourceGroupPatchable = {
         tags: {
             tag1: "value1",
@@ -186,10 +169,92 @@ function updateResourceGroup(resourceGroupName: string) {
     )
 }
 ```
+Javascript
+```javascript
+async function createResourceGroup(resourceGroupName) {
+    const parameter = {
+        location: "eastus",
+        tags: {
+            tag1: "value1"
+        }
+    };
+    const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+    await resourcesClient.resourceGroups.createOrUpdate(resourceGroupName, parameter).then(
+        result => {
+            console.log(result);
+        }
+    )
+}
+```
 
-***List all resource groups***
+Example: Managing Resource Groups with JS/TS SDK
+---------------------------------
+
+***Import the packages***  
+Typescript
 ```typescript
-function listResourceGroup() {
+import * as resources from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+```
+Javascript
+```javascript
+const resources = require("@azure/arm-resources");
+const identity = require("@azure/identity");
+```
+
+***Authentication and Setup***  
+Typescript
+```typescript
+const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
+const credential = new DefaultAzureCredential();
+const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+```
+Javascript
+```javascript
+const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
+const credential = new identity.DefaultAzureCredential();
+const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+```
+
+***Update a resource group***  
+Typescript
+```typescript
+async function updateResourceGroup(resourceGroupName: string) {
+    const parameter:resources.ResourceGroupPatchable = {
+        tags: {
+            tag1: "value1",
+            tag2: "value2"
+        }
+    };
+    await resourcesClient.resourceGroups.update(resourceGroupName, parameter).then(
+        result => {
+            console.log(result);
+        }
+    )
+}
+```
+Javascript
+```javascript
+async function updateResourceGroup(resourceGroupName) {
+    const parameter = {
+        location: "eastus",
+        tags: {
+            tag1: "value1"
+        }
+    };
+    const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+    await resourcesClient.resourceGroups.update(resourceGroupName, parameter).then(
+        result => {
+            console.log(result);
+        }
+    )
+}
+```
+
+***List all resource groups***  
+Typescript or Javascript
+```typescript
+async function listResourceGroup() {
     const result_list = new Array();
     for await (let item of resourceClient.resourceGroups.list()){
         result_list.push(item);
@@ -198,17 +263,36 @@ function listResourceGroup() {
 }
 ```
 
-***Get a Resource Group***
+***Get a Resource Group***  
+Typescript
 ```typescript
-function getResourceGroup(resourceGroupName: string) {
+async function getResourceGroup(resourceGroupName: string) {
+    const get_result = await resourceClient.resourceGroups.get(resourceGroupName);
+    console.log(get_result);
+}
+```
+Javascript
+```javascript
+async function getResourceGroup(resourceGroupName) {
     const get_result = await resourceClient.resourceGroups.get(resourceGroupName);
     console.log(get_result);
 }
 ```
 
-***Delete a resource group***
+***Delete a resource group***  
+Typescript
 ```typescript
-function deleteResourceGroup(resourceGroupName: string) {
+async function deleteResourceGroup(resourceGroupName: string) {
+    await resourcesClient.resourceGroups.delete(resourceGroupName).then(
+        result => {
+            console.log(result);
+        }
+    )
+}
+```
+Javascript
+```javascript
+async function deleteResourceGroup(resourceGroupName) {
     await resourcesClient.resourceGroups.delete(resourceGroupName).then(
         result => {
             console.log(result);
@@ -217,17 +301,18 @@ function deleteResourceGroup(resourceGroupName: string) {
 }
 ```
 
-***Manage Resource Group***
+***Manage Resource Group***  
+Typescript or Javascript
 ```typescript
-function main() {
+async function main() {
     const resourceGroupName = "jstest";
-    createResourceGroup(resourceGroupName);
-    listResourceGroup();
-    getResourceGroup(resourceGroupName);
-    updateResourceGroup(resourceGroup);
-    getResourceGroup(resourceGroupName);
-    deleteResourceGroup(resourceGroupName);
-    listResourceGroup();
+    await createResourceGroup(resourceGroupName);
+    await listResourceGroup();
+    await getResourceGroup(resourceGroupName);
+    await updateResourceGroup(resourceGroup);
+    await getResourceGroup(resourceGroupName);
+    await deleteResourceGroup(resourceGroupName);
+    await listResourceGroup();
 }
 ```
 
@@ -236,15 +321,24 @@ Example: Managing Virtual Machines
 ---------------------------------
 In addition to resource groups, we will also use Virtual Machine as an example and show how to manage how to create a Virtual Machine which involves three Azure services (Resource Group, Network and Compute)
 
-***Import the packages***
+***Import the packages***  
+Typescript
 ```typescript
 import * as compute from "@azure/arm-compute";
 import * as network from "@azure/arm-network";
 import * as resources from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 ```
+Javascript
+```javascript
+const identity = require("@azure/identity");
+const resources = require("@azure/arm-resources");
+const compute = require("@azure/arm-compute");
+const network = require("@azure/arm-network");
+```
 
-***Define the global variables***
+***Define the global variables***  
+Typescript or Javascript
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const resourceGroupName = "testRG";
@@ -255,17 +349,26 @@ const networkName = "networknamex";
 const location = "eastus";
 ```
 
-***Authentication and Setup***
+***Authentication and Setup***  
+Typescript
 ```typescript
 const credential = new DefaultAzureCredential();
 const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
 const networkClient = new network.NetworkManagementClient(credential, subscriptionId);
 const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
 ```
+Javascript
+```javascript
+const credential = new identity.DefaultAzureCredential();
+const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
+const networkClient = new network.NetworkManagementClient(credential, subscriptionId);
+const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+```
 
-***Creating a Resource Group***
+***Creating a Resource Group***  
+Typescript
 ```typescript
-function createResourceGroup() {
+async function createResourceGroup() {
     const parameter: resources.ResourceGroup = {
         location: "eastus",
         tags: {
@@ -279,10 +382,27 @@ function createResourceGroup() {
     )
 }
 ```
+Javascript
+```javascript
+async function createResourceGroup() {
+    const parameter = {
+        location: "eastus",
+        tags: {
+            tag1: "value1"
+        }
+    };
+    await resourcesClient.resourceGroups.createOrUpdate(resourceGroupName, parameter).then(
+        result => {
+            console.log(result);
+        }
+    )
+}
+```
 
-***Creating a Virtual Network***
+***Creating a Virtual Network***  
+Typescript
 ```typescript
-function createVirtualNetwork() {
+async function createVirtualNetwork() {
     const parameter: network.VirtualNetwork = {
         location: location,
         addressSpace: {
@@ -293,10 +413,24 @@ function createVirtualNetwork() {
     console.log(virtualNetworks_create_info);
 }
 ```
+Javascript
+```javascript
+async function createVirtualNetwork() {
+    const parameter = {
+        location: location,
+        addressSpace: {
+            addressPrefixes: ['10.0.0.0/16']
+        }
+    };
+    const virtualNetworks_create_info = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    console.log(virtualNetworks_create_info);
+}
+```
 
-***Creating a Subnet***
+***Creating a Subnet***  
+Typescript
 ```typescript
-function createSubnet() {
+async function createSubnet() {
     const subnet_parameter: network.Subnet = {
         addressPrefix: "10.0.0.0/24"
     };
@@ -304,10 +438,21 @@ function createSubnet() {
     console.log(subnet_create_info)
 }
 ```
+Javascript
+```javascript
+async function createSubnet() {
+    const subnet_parameter = {
+        addressPrefix: "10.0.0.0/24"
+    };
+    const subnet_create_info = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    console.log(subnet_create_info)
+}
+```
 
-***Creating a Network Interface***
+***Creating a Network Interface***  
+Typescript
 ```typescript
-function createNetworkInterface(group_name: any, location: any, nic_name: any) {
+async function createNetworkInterface(group_name: any, location: any, nic_name: any) {
     const parameter: network.NetworkInterface = {
         location: location,
         ipConfigurations: [
@@ -324,10 +469,30 @@ function createNetworkInterface(group_name: any, location: any, nic_name: any) {
     console.log(nic_info);
 }
 ```
+Javascript
+```javascript
+async function createNetworkInterface(group_name, location, nic_name) {
+    const parameter = {
+        location: location,
+        ipConfigurations: [
+            {
+                name: "MyIpConfig",
+                subnet: {
+                    id: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/virtualNetworks/" + networkName + "/subnets/" + subnetName
 
-***Creating a Virtual Machine***
+                }
+            }
+        ]
+    };
+    const nic_info = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    console.log(nic_info);
+}
+```
+
+***Creating a Virtual Machine***  
+Typescript
 ```typescript
-function createVirtualMachines() {
+async function createVirtualMachines() {
     createResourceGroup();
     createVirtualNetwork();
     createSubnet();
@@ -386,12 +551,74 @@ function createVirtualMachines() {
     console.log(res);
 }
 ```
+Javascript
+```javascript
+async function createVirtualMachines() {
+    createResourceGroup();
+    createVirtualNetwork();
+    createSubnet();
+    createNetworkInterface(resourceGroupName, location, interfaceName);
+    const parameter = {
+        location: location,
+        hardwareProfile: {
+            vmSize: "Standard_D2_v2",
+        },
+        storageProfile: {
+            imageReference: {
+                sku: "2016-Datacenter",
+                publisher: "MicrosoftWindowsServer",
+                version: "latest",
+                offer: "WindowsServer"
+            },
+            osDisk: {
+                caching: "ReadWrite",
+                managedDisk: {
+                    storageAccountType: "Standard_LRS"
+                },
+                name: "myVMosdisk",
+                createOption: "FromImage"
+            },
+            dataDisks: [
+                {
+                    diskSizeGB: 1023,
+                    createOption: "Empty",
+                    lun: 0
+                },
+                {
+                    diskSizeGB: 1023,
+                    createOption: "Empty",
+                    lun: 1
+                }
+            ]
+        },
+        osProfile: {
+            adminUsername: "testuser",
+            computerName: "myVM",
+            adminPassword: "0000000000",
+            windowsConfiguration: {
+                enableAutomaticUpdates: true // need automatic update for reimage
+            }
+        },
+        networkProfile: {
+            networkInterfaces: [
+                {
+                    id: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/networkInterfaces/" + interfaceName + "",
+                    primary: true
+                }
+            ]
+        }
+    };
+    const res = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    console.log(res);
+}
+```
 
 The following example shows how to delete a Virtual Machine
 
-***Deleting a Virtual Machine***
+***Deleting a Virtual Machine***  
+Typescript or Javascript
 ```typescript
-function deleteVirtualMachine() {
+async function deleteVirtualMachine() {
     const res = await computeClient.virtualMachines.beginDeleteAndWait(resourceGroupName, virtualMachineName);
     console.log(res);
 }
