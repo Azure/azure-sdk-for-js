@@ -134,7 +134,6 @@ export function hasResource(
 }
 
 export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
-  console.log(partitionProperty);
   const toHashKey = hasResource(operation)
     ? deepFind(operation.resourceBody, partitionProperty)
     : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
@@ -188,7 +187,11 @@ export function decorateOperation(
   return operation as Operation;
 }
 
-function deepFind<T, P extends string>(document: T, path: P): JSONObject {
+/**
+ * Util function for finding partition key values nested in objects at slash (/) separated paths
+ * @hidden
+ */
+export function deepFind<T, P extends string>(document: T, path: P): JSONObject {
   const apath = path.split("/");
   let h: any = document;
   for (const p of apath) {
