@@ -3,7 +3,7 @@
 
 async function blobToArrayBuffer(blob : Blob) : Promise<ArrayBuffer> {
   if ('arrayBuffer' in blob) {
-    return await blob.arrayBuffer();
+    return blob.arrayBuffer();
   } 
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

@@ -303,7 +303,7 @@ export class AttestationClient {
         throw new Error("Cannot provide both runTimeData and runTimeJson.");
       }
 
-      const initData =await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
+      const initData = await Uint8ArrayFromInput(options.initTimeData ?? options.initTimeJson);
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
