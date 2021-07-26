@@ -203,7 +203,7 @@ Creates an instance of the Attestation Administration Client at uri `endpoint`.
 Note that the administration client *requires* Azure credentials.
 
 ```ts
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   // Retrieve the SGX policy from the specified attestation instance.
   const policyResponse = await client.getPolicy(KnownAttestationType.SgxEnclave);
@@ -232,7 +232,7 @@ If the attestation service instance is running in Isolated mode, the set_policy 
 If the service instance is running in AAD mode, the call to setPolicy is as expected:
 
 ```js
-const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
 const newPolicy = `<New Attestation Policy>`;
 
@@ -245,7 +245,7 @@ the client be able to prove that they have access to one of the policy managemen
 and certificates.
 
 ```js
-const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
 const newPolicy = `<New Policy Document>`;
 
@@ -334,7 +334,7 @@ Use `getSigningCertificates` to retrieve the certificates which can be used to v
 
 ```ts
 const credentials = new DefaultAzureCredential();
-const client = new AttestationClient(credentials, endpoint);
+const client = new AttestationClient(endpoint, {credentials: credentials});
 
 const attestationSigners = await client.getAttestationSigners();
 

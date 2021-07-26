@@ -52,7 +52,6 @@ export interface AttestationClientOperationOptions extends OperationOptions {
 
 // @public
 export interface AttestationClientOptions extends CommonClientOptions {
-    // (undocumented)
     credentials?: TokenCredential;
     validationOptions?: AttestationTokenValidationOptions;
 }

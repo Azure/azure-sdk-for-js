@@ -38,6 +38,11 @@ export interface AttestationClientOptions extends CommonClientOptions {
    * from the attestation service.
    */
   validationOptions?: AttestationTokenValidationOptions;
+
+  /**
+   * Optional credential to be used to authenticate the `AttestationClient` to the
+   * service. Required for TPM attestation, optional for other APIs.
+   */
   credentials?: TokenCredential;
 }
 
