@@ -3,14 +3,14 @@ Getting Started - Using the next-generation management libraries of Azure SDK fo
 =============================================================
 
 We are excited to announce that a new set of management libraries are
-now production-ready. Those packages share a number of new features
+now in Public Preview. Those packages share a number of new features
 such as Azure Identity support, HTTP pipeline, error-handling.,etc, and
 they also follow the new Azure SDK guidelines which create easy-to-use
-APIs that are idiomatic, compatible, and dependable.
+APIs that are idiomatic, compatible, and dependable. See [Typescript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
 Currently, we have previewed several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
 `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find 
-the latest version under `next` tag and have a try.
+the latest version under `next` tag and have a try. If you are interested in upgrading to the latest new generation of SDK, please refer to this [migration guide](./MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
 
 In this basic quickstart guide, we will walk you through how to
 authenticate to Azure and start interacting with Azure resources. There are several possible approaches to
@@ -76,6 +76,8 @@ As an example, to install the Azure Compute module, you would run :
 ```sh
 npm i @azure/arm-compute@30.0.0-beta.1
 ```
+You can always find the latest preview version of our next-generation management libraries via npmjs under the `next` tag of each packages.  
+
 We also recommend installing other packages for authentication and core functionalities :
 
 ```sh
@@ -398,6 +400,8 @@ function deleteVirtualMachine() {
 ## Code Samples
 
 More code samples for using the management library for JS/TS SDK can be found in [JS/TS SDK Code Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+*Please Note that these samples provided in JS/TS SDK Code Samples are written in Typescript*
 
 
 Need help?
