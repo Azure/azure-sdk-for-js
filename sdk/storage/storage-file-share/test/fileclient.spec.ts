@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { setTracer, SpanGraph, TestTracer } from "./utils/tracingutils";
 import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
@@ -886,7 +886,7 @@ describe("FileClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

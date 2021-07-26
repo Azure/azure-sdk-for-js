@@ -61,9 +61,9 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/event-hubs": "^5.5.0",
+    "@azure/event-hubs": "^5.6.0",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.4.1",
+    "@azure/storage-blob": "^12.7.0",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },

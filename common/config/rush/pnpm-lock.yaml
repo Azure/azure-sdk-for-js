@@ -223,6 +223,25 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-Nt81a8097+ofBAQfnil5UWw0o5/D3bYfqyJY7e1wrP2RlR/6Fig9zSj4tLe/oiMmE4gvDoK5X8kGIbhswne0Yw==
+  /@azure/core-amqp/3.0.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.0
+      '@azure/logger': 1.0.2
+      buffer: 5.7.1
+      events: 3.3.0
+      jssha: 3.2.0
+      process: 0.11.10
+      rhea: 2.0.3
+      rhea-promise: 2.1.0
+      tslib: 2.2.0
+      url: 0.11.0
+      util: 0.12.3
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-CThDTapwSE2jKr/m9ISHwynagFPkUslwPsyppuJkLaFvc9re5/Kvv5sEP2i5DTG41lxYi0SznqRKEqIBZBJYOw==
   /@azure/core-asynciterator-polyfill/1.0.0:
     dev: false
     resolution:
@@ -258,6 +277,28 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-cNumz3ckyFZY5zWOgcTHSO7AKRVwxbodG8WfcEGcdH+ZJL3KvJEI/vN58H6xk5v3ijulU2x/WPGJqrMVvcI79A==
+  /@azure/core-http/2.1.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-asynciterator-polyfill': 1.0.0
+      '@azure/core-auth': 1.3.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.2
+      '@types/node-fetch': 2.5.10
+      '@types/tunnel': 0.0.1
+      form-data: 3.0.1
+      node-fetch: 2.6.1
+      process: 0.11.10
+      tough-cookie: 4.0.0
+      tslib: 2.2.0
+      tunnel: 0.0.6
+      uuid: 8.3.2
+      xml2js: 0.4.23
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-Pzj87F4b1RH4PFDUpxkZqCdDZ35c5AjDCt3lsTn3i7yCtrXasEm6PVJYhjwsvYYmtgM7aDZIXexcu/qLLf7kyA==
   /@azure/core-lro/1.0.4:
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -270,6 +311,17 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-4IVqLl6NIqxVzL+zMdf9Nwa1ZUPuoG/IAMoWQIA6qgpKuAiPy/KiH4Q5j0Zn0q20GFiymQeLcCIH82LSlbQBTQ==
+  /@azure/core-lro/2.1.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.2
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-7T9+HxZArl1wIUM/jacaeeMC9lUo14M62y3Htkh9qkTjI5glc7NlY2XOQ67n2jN1HONd8FvqCXE9CS4ZRxeLcg==
   /@azure/core-paging/1.1.3:
     dependencies:
       '@azure/core-asynciterator-polyfill': 1.0.0
@@ -330,6 +382,24 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-frF0pJc9HTmKncVokhBxCqipjbql02DThQ1ZJ9wLi7SDMLdPAFyDI5xZNzX5guLz+/DtPkY+SGK2li9FIXqshQ==
+  /@azure/core-tracing/1.0.0-preview.12:
+    dependencies:
+      '@opentelemetry/api': 1.0.1
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-nvo2Wc4EKZGN6eFu9n3U7OXmASmL8VxoPIH7xaD6OlQqi44bouF0YIi9ID5rEsKLiAU59IYx6M297nqWVMWPDg==
+  /@azure/core-tracing/1.0.0-preview.13:
+    dependencies:
+      '@opentelemetry/api': 1.0.1
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-KxDlhXyMlh2Jhj2ykX6vNEU0Vou4nHr025KoSEiz7cS3BNiHNaZcdECk/DmLkEB0as5T7b/TpRcehJ5yV6NeXQ==
   /@azure/core-tracing/1.0.0-preview.9:
     dependencies:
       '@opencensus/web-types': 0.0.7
@@ -363,6 +433,26 @@ packages:
     dev: false
     resolution:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
+  /@azure/event-hubs/5.6.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-amqp': 3.0.0
+      '@azure/core-asynciterator-polyfill': 1.0.0
+      '@azure/core-auth': 1.3.0
+      '@azure/core-tracing': 1.0.0-preview.12
+      '@azure/logger': 1.0.2
+      buffer: 5.7.1
+      is-buffer: 2.0.5
+      jssha: 3.2.0
+      process: 0.11.10
+      rhea-promise: 2.1.0
+      tslib: 2.2.0
+      uuid: 8.3.2
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-+JtP2SYqGZelvZ6nnA7T0xxcDjCu3O0K+8A8vEXOJgQPT8+hA11fz61DSpFQJH1KaXffoN5YeXnKSaU4idwiAQ==
   /@azure/identity/1.3.0:
     dependencies:
       '@azure/core-http': 1.2.4
@@ -637,13 +727,13 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-x3VgZFLsmhnTka6IpKePHcibm3znMhcrSsVoVlMOCQSgoJrTSTuczRh4S9/c55pj8M+EQ6FdPweQY6Ld+g/qiQ==
-  /@azure/storage-blob/12.5.0:
+  /@azure/storage-blob/12.4.1:
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-http': 1.2.4
       '@azure/core-lro': 1.0.4
       '@azure/core-paging': 1.1.3
-      '@azure/core-tracing': 1.0.0-preview.10
+      '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@opentelemetry/api': 0.10.2
       events: 3.3.0
@@ -652,7 +742,22 @@ packages:
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-DgoefgODst2IPkkQsNdhtYdyJgSsAZC1pEujO6aD5y7uFy5GnzhYliobSrp204jYRyK5XeJ9iiePmy/SPtTbLA==
+      integrity: sha512-RH6ru8LbnCC+m1rlVLon6mYUXdHsTcyUXFCJAWRQQM7p0XOwVKPS+UiVk2tZXfvMWd3q/qT/meOrEbHEcp/c4g==
+  /@azure/storage-blob/12.6.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 1.2.4
+      '@azure/core-lro': 1.0.4
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.2
+      events: 3.3.0
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-cAzsae+5ZdhugQfIT7o5SlVyF2Sc+HygZdPO41ZYdXklfGUyEt+5K4PyM5HQDc0MTVt6x7+waXcaAXT2eF9E6A==
   /@babel/code-frame/7.12.11:
     dependencies:
       '@babel/highlight': 7.13.10
@@ -991,6 +1096,12 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-iXKByCMfrlO5S6Oh97BuM56tM2cIBB0XsL/vWF/AtJrJEKx4MC/Xdu0xDsGXMGcNWpqF7ujMsjjnp0+UHBwnDQ==
+  /@opentelemetry/api/1.0.1:
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-H5Djcc2txGAINgf3TNaq4yFofYSIK3722PM89S/3R8FuI/eqi1UscajlXk7EBkG9s2pxss/q6SHlpturaavXaw==
   /@opentelemetry/context-async-hooks/0.19.0_@opentelemetry+api@1.0.0-rc.0:
     dependencies:
       '@opentelemetry/api': 1.0.0-rc.0
@@ -6256,12 +6367,14 @@ packages:
     resolution:
       integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring/0.2.0:
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
     engines:
       node: '>=0.4.x'
     resolution:
       integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
   /querystring/0.2.1:
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
     engines:
       node: '>=0.4.x'
@@ -6582,26 +6695,26 @@ packages:
     dev: false
     resolution:
       integrity: sha512-m0aa+/TM6Cl5qu+mHNPn7aadNf1525WxpKwQKINP/knvoi4otB74G16iPDoTDbnGcJo1lc0AQEbVku8Gdoqmuw==
-  /rhea-promise/2.0.0:
+  /rhea-promise/2.1.0:
     dependencies:
       debug: 3.2.7
-      rhea: 2.0.2
+      rhea: 2.0.3
       tslib: 2.2.0
     dev: false
     resolution:
-      integrity: sha512-hoK6pTrFyIFDp0jrC2FQXzZPFnJXG78OHikpSHeC2gjdKGT+ofoFsbbxA0FcYjBqU2r2hDKRZbacBBvGtGAzhw==
+      integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==
   /rhea/1.0.24:
     dependencies:
       debug: 3.2.7
     dev: false
     resolution:
       integrity: sha512-PEl62U2EhxCO5wMUZ2/bCBcXAVKN9AdMSNQOrp3+R5b77TEaOSiy16MQ0sIOmzj/iqsgIAgPs1mt3FYfu1vIXA==
-  /rhea/2.0.2:
+  /rhea/2.0.3:
     dependencies:
       debug: 3.2.7
     dev: false
     resolution:
-      integrity: sha512-G2QqyVzRnZvv+WkpKBmWrVmkeeLRX7xKZB3wutU2fs/qvr4PJvAqKO7ymSYX/0dm2xt1QhNJO/Af17x49f7FBw==
+      integrity: sha512-goQWv15ci6RdjtSpDezknlJ0PQDDkkJiMVxC3oS8DpECnzLFov01WMJ23cpXW+L3hlSQwyunqX9kc0JW6/lziw==
   /rimraf/2.7.1:
     dependencies:
       glob: 7.1.6
@@ -8953,8 +9066,8 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea: 2.0.2
-      rhea-promise: 2.0.0
+      rhea: 2.0.3
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9778,7 +9891,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 2.0.0
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9907,7 +10020,8 @@ packages:
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
     dependencies:
-      '@azure/storage-blob': 12.5.0
+      '@azure/event-hubs': 5.6.0
+      '@azure/storage-blob': 12.4.1
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -9962,7 +10076,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-HVGnI1U0A0SyBMpjRlQDZINX71Kaae+cfNmQRcgmRhnDtt0J4K5sUbUJRuSEUje7LX/cZrKB7JyYzH+U9bXmLQ==
+      integrity: sha512-2K4Ww0XlM9HP3aGZqRSqXEFP/xFulbrSqRgJvnO01aI2ELxE6Ycs/bZ9rkpNQnmCrZ1LzsRpuASRZixai2V8RQ==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity.tgz:
@@ -10438,7 +10552,7 @@ packages:
       dotenv: 8.2.0
       eslint: 7.23.0
       prettier: 1.19.1
-      rhea: 2.0.2
+      rhea: 2.0.3
       rimraf: 3.0.2
       tslib: 2.2.0
       typescript: 4.2.4
@@ -10718,7 +10832,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-P4LhI9+Yj8e3NAQrWVtykCHFm+TqTRyUqZJl1ByArq0iUBmMwKrSf28qas15IkBwuG/XxYhXvFPvscOOm9nyYQ==
+      integrity: sha512-raUJYXYTZ3Rlh2qQtor+OgWSmvmwh+2llg58rOTa8NTMcfXxbTt4Q9aAszEYUmefQZytmJiRUNMhv+LRRCGUnw==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -11117,7 +11231,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 2.0.0
+      rhea-promise: 2.1.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -11139,6 +11253,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 1.3.0
+      '@azure/storage-blob': 12.6.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11190,15 +11305,18 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob-changefeed'
     resolution:
-      integrity: sha512-9P9QjSXeSJRC+jAtLZt9zTtQ6jXvzp5qoylpuTeN7H39CQqOf6i/wtaD+UT4Q1hDeQG68uof21dSg4HW/Z8wPQ==
+      integrity: sha512-UFvSO8eJ0MiBqkfvyD024NIQxpPbm7dlZLes9NjZbOHdmLBZJ+WWpoUg74Kw6TbKAfel7kaZHw6ia0Ja4NwEXg==
       tarball: file:projects/storage-blob-changefeed.tgz
     version: 0.0.0
   file:projects/storage-blob.tgz:
     dependencies:
+      '@azure/core-http': 2.1.0
+      '@azure/core-lro': 2.1.0
       '@azure/core-rest-pipeline': 1.0.3
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.3
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 1.0.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11250,14 +11368,16 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-XfwGJuuweV0lPcyK1Ol1RCSZWo7zXXm6+aOS764Jppp+Mpyc3m/HUdXpwidV/9Qu+KAcOB228CSFVYFzjLbjVA==
+      integrity: sha512-IVK75nDT0/UhDnbrdlHMnaIfy7mDCvu0JhLuOU6/8Bl8VTH+eXaMIpyWo7yayKcv70RJZ6uTMdPw+zlB60eH8A==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-http': 2.1.0
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.3
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 1.0.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11310,13 +11430,15 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-Joib7h54rfGe/6C5CP7QgL0cPF6NGzYvvqwW9Y2pip/gaTK8wIb7L372Rl3fuuSJv0u4CxjmhqXlVGLGoxOR+A==
+      integrity: sha512-S5gC2M0f3Tyw8tWVGoURhk8I3bjlNZeeNAUbBmoMEaMXyTknriLVxcWwQzCoL08TIDkCJ59TN+JdtXkjssLhmA==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-http': 2.1.0
+      '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 1.0.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
@@ -11365,7 +11487,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-HnwNTQpFsXEE3w7eCUYxqg5tRdqns2sQubgoNZ11LOwaf7NG4fstMX9cQS9jrX3iFwugvzZRNLtFei1DVCTzqw==
+      integrity: sha512-VVjjxF7QEC9pEX+V/aWFOt8E1PEvyIjf19BR7ZM3nec294BPVdX4mhweDonKGuQ0Pxshrs+cqh/0nJZuQF5fDA==
       tarball: file:projects/storage-file-share.tgz
     version: 0.0.0
   file:projects/storage-internal-avro.tgz:
@@ -11421,9 +11543,11 @@ packages:
     version: 0.0.0
   file:projects/storage-queue.tgz:
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-http': 2.1.0
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 1.3.0
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 1.0.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
@@ -11471,7 +11595,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-l9pNcxy2+Bpg/EJCPWt4NE8fvBCNiQP2IpdP+DnaeEeLe0AzN0ndRzX6RvCAc37evuTFCpKCxYDrq1T4QHsF0w==
+      integrity: sha512-skkdkeDZGaF6lI2mkI2UA15hyiDEBIYHQwxMrBuo0jEsdR38Spudav9t8JIhOgyJxDym7OazWqjnTw6QKiKRmA==
       tarball: file:projects/storage-queue.tgz
     version: 0.0.0
   file:projects/synapse-access-control.tgz:
