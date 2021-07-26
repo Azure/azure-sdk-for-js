@@ -10,7 +10,7 @@ Use the client library to:
 
 Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/) 
-- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid/v/next)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
