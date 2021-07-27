@@ -122,6 +122,10 @@ module.exports = function(config) {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
         flags: ["--no-sandbox", "--disable-web-security"]
+      },
+      ChromeInteractiveNoSandbox: {
+        base: "Chrome",
+        flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
 
