@@ -72,28 +72,6 @@ jobs:
           WorkingDirectory: $(DocRepoLocation)
           ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
 
-      # Enable overriding the branch used by reference automation. The reference
-      # automation repo is used by the Docs CI process to generate
-      # documentation from published packages.
-      # In some cases the reference automation repository might have bugs
-      # that prevent a successful build of JS docs. In these cases that can be
-      # manually overridden to use a branch without those breaking bugs.
-      # - pwsh: |
-      #     $branchName = $env:DAILYDOCSCIBRANCHNAMEOVERRIDE
-      #     if (!$branchName) {
-      #       # DocsBuildSourceBranch must default to "master" as this repo is
-      #       # managed by the docs team and will be updated according to
-      #       # their timeline.
-
-      #       # Pin version to working branch. This should be "master" when the 
-      #       # docs CI is fixed.
-      #       $branchName = "master"
-      #     }
-      #     Write-Host "Docs CI Branch Name: $branchName"
-      #     Write-Host "##vso[task.setvariable variable=DocsBuildSourceBranch;]$branchName"
-      #   displayName: Set branch used for Docs CI reference automation build
-
-      # What happens in the case of an empty branch?
       - task: PowerShell@2
         displayName: Queue Docs CI build
         inputs:
@@ -102,7 +80,6 @@ jobs:
           arguments: >
             -Organization "apidrop"
             -Project "Content%20CI"
-            -SourceBranch ""
             -DefinitionId 3452
             -Base64EncodedAuthToken "$(azuresdk-apidrop-devops-queue-build-pat)"
             -BuildParametersJson '{"params":"{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }"}'
