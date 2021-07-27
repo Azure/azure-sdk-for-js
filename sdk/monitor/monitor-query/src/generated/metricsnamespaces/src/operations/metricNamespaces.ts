@@ -6,24 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { MetricNamespaces } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MonitorManagementClient } from "../monitorManagementClient";
+import { MonitorManagementClientContext } from "../monitorManagementClientContext";
 import {
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
 } from "../models";
 
 /** Class representing a MetricNamespaces. */
-export class MetricNamespaces {
-  private readonly client: MonitorManagementClient;
+export class MetricNamespacesImpl implements MetricNamespaces {
+  private readonly client: MonitorManagementClientContext;
 
   /**
    * Initialize a new instance of the class MetricNamespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: MonitorManagementClient) {
+  constructor(client: MonitorManagementClientContext) {
     this.client = client;
   }
 

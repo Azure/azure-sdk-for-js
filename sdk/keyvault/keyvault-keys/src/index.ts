@@ -60,7 +60,11 @@ import {
   CryptographyClientOptions,
   LATEST_API_VERSION,
   CreateOctKeyOptions,
-  GetRandomBytesOptions
+  GetRandomBytesOptions,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  KeyReleasePolicy,
+  KeyExportEncryptionAlgorithm
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -178,7 +182,11 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger
+  logger,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  KeyReleasePolicy,
+  KeyExportEncryptionAlgorithm
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -284,13 +292,14 @@ export class KeyClient {
     let unflattenedOptions = {};
 
     if (options) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
+      const { enabled, notBefore, expiresOn: expires, exportable, ...remainingOptions } = options;
       unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
           enabled,
           notBefore,
-          expires
+          expires,
+          exportable
         }
       };
     }
@@ -385,6 +394,7 @@ export class KeyClient {
       const {
         enabled,
         notBefore,
+        exportable,
         expiresOn: expires,
         hardwareProtected: hsm,
         ...remainingOptions
@@ -395,7 +405,8 @@ export class KeyClient {
           enabled,
           notBefore,
           expires,
-          hsm
+          hsm,
+          exportable
         }
       };
     }
@@ -670,6 +681,42 @@ export class KeyClient {
     });
   }
 
+  /**
+   * Releases a key from a managed HSM.
+   *
+   * The release key operation is applicable to all key types. The operation requires the key to be marked exportable and the keys/release permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let result = await client.releaseKey("myKey", target)
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public releaseKey(
+    name: string,
+    target: string,
+    options: ReleaseKeyOptions = {}
+  ): Promise<ReleaseKeyResult> {
+    return withTrace("releaseKey", options, async (updatedOptions) => {
+      const { nonce, algorithm, ...rest } = updatedOptions;
+      const result = await this.client.release(
+        this.vaultUrl,
+        name,
+        options?.version || "",
+        target,
+        {
+          enc: algorithm,
+          nonce,
+          ...rest
+        }
+      );
+
+      return { value: result.value! };
+    });
+  }
   /**
    * @internal
    * @hidden

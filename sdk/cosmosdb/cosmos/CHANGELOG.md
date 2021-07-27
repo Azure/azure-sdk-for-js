@@ -1,14 +1,10 @@
 # Release History
 
-## 3.12.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.12.3 (2021-07-23)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix bulk operations on containers with multiple partitions with nested partition keys
 
 ## 3.12.2 (2021-07-21)
 

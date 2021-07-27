@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { Query } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureLogAnalytics } from "../azureLogAnalytics";
+import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
 import {
   QueryGetOptionalParams,
   QueryGetResponse,
@@ -17,18 +18,19 @@ import {
   QueryExecuteOptionalParams,
   QueryExecuteResponse,
   BatchRequest,
+  QueryBatchOptionalParams,
   QueryBatchResponse
 } from "../models";
 
 /** Class representing a Query. */
-export class Query {
-  private readonly client: AzureLogAnalytics;
+export class QueryImpl implements Query {
+  private readonly client: AzureLogAnalyticsContext;
 
   /**
    * Initialize a new instance of the class Query class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureLogAnalytics) {
+  constructor(client: AzureLogAnalyticsContext) {
     this.client = client;
   }
 
@@ -91,7 +93,7 @@ export class Query {
    */
   batch(
     body: BatchRequest,
-    options?: coreHttp.OperationOptions
+    options?: QueryBatchOptionalParams
   ): Promise<QueryBatchResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       body,

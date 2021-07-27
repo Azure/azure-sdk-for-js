@@ -6,14 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricDefinitions } from "./operations";
+import { MetricDefinitionsImpl } from "./operations";
+import { MetricDefinitions } from "./operationsInterfaces";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
   MonitorManagementClientOptionalParams,
   ApiVersion201801
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
    * Initializes a new instance of the MonitorManagementClient class.
@@ -25,7 +26,7 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
     options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);
-    this.metricDefinitions = new MetricDefinitions(this);
+    this.metricDefinitions = new MetricDefinitionsImpl(this);
   }
 
   metricDefinitions: MetricDefinitions;

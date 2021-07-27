@@ -61,29 +61,27 @@ describe("PolicyGetSetTests ", function() {
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
-      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, rsaKey)
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, { privateKey: rsaKey })
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
-      adminClient.setPolicy(
-        KnownAttestationType.SgxEnclave,
-        minimalPolicy,
-        undefined,
-        rsaCertificate
-      )
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
+        certificate: rsaCertificate
+      })
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
-      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, rsaKey2, rsaCertificate)
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
+        privateKey: rsaKey2,
+        certificate: rsaCertificate
+      })
     ).to.be.rejectedWith("Key does not match Certificate");
 
     await expect(
-      adminClient.setPolicy(
-        KnownAttestationType.SgxEnclave,
-        minimalPolicy,
-        "BogusKey",
-        rsaCertificate
-      )
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
+        privateKey: "BogusKey",
+        certificate: rsaCertificate
+      })
     ).to.be.rejectedWith("not supported argument");
 
     await adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy);
@@ -99,19 +97,25 @@ describe("PolicyGetSetTests ", function() {
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
-      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, rsaKey)
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { privateKey: rsaKey })
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
-      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, undefined, rsaCertificate)
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { certificate: rsaCertificate })
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
-      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, "BogusKey", rsaCertificate)
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
+        privateKey: "BogusKey",
+        certificate: rsaCertificate
+      })
     ).to.be.rejectedWith("not supported argument");
 
     await expect(
-      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, rsaKey2, rsaCertificate)
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
+        privateKey: rsaKey2,
+        certificate: rsaCertificate
+      })
     ).to.be.rejectedWith("Key does not match Certificate");
 
     await adminClient.resetPolicy(KnownAttestationType.SgxEnclave);
@@ -180,12 +184,10 @@ describe("PolicyGetSetTests ", function() {
 
     const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
 
-    const policyResult = await adminClient.setPolicy(
-      attestationType,
-      minimalPolicy,
-      signer?.privateKey,
-      signer?.certificate
-    );
+    const policyResult = await adminClient.setPolicy(attestationType, minimalPolicy, {
+      privateKey: signer?.privateKey,
+      certificate: signer?.certificate
+    });
 
     assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
@@ -235,20 +237,15 @@ describe("PolicyGetSetTests ", function() {
 
     const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
 
-    const policyResult = await adminClient.setPolicy(
-      attestationType,
-      minimalPolicy,
-      signer?.privateKey,
-      signer?.certificate
-    );
+    const policyResult = await adminClient.setPolicy(attestationType, minimalPolicy, {
+      privateKey: signer?.privateKey,
+      certificate: signer?.certificate
+    });
 
     assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
-    const resetResult = await adminClient.resetPolicy(
-      attestationType,
-      signer?.privateKey,
-      signer?.certificate
-    );
+    const resetResult = await adminClient.resetPolicy(attestationType, signer);
+
     assert.equal(KnownPolicyModification.Removed, resetResult.body.policyResolution);
 
     // The reset policy should be different from the one we just set.

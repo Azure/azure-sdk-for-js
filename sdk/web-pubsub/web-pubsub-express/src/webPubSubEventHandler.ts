@@ -69,7 +69,7 @@ export class WebPubSubEventHandler {
 
       // normalize the Url
       requestUrl = requestUrl.endsWith("/") ? requestUrl : requestUrl + "/";
-      if (requestUrl === this.path) {
+      if (requestUrl.startsWith(this.path)) {
         if (req.method === "OPTIONS") {
           if (this._cloudEventsHandler.processValidateRequest(req, res)) {
             return;
