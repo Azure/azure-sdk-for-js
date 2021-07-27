@@ -154,9 +154,9 @@ async function getRawResponse<TOptions extends OperationOptions, TResult>(
   let rawResponse: FullOperationResponse | undefined = undefined;
   const flatResponse = await f({
     ...options,
-    onResponse: (response: FullOperationResponse, flatResponse: unknown) => {
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
       rawResponse = response;
-      onResponse?.(response, flatResponse);
+      onResponse?.(response, flatResponseParam);
     }
   });
   return { flatResponse, rawResponse: rawResponse! };

@@ -74,7 +74,7 @@ describe("SchemaRegistryClient", function() {
     const endpoint = "https://example.com/schemaregistry/";
     const credential = new ClientSecretCredential("x", "y", "z");
 
-    let customClient = new SchemaRegistryClient(endpoint, credential);
+    const customClient = new SchemaRegistryClient(endpoint, credential);
     assert.equal(customClient.endpoint, endpoint);
   });
 
