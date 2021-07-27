@@ -79,6 +79,7 @@ export {
   CouchbaseTableDataset,
   CreateDataFlowDebugSessionRequest,
   CreateDataFlowDebugSessionResponse,
+  CredentialReference,
   CustomDataset,
   CustomDataSourceLinkedService,
   CustomSetupBase,
