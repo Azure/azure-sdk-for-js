@@ -28,7 +28,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if ((!request.headers.contains("x-recording-id") && this._mode === "record") || (this._mode === "playback")) {
+    if (request.headers.contains("x-recording-id") && (this._mode === "record" || this._mode === "playback")) {
       console.log("mode", this._mode);
       console.log("id", this._recordingId);
       request.headers.set("x-recording-id", this._recordingId!);
@@ -53,44 +53,51 @@ export class RecordingHttpClient extends DefaultHttpClient {
     return await super.sendRequest(request);
   }
 
-  async start(): Promise<void> {
-    console.log("in start, mode = ", this._mode);
-    if ((this._recordingId === undefined && this._mode === "record") || (this._mode === "playback" && this._recordingId != undefined)) {
-      const startUri =
-        this._uri +
-        (this._mode === "playback" ? paths.playback : paths.record) +
-        paths.start;
-      const req = this._createRecordingRequest(startUri);
-      if (this._mode === "playback") {
-        req.headers.set("x-recording-id", this._recordingId!)
-      }
-      const rsp = await this._httpClient.sendRequest(req);
-      if (rsp.status !== 200) {
-        throw new Error("Start request failed.");
-      }
-      const id = rsp.headers.get("x-recording-id");
-      if (!id) {
-        throw new Error("No recording ID returned.");
-      }
-      this._recordingId = id;
+  async startRecording(): Promise<void> {
+    const startUri = this._uri + paths.record + paths.start;
+    const req = this._createRecordingRequest(startUri);
+    const rsp = await this._httpClient.sendRequest(req);
+    if (rsp.status !== 200) {
+      throw new Error("Start request failed.");
     }
+    const id = rsp.headers.get("x-recording-id");
+    if (!id) {
+      throw new Error("No recording ID returned.");
+    }
+    this._recordingId = id;
   }
 
-  async stop(): Promise<void> {
-    if (this._recordingId !== undefined && (this._mode === "record" || this._mode === "playback")) {
-      const stopUri =
-        this._uri +
-        (this._mode === "playback" ? paths.playback : paths.record) +
-        paths.stop;
-      const req = this._createRecordingRequest(stopUri);
-      console.log(
-        "in the RecordingHttpClient: inside stop - calling _httpClient.sendRequest"
-      );
-      if (this._mode === "playback") {
-        req.headers.set("x-purge-inmemory-recording", "true");
-      }
-      await this._httpClient.sendRequest(req);
+  async stopRecording(): Promise<void> {
+    const stopUri = this._uri + paths.record + paths.stop;
+    const req = this._createRecordingRequest(stopUri);
+    req.headers.set("x-recording-id", this._recordingId!);
+    await this._httpClient.sendRequest(req);
+  }
+
+  async startPlayback(): Promise<void> {
+    const startUri = this._uri + paths.playback + paths.start;
+    const req = this._createRecordingRequest(startUri);
+    req.headers.set("x-recording-id", this._recordingId!);
+    const rsp = await this._httpClient.sendRequest(req);
+    if (rsp.status !== 200) {
+      throw new Error("Start request failed.");
     }
+    const id = rsp.headers.get("x-recording-id");
+    if (!id) {
+      throw new Error("No recording ID returned.");
+    }
+    this._recordingId = id;
+  }
+
+  async stopPlayback(): Promise<void> {
+    const stopUri = this._uri + paths.playback + paths.stop;
+    const req = this._createRecordingRequest(stopUri);
+    req.headers.set("x-recording-id", this._recordingId!);
+    req.headers.set("x-purge-inmemory-recording", "true");
+    await this._httpClient.sendRequest(req);
+
+    this._mode = "live";
+    this._recordingId = undefined;
   }
 
   private _createRecordingRequest(uri: string) {

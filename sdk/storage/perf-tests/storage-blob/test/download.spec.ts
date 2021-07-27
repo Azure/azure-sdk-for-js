@@ -44,6 +44,5 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   async runAsync(): Promise<void> {
     const downloadResponse = await this.blockBlobClient.download();
     await drainStream(downloadResponse.readableStreamBody!);
-    console.log("runAsync called and done..!");
   }
 }
