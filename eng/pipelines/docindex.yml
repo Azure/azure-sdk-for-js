@@ -102,6 +102,7 @@ jobs:
           arguments: >
             -Organization "apidrop"
             -Project "Content%20CI"
+            -SourceBranch ""
             -DefinitionId 3452
             -Base64EncodedAuthToken "$(azuresdk-apidrop-devops-queue-build-pat)"
             -BuildParametersJson '{"params":"{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }"}'
