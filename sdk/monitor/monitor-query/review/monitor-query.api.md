@@ -25,9 +25,6 @@ export interface BatchQuery {
 }
 
 // @public
-export type ColumnDataType = string;
-
-// @public
 export const Durations: {
     readonly last7Days: "P7D";
     readonly last3Days: "P3D";
@@ -81,6 +78,9 @@ export interface GetMetricNamespacesResult {
 }
 
 // @public
+export type LogsColumnType = string;
+
+// @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
@@ -129,7 +129,7 @@ export type MetricClass = string;
 // @public
 export interface MetricColumn {
     name?: string;
-    type?: ColumnDataType;
+    type?: LogsColumnType;
 }
 
 // @public
