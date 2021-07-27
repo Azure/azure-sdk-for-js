@@ -119,7 +119,7 @@ export function createRecordedClient(
         env.AZURE_CLIENT_SECRET
       );
     }
-}
+  }
 
   return new AttestationClient(getAttestationUri(endpointType), options);
 }

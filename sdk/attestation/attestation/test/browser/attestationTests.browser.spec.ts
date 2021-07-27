@@ -217,7 +217,9 @@ describe("AttestationClient in Browser", function() {
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
       expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
-      expect(attestationResult.body.enclaveHeldData).to.deep.equal(new Uint8Array(await binaryRuntimeData.arrayBuffer()));
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(
+        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+      );
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
@@ -253,10 +255,13 @@ describe("AttestationClient in Browser", function() {
     {
       // You can't specify both runtimeData and runtimeJson.
       await expect(
-        client.attestSgxEnclave(new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]), {
-          runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
-        })
+        client.attestSgxEnclave(
+          new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
+          {
+            runTimeData: binaryRuntimeData,
+            runTimeJson: binaryRuntimeData
+          }
+        )
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
 
@@ -274,7 +279,9 @@ describe("AttestationClient in Browser", function() {
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
       expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
-      expect(attestationResult.body.enclaveHeldData).to.deep.equal(new Uint8Array(await binaryRuntimeData.arrayBuffer()));
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(
+        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+      );
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
 
