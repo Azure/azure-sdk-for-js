@@ -24,12 +24,12 @@ jobs:
               WorkingDirectory: $(DocRepoLocation)
 
       # Call update docs ci script to onboard packages
-      - task: Powershell@2
-        inputs:
-          pwsh: true
-          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
-        displayName: Update Docs Onboarding
+      # - task: Powershell@2
+      #   inputs:
+      #     pwsh: true
+      #     filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+      #     arguments: -DocRepoLocation $(DocRepoLocation)
+      #   displayName: Update Docs Onboarding
 
       # Push changes to docs repo
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
@@ -56,12 +56,12 @@ jobs:
           git status
         displayName: Checkout daily branch if it exists
         workingDirectory: $(DocRepoLocation)
-      - task: Powershell@2
-        inputs:
-          pwsh: true
-          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
-        displayName: Update Docs Onboarding for Daily branch
+      # - task: Powershell@2
+      #   inputs:
+      #     pwsh: true
+      #     filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+      #     arguments: -DocRepoLocation $(DocRepoLocation)
+      #   displayName: Update Docs Onboarding for Daily branch
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
           BaseRepoBranch: $(DailyDocsBranchName)
