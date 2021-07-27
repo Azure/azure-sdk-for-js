@@ -6,9 +6,6 @@
 
 - Added "continuationToken" option for the `byPage` APIs of the listing methods (`listConfigurationSettings` and the `listRevisions`), this lets you keep track of where to continue the iterator from.
   [#16472](https://github.com/Azure/azure-sdk-for-js/pull/16472)
-
-### Breaking Changes
-
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 
