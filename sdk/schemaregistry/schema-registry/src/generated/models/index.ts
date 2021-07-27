@@ -14,6 +14,22 @@ export interface SchemaId {
   id?: string;
 }
 
+/** Contains details when the response code indicates an error. */
+export interface ServiceErrorResponse {
+  /** The error details. */
+  error: ErrorInfo;
+}
+
+/** The code and message for an error. */
+export interface ErrorInfo {
+  /** A machine readable error code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** Inner error details if they exist. */
+  innererror?: ErrorInfo;
+}
+
 /** Defines headers for Schema_getById operation. */
 export interface SchemaGetByIdHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
@@ -56,20 +72,35 @@ export interface SchemaRegisterHeaders {
   schemaVersion?: number;
 }
 
-/** Known values of {@link SerializationType} that the service accepts. */
-export const enum KnownSerializationType {
+/** Known values of {@link SerializationType4} that the service accepts. */
+export enum KnownSerializationType4 {
   /** Avro Serialization schema type */
   Avro = "avro"
 }
 
 /**
- * Defines values for SerializationType. \
- * {@link KnownSerializationType} can be used interchangeably with SerializationType,
+ * Defines values for SerializationType4. \
+ * {@link KnownSerializationType4} can be used interchangeably with SerializationType4,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **avro**: Avro Serialization schema type
  */
-export type SerializationType = string;
+export type SerializationType4 = string;
+
+/** Known values of {@link SerializationType1} that the service accepts. */
+export enum KnownSerializationType1 {
+  /** Avro Serialization schema type */
+  Avro = "avro"
+}
+
+/**
+ * Defines values for SerializationType1. \
+ * {@link KnownSerializationType1} can be used interchangeably with SerializationType1,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **avro**: Avro Serialization schema type
+ */
+export type SerializationType1 = string;
 
 /** Optional parameters. */
 export interface SchemaGetByIdOptionalParams

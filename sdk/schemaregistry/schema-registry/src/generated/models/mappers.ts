@@ -23,6 +23,52 @@ export const SchemaId: coreClient.CompositeMapper = {
   }
 };
 
+export const ServiceErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorInfo",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo"
+        }
+      }
+    }
+  }
+};
+
 export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

@@ -9,9 +9,10 @@
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SerializationType,
+  SerializationType4,
   SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
+  SerializationType1,
   SchemaRegisterOptionalParams,
   SchemaRegisterResponse
 } from "../models";
@@ -41,7 +42,7 @@ export interface Schema {
   queryIdByContent(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
+    serializationType: SerializationType4,
     schemaContent: string,
     options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse>;
@@ -60,7 +61,7 @@ export interface Schema {
   register(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
+    serializationType: SerializationType1,
     schemaContent: string,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse>;

@@ -14,9 +14,10 @@ import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistry
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SerializationType,
+  SerializationType4,
   SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
+  SerializationType1,
   SchemaRegisterOptionalParams,
   SchemaRegisterResponse
 } from "../models";
@@ -62,7 +63,7 @@ export class SchemaImpl implements Schema {
   queryIdByContent(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
+    serializationType: SerializationType4,
     schemaContent: string,
     options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse> {
@@ -87,7 +88,7 @@ export class SchemaImpl implements Schema {
   register(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
+    serializationType: SerializationType1,
     schemaContent: string,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse> {
@@ -108,9 +109,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: { type: { name: "String" } },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
-    default: {
-      bodyMapper: { type: { name: "String" } }
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.schemaId],
@@ -126,7 +125,7 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
     default: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: Mappers.ServiceErrorResponse
     }
   },
   requestBody: Parameters.schemaContent,
@@ -153,7 +152,7 @@ const registerOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SchemaRegisterHeaders
     },
     default: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: Mappers.ServiceErrorResponse
     }
   },
   requestBody: Parameters.schemaContent,
@@ -166,7 +165,7 @@ const registerOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept1,
-    Parameters.serializationType
+    Parameters.serializationType1
   ],
   mediaType: "text",
   serializer

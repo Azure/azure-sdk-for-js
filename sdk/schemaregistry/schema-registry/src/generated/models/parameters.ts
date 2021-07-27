@@ -126,3 +126,14 @@ export const serializationType: OperationParameter = {
     }
   }
 };
+
+export const serializationType1: OperationParameter = {
+  parameterPath: "serializationType",
+  mapper: {
+    serializedName: "Serialization-Type",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
