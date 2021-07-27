@@ -308,7 +308,7 @@ export class PerfStressProgram {
       }
     }
 
-    if (options["test-proxy"]) {
+    if (this.tests[0].parsedOptions["test-proxy"].value) {
       await this.recordAndStartPlayback(this.tests[0]);
     }
 
@@ -321,7 +321,7 @@ export class PerfStressProgram {
       await this.runTest(i, Number(options.duration.value), "test");
     }
 
-    if (options["test-proxy"]) {
+    if (this.tests[0].parsedOptions["test-proxy"].value) {
       await this.stopPlayback();
     }
 
