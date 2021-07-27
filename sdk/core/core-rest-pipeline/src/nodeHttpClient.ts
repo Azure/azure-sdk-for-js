@@ -208,11 +208,10 @@ class NodeHttpClient implements HttpClient {
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {
-      const req = isInsecure ? http.request(options) : https.request(options);
+      const resolveCallback = (res: http.IncomingMessage) => resolve(res);
 
-      req.once("response", (res: http.IncomingMessage) => {
-        resolve(res);
-      });
+      const req = isInsecure ? http.request(options, resolveCallback) : https.request(options, resolveCallback);
+
       req.once("error", (err) => {
         reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
       });
