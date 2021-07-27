@@ -23,12 +23,12 @@ export {
   CreditBalanceSummary,
   CreditSummary,
   CurrentSpend,
-  ErrorDetails,
-  ErrorResponse,
   EventSummary,
   Forecast,
   ForecastPropertiesConfidenceLevelsItem,
   ForecastSpend,
+  HighCasedErrorDetails,
+  HighCasedErrorResponse,
   LegacyChargeSummary,
   LegacyReservationTransaction,
   LegacyUsageDetail,
@@ -57,6 +57,5 @@ export {
   Resource,
   Tag,
   TagsResult,
-  UsageDetail,
-  UsageDetailsListResult
+  UsageDetail
 } from "../models/mappers";

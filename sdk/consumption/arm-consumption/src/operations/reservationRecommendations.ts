@@ -27,37 +27,45 @@ export class ReservationRecommendations {
 
   /**
    * List of recommendations for purchasing reserved instances.
+   * @param scope The scope associated with reservation recommendations operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   * for billingProfile scope
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsListResponse>
    */
-  list(
-    options?: Models.ReservationRecommendationsListOptionalParams
-  ): Promise<Models.ReservationRecommendationsListResponse>;
+  list(scope: string, options?: Models.ReservationRecommendationsListOptionalParams): Promise<Models.ReservationRecommendationsListResponse>;
   /**
+   * @param scope The scope associated with reservation recommendations operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   * for billingProfile scope
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
+  list(scope: string, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
   /**
+   * @param scope The scope associated with reservation recommendations operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   * for billingProfile scope
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: Models.ReservationRecommendationsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>
-  ): void;
-  list(
-    options?:
-      | Models.ReservationRecommendationsListOptionalParams
-      | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>,
-    callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>
-  ): Promise<Models.ReservationRecommendationsListResponse> {
+  list(scope: string, options: Models.ReservationRecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
+  list(scope: string, options?: Models.ReservationRecommendationsListOptionalParams | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListResponse> {
     return this.client.sendOperationRequest(
       {
+        scope,
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.ReservationRecommendationsListResponse>;
+      callback) as Promise<Models.ReservationRecommendationsListResponse>;
   }
 
   /**
@@ -66,43 +74,26 @@ export class ReservationRecommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.ReservationRecommendationsListNextOptionalParams
-  ): Promise<Models.ReservationRecommendationsListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.ReservationRecommendationsListNextOptionalParams): Promise<Models.ReservationRecommendationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.ReservationRecommendationsListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.ReservationRecommendationsListNextOptionalParams
-      | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>,
-    callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>
-  ): Promise<Models.ReservationRecommendationsListNextResponse> {
+  listNext(nextPageLink: string, options: Models.ReservationRecommendationsListNextOptionalParams, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
+  listNext(nextPageLink: string, options?: Models.ReservationRecommendationsListNextOptionalParams | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.ReservationRecommendationsListNextResponse>;
+      callback) as Promise<Models.ReservationRecommendationsListNextResponse>;
   }
 }
 
@@ -110,14 +101,22 @@ export class ReservationRecommendations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/reservationRecommendations",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.filter0, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "{scope}/providers/Microsoft.Consumption/reservationRecommendations",
+  urlParameters: [
+    Parameters.scope0
+  ],
+  queryParameters: [
+    Parameters.filter0,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationRecommendationsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -129,13 +128,21 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.filter0, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.filter0,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationRecommendationsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
