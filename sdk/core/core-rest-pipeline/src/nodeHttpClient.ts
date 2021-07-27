@@ -207,7 +207,7 @@ class NodeHttpClient implements HttpClient {
       // The `connectionTimeoutInMs` property defines the number of milliseconds a request can take on stablishing a connection.
       // If `connectionTimeoutInMs` is not set, the `timeout` property is used for the same purpose.
       // Defaults to 0, which disables the timeout.
-      let connectionTimeoutInMs = request.connectionTimeoutInMs || request.timeout;
+      const connectionTimeoutInMs = request.connectionTimeoutInMs || request.timeout;
       let connectionTimeout: NodeJS.Timeout;
       if (connectionTimeoutInMs > 0) {
         req.on("socket", (socket) => {
@@ -226,10 +226,10 @@ class NodeHttpClient implements HttpClient {
       // If the socket is connected before this timeout expires, we only wait for the remaining time before throwing.
       // Defaults to 0, which disables the timeout.
       if (request.timeout > 0) {
-        let connectingStartDate = Date.now();
+        const connectingStartDate = Date.now();
         req.on("connect", () => {
           clearTimeout(connectionTimeout);
-          let connectingTimeElapsed = Date.now() - connectingStartDate;
+          const connectingTimeElapsed = Date.now() - connectingStartDate;
           setTimeout(() => {
             req.destroy();
             abortController.abort();
