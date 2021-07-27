@@ -172,38 +172,60 @@ describe("NodeHttpClient", function() {
     assert.isTrue(uploadCalled, "no upload progress");
   });
 
-  it("should honor timeout", async function() {
+  it("timeout should throw if it's shorter than the amount of time it takes the socket to connect", async function() {
     const client = createDefaultHttpClient();
+    const timeout = 10;
 
-    const timeoutLength = 2000;
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
-      timeout: timeoutLength
+      timeout
     });
+
     const promise = client.sendRequest(request);
-    clientRequest.emit("connect");
-    clock.tick(timeoutLength);
+    let destroyWasCalled = false;
+    clientRequest.emit("socket", {
+      connecting: true,
+      destroy() {
+        destroyWasCalled = true;
+      }
+    });
+
+    clock.tick(1000);
+    let error: Error | undefined;
     try {
       await promise;
-      assert.fail("Expected await to throw");
     } catch (e) {
-      assert.strictEqual(e.name, "AbortError");
+      error = e;
     }
+    assert.ok(destroyWasCalled);
+    assert.equal(error?.name, "AbortError");
+    assert.equal(error?.message, "The operation was aborted.");
   });
 
-  it("timeout should not stop the request from succeeding before the timeout is reached", async function() {
+  it("connectionTimeoutInMs should prevent timeout to throw if it's shorter than the amount of time it takes the socket to connect", async function() {
     const client = createDefaultHttpClient();
+    const timeout = 10;
+    const connectionTimeoutInMs = 2000;
 
-    const timeoutLength = 2000;
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
-      timeout: timeoutLength
+      timeout,
+      connectionTimeoutInMs
     });
+
     const promise = client.sendRequest(request);
+    clientRequest.emit("socket", {
+      connecting: true,
+      destroy() {
+        throw new Error("destroy() shouldn't have been called in this test");
+      }
+    });
+
+    clock.tick(1000);
     clientRequest.emit("connect");
     const responseText = "An appropriate response.";
     clientRequest.emit("response", createResponse(200, responseText));
@@ -211,32 +233,38 @@ describe("NodeHttpClient", function() {
     assert.strictEqual(response.bodyAsText, responseText);
   });
 
-  it("timeout should be respected even if connect doesn't happen", async function() {
+  it("timeout should be respected if there's no response after both timeouts have passed", async function() {
     const client = createDefaultHttpClient();
+    const timeout = 1000;
+    const connectionTimeoutInMs = 2000;
 
-    const timeoutLength = 2000;
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
-      timeout: timeoutLength
+      timeout,
+      connectionTimeoutInMs
     });
+
     const promise = client.sendRequest(request);
+    let destroyWasCalled = false;
+    clientRequest.emit("socket", {
+      connecting: true,
+      destroy() {
+        destroyWasCalled = true;
+      }
+    });
 
-    // Connect never happens
-    // clientRequest.emit("connect");
-
-    // However, at least it should receive a "socket" event
-    clientRequest.emit("socket");
-
+    clock.tick(4000);
+    let error: Error | undefined;
     try {
-      clock.tick(timeoutLength);
       await promise;
-      assert.fail("Expected await to throw");
     } catch (e) {
-      console.log("ERROR", e);
-      assert.strictEqual(e.name, "AbortError");
+      error = e;
     }
+    assert.ok(destroyWasCalled);
+    assert.equal(error?.name, "AbortError");
+    assert.equal(error?.message, "The operation was aborted.");
   });
 
   it("should stream response body on matching status code", async function() {

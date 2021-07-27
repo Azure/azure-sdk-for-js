@@ -5,13 +5,12 @@
 ### Features Added
 
 - `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
-- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414).
+- Added `connectionTimeoutInMs` to `PipelineRequest` to set the maximum allowable time to establish a TCP connection on Node.js. When specified, the overall request timeout is applied _after_ the connection has been established.
 
 ### Breaking Changes
 
 ### Bugs Fixed
-
-- On Node, the `timeout` parameter of the `PipelineRequestOptions` object will now only begin counting once the underlying socket is connected. If a socket never connects, a manual timeout will be triggered.
 
 ### Other Changes
 

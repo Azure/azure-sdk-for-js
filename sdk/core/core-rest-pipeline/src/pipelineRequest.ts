@@ -36,9 +36,19 @@ export interface PipelineRequestOptions {
   headers?: HttpHeaders;
 
   /**
+   * On Node.js, this specifies the number of milliseconds a request can take on stablishing a connection.
+   * If the request is terminated, an `AbortError` is thrown.
+   * Defaults to 0, which disables the timeout.
+   */
+  connectionTimeoutInMs?: number;
+
+  /**
    * The number of milliseconds a request can take before automatically being terminated.
    * If the request is terminated, an `AbortError` is thrown.
    * Defaults to 0, which disables the timeout.
+   * On Node.js:
+   * - If `connectionTimeoutInMs` is not set, this timeout could trigger an error if the connection is not established before the timeout finishes.
+   * - If `connectionTimeoutInMs` is set, this timeout will only start counting after the connection is established.
    */
   timeout?: number;
 
@@ -105,6 +115,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public method: HttpMethods;
   public headers: HttpHeaders;
   public timeout: number;
+  public connectionTimeoutInMs: number | undefined;
   public withCredentials: boolean;
   public body?: RequestBodyType;
   public formData?: FormDataMap;
@@ -124,6 +135,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.headers = options.headers ?? createHttpHeaders();
     this.method = options.method ?? "GET";
     this.timeout = options.timeout ?? 0;
+    this.connectionTimeoutInMs = options.connectionTimeoutInMs;
     this.formData = options.formData;
     this.disableKeepAlive = options.disableKeepAlive ?? false;
     this.proxySettings = options.proxySettings;

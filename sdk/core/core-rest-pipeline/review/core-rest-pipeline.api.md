@@ -189,6 +189,7 @@ export interface PipelineRequest {
     agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
+    connectionTimeoutInMs?: number;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
@@ -209,6 +210,7 @@ export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
+    connectionTimeoutInMs?: number;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
     headers?: HttpHeaders;

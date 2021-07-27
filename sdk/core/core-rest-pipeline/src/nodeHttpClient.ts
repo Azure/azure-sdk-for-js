@@ -204,22 +204,37 @@ class NodeHttpClient implements HttpClient {
     return new Promise<http.IncomingMessage>((resolve, reject) => {
       const req = isInsecure ? http.request(options) : https.request(options);
 
-      if (request.timeout > 0) {
-        req.on("connect", () => {
-          setTimeout(() => req.emit("timeout"), request.timeout);
-        });
+      // The `connectionTimeoutInMs` property defines the number of milliseconds a request can take on stablishing a connection.
+      // If `connectionTimeoutInMs` is not set, the `timeout` property is used for the same purpose.
+      // Defaults to 0, which disables the timeout.
+      let connectionTimeoutInMs = request.connectionTimeoutInMs || request.timeout;
+      let connectionTimeout: NodeJS.Timeout;
+      if (connectionTimeoutInMs > 0) {
         req.on("socket", (socket) => {
-          // Node warrantees that an instance of the <net.Socket> class will be passed,
-          // unless the user specifies a socket type other than <net.Socket>.
-          // Meaning that we may see unexpected sockets in the wild.
-          // For our tests though, we know that socket will be undefined.
-          if (socket?.setTimeout) {
-            socket.setTimeout(request.timeout);
-          } else {
-            setTimeout(() => req.emit("timeout"), request.timeout);
+          // If connecting is true, no connection has been established yet.
+          if (socket.connecting) {
+            connectionTimeout = setTimeout(() => {
+              socket.destroy();
+              abortController.abort();
+            }, connectionTimeoutInMs);
           }
+          // If connecting is false, the socket is already connected.
         });
-        req.on("timeout", () => abortController.abort());
+      }
+
+      // The `timeout` property defines the number of milliseconds a request can take before automatically being terminated.
+      // If the socket is connected before this timeout expires, we only wait for the remaining time before throwing.
+      // Defaults to 0, which disables the timeout.
+      if (request.timeout > 0) {
+        let connectingStartDate = Date.now();
+        req.on("connect", () => {
+          clearTimeout(connectionTimeout);
+          let connectingTimeElapsed = Date.now() - connectingStartDate;
+          setTimeout(() => {
+            req.destroy();
+            abortController.abort();
+          }, request.timeout - connectingTimeElapsed);
+        });
       }
 
       req.once("response", (res: http.IncomingMessage) => {
