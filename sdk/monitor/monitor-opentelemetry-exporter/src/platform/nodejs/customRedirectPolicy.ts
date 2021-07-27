@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-rest-pipeline";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  PipelinePolicy
+} from "@azure/core-rest-pipeline";
 import { URL } from "url";
 
 /**

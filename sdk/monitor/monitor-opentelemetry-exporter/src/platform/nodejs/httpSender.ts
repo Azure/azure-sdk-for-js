@@ -55,14 +55,6 @@ export class HttpSender implements Sender {
         onResponse
       });
 
-      if (response?.status === 404) {
-        throw new RestError(response?.bodyAsText!, {
-          statusCode: response?.status,
-          request: response?.request,
-          response: response
-        });
-      }
-
       return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
     } catch (e) {
       throw e;
