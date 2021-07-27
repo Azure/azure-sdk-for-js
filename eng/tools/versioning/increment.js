@@ -42,6 +42,11 @@ async function main(argv) {
     (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
   );
 
+  if (targetPackage.versionPolicyName == "management") {
+    console.log("Skipping version increment for management package");
+    return;
+  }
+
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
