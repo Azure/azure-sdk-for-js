@@ -52,8 +52,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info,
-          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          logger: logger.info
         }
       }
     };
