@@ -1,11 +1,6 @@
-import {
-  TestTracer,
-  setTracer,
-  setSpan,
-  context as otContext,
-  OperationTracingOptions
-} from "@azure/core-tracing";
+import { setSpan, context as otContext, OperationTracingOptions } from "@azure/core-tracing";
 import { assert } from "chai";
+import { setTracer } from "./tracingUtils";
 
 const prefix = "Azure.KeyVault";
 
@@ -13,8 +8,7 @@ export async function supportsTracing(
   callback: (tracingOptions: OperationTracingOptions) => Promise<unknown>,
   children: string[]
 ): Promise<void> {
-  const tracer = new TestTracer();
-  setTracer(tracer);
+  const tracer = setTracer();
   const rootSpan = tracer.startSpan("root");
   const tracingContext = setSpan(otContext.active(), rootSpan);
 
@@ -34,7 +28,7 @@ export async function supportsTracing(
 
   // Ensure top-level children are created correctly.
   // Testing the entire tree structure can be tricky as other packages might create their own spans.
-  const spanGraph = tracer.getSpanGraph(rootSpan.context().traceId);
+  const spanGraph = tracer.getSpanGraph(rootSpan.spanContext().traceId);
   const directChildren = spanGraph.roots[0].children.map((child) => child.name);
   // LROs might poll N times, so we'll make a unique array and compare that.
   assert.sameMembers(Array.from(new Set(directChildren)), children);
