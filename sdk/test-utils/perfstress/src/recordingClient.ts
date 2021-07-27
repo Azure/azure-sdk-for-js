@@ -28,7 +28,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.headers.contains("x-recording-id") && (this._mode === "record" || this._mode === "playback")) {
+    if ((!request.headers.contains("x-recording-id") && this._mode === "record") || (this._mode === "playback")) {
       console.log("mode", this._mode);
       console.log("id", this._recordingId);
       request.headers.set("x-recording-id", this._recordingId!);
@@ -55,12 +55,15 @@ export class RecordingHttpClient extends DefaultHttpClient {
 
   async start(): Promise<void> {
     console.log("in start, mode = ", this._mode);
-    if (this._recordingId === undefined && (this._mode === "record" || this._mode === "playback")) {
+    if ((this._recordingId === undefined && this._mode === "record") || (this._mode === "playback" && this._recordingId != undefined)) {
       const startUri =
         this._uri +
         (this._mode === "playback" ? paths.playback : paths.record) +
         paths.start;
       const req = this._createRecordingRequest(startUri);
+      if (this._mode === "playback") {
+        req.headers.set("x-recording-id", this._recordingId!)
+      }
       const rsp = await this._httpClient.sendRequest(req);
       if (rsp.status !== 200) {
         throw new Error("Start request failed.");
@@ -87,7 +90,6 @@ export class RecordingHttpClient extends DefaultHttpClient {
         req.headers.set("x-purge-inmemory-recording", "true");
       }
       await this._httpClient.sendRequest(req);
-      this._recordingId = undefined;
     }
   }
 

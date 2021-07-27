@@ -309,7 +309,9 @@ export class PerfStressProgram {
     }
 
     if (options["test-proxy"]) {
+      console.log("calling recordAndStartPlayback...");
       await this.recordAndStartPlayback(this.tests[0]);
+      console.log("ended recordAndStartPlayback...!");
     }
 
     if (Number(options.warmup.value) > 0) {
@@ -322,7 +324,9 @@ export class PerfStressProgram {
     }
 
     if (options["test-proxy"]) {
+      console.log("calling stopPlayback...");
       await this.stopPlayback();
+      console.log("ended stopPlayback...");
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -353,19 +357,13 @@ export class PerfStressProgram {
     // => stop record
     // => start playback
     PerfStressTest.recorder._mode = "record";
-    console.log("inside recordAndStartPlayback, start recording");
     await PerfStressTest.recorder.start();
     PerfStressTest.recorder
-    console.log("let's run runasync");
     await test.runAsync!();
-    console.log("runasync done");
-    console.log("let's stop recording");
 
     await PerfStressTest.recorder.stop();
     PerfStressTest.recorder._mode = "playback";
-    console.log("inside recordAndStartPlayback still, start playback");
     await PerfStressTest.recorder.start();
-    console.log("inside recordAndStartPlayback still, started playback");
   }
   private async stopPlayback() {
     await PerfStressTest.recorder.stop();
