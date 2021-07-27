@@ -1,5 +1,5 @@
 
-Getting Started - Using the next-generation management libraries of Azure SDK for Javascript/Typescript
+Getting Started - Using the next-generation management libraries of Azure SDK for JavaScript/Typescript
 =============================================================
 
 We are excited to announce that a new set of management libraries are
@@ -10,11 +10,15 @@ APIs that are idiomatic, compatible, and dependable. See [Typescript Design Guid
 
 Currently, we have previewed several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
 `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find 
-the latest version under `next` tag and have a try. If you are interested in upgrading to the latest new generation of SDK, please refer to this [migration guide](./MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
+the latest version under `next` tag and have a try.
 
 In this basic quickstart guide, we will walk you through how to
 authenticate to Azure and start interacting with Azure resources. There are several possible approaches to
 authentication. This document illustrates the most common scenario.
+
+Migrating from an older generation of Azure management libraries for JavaScript/TypeScript
+------------------------------------------------------------------------------------------
+If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](./MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
 
 Prerequisites
 -------------
