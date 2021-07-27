@@ -6,14 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricNamespaces } from "./operations";
+import { MetricNamespacesImpl } from "./operations";
+import { MetricNamespaces } from "./operationsInterfaces";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
   MonitorManagementClientOptionalParams,
   ApiVersion20171201Preview
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
    * Initializes a new instance of the MonitorManagementClient class.
@@ -25,7 +26,7 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
     options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);
-    this.metricNamespaces = new MetricNamespaces(this);
+    this.metricNamespaces = new MetricNamespacesImpl(this);
   }
 
   metricNamespaces: MetricNamespaces;

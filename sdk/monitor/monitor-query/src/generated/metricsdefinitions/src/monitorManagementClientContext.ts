@@ -7,12 +7,15 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { ApiVersion201801, MonitorManagementClientOptionalParams } from "./models";
+import {
+  ApiVersion201801,
+  MonitorManagementClientOptionalParams
+} from "./models";
 
 const packageName = "monitor-metrics-definitions";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.4";
 
-/** @hidden */
+/** @internal */
 export class MonitorManagementClientContext extends coreHttp.ServiceClient {
   $host: string;
   apiVersion: ApiVersion201801;
@@ -22,7 +25,10 @@ export class MonitorManagementClientContext extends coreHttp.ServiceClient {
    * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(apiVersion: ApiVersion201801, options?: MonitorManagementClientOptionalParams) {
+  constructor(
+    apiVersion: ApiVersion201801,
+    options?: MonitorManagementClientOptionalParams
+  ) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -32,17 +38,20 @@ export class MonitorManagementClientContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      "@azure/",
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    super(undefined, options);
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "https://management.azure.com";
-
     // Parameter assignments
     this.apiVersion = apiVersion;
 

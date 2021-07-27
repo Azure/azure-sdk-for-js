@@ -7,12 +7,15 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { ApiVersion20171201Preview, MonitorManagementClientOptionalParams } from "./models";
+import {
+  ApiVersion20171201Preview,
+  MonitorManagementClientOptionalParams
+} from "./models";
 
 const packageName = "monitor-metrics-namespaces";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.4";
 
-/** @hidden */
+/** @internal */
 export class MonitorManagementClientContext extends coreHttp.ServiceClient {
   $host: string;
   apiVersion: ApiVersion20171201Preview;
@@ -35,17 +38,20 @@ export class MonitorManagementClientContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      "@azure/",
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    super(undefined, options);
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "https://management.azure.com";
-
     // Parameter assignments
     this.apiVersion = apiVersion;
 
