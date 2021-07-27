@@ -106,58 +106,83 @@ class NodeHttpClient implements HttpClient {
 
     let responseStream: NodeJS.ReadableStream | undefined;
     try {
-      if (body && request.onUploadProgress) {
-        const onUploadProgress = request.onUploadProgress;
-        const uploadReportStream = new ReportTransform(onUploadProgress);
-        uploadReportStream.on("error", (e) => {
-          logger.error("Error in upload progress", e);
-        });
-        if (isReadableStream(body)) {
-          body.pipe(uploadReportStream);
-        } else {
-          uploadReportStream.end(body);
+      const result = await new Promise<PipelineResponse>((resolve, reject) => {
+        if (body && request.onUploadProgress) {
+          const onUploadProgress = request.onUploadProgress;
+          const uploadReportStream = new ReportTransform(onUploadProgress);
+          uploadReportStream.on("error", reject);
+          if (isReadableStream(body)) {
+            body.pipe(uploadReportStream);
+          } else {
+            uploadReportStream.end(body);
+          }
+
+          body = uploadReportStream;
         }
+        const req = this.makeRequest(request, async (res) => {
+          const headers = getResponseHeaders(res);
 
-        body = uploadReportStream;
-      }
+          const status = res.statusCode ?? 0;
+          const response: PipelineResponse = {
+            status,
+            headers,
+            request
+          };
 
-      const res = await this.makeRequest(request, abortController, body);
+          // Responses to HEAD must not have a body.
+          // If they do return a body, that body must be ignored.
+          if (request.method === "HEAD") {
+            res.destroy();
+            resolve(response);
+            return;
+          }
 
-      const headers = getResponseHeaders(res);
+          responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
-      const status = res.statusCode ?? 0;
-      const response: PipelineResponse = {
-        status,
-        headers,
-        request
-      };
+          const onDownloadProgress = request.onDownloadProgress;
+          if (onDownloadProgress) {
+            const downloadReportStream = new ReportTransform(onDownloadProgress);
+            downloadReportStream.on("error", reject);
+            responseStream.pipe(downloadReportStream);
+            responseStream = downloadReportStream;
+          }
 
-      // Responses to HEAD must not have a body.
-      // If they do return a body, that body must be ignored.
-      if (request.method === "HEAD") {
-        res.destroy();
-        return response;
-      }
+          if (request.streamResponseStatusCodes?.has(response.status)) {
+            response.readableStreamBody = responseStream;
+          } else {
+            try {
+              response.bodyAsText = await streamToText(responseStream);
+            } catch (e) {
+              reject(e);
+            }
+          }
 
-      responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
-
-      const onDownloadProgress = request.onDownloadProgress;
-      if (onDownloadProgress) {
-        const downloadReportStream = new ReportTransform(onDownloadProgress);
-        downloadReportStream.on("error", (e) => {
-          logger.error("Error in download progress", e);
+          resolve(response);
         });
-        responseStream.pipe(downloadReportStream);
-        responseStream = downloadReportStream;
-      }
-
-      if (request.streamResponseStatusCodes?.has(response.status)) {
-        response.readableStreamBody = responseStream;
-      } else {
-        response.bodyAsText = await streamToText(responseStream);
-      }
-
-      return response;
+        req.on("error", (err) => {
+          reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
+        });
+        abortController.signal.addEventListener("abort", () => {
+          req.abort();
+          reject(new AbortError("The operation was aborted."));
+        });
+        if (body && isReadableStream(body)) {
+          body.pipe(req);
+        } else if (body) {
+          if (typeof body === "string" || Buffer.isBuffer(body)) {
+            req.end(body);
+          } else if (isArrayBuffer(body)) {
+            req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
+          } else {
+            logger.error("Unrecognized body type", body);
+            throw new RestError("Unrecognized body type");
+          }
+        } else {
+          // streams don't like "undefined" being passed as data
+          req.end();
+        }
+      });
+      return result;
     } finally {
       // clean up event listener
       if (request.abortSignal && abortListener) {
@@ -172,10 +197,8 @@ class NodeHttpClient implements HttpClient {
 
         Promise.all([uploadStreamDone, downloadStreamDone])
           .then(() => {
-            // eslint-disable-next-line promise/always-return
-            if (abortListener) {
-              request.abortSignal?.removeEventListener("abort", abortListener);
-            }
+            request.abortSignal?.removeEventListener("abort", abortListener!);
+            return;
           })
           .catch((e) => {
             logger.warning("Error when cleaning up abortListener on httpRequest", e);
@@ -186,9 +209,8 @@ class NodeHttpClient implements HttpClient {
 
   private makeRequest(
     request: PipelineRequest,
-    abortController: AbortController,
-    body?: RequestBodyType
-  ): Promise<http.IncomingMessage> {
+    callback: (res: http.IncomingMessage) => void
+  ): http.ClientRequest {
     const url = new URL(request.url);
 
     const isInsecure = url.protocol !== "https:";
@@ -206,36 +228,11 @@ class NodeHttpClient implements HttpClient {
       method: request.method,
       headers: request.headers.toJSON()
     };
-
-    return new Promise<http.IncomingMessage>((resolve, reject) => {
-      const req = isInsecure ? http.request(options) : https.request(options);
-
-      req.once("response", (res: http.IncomingMessage) => {
-        resolve(res);
-      });
-      req.once("error", (err) => {
-        reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
-      });
-      abortController.signal.addEventListener("abort", () => {
-        req.abort();
-        reject(new AbortError("The operation was aborted."));
-      });
-      if (body && isReadableStream(body)) {
-        body.pipe(req);
-      } else if (body) {
-        if (typeof body === "string" || Buffer.isBuffer(body)) {
-          req.end(body);
-        } else if (isArrayBuffer(body)) {
-          req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
-        } else {
-          logger.error("Unrecognized body type", body);
-          throw new RestError("Unrecognized body type");
-        }
-      } else {
-        // streams don't like "undefined" being passed as data
-        req.end();
-      }
-    });
+    if (isInsecure) {
+      return http.request(options, callback);
+    } else {
+      return https.request(options, callback);
+    }
   }
 
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
