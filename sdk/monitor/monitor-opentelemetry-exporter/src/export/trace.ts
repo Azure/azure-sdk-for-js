@@ -67,9 +67,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk.")
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -122,7 +122,11 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       }
     } catch (error) {
       const restError = error as RestError;
-      if (restError.statusCode && restError.statusCode === 308) {
+      if (
+        restError.statusCode &&
+        (restError.statusCode === 307 || // Temporary redirect
+          restError.statusCode === 308)
+      ) {
         // Permanent redirect
         this._numConsecutiveRedirects++;
         // To prevent circular redirects

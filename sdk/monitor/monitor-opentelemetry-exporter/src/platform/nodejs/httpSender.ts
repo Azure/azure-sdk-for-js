@@ -3,7 +3,7 @@
 import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, redirectPolicyName } from "@azure/core-rest-pipeline";
 import { Sender, SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
@@ -12,6 +12,7 @@ import {
   ApplicationInsightsClientTrackOptionalParams
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
+import { customRedirectPolicy } from "./customRedirectPolicy";
 
 /**
  * Exporter HTTP sender class
@@ -30,6 +31,9 @@ export class HttpSender implements Sender {
     this._appInsightsClient = new ApplicationInsightsClient({
       ...this._appInsightsClientOptions
     });
+
+    this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+    this._appInsightsClient.pipeline.addPolicy(customRedirectPolicy(), { afterPhase: "Retry" });
   }
 
   /**
