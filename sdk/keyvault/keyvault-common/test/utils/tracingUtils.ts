@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TracerProvider, trace } from "@opentelemetry/api";
-
 import {
   TimeInput,
   SpanStatus,
@@ -16,7 +14,9 @@ import {
   TraceFlags,
   Context as OTContext,
   context as otContext,
-  Tracer
+  Tracer,
+  trace,
+  TracerProvider
 } from "@opentelemetry/api";
 
 // This must be the same as the default tracer name supplied from @azure/core-tracing.
