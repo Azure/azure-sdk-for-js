@@ -271,8 +271,6 @@ Run this command
 
 - `docker run -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
 
-[Note: Update `temp-location` in the command to your desired location.]
-
 If the above command doesn't work directly, try logging in. [@Scott Beddall is trying to iron out the kinks :)]
 
 > az login
