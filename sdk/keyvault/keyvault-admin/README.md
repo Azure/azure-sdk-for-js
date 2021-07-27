@@ -12,6 +12,13 @@ The package `@azure/keyvault-admin` provides support for administrative Key Vaul
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Install the package
 
 Install the Azure Key Vault administration client library for JavaScript and TypeScript with [NPM][npm]:
@@ -24,7 +31,6 @@ npm install @azure/keyvault-admin
 
 - An [Azure subscription][azure-sub].
 - An existing Azure Key Vault Managed HSM. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 #### Getting Azure credentials
 
