@@ -198,6 +198,7 @@ trigger:
     - sdk/servicefabric/servicefabric
     - sdk/storage/storage-datalake
     - sdk/storage/storage-internal-avro
+    - sdk/cost-management/arm-costmanagement
 
 pr: none
 
