@@ -31,7 +31,8 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-attestation/1.0.0-beta.2`;
+    const packageVersion = "1.0.0-beta.5";
+    const packageDetails = `azsdk-js-attestation/${packageVersion}`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
