@@ -152,7 +152,7 @@ export const imdsMsi: MSI = {
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
     logger.info(
-      `Using the Azure IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+      `Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
