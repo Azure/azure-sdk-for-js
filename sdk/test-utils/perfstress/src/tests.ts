@@ -15,7 +15,7 @@ import { RecordingHttpClient } from "./recordingClient";
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
 export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new(): PerfStressTest<TOptions>;
+  new (): PerfStressTest<TOptions>;
 }
 
 /**

@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse, URLBuilder } from "@azure/core-http";
-import {
-  DefaultHttpClient,
-  WebResource,
-  WebResourceLike
-} from "@azure/core-http";
+import { DefaultHttpClient, WebResource, WebResourceLike } from "@azure/core-http";
 
 const paths = {
   playback: "/playback",
@@ -28,7 +24,10 @@ export class RecordingHttpClient extends DefaultHttpClient {
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (request.headers.contains("x-recording-id") && (this._mode === "record" || this._mode === "playback")) {
+    if (
+      request.headers.contains("x-recording-id") &&
+      (this._mode === "record" || this._mode === "playback")
+    ) {
       console.log("mode", this._mode);
       console.log("id", this._recordingId);
       request.headers.set("x-recording-id", this._recordingId!);
@@ -43,10 +42,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
       redirectedUrl.setScheme(providedUrl.getScheme());
       redirectedUrl.setPort(providedUrl.getPort());
       upstreamUrl.setPath(undefined);
-      request.headers.set(
-        "x-recording-upstream-base-uri",
-        upstreamUrl.toString()
-      );
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
       request.url = redirectedUrl.toString();
     }
 
