@@ -104,18 +104,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -185,7 +185,7 @@ export class PerfStressProgram {
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -321,7 +321,7 @@ export class PerfStressProgram {
     }
   }
 
-  private async recordAndStartPlayback(test: PerfStressTest<{}>) {
+  private async recordAndStartPlayback(test: PerfStressTest) {
     // If test-proxy,
     // => then start record
     // => run the runAsync
