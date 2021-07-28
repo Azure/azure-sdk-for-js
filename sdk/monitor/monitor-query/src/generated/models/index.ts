@@ -7,7 +7,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-
+import * as coreClient from "@azure/core-client";
 /** The result of a list request. */
 export interface KeyListResult {
   /** The collection value. */
@@ -217,8 +217,7 @@ export type SettingFields =
   | "etag";
 
 /** Optional parameters. */
-export interface GeneratedClientGetKeysOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetKeysOptionalParams extends coreHttp.OperationOptions {
   /** A filter for the name of the returned keys. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -243,8 +242,7 @@ export type GeneratedClientGetKeysResponse = GeneratedClientGetKeysHeaders &
   };
 
 /** Optional parameters. */
-export interface GeneratedClientCheckKeysOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientCheckKeysOptionalParams extends coreClient.OperationOptions {
   /** A filter for the name of the returned keys. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -263,8 +261,7 @@ export type GeneratedClientCheckKeysResponse = GeneratedClientCheckKeysHeaders &
 };
 
 /** Optional parameters. */
-export interface GeneratedClientGetKeyValuesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetKeyValuesOptionalParams extends coreHttp.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -293,8 +290,7 @@ export type GeneratedClientGetKeyValuesResponse = GeneratedClientGetKeyValuesHea
   };
 
 /** Optional parameters. */
-export interface GeneratedClientCheckKeyValuesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientCheckKeyValuesOptionalParams extends coreHttp.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -317,8 +313,7 @@ export type GeneratedClientCheckKeyValuesResponse = GeneratedClientCheckKeyValue
 };
 
 /** Optional parameters. */
-export interface GeneratedClientGetKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetKeyValueOptionalParams extends coreHttp.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
@@ -347,8 +342,7 @@ export type GeneratedClientGetKeyValueResponse = GeneratedClientGetKeyValueHeade
   };
 
 /** Optional parameters. */
-export interface GeneratedClientPutKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientPutKeyValueOptionalParams extends coreHttp.OperationOptions {
   /** The label of the key-value to create. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -375,8 +369,7 @@ export type GeneratedClientPutKeyValueResponse = GeneratedClientPutKeyValueHeade
   };
 
 /** Optional parameters. */
-export interface GeneratedClientDeleteKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientDeleteKeyValueOptionalParams extends coreHttp.OperationOptions {
   /** The label of the key-value to delete. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -399,8 +392,7 @@ export type GeneratedClientDeleteKeyValueResponse = GeneratedClientDeleteKeyValu
   };
 
 /** Optional parameters. */
-export interface GeneratedClientCheckKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientCheckKeyValueOptionalParams extends coreHttp.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
@@ -423,8 +415,7 @@ export type GeneratedClientCheckKeyValueResponse = GeneratedClientCheckKeyValueH
 };
 
 /** Optional parameters. */
-export interface GeneratedClientGetLabelsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetLabelsOptionalParams extends coreHttp.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -451,8 +442,7 @@ export type GeneratedClientGetLabelsResponse = GeneratedClientGetLabelsHeaders &
   };
 
 /** Optional parameters. */
-export interface GeneratedClientCheckLabelsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientCheckLabelsOptionalParams extends coreHttp.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -473,8 +463,7 @@ export type GeneratedClientCheckLabelsResponse = GeneratedClientCheckLabelsHeade
 };
 
 /** Optional parameters. */
-export interface GeneratedClientPutLockOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientPutLockOptionalParams extends coreHttp.OperationOptions {
   /** The label, if any, of the key-value to lock. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -499,8 +488,7 @@ export type GeneratedClientPutLockResponse = GeneratedClientPutLockHeaders &
   };
 
 /** Optional parameters. */
-export interface GeneratedClientDeleteLockOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientDeleteLockOptionalParams extends coreHttp.OperationOptions {
   /** The label, if any, of the key-value to unlock. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -525,8 +513,7 @@ export type GeneratedClientDeleteLockResponse = GeneratedClientDeleteLockHeaders
   };
 
 /** Optional parameters. */
-export interface GeneratedClientGetRevisionsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetRevisionsOptionalParams extends coreHttp.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -555,8 +542,7 @@ export type GeneratedClientGetRevisionsResponse = GeneratedClientGetRevisionsHea
   };
 
 /** Optional parameters. */
-export interface GeneratedClientCheckRevisionsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientCheckRevisionsOptionalParams extends coreHttp.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -579,8 +565,7 @@ export type GeneratedClientCheckRevisionsResponse = GeneratedClientCheckRevision
 };
 
 /** Optional parameters. */
-export interface GeneratedClientGetKeysNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetKeysNextOptionalParams extends coreHttp.OperationOptions {
   /** A filter for the name of the returned keys. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -605,8 +590,7 @@ export type GeneratedClientGetKeysNextResponse = GeneratedClientGetKeysNextHeade
   };
 
 /** Optional parameters. */
-export interface GeneratedClientGetKeyValuesNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetKeyValuesNextOptionalParams extends coreHttp.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -635,8 +619,7 @@ export type GeneratedClientGetKeyValuesNextResponse = GeneratedClientGetKeyValue
   };
 
 /** Optional parameters. */
-export interface GeneratedClientGetLabelsNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetLabelsNextOptionalParams extends coreHttp.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -663,8 +646,7 @@ export type GeneratedClientGetLabelsNextResponse = GeneratedClientGetLabelsNextH
   };
 
 /** Optional parameters. */
-export interface GeneratedClientGetRevisionsNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetRevisionsNextOptionalParams extends coreHttp.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -693,8 +675,7 @@ export type GeneratedClientGetRevisionsNextResponse = GeneratedClientGetRevision
   };
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** Used to guarantee real-time consistency between requests. */
   syncToken?: string;
   /** Api Version */

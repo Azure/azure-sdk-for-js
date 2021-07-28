@@ -22,4 +22,5 @@ disable-async-iterators: true
 api-version-parameter: choice
 hide-clients: true
 v3: true
+use-core-v2: true
 ```
