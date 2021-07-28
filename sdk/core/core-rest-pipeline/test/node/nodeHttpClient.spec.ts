@@ -184,12 +184,8 @@ describe("NodeHttpClient", function() {
     });
 
     const promise = client.sendRequest(request);
-    let destroyWasCalled = false;
     clientRequest.emit("socket", {
-      connecting: true,
-      destroy() {
-        destroyWasCalled = true;
-      }
+      connecting: true
     });
 
     clock.tick(1000);
@@ -199,7 +195,6 @@ describe("NodeHttpClient", function() {
     } catch (e) {
       error = e;
     }
-    assert.ok(destroyWasCalled);
     assert.equal(error?.name, "AbortError");
     assert.equal(error?.message, "The operation was aborted.");
   });
@@ -219,10 +214,7 @@ describe("NodeHttpClient", function() {
 
     const promise = client.sendRequest(request);
     clientRequest.emit("socket", {
-      connecting: true,
-      destroy() {
-        throw new Error("destroy() shouldn't have been called in this test");
-      }
+      connecting: true
     });
 
     clock.tick(1000);
@@ -247,12 +239,8 @@ describe("NodeHttpClient", function() {
     });
 
     const promise = client.sendRequest(request);
-    let destroyWasCalled = false;
     clientRequest.emit("socket", {
-      connecting: true,
-      destroy() {
-        destroyWasCalled = true;
-      }
+      connecting: true
     });
 
     clock.tick(4000);
@@ -262,7 +250,6 @@ describe("NodeHttpClient", function() {
     } catch (e) {
       error = e;
     }
-    assert.ok(destroyWasCalled);
     assert.equal(error?.name, "AbortError");
     assert.equal(error?.message, "The operation was aborted.");
   });

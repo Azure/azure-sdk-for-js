@@ -210,13 +210,10 @@ class NodeHttpClient implements HttpClient {
       const connectionTimeoutInMs = request.connectionTimeoutInMs ?? request.timeout;
       let connectionTimeout: NodeJS.Timeout;
       if (connectionTimeoutInMs > 0) {
-        req.on("socket", (socket) => {
+        req.once("socket", (socket) => {
           // If connecting is true, no connection has been established yet.
           if (socket.connecting) {
-            connectionTimeout = setTimeout(() => {
-              socket.destroy();
-              abortController.abort();
-            }, connectionTimeoutInMs);
+            connectionTimeout = setTimeout(() => abortController.abort(), connectionTimeoutInMs);
           }
           // If connecting is false, the socket is already connected.
         });
@@ -227,13 +224,10 @@ class NodeHttpClient implements HttpClient {
       // Defaults to 0, which disables the timeout.
       if (request.timeout > 0) {
         const connectingStartDate = Date.now();
-        req.on("connect", () => {
+        req.once("connect", () => {
           clearTimeout(connectionTimeout);
           const connectingTimeElapsed = Date.now() - connectingStartDate;
-          setTimeout(() => {
-            req.destroy();
-            abortController.abort();
-          }, request.timeout - connectingTimeElapsed);
+          setTimeout(() => abortController.abort(), request.timeout - connectingTimeElapsed);
         });
       }
 
