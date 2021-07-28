@@ -25,12 +25,9 @@ export class RecordingHttpClient extends DefaultHttpClient {
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     if (
-      request.headers.contains("x-recording-id") &&
-      (this._mode === "record" || this._mode === "playback")
+      this._recordingId && (this._mode === "record" || this._mode === "playback")
     ) {
-      console.log("mode", this._mode);
-      console.log("id", this._recordingId);
-      request.headers.set("x-recording-id", this._recordingId!);
+      request.headers.set("x-recording-id", this._recordingId);
       request.headers.set("x-recording-mode", this._mode);
       request.headers.set("x-recording-remove", "false");
 
