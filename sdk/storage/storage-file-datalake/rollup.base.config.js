@@ -37,7 +37,7 @@ export function nodeConfig(test = false) {
   ];
   const baseConfig = {
     input: "dist-esm/storage-file-datalake/src/index.js",
-    external: depNames.concat(externalNodeBuiltins, ["http-proxy-agent", "https-proxy-agent"]),
+    external: depNames.concat(externalNodeBuiltins, ["@azure/identity"]),
     output: {
       file: "dist/index.js",
       format: "cjs",
