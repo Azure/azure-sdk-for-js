@@ -126,7 +126,7 @@ export function fixInvalidBatchQueryResponse(
     return false;
   }
 
-  let wholeResponse: GeneratedQueryBatchResponse | undefined;
+  // let wholeResponse: GeneratedQueryBatchResponse | undefined;
   let hadToFix = false;
 
   // fix whichever responses are in this broken state (each query has it's own
@@ -142,16 +142,17 @@ export function fixInvalidBatchQueryResponse(
     // the body here is incorrect, deserialize the correct one from the raw response itself.
 
     // deserialize the raw response from the service, since we'll need index into it.
-    if (!wholeResponse) {
-      wholeResponse = JSON.parse(
-        generatedResponse["_response"].bodyAsText
-      ) as GeneratedQueryBatchResponse;
-    }
+
+    // if (!wholeResponse) {
+    //   wholeResponse = JSON.parse(
+    //     generatedResponse["_response"].bodyAsText
+    //   ) as GeneratedQueryBatchResponse;
+    // }
 
     // now grab the individual batch query response and deserialize that
     // incorrectly typed string...
     generatedResponse.responses[i].body = JSON.parse(
-      (wholeResponse.responses![i].body as any) as string
+      (generatedResponse.responses[i].body as any) as string
     );
 
     hadToFix = true;
@@ -219,7 +220,7 @@ export function convertResponseForMetrics(
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, _response: _response, value: _ignoredValue, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, ...rest } = generatedResponse;
 
   const obj: QueryMetricsResult = {
     ...rest,

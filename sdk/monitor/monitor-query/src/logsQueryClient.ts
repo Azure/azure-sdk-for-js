@@ -3,11 +3,7 @@
 
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
-  createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-http";
+import { PipelineOptions, createPipelineFromOptions } from "@azure/core-rest-pipeline";
 
 import {
   QueryLogsBatch,
@@ -56,17 +52,14 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      tokenCredential,
-      options?.scopes ?? defaultMonitorScope
-    );
-
     // This client defaults to using 'https://api.loganalytics.io/v1' as the
     // host.
-    const serviceClientOptions = createPipelineFromOptions(options || {}, authPolicy);
+    const serviceClientOptions = createPipelineFromOptions({ ...options });
 
     this._logAnalytics = new AzureLogAnalytics({
       ...serviceClientOptions,
+      credential: tokenCredential,
+      credentialScopes: options?.scopes ?? defaultMonitorScope,
       $host: options?.endpoint,
       endpoint: options?.endpoint
     });

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
-import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  PipelineOptions
-} from "@azure/core-http";
+import { createPipelineFromOptions, PipelineOptions } from "@azure/core-rest-pipeline";
 
 import {
   GetMetricDefinitionsOptions,
@@ -58,17 +54,17 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
-    const bearerTokenPolicy = bearerTokenAuthenticationPolicy(
-      tokenCredential,
-      formatScope(options?.endpoint)
-    );
-
+    // const serviceClientOptions = createPipelineFromOptions({ ...options });
+    const clientOptions = createPipelineFromOptions({
+      ...options
+    });
     const serviceClientOptions = {
-      ...createPipelineFromOptions(options || {}, bearerTokenPolicy),
+      ...clientOptions,
+      credential: tokenCredential,
+      credentialScopes: formatScope(options?.endpoint),
       $host: options?.endpoint,
       endpoint: options?.endpoint
     };
-
     this._metricsClient = new GeneratedMetricsClient(
       MetricsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
