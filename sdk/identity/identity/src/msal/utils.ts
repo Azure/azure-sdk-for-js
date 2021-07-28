@@ -68,13 +68,11 @@ export function getAuthority(tenantId: string, host?: string): string {
  * Generates the known authorities.
  * @internal
  */
-export function getKnownAuthorities(_tenantId: string, authorityHost: string): string[] {
-  // if (tenantId === "adfs" && authorityHost) {
-  //  return [authorityHost];
-  // }
-  // It seems safer to me to always specify the authority host.
-  // I'm keeping this function in case I change my mind, to have a simple way to alter this everywhere at once.
-  return [authorityHost];
+export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
+  if (tenantId === "adfs" && authorityHost) {
+    return [authorityHost];
+  }
+  return [];
 }
 
 /**

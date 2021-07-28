@@ -64,7 +64,7 @@ describe("IdentityClient", function() {
   it("throws an exception when an authentication request fails", async () => {
     const { error } = await sendCredentialRequests({
       scopes: ["https://test/.default"],
-      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+      credential: new ClientSecretCredential("adfs", "client", "secret"),
       secureResponses: [
         ...prepareMSALResponses(),
         createResponse(400, {
@@ -75,6 +75,7 @@ describe("IdentityClient", function() {
     });
     if (isNode) {
       assert.strictEqual(error!.name, "AuthenticationRequiredError");
+      assert.ok(error!.message.indexOf("This is a test error") > -1);
     } else {
       // The browser version of this credential uses a legacy approach.
       // While the Node version uses MSAL, the browser version does the network requests directly.
@@ -136,11 +137,11 @@ describe("IdentityClient", function() {
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
-    const credential = new ClientSecretCredential("tenant", "client", "secret");
+    const credential = new ClientSecretCredential("adfs", "client", "secret");
     const { error } = await sendCredentialRequests({
       scopes: ["scope"],
       credential,
-      secureResponses: [...prepareMSALResponses(), createResponse(300)]
+      secureResponses: [...prepareMSALResponses(), createResponse(200), createResponse(300)]
     });
     if (isNode) {
       assert.strictEqual(error?.name, "AuthenticationRequiredError");
