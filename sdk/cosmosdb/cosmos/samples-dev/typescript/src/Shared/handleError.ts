@@ -44,6 +44,3 @@ export function logSampleHeader(sampleName: string): void {
   console.log(sampleName);
   console.log("================================");
 }
-
-function run() {}
-run();

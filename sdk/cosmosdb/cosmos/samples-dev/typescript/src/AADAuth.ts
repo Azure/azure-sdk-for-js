@@ -5,7 +5,7 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
-const path = require("path");
+import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
 
