@@ -12,7 +12,7 @@ const parseArgs = () => {
   }
 
   const [scriptPath, artifactName] = process.argv.slice(1);
-  const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
+  const baseDir = path.resolve(`${path.dirname(scriptPath)}/../../..`);
   return [baseDir, artifactName];
 };
 
