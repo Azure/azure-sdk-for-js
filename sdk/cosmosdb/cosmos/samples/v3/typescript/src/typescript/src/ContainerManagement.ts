@@ -5,6 +5,10 @@
  * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
  */
 
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
+
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "../../../dist-esm";
 const {

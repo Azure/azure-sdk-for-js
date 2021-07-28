@@ -5,6 +5,10 @@
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
+
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { readFileSync } from "fs";
 import { CosmosClient } from "../../../dist-esm";
@@ -17,7 +21,9 @@ const {
 
 logSampleHeader("Item Management");
 
-const itemDefs = JSON.parse(readFileSync("./Shared/Data/Families.json", "utf8")).Families;
+const itemDefs = JSON.parse(
+  readFileSync(path.resolve(__dirname, "./Shared/Data/Families.json"), "utf8")
+).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });

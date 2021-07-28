@@ -1,6 +1,6 @@
 //@ts-check
 
-const { CosmosClient } = require("../..");
+const { CosmosClient } = require("../../../dist");
 
 const endpoint = process.env.QUERY_SCENARIO_COSMOS_ENDPOINT || process.env.COSMOS_ENDPOINT;
 const key = process.env.QUERY_SCENARIO_COSMOS_KEY || process.env.COSMOS_KEY;

@@ -1,3 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/**
+ * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
+ */
+
+const path = require("path");
+require("dotenv").config();
+
 const { SasTokenPermissionKind } = require("../../../dist-esm/common/constants");
 const { createAuthorizationSasToken } = require("../../../dist-esm/utils/SasToken");
 const { handleError, finish, logStep } = require("./Shared/handleError");

@@ -5,6 +5,10 @@
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
  */
 
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
+
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -67,7 +71,7 @@ const client = new CosmosClient({ endpoint, key });
 async function run(): Promise<void> {
   // ensuring a database & container exists for us to work with
   logStep("Create database '" + databaseId + "' and container '" + containerId + "'");
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  const { database } = await client.databases.createIfNotExists({ id: databaseId }, {});
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
   logStep("Insert 20 items");

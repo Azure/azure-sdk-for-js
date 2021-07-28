@@ -5,6 +5,9 @@
  * @summary Demonstrates using stored procedures for server side run functions
  */
 
+const path = require("path");
+require("dotenv").config();
+
 const { logSampleHeader, logStep, finish, handleError } = require("./Shared/handleError");
 const { CosmosClient } = require("../../../dist-esm");
 

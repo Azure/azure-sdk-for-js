@@ -5,6 +5,9 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
+const path = require("path");
+require("dotenv").config();
+
 const { handleError, finish, logStep } = require("./Shared/handleError");
 const { BulkOperationType } = require("../../../src");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

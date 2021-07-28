@@ -5,6 +5,9 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
+const path = require("path");
+require("dotenv").config();
+
 const { UsernamePasswordCredential } = require("@azure/identity");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -39,9 +42,9 @@ async function run() {
   );
 
   // fails
-  await aadClient.databases.readAll().fetchAll();
+  await aadClient.databases.readAll({}).fetchAll();
   // succeeds
-  await genericClient.databases.readAll().fetchAll();
+  await genericClient.databases.readAll({}).fetchAll();
 
   // succeeds
   await aadClient

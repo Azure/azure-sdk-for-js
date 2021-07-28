@@ -5,6 +5,9 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
+const path = require("path");
+require("dotenv").config();
+
 const { finish, handleError, logSampleHeader } = require("./Shared/handleError");
 const { CosmosClient } = require("../../../dist-esm");
 const {

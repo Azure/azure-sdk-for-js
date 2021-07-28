@@ -5,6 +5,9 @@
  * @summary Updates a container offer to change query throughput.
  */
 
+const path = require("path");
+require("dotenv").config();
+
 const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError");
 const { CosmosClient } = require("../../../dist-esm");
 const {

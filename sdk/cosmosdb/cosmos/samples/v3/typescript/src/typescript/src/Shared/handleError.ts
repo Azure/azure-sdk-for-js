@@ -5,12 +5,12 @@
  * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
  */
 
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../../../sample.env" });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { CosmosClient } from "../../dist";
+import { CosmosClient } from "../../../../dist-esm";
 
-const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env
+const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });
 
 export async function handleError(error: { code: string }): Promise<void> {
@@ -44,3 +44,6 @@ export function logSampleHeader(sampleName: string): void {
   console.log(sampleName);
   console.log("================================");
 }
+
+function run() {}
+run();

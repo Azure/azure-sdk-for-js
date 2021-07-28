@@ -5,6 +5,10 @@
  * @summary Demonstrates using stored procedures for server side run functions
  */
 
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
+
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
 import { CosmosClient, ErrorResponse } from "../../../dist-esm";
 import { FeedOptions, Item, Resource } from "../../../dist-esm";

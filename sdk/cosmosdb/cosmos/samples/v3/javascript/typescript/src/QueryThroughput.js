@@ -1,5 +1,14 @@
-//@@TS-MAGIC-NEWLINE@@
-const { CosmosClient } = require("../../../../dist/types/latest/cosmos");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/**
+ * @summary Demonstrates query throughput scenarios.
+ */
+
+const path = require("path");
+require("dotenv").config();
+
+const { CosmosClient } = require("../../../dist-esm");
 
 const {
   COSMOS_DATABASE: dbId,
@@ -56,4 +65,3 @@ async function runScenario(container, query, options) {
 }
 
 run().catch(console.error);
-export {};

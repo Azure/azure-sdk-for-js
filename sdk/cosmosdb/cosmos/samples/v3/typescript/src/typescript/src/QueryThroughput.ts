@@ -5,9 +5,11 @@
  * @summary Demonstrates query throughput scenarios.
  */
 
-import { Container, FeedOptions, SqlQuerySpec } from "../../../dist-esm";
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
 
-const { CosmosClient } = require("../../../../dist/types/latest/cosmos");
+import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "../../../dist-esm";
 
 const {
   COSMOS_DATABASE: dbId,
