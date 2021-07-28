@@ -3,10 +3,8 @@
 
 import * as http from "http";
 import * as https from "https";
-import httpsAgent from "https-proxy-agent";
-import httpAgent from "http-proxy-agent";
-import { HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgentOptions } from "http-proxy-agent";
+import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
+import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import {
   PipelineResponse,
   PipelineRequest,
@@ -16,10 +14,6 @@ import {
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
-
-// During rush build:test, these two appear not to be exported by the module.
-const { HttpsProxyAgent } = httpsAgent;
-const { HttpProxyAgent } = httpAgent;
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
