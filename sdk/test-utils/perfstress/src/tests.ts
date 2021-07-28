@@ -15,7 +15,7 @@ import { RecordingHttpClient } from "./recordingClient";
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
 export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new (): PerfStressTest<TOptions>;
+  new(): PerfStressTest<TOptions>;
 }
 
 /**
@@ -52,6 +52,7 @@ export abstract class PerfStressTest<TOptions = {}> {
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
   public getRecordingClient(): RecordingHttpClient {
+    if (PerfStressTest.recorder) return PerfStressTest.recorder;
     PerfStressTest.recorder = new RecordingHttpClient(this.parsedOptions["test-proxy"].value!);
     return PerfStressTest.recorder;
   }
