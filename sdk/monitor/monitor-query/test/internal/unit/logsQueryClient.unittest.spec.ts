@@ -10,7 +10,7 @@ describe("LogsQueryClient unit tests", () => {
    * Custom scopes and endpoints are needed if you're connecting to
    * a government cloud, for instance.
    */
-  it("using custom scopes and endpoints", async () => {
+  it.only("using custom scopes and endpoints", async () => {
     const scopesPassed: string[] = [];
 
     const tokenCredential: TokenCredential = {
@@ -30,8 +30,9 @@ describe("LogsQueryClient unit tests", () => {
 
     const client = new LogsQueryClient(tokenCredential, {
       endpoint: "https://customEndpoint1",
-      scopes: "customScopes1"
+      scopes: "https://customscopes1/"
     });
+    console.dir(client["_logAnalytics"]);
 
     assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1");
     assert.equal(client["_logAnalytics"]["_baseUri"], "https://customEndpoint1");
@@ -45,6 +46,6 @@ describe("LogsQueryClient unit tests", () => {
       });
     }
 
-    assert.deepEqual(scopesPassed, ["customScopes1"]);
+    assert.deepEqual(scopesPassed, ["https://customscopes1/"]);
   });
 });

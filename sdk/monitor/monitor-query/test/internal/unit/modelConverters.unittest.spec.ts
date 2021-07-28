@@ -147,7 +147,9 @@ describe("Model unit tests", () => {
         resultType: "Data",
         timespan: "arbitraryTimespan",
         top: 10,
-        tracingOptions
+        tracingOptions,
+        serializerOptions,
+        onResponse
       };
 
       assert.deepEqual(actualMetricsRequest, expectedMetricsRequest);
@@ -279,7 +281,9 @@ describe("Model unit tests", () => {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricnamespace: "myMetricNamespace"
+        metricnamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       });
     });
 
