@@ -235,8 +235,8 @@ describe("NodeHttpClient", function () {
       );
     }
   });
-  
-  it.only("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
+
+  it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpRequest.returns(clientRequest);
