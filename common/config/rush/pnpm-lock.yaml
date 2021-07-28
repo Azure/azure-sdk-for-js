@@ -11404,7 +11404,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry'
     resolution:
-      integrity: sha512-Z0oVTxXXn1tik0xx0Z8jwZYwa0sM7m3M569lMcjOOCfD0THG3xrvJALB8IPSrkOLditxWMdKWvh/VkF8YwwZgw==
+      integrity: sha512-TLvHZaEf9h2wtMEdawYn2diYDVX3uE8sdUD8jDOuBagIOzzM4GEtNktdLzpYm0K6tqEdOXAbJPwYnllPm5h4Lg==
       tarball: file:projects/schema-registry.tgz
     version: 0.0.0
   file:projects/search-documents.tgz:
