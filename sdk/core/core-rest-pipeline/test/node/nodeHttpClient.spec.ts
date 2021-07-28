@@ -29,25 +29,21 @@ class FakeRequest extends PassThrough {
  *
  * This fake asserts we have only passed the correct types.
  */
-function createHttpRequestChecker() {
-  const callbacks = new Map<string, (...args: unknown[]) => void>();
-  return {
-    once(name: string, callback: (...args: unknown[]) => void) {
-      callbacks.set(name, callback);
-    },
-    emit(name: string, ...args: unknown[]) {
-      const callback = callbacks.get(name);
-      if (callback) {
-        callbacks.delete(name);
-        callback(...args);
-      }
-    },
-    end(chunk: unknown) {
-      const isString = typeof chunk === "string";
-      assert(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
-    }
-  };
-}
+const httpRequestChecker = {
+  on() {
+    /* no op */
+  },
+  once() {
+    /* no op */
+  },
+  end(chunk: unknown) {
+    const isString = typeof chunk === "string";
+    assert(
+      isString || Buffer.isBuffer(chunk),
+      "Expected either string or Buffer"
+    );
+  }
+};
 
 function createResponse(statusCode: number, body = ""): IncomingMessage {
   const response = new FakeResponse();
@@ -64,34 +60,34 @@ function createRequest(): ClientRequest {
   return (request as unknown) as ClientRequest;
 }
 
-describe("NodeHttpClient", function() {
+describe("NodeHttpClient", function () {
   let stubbedHttpsRequest: sinon.SinonStub;
   let stubbedHttpRequest: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
 
-  beforeEach(function() {
+  beforeEach(function () {
     stubbedHttpsRequest = sinon.stub(https, "request");
     stubbedHttpRequest = sinon.stub(http, "request");
     clock = sinon.useFakeTimers();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     clock.restore();
     sinon.restore();
   });
 
-  it("shouldn't throw on 404", async function() {
+  it("shouldn't throw on 404", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
-    clientRequest.emit("response", createResponse(404));
+    stubbedHttpsRequest.yield(createResponse(404));
     const response = await promise;
     assert.strictEqual(response.status, 404);
   });
 
-  it("should allow canceling of requests", async function() {
+  it("should allow canceling of requests", async function () {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     const clientRequest = createRequest();
@@ -110,7 +106,7 @@ describe("NodeHttpClient", function() {
     }
   });
 
-  it("shouldn't be affected by requests cancelled late", async function() {
+  it("shouldn't be affected by requests cancelled late", async function () {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     const clientRequest = createRequest();
@@ -120,13 +116,13 @@ describe("NodeHttpClient", function() {
       abortSignal: controller.signal
     });
     const promise = client.sendRequest(request);
-    clientRequest.emit("response", createResponse(200));
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     controller.abort();
     assert.strictEqual(response.status, 200);
   });
 
-  it("should allow canceling of requests before the request is made", async function() {
+  it("should allow canceling of requests before the request is made", async function () {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     controller.abort();
@@ -145,7 +141,7 @@ describe("NodeHttpClient", function() {
     }
   });
 
-  it("should report upload and download progress", async function() {
+  it("should report upload and download progress", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
@@ -154,25 +150,25 @@ describe("NodeHttpClient", function() {
     const request = createPipelineRequest({
       url: "https://example.com",
       body: "Some kinda witty message",
-      onDownloadProgress: (ev) => {
+      onDownloadProgress: ev => {
         assert.isNumber(ev.loadedBytes);
         downloadCalled = true;
       },
-      onUploadProgress: (ev) => {
+      onUploadProgress: ev => {
         assert.isNumber(ev.loadedBytes);
         uploadCalled = true;
       }
     });
     const promise = client.sendRequest(request);
     const responseText = "An appropriate response.";
-    clientRequest.emit("response", createResponse(200, responseText));
+    stubbedHttpsRequest.yield(createResponse(200, responseText));
     const response = await promise;
     assert.strictEqual(response.bodyAsText, responseText);
     assert.isTrue(downloadCalled, "no download progress");
     assert.isTrue(uploadCalled, "no upload progress");
   });
 
-  it("should honor timeout", async function() {
+  it("should honor timeout", async function () {
     const client = createDefaultHttpClient();
 
     const timeoutLength = 2000;
@@ -192,7 +188,7 @@ describe("NodeHttpClient", function() {
     }
   });
 
-  it("should stream response body on matching status code", async function() {
+  it("should stream response body on matching status code", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
@@ -201,13 +197,13 @@ describe("NodeHttpClient", function() {
       streamResponseStatusCodes: new Set([200])
     });
     const promise = client.sendRequest(request);
-    clientRequest.emit("response", createResponse(200, "body"));
+    stubbedHttpsRequest.yield(createResponse(200, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
     assert.ok(response.readableStreamBody);
   });
 
-  it("should not stream response body on non-matching status code", async function() {
+  it("should not stream response body on non-matching status code", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
@@ -216,13 +212,13 @@ describe("NodeHttpClient", function() {
       streamResponseStatusCodes: new Set([200])
     });
     const promise = client.sendRequest(request);
-    clientRequest.emit("response", createResponse(400, "body"));
+    stubbedHttpsRequest.yield(createResponse(400, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, "body");
     assert.strictEqual(response.readableStreamBody, undefined);
   });
 
-  it("should throw when accessing HTTP and allowInsecureConnection is false", async function() {
+  it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
     const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       url: "http://example.com"
@@ -232,11 +228,15 @@ describe("NodeHttpClient", function() {
       await promise;
       assert.fail("Expected await to throw");
     } catch (e) {
-      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
+      assert.match(
+        e.message,
+        /^Cannot connect/,
+        "Error should refuse connection"
+      );
     }
   });
-
-  it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function() {
+  
+  it.only("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpRequest.returns(clientRequest);
@@ -245,12 +245,12 @@ describe("NodeHttpClient", function() {
       url: "http://example.com"
     });
     const promise = client.sendRequest(request);
-    clientRequest.emit("response", createResponse(200, "body"));
+    stubbedHttpRequest.yield(createResponse(200, "body"));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
-  it("Should decode chunked responses properly", async function() {
+  it("Should decode chunked responses properly", async function () {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
@@ -271,68 +271,73 @@ describe("NodeHttpClient", function() {
     buffer.copy(buffer2, 0, 4);
     streamResponse.write(buffer2);
     streamResponse.end();
-    clientRequest.emit("response", streamResponse);
+    stubbedHttpsRequest.yield(streamResponse);
     const response = await promise;
     assert.strictEqual(response.status, 200);
     assert.strictEqual(response.bodyAsText, inputString);
   });
 
-  it("should handle typed array bodies correctly", async function() {
+  it("should handle typed array bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    const checker = createHttpRequestChecker();
-    stubbedHttpsRequest.returns(checker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const data = new Uint8Array(10);
     for (let i = 0; i < 10; i++) {
       data[i] = i;
     }
 
-    const request = createPipelineRequest({ url: "https://example.com", body: data });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: data
+    });
     const promise = client.sendRequest(request);
-    checker.emit("response", createResponse(200));
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
-  it("should handle ArrayBuffer bodies correctly", async function() {
+  it("should handle ArrayBuffer bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    const checker = createHttpRequestChecker();
-    stubbedHttpsRequest.returns(checker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const data = new Uint8Array(10);
     for (let i = 0; i < 10; i++) {
       data[i] = i;
     }
 
-    const request = createPipelineRequest({ url: "https://example.com", body: data.buffer });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: data.buffer
+    });
     const promise = client.sendRequest(request);
-    checker.emit("response", createResponse(200));
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
-  it("should handle Buffer bodies correctly", async function() {
+  it("should handle Buffer bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    const checker = createHttpRequestChecker();
-    stubbedHttpsRequest.returns(checker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const data = Buffer.from("example text");
 
-    const request = createPipelineRequest({ url: "https://example.com", body: data });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: data
+    });
     const promise = client.sendRequest(request);
-    checker.emit("response", createResponse(200));
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
-  it("should handle string bodies correctly", async function() {
+  it("should handle string bodies correctly", async function () {
     const client = createDefaultHttpClient();
-    const checker = createHttpRequestChecker();
-    stubbedHttpsRequest.returns(checker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const request = createPipelineRequest({ url: "https://example.com", body: "test data" });
     const promise = client.sendRequest(request);
-    checker.emit("response", createResponse(200));
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
