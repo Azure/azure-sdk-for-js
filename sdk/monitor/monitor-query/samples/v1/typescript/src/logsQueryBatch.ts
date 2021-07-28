@@ -21,21 +21,39 @@ export async function main() {
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+  const queriesBatch = [
+    {
+      workspace: monitorWorkspaceId,
+      query: kqlQuery,
+      timespan: "P1D"
+    },
+    {
+      workspace: monitorWorkspaceId,
+      query: "AzureActivity | summarize count()",
+      timespan: "PT1H"
+    },
+    {
+      workspace: monitorWorkspaceId,
+      query:
+        "AppRequests | take 10  | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
+      timespan: "PT1H"
+    },
+    {
+      workspace: monitorWorkspaceId,
+      query: "AppRequests | take 2",
+      timespan: "PT1H",
+      includeQueryStatistics: true
+    }
+  ];
 
   const result = await logsQueryClient.queryLogsBatch({
-    queries: [
-      {
-        workspace: monitorWorkspaceId,
-        query: kqlQuery,
-        timespan: "P1D"
-      }
-    ]
+    queries: queriesBatch
   });
 
   if (result.results == null) {
     throw new Error("No response for query");
   }
-
+  var i = 0;
   for (const response of result.results) {
     console.log(`Results for query with id: ${response.id}`);
 
@@ -45,7 +63,9 @@ export async function main() {
       if (response.tables == null) {
         console.log(`No results for query`);
       } else {
-        console.log(`Printing results from query '${kqlQuery}' for 1 day.`);
+        console.log(
+          `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        );
 
         for (const table of response.tables) {
           const columnHeaderString = table.columns
@@ -60,6 +80,8 @@ export async function main() {
         }
       }
     }
+    //next query
+    i++;
   }
 }
 
