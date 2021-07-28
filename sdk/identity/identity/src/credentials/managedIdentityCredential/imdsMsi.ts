@@ -48,7 +48,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
   const query = qs.stringify(queryParameters);
 
   return {
-    url: `${imdsEndpoint}?${query}`,
+    url: process.env.AZURE_POD_IDENTITY_TOKEN_URL ?? `${imdsEndpoint}?${query}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",

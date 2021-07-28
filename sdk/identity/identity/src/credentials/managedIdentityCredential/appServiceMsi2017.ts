@@ -32,13 +32,16 @@ function prepareRequestOptions(resource: string, clientId?: string): PipelineReq
   if (!process.env.MSI_ENDPOINT) {
     throw new Error("Missing environment variable: MSI_ENDPOINT");
   }
+  if (!process.env.MSI_SECRET) {
+    throw new Error("Missing environment variable: MSI_SECRET");
+  }
 
   return {
     url: `${process.env.MSI_ENDPOINT}?${query.toString()}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      secret: process.env.MSI_SECRET!
+      secret: process.env.MSI_SECRET
     })
   };
 }

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
-
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { createSpan } from "../util/tracing";
@@ -163,19 +161,24 @@ export class AuthorizationCodeCredential implements TokenCredential {
         );
       }
 
+      const query = new URLSearchParams({
+        client_id: this.clientId,
+        grant_type: "authorization_code",
+        scope: scopeString,
+        code: this.authorizationCode,
+        redirect_uri: this.redirectUri
+      });
+
+      if (this.clientSecret) {
+        query.set("client_secret", this.clientSecret);
+      }
+
       if (tokenResponse === null) {
         const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
         const pipelineRequest = createPipelineRequest({
           url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
           method: "POST",
-          body: qs.stringify({
-            client_id: this.clientId,
-            grant_type: "authorization_code",
-            scope: scopeString,
-            code: this.authorizationCode,
-            redirect_uri: this.redirectUri,
-            client_secret: this.clientSecret
-          }),
+          body: query.toString(),
           headers: createHttpHeaders({
             Accept: "application/json",
             "Content-Type": "application/x-www-form-urlencoded"

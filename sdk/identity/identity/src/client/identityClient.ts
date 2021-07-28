@@ -17,7 +17,6 @@ import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
-import { parse } from "../util/safeJSONParse";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -102,15 +101,15 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody = parse<{
-        token?: string;
-        access_token?: string;
-        refresh_token?: string;
-      }>(response.bodyAsText);
+      const parsedBody = JSON.parse(response.bodyAsText);
+
+      if (!parsedBody.access_token) {
+        return null;
+      }
 
       const token = {
         accessToken: {
-          token: parsedBody.token ?? parsedBody.access_token!,
+          token: parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(parsedBody)
         },
         refreshToken: parsedBody.refresh_token
@@ -268,7 +267,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     const response = await this.sendRequest(request);
     return {
-      body: parse<T>(response.bodyAsText),
+      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
       status: response.status
     };
@@ -289,7 +288,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     const response = await this.sendRequest(request);
     return {
-      body: parse<T>(response.bodyAsText),
+      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
       status: response.status
     };

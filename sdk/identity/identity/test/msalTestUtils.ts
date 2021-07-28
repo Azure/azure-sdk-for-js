@@ -14,7 +14,11 @@ import { OperationTracingOptions, setSpan, context as otContext } from "@azure/c
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
 import * as dotenv from "dotenv";
-dotenv.config();
+import { isNode } from "@azure/core-util";
+
+if (isNode) {
+  dotenv.config();
+}
 
 export type MsalTestCleanup = () => Promise<void>;
 
