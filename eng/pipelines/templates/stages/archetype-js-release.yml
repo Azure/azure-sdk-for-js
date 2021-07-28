@@ -189,6 +189,12 @@ stages:
                           node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
                         displayName: Increment package version
 
+                      - bash: |
+                          npm install ./common/tools/dev-tool
+                          npm install ./eng/tools/eng-package-utils
+                          node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
+                        displayName: Update samples
+
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
                           RepoName: azure-sdk-for-js
