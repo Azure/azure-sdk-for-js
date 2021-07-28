@@ -1,7 +1,7 @@
 const path = require("path");
 const process = require("process");
 const { spawnSync } = require("child_process");
-const packageUtils = require("eng-package-utils");
+const { getRushSpec } = require("./index");
 
 
 const parseArgs = () => {
@@ -28,7 +28,7 @@ const spawnNode = (cwd, ...args) => {
 };
 
 async function main(repoRoot, artifactName) {
-  var rushSpec = await packageUtils.getRushSpec(repoRoot);
+  var rushSpec = await getRushSpec(repoRoot);
   //Find project root directory using information in rush.json
   const targetPackage = rushSpec.projects.find(
     (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
