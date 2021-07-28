@@ -269,7 +269,7 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 
 Run this command
 
-- `docker run -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+- `docker run -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
 
 If the above command doesn't work directly, try logging in. [@Scott Beddall is trying to iron out the kinks :)]
 
