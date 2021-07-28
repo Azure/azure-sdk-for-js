@@ -27,7 +27,7 @@ export class PortalRevision {
   }
 
   /**
-   * Lists a collection of developer portal revision entities.
+   * Lists developer portal's revisions.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -59,7 +59,7 @@ export class PortalRevision {
   }
 
   /**
-   * Gets developer portal revision specified by its identifier.
+   * Gets the developer portal revision specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
@@ -98,7 +98,7 @@ export class PortalRevision {
   }
 
   /**
-   * Gets developer portal revision specified by its identifier.
+   * Gets the developer portal's revision specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
@@ -137,7 +137,8 @@ export class PortalRevision {
   }
 
   /**
-   * Creates a new developer portal revision.
+   * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
+   * property indicates if the revision is publicly accessible.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
@@ -169,7 +170,8 @@ export class PortalRevision {
   }
 
   /**
-   * Creates a new developer portal revision.
+   * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
+   * property indicates if the revision is publicly accessible.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
@@ -218,7 +220,7 @@ export class PortalRevision {
   }
 
   /**
-   * Lists a collection of developer portal revision entities.
+   * Lists developer portal's revisions.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PortalRevisionListByServiceNextResponse>
