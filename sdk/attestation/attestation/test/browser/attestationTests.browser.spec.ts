@@ -18,7 +18,7 @@ import * as base64url from "../utils/base64url";
 
 import { KnownAttestationType } from "../../src";
 
-describe("[AAD] Attestation Client", function() {
+describe("AttestationClient in Browser", function() {
   let recorder: Recorder;
 
   beforeEach(function(this: Context) {
@@ -193,13 +193,13 @@ describe("[AAD] Attestation Client", function() {
   });
 
   async function testOpenEnclave(endpointType: EndpointType): Promise<void> {
-    const binaryRuntimeData = base64url.decodeString(_runtimeData);
+    const binaryRuntimeData = new Blob([base64url.decodeString(_runtimeData)]);
     const client = createRecordedClient(endpointType);
 
     {
       // You can't specify both runtimeData and runtimeJson.
       await expect(
-        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+        client.attestOpenEnclave(new Blob([base64url.decodeString(_openEnclaveReport)]), {
           runTimeData: binaryRuntimeData,
           runTimeJson: binaryRuntimeData
         })
@@ -208,7 +208,7 @@ describe("[AAD] Attestation Client", function() {
 
     {
       const attestationResult = await client.attestOpenEnclave(
-        base64url.decodeString(_openEnclaveReport),
+        new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
           runTimeData: binaryRuntimeData
         }
@@ -216,15 +216,17 @@ describe("[AAD] Attestation Client", function() {
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
-      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
-      expect(attestationResult.body.enclaveHeldData).to.deep.equal(binaryRuntimeData);
+      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(
+        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+      );
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
 
     {
       const attestationResult = await client.attestOpenEnclave(
-        base64url.decodeString(_openEnclaveReport),
+        new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
           runTimeJson: binaryRuntimeData
         }
@@ -248,24 +250,27 @@ describe("[AAD] Attestation Client", function() {
   async function testSgxEnclave(endpointType: EndpointType): Promise<void> {
     const client = createRecordedClient(endpointType);
 
-    const binaryRuntimeData = base64url.decodeString(_runtimeData);
+    const binaryRuntimeData = new Blob([base64url.decodeString(_runtimeData)]);
 
     {
       // You can't specify both runtimeData and runtimeJson.
       await expect(
-        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
-        })
+        client.attestSgxEnclave(
+          new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
+          {
+            runTimeData: binaryRuntimeData,
+            runTimeJson: binaryRuntimeData
+          }
+        )
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
-      //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
+      //  To convert from OpenEnclave reports to SGX Quote, simply strip the first
       //  16 bytes from the report.
       const attestationResult = await client.attestSgxEnclave(
-        base64url.decodeString(_openEnclaveReport).subarray(0x10),
+        new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
           runTimeData: binaryRuntimeData
         }
@@ -273,17 +278,19 @@ describe("[AAD] Attestation Client", function() {
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
-      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
-      expect(attestationResult.body.enclaveHeldData).to.deep.equal(binaryRuntimeData);
+      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(
+        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+      );
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
 
     {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
-      //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
+      //  To convert from OpenEnclave reports to SGX Quote, simply strip the first
       //  16 bytes from the report.
       const attestationResult = await client.attestSgxEnclave(
-        base64url.decodeString(_openEnclaveReport).subarray(0x10),
+        new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
           runTimeJson: binaryRuntimeData
         }
