@@ -120,5 +120,5 @@ export interface LogsTable {
   /** The list of columns in this table. */
   columns: LogsColumn[];
   /** The resulting rows from this query. */
-  rows: (Date | string | number | Record<string, unknown> | boolean)[][];
+  rows: (Date | string | number | boolean | Record<string, unknown>)[][];
 }

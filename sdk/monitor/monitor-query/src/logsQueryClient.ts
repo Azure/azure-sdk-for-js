@@ -102,7 +102,8 @@ export class LogsQueryClient {
         }
       }
     );
-
+    console.log("inside query logs .. ");
+    console.dir(result._response.parsedBody.tables[0].rows);
     return {
       tables: result.tables.map(convertGeneratedTable),
       statistics: result.statistics,

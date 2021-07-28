@@ -8,6 +8,7 @@ import {
   QueryBatchResponse as GeneratedQueryBatchResponse,
   QueryBody,
   Table as GeneratedTable
+  //QueryExecuteResponse
 } from "../generated/logquery/src";
 
 import {
@@ -34,6 +35,7 @@ import {
   LogsTable,
   QueryLogsBatch,
   QueryLogsBatchResult,
+  //QueryLogsResult,
   QueryMetricsOptions,
   QueryMetricsResult
 } from "../../src";
@@ -125,7 +127,7 @@ export function fixInvalidBatchQueryResponse(
   if (generatedResponse.responses == null) {
     return false;
   }
-
+  console.log("Calling fix invalid batch query repsonse function..");
   let wholeResponse: GeneratedQueryBatchResponse | undefined;
   let hadToFix = false;
 
@@ -156,11 +158,63 @@ export function fixInvalidBatchQueryResponse(
 
     hadToFix = true;
   }
-
+  console.dir(hadToFix);
   return hadToFix;
 }
 
+// /**
+//  * @internal
+//  */
+// export function convertResponseForQuery(
+//   generatedResponse: QueryExecuteResponse
+// ): QueryLogsResult {
+//   const fixApplied = fixInvalidQueryResponse(generatedResponse);
+
+//   const newResponse: QueryLogsResult = {
+//     results: generatedResponse.
+//   };
+
+//   (newResponse as any)["__fixApplied"] = fixApplied;
+//   return newResponse;
+// }
+
+// /**
+//  *
+//  * @internal
+//  */
+// export function fixInvalidQueryResponse(generatedResponse: QueryExecuteResponse): boolean {
+//   if (generatedResponse == null) {
+//     return false;
+//   }
+//   console.log("Calling fix invalid  query response function..");
+//   let wholeResponse: QueryExecuteResponse | undefined;
+//   let hadToFix = false;
+
+//   // fix whichever responses are in this broken state (each query has it's own
+//   // response, so they're not all always broken)
+
+//   if (generatedResponse.tables[0] != null || generatedResponse.error != null) {
+//     // the body here is incorrect, deserialize the correct one from the raw response itself.
+
+//     // deserialize the raw response from the service, since we'll need index into it.
+//     if (!wholeResponse) {
+//       wholeResponse = JSON.parse(generatedResponse["_response"].bodyAsText) as QueryExecuteResponse;
+//     }
+
+//     // now grab the individual batch query response and deserialize that
+//     // incorrectly typed string...
+//     generatedResponse._response.parsedBody = JSON.parse(
+//       (wholeResponse._response.parsedBody as any) as string
+//     );
+
+//     hadToFix = true;
+//   }
+//   console.dir(hadToFix);
+//   return hadToFix;
+// }
+
 /**
+ *
  * @internal
  */
 export function convertRequestForMetrics(
@@ -313,14 +367,38 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
     }
   }
 
+  /**
+ * > const test1 = {'0': 'h', '1':'e','2':'l','3':'l','4':'o'};
+ * > console.log((Object.values(JSON.parse(JSON.stringify(test1)))));
+[ 'h', 'e', 'l', 'l', 'o' ]
+> var namesArr = (Object.values(JSON.parse(JSON.stringify(test1))));
+undefined
+> var namesStr = namesArr.join('')
+undefined
+> namesStr
+'hello'
+ */
+
+  var tableRows: (string | number | boolean | Record<string, unknown> | Date)[] = [];
+  for (let i = 0; i < table.rows.length; ++i) {
+    const rowData = table.rows[i];
+    var rowArr = Object.values(JSON.parse(JSON.stringify(rowData)));
+    var rowStr = rowArr.join("");
+    tableRows.push(rowStr);
+  }
+
   return {
     ...table,
     rows: (table.rows as LogsTable["rows"]).map((row) => {
       for (const dynamicIndex of dynamicsIndices) {
         try {
-          row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;
+          console.log(dynamicIndex);
+          console.log(row[dynamicIndex]);
+          var rowArr = Object.values(JSON.parse(JSON.stringify(row[dynamicIndex])));
+          row[dynamicIndex] = rowArr.join("");
         } catch (_err) {
           /* leave as is. */
+          console.error(_err);
         }
       }
 
