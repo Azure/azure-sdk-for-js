@@ -141,7 +141,7 @@ describe("IdentityClient", function() {
     const { error } = await sendCredentialRequests({
       scopes: ["scope"],
       credential,
-      secureResponses: [...prepareMSALResponses(), createResponse(200), createResponse(300)]
+      secureResponses: [...prepareMSALResponses(), createResponse(300)]
     });
     if (isNode) {
       assert.strictEqual(error?.name, "AuthenticationRequiredError");

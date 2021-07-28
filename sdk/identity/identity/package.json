@@ -32,7 +32,7 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "tsc -p . && rollup -c rollup.config.js 2>&1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples/**/*.{js,json}\"",
     "clean": "rimraf dist dist-* typings *.tgz *.log",
