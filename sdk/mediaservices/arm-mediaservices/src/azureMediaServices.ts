@@ -17,12 +17,12 @@ import { AzureMediaServicesContext } from "./azureMediaServicesContext";
 
 class AzureMediaServices extends AzureMediaServicesContext {
   // Operation groups
-  accountFilters: operations.AccountFilters;
   operations: operations.Operations;
   mediaservices: operations.Mediaservices;
   privateLinkResources: operations.PrivateLinkResources;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   locations: operations.Locations;
+  accountFilters: operations.AccountFilters;
   assets: operations.Assets;
   assetFilters: operations.AssetFilters;
   contentKeyPolicies: operations.ContentKeyPolicies;
@@ -47,12 +47,12 @@ class AzureMediaServices extends AzureMediaServicesContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.AzureMediaServicesOptions) {
     super(credentials, subscriptionId, options);
-    this.accountFilters = new operations.AccountFilters(this);
     this.operations = new operations.Operations(this);
     this.mediaservices = new operations.Mediaservices(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.locations = new operations.Locations(this);
+    this.accountFilters = new operations.AccountFilters(this);
     this.assets = new operations.Assets(this);
     this.assetFilters = new operations.AssetFilters(this);
     this.contentKeyPolicies = new operations.ContentKeyPolicies(this);
