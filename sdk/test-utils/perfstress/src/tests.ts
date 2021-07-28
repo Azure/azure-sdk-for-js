@@ -53,7 +53,6 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   public getRecordingClient(): RecordingHttpClient {
     PerfStressTest.recorder = new RecordingHttpClient(this.parsedOptions["test-proxy"].value!);
-    console.log(PerfStressTest.recorder);
     return PerfStressTest.recorder;
   }
 }

@@ -283,4 +283,6 @@ Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/A
 
 Sample command(using storage-blob perf tests as example!)
 
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
+
 > npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
