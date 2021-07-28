@@ -75,11 +75,7 @@
     "constantPaths": [
       {
         "path": "src/generated/keyVaultClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
+        "prefix": "packageDetails"
       },
       {
         "path": "swagger/README.md",
