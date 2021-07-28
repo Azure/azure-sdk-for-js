@@ -94,6 +94,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [typescript_src_shared_handleerror]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/Shared/handleError.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-manage-database-account#create-an-account
+[createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
