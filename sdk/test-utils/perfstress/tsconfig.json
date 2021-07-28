@@ -1,26 +1,3 @@
-// {
-//   "compilerOptions": {
-//     "alwaysStrict": true,
-//     "noImplicitAny": true,
-//     "preserveConstEnums": true,
-//     "sourceMap": true,
-//     "newLine": "LF",
-//     "moduleResolution": "node",
-//     "noUnusedLocals": true,
-//     "noUnusedParameters": true,
-//     "strict": true,
-//     "outDir": "./dist-esm",
-//     "declaration": true,
-//     "declarationMap": true,
-//     "importHelpers": true,
-//     "declarationDir": "./typings",
-//     "lib": ["dom", "es5", "es6", "es7", "esnext"],
-//     "esModuleInterop": true
-//   },
-//   "exclude": ["node_modules", "./samples/*"],
-//   "include": ["./src/**/*.ts", "./test/**/*.ts"]
-// }
-
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
