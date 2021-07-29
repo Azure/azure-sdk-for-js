@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-  BatchServiceClient,
-  BatchSharedKeyCredentials,
-  BatchServiceModels
-} from "../src/batchIndex";
-import { describe, beforeEach } from "mocha";
-import { assert } from "chai";
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 import { duration } from "moment";
-import { AuthenticationContext, TokenResponse } from "adal-node";
 import { TokenCredentials } from "@azure/ms-rest-js";
 import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
+import { BatchService, BatchServiceModels } from "../src/batchIndex";
+import { assert } from "chai";
+import { DefaultAzureCredential } from "@azure/identity";
 
 dotenv.config();
-const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(), timeout));
+const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
 
 describe("Batch Service", () => {
-  let client: BatchServiceClient;
+  let client: BatchService;
   let batchAccountName: string;
   let batchAccountKey: string;
   let batchEndpoint: string;
@@ -50,9 +45,9 @@ describe("Batch Service", () => {
     // dummy thumb
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
     nonAdminPoolUser = "nonAdminUser";
-    const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
+    const creds = new StorageSharedKeyCredentials(batchAccountName, batchAccountKey);
 
-    client = new BatchServiceClient(creds, batchEndpoint);
+    client = new BatchService(creds, batchEndpoint);
   });
 
   describe("operations", () => {
@@ -194,7 +189,7 @@ describe("Batch Service", () => {
     it("should perform AAD authentication successfully", (done) => {
       const verifyAadAuth = function(token: string, callback: any) {
         const tokenCreds = new TokenCredentials(token, "Bearer");
-        const aadClient = new BatchServiceClient(tokenCreds, batchEndpoint);
+        const aadClient = new BatchService(tokenCreds, batchEndpoint);
         aadClient.account.listSupportedImages(function(err, result, request, response) {
           assert.isNull(err);
           assert.isDefined(result);
@@ -206,25 +201,26 @@ describe("Batch Service", () => {
         });
       };
 
-      // if (!suite.isPlayback) {
-      const authContext = new AuthenticationContext(
-        "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
-      );
+      // @@
+      // // if (!suite.isPlayback) {
+      // const authContext = new AuthenticationContext(
+      //   "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
+      // );
 
-      authContext.acquireTokenWithClientCredentials(
-        "https://batch.core.windows.net/",
-        clientId,
-        secret,
-        function(err, tokenResponse) {
-          assert.isNull(err);
-          assert.isDefined(tokenResponse);
-          assert.isDefined((tokenResponse as TokenResponse).accessToken);
-          verifyAadAuth((tokenResponse as TokenResponse).accessToken, done);
-        }
-      );
-      // } else {
-      //   verifyAadAuth("dummy token", done);
-      // }
+      // authContext.acquireTokenWithClientCredentials(
+      //   "https://batch.core.windows.net/",
+      //   clientId,
+      //   secret,
+      //   function(err, tokenResponse) {
+      //     assert.isNull(err);
+      //     assert.isDefined(tokenResponse);
+      //     assert.isDefined((tokenResponse as TokenResponse).accessToken);
+      //     verifyAadAuth((tokenResponse as TokenResponse).accessToken, done);
+      //   }
+      // );
+      // // } else {
+      // //   verifyAadAuth("dummy token", done);
+      // // }
     });
 
     it("should add a pool with vnet and get expected error", async () => {
