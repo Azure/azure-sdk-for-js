@@ -162,7 +162,6 @@ export class AttestationClient {
    */
 
   constructor(endpoint: string, options: AttestationClientOptions = {}) {
-
     let credentialScopes: string[] | undefined = undefined;
     if (options.credentials) {
       credentialScopes = ["https://attest.azure.net/.default"];
