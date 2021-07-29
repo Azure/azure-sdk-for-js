@@ -196,7 +196,10 @@ stages:
                         displayName: Increment package version
 
                       - bash: |
-                          npm install -g ./common/tools/dev-tool
+                          node common/scripts/install-run-rush.js install
+                        displayName: "Install dependencies"
+
+                      - bash: |
                           npm install ./eng/tools/eng-package-utils
                           node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
                         displayName: Update samples
