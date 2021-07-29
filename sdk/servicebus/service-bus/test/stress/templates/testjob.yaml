@@ -1,6 +1,6 @@
 {{- range $.Values.scenarios }}
 ---
-{{- $ctx := merge $ (dict "Scenario" . ) -}}
+{{- $ctx := deepCopy $ | merge (dict "Scenario" . ) -}}
 {{- include "stress-test-addons.env-job-template.from-pod" (list $ctx "stress.service-bus") -}}
 {{- end }}
 
@@ -17,3 +17,5 @@ spec:
       image: {{ default "stresstestregistry.azurecr.io/javascript" .Values.repository }}/service-bus:{{ default "v1" .Values.tag }}
       {{- include "stress-test-addons.container-env" . | nindent 6 }}
 {{- end -}}
+
+
