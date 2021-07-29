@@ -19,6 +19,7 @@ import {
   convertResponseForQueryBatch
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -115,7 +116,31 @@ export class LogsQueryClient {
     options?: QueryLogsBatchOptions
   ): Promise<QueryLogsBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
-    const response = await this._logAnalytics.query.batch(generatedRequest, options);
-    return convertResponseForQueryBatch(response);
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
+      options || {}
+    );
+    return convertResponseForQueryBatch(flatResponse, rawResponse);
   }
+}
+
+interface ReturnType<T> {
+  flatResponse: T;
+  rawResponse: FullOperationResponse;
+}
+
+async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<ReturnType<TResult>> {
+  const { onResponse: customerProvidedCallback } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      customerProvidedCallback?.(response, flatResponseParam);
+    }
+  });
+  return { flatResponse, rawResponse: rawResponse! };
 }

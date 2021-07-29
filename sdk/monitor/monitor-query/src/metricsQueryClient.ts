@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
-import {
-  createPipelineFromOptions,
-  PipelineOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-rest-pipeline";
+import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
   GetMetricDefinitionsOptions,

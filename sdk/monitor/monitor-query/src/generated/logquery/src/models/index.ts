@@ -521,8 +521,7 @@ export interface QueryGetOptionalParams extends coreClient.OperationOptions {
 export type QueryGetResponse = QueryResults;
 
 /** Optional parameters. */
-export interface QueryExecuteOptionalParams
-  extends coreClient.OperationOptions {
+export interface QueryExecuteOptionalParams extends coreClient.OperationOptions {
   /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
   prefer?: string;
 }
@@ -537,22 +536,19 @@ export interface QueryBatchOptionalParams extends coreClient.OperationOptions {}
 export type QueryBatchResponse = BatchResponse;
 
 /** Optional parameters. */
-export interface MetadataGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetadataGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MetadataGetResponse = MetadataResults;
 
 /** Optional parameters. */
-export interface MetadataPostOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetadataPostOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the post operation. */
 export type MetadataPostResponse = MetadataResults;
 
 /** Optional parameters. */
-export interface AzureLogAnalyticsOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AzureLogAnalyticsOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
