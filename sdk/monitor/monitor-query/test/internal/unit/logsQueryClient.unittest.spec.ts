@@ -10,7 +10,7 @@ describe("LogsQueryClient unit tests", () => {
    * Custom scopes and endpoints are needed if you're connecting to
    * a government cloud, for instance.
    */
-  it.only("using custom scopes and endpoints", async () => {
+  it("using custom scopes and endpoints", async () => {
     const scopesPassed: string[] = [];
 
     const tokenCredential: TokenCredential = {
