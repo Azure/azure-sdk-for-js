@@ -11,8 +11,8 @@ Before running the code,
 Here are the scenarios being covered and how you can run them.
 
 1. Single sender that keeps sending messages in series.
-   `ts-node scenarioSend.ts` (runs with defaults)
-   `ts-node scenarioSend.ts --numberOfMessagesPerSend=100 delayBetweenSendsInMs=50`(with flags)
+   `ts-node src/scenarioSend.ts` (runs with defaults)
+   `ts-node src/scenarioSend.ts --numberOfMessagesPerSend=100 delayBetweenSendsInMs=50`(with flags)
    Flags that can be set
 
    - testDurationInMs (default = 3600000) // 60 minutes
@@ -22,8 +22,8 @@ Here are the scenarios being covered and how you can run them.
    - useScheduleApi (default = false)
 
 2. Batch receive with a streaming sender
-   `ts-node scenarioBatchReceive.ts` (runs with defaults)
-   `ts-node scenarioBatchReceive.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   `ts-node src/scenarioBatchReceive.ts` (runs with defaults)
+   `ts-node src/scenarioBatchReceive.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
    Flags that can be set
 
    - testDurationInMs (default = 3600000) // 1hr
@@ -36,8 +36,8 @@ Here are the scenarios being covered and how you can run them.
    - totalNumberOfMessagesToSend (default = Infinity)
 
 3. Renew message locks for a duration
-   `ts-node scenarioRenewMessageLock.ts` (runs with defaults)
-   `ts-node scenarioRenewMessageLock.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   `ts-node src/scenarioRenewMessageLock.ts` (runs with defaults)
+   `ts-node src/scenarioRenewMessageLock.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
    Flags that can be set
 
    - testDurationInMs (default = 3600000) // 1hr
@@ -49,8 +49,8 @@ Here are the scenarios being covered and how you can run them.
    - totalNumberOfMessagesToSend (default = Infinity)
 
 4. Renew session locks for a duration
-   `ts-node scenarioRenewSessionLock.ts` (runs with defaults)
-   `ts-node scenarioRenewSessionLock.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   `ts-node src/scenarioRenewSessionLock.ts` (runs with defaults)
+   `ts-node src/scenarioRenewSessionLock.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
    Flags that can be set
 
    - testDurationInMs (default = 3600000) // 1hr
@@ -63,8 +63,8 @@ Here are the scenarios being covered and how you can run them.
    - autoLockRenewal (default = false)
 
 5. Streaming Receive
-   `ts-node scenarioStreamingReceive.ts` (runs with defaults)
-   `ts-node scenarioStreamingReceive.ts --manualLockRenewal=false --totalNumberOfMessagesToSend=5000` (With flags)
+   `ts-node src/scenarioStreamingReceive.ts` (runs with defaults)
+   `ts-node src/scenarioStreamingReceive.ts --manualLockRenewal=false --totalNumberOfMessagesToSend=5000` (With flags)
    Flags that can be set
 
    - testDurationInMs (default = 3600000) // 1hr
@@ -79,8 +79,8 @@ Here are the scenarios being covered and how you can run them.
    - completeMessageAfterDuration (default = true)
 
 6. Management client - peek messages
-   `ts-node scenarioPeekMessages.ts` (runs with defaults)
-   `ts-node scenarioPeekMessages.ts --delayBetweenPeeksInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   `ts-node src/scenarioPeekMessages.ts` (runs with defaults)
+   `ts-node src/scenarioPeekMessages.ts --delayBetweenPeeksInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
    Flags that can be set
 
    - testDurationInMs (default = 3600000) // 1hr
