@@ -3,7 +3,6 @@
 
 import { SpanStatusCode } from "@azure/core-tracing";
 
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 
 import { logger } from "./logger";
@@ -101,17 +100,6 @@ export class AttestationAdministrationClient {
     credentials: TokenCredential,
     options: AttestationAdministrationClientOptions = {}
   ) {
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-api-security-attestation/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     this._validationOptions = options.validationOptions;
 
     const internalPipelineOptions: GeneratedClientOptionalParams = {

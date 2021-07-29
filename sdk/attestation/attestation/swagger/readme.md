@@ -17,7 +17,7 @@ autorest README.md
 
 ```yaml
 package-name: "@azure/attestation"
-package-version: 1.0.0-beta.2
+package-version: 1.0.0
 tag: package-2020-10-01
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION

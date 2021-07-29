@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 
 import { AttestationSigner, AttestationTokenValidationOptions, AttestationResult } from "./models";
@@ -163,17 +162,6 @@ export class AttestationClient {
    */
 
   constructor(endpoint: string, options: AttestationClientOptions = {}) {
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-api-security-attestation/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     let credentialScopes: string[] | undefined = undefined;
     if (options.credentials) {
       credentialScopes = ["https://attest.azure.net/.default"];
