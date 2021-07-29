@@ -1,0 +1,10 @@
+scenarios:
+  - scenarioBatchReceive
+  - scenarioCloseOpen
+  - scenarioLongRunning
+  - scenarioPeekMessages
+  - scenarioRenewMessageLock
+  - scenarioRenewSessionLock
+  - scenarioSend
+  - scenarioShortLivedReceivers
+  - scenarioStreamingReceive
