@@ -184,7 +184,7 @@ stages:
                     steps:
                       - checkout: self
 
-                      -template: /eng/pipelines/templates/steps/common.yml
+                      - template: /eng/pipelines/templates/steps/common.yml
 
                       - bash: |
                           npm install
