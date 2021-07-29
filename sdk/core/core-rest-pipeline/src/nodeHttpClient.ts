@@ -202,7 +202,7 @@ class NodeHttpClient implements HttpClient {
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {
-      const req = isInsecure ? http.request(options) : https.request(options);
+      const req = isInsecure ? http.request(options, resolve) : https.request(options, resolve);
 
       // The `connectionTimeoutInMs` property defines the number of milliseconds a request can take on stablishing a connection.
       // If `connectionTimeoutInMs` is not set, the `timeout` property is used for the same purpose.
@@ -234,6 +234,7 @@ class NodeHttpClient implements HttpClient {
       req.once("response", (res: http.IncomingMessage) => {
         resolve(res);
       });
+
       req.once("error", (err) => {
         reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
       });

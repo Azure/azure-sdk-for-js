@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Added support for Secure key Release from a Managed HSM.
+  - Added `KeyClient.releaseKey` to release a key from a Managed HSM.
+  - Added `exportable` and `releasePolicy` to `KeyVaultKey.properties`, `createKeyOptions`, and `importKeyOptions` in order to specify whether the key is exportable and the associated release policy.
+
 ### Breaking Changes
 
 ### Bugs Fixed

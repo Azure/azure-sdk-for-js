@@ -65,6 +65,13 @@
       "metadata": {
         "description": "The base time to add 2 hours to for SAS token expiration. The default is the current time."
       }
+    },
+    "attestationUri": {
+      "type": "string",
+      "defaultValue": "https://skrattestation.azurewebsites.net/",
+      "metadata": {
+        "description": "Test attestation service for Secure Key Release."
+      }
     }
   },
   "variables": {
@@ -178,7 +185,8 @@
         "tenantId": "[parameters('tenantId')]",
         "initialAdminObjectIds": ["[parameters('testApplicationOid')]"],
         "enablePurgeProtection": false,
-        "enableSoftDelete": "[parameters('enableSoftDelete')]"
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 7
       }
     },
     {
@@ -264,6 +272,11 @@
     "BLOB_CONTAINER_NAME": {
       "type": "string",
       "value": "[variables('blobContainerName')]"
+    },
+    "AZURE_KEYVAULT_ATTESTATION_URI": {
+      "type": "string",
+      "condition": "[parameters('enableHsm')]",
+      "value": "[parameters('attestationUri')]"
     }
   }
 }
