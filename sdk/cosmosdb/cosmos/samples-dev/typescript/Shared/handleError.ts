@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../../sample.env" });
 
-import { CosmosClient } from "../../../../dist-esm";
+import { CosmosClient } from "../../../dist-esm";
 
 const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });
@@ -44,6 +44,3 @@ export function logSampleHeader(sampleName: string): void {
   console.log(sampleName);
   console.log("================================");
 }
-
-function run() {}
-run();

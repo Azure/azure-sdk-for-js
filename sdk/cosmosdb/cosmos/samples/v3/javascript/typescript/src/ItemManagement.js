@@ -8,7 +8,7 @@
 const path = require("path");
 require("dotenv").config();
 
-const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+const { logSampleHeader, handleError, finish, logStep } = require("../Shared/handleError");
 const { readFileSync } = require("fs");
 const { CosmosClient } = require("../../../dist-esm");
 const {
@@ -21,7 +21,7 @@ const {
 logSampleHeader("Item Management");
 
 const itemDefs = JSON.parse(
-  readFileSync(path.resolve(__dirname, "./Shared/Data/Families.json"), "utf8")
+  readFileSync(path.resolve(__dirname, "../Shared/Data/Families.json"), "utf8")
 ).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo

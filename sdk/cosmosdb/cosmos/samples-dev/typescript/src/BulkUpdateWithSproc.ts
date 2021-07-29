@@ -9,7 +9,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+import { logSampleHeader, handleError, finish, logStep } from "../Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../../../dist";

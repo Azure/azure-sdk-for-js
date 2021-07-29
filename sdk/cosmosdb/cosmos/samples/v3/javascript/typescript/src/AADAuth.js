@@ -12,7 +12,7 @@ const { UsernamePasswordCredential } = require("@azure/identity");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const { CosmosClient } = require("../../../dist");
-const { handleError, finish, logStep } = require("./Shared/handleError");
+const { handleError, finish, logStep } = require("../Shared/handleError");
 
 const endpoint = "your-endpoint";
 const masterKey = "your-master-key";

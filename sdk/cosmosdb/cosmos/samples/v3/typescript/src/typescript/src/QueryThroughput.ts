@@ -63,7 +63,7 @@ async function runScenario(
   let count = 0;
   while (queryIterator.hasMoreResults() && count <= 100000) {
     const { resources: results } = await queryIterator.fetchNext();
-    if (results != undefined) {
+    if (results !== undefined) {
       count = count + results.length;
     }
   }

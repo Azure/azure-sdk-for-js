@@ -9,7 +9,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+import { logSampleHeader, handleError, finish, logStep } from "../Shared/handleError";
 import { readFileSync } from "fs";
 import { CosmosClient } from "../../../dist-esm";
 const {
@@ -22,7 +22,7 @@ const {
 logSampleHeader("Item Management");
 
 const itemDefs = JSON.parse(
-  readFileSync(path.resolve(__dirname, "./Shared/Data/Families.json"), "utf8")
+  readFileSync(path.resolve(__dirname, "../Shared/Data/Families.json"), "utf8")
 ).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo

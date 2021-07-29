@@ -13,7 +13,7 @@ import { UsernamePasswordCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../../../dist";
-import { handleError, finish, logStep } from "./Shared/handleError";
+import { handleError, finish, logStep } from "../Shared/handleError";
 
 const endpoint = "your-endpoint";
 const masterKey = "your-master-key";

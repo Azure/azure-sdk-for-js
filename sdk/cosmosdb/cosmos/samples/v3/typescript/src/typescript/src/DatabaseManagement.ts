@@ -9,7 +9,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
 
-import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
+import { handleError, logStep, logSampleHeader, finish } from "../Shared/handleError";
 import { CosmosClient } from "../../../dist-esm";
 import assert from "assert";
 

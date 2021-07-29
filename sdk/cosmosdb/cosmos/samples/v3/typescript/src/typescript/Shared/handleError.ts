@@ -5,21 +5,22 @@
  * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
  */
 
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../../../sample.env" });
 
-const { CosmosClient } = require("../../../../dist-esm");
+import { CosmosClient } from "../../../dist-esm";
 
 const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });
 
-export async function handleError(error) {
+export async function handleError(error: { code: string }): Promise<void> {
   console.log("\nAn error with code '" + error.code + "' has occurred:");
   console.log(error);
   await finish();
   process.exitCode = 1;
 }
 
-export async function finish() {
+export async function finish(): Promise<void> {
   try {
     await client.database(database).delete();
     console.log("\nEnd of demo.");
@@ -32,17 +33,14 @@ export async function finish() {
 }
 
 let currentStep = 0;
-export function logStep(message) {
+export function logStep(message: string): void {
   currentStep++;
   console.log(`\n${currentStep}: ${message}`);
 }
 
-export function logSampleHeader(sampleName) {
+export function logSampleHeader(sampleName: string): void {
   console.log("Azure Cosmos DB Node.js Samples");
   console.log("================================");
   console.log(sampleName);
   console.log("================================");
 }
-
-function run() {}
-run();

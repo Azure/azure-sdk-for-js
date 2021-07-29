@@ -8,7 +8,7 @@
 const path = require("path");
 require("dotenv").config();
 
-const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError");
+const { handleError, logStep, logSampleHeader, finish } = require("../Shared/handleError");
 const { CosmosClient } = require("../../../dist-esm");
 const assert = require("assert");
 

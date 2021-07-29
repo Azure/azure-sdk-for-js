@@ -8,7 +8,7 @@
 const path = require("path");
 require("dotenv").config();
 
-const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+const { logSampleHeader, handleError, finish, logStep } = require("../Shared/handleError");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const { CosmosClient } = require("../../../dist");

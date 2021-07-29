@@ -9,7 +9,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../../sample.env") });
 
-import { handleError, finish, logStep } from "./Shared/handleError";
+import { handleError, finish, logStep } from "../Shared/handleError";
 import { BulkOperationType } from "../../../src";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

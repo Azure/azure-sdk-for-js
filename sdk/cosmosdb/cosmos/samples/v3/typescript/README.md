@@ -13,6 +13,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                                 | **Description**                                                                                     |
 | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [typescript/Shared/handleError.ts][typescript_shared_handleerror]             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
 | [typescript/src/AADAuth.ts][typescript_src_aadauth]                           | Uses AAD credentials to authenticate with the CosmosClient.                                         |
 | [typescript/src/AlterQueryThroughput.ts][typescript_src_alterquerythroughput] | Updates a container offer to change query throughput.                                               |
 | [typescript/src/Bulk.ts][typescript_src_bulk]                                 | Shows a simple bulk call with each BulkOperation type.                                              |
@@ -25,7 +26,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [typescript/src/QueryThroughput.ts][typescript_src_querythroughput]           | Demonstrates query throughput scenarios.                                                            |
 | [typescript/src/SasTokenAuth.ts][typescript_src_sastokenauth]                 | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
 | [typescript/src/ServerSideScripts.ts][typescript_src_serversidescripts]       | Demonstrates using stored procedures for server side run functions                                  |
-| [typescript/src/Shared/handleError.ts][typescript_src_shared_handleerror]     | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
 
 ## Prerequisites
 
@@ -66,19 +66,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/typescript/src/AADAuth.js
+node dist/typescript/Shared/handleError.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/typescript/src/AADAuth.js
+npx cross-env  node dist/typescript/Shared/handleError.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[typescript_shared_handleerror]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/Shared/handleError.ts
 [typescript_src_aadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/AADAuth.ts
 [typescript_src_alterquerythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/AlterQueryThroughput.ts
 [typescript_src_bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/Bulk.ts
@@ -91,7 +92,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [typescript_src_querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/QueryThroughput.ts
 [typescript_src_sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/SasTokenAuth.ts
 [typescript_src_serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/ServerSideScripts.ts
-[typescript_src_shared_handleerror]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/Shared/handleError.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
