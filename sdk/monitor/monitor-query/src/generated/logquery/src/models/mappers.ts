@@ -29,13 +29,15 @@ export const QueryResults: coreHttp.CompositeMapper = {
       statistics: {
         serializedName: "statistics",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       render: {
         serializedName: "render",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       error: {
@@ -84,7 +86,8 @@ export const Table: coreHttp.CompositeMapper = {
               name: "Sequence",
               element: {
                 type: {
-                  name: "any"
+                  name: "Dictionary",
+                  value: { type: { name: "any" } }
                 }
               }
             }
@@ -157,7 +160,8 @@ export const ErrorInfo: coreHttp.CompositeMapper = {
       additionalProperties: {
         serializedName: "additionalProperties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -209,7 +213,8 @@ export const ErrorDetail: coreHttp.CompositeMapper = {
       additionalProperties: {
         serializedName: "additionalProperties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -568,13 +573,15 @@ export const MetadataResourceType: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -697,13 +704,15 @@ export const MetadataSolution: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -827,13 +836,15 @@ export const MetadataTable: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       columns: {
@@ -893,7 +904,8 @@ export const MetadataTableColumnsItem: coreHttp.CompositeMapper = {
       source: {
         serializedName: "source",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -1022,13 +1034,15 @@ export const MetadataFunction: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -1151,13 +1165,15 @@ export const MetadataQuery: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -1674,13 +1690,15 @@ export const BatchQueryResults: coreHttp.CompositeMapper = {
       statistics: {
         serializedName: "statistics",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       render: {
         serializedName: "render",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       error: {

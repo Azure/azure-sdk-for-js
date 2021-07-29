@@ -10,9 +10,9 @@ import * as coreHttp from "@azure/core-http";
 import { AzureLogAnalyticsOptionalParams } from "./models";
 
 const packageName = "monitor-log-query";
-const packageVersion = "1.0.0-beta.3";
+const packageVersion = "1.0.0-beta.4";
 
-/** @hidden */
+/** @internal */
 export class AzureLogAnalyticsContext extends coreHttp.ServiceClient {
   $host: string;
 
@@ -26,15 +26,19 @@ export class AzureLogAnalyticsContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      "@azure/",
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    super(undefined, options);
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "https://api.loganalytics.io/v1";
 
     // Assigning values to Constant parameters

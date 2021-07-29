@@ -22,6 +22,7 @@ export interface ConnectionContext {
     eventName: string;
     hub: string;
     origin: string;
+    states: Record<string, any>;
     subprotocol?: string;
     userId?: string;
 }
@@ -46,6 +47,7 @@ export interface ConnectResponse {
 // @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
+    setState(name: string, value: unknown): void;
     success(response?: ConnectResponse): void;
 }
 
@@ -69,6 +71,7 @@ export type UserEventRequest = {
 // @public
 export interface UserEventResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
+    setState(name: string, value: unknown): void;
     success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
 }
 

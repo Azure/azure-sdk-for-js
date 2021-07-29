@@ -6,17 +6,17 @@ import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
-import { LIB_INFO } from "../src/constants";
+chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
 
-import {
-  SchemaRegistryClient,
-  SchemaDescription,
-  SchemaId,
-  SchemaRegistryClientOptions
-} from "../src/index";
+import { SchemaRegistryClient, SchemaDescription, SchemaId } from "../src/index";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 
-chaiUse(chaiPromises);
+const options: OperationOptions = {
+  onResponse: (rawResponse: FullOperationResponse) => {
+    assert.equal(rawResponse.status, 200);
+  }
+};
 
 const schema: SchemaDescription = {
   name: "azsdk_js_test",
@@ -58,11 +58,6 @@ function assertIsValidSchemaId(
   assert.equal(schemaId.serializationType.toLowerCase(), expectedSerializationType.toLowerCase());
 }
 
-// `any` because _response is deliberately withheld from the typing
-function assertStatus(response: any, status: number): void {
-  assert.equal(response._response.status, status);
-}
-
 describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
@@ -75,24 +70,12 @@ describe("SchemaRegistryClient", function() {
     await recorder.stop();
   });
 
-  it("sets endpoint and adjusts user agent prefix in constructor", () => {
-    let options: SchemaRegistryClientOptions = {
-      userAgentOptions: {
-        userAgentPrefix: "CustomPrefix"
-      }
-    };
-
+  it("sets endpoint in constructor", () => {
     const endpoint = "https://example.com/schemaregistry/";
     const credential = new ClientSecretCredential("x", "y", "z");
 
-    let customClient = new SchemaRegistryClient(endpoint, credential, options);
+    const customClient = new SchemaRegistryClient(endpoint, credential);
     assert.equal(customClient.endpoint, endpoint);
-    assert.equal(options.userAgentOptions?.userAgentPrefix, `CustomPrefix ${LIB_INFO}`);
-
-    options = {};
-    customClient = new SchemaRegistryClient(endpoint, credential, options);
-    assert.equal(customClient.endpoint, endpoint);
-    assert.equal(options.userAgentOptions?.userAgentPrefix, LIB_INFO);
   });
 
   it("rejects schema registration with invalid args", async () => {
@@ -107,8 +90,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("registers schema", async () => {
-    const registered = await client.registerSchema(schema);
-    assertStatus(registered, 200);
+    const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaId(registered);
   });
 
@@ -128,12 +110,10 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("gets schema ID", async () => {
-    const registered = await client.registerSchema(schema);
-    assertStatus(registered, 200);
+    const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaId(registered);
 
-    const found = await client.getSchemaId(schema);
-    assertStatus(found, 200);
+    const found = await client.getSchemaId(schema, options);
     assertIsValidSchemaId(found);
 
     // NOTE: IDs may differ here as we could get a different version with same content.
@@ -148,13 +128,11 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("gets schema by ID", async () => {
-    const registered = await client.registerSchema(schema);
-    assertStatus(registered, 200);
+    const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaId(registered);
 
-    const found = await client.getSchemaById(registered.id);
+    const found = await client.getSchemaById(registered.id, options);
     assertIsValidSchemaId(found);
-    assertStatus(found, 200);
     assert.equal(found.content, schema.content);
   });
 });

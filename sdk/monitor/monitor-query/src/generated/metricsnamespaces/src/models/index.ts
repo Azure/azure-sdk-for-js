@@ -43,7 +43,7 @@ export interface ErrorResponse {
 }
 
 /** Known values of {@link ApiVersion20171201Preview} that the service accepts. */
-export const enum KnownApiVersion20171201Preview {
+export enum KnownApiVersion20171201Preview {
   /** Api Version '2017-12-01-preview' */
   TwoThousandSeventeen1201Preview = "2017-12-01-preview"
 }
@@ -52,13 +52,13 @@ export const enum KnownApiVersion20171201Preview {
  * Defines values for ApiVersion20171201Preview. \
  * {@link KnownApiVersion20171201Preview} can be used interchangeably with ApiVersion20171201Preview,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **2017-12-01-preview**: Api Version '2017-12-01-preview'
  */
 export type ApiVersion20171201Preview = string;
 
 /** Known values of {@link NamespaceClassification} that the service accepts. */
-export const enum KnownNamespaceClassification {
+export enum KnownNamespaceClassification {
   Platform = "Platform",
   Custom = "Custom",
   Qos = "Qos"
@@ -68,7 +68,7 @@ export const enum KnownNamespaceClassification {
  * Defines values for NamespaceClassification. \
  * {@link KnownNamespaceClassification} can be used interchangeably with NamespaceClassification,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Platform** \
  * **Custom** \
  * **Qos**

@@ -1,6 +1,6 @@
 # Release History
 
-## 12.7.0-beta.1 (Unreleased)
+## 12.8.0-beta.1 (2021-07-26)
 
 ### Features Added
 
@@ -9,12 +9,6 @@
 - Added support for OAuth in copying source in `ShareFileClient.uploadRangeFromURL()` when source is a Blob.
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
 
 ## 12.6.0 (2021-06-09)
 

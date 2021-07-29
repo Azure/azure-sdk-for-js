@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { ApplicationInsightsClientOptionalParams } from "./models";
 
-const packageName = "@azure/monitor-opentelemetry-exporter";
-const packageVersion = "1.0.0-beta.2";
-
-export class ApplicationInsightsClientContext extends coreHttp.ServiceClient {
+export class ApplicationInsightsClientContext extends coreClient.ServiceClient {
   host: string;
 
   /**
@@ -24,17 +21,25 @@ export class ApplicationInsightsClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: ApplicationInsightsClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.4`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{Host}/v2";
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{Host}/v2"
+    };
+    super(optionsWithDefaults);
 
     // Assigning values to Constant parameters
     this.host = options.host || "https://dc.services.visualstudio.com";
