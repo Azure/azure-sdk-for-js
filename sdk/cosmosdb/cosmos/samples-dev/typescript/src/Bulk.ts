@@ -74,7 +74,7 @@ async function run() {
     {
       operationType: BulkOperationType.Upsert,
       partitionKey: "U",
-      resourceBody: { name: "other", toot: "U" }
+      resourceBody: { name: "other", key: "U" }
     },
     {
       operationType: BulkOperationType.Read,
