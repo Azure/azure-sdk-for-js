@@ -1,6 +1,6 @@
 {{- range $.Values.scenarios }}
 ---
-{{- $ctx := deepCopy $ | merge (dict "Scenario" . ) -}}
+{{- $ctx := deepCopy $ | merge (dict "Scenario" (lower . )) -}}
 {{- include "stress-test-addons.env-job-template.from-pod" (list $ctx "stress.service-bus") -}}
 {{- end }}
 

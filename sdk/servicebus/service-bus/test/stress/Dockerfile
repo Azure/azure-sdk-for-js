@@ -1,8 +1,8 @@
 FROM node:8-alpine
 RUN mkdir -p /src
-ADD ./*.ts /src
-ADD  ./temp.package.json /src/package.json
-ADD  ./tsconfig.json /src/tsconfig.json
-RUN cd /src && npm install && npm run build
-WORKDIR /src
+ADD ./src/*.ts /src
+ADD ./package.json /package.json
+ADD ./tsconfig.json /tsconfig.json
+RUN npm install && npm run build
+WORKDIR /
 ENTRYPOINT ["node"];
