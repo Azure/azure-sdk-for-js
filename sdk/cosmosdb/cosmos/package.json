@@ -143,6 +143,7 @@
     ],
     "requiredResources": {
       "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
-    }
+    },
+    "skipFolder": true
   }
 }
