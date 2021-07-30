@@ -1,8 +1,7 @@
 # Release History
 
-## 1.0.0-beta.2 (2021-07-30)
+## 1.0.0-beta.3 (2021-07-30)
 
-- Removed unnecessary dependencies.
 - Support reading and setting connection states, sample usage:
   ```js
   const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
@@ -20,6 +19,10 @@
     }
   });
   ```
+
+## 1.0.0-beta.2 (2021-07-20)
+
+- Removed unnecessary dependencies.
 
 ## 1.0.0-beta.1 (2021-04-23)
 
