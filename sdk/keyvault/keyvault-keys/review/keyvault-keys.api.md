@@ -417,7 +417,7 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface RandomBytes {
-    result: Uint8Array;
+    bytes: Uint8Array;
 }
 
 // @public

@@ -671,7 +671,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * let { iv: result } = await client.getRandomBytes(10);
+   * let { bytes } = await client.getRandomBytes(10);
    * ```
    * @param count - The number of bytes to generate between 1 and 128 inclusive.
    * @param options - The optional parameters.
@@ -679,7 +679,7 @@ export class KeyClient {
   public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<RandomBytes> {
     return withTrace("getRandomBytes", options, async (updatedOptions) => {
       const response = await this.client.getRandomBytes(this.vaultUrl, count, updatedOptions);
-      return { result: response.value! };
+      return { bytes: response.value! };
     });
   }
 

@@ -592,5 +592,5 @@ export type KeyExportEncryptionAlgorithm = string;
  */
 export interface RandomBytes {
   /** The random bytes returned by the service. */
-  result: Uint8Array;
+  bytes: Uint8Array;
 }
