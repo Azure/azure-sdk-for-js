@@ -33,18 +33,29 @@ const serviceClient = new TableServiceClient(
   `https://${service.storageAccountName}.table.core.windows.net`,credential);
 
   
-
 describe("TableCheckpointStore", function(): void {
   
+  
   describe("Runs tests on table with no entities" , function(){
-    
     const table_name = `table${new Date().getTime()}`;
+   
+    beforeEach("creating table" ,async () => {
+    
+      await serviceClient.createTable(table_name); 
+    
+    });
+
     const client = new TableClient(
       `https://${service.storageAccountName}.table.core.windows.net`,
-      table_name,credential);
-    
-    beforeEach("creating table" ,async () => {
-      await serviceClient.createTable(table_name); });
+    table_name,credential);
+  
+  afterEach(async () => {
+    await client.deleteTable();
+  });
+
+
+
+
       
 
 
@@ -62,6 +73,7 @@ it("listOwnership should return an empty array", async function(): Promise<void>
   
   
 });
+/*
 
 it("listOwnership is empty but length is greater than 0", async function(): Promise<void> {
   
@@ -74,7 +86,7 @@ it("listOwnership is empty but length is greater than 0", async function(): Prom
   should.not.equal(listOwnership.length, 5);
   
 });
-
+*/
 
 });
 
@@ -82,13 +94,14 @@ it("listOwnership is empty but length is greater than 0", async function(): Prom
 });
 
 describe("Runs tests on a populated table" , function(){
-    
-  const table_name = `table${new Date().getTime()}`;
-  const client = new TableClient(
-    `https://${service.storageAccountName}.table.core.windows.net`,
-    table_name,credential);
   
+  
+    
+    let client : TableClient;
+    let table_name = `table${new Date().getTime()}`;
   beforeEach("creating table" ,async () => {
+  
+  
     await serviceClient.createTable(table_name);
     const namespaceArray = ["red.servicebus.windows.net","blue.service.bus.net","green.servicebus.net"];
     const eventHubArray = ["redHub","blueHub", "greenHub"];
@@ -109,7 +122,7 @@ describe("Runs tests on a populated table" , function(){
   checkpoint_entity.sequenceNumber = 100 + i;
   checkpoint_entity.partitionId = i.toString();
   checkpoint_entity.rowKey = checkpoint_entity.partitionId;
-  checkpoint_entity.partitionKey = checkpoint_entity.eventHubName + checkpoint_entity.fullyQualifiedNamespace + checkpoint_entity.consumerGroup + "checkpoint";
+  checkpoint_entity.partitionKey = checkpoint_entity.eventHubName + " " + checkpoint_entity.fullyQualifiedNamespace + " " + checkpoint_entity.consumerGroup + " " + "Checkpoint";
   checkpoint_entity.offset = 1023 + i;
   await client.createEntity(checkpoint_entity);
 }
@@ -138,11 +151,20 @@ describe("Runs tests on a populated table" , function(){
       await client.createEntity(ownership_entity);
     }
 
-
   });
+   
+  client = new TableClient(
+    `https://${service.storageAccountName}.table.core.windows.net`,
+    table_name,credential);
+  
+  
   afterEach(async () => {
     await client.deleteTable();
   });
+
+
+
+
 
   describe("listOwnership", function() {
     it("listOwnership should print an array of ownerships", async function() {
@@ -162,8 +184,8 @@ describe("Runs tests on a populated table" , function(){
       it("listCheckpoints should print out an array of checkpoints" , async function() {
         const checkpointStore = new TableCheckpointStore(client);
         const listCheckpoint = await checkpointStore.listCheckpoints(
-          "blue.servicebus.windows.net",
-          "blueHub",
+          "red.servicebus.windows.net",
+          "redHub",
           "$default"
         );
         console.log(listCheckpoint);
@@ -179,4 +201,5 @@ describe("Runs tests on a populated table" , function(){
 });
 
 });
-});     
+
+});
