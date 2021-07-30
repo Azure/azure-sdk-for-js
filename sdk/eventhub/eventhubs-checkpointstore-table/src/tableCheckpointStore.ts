@@ -4,18 +4,7 @@
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 
 import { odata, TableClient } from "@azure/data-tables";
-/*
-const account = "ntiamoahbaffy";
-const accountKey = "rsOtBa+bgfQZREd8nqBKq7LsQgoT1UwqMxyONwIV8HvNA47/oGxmjSNktXbK84BmBAnyHw+Z6lqOsQ7uanKISg==";
-const tableName = "table01";
-*/
 
-// Use AzureNamedKeyCredential with storage account and account key
-// AzureNamedKeyCredential is only available in Node.js runtime, not in browsers
-/*
-const credential = new AzureNamedKeyCredential(account, accountKey);
-const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-*/
 
 export interface customCheckpoint extends Checkpoint {
   partitionKey : string,
