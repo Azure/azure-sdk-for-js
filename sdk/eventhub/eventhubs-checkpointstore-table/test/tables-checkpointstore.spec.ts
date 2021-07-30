@@ -145,7 +145,7 @@ describe("Runs tests on a populated table" , function(){
   });
 
   describe("listOwnership", function() {
-    it("listOwnership should print an array of ownerships", async function(): Promise<void> {
+    it("listOwnership should print an array of ownerships", async function() {
       
       const checkpointStore = new TableCheckpointStore(client);
       const listOwnership = await checkpointStore.listOwnership(
@@ -156,6 +156,19 @@ describe("Runs tests on a populated table" , function(){
       console.log(listOwnership);
       
       
+    });
+
+    describe("listCheckpoints",function(){
+      it("listCheckpoints should print out an array of checkpoints" , async function() {
+        const checkpointStore = new TableCheckpointStore(client);
+        const listCheckpoint = await checkpointStore.listCheckpoints(
+          "blue.servicebus.windows.net",
+          "blueHub",
+          "$default"
+        );
+        console.log(listCheckpoint);
+
+      });
     });
 
 
