@@ -671,7 +671,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * let bytes = await client.getRandomBytes(10);
+   * let { iv: result } = await client.getRandomBytes(10);
    * ```
    * @param count - The number of bytes to generate between 1 and 128 inclusive.
    * @param options - The optional parameters.
