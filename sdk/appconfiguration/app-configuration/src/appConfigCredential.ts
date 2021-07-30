@@ -47,7 +47,7 @@ export class AppConfigCredential implements ServiceClientCredentials {
     webResource.headers.set("x-ms-content-sha256", contentHash);
     webResource.headers.set(
       "Authorization",
-      `HMAC-SHA256 Credential=${this.credential}, SignedHeaders=${signedHeaders}, Signature=${signature}`
+      `HMAC-SHA256 Credential=${this.credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`
     );
 
     return webResource;
