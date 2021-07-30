@@ -54,9 +54,9 @@ it("listOwnership should return an empty array", async function(): Promise<void>
   
   const checkpointStore = new TableCheckpointStore(client);
   const listOwnership = await checkpointStore.listOwnership(
-    "baffy",
-    "yellow",
-    "$default"
+    "test.servicebus.windows.net",
+    "testHub",
+    "testConsumerGroup"
   );
   should.equal(listOwnership.length, 0);
   
@@ -122,8 +122,8 @@ describe("Runs tests on a populated table" , function(){
       fullyQualifiedNamespace : "baffy",
       eventHubName: "yellow",
       partitionId: "3",
-      ownerId : "11",
-      lastModifiedTimeInMs : 1222
+      ownerId : "11"
+
     };
 
     for (let i = 0; i < 3; ++i){
@@ -145,7 +145,7 @@ describe("Runs tests on a populated table" , function(){
   });
 
   describe("listOwnership", function() {
-    it("listOwnership should return an array of ownerships", async function(): Promise<void> {
+    it("listOwnership should print an array of ownerships", async function(): Promise<void> {
       
       const checkpointStore = new TableCheckpointStore(client);
       const listOwnership = await checkpointStore.listOwnership(
