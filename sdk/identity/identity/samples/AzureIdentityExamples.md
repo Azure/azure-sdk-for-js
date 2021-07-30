@@ -99,11 +99,11 @@ To learn more, read [Application and service principal objects in Azure Active D
 - [Application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                          |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                              |
-| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                         |
-| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                       |
+| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                               |
+| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                          |
+| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                        |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code. |
 
 ### Authenticating Azure Hosted Applications
@@ -112,7 +112,7 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 | Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                     |
+| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                    |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Examples
@@ -646,7 +646,7 @@ import * as msalNode from "@azure/msal-node";
 class OnBehalfOfCredential implements TokenCredential {
   private confidentialApp: msalNode.ConfidentialClientApplication;
 
-  constructor (
+  constructor(
     private clientId: string,
     private clientSecret: string,
     private userAccessToken: string
@@ -696,7 +696,7 @@ For this example, you'll define a `BrowserCredential` class with the following m
 
 **Prerequisites**
 
-Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth].  
+Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth].
 
 > For more information about MSAL for browsers, see [the README of the `@azure/msal-browser` package][msal_browser_readme].
 
@@ -726,7 +726,7 @@ class BrowserCredential implements TokenCredential {
       }
       await this.publicApp.handleRedirectPromise();
       this.hasAuthenticated = true;
-    } catch(e) {
+    } catch (e) {
       console.error("BrowserCredential prepare() failed", e);
     }
   }
@@ -907,6 +907,44 @@ class RotatingCertificateCredential implements TokenCredential {
 ```
 
 In this example, the custom credential type `RotatingCertificateCredential` again uses a `ClientCertificateCredential` instance to retrieve tokens. However, in this case, it will attempt to refresh the certificate before obtaining the token. The method `RefreshCertificate` will query to see if the certificate has changed. If so, it will replace `this.credential` with a new instance of the certificate credential using the same certificate path.
+
+### Controlling User Interaction
+
+In many cases applications require tight control over user interaction. In these applications automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the @azure/identity library which interact with the user offer mechanisms to fully control user interaction.
+
+```
+  const options: InteractiveBrowserCredentialOptions = {
+    disableAutomaticAuthentication: true
+  };
+  const credential = new InteractiveBrowserCredential(options);
+  await credential.authenticate("https://vault.azure.net/.default");
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+```
+
+In this sample the application is again using the `InteractiveBrowserCredential` to authenticate a SecretClient, but with two major differences from our first example. First, in this example the application is explicitly forcing any user interaction to happen before the credential is given to the client by calling `authenticate`.
+
+The second difference is here the application is preventing the credential from automatically initiating user interaction. Even though the application authenticates the user before the credential is used, further interaction might still be needed, for instance in the case that the user's refresh token expires, or a specific method require additional consent or authentication.
+
+By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an error `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
+
+```
+try
+{
+    await client.getSecret("secret-name");
+}
+catch (e)
+{
+  await ensureAnimationCompleted();
+
+  if(e instanceof AuthenticationRequiredError){
+    await credential.authenticate(e.scopes);
+    client.getSecret("secret-name");
+  }
+  else{
+    throw (e);
+  }
+}
+```
 
 <!-- LINKS -->
 
