@@ -1300,12 +1300,6 @@ export const ContainerRegistry: msRest.CompositeMapper = {
     name: "Composite",
     className: "ContainerRegistry",
     modelProperties: {
-      registryServer: {
-        serializedName: "registryServer",
-        type: {
-          name: "String"
-        }
-      },
       userName: {
         serializedName: "username",
         type: {
@@ -1314,6 +1308,12 @@ export const ContainerRegistry: msRest.CompositeMapper = {
       },
       password: {
         serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      registryServer: {
+        serializedName: "registryServer",
         type: {
           name: "String"
         }

@@ -11,17 +11,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/applicationPackageOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { BatchManagementContext } from "../batchManagementContext";
+import { BatchManagementClientContext } from "../batchManagementClientContext";
 
 /** Class representing a ApplicationPackageOperations. */
 export class ApplicationPackageOperations {
-  private readonly client: BatchManagementContext;
+  private readonly client: BatchManagementClientContext;
 
   /**
    * Create a ApplicationPackageOperations.
-   * @param {BatchManagementContext} client Reference to the service client.
+   * @param {BatchManagementClientContext} client Reference to the service client.
    */
-  constructor(client: BatchManagementContext) {
+  constructor(client: BatchManagementClientContext) {
     this.client = client;
   }
 

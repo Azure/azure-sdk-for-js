@@ -1,6 +1,6 @@
-## Azure BatchManagement SDK for JavaScript
+## Azure BatchManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for BatchManagement.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for BatchManagementClient.
 
 ### Currently supported environments
 
@@ -42,13 +42,13 @@ Once the client is created, explore the operations on it either in your favorite
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { BatchManagement } = require("@azure/arm-batch");
+const { BatchManagementClient } = require("@azure/arm-batch");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 // Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
-const client = new BatchManagement(creds, subscriptionId);
+const client = new BatchManagementClient(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const accountName = "testaccountName";
 client.batchAccount.get(resourceGroupName, accountName).then((result) => {
@@ -87,7 +87,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmBatch.BatchManagement(creds, subscriptionId);
+      const client = new Azure.ArmBatch.BatchManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const accountName = "testaccountName";
       client.batchAccount.get(resourceGroupName, accountName).then((result) => {

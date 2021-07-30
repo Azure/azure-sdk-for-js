@@ -819,10 +819,6 @@ export interface DataDisk {
  */
 export interface ContainerRegistry {
   /**
-   * The registry URL. If omitted, the default is "docker.io".
-   */
-  registryServer?: string;
-  /**
    * The user name to log into the registry server.
    */
   userName?: string;
@@ -830,6 +826,10 @@ export interface ContainerRegistry {
    * The password to log into the registry server.
    */
   password?: string;
+  /**
+   * The registry URL. If omitted, the default is "docker.io".
+   */
+  registryServer?: string;
   /**
    * The reference to the user assigned identity to use to access an Azure Container Registry
    * instead of username and password.
@@ -2558,9 +2558,9 @@ export interface PoolListByBatchAccountNextOptionalParams extends msRest.Request
 }
 
 /**
- * An interface representing BatchManagementOptions.
+ * An interface representing BatchManagementClientOptions.
  */
-export interface BatchManagementOptions extends AzureServiceClientOptions {
+export interface BatchManagementClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 

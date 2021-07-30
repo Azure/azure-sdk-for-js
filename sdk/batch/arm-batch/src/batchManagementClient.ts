@@ -12,10 +12,10 @@ import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { BatchManagementContext } from "./batchManagementContext";
+import { BatchManagementClientContext } from "./batchManagementClientContext";
 
 
-class BatchManagement extends BatchManagementContext {
+class BatchManagementClient extends BatchManagementClientContext {
   // Operation groups
   batchAccount: operations.BatchAccountOperations;
   applicationPackage: operations.ApplicationPackageOperations;
@@ -28,7 +28,7 @@ class BatchManagement extends BatchManagementContext {
   pool: operations.PoolOperations;
 
   /**
-   * Initializes a new instance of the BatchManagement class.
+   * Initializes a new instance of the BatchManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure. Credentials
    * implementing the TokenCredential interface from the @azure/identity package are recommended. For
    * more information about these credentials, see
@@ -39,7 +39,7 @@ class BatchManagement extends BatchManagementContext {
    * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.BatchManagementOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.BatchManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.batchAccount = new operations.BatchAccountOperations(this);
     this.applicationPackage = new operations.ApplicationPackageOperations(this);
@@ -56,8 +56,8 @@ class BatchManagement extends BatchManagementContext {
 // Operation Specifications
 
 export {
-  BatchManagement,
-  BatchManagementContext,
+  BatchManagementClient,
+  BatchManagementClientContext,
   Models as BatchManagementModels,
   Mappers as BatchManagementMappers
 };

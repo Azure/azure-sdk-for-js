@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-batch",
   "author": "Microsoft Corporation",
-  "description": "BatchManagement Library with typescript type definitions for node.js and browser.",
+  "description": "BatchManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "6.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
@@ -18,8 +18,8 @@
   ],
   "license": "MIT",
   "main": "./dist/arm-batch.js",
-  "module": "./esm/batchManagement.js",
-  "types": "./esm/batchManagement.d.ts",
+  "module": "./esm/batchManagementClient.js",
+  "types": "./esm/batchManagementClient.d.ts",
   "devDependencies": {
     "typescript": "^3.6.0",
     "rollup": "^1.18.0",
@@ -27,7 +27,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/batch/arm-batch",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/batch/arm-batch",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"

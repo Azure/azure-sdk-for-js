@@ -15,13 +15,13 @@ import { TokenCredential } from "@azure/core-auth";
 const packageName = "@azure/arm-batch";
 const packageVersion = "6.0.0";
 
-export class BatchManagementContext extends msRestAzure.AzureServiceClient {
+export class BatchManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
-   * Initializes a new instance of the BatchManagement class.
+   * Initializes a new instance of the BatchManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure. Credentials
    * implementing the TokenCredential interface from the @azure/identity package are recommended. For
    * more information about these credentials, see
@@ -32,7 +32,7 @@ export class BatchManagementContext extends msRestAzure.AzureServiceClient {
    * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.BatchManagementOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.BatchManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }

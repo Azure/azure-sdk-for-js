@@ -12,17 +12,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/poolOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { BatchManagementContext } from "../batchManagementContext";
+import { BatchManagementClientContext } from "../batchManagementClientContext";
 
 /** Class representing a PoolOperations. */
 export class PoolOperations {
-  private readonly client: BatchManagementContext;
+  private readonly client: BatchManagementClientContext;
 
   /**
    * Create a PoolOperations.
-   * @param {BatchManagementContext} client Reference to the service client.
+   * @param {BatchManagementClientContext} client Reference to the service client.
    */
-  constructor(client: BatchManagementContext) {
+  constructor(client: BatchManagementClientContext) {
     this.client = client;
   }
 
