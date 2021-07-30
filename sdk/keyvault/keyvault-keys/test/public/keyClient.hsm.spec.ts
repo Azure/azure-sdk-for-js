@@ -55,8 +55,8 @@ onVersions({ minVer: "7.2" }).describe(
     onVersions({ minVer: "7.3-preview" }).describe("getRandomBytes", () => {
       it("can return the required number of bytes", async () => {
         const randomBytes = await hsmClient.getRandomBytes(10);
-        assert.exists(randomBytes);
-        assert.equal(randomBytes!.length, 10);
+        assert.exists(randomBytes.result);
+        assert.equal(randomBytes.result.length, 10);
       });
 
       it("returns an error when bytes is out of range", async () => {

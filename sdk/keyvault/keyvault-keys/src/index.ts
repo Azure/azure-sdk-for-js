@@ -64,7 +64,8 @@ import {
   ReleaseKeyOptions,
   ReleaseKeyResult,
   KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm
+  KeyExportEncryptionAlgorithm,
+  RandomBytes
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -142,6 +143,7 @@ export {
   GetDeletedKeyOptions,
   GetKeyOptions,
   GetRandomBytesOptions,
+  RandomBytes,
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
@@ -674,10 +676,10 @@ export class KeyClient {
    * @param count - The number of bytes to generate between 1 and 128 inclusive.
    * @param options - The optional parameters.
    */
-  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<Uint8Array> {
+  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<RandomBytes> {
     return withTrace("getRandomBytes", options, async (updatedOptions) => {
       const response = await this.client.getRandomBytes(this.vaultUrl, count, updatedOptions);
-      return response.value!;
+      return { result: response.value! };
     });
   }
 
