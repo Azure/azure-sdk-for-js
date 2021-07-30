@@ -1,6 +1,6 @@
 ## Azure BatchServiceClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for BatchServiceClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for BatchServiceClient.
 
 ### Currently supported environments
 
