@@ -3,17 +3,19 @@
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 
-import { odata, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+import { odata, TableClient } from "@azure/data-tables";
+/*
 const account = "ntiamoahbaffy";
 const accountKey = "rsOtBa+bgfQZREd8nqBKq7LsQgoT1UwqMxyONwIV8HvNA47/oGxmjSNktXbK84BmBAnyHw+Z6lqOsQ7uanKISg==";
 const tableName = "table01";
-
+*/
 
 // Use AzureNamedKeyCredential with storage account and account key
 // AzureNamedKeyCredential is only available in Node.js runtime, not in browsers
+/*
 const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-
+*/
 
 export interface customCheckpoint extends Checkpoint {
   partitionKey : string,
@@ -57,7 +59,7 @@ export class TableCheckpointStore implements CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string): Promise<PartitionOwnership[]> {
-    let PARTITIONKEY = eventHubName + fullyQualifiedNamespace + consumerGroup + "ownership";
+    let PARTITIONKEY = eventHubName + " "+  fullyQualifiedNamespace + " "+ consumerGroup + " "+ "Ownership";
     const partitionOwnershipArray: PartitionOwnership[] = [];
     let entitiesIter = this._tableClient.listEntities<PartitionOwnership >({
       queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}`}
@@ -120,10 +122,10 @@ export class TableCheckpointStore implements CheckpointStore {
     eventHubName: string, 
     consumerGroup: string) {
 
-        let PARTITIONKEY = eventHubName + fullyQualifiedNamespace + consumerGroup + "checkpoint";
+        let PARTITIONKEY = eventHubName + " "+ fullyQualifiedNamespace+ " " + consumerGroup + " "+ "Checkpoint";
         const checkpoints: Checkpoint[] = [];
         
-        let entitiesIter = client.listEntities<Checkpoint>({
+        let entitiesIter = this._tableClient.listEntities<Checkpoint>({
           queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}`}
         });
         for await (const entity of entitiesIter) {
@@ -160,7 +162,7 @@ export class TableCheckpointStore implements CheckpointStore {
      const entity = {partitionKey: PARTITIONKEY, 
      rowKey: checkpoint.partitionId, offset: 5890, sequenceNumber: 19};
  
-     let entitiesIter = client.listEntities<Checkpoint>({
+     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
        queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}`}
      });
      let i = 0;
@@ -171,7 +173,7 @@ export class TableCheckpointStore implements CheckpointStore {
      }
  
      if (i > 0 ) {
-       await client.updateEntity(entity);
+       await this._tableClient.updateEntity(entity);
      }
      else {
       const entity1 : customCheckpoint = {
@@ -185,7 +187,7 @@ export class TableCheckpointStore implements CheckpointStore {
         partitionId : checkpoint.partitionId
     
       };
-      await client.createEntity(entity1);
+      await this._tableClient.createEntity(entity1);
       
     }
     
