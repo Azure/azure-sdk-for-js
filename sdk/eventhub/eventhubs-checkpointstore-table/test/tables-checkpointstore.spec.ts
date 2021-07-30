@@ -35,6 +35,7 @@ const serviceClient = new TableServiceClient(
   
 
 describe("TableCheckpointStore", function(): void {
+  
   describe("Runs tests on table with no entities" , function(){
     
     const table_name = `table${new Date().getTime()}`;
@@ -44,9 +45,8 @@ describe("TableCheckpointStore", function(): void {
     
     beforeEach("creating table" ,async () => {
       await serviceClient.createTable(table_name); });
-afterEach(async () => {
-  await client.deleteTable();
-});
+      
+
 
 
 describe("listOwnership", function() {
@@ -74,6 +74,7 @@ it("listOwnership is empty but length is greater than 0", async function(): Prom
   should.not.equal(listOwnership.length, 5);
   
 });
+
 
 });
 
@@ -130,19 +131,39 @@ describe("Runs tests on a populated table" , function(){
       ownership_entity.eventHubName = eventHubArray[i];
       ownership_entity.partitionId = i.toString();
       ownership_entity.rowKey = ownership_entity.partitionId;
-      ownership_entity.partitionKey = ownership_entity.eventHubName + ownership_entity.fullyQualifiedNamespace + ownership_entity.consumerGroup + "checkpoint";
-      ownership_entity.ownerId = "Id" + i,
+      ownership_entity.partitionKey = ownership_entity.eventHubName + " " + ownership_entity.fullyQualifiedNamespace + " " + ownership_entity.consumerGroup + " " + "Ownership";
+      ownership_entity.ownerId = "Id" + i
+      
 
       await client.createEntity(ownership_entity);
     }
 
 
   });
+  afterEach(async () => {
+    await client.deleteTable();
+  });
+
+  describe("listOwnership", function() {
+    it("listOwnership should return an array of ownerships", async function(): Promise<void> {
+      
+      const checkpointStore = new TableCheckpointStore(client);
+      const listOwnership = await checkpointStore.listOwnership(
+        "red.servicebus.windows.net",
+        "redHub",
+        "$default"
+      );
+      console.log(listOwnership);
+      
+      
+    });
 
 
   
 
 
+
+});
 
 });
 });     
