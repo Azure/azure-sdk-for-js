@@ -42,7 +42,7 @@ class BatchServiceClient extends BatchServiceClientContext {
   constructor(
     credentials: msRest.ServiceClientCredentials | TokenCredential,
     batchUrl: string,
-    options?: msRest.AzureServiceClientOptions
+    options?: msRestAzure.AzureServiceClientOptions
   ) {
     super(credentials, batchUrl, options);
     this.application = new operations.Application(this);
