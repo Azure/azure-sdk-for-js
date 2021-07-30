@@ -1,7 +1,7 @@
 {{- range $.Values.scenarios }}
 ---
-{{- $ctx := deepCopy $ | merge (dict "Scenario" (lower . )) -}}
-{{- include "stress-test-addons.env-job-template.from-pod" (list $ctx "stress.service-bus") -}}
+{{- $ctx := deepCopy $ | merge (dict "Scenario" . ) -}}
+{{- include "stress-test-addons.deploy-job-template.from-pod" (list $ctx "stress.service-bus") -}}
 {{- end }}
 
 {{- define "stress.service-bus" -}}
@@ -13,8 +13,9 @@ metadata:
 spec:
   containers:
     - name: sb-stressperf
-      command: ["node", "src/dist/{{ .Scenario }}.js"]
-      image: {{ default "stresstestregistry.azurecr.io/javascript" .Values.repository }}/service-bus:{{ default "v1" .Values.tag }}
+      imagePullPolicy: Always
+      command: ["node", "/dist/src/{{ .Scenario }}.js"]
+      image: {{ default "stresstestregistry.azurecr.io/javascript" .Values.repository }}/stress:{{ default "v1" .Values.tag }}
       {{- include "stress-test-addons.container-env" . | nindent 6 }}
 {{- end -}}
 

@@ -8,5 +8,3 @@ scenarios:
   - scenarioSend
   - scenarioShortLivedReceivers
   - scenarioStreamingReceive
-
-
