@@ -75,7 +75,7 @@
     "constantPaths": [
       {
         "path": "src/generated/keyVaultClientContext.ts",
-        "prefix": "packageVersion"
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",
