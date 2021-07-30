@@ -83,13 +83,18 @@ export class LogsQueryClient {
     timespan: string,
     options?: QueryLogsOptions
   ): Promise<QueryLogsResult> {
-    const result = await this._logAnalytics.query.execute(
-      workspaceId,
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) =>
+        this._logAnalytics.query.execute(
+          workspaceId,
+          {
+            query,
+            timespan
+          },
+          paramOptions
+        ),
       {
-        query,
-        timespan
-      },
-      {
+        ...options,
         requestOptions: {
           customHeaders: {
             ...formatPreferHeader(options)
@@ -98,10 +103,12 @@ export class LogsQueryClient {
       }
     );
 
+    const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+    flatResponse.tables = parsedBody.tables;
     return {
-      tables: result.tables.map(convertGeneratedTable),
-      statistics: result.statistics,
-      visualization: result.render
+      tables: flatResponse.tables.map(convertGeneratedTable),
+      statistics: flatResponse.statistics,
+      visualization: flatResponse.render
     };
   }
 

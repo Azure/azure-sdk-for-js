@@ -81,6 +81,10 @@ export function convertResponseForQueryBatch(
 ): QueryLogsBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
 
+  /* Sort the ids that are passed in with the queries, as numbers instead of strings
+   * It is not guaranteed that service will return the responses for queries in the same order
+   * as the queries are passed in
+   */
   const newResponse: QueryLogsBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
