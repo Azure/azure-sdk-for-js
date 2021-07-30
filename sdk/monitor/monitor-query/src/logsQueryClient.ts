@@ -140,8 +140,12 @@ async function getRawResponse<TOptions extends OperationOptions, TResult>(
   f: (options: TOptions) => Promise<TResult>,
   options: TOptions
 ): Promise<ReturnType<TResult>> {
+  // renaming onResponse received from customer to customerProvidedCallback
   const { onResponse: customerProvidedCallback } = options || {};
   let rawResponse: FullOperationResponse | undefined = undefined;
+  // flatResponseParam - is basically the flatResponse received from service call -
+  // just named it so that linter doesn't complain
+  // onResponse - includes the rawResponse and the customer's provided onResponse
   const flatResponse = await f({
     ...options,
     onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
