@@ -1,0 +1,6 @@
+dependencies:
+- name: stress-test-addons
+  repository: file:///home/ben/sdk/azure-sdk-tools/tools/stress-cluster/cluster/kubernetes/stress-test-addons
+  version: 0.1.2
+digest: sha256:6fc833e8148db822cbf6c52a166d1fcfec9599b9b057655009f3147cd5752498
+generated: "2021-07-29T04:45:58.1417984-04:00"
