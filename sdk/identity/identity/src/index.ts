@@ -15,6 +15,10 @@ export { TokenCredentialOptions } from "./client/identityClient";
 export { RegionalAuthority } from "./regionalAuthority";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
+export {
+  StaticTokenCredential,
+  StaticTokenCredentialOptions
+} from "./credentials/staticTokenCredential";
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export {
   DefaultAzureCredential,

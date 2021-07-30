@@ -309,6 +309,16 @@ export enum RegionalAuthority {
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
 
 // @public
+export class StaticTokenCredential implements TokenCredential {
+    constructor(accessToken: AccessToken, _options?: StaticTokenCredentialOptions);
+    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface StaticTokenCredentialOptions extends TokenCredentialOptions {
+}
+
+// @public
 export interface TokenCachePersistenceOptions {
     allowUnencryptedStorage?: boolean;
     enabled: boolean;
