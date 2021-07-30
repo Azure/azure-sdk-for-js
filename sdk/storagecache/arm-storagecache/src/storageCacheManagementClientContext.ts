@@ -9,11 +9,11 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-storagecache";
-const packageVersion = "4.1.0";
+const packageVersion = "4.2.0";
 
 export class StorageCacheManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -43,14 +43,14 @@ export class StorageCacheManagementClientContext extends msRestAzure.AzureServic
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2021-03-01';
+    this.apiVersion = '2021-05-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -58,10 +58,10 @@ export class StorageCacheManagementClientContext extends msRestAzure.AzureServic
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

@@ -42,6 +42,18 @@ export const cacheName: msRest.OperationURLParameter = {
     }
   }
 };
+export const force: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const location: msRest.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
