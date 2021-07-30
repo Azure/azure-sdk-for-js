@@ -6,7 +6,7 @@ stages:
       PackageName: "@azure/service-bus"
       ServiceDirectory: servicebus
       TimeoutInMinutes: 180
-      Clouds: 'Public,Canary'
+      Clouds: 'Public,UsGov,China,Canary'
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
