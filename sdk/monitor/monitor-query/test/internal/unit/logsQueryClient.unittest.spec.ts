@@ -32,7 +32,6 @@ describe("LogsQueryClient unit tests", () => {
       endpoint: "https://customEndpoint1",
       scopes: "https://customscopes1/"
     });
-    console.dir(client["_logAnalytics"]);
 
     assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1");
     assert.equal(client["_logAnalytics"]["_baseUri"], "https://customEndpoint1");
