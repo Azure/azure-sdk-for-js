@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `StaticTokenCredential`, a credential that allows Azure SDK Clients to always get a pre-fetched access token.
+
 ### Breaking Changes
 
 #### Breaking Changes from 2.0.0-beta.5
