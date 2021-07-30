@@ -6,6 +6,11 @@
 
 ### Breaking Changes
 
+> These changes do not impact the API of stable versions such as 1.6.0.
+> Only code written against a beta version such as 1.7.0b1 may be affected.
+
+- Renamed `AZURE_POD_IDENTITY_TOKEN_URL` to `AZURE_POD_IDENTITY_AUTHORITY_HOST`.
+
 ### Bugs Fixed
 
 ### Other Changes

@@ -9,7 +9,7 @@ import { AccessToken } from "@azure/core-auth";
 import { WebResource, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
-  imdsEndpoint,
+  imdsHost,
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
@@ -28,7 +28,7 @@ interface AuthRequestDetails {
   token: AccessToken | null;
 }
 
-describe("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
 
@@ -55,7 +55,7 @@ describe("ManagedIdentityCredential", function () {
     sandbox.restore();
   });
 
-  it("sends an authorization request with a modified resource name", async function () {
+  it("sends an authorization request with a modified resource name", async function() {
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
       authResponse: [
         { status: 200 }, // Respond to IMDS isAvailable
@@ -77,7 +77,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(authRequest.query["client_id"], "client");
       assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
       assert.ok(
-        authRequest.url.startsWith(imdsEndpoint),
+        authRequest.url.startsWith(imdsHost),
         "URL does not start with expected host and path"
       );
       assert.ok(
@@ -112,7 +112,7 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
-  it("returns error when no MSI is available", async function () {
+  it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const imdsError: RestError = new RestError("Request Timeout", "REQUEST_SEND_ERROR", 408);
@@ -129,7 +129,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function () {
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -150,7 +150,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the network was unreachable", async function () {
+  it("returns expected error when the network was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", "ENETUNREACH", 408);
@@ -167,7 +167,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("returns expected error when the host was unreachable", async function () {
+  it("returns expected error when the host was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const hostError: RestError = new RestError("Request Timeout", "EHOSTUNREACH", 408);
@@ -185,7 +185,7 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
-  it("IMDS MSI retries and succeeds on 404", async function () {
+  it("IMDS MSI retries and succeeds on 404", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const mockHttpClient = new MockAuthHttpClient({
@@ -213,7 +213,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(response.token, "token");
   });
 
-  it("IMDS MSI retries up to a limit on 404", async function () {
+  it("IMDS MSI retries up to a limit on 404", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const mockHttpClient = new MockAuthHttpClient({
@@ -252,7 +252,7 @@ describe("ManagedIdentityCredential", function () {
     clock?.restore();
   });
 
-  it("IMDS MSI retries also retries on 503s", async function () {
+  it("IMDS MSI retries also retries on 503s", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       // First response says the IMDS endpoint is available.
       authResponse: [
@@ -292,7 +292,7 @@ describe("ManagedIdentityCredential", function () {
     clock.restore();
   });
 
-  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function() {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
     assert.ok(await imdsMsi.isAvailable());
@@ -390,7 +390,7 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function () {
+  it("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";

@@ -13,7 +13,7 @@ import { AuthenticationError } from "../../client/errors";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
-import { imdsApiVersion, imdsEndpoint } from "./constants";
+import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
 
@@ -44,7 +44,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   }
 
   return {
-    url: process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsEndpoint,
+    url: `${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost}${imdsEndpointPath}`,
     method: "GET",
     queryParameters,
     headers: {
