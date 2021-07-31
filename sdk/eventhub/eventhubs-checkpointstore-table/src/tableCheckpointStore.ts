@@ -13,6 +13,7 @@ export interface customCheckpoint extends Checkpoint {
 export interface customPartition extends PartitionOwnership {
   partitionKey: string;
   rowKey: string;
+  time: string;
 }
 
 /**
@@ -79,8 +80,57 @@ export class TableCheckpointStore implements CheckpointStore {
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     const partitionOwnershipArray: PartitionOwnership[] = [];
+
     for (const ownership of partitionOwnership) {
-      ownership.ownerId = "1";
+      let PARTITIONKEY =
+        ownership.eventHubName +
+        " " +
+        ownership.fullyQualifiedNamespace +
+        " " +
+        ownership.consumerGroup +
+        " " +
+        "Ownership";
+      let curr_ownership = {
+        partitionKey: PARTITIONKEY,
+        rowKey: ownership.partitionId       
+      };
+      let entitiesIter = this._tableClient.listEntities<customPartition>({
+        queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
+      });
+      let k = 0;
+      for await (const entity of entitiesIter) {
+        k++;
+        entity.lastModifiedTimeInMs;
+      }
+      let i = 0;
+      for await (const entity of entitiesIter) {
+        i++;
+        if (
+          ownership.etag == entity.etag &&
+          ownership.lastModifiedTimeInMs == entity.lastModifiedTimeInMs
+        ) {
+          await this._tableClient.updateEntity(curr_ownership);
+
+          partitionOwnershipArray.push(ownership);
+        }
+        if (i == k) {
+          const entity1: customPartition = {
+            partitionKey: PARTITIONKEY,
+            rowKey: curr_ownership.rowKey,
+            consumerGroup: ownership.consumerGroup,
+            fullyQualifiedNamespace: ownership.fullyQualifiedNamespace,
+            eventHubName: ownership.eventHubName,
+            lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
+            etag: ownership.etag,
+            ownerId: ownership.ownerId,
+            partitionId: ownership.partitionId,
+            time : `${new Date().getTime()}`
+            
+          };
+          entity1.lastModifiedTimeInMs = Number(entity.time);
+          await this._tableClient.upsertEntity(entity1);
+        }
+      }
     }
     return partitionOwnershipArray;
   }
@@ -152,10 +202,8 @@ export class TableCheckpointStore implements CheckpointStore {
       queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
     });
     let i = 0;
-    for await (const entity of entitiesIter) {
-      const checkpointArray: Checkpoint[] = [];
-      checkpointArray.push(entity);
-      i++;
+    for await (const ent of entitiesIter) {
+      ent.offset;
     }
 
     if (i > 0) {
@@ -171,7 +219,7 @@ export class TableCheckpointStore implements CheckpointStore {
         offset: entity.offset,
         partitionId: checkpoint.partitionId
       };
-      await this._tableClient.createEntity(entity1);
+      await this._tableClient.upsertEntity(entity1);
     }
 
     return;
