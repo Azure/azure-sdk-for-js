@@ -52,7 +52,7 @@ describe("TableCheckpointStore", function(): void {
     );
 
     afterEach(async () => {
-      await client.deleteTable();
+      await serviceClient.deleteTable(table_name);
     });
 
     describe("listOwnership", function() {
@@ -88,10 +88,10 @@ describe("TableCheckpointStore", function(): void {
         partitionKey: "0",
         rowKey: "0",
         consumerGroup: "$default",
-        fullyQualifiedNamespace: "baffy.servicebus.windows.net",
-        eventHubName: "baffy",
+        fullyQualifiedNamespace: "",
+        eventHubName: "",
         sequenceNumber: 0,
-        offset: 42694,
+        offset: 0,
         partitionId: "0"
       };
       for (let i = 0; i < 3; ++i) {
@@ -117,10 +117,12 @@ describe("TableCheckpointStore", function(): void {
         partitionKey: "",
         rowKey: "",
         consumerGroup: "$default",
-        fullyQualifiedNamespace: "baffy",
-        eventHubName: "yellow",
-        partitionId: "3",
-        ownerId: "11"
+        fullyQualifiedNamespace: "",
+        eventHubName: "",
+        partitionId: "",
+        ownerId: "",
+        lastModifiedTimeInMs: 0,
+        time: `${new Date().getTime()}`
       };
 
       for (let i = 0; i < 3; ++i) {
@@ -137,13 +139,14 @@ describe("TableCheckpointStore", function(): void {
           " " +
           "Ownership";
         ownership_entity.ownerId = "Id" + i;
+        ownership_entity.lastModifiedTimeInMs = Number(ownership_entity.time);
 
         await client.createEntity(ownership_entity);
       }
     });
 
     afterEach(async () => {
-      await client.deleteTable();
+      await serviceClient.deleteTable(table_name);
     });
 
     describe("listOwnership", function() {
