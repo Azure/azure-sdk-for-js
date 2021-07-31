@@ -22,6 +22,7 @@ import {
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
+import { DefaultTenantId } from "../../../src/constants";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -390,13 +391,12 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function() {
+  it("sends an authorization request correctly in an Azure Arc environment", async function(this: Mocha.Context) {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
     const testTitle = this.test?.title || `test-Date.time()`;
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
@@ -496,6 +496,51 @@ describe("ManagedIdentityCredential", function() {
       assert.equal(authDetails.token.expiresOnTimestamp, 1);
     } else {
       assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly if token file path is available", async function(this: Mocha.Context) {
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const expectedAssertion = "{}";
+    writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+    // Trigger token file path by setting environment variables
+    process.env.AZURE_CLIENT_ID = "client-id";
+    process.env.AZURE_TENANT_ID = DefaultTenantId;
+    process.env.TOKEN_FILE_PATH = tempFile;
+
+    const expiresOn = Date.now();
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: {
+        status: 200,
+        parsedBody: {
+          token: "token",
+          expires_on: expiresOn
+        }
+      }
+    });
+
+    const authRequest = authDetails.requests[0];
+    assert.ok(authRequest.query, "No query string parameters on request");
+    if (authRequest.query) {
+      assert.strictEqual(authRequest.method, "GET");
+      assert.strictEqual(
+        decodeURIComponent(authRequest.query["client_assertion"]),
+        expectedAssertion
+      );
+      assert.strictEqual(
+        decodeURIComponent(authRequest.query["client_assertion_type"]),
+        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+      );
+      assert.strictEqual(decodeURIComponent(authRequest.query["resource"]), "https://service");
+      if (authDetails.token) {
+        assert.strictEqual(authDetails.token.expiresOnTimestamp, expiresOn);
+      } else {
+        assert.fail("No token was returned!");
+      }
     }
   });
 
