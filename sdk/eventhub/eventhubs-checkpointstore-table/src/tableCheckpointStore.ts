@@ -158,8 +158,9 @@ export class TableCheckpointStore implements CheckpointStore {
     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
     });
+    
     for await (const entity of entitiesIter) {
-      if (entity.hasOwnProperty("offset")) {
+
         checkpoints.push({
           consumerGroup,
           eventHubName,
@@ -168,8 +169,9 @@ export class TableCheckpointStore implements CheckpointStore {
           offset: entity.offset,
           sequenceNumber: entity.sequenceNumber
         });
-      }
+    
     }
+   
     return checkpoints;
   }
 
@@ -197,6 +199,18 @@ export class TableCheckpointStore implements CheckpointStore {
       offset: 5890,
       sequenceNumber: 19
     };
+     
+
+    const entity1: customCheckpoint = {
+      partitionKey: PARTITIONKEY,
+      rowKey: checkpoint.partitionId,
+      consumerGroup: checkpoint.consumerGroup,
+      fullyQualifiedNamespace: checkpoint.fullyQualifiedNamespace,
+      eventHubName: checkpoint.eventHubName,
+      sequenceNumber: checkpoint.sequenceNumber,
+      offset: checkpoint.offset,
+      partitionId: checkpoint.partitionId
+    };
 
     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
@@ -204,23 +218,27 @@ export class TableCheckpointStore implements CheckpointStore {
     let i = 0;
     for await (const ent of entitiesIter) {
       ent.offset;
+      i++;
     }
 
     if (i > 0) {
-      await this._tableClient.updateEntity(entity);
+      let checkpoints: Checkpoint[] = [];
+      checkpoints = await this.listCheckpoints(checkpoint.fullyQualifiedNamespace, checkpoint.eventHubName, checkpoint.consumerGroup);
+      for (const checkpnt of checkpoints) {
+        if (checkpnt.partitionId == checkpoint.partitionId) {
+          await this._tableClient.updateEntity(entity);
+           
+        }
+        else {
+          await this._tableClient.upsertEntity(entity1);
+
+        }
+      }
+
     } else {
-      const entity1: customCheckpoint = {
-        partitionKey: PARTITIONKEY,
-        rowKey: entity.rowKey,
-        consumerGroup: checkpoint.consumerGroup,
-        fullyQualifiedNamespace: checkpoint.fullyQualifiedNamespace,
-        eventHubName: checkpoint.eventHubName,
-        sequenceNumber: entity.sequenceNumber,
-        offset: entity.offset,
-        partitionId: checkpoint.partitionId
-      };
       await this._tableClient.upsertEntity(entity1);
     }
+
 
     return;
   }
