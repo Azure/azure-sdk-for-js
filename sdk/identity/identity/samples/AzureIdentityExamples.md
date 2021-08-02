@@ -22,8 +22,8 @@
   - [Rolling Certificates](#rolling-certificates)
   - [Controlling User Interaction](#controlling-user-interaction)
   - [Persisting the token cache](#persisting-the-token-cache)
-    - [Persisting the AuthenticationRecord](#persisting-the-authenticationRecord)
-    - [Silent authentication with AuthenticationRecord and TokenCachePersistenceOptions](#silent-authentication-with-authenticationRecord-and-tokenCachePersistenceOptions)
+    - [Persisting the Authentication Record](#persisting-the-authentication-record)
+    - [Silent authentication with Authentication Record and Token Cache Persistence Options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
   - [Default Token Cache](#default-token-cache)
   - [Name Token Cache](#name-token-cache)
   - [Allow Unencrypted Storage](#allow-unencrypted-storage)
@@ -972,7 +972,7 @@ To configure a credential, such as the `InteractiveBrowserCredential`, to persis
   const credential = new InteractiveBrowserCredential(options);
 ```
 
-#### Persisting the AuthenticationRecord
+#### Persisting the Authentication Record
 
 The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It is needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There is no sensitive data in the `AuthenticationRecord` so it can be persisted in a non-protected state.
 
@@ -991,7 +991,7 @@ const content = serializeAuthenticationRecord(authRecord);
 await writeFileAsync(AUTH_RECORD_PATH, content);
 ```
 
-#### Silent authentication with AuthenticationRecord and TokenCachePersistenceOptions
+#### Silent authentication with Authentication Record and Token Cache Persistence Options
 
 Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
