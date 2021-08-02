@@ -33,7 +33,10 @@ export class StaticTokenCredential implements TokenCredential {
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this TokenCredential implementation might make.
    */
-  public async getToken(_scopes: string | string[], _options?: GetTokenOptions) {
+  public async getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions
+  ): Promise<AccessToken> {
     return this.accessToken;
   }
 }
