@@ -124,8 +124,7 @@ describe("TableCheckpointStore", function(): void {
         eventHubName: "",
         partitionId: "",
         ownerId: "",
-        lastModifiedTimeInMs: 0,
-        time: `${new Date().getTime()}`
+        lastModifiedTimeInMs: 0
       };
 
       for (let i = 0; i < 3; ++i) {
@@ -142,7 +141,7 @@ describe("TableCheckpointStore", function(): void {
           " " +
           "Ownership";
         ownership_entity.ownerId = "Id" + i;
-        ownership_entity.lastModifiedTimeInMs = Number(ownership_entity.time);
+        
 
         await client.createEntity(ownership_entity);
       }

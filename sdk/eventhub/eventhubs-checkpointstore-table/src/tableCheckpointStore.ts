@@ -13,7 +13,7 @@ export interface customCheckpoint extends Checkpoint {
 export interface customPartition extends PartitionOwnership {
   partitionKey: string;
   rowKey: string;
-  time: string;
+
 }
 
 /**
@@ -106,8 +106,7 @@ export class TableCheckpointStore implements CheckpointStore {
         lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
         etag: ownership.etag,
         ownerId: ownership.ownerId,
-        partitionId: ownership.partitionId,
-        time: `${new Date().getTime()}`
+        partitionId: ownership.partitionId
       };
       let entitiesIter = this._tableClient.listEntities<customPartition>({
         queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
