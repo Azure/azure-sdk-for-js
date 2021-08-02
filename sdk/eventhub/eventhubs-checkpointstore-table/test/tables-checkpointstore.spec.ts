@@ -4,15 +4,25 @@ import chai from "chai";
 import * as dotenv from "dotenv";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
-import { Checkpoint } from "@azure/event-hubs";
+import { Checkpoint , PartitionOwnership} from "@azure/event-hubs";
 
-import { customCheckpoint, customPartition } from "../src/tableCheckpointStore";
 
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
 
 const env = getEnvVars();
 dotenv.config();
+
+export interface CustomCheckpoint extends Checkpoint {
+  partitionKey: string;
+  rowKey: string;
+}
+
+export interface CustomPartition extends PartitionOwnership {
+  partitionKey: string;
+  rowKey: string;
+
+}
 
 /* test to show that test framework is set up well */
 describe("TableCheckpointStore", () => {
@@ -87,7 +97,7 @@ describe("TableCheckpointStore", function(): void {
       ];
       const eventHubArray = ["redHub", "blueHub", "greenHub"];
       /*Checkpoint*/
-      const checkpoint_entity: customCheckpoint = {
+      const checkpoint_entity: CustomCheckpoint = {
         partitionKey: "0",
         rowKey: "0",
         consumerGroup: "$default",
@@ -116,7 +126,7 @@ describe("TableCheckpointStore", function(): void {
       }
 
       /*Ownership*/
-      const ownership_entity: customPartition = {
+      const ownership_entity: CustomPartition = {
         partitionKey: "",
         rowKey: "",
         consumerGroup: "$default",

@@ -2,19 +2,9 @@
 // Licensed under the MIT license.
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-
 import { odata, TableClient } from "@azure/data-tables";
+import { CustomCheckpoint, CustomPartition } from "../test/tables-checkpointstore.spec";
 
-export interface customCheckpoint extends Checkpoint {
-  partitionKey: string;
-  rowKey: string;
-}
-
-export interface customPartition extends PartitionOwnership {
-  partitionKey: string;
-  rowKey: string;
-
-}
 
 /**
  * An implementation of CheckpointStore that uses Azure Table Storage to persist checkpoint data.
@@ -97,7 +87,7 @@ export class TableCheckpointStore implements CheckpointStore {
         etag : ownership.etag
       };
 
-      const entity1: customPartition = {
+      const entity1: CustomPartition = {
         partitionKey: PARTITIONKEY,
         rowKey: curr_ownership.rowKey,
         consumerGroup: ownership.consumerGroup,
@@ -108,7 +98,7 @@ export class TableCheckpointStore implements CheckpointStore {
         ownerId: ownership.ownerId,
         partitionId: ownership.partitionId
       };
-      let entitiesIter = this._tableClient.listEntities<customPartition>({
+      let entitiesIter = this._tableClient.listEntities<CustomPartition>({
         queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
       });
       let k = 0;
@@ -197,7 +187,7 @@ export class TableCheckpointStore implements CheckpointStore {
       " " +
       "Checkpoint";
 
-    const entity1: customCheckpoint = {
+    const entity1: CustomCheckpoint = {
       partitionKey: PARTITIONKEY,
       rowKey: checkpoint.partitionId,
       consumerGroup: checkpoint.consumerGroup,
