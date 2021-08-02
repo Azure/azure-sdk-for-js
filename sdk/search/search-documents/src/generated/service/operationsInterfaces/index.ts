@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { SearchServiceClient } from "./searchServiceClient";
-export { SearchServiceClientContext } from "./searchServiceClientContext";
-export * from "./operationsInterfaces";
+export * from "./dataSources";
+export * from "./indexers";
+export * from "./skillsets";
+export * from "./synonymMaps";
+export * from "./indexes";

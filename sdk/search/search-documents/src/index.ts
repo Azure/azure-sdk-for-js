@@ -311,7 +311,8 @@ export {
   KnownPIIDetectionSkillMaskingMode,
   LineEnding,
   KnownLineEnding,
-  SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity
+  SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
+  SearchIndexerCache
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

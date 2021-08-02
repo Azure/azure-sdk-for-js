@@ -270,11 +270,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
       result = field as ComplexField;
     } else {
-      const anayzerName: LexicalAnalyzerName | undefined | null = field.analyzer;
-      const searchAnalyzerName: LexicalAnalyzerName | undefined | null = field.searchAnalyzer;
-      const indexAnalyzerName: LexicalAnalyzerName | undefined | null = field.indexAnalyzer;
+      const anayzerName: LexicalAnalyzerName | undefined = field.analyzer;
+      const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
+      const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
-      const normalizerNames: LexicalNormalizerName | undefined | null = field.normalizer;
+      const normalizerNames: LexicalNormalizerName | undefined = field.normalizer;
 
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
@@ -405,8 +405,8 @@ export function extractOperationOptions<T extends OperationOptions>(
 }
 
 export function convertEncryptionKeyToPublic(
-  encryptionKey?: GeneratedSearchResourceEncryptionKey | null
-): SearchResourceEncryptionKey | undefined | null {
+  encryptionKey?: GeneratedSearchResourceEncryptionKey
+): SearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -427,8 +427,8 @@ export function convertEncryptionKeyToPublic(
 }
 
 export function convertEncryptionKeyToGenerated(
-  encryptionKey?: SearchResourceEncryptionKey | null
-): GeneratedSearchResourceEncryptionKey | undefined | null {
+  encryptionKey?: SearchResourceEncryptionKey
+): GeneratedSearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -654,8 +654,8 @@ export function generatedDataSourceToPublicDataSource(
 }
 
 export function convertSearchIndexerDataIdentityToPublic(
-  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion | null
-): SearchIndexerDataIdentity | undefined | null {
+  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion
+): SearchIndexerDataIdentity | undefined {
   if (!searchIndexerDataIdentity) {
     return searchIndexerDataIdentity;
   }
@@ -670,8 +670,8 @@ export function convertSearchIndexerDataIdentityToPublic(
 }
 
 export function convertDataChangeDetectionPolicyToPublic(
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null
-): DataChangeDetectionPolicy | undefined | null {
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion
+): DataChangeDetectionPolicy | undefined {
   if (!dataChangeDetectionPolicy) {
     return dataChangeDetectionPolicy;
   }
@@ -687,8 +687,8 @@ export function convertDataChangeDetectionPolicyToPublic(
 }
 
 export function convertDataDeletionDetectionPolicyToPublic(
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion | null
-): DataDeletionDetectionPolicy | undefined | null {
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion
+): DataDeletionDetectionPolicy | undefined {
   if (!dataDeletionDetectionPolicy) {
     return dataDeletionDetectionPolicy;
   }
