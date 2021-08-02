@@ -202,12 +202,9 @@ describe("TableCheckpointStore", function(): void {
             eventHubProperties.eventHubName,
             eventHubProperties.consumerGroup
           );
-          console.log(checkpoints.length);
-          /*
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
-          */
-/*
+          
           for (let i = 0; i < 3; ++i) {
             const checkpoint = checkpoints[i];
     
@@ -242,15 +239,11 @@ describe("TableCheckpointStore", function(): void {
             checkpoint.sequenceNumber!.should.equal(100 + i + 1);
             checkpoint.offset!.should.equal(1023 + i + 1);
           }    
-    
-
-*/
-        
+  
+      
       });
 
       
-
-
     });
   });
 });

@@ -16,6 +16,8 @@ export interface customPartition extends PartitionOwnership {
   time: string;
 }
 
+
+
 /**
  * An implementation of CheckpointStore that uses Azure Table Storage to persist checkpoint data.
  */
@@ -92,7 +94,7 @@ export class TableCheckpointStore implements CheckpointStore {
         "Ownership";
       let curr_ownership = {
         partitionKey: PARTITIONKEY,
-        rowKey: ownership.partitionId       
+        rowKey: ownership.partitionId
       };
       let entitiesIter = this._tableClient.listEntities<customPartition>({
         queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
@@ -124,8 +126,7 @@ export class TableCheckpointStore implements CheckpointStore {
             etag: ownership.etag,
             ownerId: ownership.ownerId,
             partitionId: ownership.partitionId,
-            time : `${new Date().getTime()}`
-            
+            time: `${new Date().getTime()}`
           };
           entity1.lastModifiedTimeInMs = Number(entity.time);
           await this._tableClient.upsertEntity(entity1);
@@ -158,22 +159,23 @@ export class TableCheckpointStore implements CheckpointStore {
     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
     });
-    
-    for await (const entity of entitiesIter) {
 
-        checkpoints.push({
-          consumerGroup,
-          eventHubName,
-          fullyQualifiedNamespace,
-          partitionId: entity.partitionId,
-          offset: entity.offset,
-          sequenceNumber: entity.sequenceNumber
-        });
-    
+    for await (const entity of entitiesIter) {
+      checkpoints.push({
+        consumerGroup,
+        eventHubName,
+        fullyQualifiedNamespace,
+        partitionId: entity.partitionId,
+        offset: entity.offset,
+        sequenceNumber: entity.sequenceNumber
+      });
     }
-   
+
     return checkpoints;
   }
+
+
+  
 
   /**
    * Updates the checkpoint in the data store for a partition.
@@ -193,14 +195,14 @@ export class TableCheckpointStore implements CheckpointStore {
       checkpoint.consumerGroup +
       " " +
       "Checkpoint";
+      /*
     const entity = {
       partitionKey: PARTITIONKEY,
       rowKey: checkpoint.partitionId,
       offset: 5890,
       sequenceNumber: 19
     };
-     
-
+*/
     const entity1: customCheckpoint = {
       partitionKey: PARTITIONKEY,
       rowKey: checkpoint.partitionId,
@@ -223,23 +225,36 @@ export class TableCheckpointStore implements CheckpointStore {
 
     if (i > 0) {
       let checkpoints: Checkpoint[] = [];
-      checkpoints = await this.listCheckpoints(checkpoint.fullyQualifiedNamespace, checkpoint.eventHubName, checkpoint.consumerGroup);
+      checkpoints = await this.listCheckpoints(
+        checkpoint.fullyQualifiedNamespace,
+        checkpoint.eventHubName,
+        checkpoint.consumerGroup
+      );
       for (const checkpnt of checkpoints) {
         if (checkpnt.partitionId == checkpoint.partitionId) {
-          await this._tableClient.updateEntity(entity);
-           
-        }
-        else {
+          
+          await this._checkpointUpdates(checkpnt.offset,checkpnt.sequenceNumber, checkpnt.offset , checkpnt.sequenceNumber);
+        
+        } else {
           await this._tableClient.upsertEntity(entity1);
-
         }
       }
-
     } else {
       await this._tableClient.upsertEntity(entity1);
     }
 
-
     return;
+  }
+
+  
+  private async _checkpointUpdates(
+    NewOffset: number,
+    NewSequenceNumber : number , Curr_offset : number , 
+    Curr_sequenceNumber : number
+    
+  ) {
+    Curr_offset = NewOffset;
+    Curr_sequenceNumber = NewSequenceNumber;
+    
   }
 }
