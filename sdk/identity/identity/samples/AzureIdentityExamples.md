@@ -979,10 +979,8 @@ import fs from "fs";
 import { promisify } from "util";
 import path from "path";
 const AUTH_RECORD_PATH = "./tokencache.bin";
-```
 
-```
-onst authRecord: AuthenticationRecord = await credential.authenticate();
+const authRecord: AuthenticationRecord = await credential.authenticate();
 const writeFileAsync = promisify(fs.writeFile);
 const content = serializeAuthenticationRecord(authRecord);
 await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
