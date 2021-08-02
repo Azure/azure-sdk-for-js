@@ -942,7 +942,7 @@ try {
 
   if (e.name === "AuthenticationRequiredError"){
     await credential.authenticate(e.scopes);
-    client.getSecret("secret-name");
+    console.log("Secret", await client.getSecret("secret-name"));
   }
   else{
     throw (e);
