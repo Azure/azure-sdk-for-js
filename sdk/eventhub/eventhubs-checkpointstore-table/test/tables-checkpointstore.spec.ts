@@ -4,25 +4,17 @@ import chai from "chai";
 import * as dotenv from "dotenv";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
-import { Checkpoint , PartitionOwnership} from "@azure/event-hubs";
+import { Checkpoint } from "@azure/event-hubs";
 
 
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+import { CustomCheckpoint, CustomPartition } from "../src/tableCheckpointStore";
 
 const env = getEnvVars();
 dotenv.config();
 
-export interface CustomCheckpoint extends Checkpoint {
-  partitionKey: string;
-  rowKey: string;
-}
-
-export interface CustomPartition extends PartitionOwnership {
-  partitionKey: string;
-  rowKey: string;
-
-}
+ 
 
 /* test to show that test framework is set up well */
 describe("TableCheckpointStore", () => {

@@ -3,13 +3,32 @@
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { odata, TableClient } from "@azure/data-tables";
-import { CustomCheckpoint, CustomPartition } from "../test/tables-checkpointstore.spec";
+
+
+/** 
+ * @internal
+ * @hidden
+*/
+export interface CustomCheckpoint extends Checkpoint {
+  partitionKey: string;
+  rowKey: string;
+}
+
+
+/** 
+ * @internal
+ * @hidden
+*/
+export interface CustomPartition extends PartitionOwnership {
+  partitionKey: string;
+  rowKey: string;
+
+}
 
 
 /**
  * An implementation of CheckpointStore that uses Azure Table Storage to persist checkpoint data.
  */
-
 export class TableCheckpointStore implements CheckpointStore {
   private _tableClient: TableClient;
 
@@ -169,17 +188,9 @@ export class TableCheckpointStore implements CheckpointStore {
    * @returns A promise that resolves when the checkpoint has been updated.
    */
   async updateCheckpoint(checkpoint: Checkpoint) {
-    let PARTITIONKEY =
-      checkpoint.eventHubName +
-      " " +
-      checkpoint.fullyQualifiedNamespace +
-      " " +
-      checkpoint.consumerGroup +
-      " " +
-      "Checkpoint";
-
+    const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
     const entity1: CustomCheckpoint = {
-      partitionKey: PARTITIONKEY,
+      partitionKey: partition_Key,
       rowKey: checkpoint.partitionId,
       consumerGroup: checkpoint.consumerGroup,
       fullyQualifiedNamespace: checkpoint.fullyQualifiedNamespace,
@@ -190,7 +201,7 @@ export class TableCheckpointStore implements CheckpointStore {
     };
 
     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
-      queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
+      queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });
     let i = 0;
     for await (const ent of entitiesIter) {
