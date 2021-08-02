@@ -141,7 +141,7 @@ const elementReferencePattern = /\/readResults\/(\d+)\/([a-z][a-zA-Z]*)\/(\d+)(?
  * @param readResults - The transformed ReadResults into which the reference points
  * @returns a reference to the FormElement that the ElementReference refers to
  */
-export function elementReferenceToFormContent(ref: string, readResults: FormPage[]): FormElement {
+export function elementReferenceToFormElement(ref: string, readResults: FormPage[]): FormElement {
   const result = elementReferencePattern.exec(ref);
 
   if (result === null) {
@@ -175,7 +175,7 @@ export function toFieldData(
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
     fieldElements: original.elements?.map((element) =>
-      elementReferenceToFormContent(element, readResults!)
+      elementReferenceToFormElement(element, readResults!)
     )
   };
 }
@@ -214,7 +214,7 @@ export function toFormTable(
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
       fieldElements: cell.elements?.map((element) =>
-        elementReferenceToFormContent(element, readResults)
+        elementReferenceToFormElement(element, readResults)
       ),
       rowIndex: cell.rowIndex,
       columnSpan: cell.columnSpan ?? 1,
@@ -350,7 +350,7 @@ export function toFormFieldFromFieldValueModel(
       text: original.text,
       boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
       fieldElements: original.elements?.map((element) =>
-        elementReferenceToFormContent(element, readResults)
+        elementReferenceToFormElement(element, readResults)
       )
     },
     valueType: original.type,

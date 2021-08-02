@@ -6,7 +6,7 @@ import { assert } from "chai";
 import {
   toTextLine,
   toFormPage,
-  elementReferenceToFormContent,
+  elementReferenceToFormElement,
   toFieldData,
   toFormFieldFromKeyValuePairModel,
   toFormFieldFromFieldValueModel,
@@ -2199,7 +2199,7 @@ describe("Transforms", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
     const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = elementReferenceToFormContent(stringRef, readResults);
+    const transformed = elementReferenceToFormElement(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
@@ -2209,7 +2209,7 @@ describe("Transforms", () => {
   it("elementReferenceToFormContent() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = elementReferenceToFormContent(stringRef, formPages);
+    const transformed = elementReferenceToFormElement(stringRef, formPages);
 
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
   });
@@ -2249,7 +2249,7 @@ describe("Transforms", () => {
     } as const;
 
     assert.deepStrictEqual(
-      elementReferenceToFormContent(stringRef, [(input as unknown) as FormPage]),
+      elementReferenceToFormElement(stringRef, [(input as unknown) as FormPage]),
       (input.selectionMarks[1] as unknown) as FormSelectionMark
     );
   });
