@@ -948,13 +948,13 @@ catch (e)
 
 ### Persisting user authentication data
 
-Quite often applications desire the ability to be run multiple times without having to re-authenticate the user on each execution. This requires that data from credentials be persisted outside of the application memory so that it can authenticate silently on subsequent executions. Applications can persist this data using `tokenPersistenceOptions` when constructing the credential, and persisting the `authenticationRecord` returned from `authenticate`.
+Quite often applications desire the ability to be run multiple times without having to re-authenticate the user on each execution. This requires that data from credentials be persisted outside of the application memory so that it can authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential, and persisting the `authenticationRecord` returned from `authenticate`.
 
 #### Persisting the token cache
 
 The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data such as refresh tokens and access tokens which must be protected to prevent compromising the accounts related to them. By default, the `@azure/identity` library will protect and cache sensitive token data using available platform data protection.
 
-To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `TokenCachePersistenceOptions` option.
+To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option.
 
 ```
   const options: InteractiveBrowserCredentialOptions =  {
@@ -986,7 +986,7 @@ await writeFileAsync(AUTH_RECORD_PATH, content);
 
 #### Silent authentication with AuthenticationRecord and TokenCachePersistenceOptions
 
-Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `TokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
+Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
 ```
 const AUTH_RECORD_PATH = "./tokencache.bin";
@@ -1005,6 +1005,55 @@ const credential = new InteractiveBrowserCredential(options);
 ```
 
 The credential created in this example will silently authenticate given that a valid token for corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required such as on token expiry, or when additional authentication is required for a particular resource.
+
+### Persisting credentials by configuring TokenCachePersistenceOptions
+
+Many credential implementations in the `@azure/identity` library have an underlying token cache which persists sensitive authentication data such as account information, access tokens, and refresh tokens. By default this data exists in an in memory cache which is specific to the credential instance. However, there are scenarios where an application needs persist it across executions in order to share the token cache across credentials. To accomplish this the `@azure/identity` provides the `tokenCachePersistenceOptions`.
+
+> IMPORTANT! The token cache contains sensitive data and MUST be protected to prevent compromising accounts. All application decisions regarding the persistence of the token cache must consider that a breach of its content will fully compromise all the accounts it contains.
+
+#### Using the default token cache
+
+The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
+
+```
+  const options: InteractiveBrowserCredentialOptions =  {
+    tokenCachePersistenceOptions: {
+      enabled: true
+    }
+  }
+  const credential = new InteractiveBrowserCredential(options);
+```
+
+#### Using a named token cache
+
+Some applications may prefer to isolate the token cache they use rather than using the shared instance. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
+
+```
+  const options: InteractiveBrowserCredentialOptions =  {
+    tokenCachePersistenceOptions: {
+      enabled: true,
+      name: "my_application_name"
+    }
+  }
+  const credential = new InteractiveBrowserCredential(options);
+```
+
+#### Allowing unencrypted storage
+
+By default the token cache will protect any data which is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
+
+```
+ const options: InteractiveBrowserCredentialOptions =  {
+    tokenCachePersistenceOptions: {
+      enabled: true,
+      allowUnencryptedStorage: true
+    }
+  }
+  const credential = new InteractiveBrowserCredential(options);
+```
+
+By setting `allowUnencryptedStorage` to true, the credential will encrypt the contents of the token cache before persisting it if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file ACL'd to the current account. If `allowUnencryptedStorage` is false (the default), a `CredentialUnavailableError` will be thrown in the case no data protection is available.
 
 <!-- LINKS -->
 
