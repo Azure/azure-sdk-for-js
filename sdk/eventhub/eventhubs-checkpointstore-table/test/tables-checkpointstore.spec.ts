@@ -50,7 +50,7 @@ describe("TableCheckpointStore", function(): void {
       await serviceClient.createTable(table_name);
     });
 
-    const client = new TableClient(
+     client = new TableClient(
       `https://${service.storageAccountName}.table.core.windows.net`,
       table_name,
       credential
@@ -88,7 +88,7 @@ describe("TableCheckpointStore", function(): void {
         "green.servicebus.windows.net"
       ];
       const eventHubArray = ["redHub", "blueHub", "greenHub"];
-      /*Checkpoint*/
+      /* Checkpoint */
       const checkpoint_entity: CustomCheckpoint = {
         partitionKey: "0",
         rowKey: "0",
@@ -206,7 +206,7 @@ describe("TableCheckpointStore", function(): void {
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
-          for (let i = 0; i < 3; ++i) {
+          for (i = 0; i < 3; ++i) {
             const checkpoint = checkpoints[i];
 
             checkpoint.partitionId.should.equal(i.toString());
@@ -230,7 +230,7 @@ describe("TableCheckpointStore", function(): void {
           console.log(checkpoints);
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
-          for (let i = 0; i < 3; ++i) {
+          for ( i = 0; i < 3; ++i) {
             const checkpoint = checkpoints[i];
 
             checkpoint.partitionId.should.equal(i.toString());
