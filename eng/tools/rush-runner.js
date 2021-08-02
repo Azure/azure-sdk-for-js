@@ -77,7 +77,7 @@ const getServicePackages = (baseDir, serviceDirs) => {
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt") {
+      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt" || contents["name"].startsWith("@azure-tests/perf")) {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
@@ -133,6 +133,8 @@ function tryGetPkgRelativePath(absolutePath) {
   return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
+
+const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
@@ -157,12 +159,12 @@ if (serviceDirs.length === 0) {
 
     case "lint":
       for (const packageDir of packageDirs) {
-        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+        spawnNode(packageDir, rushx_runner_path, action);
       }
       break;
     case "check-format":
       for (const packageDir of packageDirs) {
-        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
+        if (spawnNode(packageDir, rushx_runner_path, action) !== 0) {
           console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
         }
       }
