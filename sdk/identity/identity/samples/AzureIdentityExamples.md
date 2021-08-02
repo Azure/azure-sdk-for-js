@@ -20,6 +20,13 @@
     - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azure-msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
+  - [Controlling User Interaction](#controlling-user-interaction)
+  - [Persisting the token cache](#persisting-the-token-cache)
+    - [Persisting the AuthenticationRecord](#persisting-the-authenticationRecord)
+    - [Silent authentication with AuthenticationRecord and TokenCachePersistenceOptions](#silent-authentication-with-authenticationRecord-and-tokenCachePersistenceOptions)
+  - [Default Token Cache](#default-token-cache)
+  - [Name Token Cache](#name-token-cache)
+  - [Allow Unencrypted Storage](#allow-unencrypted-storage)
 
 ## Introduction
 
