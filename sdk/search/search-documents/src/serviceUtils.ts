@@ -59,7 +59,6 @@ import {
   LexicalAnalyzer,
   CharFilter,
   CognitiveServicesAccount,
-  ComplexField,
   SearchField,
   SearchIndex,
   isComplexField,
@@ -268,7 +267,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
   return fields.map<SearchField>((field) => {
     let result: SearchField;
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
-      result = field as ComplexField;
+      return {
+        name: field.name,
+        type: field.type,
+        fields: convertFieldsToPublic(field.fields!)
+      };
     } else {
       const anayzerName: LexicalAnalyzerName | undefined = field.analyzer;
       const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
@@ -296,7 +299,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
 export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearchField[] {
   return fields.map<GeneratedSearchField>((field) => {
     if (isComplexField(field)) {
-      return field;
+      return {
+        name: field.name,
+        type: field.type,
+        fields: convertFieldsToGenerated(field.fields)
+      };
     } else {
       const { hidden, ...restField } = field;
       const retrievable = typeof hidden === "boolean" ? !hidden : hidden;
