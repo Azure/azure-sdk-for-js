@@ -585,11 +585,16 @@ export const ImportClusterParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "ImportClusterParameters",
     modelProperties: {
-      sasUri: {
+      sasUris: {
         required: true,
-        serializedName: "sasUri",
+        serializedName: "sasUris",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

@@ -392,13 +392,13 @@ export interface RegenerateKeyParameters {
 
 /**
  * Parameters for a Redis Enterprise import operation.
- * @summary Import an RDB file into a target database
+ * @summary Import RDB files into a target database
  */
 export interface ImportClusterParameters {
   /**
-   * SAS URI for the target blob to import from
+   * SAS URIs for the target blobs to import from
    */
-  sasUri: string;
+  sasUris: string[];
 }
 
 /**

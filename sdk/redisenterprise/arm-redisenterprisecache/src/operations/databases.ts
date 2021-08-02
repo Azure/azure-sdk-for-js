@@ -186,16 +186,16 @@ export class Databases {
   }
 
   /**
-   * Imports a database file to target database.
+   * Imports database files to target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the RedisEnterprise cluster.
    * @param databaseName The name of the database.
-   * @param sasUri SAS URI for the target blob to import from
+   * @param sasUris SAS URIs for the target blobs to import from
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  importMethod(resourceGroupName: string, clusterName: string, databaseName: string, sasUri: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginImportMethod(resourceGroupName,clusterName,databaseName,sasUri,options)
+  importMethod(resourceGroupName: string, clusterName: string, databaseName: string, sasUris: string[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginImportMethod(resourceGroupName,clusterName,databaseName,sasUris,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -300,21 +300,21 @@ export class Databases {
   }
 
   /**
-   * Imports a database file to target database.
+   * Imports database files to target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the RedisEnterprise cluster.
    * @param databaseName The name of the database.
-   * @param sasUri SAS URI for the target blob to import from
+   * @param sasUris SAS URIs for the target blobs to import from
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginImportMethod(resourceGroupName: string, clusterName: string, databaseName: string, sasUri: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginImportMethod(resourceGroupName: string, clusterName: string, databaseName: string, sasUris: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        sasUri,
+        sasUris,
         options
       },
       beginImportMethodOperationSpec,
@@ -600,7 +600,7 @@ const beginImportMethodOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      sasUri: "sasUri"
+      sasUris: "sasUris"
     },
     mapper: {
       ...Mappers.ImportClusterParameters,
