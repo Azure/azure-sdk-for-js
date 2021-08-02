@@ -940,7 +940,7 @@ try {
 } catch (e) {
   await ensureAnimationCompleted();
 
-  if(e instanceof AuthenticationRequiredError){
+  if (e.name === "AuthenticationRequiredError"){
     await credential.authenticate(e.scopes);
     client.getSecret("secret-name");
   }
