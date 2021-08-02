@@ -36,11 +36,10 @@ export class TableCheckpointStore implements CheckpointStore {
     eventHubName: string,
     consumerGroup: string
   ): Promise<PartitionOwnership[]> {
-    let PARTITIONKEY =
-      eventHubName + " " + fullyQualifiedNamespace + " " + consumerGroup + " " + "Ownership";
+    const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Ownership`;
     const partitionOwnershipArray: PartitionOwnership[] = [];
     let entitiesIter = this._tableClient.listEntities<PartitionOwnership>({
-      queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
+      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
     });
 
     for await (const entity of entitiesIter) {
@@ -72,23 +71,16 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
     for (const ownership of partitionOwnership) {
-      let PARTITIONKEY =
-        ownership.eventHubName +
-        " " +
-        ownership.fullyQualifiedNamespace +
-        " " +
-        ownership.consumerGroup +
-        " " +
-        "Ownership";
+      let partition_Key = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
       let curr_ownership = {
-        partitionKey: PARTITIONKEY,
+        partitionKey: partition_Key,
         rowKey: ownership.partitionId,
         lastModifiedTimeInMs : ownership.lastModifiedTimeInMs,
         etag : ownership.etag
       };
 
       const entity1: CustomPartition = {
-        partitionKey: PARTITIONKEY,
+        partitionKey: partition_Key,
         rowKey: curr_ownership.rowKey,
         consumerGroup: ownership.consumerGroup,
         fullyQualifiedNamespace: ownership.fullyQualifiedNamespace,
@@ -99,7 +91,7 @@ export class TableCheckpointStore implements CheckpointStore {
         partitionId: ownership.partitionId
       };
       let entitiesIter = this._tableClient.listEntities<CustomPartition>({
-        queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
+        queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
       });
       let k = 0;
       for await (const entity of entitiesIter) {
@@ -146,12 +138,11 @@ export class TableCheckpointStore implements CheckpointStore {
     eventHubName: string,
     consumerGroup: string
   ) {
-    let PARTITIONKEY =
-      eventHubName + " " + fullyQualifiedNamespace + " " + consumerGroup + " " + "Checkpoint";
+    const partition_Key = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
 
     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
-      queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
+      queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });
 
     for await (const entity of entitiesIter) {
