@@ -1,14 +1,20 @@
 # Release History
 
-## 11.3.0-beta.2 (Unreleased)
+## 11.3.0-beta.2 (2021-08-10)
 
 ### Features Added
 
-### Breaking Changes
+- Added a new parameter `ignoreResetRequirements` for the `createOrUpdate` operation of Data Sources.
+- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of the Indexers.
+- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of the Skillsets.
 
 ### Bugs Fixed
 
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+
 ### Other Changes
+
+- Removed the `| null` from the definitions of the optional values. Please refer [#16694](https://github.com/Azure/azure-sdk-for-js/pull/16694) for more details.
 
 ## 11.3.0-beta.1 (2021-07-07)
 
