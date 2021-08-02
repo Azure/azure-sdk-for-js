@@ -160,13 +160,13 @@ const resourcesClient = new resources.ResourceManagementClient(credential, subsc
 TypeScript
 ```typescript
 async function updateResourceGroup(resourceGroupName: string) {
-    const parameter:resources.ResourceGroupPatchable = {
+    const parameter: resources.ResourceGroup  = {
+        location: "eastus",
         tags: {
-            tag1: "value1",
-            tag2: "value2"
+            tag1: "value1"
         }
     };
-    await resourcesClient.resourceGroups.update(resourceGroupName, parameter).then(
+    await resourcesClient.resourceGroups.createOrUpdate(resourceGroupName, parameter).then(
         result => {
             console.log(result);
         }
@@ -241,9 +241,9 @@ JavaScript
 ```javascript
 async function updateResourceGroup(resourceGroupName) {
     const parameter = {
-        location: "eastus",
         tags: {
-            tag1: "value1"
+            tag1: "value1",
+            tag2: "value2"
         }
     };
     const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
