@@ -310,9 +310,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.SearchError

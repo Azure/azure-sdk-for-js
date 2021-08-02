@@ -438,7 +438,7 @@ export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
     parsingMode?: string;
     dataToExtract?: string;
     configuration?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 };
 
@@ -517,7 +517,7 @@ export interface FieldMapping {
 export interface FieldMappingFunction {
     name: string;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 }
 

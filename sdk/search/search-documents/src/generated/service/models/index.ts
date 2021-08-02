@@ -316,7 +316,7 @@ export interface FieldMappingFunction {
   /** The name of the field mapping function. */
   name: string;
   /** A dictionary of parameter name/value pairs to pass to the function. Each value must be of a primitive type. */
-  parameters?: { [propertyName: string]: Record<string, unknown> };
+  parameters?: { [propertyName: string]: any };
 }
 
 export interface SearchIndexerCache {
@@ -1263,7 +1263,7 @@ export type DocumentExtractionSkill = SearchIndexerSkill & {
   /** The type of data to be extracted for the skill. Will be set to 'contentAndMetadata' if not defined. */
   dataToExtract?: string;
   /** A dictionary of configurations for the skill. */
-  configuration?: { [propertyName: string]: Record<string, unknown> };
+  configuration?: { [propertyName: string]: any };
 };
 
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */

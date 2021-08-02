@@ -615,14 +615,17 @@ export interface DocumentsGetOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the get operation. */
-export type DocumentsGetResponse = Record<string, unknown> & {
+export type DocumentsGetResponse = {
+  /** The parsed response body. */
+  body: any;
+
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: Record<string, unknown>;
+    parsedBody: any;
   };
 };
 

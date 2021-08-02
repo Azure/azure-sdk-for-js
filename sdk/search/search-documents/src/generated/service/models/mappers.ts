@@ -635,9 +635,7 @@ export const FieldMappingFunction: coreHttp.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -3188,9 +3186,7 @@ export const DocumentExtractionSkill: coreHttp.CompositeMapper = {
         nullable: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
