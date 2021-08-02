@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
 
-describe("generateSharedAccessSignature", function() {
+describe("generateSharedAccessSignature", function () {
   it("generates the correct signiture", async () => {
     // This is not a real key, it's the base64 encoding of "this is not a real EventGrid key", which happens to be the same
     // number of bytes as an actual EventGrid Access Key.
-    const key = "dGhpcyBpcyBub3QgYSByZWFsIEV2ZW50R3JpZCBrZXk=";
+    const key = Buffer.from("this is not a real EventGrid key").toString('base64');
     const topicUrl = "https://eg-topic.westus-2.eventgrid.azure.net/api/events";
 
     const sig = await generateSharedAccessSignature(
