@@ -70,6 +70,7 @@ dependencies:
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-app-configuration': file:projects/perf-app-configuration.tgz
   '@rush-temp/perf-core-rest-pipeline': file:projects/perf-core-rest-pipeline.tgz
+  '@rush-temp/perf-data-tables': file:projects/perf-data-tables.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
@@ -8517,7 +8518,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-6r2ABB/2a1ep+TNCrsO+7Lq+JJCDCJg4t+E/AAks/bXv55f93E/rjCZRgGKfsE2wenAw2C8IoJEM6s4P/Zu3yA==
+      integrity: sha512-xEfaCYTbxZd2BbN7Eo7hI2zi20fMk4IgtL11xglGdqKcLIOcKf9m3g8sLXkkBch1moeKzqVXYWaJ9SyUzSHJAQ==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/arm-compute.tgz:
@@ -10215,7 +10216,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.2
       dotenv: 8.6.0
-      eslint: 7.31.0
+      eslint: 7.30.0
       esm: 3.2.25
       guid-typescript: 1.0.9
       inherits: 2.0.4
@@ -10547,7 +10548,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-N6jQ013UESU1QOXK5jrnJzwj7P/5RaK7iGQ1pwaBtrVwkKuDtCZYLRH4PXV/gW2FwSarlPbxJBplNcSWuvHivg==
+      integrity: sha512-pq2OyfYf1Iw1a+HrzQ8BNxzf4Z4MPBH12hNIiIhd0Z3E6hnJYzo2YrR0UlPGvCxmrexwctSnUXdp0az4TvssBg==
       tarball: file:projects/keyvault-certificates.tgz
     version: 0.0.0
   file:projects/keyvault-common.tgz:
@@ -10906,7 +10907,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-query'
     resolution:
-      integrity: sha512-R2EdwOB5S6OsJcz9IqKVZ9Cg32qko/QbUT4dqnwsk/WPyD4ik9Smn6EgSpZIrBCAPPqN3AGU6X8AgXeed8egdg==
+      integrity: sha512-fnatli/y9QgLOQPIPd9kUw11qRXlM5fBisSJhxAD+m+SlrhOsvr0CjOacesQwj4quNSFApSg8qp6p0Fa97dmmw==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
@@ -10994,6 +10995,24 @@ packages:
       integrity: sha512-VtDP3wPovpWESSwAZQ7FqSBdZAqLmijGC50UHykB1qGKoSk/v4hnX3v3H/qef2Gq1m9962VNH3A1xHcAujr5Ng==
       tarball: file:projects/perf-core-rest-pipeline.tgz
     version: 0.0.0
+  file:projects/perf-data-tables.tgz:
+    dependencies:
+      '@types/node': 12.20.16
+      '@types/uuid': 8.3.1
+      dotenv: 8.6.0
+      eslint: 7.30.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-data-tables'
+    resolution:
+      integrity: sha512-f2doZuJEA9xQMax2cjEggl0Byg6amPfr1k262SuxYABq0PHF+Bs33zXTektZIDRR/5tgpNsYEWpGEibRUIE76Q==
+      tarball: file:projects/perf-data-tables.tgz
+    version: 0.0.0
   file:projects/perf-eventgrid.tgz:
     dependencies:
       '@types/node': 12.20.16
@@ -11042,7 +11061,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-certificates'
     resolution:
-      integrity: sha512-VOVgg8u6i1vwFR79jgCmGiX2Q5eedx2xKn5Dn2lViPbyYEv8QY7ieagdI5YIuihovg+j7+RQ0xlRiGhQwxrlzA==
+      integrity: sha512-nZWv2OVw3fJfNI8Y5haudNojwz/fAX8TeWgWV39TmB0TZn4HDTAKt3WOW/3eOAa1+D8s6VNbt1MsOExrRmS5Ug==
       tarball: file:projects/perf-keyvault-certificates.tgz
     version: 0.0.0
   file:projects/perf-keyvault-keys.tgz:
@@ -11079,7 +11098,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-secrets'
     resolution:
-      integrity: sha512-+CWF47gCoFipTfxeoFVWBCVxEUAqawPWX0GySVho6xUAP58iRVvWBJtAm5FtDaIkNCXcizVNdvVfKtC7aCmTqQ==
+      integrity: sha512-//lFvs3Ap0NhJjf4azndYavirLFXWrKSKURyqcDzsb9ZRMiehb2Z2j0K+iLz0/jt9gY4L/aKWMaXbjGkBuQLaw==
       tarball: file:projects/perf-keyvault-secrets.tgz
     version: 0.0.0
   file:projects/perf-search-documents.tgz:
@@ -12382,6 +12401,7 @@ specifiers:
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-app-configuration': file:./projects/perf-app-configuration.tgz
   '@rush-temp/perf-core-rest-pipeline': file:./projects/perf-core-rest-pipeline.tgz
+  '@rush-temp/perf-data-tables': file:./projects/perf-data-tables.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:./projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
