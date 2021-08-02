@@ -59,13 +59,7 @@ import {
   StringIndexType
 } from "./util";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
-import {
-  AnalyzeActionsOperationMetadata,
-  BeginAnalyzeActionsOptions,
-  AnalyzeActionsOperationState
-} from "./lro/analyze/operation";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
+import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
 import {
   AnalyzeHealthcareEntitiesPollerLike,
@@ -78,6 +72,17 @@ import {
 } from "./healthLro";
 import { LroEngine } from "@azure/core-lro";
 import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
+import {
+  AnalyzeActionsOperationMetadata,
+  AnalyzeActionsOperationState,
+  AnalyzeActionsPollerLike,
+  AnalyzeLro,
+  BeginAnalyzeActionsOptions,
+  isAnalyzeDone,
+  processAnalyzeResult,
+  updateAnalyzeState
+} from "./analyzeLro";
+import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -1025,14 +1030,45 @@ export class TextAnalyticsClient {
     }
     validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeActionsPoller({
-      client: this.client,
-      documents: realInputs,
-      actions: compiledActions,
-      options: restOptions,
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      displayName,
+      includeStatistics,
+      onResponse,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      tracingOptions
+    } = realOptions;
+    const lro = new AnalyzeLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { displayName },
+      { includeStatistics },
+      realInputs,
+      compiledActions
+    );
+
+    const poller = new LroEngine<PagedAnalyzeActionsResult, AnalyzeActionsOperationState>(lro, {
+      intervalInMs: updateIntervalInMs,
       resumeFrom: resumeFrom,
-      updateIntervalInMs: updateIntervalInMs
+      processResult: processAnalyzeResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isAnalyzeDone,
+      updateState: updateAnalyzeState
     });
 
     await poller.poll();

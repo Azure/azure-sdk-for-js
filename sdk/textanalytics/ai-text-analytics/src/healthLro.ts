@@ -35,7 +35,7 @@ import {
 } from "./generated/models/parameters";
 import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
 import { getPagedAsyncIterator, PagedResult } from "./paging";
-import { AnalysisPollOperationState } from "./lro/poller";
+import { AnalysisPollOperationState } from "./pollerModels";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 
 /**
@@ -187,9 +187,8 @@ export function processHealthResult<TOptions extends OperationOptions>(
   result: unknown,
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
-  const paginatedResult: PagedResult<
+  const pagedResult: PagedResult<
     TOptions,
-    AnalyzeHealthcareEntitiesResult,
     GeneratedClientHealthStatusResponse,
     AnalyzeHealthcareEntitiesResultArray
   > = {
@@ -215,7 +214,12 @@ export function processHealthResult<TOptions extends OperationOptions>(
     state: AnalyzeHealthcareOperationState
   ): PagedAnalyzeHealthcareEntitiesResult => {
     const pollingURL = (state as any).pollingURL;
-    const pagedIterator = getPagedAsyncIterator(paginatedResult, pollingURL, options);
+    const pagedIterator = getPagedAsyncIterator<
+      TOptions,
+      GeneratedClientHealthStatusResponse,
+      AnalyzeHealthcareEntitiesResult,
+      AnalyzeHealthcareEntitiesResultArray
+    >(pagedResult, pollingURL, options);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
       modelVersion: (result as any).results.modelVersion!
