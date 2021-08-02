@@ -142,7 +142,7 @@ describe("TableCheckpointStore", function(): void {
           " " +
           "Ownership";
         ownership_entity.ownerId = "Id" + i;
-        ownership_entity.lastModifiedTimeInMs = Number(ownership_entity.timestamp.getTime());
+        ownership_entity.lastModifiedTimeInMs = Number(ownership_entity.time);
 
         await client.createEntity(ownership_entity);
       }
