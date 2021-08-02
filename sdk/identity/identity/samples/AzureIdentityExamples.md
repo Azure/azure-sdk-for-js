@@ -946,6 +946,66 @@ catch (e)
 }
 ```
 
+### Persisting user authentication data
+
+Quite often applications desire the ability to be run multiple times without having to re-authenticate the user on each execution. This requires that data from credentials be persisted outside of the application memory so that it can authenticate silently on subsequent executions. Applications can persist this data using `tokenPersistenceOptions` when constructing the credential, and persisting the `authenticationRecord` returned from `authenticate`.
+
+#### Persisting the token cache
+
+The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data such as refresh tokens and access tokens which must be protected to prevent compromising the accounts related to them. By default, the `@azure/identity` library will protect and cache sensitive token data using available platform data protection.
+
+To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `TokenCachePersistenceOptions` option.
+
+```
+  const options: InteractiveBrowserCredentialOptions =  {
+    tokenCachePersistenceOptions: {
+      enabled: true
+    }
+  }
+  const credential = new InteractiveBrowserCredential(options);
+```
+
+#### Persisting the AuthenticationRecord
+
+The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It is needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There is no sensitive data in the `AuthenticationRecord` so it can be persisted in a non-protected state.
+
+Here is an example of an application storing the `AuthenticationRecord` to the local file system after authenticating the user.
+
+```
+import fs from "fs";
+import { promisify } from "util";
+const AUTH_RECORD_PATH = "./tokencache.bin";
+```
+
+```
+onst authRecord: AuthenticationRecord = await credential.authenticate();
+const writeFileAsync = promisify(fs.writeFile);
+const content = serializeAuthenticationRecord(authRecord);
+await writeFileAsync(AUTH_RECORD_PATH, content);
+```
+
+#### Silent authentication with AuthenticationRecord and TokenCachePersistenceOptions
+
+Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `TokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
+
+```
+const AUTH_RECORD_PATH = "./tokencache.bin";
+const readFileAsync = promisify(fs.readFile);
+const fileContent = await readFileAsync(AUTH_RECORD_PATH,{ encoding: "utf-8" });
+const authRecord: AuthenticationRecord= deserializeAuthenticationRecord(fileContent);
+
+const options: InteractiveBrowserCredentialOptions = {
+  tokenCachePersistenceOptions: {
+    enabled: true
+  },
+  authenticationRecord: authRecord
+};
+const credential = new InteractiveBrowserCredential(options);
+
+```
+
+The credential created in this example will silently authenticate given that a valid token for corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required such as on token expiry, or when additional authentication is required for a particular resource.
+
 <!-- LINKS -->
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
