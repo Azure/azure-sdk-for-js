@@ -39,7 +39,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
 
-matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
+matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalyticsClient`, function(this: Suite) {
     let recorder: Recorder;
     let client: TextAnalyticsClient;
@@ -2567,7 +2567,9 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval
             }
           );
+          let run = false;
           poller.onProgress((state) => {
+            run = true;
             assert.ok(state.createdOn, "createdOn is undefined!");
             assert.ok(state.expiresOn, "expiresOn is undefined!");
             assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
@@ -2575,6 +2577,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           });
           const result = await poller.pollUntilDone();
           assert.ok(result);
+          assert.isTrue(run);
         });
 
         it("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {

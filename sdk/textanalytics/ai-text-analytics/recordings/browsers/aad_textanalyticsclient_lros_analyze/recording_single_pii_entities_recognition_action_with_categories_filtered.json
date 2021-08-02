@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"},{\"id\":\"2\",\"text\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"piiCategories\":[\"USSocialSecurityNumber\"],\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -43,7 +43,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },
@@ -62,7 +62,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },
@@ -81,7 +81,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },
@@ -100,7 +100,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },
@@ -119,7 +119,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },
@@ -138,7 +138,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },
@@ -157,7 +157,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/167a7ace-f7b1-4962-be0d-919dc55b2573",
    "query": {
     "$top": "20"
    },

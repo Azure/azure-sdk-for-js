@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Microsoft fue fundado por Bill Gates y Paul Allen el 4 de abril de 1975.\",\"language\":\"es\"},{\"id\":\"3\",\"text\":\"Microsoft wurde am 4. April 1975 von Bill Gates und Paul Allen gegründet.\",\"language\":\"de\"}]},\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -19,7 +19,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -38,7 +38,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -57,7 +57,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -76,7 +76,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -95,7 +95,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -114,7 +114,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -133,7 +133,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -152,7 +152,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -171,7 +171,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -190,7 +190,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },
@@ -209,7 +209,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/ccf385be-e81e-4265-8098-24ee73d54b80",
    "query": {
     "$top": "20"
    },

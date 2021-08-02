@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"My SSN is 859-98-0987.\"},{\"id\":\"2\",\"text\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"},{\"id\":\"3\",\"text\":\"Is 998.214.865-68 your Brazilian CPF number?\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -43,7 +43,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -62,7 +62,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -81,7 +81,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -100,7 +100,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -119,7 +119,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -138,7 +138,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -157,7 +157,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -176,7 +176,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -195,7 +195,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -214,7 +214,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -233,7 +233,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -252,7 +252,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -271,7 +271,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -290,7 +290,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },
@@ -309,7 +309,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/04d9b006-9a58-4bd7-a3e4-0837f2af977f",
    "query": {
     "$top": "20"
    },

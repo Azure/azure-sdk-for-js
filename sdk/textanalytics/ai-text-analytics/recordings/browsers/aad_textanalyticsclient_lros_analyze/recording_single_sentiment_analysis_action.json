@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"The food was unacceptable\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"The rooms were beautiful. The AC was good and quiet.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"The breakfast was good, but the toilet was smelly.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"Loved this hotel - good breakfast - nice shuttle service - clean rooms.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"I had a great unobstructed view of the Microsoft campus.\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.\",\"language\":\"en\"},{\"id\":\"6\",\"text\":\"The toilet smelled.\",\"language\":\"en\"}]},\"tasks\":{\"sentimentAnalysisTasks\":[{\"parameters\":{\"opinionMining\":true,\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -43,7 +43,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -62,7 +62,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -81,7 +81,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -100,7 +100,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -119,7 +119,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -138,7 +138,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -157,7 +157,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -176,7 +176,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -195,7 +195,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -214,7 +214,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -233,7 +233,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -252,7 +252,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -271,7 +271,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -290,7 +290,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -309,7 +309,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -328,7 +328,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -347,7 +347,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },
@@ -366,7 +366,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/7761fef3-03a3-4f92-a96c-beada17e7c27",
    "query": {
     "$top": "20"
    },

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"Microsoft moved its headquarters to Bellevue, Washington in January 1979.\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.\",\"language\":\"en\"}]},\"tasks\":{\"entityLinkingTasks\":[{\"parameters\":{\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -19,7 +19,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
    "query": {
     "$top": "20"
    },
@@ -38,7 +38,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
    "query": {
     "$top": "20"
    },
@@ -57,7 +57,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
    "query": {
     "$top": "20"
    },
@@ -76,7 +76,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
    "query": {
     "$top": "20"
    },
@@ -95,7 +95,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/4f7c2b23-9dea-412f-ad36-e5065283dbfd",
    "query": {
     "$top": "20"
    },

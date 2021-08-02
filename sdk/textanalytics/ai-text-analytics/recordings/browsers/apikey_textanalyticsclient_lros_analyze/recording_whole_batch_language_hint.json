@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"This was the best day of my life.\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"I did not like the hotel we stayed at. It was too expensive.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"The restaurant was not as good as I hoped.\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]}}",
    "status": 202,
@@ -19,7 +19,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -38,7 +38,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -57,7 +57,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -76,7 +76,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -95,7 +95,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -114,7 +114,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -133,7 +133,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -152,7 +152,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -171,7 +171,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -190,7 +190,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -209,7 +209,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -228,7 +228,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -247,7 +247,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -266,7 +266,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -285,7 +285,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -304,7 +304,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },
@@ -323,7 +323,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/8b89c3b2-537f-4447-ae37-914d8834fa42",
    "query": {
     "$top": "20"
    },

@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"56","text":":)"},{"id":"0","text":":("},{"id":"22","text":""},{"id":"19","text":":P"},{"id":"1","text":":D"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"56","text":":)"},{"id":"0","text":":("},{"id":"22","text":""},{"id":"19","text":":P"},{"id":"1","text":":D"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
+  .get('/text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
   .query(true)
   .reply(200, {"jobId":"d3f89d92-0fee-4261-872d-771ce6d808e3","lastUpdateDateTime":"2021-06-25T19:44:40Z","createdDateTime":"2021-06-25T19:44:40Z","expirationDateTime":"2021-06-26T19:44:40Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
+  .get('/text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
   .query(true)
   .reply(200, {"jobId":"d3f89d92-0fee-4261-872d-771ce6d808e3","lastUpdateDateTime":"2021-06-25T19:44:40Z","createdDateTime":"2021-06-25T19:44:40Z","expirationDateTime":"2021-06-26T19:44:40Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -171,7 +171,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
+  .get('/text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
   .query(true)
   .reply(200, {"jobId":"d3f89d92-0fee-4261-872d-771ce6d808e3","lastUpdateDateTime":"2021-06-25T19:44:43Z","createdDateTime":"2021-06-25T19:44:40Z","expirationDateTime":"2021-06-26T19:44:40Z","status":"running","errors":[]}, [
   'Transfer-Encoding',
@@ -191,7 +191,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
+  .get('/text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
   .query(true)
   .reply(200, {"jobId":"d3f89d92-0fee-4261-872d-771ce6d808e3","lastUpdateDateTime":"2021-06-25T19:44:43Z","createdDateTime":"2021-06-25T19:44:40Z","expirationDateTime":"2021-06-26T19:44:40Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"56","entities":[],"relations":[],"warnings":[]},{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"19","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]}],"errors":[{"id":"22","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}}],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -211,7 +211,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
+  .get('/text/analytics/v3.1/entities/health/jobs/d3f89d92-0fee-4261-872d-771ce6d808e3')
   .query(true)
   .reply(200, {"jobId":"d3f89d92-0fee-4261-872d-771ce6d808e3","lastUpdateDateTime":"2021-06-25T19:44:43Z","createdDateTime":"2021-06-25T19:44:40Z","expirationDateTime":"2021-06-26T19:44:40Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"56","entities":[],"relations":[],"warnings":[]},{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"19","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]}],"errors":[{"id":"22","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}}],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

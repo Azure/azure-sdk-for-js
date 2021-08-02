@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs",
    "query": {
     "stringIndexType": "UnicodeCodePoint"
    },
@@ -21,7 +21,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
    "query": {
     "$top": "20"
    },
@@ -40,7 +40,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
    "query": {
     "$top": "20"
    },
@@ -59,7 +59,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
    "query": {
     "$top": "20"
    },
@@ -78,7 +78,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
    "query": {
     "$top": "20"
    },
@@ -97,7 +97,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/f4f80052-5d6b-4e08-a4a3-a2df84fa6cc3",
    "query": {
     "$top": "20"
    },

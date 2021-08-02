@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"UnicodeCodePoint\"}}]}}",
    "status": 202,
@@ -19,7 +19,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },
@@ -38,7 +38,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },
@@ -57,7 +57,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },
@@ -76,7 +76,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },
@@ -95,7 +95,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },
@@ -114,7 +114,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },
@@ -133,7 +133,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/37c213de-7812-4ca3-a600-0bf456684905",
    "query": {
     "$top": "20"
    },

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.1/entities/recognition/general",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },

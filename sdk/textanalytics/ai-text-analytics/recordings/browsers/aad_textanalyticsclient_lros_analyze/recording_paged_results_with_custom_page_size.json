@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"6\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"7\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"8\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"9\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"10\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"11\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"12\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"13\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"14\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"15\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"16\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"17\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"18\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"19\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"20\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"21\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"22\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"23\",\"text\":\"random text\",\"language\":\"en\"},{\"id\":\"24\",\"text\":\"Microsoft was founded by Bill Gates and Paul Allen\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]}}",
    "status": 202,
@@ -43,7 +43,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -62,7 +62,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -81,7 +81,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -100,7 +100,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -119,7 +119,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -138,7 +138,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -157,7 +157,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -176,7 +176,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -195,7 +195,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -214,7 +214,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -233,7 +233,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -252,7 +252,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -271,7 +271,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -290,7 +290,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -309,7 +309,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -328,7 +328,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -347,7 +347,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -366,7 +366,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -385,7 +385,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -404,7 +404,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -423,7 +423,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -442,7 +442,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -461,7 +461,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -480,7 +480,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -499,7 +499,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -518,7 +518,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -537,7 +537,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -556,7 +556,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -575,7 +575,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -594,7 +594,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -613,7 +613,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "20"
    },
@@ -632,7 +632,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "10"
    },
@@ -651,7 +651,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "10",
     "$skip": "10"
@@ -671,7 +671,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e209bf8f-67a0-4afd-80e0-0d98985186fe",
    "query": {
     "$top": "5",
     "$skip": "20"

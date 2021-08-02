@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"1","text":"I will go to the park."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]}})
+  .post('/text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"1","text":"I will go to the park."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -130,7 +130,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:40Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -150,7 +150,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:40Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -170,7 +170,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:40Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -190,7 +190,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:40Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -210,7 +210,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:40Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -230,7 +230,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:47Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:42:47.0028225Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"I will go to the park.","id":"1","entities":[],"warnings":[]},{"redactedText":"Este es un document escrito en Español.","id":"2","entities":[],"warnings":[]},{"redactedText":"猫は幸せ","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
@@ -250,7 +250,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
+  .get('/text/analytics/v3.1/analyze/jobs/93cb8b3d-3602-4d8b-8f07-9c228910d674')
   .query(true)
   .reply(200, {"jobId":"93cb8b3d-3602-4d8b-8f07-9c228910d674","lastUpdateDateTime":"2021-06-25T19:42:47Z","createdDateTime":"2021-06-25T19:42:40Z","expirationDateTime":"2021-06-26T19:42:40Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:42:47.0028225Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"I will go to the park.","id":"1","entities":[],"warnings":[]},{"redactedText":"Este es un document escrito en Español.","id":"2","entities":[],"warnings":[]},{"redactedText":"猫は幸せ","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',

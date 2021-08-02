@@ -5,7 +5,7 @@ module.exports.hash = "38c89bab41a80575c79a37ce18c38ae0";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"0","text":"This was the best day of my life.","language":"en"},{"id":"1","text":"I did not like the hotel we stayed at. It was too expensive.","language":"en"},{"id":"2","text":"The restaurant was not as good as I hoped.","language":"en"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"0","text":"This was the best day of my life.","language":"en"},{"id":"1","text":"I did not like the hotel we stayed at. It was too expensive.","language":"en"},{"id":"2","text":"The restaurant was not as good as I hoped.","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -25,7 +25,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
+  .get('/text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
   .query(true)
   .reply(200, {"jobId":"1313fc00-4a95-4d02-9e1e-73920aa2821f","lastUpdateDateTime":"2021-06-25T19:56:40Z","createdDateTime":"2021-06-25T19:56:40Z","expirationDateTime":"2021-06-26T19:56:40Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -45,7 +45,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
+  .get('/text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
   .query(true)
   .reply(200, {"jobId":"1313fc00-4a95-4d02-9e1e-73920aa2821f","lastUpdateDateTime":"2021-06-25T19:56:40Z","createdDateTime":"2021-06-25T19:56:40Z","expirationDateTime":"2021-06-26T19:56:40Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -65,7 +65,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
+  .get('/text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
   .query(true)
   .reply(200, {"jobId":"1313fc00-4a95-4d02-9e1e-73920aa2821f","lastUpdateDateTime":"2021-06-25T19:56:41Z","createdDateTime":"2021-06-25T19:56:40Z","expirationDateTime":"2021-06-26T19:56:40Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -85,7 +85,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
+  .get('/text/analytics/v3.1/entities/health/jobs/1313fc00-4a95-4d02-9e1e-73920aa2821f')
   .query(true)
   .reply(200, {"jobId":"1313fc00-4a95-4d02-9e1e-73920aa2821f","lastUpdateDateTime":"2021-06-25T19:56:41Z","createdDateTime":"2021-06-25T19:56:40Z","expirationDateTime":"2021-06-26T19:56:40Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
