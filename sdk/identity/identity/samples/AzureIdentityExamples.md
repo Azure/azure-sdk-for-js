@@ -955,7 +955,7 @@ catch (e)
 
 ### Persisting user authentication data
 
-Quite often applications desire the ability to be run multiple times without having to re-authenticate the user on each execution. This requires that data from credentials be persisted outside of the application memory so that it can authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential, and persisting the `authenticationRecord` returned from `authenticate`.
+Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`.
 
 #### Persisting the token cache
 
