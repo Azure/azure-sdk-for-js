@@ -41,6 +41,18 @@
     "README.md",
     "LICENSE"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "browser": {
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },

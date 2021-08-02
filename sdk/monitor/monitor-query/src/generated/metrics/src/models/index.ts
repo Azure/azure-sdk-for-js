@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** The response to a metrics query. */
 export interface Response {
@@ -148,7 +148,7 @@ export type MetricUnit = string;
 export type ResultType = "Data" | "Metadata";
 
 /** Optional parameters. */
-export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
+export interface MetricsListOptionalParams extends coreClient.OperationOptions {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
@@ -178,20 +178,11 @@ export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type MetricsListResponse = Response & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Response;
-  };
-};
+export type MetricsListResponse = Response;
 
 /** Optional parameters. */
 export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
