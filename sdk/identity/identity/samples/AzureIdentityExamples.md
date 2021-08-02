@@ -917,7 +917,7 @@ In this example, the custom credential type `RotatingCertificateCredential` agai
 
 ### Controlling User Interaction
 
-In many cases applications require tight control over user interaction. In these applications automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the @azure/identity library which interact with the user offer mechanisms to fully control user interaction.
+In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library which interact with the user offer mechanisms to fully control user interaction.
 
 ```
   const options: InteractiveBrowserCredentialOptions = {
