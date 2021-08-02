@@ -232,8 +232,9 @@ export class TableCheckpointStore implements CheckpointStore {
       );
       for (const checkpnt of checkpoints) {
         if (checkpnt.partitionId == checkpoint.partitionId) {
-          
-          await this._checkpointUpdates(checkpnt.offset,checkpnt.sequenceNumber, checkpnt.offset , checkpnt.sequenceNumber);
+            checkpnt.offset = checkpnt.offset;
+            checkpnt.sequenceNumber = checkpnt.sequenceNumber
+         
         
         } else {
           await this._tableClient.upsertEntity(entity1);
@@ -247,14 +248,5 @@ export class TableCheckpointStore implements CheckpointStore {
   }
 
   
-  private async _checkpointUpdates(
-    NewOffset: number,
-    NewSequenceNumber : number , Curr_offset : number , 
-    Curr_sequenceNumber : number
-    
-  ) {
-    Curr_offset = NewOffset;
-    Curr_sequenceNumber = NewSequenceNumber;
-    
-  }
+
 }

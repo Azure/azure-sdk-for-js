@@ -202,6 +202,7 @@ describe("TableCheckpointStore", function(): void {
             eventHubProperties.eventHubName,
             eventHubProperties.consumerGroup
           );
+          console.log(checkpoints);
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
           
@@ -220,13 +221,14 @@ describe("TableCheckpointStore", function(): void {
             checkpoint.sequenceNumber++;
     
             await checkpointStore.updateCheckpoint(checkpoint);
+            
           }
           checkpoints = await checkpointStore.listCheckpoints(
             eventHubProperties.fullyQualifiedNamespace,
             eventHubProperties.eventHubName,
             eventHubProperties.consumerGroup
           );
-    
+           console.log( checkpoints);
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
           for (let i = 0; i < 3; ++i) {
