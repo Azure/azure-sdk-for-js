@@ -935,12 +935,9 @@ The second difference is here the application is preventing the credential from 
 By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an error `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
 
 ```
-try
-{
+try {
     await client.getSecret("secret-name");
-}
-catch (e)
-{
+} catch (e) {
   await ensureAnimationCompleted();
 
   if(e instanceof AuthenticationRequiredError){
