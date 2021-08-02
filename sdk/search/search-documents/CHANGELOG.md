@@ -5,8 +5,7 @@
 ### Features Added
 
 - Added a new parameter `ignoreResetRequirements` for the `createOrUpdate` operation of Data Sources.
-- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of the Indexers.
-- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of the Skillsets.
+- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of Indexers and Skillsets.
 
 ### Bugs Fixed
 
