@@ -49,7 +49,6 @@ export class TableCheckpointStore implements CheckpointStore {
    *  - `tracingOptions`: Options for configuring tracing.
    * @returns Partition ownership details of all the partitions that have had an owner.
    */
-
   async listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
@@ -98,7 +97,7 @@ export class TableCheckpointStore implements CheckpointStore {
         etag : ownership.etag
       };
 
-      const entity1: CustomPartition = {
+      const ownershipEntity : CustomPartition = {
         partitionKey: partition_Key,
         rowKey: curr_ownership.rowKey,
         consumerGroup: ownership.consumerGroup,
@@ -129,12 +128,12 @@ export class TableCheckpointStore implements CheckpointStore {
           partitionOwnershipArray.push(ownership);
         }
         else {
-           await this._tableClient.upsertEntity(entity1);
+           await this._tableClient.upsertEntity(ownershipEntity);
         }
       }
     }
     else {
-      await this._tableClient.upsertEntity(entity1);
+      await this._tableClient.upsertEntity(ownershipEntity);
     }
       
     }
@@ -189,7 +188,7 @@ export class TableCheckpointStore implements CheckpointStore {
    */
   async updateCheckpoint(checkpoint: Checkpoint):Promise<void> {
     const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
-    const entity1: CustomCheckpoint = {
+    const checkpointEntity : CustomCheckpoint = {
       partitionKey: partition_Key,
       rowKey: checkpoint.partitionId,
       consumerGroup: checkpoint.consumerGroup,
@@ -201,7 +200,7 @@ export class TableCheckpointStore implements CheckpointStore {
     };
 
     
-    let entitiesIter = this._tableClient.listEntities<Checkpoint>({
+    const entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });
     let i = 0;
@@ -218,14 +217,14 @@ export class TableCheckpointStore implements CheckpointStore {
         checkpoint.consumerGroup
       );
       for (const checkpnt of checkpoints) {
-        if (checkpnt.partitionId == checkpoint.partitionId) {
-          await this._tableClient.updateEntity(entity1);
+        if (checkpnt.partitionId === checkpoint.partitionId) {
+          await this._tableClient.updateEntity(checkpointEntity);
         } else {
-          await this._tableClient.upsertEntity(entity1);
+          await this._tableClient.upsertEntity(checkpointEntity);
         }
       }
     } else {
-      await this._tableClient.upsertEntity(entity1);
+      await this._tableClient.upsertEntity(checkpointEntity);
     }
 
     return;

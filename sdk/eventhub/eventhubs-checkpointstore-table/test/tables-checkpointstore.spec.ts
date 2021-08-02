@@ -117,7 +117,7 @@ describe("TableCheckpointStore", function(): void {
         await client.createEntity(checkpoint_entity);
       }
 
-      /*Ownership*/
+      /* Ownership */
       const ownership_entity: CustomPartition = {
         partitionKey: "",
         rowKey: "",
