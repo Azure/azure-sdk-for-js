@@ -273,11 +273,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         fields: convertFieldsToPublic(field.fields!)
       };
     } else {
-      const anayzerName: LexicalAnalyzerName | undefined = field.analyzer;
+      const analyzerName: LexicalAnalyzerName | undefined = field.analyzer;
       const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
       const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
-      const normalizerNames: LexicalNormalizerName | undefined = field.normalizer;
+      const normalizerName: LexicalNormalizerName | undefined = field.normalizer;
 
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
@@ -285,11 +285,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       result = {
         ...restField,
         hidden,
-        anayzerName,
+        analyzerName,
         searchAnalyzerName,
         indexAnalyzerName,
         synonymMapNames,
-        normalizerNames
+        normalizerName
       } as SimpleField;
     }
     return result;
