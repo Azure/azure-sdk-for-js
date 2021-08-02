@@ -16,16 +16,12 @@ export default class TestClient {
     return name.replace(/[^0-9a-zA-Z-]/g, "");
   }
   public async purgeCertificate(certificateName: string): Promise<void> {
-    console.time("flush#purge");
     await this.client.purgeDeletedCertificate(certificateName);
-    console.timeEnd("flush#purge");
   }
   public async flushCertificate(certificateName: string): Promise<void> {
-    console.time("flush#delete");
     const that = this;
     const poller = await that.client.beginDeleteCertificate(certificateName, testPollerProperties);
     await poller.pollUntilDone();
-    console.timeEnd("flush#delete");
     await this.purgeCertificate(certificateName);
   }
   public async beginRestoreCertificateBackup(

@@ -115,7 +115,6 @@ describe("Certificates client - LRO - recoverDelete", () => {
   // On playback mode, the tests happen too fast for the timeout to work
   it("can recover a deleted certificate with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
-    console.log("starting known long test");
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -125,16 +124,13 @@ describe("Certificates client - LRO - recoverDelete", () => {
       testPollerProperties
     );
     await createPoller.pollUntilDone();
-    console.log("created, now deleting");
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     await deletePoller.pollUntilDone();
-    console.log("deleted, now aborting");
     await assertThrowsAbortError(async () => {
       await client.beginRecoverDeletedCertificate(certificateName, {
         requestOptions: { timeout: 1 },
         ...testPollerProperties
       });
     });
-    console.log("done");
   });
 });
