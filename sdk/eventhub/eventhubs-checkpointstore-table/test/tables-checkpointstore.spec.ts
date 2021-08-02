@@ -44,6 +44,7 @@ describe("TableCheckpointStore", function(): void {
   describe("Runs tests on table with no entities", function() {
     table_name = `table${new Date().getTime()}`;
     beforeEach("creating table", async () => {
+      
       await serviceClient.createTable(table_name);
     });
 
@@ -69,8 +70,6 @@ describe("TableCheckpointStore", function(): void {
       });
     });
   });
-
-
 
   describe("Runs tests on a populated table", function() {
     beforeEach("creating table", async () => {
@@ -185,14 +184,14 @@ describe("TableCheckpointStore", function(): void {
             consumerGroup: "testConsumerGroup"
           };
           let i = 0;
-            while (i < 3) {
+          while (i < 3) {
             const checkpoint: Checkpoint = {
               ...eventHubProperties,
               partitionId: i.toString(),
               sequenceNumber: 100 + i,
               offset: 1023 + i
             };
-            
+
             await checkpointStore.updateCheckpoint(checkpoint);
             i++;
           }
@@ -205,49 +204,43 @@ describe("TableCheckpointStore", function(): void {
           console.log(checkpoints);
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
-          
+
           for (let i = 0; i < 3; ++i) {
             const checkpoint = checkpoints[i];
-    
+
             checkpoint.partitionId.should.equal(i.toString());
             checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
             checkpoint.consumerGroup.should.equal("testConsumerGroup");
             checkpoint.eventHubName.should.equal("testEventHub");
             checkpoint.sequenceNumber!.should.equal(100 + i);
             checkpoint.offset!.should.equal(1023 + i);
-    
+
             // now update it
             checkpoint.offset++;
             checkpoint.sequenceNumber++;
-    
+
             await checkpointStore.updateCheckpoint(checkpoint);
-            
           }
           checkpoints = await checkpointStore.listCheckpoints(
             eventHubProperties.fullyQualifiedNamespace,
             eventHubProperties.eventHubName,
             eventHubProperties.consumerGroup
           );
-           console.log( checkpoints);
+          console.log(checkpoints);
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
           for (let i = 0; i < 3; ++i) {
             const checkpoint = checkpoints[i];
-    
+
             checkpoint.partitionId.should.equal(i.toString());
             checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
             checkpoint.consumerGroup.should.equal("testConsumerGroup");
             checkpoint.eventHubName.should.equal("testEventHub");
             checkpoint.sequenceNumber!.should.equal(100 + i + 1);
             checkpoint.offset!.should.equal(1023 + i + 1);
-          }    
-  
-      
+          }
+        });
       });
-
-      
     });
   });
-});
-
 });

@@ -16,8 +16,6 @@ export interface customPartition extends PartitionOwnership {
   time: string;
 }
 
-
-
 /**
  * An implementation of CheckpointStore that uses Azure Table Storage to persist checkpoint data.
  */
@@ -174,9 +172,6 @@ export class TableCheckpointStore implements CheckpointStore {
     return checkpoints;
   }
 
-
-  
-
   /**
    * Updates the checkpoint in the data store for a partition.
    *
@@ -195,14 +190,7 @@ export class TableCheckpointStore implements CheckpointStore {
       checkpoint.consumerGroup +
       " " +
       "Checkpoint";
-      /*
-    const entity = {
-      partitionKey: PARTITIONKEY,
-      rowKey: checkpoint.partitionId,
-      offset: 5890,
-      sequenceNumber: 19
-    };
-*/
+
     const entity1: customCheckpoint = {
       partitionKey: PARTITIONKEY,
       rowKey: checkpoint.partitionId,
@@ -232,10 +220,8 @@ export class TableCheckpointStore implements CheckpointStore {
       );
       for (const checkpnt of checkpoints) {
         if (checkpnt.partitionId == checkpoint.partitionId) {
-            checkpnt.offset = checkpnt.offset;
-            checkpnt.sequenceNumber = checkpnt.sequenceNumber
-         
-        
+          checkpnt.offset = checkpnt.offset;
+          checkpnt.sequenceNumber = checkpnt.sequenceNumber;
         } else {
           await this._tableClient.upsertEntity(entity1);
         }
@@ -246,7 +232,4 @@ export class TableCheckpointStore implements CheckpointStore {
 
     return;
   }
-
-  
-
 }
