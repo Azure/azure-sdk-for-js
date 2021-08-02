@@ -20,20 +20,23 @@ export class AttestationAdministrationClient {
     }
 
 // @public
+export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
+    validationOptions?: AttestationTokenValidationOptions;
+}
+
+// @public
 export interface AttestationAdministrationClientOptions extends CommonClientOptions {
     validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
-export interface AttestationAdministrationClientPolicyCertificateOperationOptions extends OperationOptions {
-    validationOptions?: AttestationTokenValidationOptions;
+export interface AttestationAdministrationClientPolicyCertificateOperationOptions extends AttestationAdministrationClientOperationOptions {
 }
 
 // @public
-export interface AttestationAdministrationClientPolicyOperationOptions extends OperationOptions {
+export interface AttestationAdministrationClientPolicyOperationOptions extends AttestationAdministrationClientOperationOptions {
     certificate?: string;
     privateKey?: string;
-    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public

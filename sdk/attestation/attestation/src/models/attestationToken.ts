@@ -64,7 +64,7 @@ export interface AttestationTokenValidationOptions {
    *
    * @param token - Attestation Token to validate.
    * @param signer - Signing Certificate which validated the token.
-   * 
+   *
    * @remarks
    *
    * If there is a problem with token validation, the validateAttestationCallback function
