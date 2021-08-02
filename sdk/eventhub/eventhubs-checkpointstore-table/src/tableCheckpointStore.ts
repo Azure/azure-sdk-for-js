@@ -92,7 +92,22 @@ export class TableCheckpointStore implements CheckpointStore {
         "Ownership";
       let curr_ownership = {
         partitionKey: PARTITIONKEY,
-        rowKey: ownership.partitionId
+        rowKey: ownership.partitionId,
+        lastModifiedTimeInMs : ownership.lastModifiedTimeInMs,
+        etag : ownership.etag
+      };
+
+      const entity1: customPartition = {
+        partitionKey: PARTITIONKEY,
+        rowKey: curr_ownership.rowKey,
+        consumerGroup: ownership.consumerGroup,
+        fullyQualifiedNamespace: ownership.fullyQualifiedNamespace,
+        eventHubName: ownership.eventHubName,
+        lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
+        etag: ownership.etag,
+        ownerId: ownership.ownerId,
+        partitionId: ownership.partitionId,
+        time: `${new Date().getTime()}`
       };
       let entitiesIter = this._tableClient.listEntities<customPartition>({
         queryOptions: { filter: odata`PartitionKey eq ${PARTITIONKEY}` }
@@ -102,34 +117,26 @@ export class TableCheckpointStore implements CheckpointStore {
         k++;
         entity.lastModifiedTimeInMs;
       }
-      let i = 0;
-      for await (const entity of entitiesIter) {
-        i++;
-        if (
-          ownership.etag == entity.etag &&
-          ownership.lastModifiedTimeInMs == entity.lastModifiedTimeInMs
-        ) {
-          await this._tableClient.updateEntity(curr_ownership);
-
+      if (k > 0) {
+        let ownerships: PartitionOwnership[] = [];
+      ownerships = await this.listOwnership(
+        ownership.fullyQualifiedNamespace,
+        ownership.eventHubName,
+        ownership.consumerGroup );
+        for (const own of ownerships) {
+          if (own.etag ==  ownership.etag) {
+            await this._tableClient.updateEntity(curr_ownership);
           partitionOwnershipArray.push(ownership);
         }
-        if (i == k) {
-          const entity1: customPartition = {
-            partitionKey: PARTITIONKEY,
-            rowKey: curr_ownership.rowKey,
-            consumerGroup: ownership.consumerGroup,
-            fullyQualifiedNamespace: ownership.fullyQualifiedNamespace,
-            eventHubName: ownership.eventHubName,
-            lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
-            etag: ownership.etag,
-            ownerId: ownership.ownerId,
-            partitionId: ownership.partitionId,
-            time: `${new Date().getTime()}`
-          };
-          entity1.lastModifiedTimeInMs = Number(entity.time);
-          await this._tableClient.upsertEntity(entity1);
+        else {
+           await this._tableClient.upsertEntity(entity1);
         }
       }
+    }
+    else {
+      await this._tableClient.upsertEntity(entity1);
+    }
+      
     }
     return partitionOwnershipArray;
   }
