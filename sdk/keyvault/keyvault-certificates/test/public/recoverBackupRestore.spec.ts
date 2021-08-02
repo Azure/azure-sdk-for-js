@@ -39,6 +39,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   // The tests follow
 
   it("can recover a deleted certificate", async function(this: Context) {
+    console.time("create");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -46,24 +47,31 @@ describe("Certificates client - restore certificates and recover backups", () =>
       testPollerProperties
     );
     await createPoller.pollUntilDone();
+    console.timeEnd("create");
+    console.time("delete");
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     const getDeletedResult = await deletePoller.pollUntilDone();
+    console.timeEnd("delete");
     assert.equal(
       getDeletedResult.properties.name,
       certificateName,
       "Unexpected certificate name in result from getCertificate()."
     );
+    console.time("recover");
     const recoverPoller = await client.beginRecoverDeletedCertificate(
       certificateName,
       testPollerProperties
     );
     const getResult = await recoverPoller.pollUntilDone();
+    console.timeEnd("recover");
     assert.equal(
       getResult.properties.name,
       certificateName,
       "Unexpected certificate name in result from getCertificate()."
     );
+    console.time("flush");
     await testClient.flushCertificate(certificateName);
+    console.timeEnd("flush");
   });
 
   it("can recover a deleted certificate (non existing)", async function(this: Context) {

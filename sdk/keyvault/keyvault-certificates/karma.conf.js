@@ -96,7 +96,7 @@ module.exports = function(config) {
     singleRun: false,
     concurrency: 1,
 
-    browserNoActivityTimeout: 300000,
+    browserNoActivityTimeout: 400000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -108,7 +108,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "300000"
+        timeout: "400000"
       }
     }
   });
