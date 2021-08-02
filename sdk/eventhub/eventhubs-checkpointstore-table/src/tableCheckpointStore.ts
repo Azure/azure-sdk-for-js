@@ -57,7 +57,7 @@ export class TableCheckpointStore implements CheckpointStore {
   ): Promise<PartitionOwnership[]> {
     const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Ownership`;
     const partitionOwnershipArray: PartitionOwnership[] = [];
-    let entitiesIter = this._tableClient.listEntities<PartitionOwnership>({
+    const entitiesIter = this._tableClient.listEntities<PartitionOwnership>({
       queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
     });
 
@@ -90,8 +90,8 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
     for (const ownership of partitionOwnership) {
-      let partition_Key = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
-      let curr_ownership = {
+      const partition_Key = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
+      const curr_ownership = {
         partitionKey: partition_Key,
         rowKey: ownership.partitionId,
         lastModifiedTimeInMs : ownership.lastModifiedTimeInMs,
@@ -109,13 +109,13 @@ export class TableCheckpointStore implements CheckpointStore {
         ownerId: ownership.ownerId,
         partitionId: ownership.partitionId
       };
-      let entitiesIter = this._tableClient.listEntities<CustomPartition>({
+      const entitiesIter = this._tableClient.listEntities<CustomPartition>({
         queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
       });
       let k = 0;
       for await (const entity of entitiesIter) {
         k++;
-        entity.lastModifiedTimeInMs;
+        entity.lastModifiedTimeInMs = 11;
       }
       if (k > 0) {
         let ownerships: PartitionOwnership[] = [];
@@ -124,7 +124,7 @@ export class TableCheckpointStore implements CheckpointStore {
         ownership.eventHubName,
         ownership.consumerGroup );
         for (const own of ownerships) {
-          if (own.etag ==  ownership.etag) {
+          if (own.etag === ownership.etag) {
             await this._tableClient.updateEntity(curr_ownership);
           partitionOwnershipArray.push(ownership);
         }
@@ -156,11 +156,11 @@ export class TableCheckpointStore implements CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string
-  ) {
+  ):Promise<Checkpoint[]> {
     const partition_Key = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
 
-    let entitiesIter = this._tableClient.listEntities<Checkpoint>({
+    const entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });
 
@@ -187,7 +187,7 @@ export class TableCheckpointStore implements CheckpointStore {
    *  - `tracingOptions`: Options for configuring tracing.
    * @returns A promise that resolves when the checkpoint has been updated.
    */
-  async updateCheckpoint(checkpoint: Checkpoint) {
+  async updateCheckpoint(checkpoint: Checkpoint):Promise<void> {
     const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
     const entity1: CustomCheckpoint = {
       partitionKey: partition_Key,
@@ -200,12 +200,13 @@ export class TableCheckpointStore implements CheckpointStore {
       partitionId: checkpoint.partitionId
     };
 
+    
     let entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });
     let i = 0;
     for await (const ent of entitiesIter) {
-      ent.offset;
+      ent.offset = 0;
       i++;
     }
 
@@ -218,8 +219,7 @@ export class TableCheckpointStore implements CheckpointStore {
       );
       for (const checkpnt of checkpoints) {
         if (checkpnt.partitionId == checkpoint.partitionId) {
-          checkpnt.offset = checkpnt.offset;
-          checkpnt.sequenceNumber = checkpnt.sequenceNumber;
+          await this._tableClient.updateEntity(entity1);
         } else {
           await this._tableClient.upsertEntity(entity1);
         }
