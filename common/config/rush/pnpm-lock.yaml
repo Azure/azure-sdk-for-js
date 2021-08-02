@@ -8243,7 +8243,7 @@ packages:
   file:projects/ai-anomaly-detector.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 1.4.0
+      '@azure/identity': 2.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -8287,7 +8287,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-96oJSPjG/FE9R/7ZxjCGfXXOXSaLdEEkKrSbIMCyyiGX8qiOam8nGOSVDRhB9xd1FGY/vxZo8U2+OphneZKjzw==
+      integrity: sha512-Murzt7Za9vfkrGAAu2jJouBdFyKOSMkBDMA6guiOG2hp6MGBdRU9x+p/3PupyydX49cBbSvsm7UTWWMNuZJwqg==
       tarball: file:projects/ai-anomaly-detector.tgz
     version: 0.0.0
   file:projects/ai-document-translator.tgz:
@@ -8517,7 +8517,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-6r2ABB/2a1ep+TNCrsO+7Lq+JJCDCJg4t+E/AAks/bXv55f93E/rjCZRgGKfsE2wenAw2C8IoJEM6s4P/Zu3yA==
+      integrity: sha512-xEfaCYTbxZd2BbN7Eo7hI2zi20fMk4IgtL11xglGdqKcLIOcKf9m3g8sLXkkBch1moeKzqVXYWaJ9SyUzSHJAQ==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/arm-compute.tgz:
@@ -10215,7 +10215,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.2
       dotenv: 8.6.0
-      eslint: 7.31.0
+      eslint: 7.30.0
       esm: 3.2.25
       guid-typescript: 1.0.9
       inherits: 2.0.4
@@ -10547,7 +10547,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-N6jQ013UESU1QOXK5jrnJzwj7P/5RaK7iGQ1pwaBtrVwkKuDtCZYLRH4PXV/gW2FwSarlPbxJBplNcSWuvHivg==
+      integrity: sha512-pq2OyfYf1Iw1a+HrzQ8BNxzf4Z4MPBH12hNIiIhd0Z3E6hnJYzo2YrR0UlPGvCxmrexwctSnUXdp0az4TvssBg==
       tarball: file:projects/keyvault-certificates.tgz
     version: 0.0.0
   file:projects/keyvault-common.tgz:
@@ -10906,7 +10906,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-query'
     resolution:
-      integrity: sha512-R2EdwOB5S6OsJcz9IqKVZ9Cg32qko/QbUT4dqnwsk/WPyD4ik9Smn6EgSpZIrBCAPPqN3AGU6X8AgXeed8egdg==
+      integrity: sha512-fnatli/y9QgLOQPIPd9kUw11qRXlM5fBisSJhxAD+m+SlrhOsvr0CjOacesQwj4quNSFApSg8qp6p0Fa97dmmw==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
@@ -11042,7 +11042,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-certificates'
     resolution:
-      integrity: sha512-VOVgg8u6i1vwFR79jgCmGiX2Q5eedx2xKn5Dn2lViPbyYEv8QY7ieagdI5YIuihovg+j7+RQ0xlRiGhQwxrlzA==
+      integrity: sha512-nZWv2OVw3fJfNI8Y5haudNojwz/fAX8TeWgWV39TmB0TZn4HDTAKt3WOW/3eOAa1+D8s6VNbt1MsOExrRmS5Ug==
       tarball: file:projects/perf-keyvault-certificates.tgz
     version: 0.0.0
   file:projects/perf-keyvault-keys.tgz:
@@ -11079,7 +11079,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-secrets'
     resolution:
-      integrity: sha512-+CWF47gCoFipTfxeoFVWBCVxEUAqawPWX0GySVho6xUAP58iRVvWBJtAm5FtDaIkNCXcizVNdvVfKtC7aCmTqQ==
+      integrity: sha512-//lFvs3Ap0NhJjf4azndYavirLFXWrKSKURyqcDzsb9ZRMiehb2Z2j0K+iLz0/jt9gY4L/aKWMaXbjGkBuQLaw==
       tarball: file:projects/perf-keyvault-secrets.tgz
     version: 0.0.0
   file:projects/perf-search-documents.tgz:
