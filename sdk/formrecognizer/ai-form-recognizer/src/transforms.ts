@@ -137,9 +137,9 @@ const elementReferencePattern = /\/readResults\/(\d+)\/([a-z][a-zA-Z]*)\/(\d+)(?
 /**
  * Parse an ElementReference of a known structure.
  * @internal
- * @param ref
- * @param readResults
- * @returns
+ * @param ref - the string representation (JSON Pointer) of the ElementReference
+ * @param readResults - The transformed ReadResults into which the reference points
+ * @returns a reference to the FormElement that the ElementReference refers to
  */
 export function elementReferenceToFormContent(ref: string, readResults: FormPage[]): FormElement {
   const result = elementReferencePattern.exec(ref);
