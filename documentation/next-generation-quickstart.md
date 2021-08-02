@@ -18,7 +18,7 @@ authentication. This document illustrates the most common scenario.
 
 Migrating from an older generation of Azure management libraries for JavaScript/TypeScript
 ------------------------------------------------------------------------------------------
-If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](./MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
+If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
 
 Prerequisites
 -------------
