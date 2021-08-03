@@ -265,6 +265,9 @@ export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x:
   return (value: T1) => fn2(fn1(value));
 }
 
+/**
+ * @internal
+ */
 export async function getRawResponse<TOptions extends OperationOptions, TResult>(
   f: (options: TOptions) => Promise<TResult>,
   options: TOptions
@@ -288,6 +291,9 @@ export async function getRawResponse<TOptions extends OperationOptions, TResult>
   };
 }
 
+/**
+ * @internal
+ */
 export async function sendGetRequest<TOptions extends OperationOptions>(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,

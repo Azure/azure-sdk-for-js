@@ -236,7 +236,7 @@ export function updateAnalyzeState(
   state: AnalyzeActionsOperationState,
   lastResponse: RawResponse
 ): void {
-  const response = lastResponse.body as any;
+  const response = lastResponse.body as GeneratedClientAnalyzeStatusResponse;
   state.createdOn = response.createdDateTime;
   state.lastModifiedOn = response.lastUpdateDateTime;
   state.expiresOn = response.expirationDateTime;

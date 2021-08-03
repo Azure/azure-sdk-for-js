@@ -160,7 +160,7 @@ export function isHealthDone(response: unknown): boolean {
       return false;
     case "failed": {
       const errors = castResponse.errors
-        ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
+        ?.map((e) => ` code ${e.code}, message: '${e.message}'`)
         .join("\n");
       const message = `Healthcare analysis failed. Error(s): ${errors || ""}`;
       throw new Error(message);

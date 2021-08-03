@@ -101,14 +101,8 @@ async function* getPageAsyncIterator<TOptions extends Record<string, unknown>, T
   }
 }
 
-const DEFAULT_CONTINUATION_LINKs_NAMES: Set<string> = new Set(["continuationToken", "nextLink"]);
-
 function getDefaultNextLink<TResponse>(response: TResponse): string | undefined {
-  for (const name of DEFAULT_CONTINUATION_LINKs_NAMES) {
-    const nextLink = (response as any)[name] as string | undefined;
-    if (nextLink) return nextLink;
-  }
-  return undefined;
+  return (response as any).nextLink;
 }
 
 interface ResultWithPaging<TPage> {
