@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9ffcadce-d8ed-42b9-9389-fb61fdab0200',
+  '8504ce8b-1213-4c9c-a5d3-c325edb2f300',
   'x-ms-ests-server',
-  '2.1.11829.8 - NCUS ProdSlices',
+  '2.1.11898.12 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1DAAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:34:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1CwAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:02:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrY_a1mjEtizQ8TDzW-_5YCwalh37ZDp_hfcLMlmKdr6m9hutgGRwxRIQhMS21T5uhqCYNtNoPbXvO0o5jiKlm0azqCprKZUV1JzeiN7CCkyXLYp6pEiQu8s_9C0qN5hoZcuHGaUx_F9TJC6c5JSA_i1WKV53BZ19C64s5a9XTGrcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrom0z4lrL9r7JzdademGrREJUqa5CDyaFEkDNE3up0NzPNBN1LNf9qn8dKNqhoyx4JqOwE9JyBeXDvlrffSW0XIDzXDZftlmKfJl0ILjpZ2pUZCJWochyvxuglT7knAyanjVmmnXdmbveMlQp1bJWhAt6OqlWxKT2pU4RbP4dwH0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:34:27 GMT',
+  'Tue, 03 Aug 2021 03:02:36 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9d80f76e-26fc-421e-9776-d8e3f1825b00',
+  '074a480c-a503-4350-a3b0-0005fbb5e500',
   'x-ms-ests-server',
-  '2.1.11829.9 - NCUS ProdSlices',
+  '2.1.11898.12 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1DAAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:34:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1CwAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:02:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrxmurKBdrMPmhlmuFRhcVrA2jF_AqsIAfWhLn8YKJTHozeTy8sSkRyClAuGWTESLJqKwUrla3waO0OzI5QUOF0mi3HHNzMklhSw3uTxdXjhvpTCGK81Y4V2LCVWYhql6jMBr42XwiNFHrrT5hKY9A3MFPuyYPQcCRWnqZpmL2ckUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8qdP3m0PERNhUnaQusFlMZQVNQYZ-To5rxer92JaTx_XK23NLa7TfTirmq5-vAfkXallQtl6wC1FGycYJydkNC2T1Mf_sT4rNsiGNVyzUzPZoySCObJ_u7rJPxKZdfpo9TkgsoI9XB0Ef4f-axGAElyGw2hl7UHMNQWyAzqb9O0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:34:27 GMT',
+  'Tue, 03 Aug 2021 03:02:36 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=d3be93db-e534-48cf-9247-4dc12b8bed73&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=7fe28330-b6ba-4aed-b029-c5ad4727d9c4&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,25 +93,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c2c46a2d-caf1-495a-b60f-6d20376e7100',
+  'f0ca3e67-4d93-4045-9b4f-8b73faa2df00',
   'x-ms-ests-server',
-  '2.1.11829.9 - EUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1DQAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:34:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1CwAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:02:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:34:27 GMT',
+  'Tue, 03 Aug 2021 03:02:36 GMT',
   'Content-Length',
   '1331'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/keyPhrases', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.2-preview.1/keyPhrases', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
   .reply(200, {"documents":[{"id":"1","keyPhrases":["wonderful trip","Space Needle","Seattle"],"warnings":[]},{"id":"2","keyPhrases":["entire trip","Seattle","Space","Needle"],"warnings":[]},{"id":"3","keyPhrases":["movie","Saturday"],"warnings":[]},{"id":"4","keyPhrases":["last book"],"warnings":[]},{"id":"5","keyPhrases":["Los","caminos","Monte","Rainier"],"warnings":[]},{"id":"6","keyPhrases":["mucho tráfico","carretera","ayer"],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}, [
   'Transfer-Encoding',
   'chunked',
@@ -120,13 +120,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6',
   'x-envoy-upstream-service-time',
-  '54',
+  '33',
   'apim-request-id',
-  '6ac2c67c-438e-4b32-932a-6913fa8c626b',
+  '2aaac7c9-770d-44a4-af32-a95627bcb732',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:34:27 GMT'
+  'Tue, 03 Aug 2021 03:02:37 GMT'
 ]);
