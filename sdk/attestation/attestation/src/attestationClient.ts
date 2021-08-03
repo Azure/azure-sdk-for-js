@@ -197,7 +197,7 @@ export class AttestationClient {
       } else {
         options = credentialsOrOptions;
       }
-    } else if (clientOptions != undefined) {
+    } else if (clientOptions !== undefined) {
       options = clientOptions;
     }
 
