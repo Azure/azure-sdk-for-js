@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/recognition/pii', {"documents":[]})
+  .post('/text/analytics/v3.1/entities/recognition/pii', {"documents":[]})
   .query(true)
   .reply(400, {"error":{"code":"InvalidRequest","message":"Invalid Request.","innererror":{"code":"MissingInputRecords","message":"Missing input records."}}}, [
   'Transfer-Encoding',

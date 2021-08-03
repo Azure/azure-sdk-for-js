@@ -5,7 +5,7 @@ module.exports.hash = "586a571f3405fc4a91192c8057f26eba";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987","language":"en"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"UnicodeCodePoint"}}]}})
+  .post('/text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987","language":"en"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"UnicodeCodePoint"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -24,7 +24,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+  .get('/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
   .query(true)
   .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -44,7 +44,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+  .get('/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
   .query(true)
   .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -64,7 +64,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+  .get('/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
   .query(true)
   .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -84,7 +84,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+  .get('/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
   .query(true)
   .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -104,7 +104,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+  .get('/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
   .query(true)
   .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:27Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:55:27.0427821Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":17,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
@@ -124,7 +124,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+  .get('/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
   .query(true)
   .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:27Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:55:27.0427821Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":17,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',

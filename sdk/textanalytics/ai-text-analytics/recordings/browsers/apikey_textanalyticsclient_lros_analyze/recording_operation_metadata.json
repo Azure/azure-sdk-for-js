@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"displayName\":\"testJob\",\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"},{\"id\":\"2\",\"text\":\"Este es un document escrito en Español.\"},{\"id\":\"3\",\"text\":\"猫は幸せ\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -19,7 +19,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
    "query": {
     "$top": "20"
    },
@@ -38,7 +38,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
    "query": {
     "$top": "20"
    },
@@ -57,7 +57,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
    "query": {
     "$top": "20"
    },
@@ -76,7 +76,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
    "query": {
     "$top": "20"
    },
@@ -95,7 +95,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
    "query": {
     "$top": "20"
    },
@@ -114,7 +114,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/cd150628-c73e-4f39-a3e5-dfa5904a6d07",
    "query": {
     "$top": "20"
    },

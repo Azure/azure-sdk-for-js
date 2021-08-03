@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/languages",
+   "url": "https://endpoint/text/analytics/v3.1/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"impossible\",\"countryHint\":\"fr\"}]}",
    "status": 200,

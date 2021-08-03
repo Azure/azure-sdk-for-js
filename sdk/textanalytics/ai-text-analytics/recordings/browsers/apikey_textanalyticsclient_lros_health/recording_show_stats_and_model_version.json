@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs",
    "query": {
     "model-version": "latest",
     "stringIndexType": "Utf16CodeUnit"
@@ -22,7 +22,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -42,7 +42,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -62,7 +62,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -82,7 +82,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -102,7 +102,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -122,7 +122,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -142,7 +142,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -162,7 +162,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -182,7 +182,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -202,7 +202,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -222,7 +222,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -242,7 +242,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"
@@ -262,7 +262,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
+   "url": "https://endpoint/text/analytics/v3.1/entities/health/jobs/833ecc46-b747-4b28-bf61-597ccb7050cb",
    "query": {
     "showStats": "true",
     "$top": "20"

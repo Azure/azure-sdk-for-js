@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"I will go to the park.","language":""},{"id":"2","text":"I did not like the hotel we stayed at.","language":""},{"id":"3","text":"The restaurant had really good food."}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"I will go to the park.","language":""},{"id":"2","text":"I did not like the hotel we stayed at.","language":""},{"id":"3","text":"The restaurant had really good food."}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
+  .get('/text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
   .query(true)
   .reply(200, {"jobId":"ace8da2b-571e-4fb2-9b95-2487c231b75c","lastUpdateDateTime":"2021-06-25T19:44:55Z","createdDateTime":"2021-06-25T19:44:55Z","expirationDateTime":"2021-06-26T19:44:55Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
+  .get('/text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
   .query(true)
   .reply(200, {"jobId":"ace8da2b-571e-4fb2-9b95-2487c231b75c","lastUpdateDateTime":"2021-06-25T19:44:55Z","createdDateTime":"2021-06-25T19:44:55Z","expirationDateTime":"2021-06-26T19:44:55Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -171,7 +171,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
+  .get('/text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
   .query(true)
   .reply(200, {"jobId":"ace8da2b-571e-4fb2-9b95-2487c231b75c","lastUpdateDateTime":"2021-06-25T19:44:55Z","createdDateTime":"2021-06-25T19:44:55Z","expirationDateTime":"2021-06-26T19:44:55Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]},{"id":"3","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -191,7 +191,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
+  .get('/text/analytics/v3.1/entities/health/jobs/ace8da2b-571e-4fb2-9b95-2487c231b75c')
   .query(true)
   .reply(200, {"jobId":"ace8da2b-571e-4fb2-9b95-2487c231b75c","lastUpdateDateTime":"2021-06-25T19:44:55Z","createdDateTime":"2021-06-25T19:44:55Z","expirationDateTime":"2021-06-26T19:44:55Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]},{"id":"3","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

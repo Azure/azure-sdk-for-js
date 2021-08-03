@@ -41,7 +41,8 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
       lro,
       options?.lroResourceLocationConfig,
       options?.processResult,
-      options?.updateState
+      options?.updateState,
+      options?.isDone
     );
     super(operation);
 

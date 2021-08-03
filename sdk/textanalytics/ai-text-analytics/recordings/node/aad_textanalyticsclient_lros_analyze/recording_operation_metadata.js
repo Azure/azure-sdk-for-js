@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"displayName":"testJob","analysisInput":{"documents":[{"id":"1","text":"I will go to the park."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]}})
+  .post('/text/analytics/v3.1/analyze', {"displayName":"testJob","analysisInput":{"documents":[{"id":"1","text":"I will go to the park."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -130,7 +130,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
   .query(true)
   .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:49Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"notStarted","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -150,7 +150,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
   .query(true)
   .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:49Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"notStarted","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -170,7 +170,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
   .query(true)
   .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:50Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -190,7 +190,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
   .query(true)
   .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:50Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -210,7 +210,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
   .query(true)
   .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:50Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
@@ -230,7 +230,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
   .query(true)
   .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:56Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"succeeded","errors":[],"displayName":"testJob","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:42:56.0831466Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"I will go to the park.","id":"1","entities":[],"warnings":[]},{"redactedText":"Este es un document escrito en Español.","id":"2","entities":[],"warnings":[]},{"redactedText":"猫は幸せ","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',

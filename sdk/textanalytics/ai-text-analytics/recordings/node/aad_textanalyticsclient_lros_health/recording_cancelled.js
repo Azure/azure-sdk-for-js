@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"Patient does not suffer from high blood pressure.","language":"en"},{"id":"2","text":"Prescribed 100mg ibuprofen, taken twice daily.","language":"en"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"Patient does not suffer from high blood pressure.","language":"en"},{"id":"2","text":"Prescribed 100mg ibuprofen, taken twice daily.","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/0078a666-f34f-4cfe-b3a3-fd707b651d4a')
+  .get('/text/analytics/v3.1/entities/health/jobs/0078a666-f34f-4cfe-b3a3-fd707b651d4a')
   .query(true)
   .reply(200, {"jobId":"0078a666-f34f-4cfe-b3a3-fd707b651d4a","lastUpdateDateTime":"2021-06-25T19:45:12Z","createdDateTime":"2021-06-25T19:45:12Z","expirationDateTime":"2021-06-26T19:45:12Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .delete('//text/analytics/v3.1/entities/health/jobs/0078a666-f34f-4cfe-b3a3-fd707b651d4a')
+  .delete('/text/analytics/v3.1/entities/health/jobs/0078a666-f34f-4cfe-b3a3-fd707b651d4a')
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
