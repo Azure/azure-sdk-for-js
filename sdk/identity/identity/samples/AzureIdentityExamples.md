@@ -951,7 +951,16 @@ try {
 
 ### Persisting user authentication data
 
-Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`.
+Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`. In `@azure/identity` starting from v2 we need to use the package `@azure/identity-cache-persistence` that provides an extension to the identity package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level useIdentityExtension function from the @azure/identity package. Enable token cache persistence in your program as follows:
+
+```
+import { useIdentityExtension } from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+
+useIdentityExtension(cachePersistenceExtension);
+```
+
+After calling `useIdentityExtension`, the persistent token cache extension is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
 
 #### Persisting the token cache
 
@@ -960,12 +969,17 @@ The credential handles persisting all the data needed to silently authenticate o
 To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option.
 
 ```
-  const options: InteractiveBrowserCredentialOptions =  {
-    tokenCachePersistenceOptions: {
-      enabled: true
-    }
+import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+
+useIdentityExtension(cachePersistenceExtension);
+
+const options: InteractiveBrowserCredentialOptions =  {
+  tokenCachePersistenceOptions: {
+    enabled: true
   }
-  const credential = new InteractiveBrowserCredential(options);
+}
+const credential = new InteractiveBrowserCredential(options);
 ```
 
 #### Persisting the Authentication Record
@@ -991,6 +1005,11 @@ await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
 Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
 ```
+import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+
+useIdentityExtension(cachePersistenceExtension);
+
 const AUTH_RECORD_PATH = "./tokencache.bin";
 const readFileAsync = promisify(fs.readFile);
 const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH),{ encoding: "utf-8" });
@@ -1019,6 +1038,11 @@ Many credential implementations in the `@azure/identity` library have an underly
 The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
 ```
+import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+
+useIdentityExtension(cachePersistenceExtension);
+
   const options: InteractiveBrowserCredentialOptions =  {
     tokenCachePersistenceOptions: {
       enabled: true
@@ -1032,6 +1056,11 @@ The simplest way to persist the token data for a credential is to to use the def
 Some applications may prefer to isolate the token cache they use rather than using the shared instance. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
 
 ```
+import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+
+useIdentityExtension(cachePersistenceExtension);
+
   const options: InteractiveBrowserCredentialOptions =  {
     tokenCachePersistenceOptions: {
       enabled: true,
@@ -1046,6 +1075,11 @@ Some applications may prefer to isolate the token cache they use rather than usi
 By default the token cache will protect any data which is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
 
 ```
+import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+
+useIdentityExtension(cachePersistenceExtension);
+
  const options: InteractiveBrowserCredentialOptions =  {
     tokenCachePersistenceOptions: {
       enabled: true,
