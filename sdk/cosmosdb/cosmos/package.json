@@ -137,6 +137,7 @@
     "typescript": "~4.2.0"
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Cosmos DB",
     "productSlugs": [
       "azure-cosmos-db"
@@ -144,6 +145,5 @@
     "requiredResources": {
       "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
     },
-    "skipFolder": true
   }
 }
