@@ -77,7 +77,7 @@ const getServicePackages = (baseDir, serviceDirs) => {
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt" || contents["name"].startsWith("@azure-tests/perf")) {
+      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt" || contents["sdk-type"] === "perf-test") {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
