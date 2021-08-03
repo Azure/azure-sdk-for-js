@@ -265,7 +265,7 @@ export const tableEntityProperties: OperationParameter = {
     xmlName: "tableEntityProperties",
     type: {
       name: "Dictionary",
-      value: { type: { name: "any" } }
+      value: { type: { name: "Dictionary", value: { type: { name: "any" } } } }
     }
   }
 };

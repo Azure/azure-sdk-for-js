@@ -61,7 +61,7 @@ export interface TableEntityQueryResponse {
   /** The metadata response of the table. */
   odataMetadata?: string;
   /** List of table entities. */
-  value?: { [propertyName: string]: any }[];
+  value?: { [propertyName: string]: Record<string, unknown> }[];
 }
 
 /** A signed identifier. */
@@ -433,7 +433,7 @@ export interface QueryOptions {
 }
 
 /** Known values of {@link OdataMetadataFormat} that the service accepts. */
-export const enum KnownOdataMetadataFormat {
+export enum KnownOdataMetadataFormat {
   ApplicationJsonOdataNometadata = "application/json;odata=nometadata",
   ApplicationJsonOdataMinimalmetadata = "application/json;odata=minimalmetadata",
   ApplicationJsonOdataFullmetadata = "application/json;odata=fullmetadata"
@@ -443,7 +443,7 @@ export const enum KnownOdataMetadataFormat {
  * Defines values for OdataMetadataFormat. \
  * {@link KnownOdataMetadataFormat} can be used interchangeably with OdataMetadataFormat,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **application\/json;odata=nometadata** \
  * **application\/json;odata=minimalmetadata** \
  * **application\/json;odata=fullmetadata**
@@ -451,7 +451,7 @@ export const enum KnownOdataMetadataFormat {
 export type OdataMetadataFormat = string;
 
 /** Known values of {@link ResponseFormat} that the service accepts. */
-export const enum KnownResponseFormat {
+export enum KnownResponseFormat {
   ReturnNoContent = "return-no-content",
   ReturnContent = "return-content"
 }
@@ -460,14 +460,14 @@ export const enum KnownResponseFormat {
  * Defines values for ResponseFormat. \
  * {@link KnownResponseFormat} can be used interchangeably with ResponseFormat,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **return-no-content** \
  * **return-content**
  */
 export type ResponseFormat = string;
 
 /** Known values of {@link GeoReplicationStatusType} that the service accepts. */
-export const enum KnownGeoReplicationStatusType {
+export enum KnownGeoReplicationStatusType {
   Live = "live",
   Bootstrap = "bootstrap",
   Unavailable = "unavailable"
@@ -477,7 +477,7 @@ export const enum KnownGeoReplicationStatusType {
  * Defines values for GeoReplicationStatusType. \
  * {@link KnownGeoReplicationStatusType} can be used interchangeably with GeoReplicationStatusType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **live** \
  * **bootstrap** \
  * **unavailable**
@@ -552,7 +552,7 @@ export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
 
 /** Contains response data for the queryEntitiesWithPartitionAndRowKey operation. */
 export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
-  [propertyName: string]: any;
+  [propertyName: string]: Record<string, unknown>;
 };
 
 /** Optional parameters. */
@@ -565,7 +565,7 @@ export interface TableUpdateEntityOptionalParams
   /** The timeout parameter is expressed in seconds. */
   timeout?: number;
   /** The properties for the table entity. */
-  tableEntityProperties?: { [propertyName: string]: any };
+  tableEntityProperties?: { [propertyName: string]: Record<string, unknown> };
   /** Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found. */
   ifMatch?: string;
 }
@@ -583,7 +583,7 @@ export interface TableMergeEntityOptionalParams
   /** The timeout parameter is expressed in seconds. */
   timeout?: number;
   /** The properties for the table entity. */
-  tableEntityProperties?: { [propertyName: string]: any };
+  tableEntityProperties?: { [propertyName: string]: Record<string, unknown> };
   /** Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found. */
   ifMatch?: string;
 }
@@ -617,12 +617,12 @@ export interface TableInsertEntityOptionalParams
   /** The timeout parameter is expressed in seconds. */
   timeout?: number;
   /** The properties for the table entity. */
-  tableEntityProperties?: { [propertyName: string]: any };
+  tableEntityProperties?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Contains response data for the insertEntity operation. */
 export type TableInsertEntityResponse = TableInsertEntityHeaders & {
-  [propertyName: string]: any;
+  [propertyName: string]: Record<string, unknown>;
 };
 
 /** Optional parameters. */

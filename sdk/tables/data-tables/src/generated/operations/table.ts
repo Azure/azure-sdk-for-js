@@ -351,7 +351,12 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreClient.OperationSpec
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
       },
       headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyHeaders
     },
@@ -477,7 +482,12 @@ const insertEntityOperationSpec: coreClient.OperationSpec = {
   responses: {
     201: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
       },
       headersMapper: Mappers.TableInsertEntityHeaders
     },
