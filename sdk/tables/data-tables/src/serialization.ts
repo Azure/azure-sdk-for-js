@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
-import { Edm, EdmTypes, SignedIdentifier } from "./models";
+import { Edm as EdmModel, EdmTypes, SignedIdentifier } from "./models";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 import { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
 
@@ -145,7 +145,7 @@ export function deserialize<T extends object = Record<string, any>>(
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
         typedValue = getTypedObject(value, type, disableTypeConversion);
-      } else if(["number", "string"].includes(typeof value)) {
+      } else if (["number", "string"].includes(typeof value)) {
         // The service, doesn't return type metadata for number or strings
         // if automatic type conversion is disabled we'll infer the EDM object
         typedValue = inferTypedObject(key, value, disableTypeConversion);
@@ -157,9 +157,13 @@ export function deserialize<T extends object = Record<string, any>>(
   return deserialized;
 }
 
-function inferTypedObject(propertyName: string, value: number | string, disableTypeConversion: boolean) {
+function inferTypedObject(
+  propertyName: string,
+  value: number | string,
+  disableTypeConversion: boolean
+) {
   // Use value as is when typeConversion is enabled
-  if(!disableTypeConversion) {
+  if (!disableTypeConversion) {
     return value;
   }
 
@@ -174,20 +178,20 @@ function inferTypedObject(propertyName: string, value: number | string, disableT
 /**
  * Returns the number when typeConversion is enabled or the EDM object with the correct number format Double or Int32 if disabled
  */
-function getTypedNumber(value: number): Edm<"Double"> | Edm<"Int32"> | number {
-  const isDecimal = value % 1 != 0;
+function getTypedNumber(value: number): EdmModel<"Double"> | EdmModel<"Int32"> | number {
+  const isDecimal = value % 1 !== 0;
   if (isDecimal) {
-    return  { value, type: "Double" };
+    return { value, type: "Double" };
   } else {
     return { value, type: "Int32" };
   }
 }
 
 /**
- * Returns the string when typeConversion is enabled or the EDM<"String"> object if disabled
+ * Returns the string when typeConversion is enabled or the EDM\<\"String\"\> object if disabled
  */
-function getTypedString(value: string): Edm<"String"> | string {
- return {value, type: "String"};
+function getTypedString(value: string): EdmModel<"String"> | string {
+  return { value, type: "String" };
 }
 
 export function deserializeObjectsArray<T extends object>(
