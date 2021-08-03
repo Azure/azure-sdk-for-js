@@ -84,24 +84,19 @@ describe("TableCheckpointStore", function(): void {
         "green.servicebus.windows.net"
       ];
       const eventHubArray = ["redHub", "blueHub", "greenHub"];
+      const consumerConst = "$default"
       /* Checkpoint */
       const checkpoint_entity: CheckpointEntity = {
         partitionKey: "",
         rowKey: "",
-        consumerGroup: "$default",
-        fullyQualifiedNamespace: "",
-        eventHubName: "",
-        sequenceNumber: 0,
-        offset: 0,
-        partitionId: ""
+        sequencenumber: 0,
+        offset: 0
       };
       for (let i = 0; i < 3; ++i) {
-        checkpoint_entity.fullyQualifiedNamespace = namespaceArray[i];
-        checkpoint_entity.eventHubName = eventHubArray[i];
-        checkpoint_entity.sequenceNumber = 100 + i;
-        checkpoint_entity.partitionId = i.toString();
-        checkpoint_entity.rowKey = checkpoint_entity.partitionId;
-        checkpoint_entity.partitionKey= `${checkpoint_entity.fullyQualifiedNamespace} ${checkpoint_entity.eventHubName} ${checkpoint_entity.consumerGroup} Checkpoint`;
+        
+        checkpoint_entity.sequencenumber = 100 + i;
+        checkpoint_entity.rowKey = i.toString();
+        checkpoint_entity.partitionKey= `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`;
         checkpoint_entity.offset = 1023 + i;
         await client.createEntity(checkpoint_entity);
       }
@@ -110,21 +105,14 @@ describe("TableCheckpointStore", function(): void {
       const ownership_entity: PartitionOwnershipEntity = {
         partitionKey: "",
         rowKey: "",
-        consumerGroup: "$default",
-        fullyQualifiedNamespace: "",
-        eventHubName: "",
-        partitionId: "",
-        ownerId: "",
-        lastModifiedTimeInMs: 0
+        ownerid: ""
       };
 
       for (let i = 0; i < 3; ++i) {
-        ownership_entity.fullyQualifiedNamespace = namespaceArray[i];
-        ownership_entity.eventHubName = eventHubArray[i];
-        ownership_entity.partitionId = i.toString();
-        ownership_entity.rowKey = ownership_entity.partitionId;
-        ownership_entity.partitionKey = `${ownership_entity.fullyQualifiedNamespace} ${ownership_entity.eventHubName} ${ownership_entity.consumerGroup} Ownership`;
-        ownership_entity.ownerId = "Id" + i;
+       
+        ownership_entity.rowKey = i.toString();
+        ownership_entity.partitionKey = `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Ownership`;
+        ownership_entity.ownerid = "Id" + i;
 
         await client.createEntity(ownership_entity);
       }
@@ -155,6 +143,31 @@ describe("TableCheckpointStore", function(): void {
           );
           console.log(listCheckpoint);
         });
+      });
+
+      describe("claimOwnership", function() {
+        // these errors happen when we have multiple consumers starting up
+       // at the same time and load balancing amongst themselves. This is a
+      // normal thing and shouldn't be reported to the user.
+      it("claimOwnership ignores errors about etags", async () => {
+        const checkpointStore = new TableCheckpointStore(client);
+    
+        const originalClaimedOwnerships = await checkpointStore.claimOwnership([
+          {
+            partitionId: "0",
+            consumerGroup: "$default",
+            fullyQualifiedNamespace: "fqdn",
+            eventHubName: "ehname",
+            ownerId: "me"
+          }
+        ]);
+        const originalETag = originalClaimedOwnerships[0] && originalClaimedOwnerships[0].etag;
+        const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
+    newClaimedOwnerships.length.should.equal(1);
+    newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
+      });
+
+    
       });
 
       describe("updateCheckpoint", function() {
