@@ -450,6 +450,12 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   * Only valid if the key is marked exportable, which cannot be changed after key creation.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
