@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/synonymmaps(%27my-azure-synonymmap-1%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e67a592daf178b6cd5dcfdddf2655bb4d71f8d0c6c6a7441807fdf8f76de1d3c7d78fffee9de9383fbc70f8e8f3ffd7d3fa256cb6c91d3d78bebedec07eb3adf76b0b677e9ebf3aa5e6440aca9ca9afed6af1bfae4ab65d1e6b3f4759b11b2a334f833adced3e3455e17d32cfdec28fdeaf5f1efbbfc6ed6cc8be5455b2d47297e1fe39bef1e13d07c39adaf576d512d7faffcfaa347cb7559fe92ff072f88f4ef1c010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e67a592daf178b6cd5dcfdddf2655bb4d71f8d0c6c6a7441807fdf8f76de1d3c7d78ffd3ddd3fdddd383fd8387c7bfef47d46a992d72fa7a71bd9dfd605de7db0ed6f62e7d7d5ed58b0c88355559d3dffa75439f7cb52cda7c96be6e33427694067fa6d5797abcc8eb629aa59f1da55fbd3efe7d97dfcd9a79b1bc68abe528c5ef637cf3dd63029a2fa7f5f5aa2daae5ef955f7ff468b92ecb5ff2ff0084bca45f1c010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -19,13 +19,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D955E2B85A7AA6"',
+  'W/"0x8D9561E41E8489A"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'e733c251-4304-4ffa-89f7-0abded775fd2',
+  '1e161e12-a14b-44d1-b880-019f9404a332',
   'elapsed-time',
-  '8',
+  '7',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -33,15 +33,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 02 Aug 2021 18:24:13 GMT',
+  'Tue, 03 Aug 2021 01:30:25 GMT',
   'Content-Length',
   '334'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .put('/synonymmaps(%27my-azure-synonymmap-1%27)', {"name":"my-azure-synonymmap-1","format":"solr","synonyms":"United States, United States of America => USA\nWashington, Wash. => WA\nCalifornia, Clif. => CA","encryptionKey":null,"@odata.etag":"\"0x8D955E2B85A7AA6\""})
+  .put('/synonymmaps(%27my-azure-synonymmap-1%27)', {"name":"my-azure-synonymmap-1","format":"solr","synonyms":"United States, United States of America => USA\nWashington, Wash. => WA\nCalifornia, Clif. => CA","encryptionKey":null,"@odata.etag":"\"0x8D9561E41E8489A\""})
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e67a592daf178b6cd5dcfdddf2655bb4d71f8d0c6c6a7441807fdf8f76de1d3c7d78fffee9de93277bcff69f3e7bfafb7e44ad96d922a7af17d7dbd90fd675beed606defd2d7e755bdc88058539535fdad5f37f4c957cba2cd67e9eb3623644769f0675a9da7c78bbc2ea659fad951fad5ebe3df77f9ddac9917cb8bb65a8e52fc3ec637dfa52f4eb2b2a07e9645364a4fe857fee2e4987acb97d3fa7ad516d5f2f7caaf3f7ab45c97e52ff97f00b828bc3935010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e67a592daf178b6cd5dcfdddf2655bb4d71f8d0c6c6a7441807fdf8f76de1d3c7d78ffd3ddd3fdfd934f1fdebbf7e0f7fd885a2db3454e5f2faeb7b31faceb7cdbc1dadea5afcfab7a9101b1a62a6bfa5bbf6ee893af96459bcfd2d76d46c88ed2e0cfb43a4f8f17795d4cb3f4b3a3f4abd7c7bfeff2bb59332f96176db51ca5f87d8c6fbe4b5f9c646541fd2c8b6c949ed0affcc5c931f5962fa7f5f5aa2daae5ef955f7ff468b92ecb5ff2ff0028c1ead135010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -53,13 +53,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D955E2BB2F4DFD"',
+  'W/"0x8D9561E44C69337"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '428707a2-79ae-469b-8ced-6dba04850f12',
+  'e7c914f4-d979-4842-acd8-75b81bf71e15',
   'elapsed-time',
-  '17',
+  '16',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -67,7 +67,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 02 Aug 2021 18:24:13 GMT',
+  'Tue, 03 Aug 2021 01:30:25 GMT',
   'Content-Length',
   '351'
 ]);
@@ -75,7 +75,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/synonymmaps(%27my-azure-synonymmap-1%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e67a592daf178b6cd5dcfdddf2655bb4d71f8d0c6c6a7441807fdf8f76de1d3c7d78fffee9de93277bcff69f3e7bfafb7e44ad96d922a7af17d7dbd90fd675beed606defd2d7e755bdc88058539535fdad5f37f4c957cba2cd67e9eb3623644769f0675a9da7c78bbc2ea659fad951fad5ebe3df77f9ddac9917cb8bb65a8e52fc3ec637dfa52f4eb2b2a07e9645364a4fe857fee2e4987acb97d3fa7ad516d5f2f7caaf3f7ab45c97e52ff97f00b828bc3935010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e67a592daf178b6cd5dcfdddf2655bb4d71f8d0c6c6a7441807fdf8f76de1d3c7d78ffd3ddd3fdfd934f1fdebbf7e0f7fd885a2db3454e5f2faeb7b31faceb7cdbc1dadea5afcfab7a9101b1a62a6bfa5bbf6ee893af96459bcfd2d76d46c88ed2e0cfb43a4f8f17795d4cb3f4b3a3f4abd7c7bfeff2bb59332f96176db51ca5f87d8c6fbe4b5f9c646541fd2c8b6c949ed0affcc5c931f5962fa7f5f5aa2daae5ef955f7ff468b92ecb5ff2ff0028c1ead135010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -87,13 +87,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D955E2BB2F4DFD"',
+  'W/"0x8D9561E44C69337"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '3d4833b0-e9b6-435b-ae01-d6bf3f2ecbc0',
+  'a9f832e6-fc7b-4a39-bcdf-bf698495c339',
   'elapsed-time',
-  '5',
+  '6',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -101,7 +101,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 02 Aug 2021 18:24:13 GMT',
+  'Tue, 03 Aug 2021 01:30:25 GMT',
   'Content-Length',
   '351'
 ]);

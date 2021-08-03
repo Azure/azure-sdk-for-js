@@ -19,9 +19,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '5dcc87fc-7363-4f71-a28a-069d246ad6ad',
+  'da429407-b2cb-4d52-acd0-42784ec65bbc',
   'elapsed-time',
-  '18',
+  '16',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -29,7 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 02 Aug 2021 18:24:50 GMT',
+  'Tue, 03 Aug 2021 01:31:01 GMT',
   'Content-Length',
   '110'
 ]);

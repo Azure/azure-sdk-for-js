@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexes(%27hotel-live-test3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1fdebf7fba77f270eff4f878e7e0f7fd885a2db3454e5fcfab362fb7cbe232df46b7f7e89b597e9eadcbf6f5b4aa8be5c5cbba3a2f4a6aba5c97e5e8a3f3222f67cd478fbef78b0d846246efb4d72bfc7e3a5b8c5fb7788d3e13b4b3095e3ecfca26c7db659bd7c147754eedf34bf9acadd7f45153d5adfcad6dceb3298dc6ffe46d7e6d5a33018e975979fd83bc36684adfdd4fb3cedfcbaa5e6465e17dd25c2fabe5f5e28b6c85317eff978cec30b3abbca916f9326f9ae7f9655ed200bd413fadd6408f0070c701aefea005e58d6396bfbd21cb073c6285f8431af22c6fa675b16a8b6a4923f3461b9d6241d31fac62bb71b4dac61bae7ef27332de362bca86c6e58df5a45aaccafcdd1b7c4278f6d89fa4cc7be3a42acb7c0a8a6de16521d41dfa5eb095110a0dfebf47299f56f36236cb97dfcd8b8b794bc3d3e163cc67cbf6de1e7d24bd0698de3464fdecff5563a68f0245c81f8f3ea2cf9a2f5934e8037d757d71412a34afe91334319de99fae2ffda0addee6cbeedfcf9844fa0991af0e3ec897d3fa9a7bfdbd4000edb75814655643f93fb2564527e4c7bf28a675d554e7edf8f807eb3a1fbf66ba8c9f7cb177ffb57b8f08ba6bc04de4975ff24bfe1f8fa8ca33a2060000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1fdeff74f7f4fedec9a79feeefecffbe1f51ab65b6c8e9eb79d5e6e576595ce6dbe8f61e7d33cbcfb375d9be9e5675b1bc785957e745494d97ebb21c7d745ee4e5acf9e8d1f77eb18150cce89df67a85df4f678bf1eb16afd167827636c1cbe759d9e478bb6cf33af8a8cea97d7e299fb5f59a3e6aaaba95bfb5cd7936a5d1f89fbccdaf4d6b26c0f1322baf7f90d7064de9bbfb69d6f97b59d58bac2cbc4f9aeb65b5bc5e7c91ad30c6efff92911d66769537d5225fe64df33cbfcc4b1aa037e8a7d51ae81100ee38c0d51fb4a0bc71ccf2b73764f98047ac107f48439ee5cdb42e566d512d6964de68a3532c68fa83556c378e56db78c3d54f7e4ec6db6645d9d0b8bcb19e548b5599bf7b834f08cf1efb9394796f9c5465994f41b12dbc2c84ba43df0bb63242a1c1fff728e5d36a5ecc66f9f2bb7971316f69783a7c8cf96cd9dedba38fa4d700d39b86ac9ffdbf6accf451a008f9e3d147f459f3258b067da0afae2f2e4885e6357d8226a633fdd3f5a51fb4d5db7cd9fdfb1993483f21f2d5c107f9725a5f73afbf1708a0fd168ba2cc6a28ff47d6aae884fcf817c5b4ae9aeabc1d1fff605de7e3d74c97f1932ff6eebf76ef1141770db889fcf24b7ec9ff03ce32a982a2060000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -19,11 +19,11 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D955E2C92EAA08"',
+  'W/"0x8D9561E52C66404"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '1bd216a4-5901-45b7-aa1f-eb0696707eb1',
+  '739fdeb3-2c9d-43ad-bea4-43c9dadc14ee',
   'elapsed-time',
   '18',
   'OData-Version',
@@ -33,7 +33,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 02 Aug 2021 18:24:41 GMT',
+  'Tue, 03 Aug 2021 01:30:52 GMT',
   'Content-Length',
-  '655'
+  '656'
 ]);
