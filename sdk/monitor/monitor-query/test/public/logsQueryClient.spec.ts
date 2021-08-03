@@ -15,17 +15,17 @@ import {
   loggerForTest
 } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
-import { RestError, RetryOptions } from "@azure/core-http";
+import { ExponentialRetryPolicyOptions, RestError } from "@azure/core-rest-pipeline";
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let createClient: (retryOptions?: RetryOptions) => LogsQueryClient;
+  let createClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
   let testRunId: string;
 
   before(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
 
-    createClient = (retryOptions?: RetryOptions) =>
+    createClient = (retryOptions?: ExponentialRetryPolicyOptions) =>
       new LogsQueryClient(createTestClientSecretCredential(), {
         retryOptions
       });

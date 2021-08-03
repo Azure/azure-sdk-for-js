@@ -132,6 +132,7 @@ export class InternalTableTransaction {
   };
   private interceptClient: TableClientLike;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
+  private allowInsecureConnection: boolean;
 
   /**
    * @param url - Tables account url
@@ -144,11 +145,13 @@ export class InternalTableTransaction {
     transactionId: string,
     changesetId: string,
     interceptClient: TableClientLike,
-    credential?: NamedKeyCredential | SASCredential | TokenCredential
+    credential?: NamedKeyCredential | SASCredential | TokenCredential,
+    allowInsecureConnection: boolean = false
   ) {
     this.credential = credential;
     this.url = url;
     this.interceptClient = interceptClient;
+    this.allowInsecureConnection = allowInsecureConnection;
 
     // Initialize Reset-able properties
     this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
@@ -291,7 +294,8 @@ export class InternalTableTransaction {
       method: "POST",
       body,
       headers: createHttpHeaders(headers),
-      tracingOptions: updatedOptions.tracingOptions
+      tracingOptions: updatedOptions.tracingOptions,
+      allowInsecureConnection: this.allowInsecureConnection
     });
 
     if (isNamedKeyCredential(this.credential)) {
