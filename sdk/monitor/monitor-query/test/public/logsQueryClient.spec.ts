@@ -83,6 +83,7 @@ describe("LogsQueryClient live tests", function() {
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
         Durations.last24Hours,
+        [],
         {
           // the query above easily takes longer than 1 second.
           serverTimeoutInSeconds: 1
@@ -123,6 +124,7 @@ describe("LogsQueryClient live tests", function() {
       monitorWorkspaceId,
       "AppEvents | limit 1",
       Durations.last24Hours,
+      [],
       {
         includeQueryStatistics: true
       }
@@ -139,6 +141,7 @@ describe("LogsQueryClient live tests", function() {
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
       Durations.last24Hours,
+      [],
       {
         includeVisualization: true
       }
@@ -253,7 +256,7 @@ describe("LogsQueryClient live tests", function() {
     const result = await createClient().queryLogsBatch({
       queries: [
         {
-          workspace: monitorWorkspaceId,
+          workspaceId: monitorWorkspaceId,
           query: constantsQuery,
           timespan: Durations.last5Minutes
         }
@@ -393,12 +396,12 @@ describe("LogsQueryClient live tests", function() {
       const batchRequest: QueryLogsBatch = {
         queries: [
           {
-            workspace: monitorWorkspaceId,
+            workspaceId: monitorWorkspaceId,
             query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
             timespan: Durations.last24Hours
           },
           {
-            workspace: monitorWorkspaceId,
+            workspaceId: monitorWorkspaceId,
             query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
             timespan: Durations.last24Hours,
             includeQueryStatistics: true,

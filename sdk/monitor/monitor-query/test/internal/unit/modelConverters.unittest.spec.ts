@@ -42,7 +42,7 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "the kusto query",
-            workspace: "the primary workspace id",
+            workspaceId: "the primary workspace id",
             timespan: Durations.last24Hours
           }
         ]
@@ -68,19 +68,17 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "<placeholder>",
-            workspace: "<placeholder>",
+            workspaceId: "<placeholder>",
             timespan: Durations.last24Hours
           },
           {
             azureResourceIds: ["resourceId1"],
             includeQueryStatistics: true,
-            qualifiedNames: ["qualifiedName"],
             query: "the kusto query",
             serverTimeoutInSeconds: 100,
             timespan: Durations.last5Minutes,
-            workspace: "the primary workspace id",
-            workspaceIds: ["additionalWorkspaceId"],
-            workspaces: ["additionalWorkspace"]
+            workspaceId: "the primary workspace id",
+            additionalWorkspaces: ["additionalWorkspace"]
           }
         ]
       });
