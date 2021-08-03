@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '254a8a73-4200-46d5-8043-c75507330600',
+  '8bcba4dd-a545-48cd-9176-698d7e6cc900',
   'x-ms-ests-server',
-  '2.1.11829.8 - SCUS ProdSlices',
+  '2.1.11898.12 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1CgAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:34:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1CgAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:02:33 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr6TWOHkS9wjVMgYGIL_8c8PwBcLEn4DK2NQ0IPNa63XAnE4oeYC4kGYeq8B-0ywaFg0JLLozQYu-AX9yKqk9CIsp8C_GNug_HlTRwWA_frLz5Mz9jYg7p8Kt2_5Ti5qMd5ESQtkUEnuaii7GuseARVhNLm7_RaWMqtdIv_chyozogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevriy5FwmVoyfkrdc0OTKWN1E6bY7rFI2y17tgMVOj0yoD65ZTXrNSi1rRCDBm6KCubLWtjw98IDLN6Whs3h671WfmnYnIuRGfkCR-VVWsbJhzFYnwqxj-X6GZMU9BWvrZevRiRtlaE_moBiCTNNRfM7c-NRLdKuZLg-phDl_Q_NkcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:34:21 GMT',
+  'Tue, 03 Aug 2021 03:02:32 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b7dd8c02-11f5-499e-bdfc-a9fddbd17400',
+  'cfe987c4-3513-4f29-b59f-1e2e3e54dc00',
   'x-ms-ests-server',
-  '2.1.11829.9 - SCUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1CgAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:34:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1CgAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:02:33 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrBYLVysUPWRRUcp0LU6zJdXlti1W4E-2OtsWbZ60QaI4dDzuZx9U1CHizhuR73j1ty4OgzigscjpnH7jSXPyeGEPPCz9Wc0MViB0Ni7-X64jKiVXjensRvsiehgAvaExlPwMYdxtnrHwI7eFkji2ZuYdUzF1kd4Tq0S-aQVZKMe0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr6uM4x0l_6I9NW7m3Nk5YtEcPlq43TlqDYGc259ojF3auEi_oH2YHrSxc2BDgg4NV4eNaDVa8wqBEerke0dvAa3rywSnNT3DGZABVt7P9En_NtNfFgJvB2e4H95R6UmitqFPIPUwOT8lR1agTsL9zfeRxwi3Ch-8W1qTi2MKBWRUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:34:21 GMT',
+  'Tue, 03 Aug 2021 03:02:32 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=d1724a6f-0065-4d12-9115-4fe93f8080ec&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=10579de8-90cf-4c0e-9378-5ea688a69340&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,25 +93,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8fe8fb0d-d1a1-431d-a7c5-a9190d656900',
+  'f0ca3e67-4d93-4045-9b4f-8b7380a2df00',
   'x-ms-ests-server',
-  '2.1.11829.9 - SCUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1CgAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:34:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1CgAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:02:33 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:34:21 GMT',
+  'Tue, 03 Aug 2021 03:02:32 GMT',
   'Content-Length',
   '1331'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/recognition/general', {"documents":[{"id":"0","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"1","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"2","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"3","text":"I didn't like the last book I read at all.","language":"en"}]})
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.2-preview.1/entities/recognition/general', {"documents":[{"id":"0","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"1","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"2","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"3","text":"I didn't like the last book I read at all.","language":"en"}]})
   .query(true)
   .reply(200, {"documents":[{"id":"0","entities":[{"text":"trip","category":"Event","offset":18,"length":4,"confidenceScore":0.65},{"text":"Seattle","category":"Location","subcategory":"GPE","offset":26,"length":7,"confidenceScore":1},{"text":"last week","category":"DateTime","subcategory":"DateRange","offset":34,"length":9,"confidenceScore":0.8},{"text":"Space Needle","category":"Location","offset":65,"length":12,"confidenceScore":0.95},{"text":"2","category":"Quantity","subcategory":"Number","offset":78,"length":1,"confidenceScore":0.8}],"warnings":[]},{"id":"1","entities":[{"text":"trip","category":"Event","offset":42,"length":4,"confidenceScore":0.79},{"text":"Seattle","category":"Location","subcategory":"GPE","offset":50,"length":7,"confidenceScore":1},{"text":"Space Needle","category":"Location","offset":90,"length":12,"confidenceScore":0.94}],"warnings":[]},{"id":"2","entities":[{"text":"Saturday","category":"DateTime","subcategory":"Date","offset":25,"length":8,"confidenceScore":0.8}],"warnings":[]},{"id":"3","entities":[{"text":"book","category":"Product","offset":23,"length":4,"confidenceScore":0.93}],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}, [
   'Transfer-Encoding',
@@ -121,13 +121,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4',
   'x-envoy-upstream-service-time',
-  '129',
+  '45',
   'apim-request-id',
-  '63814f5e-edf4-4deb-b7bd-83f4ca7db533',
+  '2a85441c-f5c6-41b7-9941-1b20f3028e5c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:34:22 GMT'
+  'Tue, 03 Aug 2021 03:02:32 GMT'
 ]);

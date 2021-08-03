@@ -1023,7 +1023,6 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                     assert.isDefined(result.sentences);
                     assert.equal(result.sentences.length, maxSentenceCount);
                     for (const sentence of result.sentences) {
-                      console.log(sentence.text);
                       assert.isDefined(sentence.text);
                       assert.isDefined(sentence.rankScore);
                       assert.isDefined(sentence.offset);
@@ -2292,10 +2291,9 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
         it("too many documents", async function() {
           const docs = Array(11).fill("random text");
           try {
-            const response = await client.beginAnalyzeHealthcareEntities(docs, "en", {
+            await client.beginAnalyzeHealthcareEntities(docs, "en", {
               updateIntervalInMs: pollingInterval
             });
-            console.log(response);
             assert.fail("Oops, an exception didn't happen.");
           } catch (e) {
             assert.equal(e.statusCode, 400);

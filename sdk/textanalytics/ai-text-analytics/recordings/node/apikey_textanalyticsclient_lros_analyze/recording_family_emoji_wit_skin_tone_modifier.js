@@ -4,29 +4,29 @@ module.exports.hash = "586a571f3405fc4a91192c8057f26eba";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987","language":"en"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"UnicodeCodePoint"}}]}})
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.2-preview.1/analyze', {"analysisInput":{"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987","language":"en"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"UnicodeCodePoint"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b',
+  'https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce',
   'x-envoy-upstream-service-time',
-  '214',
+  '133',
   'apim-request-id',
-  'f4ac1d59-c97a-432a-b7b6-3e47b68912d6',
+  'bdb0a130-5519-4fff-9b84-74b89ade1fb0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:21 GMT'
+  'Tue, 03 Aug 2021 03:14:43 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
   .query(true)
-  .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:44Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -34,111 +34,131 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  '945cd6f6-f524-4c4a-bf69-2d9ba91daa00',
+  'f18bd171-6ef1-49bb-8872-1a0425b22d0f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:21 GMT'
+  'Tue, 03 Aug 2021 03:14:43 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
   .query(true)
-  .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:44Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '7',
   'apim-request-id',
-  '473d75e1-3f0e-42db-8818-5070d8cb158a',
+  'c4b2a30a-fb7e-4bf7-ba02-657ba25853be',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:21 GMT'
+  'Tue, 03 Aug 2021 03:14:43 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
   .query(true)
-  .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:44Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '44',
+  '7',
   'apim-request-id',
-  '81b49ed4-d2a5-48aa-a102-31d0924e78b0',
+  '527f47b1-4140-445f-927e-ec550e1b0bfa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:23 GMT'
+  'Tue, 03 Aug 2021 03:14:45 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
   .query(true)
-  .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:21Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:46Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '17',
+  '7',
   'apim-request-id',
-  'dfe31c3b-324a-4d8e-88be-09ca06fe6bb0',
+  'a8e445d9-6f3f-4f26-bc47-ca4e71ec003e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:25 GMT'
+  'Tue, 03 Aug 2021 03:14:47 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
   .query(true)
-  .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:27Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:55:27.0427821Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":17,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:46Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '45',
+  '7',
   'apim-request-id',
-  '9b7977d0-bc85-4e54-bb35-fce49d6fa1c9',
+  'a10dde33-b3ad-4a79-a081-d5c4ac90431a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:27 GMT'
+  'Tue, 03 Aug 2021 03:14:49 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/5668b7cf-1841-432f-9b38-69fb0af8fd2b')
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
   .query(true)
-  .reply(200, {"jobId":"5668b7cf-1841-432f-9b38-69fb0af8fd2b","lastUpdateDateTime":"2021-06-25T19:55:27Z","createdDateTime":"2021-06-25T19:55:21Z","expirationDateTime":"2021-06-26T19:55:21Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:55:27.0427821Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":17,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:52Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-08-03T03:14:52.6265758Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":17,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '54',
+  '50',
   'apim-request-id',
-  '3afc8c4f-13dd-4af7-9f89-be99212bee13',
+  '37b69c9a-6099-4bb7-832e-9f1a78faa77d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:55:28 GMT'
+  'Tue, 03 Aug 2021 03:14:51 GMT'
+]);
+
+nock('https://endpoint/:443', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/bb05911e-1873-4888-98e8-147c0de1e0ce')
+  .query(true)
+  .reply(200, {"jobId":"bb05911e-1873-4888-98e8-147c0de1e0ce","lastUpdateDateTime":"2021-08-03T03:14:52Z","createdDateTime":"2021-08-03T03:14:44Z","expirationDateTime":"2021-08-04T03:14:44Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-08-03T03:14:52.6265758Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":17,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '50',
+  'apim-request-id',
+  '817bd0e7-d732-4a0e-92e0-758ab2dd1daa',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 03 Aug 2021 03:14:52 GMT'
 ]);
