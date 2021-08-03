@@ -4,27 +4,23 @@
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { odata, TableClient } from "@azure/data-tables";
 
-
-/** 
+/**
  * @internal
  * @hidden
-*/
+ */
 export interface CustomCheckpoint extends Checkpoint {
   partitionKey: string;
   rowKey: string;
 }
 
-
-/** 
+/**
  * @internal
  * @hidden
-*/
+ */
 export interface CustomPartition extends PartitionOwnership {
   partitionKey: string;
   rowKey: string;
-
 }
-
 
 /**
  * An implementation of CheckpointStore that uses Azure Table Storage to persist checkpoint data.
@@ -93,11 +89,11 @@ export class TableCheckpointStore implements CheckpointStore {
       const curr_ownership = {
         partitionKey: partition_Key,
         rowKey: ownership.partitionId,
-        lastModifiedTimeInMs : ownership.lastModifiedTimeInMs,
-        etag : ownership.etag
+        lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
+        etag: ownership.etag
       };
 
-      const ownershipEntity : CustomPartition = {
+      const ownershipEntity: CustomPartition = {
         partitionKey: partition_Key,
         rowKey: curr_ownership.rowKey,
         consumerGroup: ownership.consumerGroup,
@@ -118,24 +114,22 @@ export class TableCheckpointStore implements CheckpointStore {
       }
       if (k > 0) {
         let ownerships: PartitionOwnership[] = [];
-      ownerships = await this.listOwnership(
-        ownership.fullyQualifiedNamespace,
-        ownership.eventHubName,
-        ownership.consumerGroup );
+        ownerships = await this.listOwnership(
+          ownership.fullyQualifiedNamespace,
+          ownership.eventHubName,
+          ownership.consumerGroup
+        );
         for (const own of ownerships) {
           if (own.etag === ownership.etag) {
             await this._tableClient.updateEntity(curr_ownership);
-          partitionOwnershipArray.push(ownership);
+            partitionOwnershipArray.push(ownership);
+          } else {
+            await this._tableClient.upsertEntity(ownershipEntity);
+          }
         }
-        else {
-           await this._tableClient.upsertEntity(ownershipEntity);
-        }
+      } else {
+        await this._tableClient.upsertEntity(ownershipEntity);
       }
-    }
-    else {
-      await this._tableClient.upsertEntity(ownershipEntity);
-    }
-      
     }
     return partitionOwnershipArray;
   }
@@ -155,7 +149,7 @@ export class TableCheckpointStore implements CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string
-  ):Promise<Checkpoint[]> {
+  ): Promise<Checkpoint[]> {
     const partition_Key = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
 
@@ -186,9 +180,9 @@ export class TableCheckpointStore implements CheckpointStore {
    *  - `tracingOptions`: Options for configuring tracing.
    * @returns A promise that resolves when the checkpoint has been updated.
    */
-  async updateCheckpoint(checkpoint: Checkpoint):Promise<void> {
+  async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
-    const checkpointEntity : CustomCheckpoint = {
+    const checkpointEntity: CustomCheckpoint = {
       partitionKey: partition_Key,
       rowKey: checkpoint.partitionId,
       consumerGroup: checkpoint.consumerGroup,
@@ -199,7 +193,6 @@ export class TableCheckpointStore implements CheckpointStore {
       partitionId: checkpoint.partitionId
     };
 
-    
     const entitiesIter = this._tableClient.listEntities<Checkpoint>({
       queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });

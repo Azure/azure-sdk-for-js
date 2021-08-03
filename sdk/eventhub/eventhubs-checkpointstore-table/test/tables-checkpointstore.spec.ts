@@ -6,15 +6,12 @@ const should = chai.should();
 import { TableCheckpointStore } from "../src";
 import { Checkpoint } from "@azure/event-hubs";
 
-
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
 import { CustomCheckpoint, CustomPartition } from "../src/tableCheckpointStore";
 
 const env = getEnvVars();
 dotenv.config();
-
- 
 
 /* test to show that test framework is set up well */
 describe("TableCheckpointStore", () => {
@@ -46,11 +43,10 @@ describe("TableCheckpointStore", function(): void {
   describe("Runs tests on table with no entities", function() {
     table_name = `table${new Date().getTime()}`;
     beforeEach("creating table", async () => {
-      
       await serviceClient.createTable(table_name);
     });
 
-     client = new TableClient(
+    client = new TableClient(
       `https://${service.storageAccountName}.table.core.windows.net`,
       table_name,
       credential
@@ -143,7 +139,6 @@ describe("TableCheckpointStore", function(): void {
           " " +
           "Ownership";
         ownership_entity.ownerId = "Id" + i;
-        
 
         await client.createEntity(ownership_entity);
       }
@@ -230,7 +225,7 @@ describe("TableCheckpointStore", function(): void {
           console.log(checkpoints);
           checkpoints.length.should.equal(3);
           checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
-          for ( i = 0; i < 3; ++i) {
+          for (i = 0; i < 3; ++i) {
             const checkpoint = checkpoints[i];
 
             checkpoint.partitionId.should.equal(i.toString());
