@@ -86,14 +86,14 @@ describe("TableCheckpointStore", function(): void {
       const eventHubArray = ["redHub", "blueHub", "greenHub"];
       /* Checkpoint */
       const checkpoint_entity: CheckpointEntity = {
-        partitionKey: "0",
-        rowKey: "0",
+        partitionKey: "",
+        rowKey: "",
         consumerGroup: "$default",
         fullyQualifiedNamespace: "",
         eventHubName: "",
         sequenceNumber: 0,
         offset: 0,
-        partitionId: "0"
+        partitionId: ""
       };
       for (let i = 0; i < 3; ++i) {
         checkpoint_entity.fullyQualifiedNamespace = namespaceArray[i];
@@ -101,14 +101,7 @@ describe("TableCheckpointStore", function(): void {
         checkpoint_entity.sequenceNumber = 100 + i;
         checkpoint_entity.partitionId = i.toString();
         checkpoint_entity.rowKey = checkpoint_entity.partitionId;
-        checkpoint_entity.partitionKey =
-          checkpoint_entity.eventHubName +
-          " " +
-          checkpoint_entity.fullyQualifiedNamespace +
-          " " +
-          checkpoint_entity.consumerGroup +
-          " " +
-          "Checkpoint";
+        checkpoint_entity.partitionKey= `${checkpoint_entity.fullyQualifiedNamespace} ${checkpoint_entity.eventHubName} ${checkpoint_entity.consumerGroup} Checkpoint`;
         checkpoint_entity.offset = 1023 + i;
         await client.createEntity(checkpoint_entity);
       }
@@ -130,14 +123,7 @@ describe("TableCheckpointStore", function(): void {
         ownership_entity.eventHubName = eventHubArray[i];
         ownership_entity.partitionId = i.toString();
         ownership_entity.rowKey = ownership_entity.partitionId;
-        ownership_entity.partitionKey =
-          ownership_entity.eventHubName +
-          " " +
-          ownership_entity.fullyQualifiedNamespace +
-          " " +
-          ownership_entity.consumerGroup +
-          " " +
-          "Ownership";
+        ownership_entity.partitionKey = `${ownership_entity.fullyQualifiedNamespace} ${ownership_entity.eventHubName} ${ownership_entity.consumerGroup} Ownership`;
         ownership_entity.ownerId = "Id" + i;
 
         await client.createEntity(ownership_entity);
