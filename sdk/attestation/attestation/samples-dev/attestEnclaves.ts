@@ -256,7 +256,7 @@ async function attestOpenEnclaveWithRuntimeJson() {
 
   // While authentication is optional for the AttestationClient, you CAN provide
   // client credentials if desired.
-  const client = new AttestationClient(endpoint, { credentials: new DefaultAzureCredential() });
+  const client = new AttestationClient(endpoint, new DefaultAzureCredential());
 
   const openEnclaveReport = decodeString(_openEnclaveReport);
 

@@ -41,7 +41,7 @@ async function getOpenIdMetadata() {
   }
 
   console.log("Retrieve OpenID metadata from: ", endpoint);
-  const client = new AttestationClient(endpoint, { credentials: new DefaultAzureCredential() });
+  const client = new AttestationClient(endpoint);
 
   const defaultOpenIdMetadata = await client.getOpenIdMetadata();
 
@@ -73,7 +73,7 @@ async function getSigningCertificates() {
   }
 
   console.log("Retrieve attestation signing certificates for: ", endpoint);
-  const client = new AttestationClient(endpoint, { credentials: new DefaultAzureCredential() });
+  const client = new AttestationClient(endpoint, new DefaultAzureCredential());
 
   const attestationSigners = await client.getAttestationSigners();
 
