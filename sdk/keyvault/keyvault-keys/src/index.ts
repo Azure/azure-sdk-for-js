@@ -473,7 +473,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeyClient(url, credentials);
+   * let client = new KeyClient(vaultUrl, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKeyProperties(keyName, key.properties.version, { enabled: false });
    * ```
@@ -488,16 +488,14 @@ export class KeyClient {
     options?: UpdateKeyPropertiesOptions
   ): Promise<KeyVaultKey>;
   /**
-   * The updateKeyProperties method changes specified properties of an existing stored key. Properties that
+   * The updateKeyProperties method changes specified properties of the latest version of an existing stored key. Properties that
    * are not specified in the request are left unchanged. The value of a key itself cannot be
    * changed. This operation requires the keys/set permission.
-   *
-   * This overload updates the unversioned key's properties.
    *
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeyClient(url, credentials);
+   * let client = new KeyClient(vaultUrl, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKeyProperties(keyName, { enabled: false });
    * ```
@@ -546,10 +544,10 @@ export class KeyClient {
     args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
   ): [string, string, UpdateKeyPropertiesOptions] {
     if (typeof args[1] === "string") {
-      // [name, keyVersion, options]
+      // [name, keyVersion, options?] => [name, keyVersion, options || {}]
       return [args[0], args[1], args[2] || {}];
     } else {
-      // [name, options]
+      // [name, options?] => [name , "", options || {}]
       return [args[0], "", args[1] || {}];
     }
   }
