@@ -3,6 +3,7 @@
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { odata, TableClient } from "@azure/data-tables";
+import { logger, logErrorStackTrace } from "./log";
 
 /**
  * Adds the fields partitionkey and rowkey to Checkpoint in order for checkpoints to be stored in the table as entities
@@ -184,7 +185,7 @@ export class TableCheckpointStore implements CheckpointStore {
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
-    const checkpointEntity: CheckpointEntity = {
+    const checkpointEntity = {
       partitionKey: partition_Key,
       rowKey: checkpoint.partitionId,
       consumerGroup: checkpoint.consumerGroup,
@@ -194,34 +195,20 @@ export class TableCheckpointStore implements CheckpointStore {
       offset: checkpoint.offset,
       partitionId: checkpoint.partitionId
     };
-
-    const entitiesIter = this._tableClient.listEntities<Checkpoint>({
-      queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
-    });
-    let i = 0;
-    for await (const ent of entitiesIter) {
-      ent.offset = 0;
-      i++;
-    }
-
-    if (i > 0) {
-      let checkpoints: Checkpoint[] = [];
-      checkpoints = await this.listCheckpoints(
-        checkpoint.fullyQualifiedNamespace,
-        checkpoint.eventHubName,
-        checkpoint.consumerGroup
-      );
-      for (const checkpnt of checkpoints) {
-        if (checkpnt.partitionId === checkpoint.partitionId) {
-          await this._tableClient.updateEntity(checkpointEntity);
-        } else {
-          await this._tableClient.upsertEntity(checkpointEntity);
-        }
-      }
-    } else {
+    try {
       await this._tableClient.upsertEntity(checkpointEntity);
+      logger.verbose(
+        `Updated checkpoint successfully for partition: ${checkpoint.partitionId}`
+      );
+      return;
     }
-
-    return;
+    catch (err) {
+      logger.warning(
+        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
+        err.message
+      );
+      logErrorStackTrace(err);
+    }
+    
   }
 }
