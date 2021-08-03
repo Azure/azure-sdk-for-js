@@ -536,8 +536,7 @@ export class KeyClient {
    * Standardizes an overloaded arguments collection for the updateKeyProperties method.
    *
    * @param args - The arguments collection.
-   *
-   * @returns - The standardized arguments collection `[name, version (set to empty string for latest version), options (or an empty object if not passed in)]`.
+   * @returns - The standardized arguments collection.
    * @internal
    */
   private disambiguateUpdateKeyPropertiesArgs(
