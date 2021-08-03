@@ -8,7 +8,7 @@ import { Checkpoint } from "@azure/event-hubs";
 
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
-import { CustomCheckpoint, CustomPartition } from "../src/tableCheckpointStore";
+import { CheckpointEntity, PartitionOwnershipEntity } from "../src/tableCheckpointStore";
 
 const env = getEnvVars();
 dotenv.config();
@@ -85,7 +85,7 @@ describe("TableCheckpointStore", function(): void {
       ];
       const eventHubArray = ["redHub", "blueHub", "greenHub"];
       /* Checkpoint */
-      const checkpoint_entity: CustomCheckpoint = {
+      const checkpoint_entity: CheckpointEntity = {
         partitionKey: "0",
         rowKey: "0",
         consumerGroup: "$default",
@@ -114,7 +114,7 @@ describe("TableCheckpointStore", function(): void {
       }
 
       /* Ownership */
-      const ownership_entity: CustomPartition = {
+      const ownership_entity: PartitionOwnershipEntity = {
         partitionKey: "",
         rowKey: "",
         consumerGroup: "$default",

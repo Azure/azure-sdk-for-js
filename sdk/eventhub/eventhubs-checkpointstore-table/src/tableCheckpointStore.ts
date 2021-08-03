@@ -5,19 +5,21 @@ import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hu
 import { odata, TableClient } from "@azure/data-tables";
 
 /**
+ * Adds the fields partitionkey and rowkey to Checkpoint in order for checkpoints to be stored in the table as entities
  * @internal
  * @hidden
  */
-export interface CustomCheckpoint extends Checkpoint {
+export interface CheckpointEntity extends Checkpoint {
   partitionKey: string;
   rowKey: string;
 }
 
 /**
+ * Adds the fields partitionkey and rowkey to PartitionOwnership in order for ownerships to be stored in the table as entities
  * @internal
  * @hidden
  */
-export interface CustomPartition extends PartitionOwnership {
+export interface PartitionOwnershipEntity extends PartitionOwnership {
   partitionKey: string;
   rowKey: string;
 }
@@ -93,7 +95,7 @@ export class TableCheckpointStore implements CheckpointStore {
         etag: ownership.etag
       };
 
-      const ownershipEntity: CustomPartition = {
+      const ownershipEntity: PartitionOwnershipEntity = {
         partitionKey: partition_Key,
         rowKey: curr_ownership.rowKey,
         consumerGroup: ownership.consumerGroup,
@@ -104,7 +106,7 @@ export class TableCheckpointStore implements CheckpointStore {
         ownerId: ownership.ownerId,
         partitionId: ownership.partitionId
       };
-      const entitiesIter = this._tableClient.listEntities<CustomPartition>({
+      const entitiesIter = this._tableClient.listEntities<PartitionOwnershipEntity>({
         queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
       });
       let k = 0;
@@ -182,7 +184,7 @@ export class TableCheckpointStore implements CheckpointStore {
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
-    const checkpointEntity: CustomCheckpoint = {
+    const checkpointEntity: CheckpointEntity = {
       partitionKey: partition_Key,
       rowKey: checkpoint.partitionId,
       consumerGroup: checkpoint.consumerGroup,
