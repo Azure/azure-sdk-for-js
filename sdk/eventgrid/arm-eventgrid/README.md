@@ -1,6 +1,6 @@
 ## Azure EventGridManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for EventGridManagementClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for EventGridManagementClient.
 
 ### Currently supported environments
 

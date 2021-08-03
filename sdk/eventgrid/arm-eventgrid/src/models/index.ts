@@ -1110,7 +1110,7 @@ export interface StaticDeliveryAttributeMapping {
    */
   value?: string;
   /**
-   * Boolean flag to tell if the attribute contains sensitive information .
+   * Boolean flag to tell if the attribute contains sensitive information . Default value: false.
    */
   isSecret?: boolean;
 }
@@ -1963,7 +1963,7 @@ export interface Topic extends TrackedResource {
    */
   identity?: IdentityInfo;
   /**
-   * Kind of the resource. Possible values include: 'Azure', 'AzureArc'
+   * Kind of the resource. Possible values include: 'Azure', 'AzureArc'. Default value: 'Azure'.
    */
   kind?: ResourceKind;
   /**

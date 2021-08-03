@@ -1504,6 +1504,7 @@ export const StaticDeliveryAttributeMapping: msRest.CompositeMapper = {
       },
       isSecret: {
         serializedName: "properties.isSecret",
+        defaultValue: false,
         type: {
           name: "Boolean"
         }
@@ -2815,6 +2816,7 @@ export const Topic: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
+        defaultValue: 'Azure',
         type: {
           name: "String"
         }
