@@ -10,6 +10,7 @@ import {
   DefaultPerfStressOptions
 } from "./options";
 import { PerfStressParallel } from "./parallel";
+import { RecordingHttpClient, RecordingHttpClientV2 } from "./recordingClient";
 
 export type TestType = "";
 
@@ -104,18 +105,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -185,7 +186,7 @@ export class PerfStressProgram {
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -327,16 +328,28 @@ export class PerfStressProgram {
     // => run the runAsync
     // => stop record
     // => start playback
-    await PerfStressTest.recorder.startRecording();
-    PerfStressTest.recorder._mode = "record";
+    let recorder: RecordingHttpClient | RecordingHttpClientV2;
+    if (PerfStressTest.recorderV2) {
+      recorder = PerfStressTest.recorderV2;
+    } else {
+      recorder = PerfStressTest.recorder;
+    }
+    await recorder.startRecording();
+    recorder._mode = "record";
     await test.runAsync!();
 
-    await PerfStressTest.recorder.stopRecording();
-    await PerfStressTest.recorder.startPlayback();
-    PerfStressTest.recorder._mode = "playback";
+    await recorder.stopRecording();
+    await recorder.startPlayback();
+    recorder._mode = "playback";
   }
 
   private async stopPlayback() {
-    await PerfStressTest.recorder.stopPlayback();
+    let recorder: RecordingHttpClient | RecordingHttpClientV2;
+    if (PerfStressTest.recorderV2) {
+      recorder = PerfStressTest.recorderV2;
+    } else {
+      recorder = PerfStressTest.recorder;
+    }
+    await recorder.stopPlayback();
   }
 }

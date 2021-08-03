@@ -9,13 +9,13 @@ import {
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
-import { RecordingHttpClient } from "./recordingClient";
+import { RecordingHttpClient, RecordingHttpClientV2 } from "./recordingClient";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
 export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new (): PerfStressTest<TOptions>;
+  new(): PerfStressTest<TOptions>;
 }
 
 /**
@@ -29,6 +29,7 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  */
 export abstract class PerfStressTest<TOptions = {}> {
   public static recorder: RecordingHttpClient;
+  public static recorderV2: RecordingHttpClientV2;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -55,6 +56,12 @@ export abstract class PerfStressTest<TOptions = {}> {
     if (PerfStressTest.recorder) return PerfStressTest.recorder;
     PerfStressTest.recorder = new RecordingHttpClient(this.parsedOptions["test-proxy"].value!);
     return PerfStressTest.recorder;
+  }
+
+  public getRecordingClientV2(): RecordingHttpClientV2 {
+    if (PerfStressTest.recorderV2) return PerfStressTest.recorderV2;
+    PerfStressTest.recorderV2 = new RecordingHttpClientV2(this.parsedOptions["test-proxy"].value!);
+    return PerfStressTest.recorderV2;
   }
 }
 

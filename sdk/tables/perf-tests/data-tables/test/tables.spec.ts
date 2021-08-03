@@ -1,4 +1,4 @@
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar, recordingPolicy } from "@azure/test-utils-perfstress";
 
 import { TableClient } from "@azure/data-tables";
 
@@ -10,6 +10,7 @@ export abstract class TablesTest<TOptions = Record<string, unknown>> extends Per
     super();
     const connectionString = getEnvVar("SAS_CONNECTION_STRING");
     this.client = TableClient.fromConnectionString(connectionString, tableName);
+    this.client.pipeline.addPolicy(recordingPolicy(this.getRecordingClientV2()));
   }
 
   public async globalSetup() {

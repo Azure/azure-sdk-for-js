@@ -6,4 +6,5 @@ export * from "./options";
 export * from "./policy";
 export * from "./parallel";
 export * from "./program";
+export * from "./recordingClient";
 export { getEnvVar, drainStream } from "./utils";
