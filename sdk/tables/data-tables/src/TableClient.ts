@@ -82,6 +82,7 @@ export class TableClient {
   private table: Table;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private transactionClient?: InternalTableTransaction;
+  private readonly allowInsecureConnection: boolean;
 
   /**
    * Name of the table to perform operations on.
@@ -221,6 +222,7 @@ export class TableClient {
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
+    this.allowInsecureConnection = clientOptions.allowInsecureConnection ?? false;
     clientOptions.endpoint = clientOptions.endpoint || this.url;
 
     if (!clientOptions.userAgentOptions) {
@@ -880,7 +882,8 @@ export class TableClient {
         transactionId,
         changesetId,
         new TableClient(this.url, this.tableName),
-        this.credential
+        this.credential,
+        this.allowInsecureConnection
       );
     } else {
       this.transactionClient.reset(transactionId, changesetId, partitionKey);

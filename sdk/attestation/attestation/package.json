@@ -1,6 +1,6 @@
 {
   "name": "@azure/attestation",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0",
   "description": "Javascript/Typescript client implementation for the Microsoft Azure Attestation service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,16 +9,20 @@
     "./dist-esm/src/utils/base64.js": "./dist-esm/src/utils/base64.browser.js",
     "./dist-esm/src/utils/blobConvert.js": "./dist-esm/src/utils/blobConvert.browser.js",
     "./dist-esm/src/utils/textEncoding.js": "./dist-esm/src/utils/textEncoding.browser.js",
+    "./dist-esm/src/utils/buffer.js": "./dist-esm/src/utils/buffer.browser.js",
     "./dist-esm/test/utils/base64url.js": "./dist-esm/test/utils/base64url.browser.js",
-    "./dist-esm/test/utils/Buffer.js": "./dist-esm/test/utils/Buffer.browser.js",
     "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js",
     "./dist-esm/samples-dev/utils/base64url.js": "./dist-esm/samples-dev/utils/base64url.browser.js"
   },
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },

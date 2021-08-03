@@ -19,7 +19,11 @@ import {
   convertResponseForMetricsDefinitions,
   convertResponseForMetricNamespaces
 } from "../../../src/internal/modelConverters";
-import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
+import {
+  OperationRequestOptions,
+  RawResponseCallback,
+  SerializerOptions
+} from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
@@ -29,6 +33,7 @@ import {
   QueryMetricsOptions,
   QueryMetricsResult
 } from "../../../src";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -105,6 +110,8 @@ describe("Model unit tests", () => {
       const abortSignal = {} as AbortSignalLike;
       const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
+      const serializerOptions = {} as SerializerOptions;
+      const onResponse = {} as RawResponseCallback;
 
       // (Required<T> just to make sure I don't forget a field)
       const track2Model: Required<QueryMetricsOptions> = {
@@ -118,7 +125,9 @@ describe("Model unit tests", () => {
         requestOptions,
         resultType: "Data",
         top: 10,
-        tracingOptions
+        tracingOptions,
+        serializerOptions,
+        onResponse
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
@@ -138,7 +147,9 @@ describe("Model unit tests", () => {
         resultType: "Data",
         timespan: "arbitraryTimespan",
         top: 10,
-        tracingOptions
+        tracingOptions,
+        serializerOptions,
+        onResponse
       };
 
       assert.deepEqual(actualMetricsRequest, expectedMetricsRequest);
@@ -199,8 +210,7 @@ describe("Model unit tests", () => {
         interval: "anInterval",
         namespace: "aNamespace",
         // ...except this one which gets a slight rename.
-        resourceregion: "aResourceRegion",
-        _response: {} as any
+        resourceregion: "aResourceRegion"
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
@@ -251,12 +261,16 @@ describe("Model unit tests", () => {
       const abortSignal = {} as AbortSignalLike;
       const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
+      const serializerOptions = {} as SerializerOptions;
+      const onResponse = {} as RawResponseCallback;
 
       const track2: Required<GetMetricDefinitionsOptions> = {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricNamespace: "myMetricNamespace"
+        metricNamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       };
 
       const actualOptions: GeneratedMetricDefinitionsListOptionalParams = convertRequestOptionsForMetricsDefinitions(
@@ -267,7 +281,9 @@ describe("Model unit tests", () => {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricnamespace: "myMetricNamespace"
+        metricnamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       });
     });
 
@@ -278,7 +294,6 @@ describe("Model unit tests", () => {
 
     it("convertResponseForMetricsDefinitions", () => {
       const actualResponse = convertResponseForMetricsDefinitions({
-        _response: {} as any,
         value: [
           {
             dimensions: [
@@ -311,7 +326,6 @@ describe("Model unit tests", () => {
 
     it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
       const actualResponse = convertResponseForMetricsDefinitions({
-        _response: {} as any,
         value: [
           {
             id: "anything"
@@ -335,7 +349,6 @@ describe("Model unit tests", () => {
 
     it("convertResponseForMetricNamespaces", () => {
       const actualResponse = convertResponseForMetricNamespaces({
-        _response: {} as any,
         value: [{ id: "anything" } as any]
       });
 

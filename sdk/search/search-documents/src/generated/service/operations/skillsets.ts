@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { Skillsets } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   SearchIndexerSkillset,
   SkillsetsCreateOrUpdateOptionalParams,
@@ -24,14 +25,14 @@ import {
 } from "../models";
 
 /** Class representing a Skillsets. */
-export class Skillsets {
-  private readonly client: SearchServiceClient;
+export class SkillsetsImpl implements Skillsets {
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class Skillsets class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 
@@ -146,7 +147,11 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.skillset,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignoreResetRequirements,
+    Parameters.disableCacheReprocessingChangeDetection
+  ],
   urlParameters: [Parameters.endpoint, Parameters.skillsetName],
   headerParameters: [
     Parameters.contentType,
