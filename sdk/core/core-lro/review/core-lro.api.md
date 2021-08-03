@@ -26,7 +26,7 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
 // @public
 export interface LroEngineOptions<TResult, TState> {
     intervalInMs?: number;
-    isDone?: (lastFlatResponse: unknown, state: TState) => boolean;
+    isDone?: (lastResponse: unknown, state: TState) => boolean;
     lroResourceLocationConfig?: LroResourceLocationConfig;
     processResult?: (result: unknown, state: TState) => TResult;
     resumeFrom?: string;
