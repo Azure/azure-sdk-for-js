@@ -143,7 +143,7 @@ describe("Atom management - Namespace", function(): void {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Standard", messagingUnits: undefined } as any,
+      { messagingSku: "Premium", messagingUnits: 1 } as any,
       ["_response", "createdAt", "modifiedAt", "name"]
     );
   });
@@ -390,7 +390,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        (host.match("(.*).servicebus.windows.net") || [])[1],
+        (host.match("(.*).servicebus.chinacloudapi.cn") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);
@@ -413,7 +413,7 @@ describe("Atom management - Authentication", function(): void {
 
     should.equal(
       (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-      (host.match("(.*).servicebus.windows.net") || [])[1],
+      (host.match("(.*).servicebus.chinacloudapi.cn") || [])[1],
       "Unexpected namespace name in the getNamespaceProperties response"
     );
   });
@@ -1372,7 +1372,7 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
       status: "SendDisabled" as EntityStatus,
-      enablePartitioning: true,
+      enablePartitioning: false,
       enableExpress: false,
       supportOrdering: false,
       userMetadata: "test metadata",
@@ -1385,9 +1385,9 @@ describe("Atom management - Authentication", function(): void {
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
-      enablePartitioning: true,
+      enablePartitioning: false,
       enableExpress: false,
-      maxSizeInMegabytes: 16384,
+      maxSizeInMegabytes: 1024,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
       userMetadata: "test metadata",
@@ -1681,7 +1681,7 @@ describe(`createSubscription() using different variations to the input parameter
           secondaryKey: TestConstants.secondaryKey
         }
       ],
-      enablePartitioning: true,
+      enablePartitioning: false,
       enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
@@ -1713,9 +1713,9 @@ describe(`createSubscription() using different variations to the input parameter
           secondaryKey: TestConstants.secondaryKey
         }
       ],
-      enablePartitioning: true,
+      enablePartitioning: false,
       enableExpress: false,
-      maxSizeInMegabytes: 16384,
+      maxSizeInMegabytes: 1024,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
@@ -1986,7 +1986,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           secondaryKey: TestConstants.secondaryKey
         }
       ],
-      enablePartitioning: true,
+      enablePartitioning: false,
       enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
@@ -2017,13 +2017,13 @@ describe(`createRule() using different variations to the input parameter "ruleOp
         }
       ],
       maxDeliveryCount: 5,
-      maxSizeInMegabytes: 16384,
+      maxSizeInMegabytes: 1024,
       autoDeleteOnIdle: "PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
-      enablePartitioning: true,
+      enablePartitioning: false,
       enableExpress: false,
       name: managementQueue1,
       availabilityStatus: "Available"
@@ -2058,7 +2058,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
             secondaryKey: TestConstants.secondaryKey
           }
         ],
-        enablePartitioning: true,
+        enablePartitioning: false,
         enableExpress: false
       });
     });
@@ -2128,7 +2128,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       forwardTo: `${endpointWithProtocol}${managementTopic1}`,
       autoDeleteOnIdle: "PT1H",
       maxDeliveryCount: 8,
-      maxSizeInMegabytes: 16384,
+      maxSizeInMegabytes: 1024,
 
       messageCount: undefined,
       sizeInBytes: undefined,
@@ -2142,7 +2142,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       availabilityStatus: "Available",
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
-      enablePartitioning: true,
+      enablePartitioning: false,
       name: managementQueue1
     }
   },
