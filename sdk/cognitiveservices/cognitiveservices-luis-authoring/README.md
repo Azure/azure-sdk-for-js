@@ -1,112 +1,91 @@
-## An isomorphic javascript sdk for - LUISAuthoringClient
+# Azure LUIS Authoring client library for JavaScript
 
-This package contains an isomorphic SDK for LUISAuthoringClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure LUIS Authoring client.
 
-Package version | LUIS Authoring API version
---------------- | --------------------------
-3.0.0           |  /luis/api/v2.0
-4.0.0-preview.3 |  /luis/authoring/v3.0-preview
+
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-luis-authoring) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/cognitiveservices-luis-authoring) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cognitiveservices-luis-authoring) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-### How to Install
+### Prerequisites
+
+- An [Azure subscription][azure_sub].
+
+### Install the `@azure/cognitiveservices-luis-authoring` package
+
+Install the Azure LUIS Authoring client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/cognitiveservices-luis-authoring
 ```
 
-### How to use
+### Create and authenticate a `LuisAuthoringClient`
 
-#### nodejs - Authentication, client creation and listPhraseLists features as an example written in TypeScript.
+To create a client object to access the Azure LUIS Authoring API, you will need the `endpoint` of your Azure LUIS Authoring resource and a `credential`. The Azure LUIS Authoring client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure LUIS Authoring resource in the [Azure Portal][azure_portal].
 
-##### Install @azure/ms-rest-azure-js
+#### Using an Azure Active Directory Credential
+
+You can authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
-npm install @azure/ms-rest-azure-js
+npm install @azure/identity
 ```
 
-##### Sample code
+You will also need to register a new AAD application and grant access to Azure LUIS Authoring by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```javascript
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
-const { LUISAuthoringClient } = require("@azure/cognitiveservices-luis-authoring");
-
-let authoringKey = process.env["luis-authoring-key"];
-const creds = new CognitiveServicesCredentials(authoringKey);
-
-// check the following link to find your region
-// https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
-const region = "<your-region>";
-const client = new LUISAuthoringClient(
-  creds,
-  "https://" + region + ".api.cognitive.microsoft.com/"
-);
-
-const appId = "<your-app-id>"; // replace this with your appId.
-const versionId = "0.1"; // replace with version of your luis application. Initial value will be 0.1
-
-const skip = 1;
-const take = 1;
-
-client.features
-  .listPhraseLists(appId, versionId, { skip, take })
-  .then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+const { LuisAuthoringClient } = require("@azure/cognitiveservices-luis-authoring");
+const { DefaultAzureCredential } = require("@azure/identity");
+const client = new LuisAuthoringClient("<endpoint>", new DefaultAzureCredential());
 ```
 
-#### browser - Authentication, client creation and listPhraseLists features as an example written in JavaScript.
+## Key concepts
 
+### LuisAuthoringClient
 
-##### Sample code
+`LuisAuthoringClient` is the primary interface for developers using the Azure LUIS Authoring client library. Explore the methods on this client object to understand the different features of the Azure LUIS Authoring service that you can access.
 
-- index.html
+## Troubleshooting
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/cognitiveservices-luis-authoring sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/cognitiveservices-luis-authoring/dist/cognitiveservices-luis-authoring.js"></script>
-    <script type="text/javascript">
-      let authoringKey = process.env["luis-authoring-key"];
-      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
+### Logging
 
-      const region = "<your-region>";
-      const client = new Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient(
-        creds,
-        "https://" + region + ".api.cognitive.microsoft.com/"
-      );
-      const appId = "<your-app-id>"; // replace this with your appId.
-      const versionId = "0.1"; // replace with version of your luis application. Initial value will be 0.1
-      const skip = 1;
-      const take = 1;
-      client.features
-        .listPhraseLists(appId, versionId, { skip, take })
-        .then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-    </script>
-  </head>
-  <body></body>
-</html>
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-luis-authoring%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
