@@ -525,7 +525,7 @@ export class KeyClient {
       const response = await this.client.updateKey(
         this.vaultUrl,
         name,
-        keyVersion || "",
+        keyVersion,
         unflattenedOptions
       );
       return getKeyFromKeyBundle(response);
