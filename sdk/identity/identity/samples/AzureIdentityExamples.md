@@ -981,6 +981,7 @@ Here is an example of an application storing the `AuthenticationRecord` to the l
 ```
 import fs from "fs";
 import { promisify } from "util";
+import path from "path";
 const AUTH_RECORD_PATH = "./tokencache.bin";
 ```
 
@@ -988,7 +989,7 @@ const AUTH_RECORD_PATH = "./tokencache.bin";
 onst authRecord: AuthenticationRecord = await credential.authenticate();
 const writeFileAsync = promisify(fs.writeFile);
 const content = serializeAuthenticationRecord(authRecord);
-await writeFileAsync(AUTH_RECORD_PATH, content);
+await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
 ```
 
 #### Silent authentication with Authentication Record and Token Cache Persistence Options
@@ -998,7 +999,7 @@ Once an application has configured a credential to persist token data and an `Au
 ```
 const AUTH_RECORD_PATH = "./tokencache.bin";
 const readFileAsync = promisify(fs.readFile);
-const fileContent = await readFileAsync(AUTH_RECORD_PATH,{ encoding: "utf-8" });
+const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH),{ encoding: "utf-8" });
 const authRecord: AuthenticationRecord= deserializeAuthenticationRecord(fileContent);
 
 const options: InteractiveBrowserCredentialOptions = {
