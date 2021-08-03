@@ -2214,7 +2214,7 @@ describe("Transforms", () => {
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
   });
 
-  it.only("elementReferenceToFormContent() converts selectionMark reference to FormSelectionMark", () => {
+  it("elementReferenceToFormContent() converts selectionMark reference to FormSelectionMark", () => {
     const stringRef = "#/readResults/0/selectionMarks/1";
 
     const input = {
