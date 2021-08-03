@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0fa93f04-10d6-487e-aecd-1451d4a90c01',
+  '76e0a5ee-dc94-4478-997f-719b3eaa7601',
   'x-ms-ests-server',
-  '2.1.11898.12 - SCUS ProdSlices',
+  '2.1.11898.12 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1EAAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:09:27 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EAAAANi-m9gOAAAA; expires=Thu, 02-Sep-2021 22:52:38 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr-5E0SXtBqUhSbdIEhoujDGF16cRr0YACB76A9DYHVRcbK8Jnoe4ny_YfUnPo77-822HWfzKl8HvFmoyOKbWFvHP7pgWPsoOCYkQW4r5-bQIh-VjMGEiX1l98ntZ1UnkqJx79WTRQJftO8peRKVQN7XRi4pneangTn_GVik1TMfogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrTvsArW11Sxeo5_rWPTQx4Lp4zKVtbDPjooCCFQudwyDAyIaxPcaVAl2oV1fad-p3YcO7-bXuCHaCClnllu4Sd3SIZZkS-T_TRKW0M1HVuLZNiTBVy4FVnjpxd33YuqPQy0yEnhGaPPuVosmjS79VWVHtVUiO0OfLvFIy-Ng_vI8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 03 Aug 2021 03:09:27 GMT',
+  'Tue, 03 Aug 2021 22:52:37 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,32 +58,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9083cfcd-1486-4a3d-a71b-ee8ed4180001',
+  'bb5ca5d8-8e38-44e3-9ca7-41a627543f01',
   'x-ms-ests-server',
-  '2.1.11898.12 - SCUS ProdSlices',
+  '2.1.11898.12 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1EAAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:09:27 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EAAAANi-m9gOAAAA; expires=Thu, 02-Sep-2021 22:52:38 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr593Deb4N3Vm9pYkVmMI3bl1KonImSz9KcGgdeyvqP6qWbg1Ymtfvyq6Uocoa-7hj5VSk6ADU895vlU7_i_qi6gHC7g3m7kGpW91RaJwclDuAmtTQZOI6HcOP7BZU1EO6arXSPW5nZX6_LDnHgnUqccu_I6scKaLEXP7xzjOljWAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrszn1g8kG2q-fM-ult6dd6PcdgWpFNkjZBdevIN-XoDLcvS2ibqkE1V5QYLNFzwvRkp2sUtwh3br3KCbavWDjy-9dvktJPeAiBcffNoiN77qWKUlFahHeRk-iKyr-JYgDZGDUNG1kZTl8oLa4oZHCrDTUu0z6zycr9fx30Mm2mWMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 03 Aug 2021 03:09:27 GMT',
+  'Tue, 03 Aug 2021 22:52:37 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=1317e3a9-0b25-423d-845a-fb0bf629cfdc&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=239b74ba-187a-418a-9fae-98c50af9d599&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -95,45 +93,67 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '074a480c-a503-4350-a3b0-000516f2e500',
+  'ff38fbcd-ab7c-448a-939b-49e33a343701',
   'x-ms-ests-server',
-  '2.1.11898.12 - NCUS ProdSlices',
+  '2.1.11898.12 - SCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AvEXdzq7Y-VJkTswm-nNlitz_bg1EAAAAL6omtgOAAAA; expires=Thu, 02-Sep-2021 03:09:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EAAAANi-m9gOAAAA; expires=Thu, 02-Sep-2021 22:52:38 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 03 Aug 2021 03:09:27 GMT'
+  'Tue, 03 Aug 2021 22:52:37 GMT',
+  'Content-Length',
+  '1331'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.2-preview.1/entities/health/jobs', {"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint//text/analytics/v3.2-preview.1/entities/health/jobs/d5d642f1-7c2b-4142-8043-0f7a7dc24d42',
+  'https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/f754c3b8-58e1-447f-a488-f82177931d6b',
   'x-envoy-upstream-service-time',
-  '118',
+  '114',
   'apim-request-id',
-  'b5f838cd-d6d7-4361-b17d-9d0bbaed626f',
+  '663bc3ef-964e-429a-813d-cede2de337fe',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 03:09:27 GMT'
+  'Tue, 03 Aug 2021 22:52:38 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/d5d642f1-7c2b-4142-8043-0f7a7dc24d42')
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/f754c3b8-58e1-447f-a488-f82177931d6b')
   .query(true)
-  .reply(200, {"jobId":"d5d642f1-7c2b-4142-8043-0f7a7dc24d42","lastUpdateDateTime":"2021-08-03T03:09:28Z","createdDateTime":"2021-08-03T03:09:28Z","expirationDateTime":"2021-08-04T03:09:28Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"f754c3b8-58e1-447f-a488-f82177931d6b","lastUpdateDateTime":"2021-08-03T22:52:38Z","createdDateTime":"2021-08-03T22:52:38Z","expirationDateTime":"2021-08-04T22:52:38Z","status":"notStarted","errors":[]}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '6',
+  'apim-request-id',
+  'd2a506bd-db34-4863-a1d3-d6dd4badf59c',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 03 Aug 2021 22:52:38 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/f754c3b8-58e1-447f-a488-f82177931d6b')
+  .query(true)
+  .reply(200, {"jobId":"f754c3b8-58e1-447f-a488-f82177931d6b","lastUpdateDateTime":"2021-08-03T22:52:38Z","createdDateTime":"2021-08-03T22:52:38Z","expirationDateTime":"2021-08-04T22:52:38Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -141,91 +161,71 @@ nock('https://endpoint/:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  '9f034dd8-83b5-4eac-8122-e97f6d61944e',
+  'f4c665a1-4cc3-46ec-aac0-f4d0d5f21691',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 03:09:28 GMT'
+  'Tue, 03 Aug 2021 22:52:38 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/d5d642f1-7c2b-4142-8043-0f7a7dc24d42')
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/f754c3b8-58e1-447f-a488-f82177931d6b')
   .query(true)
-  .reply(200, {"jobId":"d5d642f1-7c2b-4142-8043-0f7a7dc24d42","lastUpdateDateTime":"2021-08-03T03:09:28Z","createdDateTime":"2021-08-03T03:09:28Z","expirationDateTime":"2021-08-04T03:09:28Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"f754c3b8-58e1-447f-a488-f82177931d6b","lastUpdateDateTime":"2021-08-03T22:52:38Z","createdDateTime":"2021-08-03T22:52:38Z","expirationDateTime":"2021-08-04T22:52:38Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '7',
   'apim-request-id',
-  '7e392de7-34a7-4261-8a9e-9ee2c3dbf915',
+  'f037ca5e-25ae-4dcd-a02e-3a8666eb02be',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 03:09:28 GMT'
+  'Tue, 03 Aug 2021 22:52:40 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/d5d642f1-7c2b-4142-8043-0f7a7dc24d42')
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/f754c3b8-58e1-447f-a488-f82177931d6b')
   .query(true)
-  .reply(200, {"jobId":"d5d642f1-7c2b-4142-8043-0f7a7dc24d42","lastUpdateDateTime":"2021-08-03T03:09:28Z","createdDateTime":"2021-08-03T03:09:28Z","expirationDateTime":"2021-08-04T03:09:28Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"f754c3b8-58e1-447f-a488-f82177931d6b","lastUpdateDateTime":"2021-08-03T22:52:41Z","createdDateTime":"2021-08-03T22:52:38Z","expirationDateTime":"2021-08-04T22:52:38Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[{"offset":12,"length":9,"text":"ibuprofen","category":"MedicationName","confidenceScore":0.99,"name":"ibuprofen","links":[{"dataSource":"UMLS","id":"C0020740"},{"dataSource":"AOD","id":"0000019879"},{"dataSource":"ATC","id":"M01AE01"},{"dataSource":"CCPSS","id":"0046165"},{"dataSource":"CHV","id":"0000006519"},{"dataSource":"CSP","id":"2270-2077"},{"dataSource":"DRUGBANK","id":"DB01050"},{"dataSource":"GS","id":"1611"},{"dataSource":"LCH_NW","id":"sh97005926"},{"dataSource":"LNC","id":"LP16165-0"},{"dataSource":"MEDCIN","id":"40458"},{"dataSource":"MMSL","id":"d00015"},{"dataSource":"MSH","id":"D007052"},{"dataSource":"MTHSPL","id":"WK2XYI10QM"},{"dataSource":"NCI","id":"C561"},{"dataSource":"NCI_CTRP","id":"C561"},{"dataSource":"NCI_DCP","id":"00803"},{"dataSource":"NCI_DTP","id":"NSC0256857"},{"dataSource":"NCI_FDA","id":"WK2XYI10QM"},{"dataSource":"NCI_NCI-GLOSS","id":"CDR0000613511"},{"dataSource":"NDDF","id":"002377"},{"dataSource":"PDQ","id":"CDR0000040475"},{"dataSource":"RCD","id":"x02MO"},{"dataSource":"RXNORM","id":"5640"},{"dataSource":"SNM","id":"E-7772"},{"dataSource":"SNMI","id":"C-603C0"},{"dataSource":"SNOMEDCT_US","id":"387207008"},{"dataSource":"USP","id":"m39860"},{"dataSource":"USPMG","id":"MTHU000060"},{"dataSource":"VANDF","id":"4017840"}]}],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '43',
   'apim-request-id',
-  '09510b50-bab3-422b-9736-3df43ca084e1',
+  '0de8b85d-3cc3-471e-b147-74c5b6d58efa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 03:09:30 GMT'
+  'Tue, 03 Aug 2021 22:52:42 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/d5d642f1-7c2b-4142-8043-0f7a7dc24d42')
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/f754c3b8-58e1-447f-a488-f82177931d6b')
   .query(true)
-  .reply(200, {"jobId":"d5d642f1-7c2b-4142-8043-0f7a7dc24d42","lastUpdateDateTime":"2021-08-03T03:09:31Z","createdDateTime":"2021-08-03T03:09:28Z","expirationDateTime":"2021-08-04T03:09:28Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[{"offset":12,"length":9,"text":"ibuprofen","category":"MedicationName","confidenceScore":0.99,"name":"ibuprofen","links":[{"dataSource":"UMLS","id":"C0020740"},{"dataSource":"AOD","id":"0000019879"},{"dataSource":"ATC","id":"M01AE01"},{"dataSource":"CCPSS","id":"0046165"},{"dataSource":"CHV","id":"0000006519"},{"dataSource":"CSP","id":"2270-2077"},{"dataSource":"DRUGBANK","id":"DB01050"},{"dataSource":"GS","id":"1611"},{"dataSource":"LCH_NW","id":"sh97005926"},{"dataSource":"LNC","id":"LP16165-0"},{"dataSource":"MEDCIN","id":"40458"},{"dataSource":"MMSL","id":"d00015"},{"dataSource":"MSH","id":"D007052"},{"dataSource":"MTHSPL","id":"WK2XYI10QM"},{"dataSource":"NCI","id":"C561"},{"dataSource":"NCI_CTRP","id":"C561"},{"dataSource":"NCI_DCP","id":"00803"},{"dataSource":"NCI_DTP","id":"NSC0256857"},{"dataSource":"NCI_FDA","id":"WK2XYI10QM"},{"dataSource":"NCI_NCI-GLOSS","id":"CDR0000613511"},{"dataSource":"NDDF","id":"002377"},{"dataSource":"PDQ","id":"CDR0000040475"},{"dataSource":"RCD","id":"x02MO"},{"dataSource":"RXNORM","id":"5640"},{"dataSource":"SNM","id":"E-7772"},{"dataSource":"SNMI","id":"C-603C0"},{"dataSource":"SNOMEDCT_US","id":"387207008"},{"dataSource":"USP","id":"m39860"},{"dataSource":"USPMG","id":"MTHU000060"},{"dataSource":"VANDF","id":"4017840"}]}],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
+  .reply(200, {"jobId":"f754c3b8-58e1-447f-a488-f82177931d6b","lastUpdateDateTime":"2021-08-03T22:52:41Z","createdDateTime":"2021-08-03T22:52:38Z","expirationDateTime":"2021-08-04T22:52:38Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[{"offset":12,"length":9,"text":"ibuprofen","category":"MedicationName","confidenceScore":0.99,"name":"ibuprofen","links":[{"dataSource":"UMLS","id":"C0020740"},{"dataSource":"AOD","id":"0000019879"},{"dataSource":"ATC","id":"M01AE01"},{"dataSource":"CCPSS","id":"0046165"},{"dataSource":"CHV","id":"0000006519"},{"dataSource":"CSP","id":"2270-2077"},{"dataSource":"DRUGBANK","id":"DB01050"},{"dataSource":"GS","id":"1611"},{"dataSource":"LCH_NW","id":"sh97005926"},{"dataSource":"LNC","id":"LP16165-0"},{"dataSource":"MEDCIN","id":"40458"},{"dataSource":"MMSL","id":"d00015"},{"dataSource":"MSH","id":"D007052"},{"dataSource":"MTHSPL","id":"WK2XYI10QM"},{"dataSource":"NCI","id":"C561"},{"dataSource":"NCI_CTRP","id":"C561"},{"dataSource":"NCI_DCP","id":"00803"},{"dataSource":"NCI_DTP","id":"NSC0256857"},{"dataSource":"NCI_FDA","id":"WK2XYI10QM"},{"dataSource":"NCI_NCI-GLOSS","id":"CDR0000613511"},{"dataSource":"NDDF","id":"002377"},{"dataSource":"PDQ","id":"CDR0000040475"},{"dataSource":"RCD","id":"x02MO"},{"dataSource":"RXNORM","id":"5640"},{"dataSource":"SNM","id":"E-7772"},{"dataSource":"SNMI","id":"C-603C0"},{"dataSource":"SNOMEDCT_US","id":"387207008"},{"dataSource":"USP","id":"m39860"},{"dataSource":"USPMG","id":"MTHU000060"},{"dataSource":"VANDF","id":"4017840"}]}],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '46',
+  '52',
   'apim-request-id',
-  '3400eae1-ab7b-48d8-b700-c8dd7c9af9d2',
+  '0d032af2-ff88-4f8d-948a-d1b6da1a8538',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 03:09:32 GMT'
-]);
-
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/d5d642f1-7c2b-4142-8043-0f7a7dc24d42')
-  .query(true)
-  .reply(200, {"jobId":"d5d642f1-7c2b-4142-8043-0f7a7dc24d42","lastUpdateDateTime":"2021-08-03T03:09:31Z","createdDateTime":"2021-08-03T03:09:28Z","expirationDateTime":"2021-08-04T03:09:28Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[{"offset":12,"length":9,"text":"ibuprofen","category":"MedicationName","confidenceScore":0.99,"name":"ibuprofen","links":[{"dataSource":"UMLS","id":"C0020740"},{"dataSource":"AOD","id":"0000019879"},{"dataSource":"ATC","id":"M01AE01"},{"dataSource":"CCPSS","id":"0046165"},{"dataSource":"CHV","id":"0000006519"},{"dataSource":"CSP","id":"2270-2077"},{"dataSource":"DRUGBANK","id":"DB01050"},{"dataSource":"GS","id":"1611"},{"dataSource":"LCH_NW","id":"sh97005926"},{"dataSource":"LNC","id":"LP16165-0"},{"dataSource":"MEDCIN","id":"40458"},{"dataSource":"MMSL","id":"d00015"},{"dataSource":"MSH","id":"D007052"},{"dataSource":"MTHSPL","id":"WK2XYI10QM"},{"dataSource":"NCI","id":"C561"},{"dataSource":"NCI_CTRP","id":"C561"},{"dataSource":"NCI_DCP","id":"00803"},{"dataSource":"NCI_DTP","id":"NSC0256857"},{"dataSource":"NCI_FDA","id":"WK2XYI10QM"},{"dataSource":"NCI_NCI-GLOSS","id":"CDR0000613511"},{"dataSource":"NDDF","id":"002377"},{"dataSource":"PDQ","id":"CDR0000040475"},{"dataSource":"RCD","id":"x02MO"},{"dataSource":"RXNORM","id":"5640"},{"dataSource":"SNM","id":"E-7772"},{"dataSource":"SNMI","id":"C-603C0"},{"dataSource":"SNOMEDCT_US","id":"387207008"},{"dataSource":"USP","id":"m39860"},{"dataSource":"USPMG","id":"MTHU000060"},{"dataSource":"VANDF","id":"4017840"}]}],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '49',
-  'apim-request-id',
-  '8e5e2a9f-e6d1-4cdd-a48c-916bbcffec9f',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 03 Aug 2021 03:09:32 GMT'
+  'Tue, 03 Aug 2021 22:52:42 GMT'
 ]);

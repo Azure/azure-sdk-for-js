@@ -2,34 +2,34 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"My SSN is 859-98-0987.\"},{\"id\":\"2\",\"text\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"},{\"id\":\"3\",\"text\":\"Is 998.214.865-68 your Brazilian CPF number?\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "47c4a138-610f-4422-b79e-238e8b496787",
-    "date": "Tue, 03 Aug 2021 03:27:45 GMT",
-    "operation-location": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
+    "apim-request-id": "2c3b2fdc-738c-4219-add0-d83703f6e7f4",
+    "date": "Tue, 03 Aug 2021 22:54:32 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "254"
+    "x-envoy-upstream-service-time": "162"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:45Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0deeb1cc-065f-4d27-aea3-add4802acf5f\",\"lastUpdateDateTime\":\"2021-08-03T22:54:33Z\",\"createdDateTime\":\"2021-08-03T22:54:32Z\",\"expirationDateTime\":\"2021-08-04T22:54:32Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "e6af4574-34c4-48a3-88ce-b9168313b880",
+    "apim-request-id": "f02d47b2-fbc4-492d-ad30-d486305cb7d1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:45 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:32 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -38,55 +38,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:45Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0deeb1cc-065f-4d27-aea3-add4802acf5f\",\"lastUpdateDateTime\":\"2021-08-03T22:54:33Z\",\"createdDateTime\":\"2021-08-03T22:54:32Z\",\"expirationDateTime\":\"2021-08-04T22:54:32Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "a3132e87-0d40-40f1-8099-1d50cb2b9aaa",
+    "apim-request-id": "38b1610b-44ee-442b-bd71-887370893cc5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:45 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:45Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "175fd3ff-091c-48d8-bf21-3d1462234acf",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:47 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:47Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "21aa04e7-23bc-4366-9969-7b33785b8889",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:49 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:32 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -95,17 +57,36 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:47Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0deeb1cc-065f-4d27-aea3-add4802acf5f\",\"lastUpdateDateTime\":\"2021-08-03T22:54:33Z\",\"createdDateTime\":\"2021-08-03T22:54:32Z\",\"expirationDateTime\":\"2021-08-04T22:54:32Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "9de2ab4c-e71b-4c38-8952-b2319d4ca8c4",
+    "apim-request-id": "5a1a1844-da79-4c56-a11b-b7922a4073f5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:51 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0deeb1cc-065f-4d27-aea3-add4802acf5f\",\"lastUpdateDateTime\":\"2021-08-03T22:54:33Z\",\"createdDateTime\":\"2021-08-03T22:54:32Z\",\"expirationDateTime\":\"2021-08-04T22:54:32Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "fe4d571a-0d27-44b2-876c-81933c66fead",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:54:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -114,40 +95,40 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:53Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T03:27:53.7199702Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is ***********.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[{\"text\":\"111000025\",\"category\":\"PhoneNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"111000025\",\"category\":\"ABARoutingNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.75},{\"text\":\"111000025\",\"category\":\"NZSocialWelfareNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Is 998.214.865-68 your Brazilian CPF number?\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "response": "{\"jobId\":\"0deeb1cc-065f-4d27-aea3-add4802acf5f\",\"lastUpdateDateTime\":\"2021-08-03T22:54:38Z\",\"createdDateTime\":\"2021-08-03T22:54:32Z\",\"expirationDateTime\":\"2021-08-04T22:54:32Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:54:38.8815352Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is ***********.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[{\"text\":\"111000025\",\"category\":\"PhoneNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"111000025\",\"category\":\"ABARoutingNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.75},{\"text\":\"111000025\",\"category\":\"NZSocialWelfareNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Is 998.214.865-68 your Brazilian CPF number?\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "4e5d11c1-2ae0-4444-963e-4b8cdacf5b24",
+    "apim-request-id": "9c6e9a9b-d2d4-4e03-ab36-f1617688bfcc",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:53 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "63"
+    "x-envoy-upstream-service-time": "57"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7b2a98e-57dd-4283-b2fd-461c7ddbdc65",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0deeb1cc-065f-4d27-aea3-add4802acf5f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7b2a98e-57dd-4283-b2fd-461c7ddbdc65\",\"lastUpdateDateTime\":\"2021-08-03T03:27:53Z\",\"createdDateTime\":\"2021-08-03T03:27:45Z\",\"expirationDateTime\":\"2021-08-04T03:27:45Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T03:27:53.7199702Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is ***********.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[{\"text\":\"111000025\",\"category\":\"PhoneNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"111000025\",\"category\":\"ABARoutingNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.75},{\"text\":\"111000025\",\"category\":\"NZSocialWelfareNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Is 998.214.865-68 your Brazilian CPF number?\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "response": "{\"jobId\":\"0deeb1cc-065f-4d27-aea3-add4802acf5f\",\"lastUpdateDateTime\":\"2021-08-03T22:54:38Z\",\"createdDateTime\":\"2021-08-03T22:54:32Z\",\"expirationDateTime\":\"2021-08-04T22:54:32Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:54:38.8815352Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is ***********.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[{\"text\":\"111000025\",\"category\":\"PhoneNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"111000025\",\"category\":\"ABARoutingNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.75},{\"text\":\"111000025\",\"category\":\"NZSocialWelfareNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Is 998.214.865-68 your Brazilian CPF number?\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "47221624-f875-48ab-ad7c-324e616b219b",
+    "apim-request-id": "c4b59b14-6b34-4118-b0b2-27917554425b",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:27:53 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "60"
+    "x-envoy-upstream-service-time": "67"
    }
   }
  ],

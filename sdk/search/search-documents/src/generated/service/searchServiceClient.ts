@@ -8,12 +8,19 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
+  DataSourcesImpl,
+  IndexersImpl,
+  SkillsetsImpl,
+  SynonymMapsImpl,
+  IndexesImpl
+} from "./operations";
+import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
   Indexes
-} from "./operations";
+} from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { SearchServiceClientContext } from "./searchServiceClientContext";
@@ -38,11 +45,11 @@ export class SearchServiceClient extends SearchServiceClientContext {
     options?: SearchServiceClientOptionalParams
   ) {
     super(endpoint, apiVersion, options);
-    this.dataSources = new DataSources(this);
-    this.indexers = new Indexers(this);
-    this.skillsets = new Skillsets(this);
-    this.synonymMaps = new SynonymMaps(this);
-    this.indexes = new Indexes(this);
+    this.dataSources = new DataSourcesImpl(this);
+    this.indexers = new IndexersImpl(this);
+    this.skillsets = new SkillsetsImpl(this);
+    this.synonymMaps = new SynonymMapsImpl(this);
+    this.indexes = new IndexesImpl(this);
   }
 
   /**

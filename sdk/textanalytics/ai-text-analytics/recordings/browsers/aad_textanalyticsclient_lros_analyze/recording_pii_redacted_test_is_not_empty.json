@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:27 GMT",
+    "date": "Tue, 03 Aug 2021 23:04:34 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,59 +20,40 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - WUS2 ProdSlices",
-    "x-ms-request-id": "800347a9-497b-4c7c-8dd3-16fa4486ef00"
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "625e1c9c-49b0-458b-a690-839849064b01"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"},{\"id\":\"2\",\"text\":\"Este es un document escrito en Español.\"},{\"id\":\"3\",\"text\":\"猫は幸せ\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "40c8b3ad-ee50-4e09-9768-ba27a30863d5",
-    "date": "Tue, 03 Aug 2021 03:23:27 GMT",
-    "operation-location": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
+    "apim-request-id": "3fd52bdc-4fa1-48ca-bb5d-ba51136b091b",
+    "date": "Tue, 03 Aug 2021 23:04:34 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "173"
+    "x-envoy-upstream-service-time": "303"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:28Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:34Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "069429ad-60d0-4893-be9b-28f52d6b8fdd",
+    "apim-request-id": "63a7cc42-622c-4b1a-9b22-03146f84500e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:27 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:28Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "f03be1fd-c860-45af-bd00-e23756674a38",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:27 GMT",
+    "date": "Tue, 03 Aug 2021 23:04:34 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -81,36 +62,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:28Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:34Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "60e4315a-b3bc-4aa0-9d29-8c7d185c9094",
+    "apim-request-id": "6e16df6e-2a7e-4d6b-9156-c59010d642f3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:29 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:28Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "cdae7630-fb35-4df3-a307-efb8ac73897a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:31 GMT",
+    "date": "Tue, 03 Aug 2021 23:04:34 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -119,36 +81,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:28Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:35Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "a4983721-d576-4d24-96a1-daaaf0109972",
+    "apim-request-id": "9bd0fae7-0586-42fd-b159-5109fb8abf55",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:33 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:28Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "ae510976-5c90-4c59-9bcb-0122568601f1",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:35 GMT",
+    "date": "Tue, 03 Aug 2021 23:04:36 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -157,40 +100,97 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:37Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T03:23:37.8127166Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:35Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "78b48d4d-2764-4b89-afcf-f21f6c48cfdb",
+    "apim-request-id": "64345dde-d8ca-4255-aa0d-1f458f9d2a1c",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:37 GMT",
+    "date": "Tue, 03 Aug 2021 23:04:38 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "65"
+    "x-envoy-upstream-service-time": "6"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/analyze/jobs/b7692a01-f1c4-4b54-bdb3-02326d5a3490",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b7692a01-f1c4-4b54-bdb3-02326d5a3490\",\"lastUpdateDateTime\":\"2021-08-03T03:23:37Z\",\"createdDateTime\":\"2021-08-03T03:23:27Z\",\"expirationDateTime\":\"2021-08-04T03:23:27Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T03:23:37.8127166Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:35Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "0f442742-6623-4a52-9f68-64a0aa7417af",
+    "apim-request-id": "3bde0214-9489-45f5-9dc4-49162b995385",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:23:38 GMT",
+    "date": "Tue, 03 Aug 2021 23:04:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "69"
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:35Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "095450a5-7b89-4175-983a-48a04bed9bd5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:04:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:44Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T23:04:44.0707098Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "ad7f19e8-0d53-4aed-a584-e49b2cdc749a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:04:44 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "76"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/3a76f765-1695-43fc-9ed8-55335e046eb0",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"3a76f765-1695-43fc-9ed8-55335e046eb0\",\"lastUpdateDateTime\":\"2021-08-03T23:04:44Z\",\"createdDateTime\":\"2021-08-03T23:04:34Z\",\"expirationDateTime\":\"2021-08-04T23:04:34Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T23:04:44.0707098Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "43b8a1bd-aa29-4652-82f1-ce3810e08447",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:04:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "109"
    }
   }
  ],

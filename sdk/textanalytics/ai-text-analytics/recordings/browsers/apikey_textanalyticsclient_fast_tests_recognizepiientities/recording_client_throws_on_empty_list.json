@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.2-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,9 +10,9 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid Request.\",\"innererror\":{\"code\":\"MissingInputRecords\",\"message\":\"Missing input records.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "315d6cbc-5e0f-456f-a768-bc748f7a0094",
+    "apim-request-id": "71830030-e7e6-4087-ac3c-3ff17c7da034",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 03:26:07 GMT",
+    "date": "Tue, 03 Aug 2021 22:52:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
