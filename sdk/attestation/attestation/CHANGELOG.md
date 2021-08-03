@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0 (2021-08-10)
 
 ### Features Added
 
@@ -8,7 +8,9 @@ Added hand authored implementation for policy management certificate APIs: `getP
 
 Simplified the calling pattern for the Attest family of APIs.
 Simplified some model types to be reflected as either parameters or interfaces.
-The attestation family of APIs no longer requires authentication credentials
+The attestation family of APIs no longer requires authentication credentials.
+The attestation family of APIs now accepts Blob objects in addition to Uint8Array
+and Buffer objects as inputs.
 
 ### Breaking Changes
 

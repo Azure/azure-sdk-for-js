@@ -26,7 +26,7 @@ import {
   DeleteRoleDefinitionOptions
 } from "./accessControlModels";
 
-import { SDK_VERSION, LATEST_API_VERSION, authenticationScopes } from "./constants";
+import { LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 import { v4 as v4uuid } from "uuid";
@@ -75,17 +75,6 @@ export class KeyVaultAccessControlClient {
     options: AccessControlClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
-
-    const libInfo = `azsdk-js-keyvault-admin/${SDK_VERSION}`;
-
-    const userAgentOptions = options.userAgentOptions;
-
-    options.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo
-    };
 
     const serviceVersion = options.serviceVersion || LATEST_API_VERSION;
 

@@ -3,11 +3,7 @@
 
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
-  createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-http";
+import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
   QueryLogsBatch,
@@ -23,6 +19,7 @@ import {
   convertResponseForQueryBatch
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -56,20 +53,18 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      tokenCredential,
-      options?.scopes ?? defaultMonitorScope
-    );
-
     // This client defaults to using 'https://api.loganalytics.io/v1' as the
     // host.
-    const serviceClientOptions = createPipelineFromOptions(options || {}, authPolicy);
 
     this._logAnalytics = new AzureLogAnalytics({
-      ...serviceClientOptions,
+      ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint
     });
+    const scope = options?.scopes ?? defaultMonitorScope;
+    this._logAnalytics.pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
+    );
   }
 
   /**
@@ -88,13 +83,18 @@ export class LogsQueryClient {
     timespan: string,
     options?: QueryLogsOptions
   ): Promise<QueryLogsResult> {
-    const result = await this._logAnalytics.query.execute(
-      workspaceId,
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) =>
+        this._logAnalytics.query.execute(
+          workspaceId,
+          {
+            query,
+            timespan
+          },
+          paramOptions
+        ),
       {
-        query,
-        timespan
-      },
-      {
+        ...options,
         requestOptions: {
           customHeaders: {
             ...formatPreferHeader(options)
@@ -103,10 +103,12 @@ export class LogsQueryClient {
       }
     );
 
+    const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+    flatResponse.tables = parsedBody.tables;
     return {
-      tables: result.tables.map(convertGeneratedTable),
-      statistics: result.statistics,
-      visualization: result.render
+      tables: flatResponse.tables.map(convertGeneratedTable),
+      statistics: flatResponse.statistics,
+      visualization: flatResponse.render
     };
   }
 
@@ -121,7 +123,35 @@ export class LogsQueryClient {
     options?: QueryLogsBatchOptions
   ): Promise<QueryLogsBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
-    const response = await this._logAnalytics.query.batch(generatedRequest, options);
-    return convertResponseForQueryBatch(response);
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
+      options || {}
+    );
+    return convertResponseForQueryBatch(flatResponse, rawResponse);
   }
+}
+
+interface ReturnType<T> {
+  flatResponse: T;
+  rawResponse: FullOperationResponse;
+}
+
+async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<ReturnType<TResult>> {
+  // renaming onResponse received from customer to customerProvidedCallback
+  const { onResponse: customerProvidedCallback } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  // flatResponseParam - is basically the flatResponse received from service call -
+  // just named it so that linter doesn't complain
+  // onResponse - includes the rawResponse and the customer's provided onResponse
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      customerProvidedCallback?.(response, flatResponseParam);
+    }
+  });
+  return { flatResponse, rawResponse: rawResponse! };
 }

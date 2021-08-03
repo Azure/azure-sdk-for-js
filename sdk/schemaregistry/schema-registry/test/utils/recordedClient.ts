@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 import { SchemaRegistryClient } from "../../src/index";
 

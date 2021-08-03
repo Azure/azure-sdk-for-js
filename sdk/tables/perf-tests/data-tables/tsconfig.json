@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../tsconfig.package",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "lib": ["dom", "esnext"],
+  },
+  "compileOnSave": true,
+  "include": ["./test/**/*.ts"]
+}
