@@ -35,7 +35,7 @@
     "typescript": "^3.6.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/batch/arm-batch",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
