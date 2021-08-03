@@ -12,7 +12,7 @@ import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
-describe("Certificates client - LRO - recoverDelete", () => {
+describe("Certificates client - LRO - recoverDelete", function() {
   const certificatePrefix = `lroRecover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
