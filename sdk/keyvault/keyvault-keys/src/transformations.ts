@@ -42,6 +42,8 @@ export function getKeyFromKeyBundle(
       updatedOn: attributes.updated,
       recoverableDays: attributes.recoverableDays,
       recoveryLevel: attributes.recoveryLevel,
+      exportable: attributes.exportable,
+      releasePolicy: keyBundle.releasePolicy,
 
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,

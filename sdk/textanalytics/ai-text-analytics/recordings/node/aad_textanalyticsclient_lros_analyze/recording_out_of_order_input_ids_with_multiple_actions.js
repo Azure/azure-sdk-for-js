@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"56","text":":)"},{"id":"0","text":":("},{"id":"22","text":"w"},{"id":"19","text":":P"},{"id":"1","text":":D"}]},"tasks":{"entityRecognitionTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"keyPhraseExtractionTasks":[{"parameters":{"model-version":"latest"}}]}})
+  .post('/text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"56","text":":)"},{"id":"0","text":":("},{"id":"22","text":"w"},{"id":"19","text":":P"},{"id":"1","text":":D"}]},"tasks":{"entityRecognitionTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"keyPhraseExtractionTasks":[{"parameters":{"model-version":"latest"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -130,7 +130,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:05Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -150,7 +150,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:05Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -170,7 +170,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:05Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -190,7 +190,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:05Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -210,7 +210,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:05Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -230,7 +230,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:13Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:12.0939197Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:13.3399992Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -250,7 +250,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:13Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:12.0939197Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:13.3399992Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -270,7 +270,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:17Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":3,"failed":0,"inProgress":0,"total":3,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:17.0422251Z","taskName":"NamedEntityRecognition_latest","state":"succeeded","results":{"documents":[{"id":"56","entities":[],"warnings":[]},{"id":"0","entities":[],"warnings":[]},{"id":"22","entities":[],"warnings":[]},{"id":"19","entities":[],"warnings":[]},{"id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}],"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:12.0939197Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:13.3399992Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -290,7 +290,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
+  .get('/text/analytics/v3.1/analyze/jobs/381cbfcf-90ca-4108-9cd1-528d506cfabe')
   .query(true)
   .reply(200, {"jobId":"381cbfcf-90ca-4108-9cd1-528d506cfabe","lastUpdateDateTime":"2021-06-25T19:40:17Z","createdDateTime":"2021-06-25T19:40:04Z","expirationDateTime":"2021-06-26T19:40:04Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":3,"failed":0,"inProgress":0,"total":3,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:17.0422251Z","taskName":"NamedEntityRecognition_latest","state":"succeeded","results":{"documents":[{"id":"56","entities":[],"warnings":[]},{"id":"0","entities":[],"warnings":[]},{"id":"22","entities":[],"warnings":[]},{"id":"19","entities":[],"warnings":[]},{"id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}],"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:12.0939197Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:40:13.3399992Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',

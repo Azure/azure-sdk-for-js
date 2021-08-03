@@ -1,15 +1,22 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.2.0 (Unreleased)
 
 ### Features Added
 
+- `LroEngine` supports a new `isDone()` function in its options bag which can be used to provide a custom logic for determining when an LRO finished processing.
+
 ### Breaking Changes
 
-### Key Bugs Fixed
+### Bugs Fixed
 
-### Fixed
+### Other Changes
 
+## 2.1.0 (2021-07-19)
+
+### Features Added
+
+- Provides a long-running operation engine.
 
 ## 2.0.0 (2021-06-30)
 

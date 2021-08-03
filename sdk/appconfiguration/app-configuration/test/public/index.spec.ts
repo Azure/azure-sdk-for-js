@@ -537,7 +537,9 @@ describe("AppConfigurationClient", () => {
     after(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
-      } catch (e) {}
+      } catch (e) {
+        /** empty */
+      }
     });
 
     it("undefined doesn't throw and will just return everything", async () => {

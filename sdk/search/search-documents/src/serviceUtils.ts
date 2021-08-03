@@ -19,6 +19,8 @@ import {
   DataChangeDetectionPolicyUnion,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   DataDeletionDetectionPolicyUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
   LexicalAnalyzerName,
@@ -39,6 +41,10 @@ import {
   DocumentExtractionSkill,
   CustomEntityLookupSkill,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
   LuceneStandardAnalyzer,
@@ -46,13 +52,13 @@ import {
   PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
   PatternTokenizer,
-  LexicalNormalizerName
+  LexicalNormalizerName,
+  SearchIndexerDataIdentityUnion
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
   CharFilter,
   CognitiveServicesAccount,
-  ComplexField,
   SearchField,
   SearchIndex,
   isComplexField,
@@ -70,13 +76,16 @@ import {
   SimilarityAlgorithm,
   SearchResourceEncryptionKey,
   PatternAnalyzer,
-  LexicalNormalizer
+  LexicalNormalizer,
+  SearchIndexerDataIdentity
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
   SearchResult as GeneratedSearchResult
 } from "./generated/data/models";
+
+export const DEFAULT_SEARCH_SCOPE = "https://search.azure.com/.default";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -115,6 +124,18 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
+        break;
+      case "#Microsoft.Skills.Text.PIIDetectionSkill":
+        result.push(skill as PIIDetectionSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
+        result.push(skill as EntityRecognitionSkillV3);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityLinkingSkill":
+        result.push(skill as EntityLinkingSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.SentimentSkill":
+        result.push(skill as SentimentSkillV3);
         break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
@@ -246,13 +267,17 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
   return fields.map<SearchField>((field) => {
     let result: SearchField;
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
-      result = field as ComplexField;
+      return {
+        name: field.name,
+        type: field.type,
+        fields: convertFieldsToPublic(field.fields!)
+      };
     } else {
-      const anayzerName: LexicalAnalyzerName | undefined | null = field.analyzer;
-      const searchAnalyzerName: LexicalAnalyzerName | undefined | null = field.searchAnalyzer;
-      const indexAnalyzerName: LexicalAnalyzerName | undefined | null = field.indexAnalyzer;
+      const analyzerName: LexicalAnalyzerName | undefined = field.analyzer;
+      const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
+      const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
-      const normalizerNames: LexicalNormalizerName | undefined | null = field.normalizer;
+      const normalizerName: LexicalNormalizerName | undefined = field.normalizer;
 
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
@@ -260,11 +285,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       result = {
         ...restField,
         hidden,
-        anayzerName,
+        analyzerName,
         searchAnalyzerName,
         indexAnalyzerName,
         synonymMapNames,
-        normalizerNames
+        normalizerName
       } as SimpleField;
     }
     return result;
@@ -274,7 +299,11 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
 export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearchField[] {
   return fields.map<GeneratedSearchField>((field) => {
     if (isComplexField(field)) {
-      return field;
+      return {
+        name: field.name,
+        type: field.type,
+        fields: convertFieldsToGenerated(field.fields)
+      };
     } else {
       const { hidden, ...restField } = field;
       const retrievable = typeof hidden === "boolean" ? !hidden : hidden;
@@ -383,8 +412,8 @@ export function extractOperationOptions<T extends OperationOptions>(
 }
 
 export function convertEncryptionKeyToPublic(
-  encryptionKey?: GeneratedSearchResourceEncryptionKey | null
-): SearchResourceEncryptionKey | undefined | null {
+  encryptionKey?: GeneratedSearchResourceEncryptionKey
+): SearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -392,7 +421,8 @@ export function convertEncryptionKeyToPublic(
   const result: SearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUrl: encryptionKey.vaultUri
+    vaultUrl: encryptionKey.vaultUri,
+    identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity)
   };
 
   if (encryptionKey.accessCredentials) {
@@ -404,8 +434,8 @@ export function convertEncryptionKeyToPublic(
 }
 
 export function convertEncryptionKeyToGenerated(
-  encryptionKey?: SearchResourceEncryptionKey | null
-): GeneratedSearchResourceEncryptionKey | undefined | null {
+  encryptionKey?: SearchResourceEncryptionKey
+): GeneratedSearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -413,7 +443,8 @@ export function convertEncryptionKeyToGenerated(
   const result: GeneratedSearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUri: encryptionKey.vaultUrl
+    vaultUri: encryptionKey.vaultUrl,
+    identity: encryptionKey.identity
   };
 
   if (encryptionKey.applicationId) {
@@ -600,6 +631,7 @@ export function publicDataSourceToGeneratedDataSource(
       connectionString: dataSource.connectionString
     },
     container: dataSource.container,
+    identity: dataSource.identity,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -616,6 +648,7 @@ export function generatedDataSourceToPublicDataSource(
     type: dataSource.type,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
+    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
@@ -627,9 +660,25 @@ export function generatedDataSourceToPublicDataSource(
   };
 }
 
+export function convertSearchIndexerDataIdentityToPublic(
+  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion
+): SearchIndexerDataIdentity | undefined {
+  if (!searchIndexerDataIdentity) {
+    return searchIndexerDataIdentity;
+  }
+
+  if (
+    searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
+  ) {
+    return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
+  } else {
+    return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
+  }
+}
+
 export function convertDataChangeDetectionPolicyToPublic(
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null
-): DataChangeDetectionPolicy | undefined | null {
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion
+): DataChangeDetectionPolicy | undefined {
   if (!dataChangeDetectionPolicy) {
     return dataChangeDetectionPolicy;
   }
@@ -645,8 +694,8 @@ export function convertDataChangeDetectionPolicyToPublic(
 }
 
 export function convertDataDeletionDetectionPolicyToPublic(
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion | null
-): DataDeletionDetectionPolicy | undefined | null {
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion
+): DataDeletionDetectionPolicy | undefined {
   if (!dataDeletionDetectionPolicy) {
     return dataDeletionDetectionPolicy;
   }

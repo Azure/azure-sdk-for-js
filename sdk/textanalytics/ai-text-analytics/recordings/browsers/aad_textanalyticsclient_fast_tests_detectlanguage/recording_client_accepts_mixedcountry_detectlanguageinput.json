@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/languages",
+   "url": "https://endpoint/text/analytics/v3.1/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"countryHint\":\"mx\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"countryHint\":\"mx\"}]}",
    "status": 200,

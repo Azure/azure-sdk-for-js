@@ -125,6 +125,16 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
+export const ignoreResetRequirements: OperationQueryParameter = {
+  parameterPath: ["options", "ignoreResetRequirements"],
+  mapper: {
+    serializedName: "ignoreResetRequirements",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const select: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
@@ -149,6 +159,16 @@ export const indexerName: OperationURLParameter = {
 export const indexer: OperationParameter = {
   parameterPath: "indexer",
   mapper: SearchIndexerMapper
+};
+
+export const disableCacheReprocessingChangeDetection: OperationQueryParameter = {
+  parameterPath: ["options", "disableCacheReprocessingChangeDetection"],
+  mapper: {
+    serializedName: "disableCacheReprocessingChangeDetection",
+    type: {
+      name: "Boolean"
+    }
+  }
 };
 
 export const skillset: OperationParameter = {

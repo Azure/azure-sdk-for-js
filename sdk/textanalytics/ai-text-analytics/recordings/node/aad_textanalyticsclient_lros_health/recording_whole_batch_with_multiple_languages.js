@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"I should take my cat to the veterinarian."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"I should take my cat to the veterinarian."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
+  .get('/text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
   .query(true)
   .reply(200, {"jobId":"a52f1200-7c2d-4ff1-a566-cc2daf523f75","lastUpdateDateTime":"2021-06-25T19:44:58Z","createdDateTime":"2021-06-25T19:44:58Z","expirationDateTime":"2021-06-26T19:44:58Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
+  .get('/text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
   .query(true)
   .reply(200, {"jobId":"a52f1200-7c2d-4ff1-a566-cc2daf523f75","lastUpdateDateTime":"2021-06-25T19:44:58Z","createdDateTime":"2021-06-25T19:44:58Z","expirationDateTime":"2021-06-26T19:44:58Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -171,7 +171,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
+  .get('/text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
   .query(true)
   .reply(200, {"jobId":"a52f1200-7c2d-4ff1-a566-cc2daf523f75","lastUpdateDateTime":"2021-06-25T19:45:00Z","createdDateTime":"2021-06-25T19:44:58Z","expirationDateTime":"2021-06-26T19:44:58Z","status":"running","errors":[]}, [
   'Transfer-Encoding',
@@ -191,7 +191,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
+  .get('/text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
   .query(true)
   .reply(200, {"jobId":"a52f1200-7c2d-4ff1-a566-cc2daf523f75","lastUpdateDateTime":"2021-06-25T19:45:00Z","createdDateTime":"2021-06-25T19:44:58Z","expirationDateTime":"2021-06-26T19:44:58Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"1","entities":[{"offset":28,"length":12,"text":"veterinarian","category":"HealthcareProfession","confidenceScore":0.98}],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]},{"id":"3","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -211,7 +211,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
+  .get('/text/analytics/v3.1/entities/health/jobs/a52f1200-7c2d-4ff1-a566-cc2daf523f75')
   .query(true)
   .reply(200, {"jobId":"a52f1200-7c2d-4ff1-a566-cc2daf523f75","lastUpdateDateTime":"2021-06-25T19:45:00Z","createdDateTime":"2021-06-25T19:44:58Z","expirationDateTime":"2021-06-26T19:44:58Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"1","entities":[{"offset":28,"length":12,"text":"veterinarian","category":"HealthcareProfession","confidenceScore":0.98}],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]},{"id":"3","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

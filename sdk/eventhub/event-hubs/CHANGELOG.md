@@ -1,5 +1,15 @@
 # Release History
 
+## 5.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.6.0 (2021-07-07)
 
 ### Features Added
@@ -11,10 +21,6 @@
 - Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
 
   More information about the AMQP message body type can be found in the AMQP specification: [link](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format)
-
-### Breaking Changes
-
-### Key Bugs Fixed
 
 ## 5.5.2 (2021-06-10)
 

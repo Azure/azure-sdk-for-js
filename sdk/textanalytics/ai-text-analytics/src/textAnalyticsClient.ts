@@ -7,7 +7,6 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
@@ -59,23 +58,31 @@ import {
   setStrEncodingParamValue,
   StringIndexType
 } from "./util";
-import {
-  BeginAnalyzeHealthcarePoller,
-  AnalyzeHealthcareEntitiesPollerLike
-} from "./lro/health/poller";
-import {
-  BeginAnalyzeHealthcareEntitiesOptions,
-  AnalyzeHealthcareOperationState
-} from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
+import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
+import {
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcareEntitiesOptions,
+  HealthLro,
+  isHealthDone,
+  processHealthResult,
+  updateHealthState
+} from "./healthLro";
+import { LroEngine } from "@azure/core-lro";
+import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
 import {
   AnalyzeActionsOperationMetadata,
+  AnalyzeActionsOperationState,
+  AnalyzeActionsPollerLike,
+  AnalyzeLro,
   BeginAnalyzeActionsOptions,
-  AnalyzeActionsOperationState
-} from "./lro/analyze/operation";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+  isAnalyzeDone,
+  processAnalyzeResult,
+  updateAnalyzeState
+} from "./analyzeLro";
+import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -372,16 +379,6 @@ export class TextAnalyticsClient {
     const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
-
-    const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -933,13 +930,49 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
     }
 
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeHealthcarePoller({
-      client: this.client,
-      documents: realInputs,
-      options: restOptions,
-      updateIntervalInMs: updateIntervalInMs,
-      resumeFrom: resumeFrom
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      onResponse,
+      disableServiceLogs,
+      modelVersion,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      stringIndexType,
+      includeStatistics,
+      tracingOptions
+    } = realOptions;
+    const lro = new HealthLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { loggingOptOut: disableServiceLogs, stringIndexType, modelVersion },
+      { includeStatistics },
+      realInputs
+    );
+
+    const poller = new LroEngine<
+      PagedAnalyzeHealthcareEntitiesResult,
+      AnalyzeHealthcareOperationState
+    >(lro, {
+      intervalInMs: updateIntervalInMs,
+      resumeFrom: resumeFrom,
+      processResult: processHealthResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isHealthDone,
+      updateState: updateHealthState
     });
 
     await poller.poll();
@@ -997,14 +1030,45 @@ export class TextAnalyticsClient {
     }
     validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeActionsPoller({
-      client: this.client,
-      documents: realInputs,
-      actions: compiledActions,
-      options: restOptions,
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      displayName,
+      includeStatistics,
+      onResponse,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      tracingOptions
+    } = realOptions;
+    const lro = new AnalyzeLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { displayName },
+      { includeStatistics },
+      realInputs,
+      compiledActions
+    );
+
+    const poller = new LroEngine<PagedAnalyzeActionsResult, AnalyzeActionsOperationState>(lro, {
+      intervalInMs: updateIntervalInMs,
       resumeFrom: resumeFrom,
-      updateIntervalInMs: updateIntervalInMs
+      processResult: processAnalyzeResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isAnalyzeDone,
+      updateState: updateAnalyzeState
     });
 
     await poller.poll();

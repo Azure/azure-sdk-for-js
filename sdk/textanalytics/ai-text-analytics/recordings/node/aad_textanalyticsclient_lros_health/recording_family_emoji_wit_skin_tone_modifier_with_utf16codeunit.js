@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen","language":"en"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"0","text":"👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
+  .get('/text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
   .query(true)
   .reply(200, {"jobId":"ef092482-4431-4b03-a0d0-43b17bef5016","lastUpdateDateTime":"2021-06-25T19:45:18Z","createdDateTime":"2021-06-25T19:45:17Z","expirationDateTime":"2021-06-26T19:45:17Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
+  .get('/text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
   .query(true)
   .reply(200, {"jobId":"ef092482-4431-4b03-a0d0-43b17bef5016","lastUpdateDateTime":"2021-06-25T19:45:18Z","createdDateTime":"2021-06-25T19:45:17Z","expirationDateTime":"2021-06-26T19:45:17Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -171,7 +171,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
+  .get('/text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
   .query(true)
   .reply(200, {"jobId":"ef092482-4431-4b03-a0d0-43b17bef5016","lastUpdateDateTime":"2021-06-25T19:45:18Z","createdDateTime":"2021-06-25T19:45:17Z","expirationDateTime":"2021-06-26T19:45:17Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -191,7 +191,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
+  .get('/text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
   .query(true)
   .reply(200, {"jobId":"ef092482-4431-4b03-a0d0-43b17bef5016","lastUpdateDateTime":"2021-06-25T19:45:20Z","createdDateTime":"2021-06-25T19:45:17Z","expirationDateTime":"2021-06-26T19:45:17Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[{"offset":20,"length":9,"text":"ibuprofen","category":"MedicationName","confidenceScore":0.99,"name":"ibuprofen","links":[{"dataSource":"UMLS","id":"C0020740"},{"dataSource":"AOD","id":"0000019879"},{"dataSource":"ATC","id":"M01AE01"},{"dataSource":"CCPSS","id":"0046165"},{"dataSource":"CHV","id":"0000006519"},{"dataSource":"CSP","id":"2270-2077"},{"dataSource":"DRUGBANK","id":"DB01050"},{"dataSource":"GS","id":"1611"},{"dataSource":"LCH_NW","id":"sh97005926"},{"dataSource":"LNC","id":"LP16165-0"},{"dataSource":"MEDCIN","id":"40458"},{"dataSource":"MMSL","id":"d00015"},{"dataSource":"MSH","id":"D007052"},{"dataSource":"MTHSPL","id":"WK2XYI10QM"},{"dataSource":"NCI","id":"C561"},{"dataSource":"NCI_CTRP","id":"C561"},{"dataSource":"NCI_DCP","id":"00803"},{"dataSource":"NCI_DTP","id":"NSC0256857"},{"dataSource":"NCI_FDA","id":"WK2XYI10QM"},{"dataSource":"NCI_NCI-GLOSS","id":"CDR0000613511"},{"dataSource":"NDDF","id":"002377"},{"dataSource":"PDQ","id":"CDR0000040475"},{"dataSource":"RCD","id":"x02MO"},{"dataSource":"RXNORM","id":"5640"},{"dataSource":"SNM","id":"E-7772"},{"dataSource":"SNMI","id":"C-603C0"},{"dataSource":"SNOMEDCT_US","id":"387207008"},{"dataSource":"USP","id":"m39860"},{"dataSource":"USPMG","id":"MTHU000060"},{"dataSource":"VANDF","id":"4017840"}]}],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -211,7 +211,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
+  .get('/text/analytics/v3.1/entities/health/jobs/ef092482-4431-4b03-a0d0-43b17bef5016')
   .query(true)
   .reply(200, {"jobId":"ef092482-4431-4b03-a0d0-43b17bef5016","lastUpdateDateTime":"2021-06-25T19:45:20Z","createdDateTime":"2021-06-25T19:45:17Z","expirationDateTime":"2021-06-26T19:45:17Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[{"offset":20,"length":9,"text":"ibuprofen","category":"MedicationName","confidenceScore":0.99,"name":"ibuprofen","links":[{"dataSource":"UMLS","id":"C0020740"},{"dataSource":"AOD","id":"0000019879"},{"dataSource":"ATC","id":"M01AE01"},{"dataSource":"CCPSS","id":"0046165"},{"dataSource":"CHV","id":"0000006519"},{"dataSource":"CSP","id":"2270-2077"},{"dataSource":"DRUGBANK","id":"DB01050"},{"dataSource":"GS","id":"1611"},{"dataSource":"LCH_NW","id":"sh97005926"},{"dataSource":"LNC","id":"LP16165-0"},{"dataSource":"MEDCIN","id":"40458"},{"dataSource":"MMSL","id":"d00015"},{"dataSource":"MSH","id":"D007052"},{"dataSource":"MTHSPL","id":"WK2XYI10QM"},{"dataSource":"NCI","id":"C561"},{"dataSource":"NCI_CTRP","id":"C561"},{"dataSource":"NCI_DCP","id":"00803"},{"dataSource":"NCI_DTP","id":"NSC0256857"},{"dataSource":"NCI_FDA","id":"WK2XYI10QM"},{"dataSource":"NCI_NCI-GLOSS","id":"CDR0000613511"},{"dataSource":"NDDF","id":"002377"},{"dataSource":"PDQ","id":"CDR0000040475"},{"dataSource":"RCD","id":"x02MO"},{"dataSource":"RXNORM","id":"5640"},{"dataSource":"SNM","id":"E-7772"},{"dataSource":"SNMI","id":"C-603C0"},{"dataSource":"SNOMEDCT_US","id":"387207008"},{"dataSource":"USP","id":"m39860"},{"dataSource":"USPMG","id":"MTHU000060"},{"dataSource":"VANDF","id":"4017840"}]}],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

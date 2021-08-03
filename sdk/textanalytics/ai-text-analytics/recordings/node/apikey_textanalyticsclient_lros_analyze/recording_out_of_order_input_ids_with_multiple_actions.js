@@ -5,7 +5,7 @@ module.exports.hash = "ce68d594d903ed92dd603e6d0dc15d1d";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"56","text":":)"},{"id":"0","text":":("},{"id":"22","text":"w"},{"id":"19","text":":P"},{"id":"1","text":":D"}]},"tasks":{"entityRecognitionTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"keyPhraseExtractionTasks":[{"parameters":{"model-version":"latest"}}]}})
+  .post('/text/analytics/v3.1/analyze', {"analysisInput":{"documents":[{"id":"56","text":":)"},{"id":"0","text":":("},{"id":"22","text":"w"},{"id":"19","text":":P"},{"id":"1","text":":D"}]},"tasks":{"entityRecognitionTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}],"keyPhraseExtractionTasks":[{"parameters":{"model-version":"latest"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -24,7 +24,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:25Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -44,7 +44,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:25Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -64,7 +64,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:25Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -84,7 +84,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:25Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":0,"failed":0,"inProgress":3,"total":3}}, [
   'Transfer-Encoding',
@@ -104,7 +104,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:31Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":2,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
@@ -124,7 +124,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:33Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":2,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
@@ -144,7 +144,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:33Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":2,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
@@ -164,7 +164,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:33Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":1,"failed":0,"inProgress":2,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
@@ -184,7 +184,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:40Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -204,7 +204,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:40Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -224,7 +224,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:40Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -244,7 +244,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:40Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -264,7 +264,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:40Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"running","errors":[],"displayName":"NA","tasks":{"completed":2,"failed":0,"inProgress":1,"total":3,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -284,7 +284,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:50Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":3,"failed":0,"inProgress":0,"total":3,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:50.6708537Z","taskName":"NamedEntityRecognition_latest","state":"succeeded","results":{"documents":[{"id":"56","entities":[],"warnings":[]},{"id":"0","entities":[],"warnings":[]},{"id":"22","entities":[],"warnings":[]},{"id":"19","entities":[],"warnings":[]},{"id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}],"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',
@@ -304,7 +304,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
+  .get('/text/analytics/v3.1/analyze/jobs/2ede272a-0f96-4ea8-a1a7-b6f04f223fce')
   .query(true)
   .reply(200, {"jobId":"2ede272a-0f96-4ea8-a1a7-b6f04f223fce","lastUpdateDateTime":"2021-06-25T19:51:50Z","createdDateTime":"2021-06-25T19:51:25Z","expirationDateTime":"2021-06-26T19:51:25Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"completed":3,"failed":0,"inProgress":0,"total":3,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:50.6708537Z","taskName":"NamedEntityRecognition_latest","state":"succeeded","results":{"documents":[{"id":"56","entities":[],"warnings":[]},{"id":"0","entities":[],"warnings":[]},{"id":"22","entities":[],"warnings":[]},{"id":"19","entities":[],"warnings":[]},{"id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}],"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:31.8517641Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":":)","id":"56","entities":[],"warnings":[]},{"redactedText":":(","id":"0","entities":[],"warnings":[]},{"redactedText":"w","id":"22","entities":[],"warnings":[]},{"redactedText":":P","id":"19","entities":[],"warnings":[]},{"redactedText":":D","id":"1","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}],"keyPhraseExtractionTasks":[{"lastUpdateDateTime":"2021-06-25T19:51:40.1975875Z","taskName":"KeyPhraseExtraction_latest","state":"succeeded","results":{"documents":[{"id":"56","keyPhrases":[],"warnings":[]},{"id":"0","keyPhrases":[],"warnings":[]},{"id":"22","keyPhrases":[],"warnings":[]},{"id":"19","keyPhrases":[],"warnings":[]},{"id":"1","keyPhrases":[],"warnings":[]}],"errors":[],"modelVersion":"2021-06-01"}}]}}, [
   'Transfer-Encoding',

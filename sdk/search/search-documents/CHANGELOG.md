@@ -1,15 +1,35 @@
 # Release History
 
-## 11.3.0-beta.1 (Unreleased)
+## 11.3.0-beta.2 (2021-08-10)
 
 ### Features Added
+
+- Added a new parameter `ignoreResetRequirements` for the `createOrUpdate` operation of Data Sources.
+- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of Indexers and Skillsets.
+
+### Bugs Fixed
+
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+- Fixed the typos `anayzerName` to `analyzerName` and `normalizerNames` to `normalizerName` in `convertFieldsToPublic` method of `serviceUtils.ts`.
+
+### Other Changes
+
+- Removed the `| null` from the definitions of the optional values. Please refer [#16694](https://github.com/Azure/azure-sdk-for-js/pull/16694) for more details.
+
+## 11.3.0-beta.1 (2021-07-07)
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
-### Breaking Changes
+- Regenerated the search SDK with the latest swaggers that includes the following changes:
 
-### Key Bugs Fixed
-
-### Fixed
+  - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
+  - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
+  - The following new skills have been added:
+    - SentimentSkill(V3)
+    - EntityLinkingSkill(V3)
+    - EntityRecognitionSkill(V3)
+    - PIIDetectionSkill
+  - A new property `lineEnding` has been added to the skill `OcrSkill`.
 
 ## 11.2.0 (2021-06-08)
 

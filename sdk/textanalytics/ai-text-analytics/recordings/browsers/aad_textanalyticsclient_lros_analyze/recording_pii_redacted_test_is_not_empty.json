@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"},{\"id\":\"2\",\"text\":\"Este es un document escrito en Español.\"},{\"id\":\"3\",\"text\":\"猫は幸せ\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
@@ -43,7 +43,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -62,7 +62,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -81,7 +81,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -100,7 +100,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -119,7 +119,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -138,7 +138,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -157,7 +157,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -176,7 +176,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },
@@ -195,7 +195,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/e673b321-fe25-46f5-9d15-ea08b0b26dff",
    "query": {
     "$top": "20"
    },

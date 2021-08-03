@@ -5,7 +5,7 @@ module.exports.hash = "475873b6384b961b148934bfd317912c";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"I should take my cat to the veterinarian."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"I should take my cat to the veterinarian."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -25,7 +25,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
+  .get('/text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
   .query(true)
   .reply(200, {"jobId":"2b5f6da1-2090-4281-bdd0-6792cac81d8b","lastUpdateDateTime":"2021-06-25T19:56:45Z","createdDateTime":"2021-06-25T19:56:45Z","expirationDateTime":"2021-06-26T19:56:45Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -45,7 +45,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
+  .get('/text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
   .query(true)
   .reply(200, {"jobId":"2b5f6da1-2090-4281-bdd0-6792cac81d8b","lastUpdateDateTime":"2021-06-25T19:56:45Z","createdDateTime":"2021-06-25T19:56:45Z","expirationDateTime":"2021-06-26T19:56:45Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -65,7 +65,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
+  .get('/text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
   .query(true)
   .reply(200, {"jobId":"2b5f6da1-2090-4281-bdd0-6792cac81d8b","lastUpdateDateTime":"2021-06-25T19:56:46Z","createdDateTime":"2021-06-25T19:56:45Z","expirationDateTime":"2021-06-26T19:56:45Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"1","entities":[{"offset":28,"length":12,"text":"veterinarian","category":"HealthcareProfession","confidenceScore":0.98}],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]},{"id":"3","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -85,7 +85,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
+  .get('/text/analytics/v3.1/entities/health/jobs/2b5f6da1-2090-4281-bdd0-6792cac81d8b')
   .query(true)
   .reply(200, {"jobId":"2b5f6da1-2090-4281-bdd0-6792cac81d8b","lastUpdateDateTime":"2021-06-25T19:56:46Z","createdDateTime":"2021-06-25T19:56:45Z","expirationDateTime":"2021-06-26T19:56:45Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"1","entities":[{"offset":28,"length":12,"text":"veterinarian","category":"HealthcareProfession","confidenceScore":0.98}],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]},{"id":"3","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

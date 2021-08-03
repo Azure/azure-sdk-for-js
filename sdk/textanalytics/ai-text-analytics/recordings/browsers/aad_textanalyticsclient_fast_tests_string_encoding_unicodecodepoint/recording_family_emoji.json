@@ -26,7 +26,7 @@
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "UnicodeCodePoint"
    },

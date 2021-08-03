@@ -32,6 +32,26 @@ This version of `@azure/identity` supports stable (even numbered) versions of No
 
 > **Note:** If your application runs on Node.js v8 or lower, we strongly recommend you to upgrade your Node.js version to latest stable version or pin your `@azure/identity` dependency to version 1.1.0.
 
+### When to use @azure/identity
+
+The credential classes exposed by `@azure/identity` are focused on providing the most straightforward way to authenticate the Azure SDK clients locally, in your development environments, and in production. We aim for simplicity and reasonable support of the authentication protocols to cover most of the authentication scenarios possible on Azure. We're actively expanding to cover more scenarios. For a full list of the credentials offered, see the [Credential Classes](#credential-classes) section.
+
+All credential types provided by `@azure/identity` are supported in Node.js. For browsers, `InteractiveBrowserCredential` is the credential type to be used for basic authentication scenarios.
+
+Most of the credential types offered by `@azure/identity` use the [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js). Specifically, we use the v2 MSAL.js libraries, which use [OAuth 2.0 Authorization Code Flow with PKCE](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) and are [OpenID-compliant](https://docs.microsoft.com/azure/active-directory/develop/v2-protocols-oidc). While `@azure/identity` focuses on simplicity, the MSAL.js libraries, such as [@azure/msal-common](https://www.npmjs.com/package/@azure/msal-common), [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node), and [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser), are designed to provide robust support for the authentication protocols that Azure supports.
+
+#### When to use something else
+
+The `@azure/identity` credential types are implementations of [@azure/core-auth](https://www.npmjs.com/package/@azure/core-auth)'s `TokenCredential` class. In principle, any object with a `getToken` method that satisfies `getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>` will work as a `TokenCredential`. This means developers can write their own credential types to support authentication cases not covered by `@azure/identity`. To learn more, see [Custom Credentials](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#custom-credentials).
+
+Though our credential types support many advanced cases, developers may want full control of the authentication protocol. For that use case, we recommend using [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) directly. You can read more through the following links:
+
+- We portray some advanced use cases of `@azure/identity` on the [Azure Identity Examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md) page.
+  - There, we specifically have an [Advanced Examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#advanced-examples) section.
+  - We also have a section that shows how to [Authenticate with MSAL directly](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-msal-directly).
+
+For advanced authentication workflows in the browser, we have a section where we showcase how to use the [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser) library directly to authenticate Azure SDK clients.
+
 ### Authenticate the client in development environment
 
 While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.

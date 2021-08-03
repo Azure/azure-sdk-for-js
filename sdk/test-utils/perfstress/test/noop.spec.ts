@@ -9,7 +9,5 @@ import { PerfStressTest } from "../src";
 export class NoOp extends PerfStressTest {
   public options = {};
 
-  run(): void {}
-
   async runAsync(): Promise<void> {}
 }

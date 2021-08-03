@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"0","text":"This should fail because we're passing in an invalid language hint","language":"notalanguage"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"0","text":"This should fail because we're passing in an invalid language hint","language":"notalanguage"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
+  .get('/text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
   .query(true)
   .reply(200, {"jobId":"27e15134-9fe1-4152-80fe-23499c7d703f","lastUpdateDateTime":"2021-06-25T19:45:03Z","createdDateTime":"2021-06-25T19:45:03Z","expirationDateTime":"2021-06-26T19:45:03Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
+  .get('/text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
   .query(true)
   .reply(200, {"jobId":"27e15134-9fe1-4152-80fe-23499c7d703f","lastUpdateDateTime":"2021-06-25T19:45:03Z","createdDateTime":"2021-06-25T19:45:03Z","expirationDateTime":"2021-06-26T19:45:03Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -171,7 +171,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
+  .get('/text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
   .query(true)
   .reply(200, {"jobId":"27e15134-9fe1-4152-80fe-23499c7d703f","lastUpdateDateTime":"2021-06-25T19:45:05Z","createdDateTime":"2021-06-25T19:45:03Z","expirationDateTime":"2021-06-26T19:45:03Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support"}}}],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -191,7 +191,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
+  .get('/text/analytics/v3.1/entities/health/jobs/27e15134-9fe1-4152-80fe-23499c7d703f')
   .query(true)
   .reply(200, {"jobId":"27e15134-9fe1-4152-80fe-23499c7d703f","lastUpdateDateTime":"2021-06-25T19:45:05Z","createdDateTime":"2021-06-25T19:45:03Z","expirationDateTime":"2021-06-26T19:45:03Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support"}}}],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

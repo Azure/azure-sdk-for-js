@@ -10,7 +10,10 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkRelayRestClient } from "../networkRelayRestClient";
-import { CommunicationNetworkTraversalIssueTurnCredentialsResponse } from "../models";
+import {
+  CommunicationRelayConfigurationRequest,
+  CommunicationNetworkTraversalIssueRelayConfigurationResponse
+} from "../models";
 
 /**
  * Class representing a CommunicationNetworkTraversal.
@@ -27,29 +30,29 @@ export class CommunicationNetworkTraversal {
   }
 
   /**
-   * Issue TURN credentials for an existing identity.
-   * @param id Identifier of the existing identity to issue credentials for.
+   * Issue a configuration for an STUN/TURN server for an existing identity.
+   * @param body Request for a CommunicationRelayConfiguration.
    * @param options The options parameters.
    */
-  issueTurnCredentials(
-    id: string,
+  issueRelayConfiguration(
+    body: CommunicationRelayConfigurationRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<CommunicationNetworkTraversalIssueTurnCredentialsResponse> {
+  ): Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
-      issueTurnCredentialsOperationSpec
-    ) as Promise<CommunicationNetworkTraversalIssueTurnCredentialsResponse>;
+      { body, options: operationOptions },
+      issueRelayConfigurationOperationSpec
+    ) as Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse>;
   }
 }
 // Operation Specifications
 
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const issueTurnCredentialsOperationSpec: coreHttp.OperationSpec = {
-  path: "/turn/{id}/:issueCredentials",
+const issueRelayConfigurationOperationSpec: coreHttp.OperationSpec = {
+  path: "/networktraversal/:issueRelayConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
@@ -59,7 +62,10 @@ const issueTurnCredentialsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };

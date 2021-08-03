@@ -601,10 +601,15 @@ export interface FileQueryJsonTextConfiguration {
 export interface FileQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: DataLakeRequestConditions;
-    inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+    inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryParquetConfiguration;
     onError?: (error: FileQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
     outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
+}
+
+// @public
+export interface FileQueryParquetConfiguration {
+    kind: "parquet";
 }
 
 // @public (undocumented)

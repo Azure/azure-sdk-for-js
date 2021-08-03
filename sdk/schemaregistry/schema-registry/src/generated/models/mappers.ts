@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const SchemaId: coreHttp.CompositeMapper = {
+export const SchemaId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SchemaId",
@@ -23,7 +23,7 @@ export const SchemaId: coreHttp.CompositeMapper = {
   }
 };
 
-export const SchemaGetByIdHeaders: coreHttp.CompositeMapper = {
+export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SchemaGetByIdHeaders",
@@ -62,7 +62,7 @@ export const SchemaGetByIdHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const SchemaQueryIdByContentHeaders: coreHttp.CompositeMapper = {
+export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SchemaQueryIdByContentHeaders",
@@ -101,7 +101,7 @@ export const SchemaQueryIdByContentHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const SchemaRegisterHeaders: coreHttp.CompositeMapper = {
+export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SchemaRegisterHeaders",

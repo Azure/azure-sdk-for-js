@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"\",\"language\":\"\"},{\"id\":\"2\",\"text\":\"I did not like the hotel we stayed at. It was too expensive.\",\"language\":\"english\"},{\"id\":\"3\",\"text\":\"The restaurant had really good food. I recommend you try it.\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]}}",
    "status": 202,
@@ -19,7 +19,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -38,7 +38,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -57,7 +57,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -76,7 +76,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -95,7 +95,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -114,7 +114,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -133,7 +133,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -152,7 +152,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -171,7 +171,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -190,7 +190,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -209,7 +209,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -228,7 +228,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -247,7 +247,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -266,7 +266,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -285,7 +285,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -304,7 +304,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -323,7 +323,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -342,7 +342,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -361,7 +361,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -380,7 +380,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -399,7 +399,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -418,7 +418,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -437,7 +437,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -456,7 +456,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -475,7 +475,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -494,7 +494,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -513,7 +513,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -532,7 +532,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -551,7 +551,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -570,7 +570,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -589,7 +589,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -608,7 +608,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -627,7 +627,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -646,7 +646,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -665,7 +665,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -684,7 +684,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -703,7 +703,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -722,7 +722,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },
@@ -741,7 +741,7 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
+   "url": "https://endpoint/text/analytics/v3.1/analyze/jobs/3f3ad18e-da27-42b8-aa22-ae8c3233d866",
    "query": {
     "$top": "20"
    },

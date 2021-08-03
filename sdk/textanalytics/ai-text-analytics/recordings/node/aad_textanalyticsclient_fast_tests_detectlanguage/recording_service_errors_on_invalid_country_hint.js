@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
+  .post('/text/analytics/v3.1/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
   .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2021-01-05"}, [
   'Transfer-Encoding',
   'chunked',

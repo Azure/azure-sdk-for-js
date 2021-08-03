@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/recognition/pii', {"documents":[{"id":"0","text":"I work at Microsoft and my phone number is 333-333-3333","language":"en"}]})
+  .post('/text/analytics/v3.1/entities/recognition/pii', {"documents":[{"id":"0","text":"I work at Microsoft and my phone number is 333-333-3333","language":"en"}]})
   .query(true)
   .reply(200, {"documents":[{"redactedText":"I work at ********* and my phone number is ************","id":"0","entities":[{"text":"Microsoft","category":"Organization","offset":10,"length":9,"confidenceScore":0.95},{"text":"333-333-3333","category":"PhoneNumber","offset":43,"length":12,"confidenceScore":0.8}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}, [
   'Transfer-Encoding',

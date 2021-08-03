@@ -1,5 +1,23 @@
 # Release History
 
+## 3.12.3 (2021-07-23)
+
+### Bugs Fixed
+
+- Fix bulk operations on containers with multiple partitions with nested partition keys
+
+## 3.12.2 (2021-07-21)
+
+### Features Added
+
+- Adopted target ES2017 to reduce bundle size.
+
+## 3.12.1 (2021-07-16)
+
+### Bugs Fixed
+
+- Returned default retryPolicy option `fixedRetryIntervalInMilliseconds` to its original default 0.
+
 ## 3.12.0 (2021-07-06)
 
 ### Features Added
@@ -22,13 +40,6 @@ const client = new CosmosClient({
 const client = new CosmosClient()
 client.dispose() // cancels background endpoint refreshing
 ```
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
 
 ## 3.11.5 (2021-06-10)
 

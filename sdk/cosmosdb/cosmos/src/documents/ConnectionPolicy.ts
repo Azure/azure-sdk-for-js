@@ -41,7 +41,7 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   preferredLocations: [],
   retryOptions: {
     maxRetryAttemptCount: 9,
-    fixedRetryIntervalInMilliseconds: 100,
+    fixedRetryIntervalInMilliseconds: 0,
     maxWaitTimeInSeconds: 30
   },
   useMultipleWriteLocations: true,

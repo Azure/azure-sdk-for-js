@@ -17,7 +17,7 @@ async function main() {
   await chatHub.sendToUser("bterlson", "Hi there!");
 
   // send a text message to a specific connection
-  await chatHub.sendToUser("Tn3XcrAbHI0OE36XvbWwige4ac096c1", "Hi there!");
+  await chatHub.sendToConnection("Tn3XcrAbHI0OE36XvbWwige4ac096c1", "Hi there!");
 }
 
 main().catch((e) => {

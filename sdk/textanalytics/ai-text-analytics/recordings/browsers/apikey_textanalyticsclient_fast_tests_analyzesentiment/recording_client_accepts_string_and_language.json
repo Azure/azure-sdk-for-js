@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/sentiment",
+   "url": "https://endpoint/text/analytics/v3.1/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },

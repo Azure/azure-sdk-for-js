@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"","language":"en"},{"id":"2","text":"Patient does not suffer from high blood pressure.","language":"english"},{"id":"3","text":"","language":"en"}]})
+  .post('/text/analytics/v3.1/entities/health/jobs', {"documents":[{"id":"1","text":"","language":"en"},{"id":"2","text":"Patient does not suffer from high blood pressure.","language":"english"},{"id":"3","text":"","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
+  .get('/text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
   .query(true)
   .reply(200, {"jobId":"c118e01d-6db8-42dc-95ba-4fcaf981de0c","lastUpdateDateTime":"2021-06-25T19:44:28Z","createdDateTime":"2021-06-25T19:44:28Z","expirationDateTime":"2021-06-26T19:44:28Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -151,7 +151,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
+  .get('/text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
   .query(true)
   .reply(200, {"jobId":"c118e01d-6db8-42dc-95ba-4fcaf981de0c","lastUpdateDateTime":"2021-06-25T19:44:28Z","createdDateTime":"2021-06-25T19:44:28Z","expirationDateTime":"2021-06-26T19:44:28Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
@@ -171,7 +171,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
+  .get('/text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
   .query(true)
   .reply(200, {"jobId":"c118e01d-6db8-42dc-95ba-4fcaf981de0c","lastUpdateDateTime":"2021-06-25T19:44:30Z","createdDateTime":"2021-06-25T19:44:28Z","expirationDateTime":"2021-06-26T19:44:28Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"1","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}},{"id":"2","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support"}}},{"id":"3","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}}],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
@@ -191,7 +191,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
+  .get('/text/analytics/v3.1/entities/health/jobs/c118e01d-6db8-42dc-95ba-4fcaf981de0c')
   .query(true)
   .reply(200, {"jobId":"c118e01d-6db8-42dc-95ba-4fcaf981de0c","lastUpdateDateTime":"2021-06-25T19:44:30Z","createdDateTime":"2021-06-25T19:44:28Z","expirationDateTime":"2021-06-26T19:44:28Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"1","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}},{"id":"2","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support"}}},{"id":"3","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}}],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',

@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Contains the tables, columns & rows resulting from a query. */
 export interface QueryResults {
   /** The list of tables, columns and rows. */
   tables: Table[];
   /** Statistics represented in JSON format. */
-  statistics?: any;
+  statistics?: Record<string, unknown>;
   /** Visualization data in JSON format. */
-  render?: any;
+  render?: Record<string, unknown>;
   /** The code and message for an error. */
   error?: ErrorInfo;
 }
@@ -27,7 +27,7 @@ export interface Table {
   /** The list of columns in this table. */
   columns: Column[];
   /** The resulting rows from this query. */
-  rows: any[][];
+  rows: Record<string, unknown>[][];
 }
 
 /** A column in a table. */
@@ -49,7 +49,7 @@ export interface ErrorInfo {
   /** Inner error details if they exist. */
   innererror?: ErrorInfo;
   /** Additional properties that can be provided on the error info object */
-  additionalProperties?: any;
+  additionalProperties?: Record<string, unknown>;
 }
 
 /** Error details. */
@@ -65,7 +65,7 @@ export interface ErrorDetail {
   /** Indicates resources which were responsible for the error. */
   resources?: string[];
   /** Additional properties that can be provided on the error details object */
-  additionalProperties?: any;
+  additionalProperties?: Record<string, unknown>;
 }
 
 /** Contains details when the response code indicates an error. */
@@ -147,9 +147,9 @@ export interface MetadataResourceType {
   /** The user-defined labels of the resource-type */
   labels?: string[];
   /** The tags associated with the resource-type */
-  tags?: any;
+  tags?: Record<string, unknown>;
   /** The properties of the resource-type */
-  properties?: any;
+  properties?: Record<string, unknown>;
   /** The related metadata items for the resource-type */
   related?: MetadataResourceTypeRelated;
 }
@@ -181,9 +181,9 @@ export interface MetadataSolution {
   /** The description of the Log Analytics solution */
   description?: string;
   /** The tags that are associated with the Log Analytics solution */
-  tags?: any;
+  tags?: Record<string, unknown>;
   /** The properties of the Log Analytics solution */
-  properties?: any;
+  properties?: Record<string, unknown>;
   /** The related metadata items for the Log Analytics solution */
   related: MetadataSolutionRelated;
 }
@@ -215,9 +215,9 @@ export interface MetadataTable {
   /** The user defined labels of the table */
   labels?: string[];
   /** The tags associated with the table */
-  tags?: any;
+  tags?: Record<string, unknown>;
   /** The properties of the table */
-  properties?: any;
+  properties?: Record<string, unknown>;
   /** The list of columns defined on the table */
   columns?: MetadataTableColumnsItem[];
   /** The related metadata items for the table */
@@ -234,7 +234,7 @@ export interface MetadataTableColumnsItem {
   /** A flag indicating this column is a preferred facet */
   isPreferredFacet?: boolean;
   /** an indication of the source of the column, used only when multiple workspaces have conflicting definition for the column */
-  source?: any;
+  source?: Record<string, unknown>;
 }
 
 /** The related metadata items for the table */
@@ -268,9 +268,9 @@ export interface MetadataFunction {
   /** The KQL body of the function. */
   body: string;
   /** The tags associated with the function. */
-  tags?: any;
+  tags?: Record<string, unknown>;
   /** The properties of the function. */
-  properties?: any;
+  properties?: Record<string, unknown>;
   /** The related metadata items for the function. */
   related?: MetadataFunctionRelated;
 }
@@ -302,9 +302,9 @@ export interface MetadataQuery {
   /** The user defined labels associated with the query. */
   labels?: string[];
   /** The tags associated with the query. */
-  tags?: any;
+  tags?: Record<string, unknown>;
   /** The properties of the query. */
-  properties?: any;
+  properties?: Record<string, unknown>;
   /** The related metadata items for the query. */
   related?: MetadataQueryRelated;
 }
@@ -440,15 +440,15 @@ export interface BatchQueryResults {
   /** The list of tables, columns and rows. */
   tables?: Table[];
   /** Statistics represented in JSON format. */
-  statistics?: any;
+  statistics?: Record<string, unknown>;
   /** Visualization data in JSON format. */
-  render?: any;
+  render?: Record<string, unknown>;
   /** The code and message for an error. */
   error?: ErrorInfo;
 }
 
 /** Known values of {@link LogsColumnType} that the service accepts. */
-export const enum KnownLogsColumnType {
+export enum KnownLogsColumnType {
   Bool = "bool",
   Datetime = "datetime",
   Dynamic = "dynamic",
@@ -465,7 +465,7 @@ export const enum KnownLogsColumnType {
  * Defines values for LogsColumnType. \
  * {@link KnownLogsColumnType} can be used interchangeably with LogsColumnType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **bool** \
  * **datetime** \
  * **dynamic** \
@@ -480,7 +480,7 @@ export const enum KnownLogsColumnType {
 export type LogsColumnType = string;
 
 /** Known values of {@link MetadataColumnDataType} that the service accepts. */
-export const enum KnownMetadataColumnDataType {
+export enum KnownMetadataColumnDataType {
   Bool = "bool",
   Datetime = "datetime",
   Dynamic = "dynamic",
@@ -497,7 +497,7 @@ export const enum KnownMetadataColumnDataType {
  * Defines values for MetadataColumnDataType. \
  * {@link KnownMetadataColumnDataType} can be used interchangeably with MetadataColumnDataType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **bool** \
  * **datetime** \
  * **dynamic** \
@@ -512,80 +512,47 @@ export const enum KnownMetadataColumnDataType {
 export type MetadataColumnDataType = string;
 
 /** Optional parameters. */
-export interface QueryGetOptionalParams extends coreHttp.OperationOptions {
+export interface QueryGetOptionalParams extends coreClient.OperationOptions {
   /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
   timespan?: string;
 }
 
 /** Contains response data for the get operation. */
-export type QueryGetResponse = QueryResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueryResults;
-  };
-};
+export type QueryGetResponse = QueryResults;
 
 /** Optional parameters. */
-export interface QueryExecuteOptionalParams extends coreHttp.OperationOptions {
+export interface QueryExecuteOptionalParams
+  extends coreClient.OperationOptions {
   /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
   prefer?: string;
 }
 
 /** Contains response data for the execute operation. */
-export type QueryExecuteResponse = QueryResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type QueryExecuteResponse = QueryResults;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueryResults;
-  };
-};
+/** Optional parameters. */
+export interface QueryBatchOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the batch operation. */
-export type QueryBatchResponse = BatchResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type QueryBatchResponse = BatchResponse;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: BatchResponse;
-  };
-};
+/** Optional parameters. */
+export interface MetadataGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MetadataGetResponse = MetadataResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type MetadataGetResponse = MetadataResults;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetadataResults;
-  };
-};
+/** Optional parameters. */
+export interface MetadataPostOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the post operation. */
-export type MetadataPostResponse = MetadataResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetadataResults;
-  };
-};
+export type MetadataPostResponse = MetadataResults;
 
 /** Optional parameters. */
 export interface AzureLogAnalyticsOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
