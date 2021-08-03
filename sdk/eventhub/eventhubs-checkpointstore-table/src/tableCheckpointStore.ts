@@ -6,23 +6,28 @@ import { odata, TableClient } from "@azure/data-tables";
 import { logger, logErrorStackTrace } from "./log";
 
 /**
- * Adds the fields partitionkey and rowkey to Checkpoint in order for checkpoints to be stored in the table as entities
+ * A checkpoint entity of type CheckpointEntity to be stored in the table
  * @internal
  * @hidden
  */
-export interface CheckpointEntity extends Checkpoint {
-  partitionKey: string;
-  rowKey: string;
+export interface CheckpointEntity {
+  partitionKey: string,
+  rowKey: string,
+  sequencenumber: number,
+  offset: number
 }
 
+
+
 /**
- * Adds the fields partitionkey and rowkey to PartitionOwnership in order for ownerships to be stored in the table as entities
+ * An ownership entity of type PartitionOwnership to be stored in the table
  * @internal
  * @hidden
  */
-export interface PartitionOwnershipEntity extends PartitionOwnership {
-  partitionKey: string;
-  rowKey: string;
+export interface PartitionOwnershipEntity  {
+  partitionKey: string,
+  rowKey: string,
+  ownerid : string
 }
 
 /**
@@ -55,24 +60,33 @@ export class TableCheckpointStore implements CheckpointStore {
   ): Promise<PartitionOwnership[]> {
     const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Ownership`;
     const partitionOwnershipArray: PartitionOwnership[] = [];
-    const entitiesIter = this._tableClient.listEntities<PartitionOwnership>({
+    const entitiesIter = this._tableClient.listEntities<PartitionOwnershipEntity>({
       queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
     });
-
-    for await (const entity of entitiesIter) {
-      const partitionOwnership: PartitionOwnership = {
-        fullyQualifiedNamespace,
-        eventHubName,
-        consumerGroup,
-        ownerId: entity.ownerId,
-        partitionId: entity.partitionId,
-        lastModifiedTimeInMs: entity.lastModifiedTimeInMs,
-        etag: entity.etag
-      };
-      partitionOwnershipArray.push(partitionOwnership);
+    try {
+      for await (const entity of entitiesIter) {
+        const partitionOwnership: PartitionOwnership = {
+          fullyQualifiedNamespace,
+          eventHubName,
+          consumerGroup,
+          ownerId: entity.ownerid,
+          partitionId: entity.rowKey,
+          lastModifiedTimeInMs: 36647,
+          etag: entity.etag
+        };
+        partitionOwnershipArray.push(partitionOwnership);
+      }
+      return partitionOwnershipArray;
     }
-    return partitionOwnershipArray;
+    catch (err) {
+      logger.warning(`Error occurred while fetching the list of entities`, err.message);
+      logErrorStackTrace(err);
+      if (err?.name === "AbortError") throw err;
+
+      throw new Error(`Error occurred while fetching the list of entities. \n${err}`);
+    
   }
+}
 
   /**
    * Claim ownership of a list of partitions. This will return the list of partitions that were
@@ -89,52 +103,40 @@ export class TableCheckpointStore implements CheckpointStore {
 
     for (const ownership of partitionOwnership) {
       const partition_Key = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
-      const curr_ownership = {
+      const ownershipEntity : PartitionOwnershipEntity = {
         partitionKey: partition_Key,
         rowKey: ownership.partitionId,
-        lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
-        etag: ownership.etag
+        ownerid: ownership.ownerId
       };
 
-      const ownershipEntity: PartitionOwnershipEntity = {
-        partitionKey: partition_Key,
-        rowKey: curr_ownership.rowKey,
-        consumerGroup: ownership.consumerGroup,
-        fullyQualifiedNamespace: ownership.fullyQualifiedNamespace,
-        eventHubName: ownership.eventHubName,
-        lastModifiedTimeInMs: ownership.lastModifiedTimeInMs,
-        etag: ownership.etag,
-        ownerId: ownership.ownerId,
-        partitionId: ownership.partitionId
-      };
-      const entitiesIter = this._tableClient.listEntities<PartitionOwnershipEntity>({
-        queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
-      });
-      let k = 0;
-      for await (const entity of entitiesIter) {
-        k++;
-        entity.lastModifiedTimeInMs = 11;
-      }
-      if (k > 0) {
-        let ownerships: PartitionOwnership[] = [];
-        ownerships = await this.listOwnership(
-          ownership.fullyQualifiedNamespace,
-          ownership.eventHubName,
-          ownership.consumerGroup
+      // When we have an etag, we know the entity existed.
+     // If we encounter an error we should fail.
+     try {
+        await this._tableClient.updateEntity(ownershipEntity, 'Replace', {etag:ownership.etag});
+        partitionOwnershipArray.push(ownership);
+        logger.info(
+          `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
+          `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
         );
-        for (const own of ownerships) {
-          if (own.etag === ownership.etag) {
-            await this._tableClient.updateEntity(curr_ownership);
-            partitionOwnershipArray.push(ownership);
-          } else {
-            await this._tableClient.upsertEntity(ownershipEntity);
-          }
+    } catch (err) {
+        if (err.statusCode === 412) {
+          // etag failures (precondition not met) aren't fatal errors. They happen
+          // as multiple consumers attempt to claim the same partition (first one wins)
+          // and losers get this error.
+          logger.verbose(
+            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`
+          );
+          continue;
         }
-      } else {
-        await this._tableClient.upsertEntity(ownershipEntity);
+        logger.warning(
+          `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
+          err.message
+        );
+        logErrorStackTrace(err);
+        throw err;
       }
-    }
-    return partitionOwnershipArray;
+     }
+     return partitionOwnershipArray;     
   }
 
   /**
@@ -155,22 +157,19 @@ export class TableCheckpointStore implements CheckpointStore {
   ): Promise<Checkpoint[]> {
     const partition_Key = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
-
-    const entitiesIter = this._tableClient.listEntities<Checkpoint>({
+    const entitiesIter = this._tableClient.listEntities<CheckpointEntity>({
       queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
     });
-
     for await (const entity of entitiesIter) {
       checkpoints.push({
         consumerGroup,
         eventHubName,
         fullyQualifiedNamespace,
-        partitionId: entity.partitionId,
+        partitionId: entity.rowKey,
         offset: entity.offset,
-        sequenceNumber: entity.sequenceNumber
+        sequenceNumber: entity.sequencenumber
       });
     }
-
     return checkpoints;
   }
 
@@ -185,15 +184,11 @@ export class TableCheckpointStore implements CheckpointStore {
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
-    const checkpointEntity = {
+    const checkpointEntity : CheckpointEntity = {
       partitionKey: partition_Key,
       rowKey: checkpoint.partitionId,
-      consumerGroup: checkpoint.consumerGroup,
-      fullyQualifiedNamespace: checkpoint.fullyQualifiedNamespace,
-      eventHubName: checkpoint.eventHubName,
-      sequenceNumber: checkpoint.sequenceNumber,
-      offset: checkpoint.offset,
-      partitionId: checkpoint.partitionId
+      sequencenumber: checkpoint.sequenceNumber,
+      offset: checkpoint.offset
     };
     try {
       await this._tableClient.upsertEntity(checkpointEntity);
@@ -208,7 +203,6 @@ export class TableCheckpointStore implements CheckpointStore {
         err.message
       );
       logErrorStackTrace(err);
-    }
-    
+    } 
   }
 }
