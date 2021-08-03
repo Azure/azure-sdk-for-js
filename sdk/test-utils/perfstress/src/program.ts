@@ -68,7 +68,7 @@ export class PerfStressProgram {
   private getOperationsPerSecond(parallels: PerfStressParallel[]): number {
     return parallels.reduce((sum, parallel) => {
       let parallelResult = 0;
-      if (parallel.lastMillisecondsElapsed > 0) {
+      if (parallel.completedOperations > 0) {
         parallelResult = parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
       }
       return sum + parallelResult;
