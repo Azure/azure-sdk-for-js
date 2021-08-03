@@ -7,7 +7,6 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
@@ -409,16 +408,6 @@ export class TextAnalyticsClient {
     const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
-
-    const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,

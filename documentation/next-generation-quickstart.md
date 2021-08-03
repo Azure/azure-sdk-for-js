@@ -18,7 +18,7 @@ authentication. This document illustrates the most common scenario.
 
 Migrating from an older generation of Azure management libraries for JavaScript/TypeScript
 ------------------------------------------------------------------------------------------
-If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](./MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
+If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
 
 Prerequisites
 -------------
@@ -160,13 +160,13 @@ const resourcesClient = new resources.ResourceManagementClient(credential, subsc
 TypeScript
 ```typescript
 async function updateResourceGroup(resourceGroupName: string) {
-    const parameter:resources.ResourceGroupPatchable = {
+    const parameter: resources.ResourceGroup  = {
+        location: "eastus",
         tags: {
-            tag1: "value1",
-            tag2: "value2"
+            tag1: "value1"
         }
     };
-    await resourcesClient.resourceGroups.update(resourceGroupName, parameter).then(
+    await resourcesClient.resourceGroups.createOrUpdate(resourceGroupName, parameter).then(
         result => {
             console.log(result);
         }
@@ -241,9 +241,9 @@ JavaScript
 ```javascript
 async function updateResourceGroup(resourceGroupName) {
     const parameter = {
-        location: "eastus",
         tags: {
-            tag1: "value1"
+            tag1: "value1",
+            tag2: "value2"
         }
     };
     const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);

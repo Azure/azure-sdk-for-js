@@ -38,6 +38,7 @@ import {
   QueryMetricsResult
 } from "../../src";
 import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
+import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
 
 /**
  * @internal
@@ -75,10 +76,15 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
  * @internal
  */
 export function convertResponseForQueryBatch(
-  generatedResponse: GeneratedQueryBatchResponse
+  generatedResponse: GeneratedQueryBatchResponse,
+  rawResponse: FullOperationResponse
 ): QueryLogsBatchResult {
-  const fixApplied = fixInvalidBatchQueryResponse(generatedResponse);
+  const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
 
+  /* Sort the ids that are passed in with the queries, as numbers instead of strings
+   * It is not guaranteed that service will return the responses for queries in the same order
+   * as the queries are passed in
+   */
   const newResponse: QueryLogsBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
@@ -120,39 +126,27 @@ export function convertResponseForQueryBatch(
  * @internal
  */
 export function fixInvalidBatchQueryResponse(
-  generatedResponse: GeneratedQueryBatchResponse
+  generatedResponse: GeneratedQueryBatchResponse,
+  rawResponse: FullOperationResponse
 ): boolean {
   if (generatedResponse.responses == null) {
     return false;
   }
 
-  let wholeResponse: GeneratedQueryBatchResponse | undefined;
   let hadToFix = false;
 
+  // the body here is incorrect, deserialize the correct one from the raw response itself.
+  const parsedBody = JSON.parse(rawResponse.bodyAsText!);
   // fix whichever responses are in this broken state (each query has it's own
   // response, so they're not all always broken)
   for (let i = 0; i < generatedResponse.responses.length; ++i) {
-    if (
-      generatedResponse.responses[i].body?.tables != null ||
-      generatedResponse.responses[i].body?.error != null
-    ) {
+    if (generatedResponse.responses[i].body?.error != null) {
       continue;
     }
 
-    // the body here is incorrect, deserialize the correct one from the raw response itself.
-
     // deserialize the raw response from the service, since we'll need index into it.
-    if (!wholeResponse) {
-      wholeResponse = JSON.parse(
-        generatedResponse["_response"].bodyAsText
-      ) as GeneratedQueryBatchResponse;
-    }
 
-    // now grab the individual batch query response and deserialize that
-    // incorrectly typed string...
-    generatedResponse.responses[i].body = JSON.parse(
-      (wholeResponse.responses![i].body as any) as string
-    );
+    generatedResponse.responses[i].body = parsedBody.responses[i].body;
 
     hadToFix = true;
   }
@@ -219,7 +213,7 @@ export function convertResponseForMetrics(
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, _response: _response, value: _ignoredValue, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, ...rest } = generatedResponse;
 
   const obj: QueryMetricsResult = {
     ...rest,
