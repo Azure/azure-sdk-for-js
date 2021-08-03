@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
@@ -67,7 +67,10 @@ describe("Certificates client - LRO - recoverDelete", () => {
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
-    this.timeout(6 * 60 * 1000); // 6 minutes
+    if (!isPlaybackMode()) {
+      // Necessary for min/max testing which does not account for global timeout cmd line param. This can be removed when #16731 is resolved.
+      this.timeout(6 * 60 * 1000); // 6 minutes
+    }
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
