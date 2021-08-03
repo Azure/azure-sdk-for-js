@@ -252,7 +252,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 export interface ExtractSummaryAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     maxSentenceCount?: number;
-    orderBy: string;
+    orderBy?: string;
     stringIndexType?: StringIndexType;
 }
 

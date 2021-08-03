@@ -326,7 +326,7 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
   /**
    * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
    */
-  orderBy: string;
+  orderBy?: string;
 }
 
 /**
