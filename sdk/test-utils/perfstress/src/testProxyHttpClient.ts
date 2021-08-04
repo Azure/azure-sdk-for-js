@@ -11,7 +11,7 @@ const paths = {
   stop: "/stop"
 };
 
-export class RecordingHttpClient extends DefaultHttpClient {
+export class TestProxyHttpClient extends DefaultHttpClient {
   private _uri: string;
   private _httpClient: DefaultHttpClient;
   private _recordingId?: string;
