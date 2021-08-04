@@ -94,7 +94,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     );
     const id = convertSchemaIdResponse(response);
     this.schemaToIdMap.set(schema, id);
-    this.idToSchemaMap.set(id.id, { ...id, content: schema.content});
+    this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
     return id;
   }
 

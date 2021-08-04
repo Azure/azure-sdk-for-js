@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 03:10:47 GMT",
+    "date": "Wed, 04 Aug 2021 04:31:09 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -21,7 +21,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11898.12 - NCUS ProdSlices",
-    "x-ms-request-id": "877b8784-0fd2-4fe6-93f3-ce87fa2bfe00"
+    "x-ms-request-id": "03c038e6-97f9-413b-9a69-bd5058fff700"
    }
   },
   {
@@ -32,10 +32,10 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 400,
-   "response": "{\"Code\":400,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:841d3bd4-57dc-451d-a3c4-a01116dde14f_G17, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2021-08-04T03:10:48\"}",
+   "response": "{\"Code\":400,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:defbf214-8bfb-4e58-b3e2-712449332567_G0, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2021-08-04T04:31:10\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 03:10:48 GMT",
+    "date": "Wed, 04 Aug 2021 04:31:10 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"
