@@ -1019,6 +1019,12 @@ export interface TerminateNotificationProfile {
   enable?: boolean;
 }
 
+/** The parameters of a capacity reservation Profile. */
+export interface CapacityReservationProfile {
+  /** Specifies the capacity reservation group resource id that should be used for allocating the virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to https://aka.ms/CapacityReservation for more details. */
+  capacityReservationGroup?: SubResource;
+}
+
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentity {
   /**
@@ -1128,6 +1134,8 @@ export interface VirtualMachineScaleSetVMProfile {
   scheduledEventsProfile?: ScheduledEventsProfile;
   /** UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
   userData?: string;
+  /** Specifies the capacity reservation related details of a scale set. <br><br>Minimum api-version: 2021-04-01. */
+  capacityReservation?: CapacityReservationProfile;
 }
 
 /** Describes a virtual machine scale set OS profile. */
@@ -1280,6 +1288,14 @@ export interface VirtualMachineScaleSetExtensionProfile {
 export interface ScaleInPolicy {
   /** The rules to be followed when scaling-in a virtual machine scale set. <br><br> Possible values are: <br><br> **Default** When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the virtual machines chosen for removal will be the newest ones that are not protected from scale-in. <br><br> **OldestVM** When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal. <br><br> **NewestVM** When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal. <br><br> */
   rules?: VirtualMachineScaleSetScaleInRules[];
+}
+
+/** Specifies the Spot-Try-Restore properties for the virtual machine scale set. <br><br> With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint. */
+export interface SpotRestorePolicy {
+  /** Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints */
+  enabled?: boolean;
+  /** Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances */
+  restoreTimeout?: string;
 }
 
 /** Identity for the virtual machine scale set. */
@@ -1470,6 +1486,47 @@ export interface RestorePointCollectionListResult {
   /** Gets the list of restore point collections. */
   value?: RestorePointCollection[];
   /** The uri to fetch the next page of RestorePointCollections. Call ListNext() with this to fetch the next page of RestorePointCollections */
+  nextLink?: string;
+}
+
+export interface CapacityReservationGroupInstanceView {
+  /**
+   * List of instance view of the capacity reservations under the capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
+}
+
+/** The instance view of a capacity reservation that provides as snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
+export interface CapacityReservationInstanceView {
+  /** Unutilized capacity of the capacity reservation. */
+  utilizationInfo?: CapacityReservationUtilization;
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** Represents the capacity reservation utilization in terms of resources allocated. */
+export interface CapacityReservationUtilization {
+  /**
+   * A list of all virtual machines resource ids allocated against the capacity reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachinesAllocated?: SubResourceReadOnly[];
+}
+
+/** The List capacity reservation group with resource group response. */
+export interface CapacityReservationGroupListResult {
+  /** The list of capacity reservation groups */
+  value: CapacityReservationGroup[];
+  /** The URI to fetch the next page of capacity reservation groups. Call ListNext() with this URI to fetch the next page of capacity reservation groups. */
+  nextLink?: string;
+}
+
+/** The list capacity reservation operation response. */
+export interface CapacityReservationListResult {
+  /** The list of capacity reservations */
+  value: CapacityReservation[];
+  /** The URI to fetch the next page of capacity reservations. Call ListNext() with this URI to fetch the next page of capacity reservations. */
   nextLink?: string;
 }
 
@@ -4072,6 +4129,8 @@ export type VirtualMachine = Resource & {
   scheduledEventsProfile?: ScheduledEventsProfile;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
   userData?: string;
+  /** Specifies information about the capacity reservation that is used to allocate virtual machine. <br><br>Minimum api-version: 2021-04-01. */
+  capacityReservation?: CapacityReservationProfile;
 };
 
 /** Describes a Virtual Machine Scale Set. */
@@ -4108,7 +4167,7 @@ export type VirtualMachineScaleSet = Resource & {
   readonly uniqueId?: string;
   /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
   singlePlacementGroup?: boolean;
-  /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. */
+  /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set. */
   zoneBalance?: boolean;
   /** Fault Domain count for each placement group. */
   platformFaultDomainCount?: number;
@@ -4122,6 +4181,8 @@ export type VirtualMachineScaleSet = Resource & {
   scaleInPolicy?: ScaleInPolicy;
   /** Specifies the orchestration mode for the virtual machine scale set. */
   orchestrationMode?: OrchestrationMode;
+  /** Specifies the Spot Restore properties for the virtual machine scale set. */
+  spotRestorePolicy?: SpotRestorePolicy;
 };
 
 /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
@@ -4160,6 +4221,60 @@ export type RestorePointCollection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly restorePoints?: RestorePoint[];
+};
+
+/** Specifies information about the capacity reservation group that the capacity reservations should be assigned to. <br><br> Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing capacity reservation cannot be added or moved to another capacity reservation group. */
+export type CapacityReservationGroup = Resource & {
+  /** Availability Zones to use for this capacity reservation group. The zones can be assigned only during creation. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones. */
+  zones?: string[];
+  /**
+   * A list of all capacity reservation resource ids that belong to capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityReservations?: SubResourceReadOnly[];
+  /**
+   * A list of references to all virtual machines associated to the capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+  /**
+   * The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: CapacityReservationGroupInstanceView;
+};
+
+/** Specifies information about the capacity reservation. */
+export type CapacityReservation = Resource & {
+  /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
+  sku: Sku;
+  /** Availability Zone to use for this capacity reservation. The zone has to be single value and also should be part for the list of zones specified during the capacity reservation group creation. The zone can be assigned only during creation. If not provided, the reservation supports only non-zonal deployments. If provided, enforces VM/VMSS using this capacity reservation to be in same zone. */
+  zones?: string[];
+  /**
+   * A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservationId?: string;
+  /**
+   * A list of all virtual machine resource ids that are associated with the capacity reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+  /**
+   * The date time when the capacity reservation was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The Capacity reservation instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: CapacityReservationInstanceView;
 };
 
 /** The status of the latest virtual machine scale set rolling upgrade. */
@@ -4629,7 +4744,7 @@ export type DiskEncryptionSetParameters = SubResource & {};
 
 /** The parameters of a managed disk. */
 export type ManagedDiskParameters = SubResource & {
-  /** Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
+  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
   storageAccountType?: StorageAccountTypes;
   /** Specifies the customer managed disk encryption set resource id for the managed disk. */
   diskEncryptionSet?: DiskEncryptionSetParameters;
@@ -4936,6 +5051,8 @@ export type VirtualMachineUpdate = UpdateResource & {
   scheduledEventsProfile?: ScheduledEventsProfile;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
   userData?: string;
+  /** Specifies information about the capacity reservation that is used to allocate virtual machine. <br><br>Minimum api-version: 2021-04-01. */
+  capacityReservation?: CapacityReservationProfile;
 };
 
 /** Update Restore Point collection parameters. */
@@ -4957,6 +5074,56 @@ export type RestorePointCollectionUpdate = UpdateResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly restorePoints?: RestorePoint[];
+};
+
+/** Specifies information about the capacity reservation group. Only tags can be updated. */
+export type CapacityReservationGroupUpdate = UpdateResource & {
+  /**
+   * A list of all capacity reservation resource ids that belong to capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityReservations?: SubResourceReadOnly[];
+  /**
+   * A list of references to all virtual machines associated to the capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+  /**
+   * The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: CapacityReservationGroupInstanceView;
+};
+
+/** Specifies information about the capacity reservation. Only tags and sku.capacity can be updated. */
+export type CapacityReservationUpdate = UpdateResource & {
+  /** SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values. */
+  sku?: Sku;
+  /**
+   * A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservationId?: string;
+  /**
+   * A list of all virtual machine resource ids that are associated with the capacity reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+  /**
+   * The date time when the capacity reservation was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The Capacity reservation instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: CapacityReservationInstanceView;
 };
 
 /** Describes a Virtual Machine Scale Set. */
@@ -5204,6 +5371,15 @@ export type RestorePoint = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningDetails?: RestorePointProvisioningDetails;
+};
+
+/** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
+export type CapacityReservationInstanceViewWithName = CapacityReservationInstanceView & {
+  /**
+   * The name of the capacity reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
 };
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
@@ -6308,6 +6484,50 @@ export enum KnownRestorePointCollectionExpandOptions {
  * **restorePoints**
  */
 export type RestorePointCollectionExpandOptions = string;
+
+/** Known values of {@link CapacityReservationGroupInstanceViewTypes} that the service accepts. */
+export enum KnownCapacityReservationGroupInstanceViewTypes {
+  InstanceView = "instanceView"
+}
+
+/**
+ * Defines values for CapacityReservationGroupInstanceViewTypes. \
+ * {@link KnownCapacityReservationGroupInstanceViewTypes} can be used interchangeably with CapacityReservationGroupInstanceViewTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **instanceView**
+ */
+export type CapacityReservationGroupInstanceViewTypes = string;
+
+/** Known values of {@link ExpandTypesForGetCapacityReservationGroups} that the service accepts. */
+export enum KnownExpandTypesForGetCapacityReservationGroups {
+  VirtualMachineScaleSetVMsRef = "virtualMachineScaleSetVMs/$ref",
+  VirtualMachinesRef = "virtualMachines/$ref"
+}
+
+/**
+ * Defines values for ExpandTypesForGetCapacityReservationGroups. \
+ * {@link KnownExpandTypesForGetCapacityReservationGroups} can be used interchangeably with ExpandTypesForGetCapacityReservationGroups,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **virtualMachineScaleSetVMs\/$ref** \
+ * **virtualMachines\/$ref**
+ */
+export type ExpandTypesForGetCapacityReservationGroups = string;
+
+/** Known values of {@link CapacityReservationInstanceViewTypes} that the service accepts. */
+export enum KnownCapacityReservationInstanceViewTypes {
+  InstanceView = "instanceView"
+}
+
+/**
+ * Defines values for CapacityReservationInstanceViewTypes. \
+ * {@link KnownCapacityReservationInstanceViewTypes} can be used interchangeably with CapacityReservationInstanceViewTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **instanceView**
+ */
+export type CapacityReservationInstanceViewTypes = string;
 
 /** Known values of {@link VMGuestPatchRebootBehavior} that the service accepts. */
 export enum KnownVMGuestPatchRebootBehavior {
@@ -8322,6 +8542,131 @@ export interface RestorePointsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type RestorePointsGetResponse = RestorePoint;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CapacityReservationGroupsCreateOrUpdateResponse = CapacityReservationGroup;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations. */
+  expand?: CapacityReservationGroupInstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CapacityReservationsCreateOrUpdateResponse = CapacityReservation;
+
+/** Optional parameters. */
+export interface CapacityReservationsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CapacityReservationsUpdateResponse = CapacityReservation;
+
+/** Optional parameters. */
+export interface CapacityReservationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CapacityReservationsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
+  expand?: CapacityReservationInstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type CapacityReservationsGetResponse = CapacityReservation;
+
+/** Optional parameters. */
+export interface CapacityReservationsListByCapacityReservationGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCapacityReservationGroup operation. */
+export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCapacityReservationGroupNext operation. */
+export type CapacityReservationsListByCapacityReservationGroupNextResponse = CapacityReservationListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams

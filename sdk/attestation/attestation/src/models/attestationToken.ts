@@ -58,18 +58,21 @@ export interface AttestationTokenValidationOptions {
   timeValidationSlack?: number;
 
   /**
-   * Validation Callback which allows developers to provide their own validation
-   * functionality for the attestation token. This can be used to validate
-   * the signing certificate in AttestationSigner.
+   * Validation function which allows developers to provide their own validation
+   * functionality for the attestation token. This can be used to perform additional
+   * validations for  signing certificate in AttestationSigner.
+   *
+   * @param token - Attestation Token to validate.
+   * @param signer - Signing Certificate which validated the token.
    *
    * @remarks
    *
-   * If there is a problem with token validation, the getProblemsCallback will return
-   * a string indicating the set of problems found in the token.
+   * If there is a problem with token validation, the validateAttestationCallback function
+   * will return an array of strings indicating the set of problems found in the token.
    *
    * @returns an array of problems in the token, or undefined if there are no problems.
    */
-  getProblemsCallback?: (
+  validateAttestationToken?: (
     token: AttestationToken,
     signer?: AttestationSigner
   ) => string[] | undefined;
@@ -325,10 +328,10 @@ export class AttestationTokenImpl implements AttestationToken {
       problems = problems.concat(this.validateIssuer(options));
     }
 
-    if (options.getProblemsCallback !== undefined) {
+    if (options.validateAttestationToken !== undefined) {
       // If there is a validation error, the getProblemsCallback will return the list of
       // problems found.
-      const validationErrors = options.getProblemsCallback(this, foundSigner);
+      const validationErrors = options.validateAttestationToken(this, foundSigner);
       if (validationErrors) {
         problems = problems.concat(validationErrors);
       }

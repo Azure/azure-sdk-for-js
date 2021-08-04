@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "domain": "PHI"
@@ -11,10 +11,10 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"I work at ********* and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":10,\"length\":9,\"confidenceScore\":0.95},{\"text\":\"333-333-3333\",\"category\":\"PhoneNumber\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "e3dbaa3b-cf5d-4b65-b28e-32dad99c5075",
+    "apim-request-id": "cbff805b-9837-487c-a388-1f1e0aeabc3f",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Fri, 25 Jun 2021 20:13:42 GMT",
+    "date": "Tue, 03 Aug 2021 22:52:54 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
