@@ -7,12 +7,6 @@
 - We are now targeting the service's v3.2-preview.1 API as the default instead of v3.1.
 - `beginAnalyzeActions` now supports extract summary actions.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 5.1.0 (2021-07-07)
 
 ### New Features
