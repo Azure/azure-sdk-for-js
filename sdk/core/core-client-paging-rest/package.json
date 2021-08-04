@@ -37,7 +37,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/src/latest/core-client-paging-rest.d.ts",
+    "types/latest/core-client-paging-rest.d.ts",
     "README.md",
     "LICENSE"
   ],
