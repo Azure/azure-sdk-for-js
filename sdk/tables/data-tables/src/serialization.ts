@@ -145,7 +145,7 @@ export function deserialize<T extends object = Record<string, any>>(
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
         typedValue = getTypedObject(value, type, disableTypeConversion);
-      } else if (disableTypeConversion  && ["number", "string"].includes(typeof value)) {
+      } else if (disableTypeConversion && ["number", "string"].includes(typeof value)) {
         // The service, doesn't return type metadata for number or strings
         // if automatic type conversion is disabled we'll infer the EDM object
         typedValue = inferTypedObject(key, value);
@@ -157,10 +157,7 @@ export function deserialize<T extends object = Record<string, any>>(
   return deserialized;
 }
 
-function inferTypedObject(
-  propertyName: string,
-  value: number | string
-) {
+function inferTypedObject(propertyName: string, value: number | string) {
   // We need to skip service metadata fields such as partitionKey and rowKey and use the same value returned by the service
   if (propertyCaseMap.has(propertyName)) {
     return value;
