@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.0-beta.2 (Unreleased)
+## 4.2.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.1.0 (2021-07-29)
+
+### New Features
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 to produce smaller bundles and use more native platform features.
+- Updated our internal core package dependencies to their latest versions to add support for Opentelemetry 1.0.0, which is compatible with the latest versions of our other client libraries.
 
 ## 4.1.0-beta.1 (2021-07-07)
 

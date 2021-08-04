@@ -13,9 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClientContext } from "../computeManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   GalleryImageVersion,
   GalleryImageVersionsListByGalleryImageNextOptionalParams,
@@ -191,7 +190,7 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -203,7 +202,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -302,7 +304,7 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -314,7 +316,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -429,7 +434,7 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -440,7 +445,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -595,7 +603,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.expand4],
+  queryParameters: [Parameters.apiVersion3, Parameters.expand7],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -1,14 +1,10 @@
 # Release History
 
-## 1.2.3 (Unreleased)
+## 1.3.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated to use version 1.0.0-preview.13 of `@azure/core-tracing`.
 
 ## 1.2.2 (2021-07-13)
 

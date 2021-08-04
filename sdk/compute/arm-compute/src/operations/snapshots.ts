@@ -13,9 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClientContext } from "../computeManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Snapshot,
   SnapshotsListByResourceGroupNextOptionalParams,
@@ -207,12 +206,15 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, snapshotName, snapshot, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -298,12 +300,15 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, snapshotName, snapshot, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -401,12 +406,15 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, snapshotName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -514,13 +522,16 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, snapshotName, grantAccessData, options },
-      grantAccessOperationSpec,
-      "location"
+      grantAccessOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -599,13 +610,16 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, snapshotName, options },
-      revokeAccessOperationSpec,
-      "location"
+      revokeAccessOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**

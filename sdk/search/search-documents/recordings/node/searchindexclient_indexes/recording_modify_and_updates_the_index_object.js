@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "ba452171e66f849d7e6b41a30e645638";
+module.exports.hash = "b245b95d080a6176fe78be0672431373";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexes(%27hotel-live-test3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f0f9e9c7e7afce0e4c9b39d07cf8e7fdf8fa8d5325be4f4f5bc6af372bb2c2ef36d747b8fbe99e5e7d9ba6c5f4fabba585ebcacabf3a2a4a6cb75598e3e3a2ff272d67cf4e87bbfd8402866f44e7bbdc2efa7b3c5f8758bd7e833413b9be0e5f3ac6c72bc5db6791d7c54e7d43ebf94cfda7a4d1f3555ddcadfdae63c9bd268fc4fdee6d7a63513e0789995d73fc86b83a6f4ddfd34ebfcdd5c2fabe5f5e28b6c85117dff978ceca0b2abbca916f9326f9ae7f9655ed270bc213eadd640860070370166fe1005c18d2394bfbd01ca073c3e85f8b332c059de4ceb62d516d592c6e18d2d3a7d82943f34c56de3d8b48d3738fde48730ba362bca8646e18deca45aaccafcdd1b7c4258f51899e4c57be3a42acb7c0afa6ce16521cb1dfa5e7093f1c8887dbac827ef491669f1b344159f2ef36236cb97dfcd8b8b794b43d1a1627c67cbf6de1e7d247d085a8a8b3f3cfd28189f7eb66980fac9cfd608e9a34059f1c7a38fe8b3e64b6671fa405f5d5f5c909acb6bfa044d0c68fdb3addee6cba2f3f7331ebf7e42b4a9830ff2e5b4bee64e7e2f8c4ebb29164599d5d0c78faca2576afff817c5b4ae9aeabc1d1fff605de7e3d73ce8f1932ff6eebf76ef11b5760db889fcf24b7ec9ff0347f983d235060000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1fdeff74f7f4d37b0f9e3ef9f4e9eeeffb11b55a668b9cbe9e576d5e6e97c565be8d6eefd137b3fc3c5b97edeb695517cb8b9775755e94d474b92ecbd147e7455ece9a8f1e7def171b08c58cde69af57f8fd74b618bf6ef11a7d26686713bc7c9e954d8eb7cb36af838fea9cdae797f2595bafe9a3a6aa5bf95bdb9c67531a8dffc9dbfcdab466021c2fb3f2fa07796dd094bebb9f669dbf9755bdc8cac2fba4b95e56cbebc517d90a63fcfe2f19d961665779532df265de34cff3cbbca4017a837e5aad811e01e08e035cfd410bca1bc72c7f7b43960f78c40af18734e459de4ceb62d516d59246e68d363ac582a63f58c576e368b58d375cfde4e764bc6d56940d8dcb1beb49b55895f9bb37f884f0ecb13f4999f7c6495596f91414dbc2cb42a83bf4bd602b23141afc7f8f523eade6c56c962fbf9b1717f39686a7c3c798cf96edbd3dfa487a0d30bd69c8fad9ffabc64c1f058a903f1e7d449f355fb268d007faeafae28254685ed32768623ad33f5d5ffa415bbdcd97ddbf9f3189f413225f1d7c902fa7f535f7fa7b8100da6fb128caac86f27f64ad8a4ec88f7f514cebaaa9cedbf1f10fd6753e7ecd74193ff962effe6bf71e1174d7809bc82fbfe497fc3f4698a4b1a2060000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -19,13 +19,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8BE6A7CBF07FA"',
+  'W/"0x8D9561E637DB6D1"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'f8ef32a6-3d86-4fa9-9257-6b555a05abca',
+  '2a8a1ab8-60b1-473b-b466-e58954cba5b6',
   'elapsed-time',
-  '26',
+  '47',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -33,15 +33,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Fri, 22 Jan 2021 00:13:08 GMT',
+  'Tue, 03 Aug 2021 01:31:20 GMT',
   'Content-Length',
-  '662'
+  '656'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .put('/indexes(%27hotel-live-test3%27)', {"name":"hotel-live-test3","fields":[{"name":"id","type":"Edm.String","key":true,"retrievable":true,"searchable":false,"filterable":false,"sortable":false,"facetable":false,"searchAnalyzer":null,"indexAnalyzer":null,"synonymMaps":[]},{"name":"awesomenessLevel","type":"Edm.Double","key":false,"retrievable":true,"searchable":false,"filterable":true,"sortable":true,"facetable":true,"searchAnalyzer":null,"indexAnalyzer":null,"synonymMaps":[]},{"name":"description","type":"Edm.String","key":false,"retrievable":true,"searchable":true,"filterable":false,"sortable":false,"facetable":false,"searchAnalyzer":null,"indexAnalyzer":null,"synonymMaps":[]},{"name":"details","type":"Edm.ComplexType","fields":[{"name":"tags","type":"Collection(Edm.String)","key":false,"retrievable":true,"searchable":true,"filterable":true,"sortable":false,"facetable":true,"analyzer":null,"searchAnalyzer":null,"indexAnalyzer":null,"synonymMaps":[]}]},{"name":"hiddenWeight","type":"Edm.Int32","key":false,"retrievable":false,"searchable":false,"filterable":false,"sortable":false,"facetable":false,"searchAnalyzer":null,"indexAnalyzer":null,"synonymMaps":[]},{"name":"lastUpdatedOn","type":"Edm.DateTimeOffset","searchable":false,"filterable":true,"sortable":false,"facetable":false}],"scoringProfiles":[],"defaultScoringProfile":null,"corsOptions":null,"suggesters":[],"analyzers":[],"tokenizers":[],"tokenFilters":[],"charFilters":[],"encryptionKey":null,"similarity":{"@odata.type":"#Microsoft.Azure.Search.BM25Similarity"},"@odata.etag":"\"0x8D8BE6A7CBF07FA\""})
+  .put('/indexes(%27hotel-live-test3%27)', {"name":"hotel-live-test3","fields":[{"name":"id","type":"Edm.String","key":true,"retrievable":true,"searchable":false,"filterable":false,"sortable":false,"facetable":false,"analyzer":null,"searchAnalyzer":null,"indexAnalyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"awesomenessLevel","type":"Edm.Double","key":false,"retrievable":true,"searchable":false,"filterable":true,"sortable":true,"facetable":true,"analyzer":null,"searchAnalyzer":null,"indexAnalyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"description","type":"Edm.String","key":false,"retrievable":true,"searchable":true,"filterable":false,"sortable":false,"facetable":false,"analyzer":null,"searchAnalyzer":null,"indexAnalyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"details","type":"Edm.ComplexType","fields":[{"name":"tags","type":"Collection(Edm.String)","key":false,"retrievable":true,"searchable":true,"filterable":false,"sortable":false,"facetable":false,"analyzer":null,"searchAnalyzer":null,"indexAnalyzer":null,"normalizer":null,"synonymMaps":[]}]},{"name":"hiddenWeight","type":"Edm.Int32","key":false,"retrievable":false,"searchable":false,"filterable":false,"sortable":false,"facetable":false,"analyzer":null,"searchAnalyzer":null,"indexAnalyzer":null,"normalizer":null,"synonymMaps":[]},{"name":"lastUpdatedOn","type":"Edm.DateTimeOffset","searchable":false,"filterable":true,"sortable":false,"facetable":false}],"scoringProfiles":[],"defaultScoringProfile":null,"corsOptions":null,"suggesters":[],"analyzers":[],"tokenizers":[],"tokenFilters":[],"charFilters":[],"normalizers":[],"encryptionKey":null,"similarity":{"@odata.type":"#Microsoft.Azure.Search.BM25Similarity"},"@odata.etag":"\"0x8D9561E637DB6D1\""})
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f0f9e9c7e7afce0d9fed3fbf7f7f67edf8fa8d5325be4f4f5bc6af372bb2c2ef36d747b8fbe99e5e7d9ba6c5f4fabba585ebcacabf3a2a4a6cb75598e3e3a2ff272d67cf4e87bbfd8402866f44e7bbdc2efa7b3c5f8758bd7e833413b9be0e5f3ac6c72bc5db6791d7c54e7d43ebf94cfda7a4d1f3555ddcadfdae63c9bd268fc4fdee6d7a63513e0789995d73fc86b83a6f4ddfd34ebfcdd5c2fabe5f5e28b6c85117dff978ceca0b2abbca916f9326f9ae7f9655ed270bc213eadd640860070370166fe1005c18d2394bfbd01ca073c3e85f8b332c059de4ceb62d516d592c6e18d2d3a7d82943f34c56de3d8b48d3738fde48730ba362bca8646e18deca45aaccafcdd1b7c4258f51899e4c57be3a42acb7c0afa6ce16521cb1dfa5e7093f1c8887dbac827ef491669f1b344159f2ef36236cb97dfcd8b8b794b43d1a1627c67cbf6de1e7d247d085a8a8b3f3cfd28189f7eb66980fac9cfd208ddf8caac69bf5a91facb675f76f8fa297df8a658e45f9e9f3739062f7d05f8f923953909062a1ffddc8df3fbf451a094f9e3d147f459f3258b327da0afae2f2e489de7357d822606b4fed9566ff365d1f9fb198f5e3f21cad4c107f9725a5f7327bf1746a7dd148ba2cc6ad89d47d6a029d17ffc8b625a574d75de8e8f7fb0aef3f16b1ef4f8c9177bf75fbbf7885abb06dc447ef925bfe4ff0117a691d01d070000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1fdeff74f7f4d34f77f6774eefddff7d3fa256cb6c91d3d7f3aacdcbedb2b8ccb7d1ed3dfa66969f67ebb27d3dadea6279f1b2aece8b929a2ed76539fae8bcc8cb59f3d1a3effd6203a198d13bedf50abf9fce16e3d72d5ea3cf04ed6c8297cfb3b2c9f176d9e675f0519d53fbfc523e6beb357dd454752b7f6b9bf36c4aa3f13f799b5f9bd64c80e365565eff20af0d9ad277f7d3acf3f7b2aa175959789f34d7cb6a79bdf8225b618cdfff25233bccec2a6faa45becc9be6797e999734406fd04fab35d02300dc7180ab3f684179e398e56f6fc8f2018f5821fe90863ccb9b695dacdaa25ad2c8bcd146a758d0f407abd86e1cadb6f186ab9ffc9c8cb7cd8ab2a17179633da916ab327ff7069f109e3df62729f3de38a9ca329f82625b7859087587be176c65844283ffef51caa7d5bc98cdf2e577f3e262ded2f074f818f3d9b2bdb7471f49af01a6370d593ffb7fd398dd88cbac69bf5a916acd675f76e4e1297df8a658e45f9e9f3739c821bd0718fb6397a90d862e1ffdbf69e4dfa78f0213c01f8f3ea2cf9a2f5929d007faeafae2828c475ed32768623ad33f5d5ffa415bbdcd97ddbf9f3181f413225e1d7c902fa7f535f7fa7b8100da6fb128caac86d97b64eda9cecb8f7f514cebaaa9cedbf1f10fd6753e7ecd74193ff962effe6bf71e1174d7809bc82fbfe497fc3f0710a2079c070000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -53,13 +53,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8BE6A7F4D5522"',
+  'W/"0x8D9561E66040E35"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '50dc273a-f47d-42fd-92d8-e060a880c7cf',
+  '41b49530-91d5-47a3-b1ee-763fbe05b945',
   'elapsed-time',
-  '162',
+  '120',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -67,15 +67,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Fri, 22 Jan 2021 00:13:08 GMT',
+  'Tue, 03 Aug 2021 01:31:20 GMT',
   'Content-Length',
-  '706'
+  '700'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexes(%27hotel-live-test3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f0f9e9c7e7afce0d9fed3fbf7f7f67edf8fa8d5325be4f4f5bc6af372bb2c2ef36d747b8fbe99e5e7d9ba6c5f4fabba585ebcacabf3a2a4a6cb75598e3e3a2ff272d67cf4e87bbfd8402866f44e7bbdc2efa7b3c5f8758bd7e833413b9be0e5f3ac6c72bc5db6791d7c54e7d43ebf94cfda7a4d1f3555ddcadfdae63c9bd268fc4fdee6d7a63513e0789995d73fc86b83a6f4ddfd34ebfcdd5c2fabe5f5e28b6c85117dff978ceca0b2abbca916f9326f9ae7f9655ed270bc213eadd640860070370166fe1005c18d2394bfbd01ca073c3e85f8b332c059de4ceb62d516d592c6e18d2d3a7d82943f34c56de3d8b48d3738fde48730ba362bca8646e18deca45aaccafcdd1b7c4258f51899e4c57be3a42acb7c0afa6ce16521cb1dfa5e7093f1c8887dbac827ef491669f1b344159f2ef36236cb97dfcd8b8b794b43d1a1627c67cbf6de1e7d247d085a8a8b3f3cfd28189f7eb66980fac9cfd208ddf8caac69bf5a91facb675f76f8fa297df8a658e45f9e9f3739062f7d05f8f923953909062a1ffddc8df3fbf451a094f9e3d147f459f3258b327da0afae2f2e489de7357d822606b4fed9566ff365d1f9fb198f5e3f21cad4c107f9725a5f7327bf1746a7dd148ba2cc6ad89d47d6a029d17ffc8b625a574d75de8e8f7fb0aef3f16b1ef4f8c9177bf75fbbf7885abb06dc447ef925bfe4ff0117a691d01d070000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1fdeff74f7f4d34f77f6774eefddff7d3fa256cb6c91d3d7f3aacdcbedb2b8ccb7d1ed3dfa66969f67ebb27d3dadea6279f1b2aece8b929a2ed76539fae8bcc8cb59f3d1a3effd6203a198d13bedf50abf9fce16e3d72d5ea3cf04ed6c8297cfb3b2c9f176d9e675f0519d53fbfc523e6beb357dd454752b7f6b9bf36c4aa3f13f799b5f9bd64c80e365565eff20af0d9ad277f7d3acf3f7b2aa175959789f34d7cb6a79bdf8225b618cdfff25233bccec2a6faa45becc9be6797e999734406fd04fab35d02300dc7180ab3f684179e398e56f6fc8f2018f5821fe90863ccb9b695dacdaa25ad2c8bcd146a758d0f407abd86e1cadb6f186ab9ffc9c8cb7cd8ab2a17179633da916ab327ff7069f109e3df62729f3de38a9ca329f82625b7859087587be176c65844283ffef51caa7d5bc98cdf2e577f3e262ded2f074f818f3d9b2bdb7471f49af01a6370d593ffb7fd398dd88cbac69bf5a916acd675f76e4e1297df8a658e45f9e9f3739c821bd0718fb6397a90d862e1ffdbf69e4dfa78f0213c01f8f3ea2cf9a2f5929d007faeafae2828c475ed32768623ad33f5d5ffa415bbdcd97ddbf9f3181f413225e1d7c902fa7f535f7fa7b8100da6fb128caac86d97b64eda9cecb8f7f514cebaaa9cedbf1f10fd6753e7ecd74193ff962effe6bf71e1174d7809bc82fbfe497fc3f0710a2079c070000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -87,11 +87,11 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8BE6A7F4D5522"',
+  'W/"0x8D9561E66040E35"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'fff6ebf4-de5f-42b6-8b47-2ded2ee0c8de',
+  'd58b71c6-75e5-47d9-ac07-b8495c67289a',
   'elapsed-time',
   '17',
   'OData-Version',
@@ -101,7 +101,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Fri, 22 Jan 2021 00:13:08 GMT',
+  'Tue, 03 Aug 2021 01:31:20 GMT',
   'Content-Length',
-  '706'
+  '700'
 ]);

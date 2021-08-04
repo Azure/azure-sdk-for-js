@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 19:57:55 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:41 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,13 +20,13 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - NCUS ProdSlices",
-    "x-ms-request-id": "ce29a862-fba0-489c-90cf-00cc97b75e00"
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "758a9522-916b-4622-8a65-d5c359a34a01"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/sentiment",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "opinionMining": "true"
@@ -35,14 +35,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":32,\"text\":\"The food and service is not good\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":13,\"length\":7,\"text\":\"service\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":28,\"length\":4,\"text\":\"good\",\"isNegated\":true}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "0d56640b-ed1b-406b-ac46-6ef6956b5dde",
+    "apim-request-id": "5da993ee-611a-4a3e-9f51-70b0b8d5f841",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Fri, 25 Jun 2021 19:57:55 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:41 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "89"
+    "x-envoy-upstream-service-time": "84"
    }
   }
  ],

@@ -10,9 +10,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   FeatureResult,
-  FeaturesListAllNextOptionalParams,
   FeaturesListAllOptionalParams,
-  FeaturesListNextOptionalParams,
   FeaturesListOptionalParams,
   FeaturesGetOptionalParams,
   FeaturesGetResponse,
@@ -41,26 +39,6 @@ export interface Features {
   list(
     resourceProviderNamespace: string,
     options?: FeaturesListOptionalParams
-  ): PagedAsyncIterableIterator<FeatureResult>;
-  /**
-   * ListAllNext
-   * @param nextLink The nextLink from the previous successful call to the ListAll method.
-   * @param options The options parameters.
-   */
-  listAllNext(
-    nextLink: string,
-    options?: FeaturesListAllNextOptionalParams
-  ): PagedAsyncIterableIterator<FeatureResult>;
-  /**
-   * ListNext
-   * @param resourceProviderNamespace The namespace of the resource provider for getting features.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    resourceProviderNamespace: string,
-    nextLink: string,
-    options?: FeaturesListNextOptionalParams
   ): PagedAsyncIterableIterator<FeatureResult>;
   /**
    * Gets the preview feature with the specified name.
