@@ -2,7 +2,7 @@
   "name": "@azure/arm-managedapplications",
   "author": "Microsoft Corporation",
   "description": "ManagedApplicationClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.4.0",
     "@azure/ms-rest-js": "^1.11.0",

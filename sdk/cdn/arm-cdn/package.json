@@ -2,7 +2,7 @@
   "name": "@azure/arm-cdn",
   "author": "Microsoft Corporation",
   "description": "CdnManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",
