@@ -44,14 +44,4 @@ describe("transformations", function() {
       assert.deepNestedInclude(output, input);
     });
   });
-
-  describe("keyRotationTransformations", function() {
-    describe("publicToGenerated", function() {
-      it("converts all the properties correctly", function() {});
-    });
-
-    describe("generatedToPublic", function() {
-      it("converts all the properties correctly", function() {});
-    });
-  });
 });
