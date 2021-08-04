@@ -41,7 +41,23 @@ async function getOpenIdMetadata() {
   }
 
   console.log("Retrieve OpenID metadata from: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationClient(endpoint);
+
+  const defaultOpenIdMetadata = await client.getOpenIdMetadata();
+
+  console.log("OpenID Certificate endpoint: ", defaultOpenIdMetadata.jwks_uri);
+}
+
+async function getOpenIdMetadataAnonymously() {
+  writeBanner("getOpenIdMetadata - Anonymously.");
+  const endpoint = process.env.ATTESTATION_AAD_URL;
+
+  if (!endpoint) {
+    throw new Error("ATTESTATION_AAD_URL must be provided.");
+  }
+
+  console.log("Retrieve OpenID metadata from: ", endpoint);
+  const client = new AttestationClient(endpoint);
 
   const defaultOpenIdMetadata = await client.getOpenIdMetadata();
 
@@ -57,7 +73,7 @@ async function getSigningCertificates() {
   }
 
   console.log("Retrieve attestation signing certificates for: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationClient(endpoint, new DefaultAzureCredential());
 
   const attestationSigners = await client.getAttestationSigners();
 
@@ -74,6 +90,7 @@ async function getSigningCertificates() {
 
 export async function main() {
   await getOpenIdMetadata();
+  await getOpenIdMetadataAnonymously();
   await getSigningCertificates();
 }
 

@@ -7,7 +7,6 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
@@ -55,27 +54,37 @@ import {
   handleInvalidDocumentBatch,
   setCategoriesFilter,
   setOpinionMining,
+  setOrderBy,
+  setSentenceCount,
   setStrEncodingParam,
   setStrEncodingParamValue,
   StringIndexType
 } from "./util";
-import {
-  BeginAnalyzeHealthcarePoller,
-  AnalyzeHealthcareEntitiesPollerLike
-} from "./lro/health/poller";
-import {
-  BeginAnalyzeHealthcareEntitiesOptions,
-  AnalyzeHealthcareOperationState
-} from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
+import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
+import {
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcareEntitiesOptions,
+  HealthLro,
+  isHealthDone,
+  processHealthResult,
+  updateHealthState
+} from "./healthLro";
+import { LroEngine } from "@azure/core-lro";
+import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
 import {
   AnalyzeActionsOperationMetadata,
+  AnalyzeActionsOperationState,
+  AnalyzeActionsPollerLike,
+  AnalyzeLro,
   BeginAnalyzeActionsOptions,
-  AnalyzeActionsOperationState
-} from "./lro/analyze/operation";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+  isAnalyzeDone,
+  processAnalyzeResult,
+  updateAnalyzeState
+} from "./analyzeLro";
+import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -298,6 +307,37 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
 }
 
 /**
+ * A type representing how to sort sentences for the summarization extraction action.
+ */
+export type KnownSummarySentencesSortBy = "Offset" | "Rank";
+
+/**
+ * Options for an extract summary action.
+ */
+export interface ExtractSummaryAction extends TextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+  /**
+   * Specifies the number of summary sentences to return. The default number of sentences is 3.
+   */
+  maxSentenceCount?: number;
+  /**
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
+   */
+  orderBy?: string;
+}
+
+/**
  * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
  */
 export interface TextAnalyticsActions {
@@ -321,6 +361,10 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of sentiment analysis actions. However, currently, the service can accept up to one action only for `analyzeSentiment`.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
+  /**
+   * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
+   */
+  extractSummaryActions?: ExtractSummaryAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -372,16 +416,6 @@ export class TextAnalyticsClient {
     const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
-
-    const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -933,13 +967,49 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
     }
 
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeHealthcarePoller({
-      client: this.client,
-      documents: realInputs,
-      options: restOptions,
-      updateIntervalInMs: updateIntervalInMs,
-      resumeFrom: resumeFrom
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      onResponse,
+      disableServiceLogs,
+      modelVersion,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      stringIndexType,
+      includeStatistics,
+      tracingOptions
+    } = realOptions;
+    const lro = new HealthLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { loggingOptOut: disableServiceLogs, stringIndexType, modelVersion },
+      { includeStatistics },
+      realInputs
+    );
+
+    const poller = new LroEngine<
+      PagedAnalyzeHealthcareEntitiesResult,
+      AnalyzeHealthcareOperationState
+    >(lro, {
+      intervalInMs: updateIntervalInMs,
+      resumeFrom: resumeFrom,
+      processResult: processHealthResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isHealthDone,
+      updateState: updateHealthState
     });
 
     await poller.poll();
@@ -997,14 +1067,45 @@ export class TextAnalyticsClient {
     }
     validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeActionsPoller({
-      client: this.client,
-      documents: realInputs,
-      actions: compiledActions,
-      options: restOptions,
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      displayName,
+      includeStatistics,
+      onResponse,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      tracingOptions
+    } = realOptions;
+    const lro = new AnalyzeLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { displayName },
+      { includeStatistics },
+      realInputs,
+      compiledActions
+    );
+
+    const poller = new LroEngine<PagedAnalyzeActionsResult, AnalyzeActionsOperationState>(lro, {
+      intervalInMs: updateIntervalInMs,
       resumeFrom: resumeFrom,
-      updateIntervalInMs: updateIntervalInMs
+      processResult: processAnalyzeResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isAnalyzeDone,
+      updateState: updateAnalyzeState
     });
 
     await poller.poll();
@@ -1025,6 +1126,7 @@ function validateActions(actions: TextAnalyticsActions): void {
   validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
   validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
   validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
+  validateActionType(actions.extractSummaryActions, `extractSummary`);
 }
 
 /**
@@ -1044,6 +1146,9 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
       compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
+    ),
+    extractiveSummarizationTasks: actions.extractSummaryActions?.map(
+      compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
     )
   };
 }

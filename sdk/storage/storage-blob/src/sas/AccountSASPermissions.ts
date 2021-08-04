@@ -54,6 +54,9 @@ export class AccountSASPermissions {
         case "f":
           accountSASPermissions.filter = true;
           break;
+        case "i":
+          accountSASPermissions.setImmutabilityPolicy = true;
+          break;
         default:
           throw new RangeError(`Invalid permission character: ${c}`);
       }
@@ -102,6 +105,9 @@ export class AccountSASPermissions {
     }
     if (permissionLike.process) {
       accountSASPermissions.process = true;
+    }
+    if (permissionLike.setImmutabilityPolicy) {
+      accountSASPermissions.setImmutabilityPolicy = true;
     }
     return accountSASPermissions;
   }
@@ -162,6 +168,11 @@ export class AccountSASPermissions {
   public filter: boolean = false;
 
   /**
+   * Permission to set immutability policy.
+   */
+  public setImmutabilityPolicy: boolean = false;
+
+  /**
    * Produces the SAS permissions string for an Azure Storage account.
    * Call this method to set AccountSASSignatureValues Permissions field.
    *
@@ -208,6 +219,9 @@ export class AccountSASPermissions {
     }
     if (this.process) {
       permissions.push("p");
+    }
+    if (this.setImmutabilityPolicy) {
+      permissions.push("i");
     }
     return permissions.join("");
   }
@@ -272,4 +286,9 @@ export interface AccountSASPermissionsLike {
    * Permission to filter blobs.
    */
   filter?: boolean;
+
+  /**
+   * Permission to set immutability policy.
+   */
+  setImmutabilityPolicy?: boolean;
 }

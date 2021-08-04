@@ -291,7 +291,7 @@ export interface GeneratedAttestationResult {
 }
 
 /** Known values of {@link AttestationType} that the service accepts. */
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
   /** Intel Software Guard eXtensions */
   SgxEnclave = "SgxEnclave",
   /** OpenEnclave extensions to SGX */
@@ -312,7 +312,7 @@ export const enum KnownAttestationType {
 export type AttestationType = string;
 
 /** Known values of {@link DataType} that the service accepts. */
-export const enum KnownDataType {
+export enum KnownDataType {
   /** The contents of the field should be treated as binary and not interpreted by MAA. */
   Binary = "Binary",
   /** The contents of the field should be treated as a JSON object and may be further interpreted by MAA. */
@@ -330,7 +330,7 @@ export const enum KnownDataType {
 export type DataType = string;
 
 /** Known values of {@link CertificateModification} that the service accepts. */
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
   /** After the operation was performed, the certificate is in the set of certificates. */
   IsPresent = "IsPresent",
   /** After the operation was performed, the certificate is no longer present in the set of certificates. */
@@ -348,7 +348,7 @@ export const enum KnownCertificateModification {
 export type CertificateModification = string;
 
 /** Known values of {@link PolicyModification} that the service accepts. */
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
   /** The specified policy object was updated. */
   Updated = "Updated",
   /** The specified policy object was removed. */

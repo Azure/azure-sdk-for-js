@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 19:58:08 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:46 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,13 +20,13 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - EUS ProdSlices",
-    "x-ms-request-id": "a7490fb9-b183-45a5-a7bb-68e65cac7a00"
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "14e31011-3a66-483f-a853-24a0c2d12301"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/general",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"trip\",\"category\":\"Event\",\"offset\":18,\"length\":4,\"confidenceScore\":0.65},{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":1.0},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"Space Needle\",\"category\":\"Location\",\"offset\":65,\"length\":12,\"confidenceScore\":0.95},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"trip\",\"category\":\"Event\",\"offset\":42,\"length\":4,\"confidenceScore\":0.79},{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":1.0},{\"text\":\"Space Needle\",\"category\":\"Location\",\"offset\":90,\"length\":12,\"confidenceScore\":0.94}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"text\":\"Monte Rainier\",\"category\":\"Location\",\"offset\":29,\"length\":13,\"confidenceScore\":0.74}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[{\"text\":\"carretera\",\"category\":\"Location\",\"offset\":3,\"length\":9,\"confidenceScore\":0.84},{\"text\":\"ayer\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":60,\"length\":4,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "cc4b5e18-1939-4239-a3dd-3320121afcdf",
+    "apim-request-id": "a16887f5-aa81-478f-81a7-4d6fb47ea981",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
-    "date": "Fri, 25 Jun 2021 19:58:16 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7573"
+    "x-envoy-upstream-service-time": "44"
    }
   }
  ],

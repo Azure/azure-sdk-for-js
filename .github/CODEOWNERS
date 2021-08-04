@@ -73,6 +73,21 @@
 # PRLabel: %Tables
 /sdk/tables/ @joheredi
 
+# PRLabel: %Purview
+/sdk/purview/ @joheredi
+
+# PRLabel: %Farmbeats
+/sdk/agrifood/ @joheredi
+
+# PRLabel: %ConfidentialLedger
+/sdk/confidentialledger/ @joheredi
+
+# PRLabel: %DocumentTranslator
+/sdk/documenttranslator/ @joheredi
+
+# PRLabel: %WebPubSub
+/sdk/web-pubsub/ @xirzec @bterlson @vicancy
+
 # PRLabel: %EngSys
 /sdk/template/ @Azure/azure-sdk-eng
 

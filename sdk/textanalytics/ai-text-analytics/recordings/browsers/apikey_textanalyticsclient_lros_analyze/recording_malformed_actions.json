@@ -2,19 +2,19 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"bad\",\"stringIndexType\":\"TextElement_v8\"}}]}}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid parameter in request\",\"innererror\":{\"code\":\"InvalidParameterValue\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "e19d5ce3-c7e1-459b-bb7a-75d50621af54",
+    "apim-request-id": "ce5760e2-ff37-479b-a0d0-3f29e98151e7",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 19:34:44 GMT",
+    "date": "Tue, 03 Aug 2021 22:57:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "5"
    }
   }
  ],

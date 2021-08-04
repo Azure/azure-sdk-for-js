@@ -248,7 +248,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
       const unwrappedText = uint8ArrayToString(unwrappedResult.result);
       assert.equal(text, unwrappedText);
-      await testClient.flushKey(keyName);
     });
 
     it("sign and verify with RS256 through an RSA-HSM key", async function(this: Context): Promise<

@@ -5,8 +5,7 @@ import * as dotenv from "dotenv";
 import { loggerForTest } from "./logHelpers";
 import { delay } from "@azure/core-amqp";
 import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
-import { NoOpTracer, setTracer } from "@azure/core-tracing";
-import { TestTracer } from "@azure/test-utils";
+import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
 
 dotenv.config();
 
@@ -91,6 +90,6 @@ export function setTracerForTest<T extends TestTracer>(
 
   return {
     tracer,
-    resetTracer: () => setTracer(new NoOpTracer())
+    resetTracer
   };
 }

@@ -45,11 +45,13 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.es.json",
+    "build:types": "downlevel-dts types/latest/ types/3.1/",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf dist dist-* temp *.tgz types *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "echo skipped",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -71,11 +73,15 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^12.0.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
     "typescript": "~4.2.0",
     "typedoc": "0.15.2"
   }

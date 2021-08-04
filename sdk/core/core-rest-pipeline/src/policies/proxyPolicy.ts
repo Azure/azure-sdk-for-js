@@ -25,9 +25,15 @@ const NO_PROXY = "NO_PROXY";
  */
 export const proxyPolicyName = "proxyPolicy";
 
-export const noProxyList: string[] = [];
+/**
+ * Stores the patterns specified in NO_PROXY environment variable.
+ * @internal
+ */
+export const globalNoProxyList: string[] = [];
 let noProxyListLoaded: boolean = false;
-const byPassedList: Map<string, boolean> = new Map();
+
+/** A cache of whether a host should bypass the proxy. */
+const globalBypassedMap: Map<string, boolean> = new Map();
 
 let httpsProxyAgent: https.Agent | undefined;
 let httpProxyAgent: http.Agent | undefined;
@@ -53,15 +59,22 @@ function loadEnvironmentProxyValue(): string | undefined {
   return httpsProxy || allProxy || httpProxy;
 }
 
-// Check whether the host of a given `uri` is in the noProxyList.
-// If there's a match, any request sent to the same host won't have the proxy settings set.
-function isBypassed(uri: string): boolean | undefined {
+/**
+ * Check whether the host of a given `uri` matches any pattern in the no proxy list.
+ * If there's a match, any request sent to the same host shouldn't have the proxy settings set.
+ * This implementation is a port of https://github.com/Azure/azure-sdk-for-net/blob/8cca811371159e527159c7eb65602477898683e2/sdk/core/Azure.Core/src/Pipeline/Internal/HttpEnvironmentProxy.cs#L210
+ */
+function isBypassed(
+  uri: string,
+  noProxyList: string[],
+  bypassedMap?: Map<string, boolean>
+): boolean | undefined {
   if (noProxyList.length === 0) {
     return false;
   }
   const host = new URL(uri).hostname;
-  if (byPassedList.has(host)) {
-    return byPassedList.get(host);
+  if (bypassedMap?.has(host)) {
+    return bypassedMap.get(host);
   }
   let isBypassedFlag = false;
   for (const pattern of noProxyList) {
@@ -81,7 +94,7 @@ function isBypassed(uri: string): boolean | undefined {
       }
     }
   }
-  byPassedList.set(host, isBypassedFlag);
+  bypassedMap?.set(host, isBypassedFlag);
   return isBypassedFlag;
 }
 
@@ -180,15 +193,29 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
  * If not passed static settings, they will be retrieved from the HTTPS_PROXY
  * or HTTP_PROXY environment variables.
  * @param proxySettings - ProxySettings to use on each request.
+ * @param options - additional settings, for example, custom NO_PROXY patterns
  */
-export function proxyPolicy(proxySettings = getDefaultProxySettings()): PipelinePolicy {
+export function proxyPolicy(
+  proxySettings = getDefaultProxySettings(),
+  options?: {
+    /** a list of patterns to override those loaded from NO_PROXY environment variable. */
+    customNoProxyList?: string[];
+  }
+): PipelinePolicy {
   if (!noProxyListLoaded) {
-    noProxyList.push(...loadNoProxy());
+    globalNoProxyList.push(...loadNoProxy());
   }
   return {
     name: proxyPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.proxySettings && !isBypassed(request.url)) {
+      if (
+        !request.proxySettings &&
+        !isBypassed(
+          request.url,
+          options?.customNoProxyList ?? globalNoProxyList,
+          options?.customNoProxyList ? undefined : globalBypassedMap
+        )
+      ) {
         request.proxySettings = proxySettings;
       }
 

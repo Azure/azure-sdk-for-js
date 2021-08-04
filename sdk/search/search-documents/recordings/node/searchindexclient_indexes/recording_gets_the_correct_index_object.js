@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "2d36176c6aba868830066e958bdda721";
+module.exports.hash = "a01fab4c4678e48d6f5bd8c1d901514e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexes(%27hotel-live-test3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f0f9e9c7e7afce9c9dec1d3d37bc7bfef47d46a992d72fa7a5eb579b95d1697f936babd47dfccf2f36c5db6afa7555d2c2f5ed6d5795152d3e5ba2c471f9d1779396b3e7af4bd5f6c2014337aa7bd5ee1f7d3d962fcbac56bf499a09d4df0f279563639de2edbbc0e3eaa736a9f5fca676dbda68f9aaa6ee56f6d739e4d6934fe276ff36bd39a0970bccccaeb1fe4b54153faee7e9a75fe6eae97d5f27af145b6c288beff4b467650d955de548b7c9937cdf3fc322f6938de109f566b204300b89b00337f8882e0c611cadfde00e5031e9f42fc5919e02c6fa675b16a8b6a49e3f0c6169d3e41ca1f9ae2b6716cdac61b9c7ef243185d9b156543a3f04676522d5665feee0d3e21ac7a8c4cf2e2bd715295653e057db6f0b290e50e7d2fb8c97864c43e5de493f7248bb4f859a28a4f9779319be5cbefe6c5c5bca5a1e85031beb3657b6f8f3e923e042dc5c51f9e7e148c4f3fdb3440fde4676b84f451a0acf8e3d147f459f325b3387da0afae2f2e48cde5357d822606b4fed9566ff365d1f9fb198f5f3f21dad4c107f9725a5f7327bf1746a7dd148ba2cc6ae8e34756d12bb57ffc8b625a574d75de8e8f7fb0aef3f16b1ef4f8c9177bf75fbbf7885abb06dc447ef925bfe4ff018fd4194e35060000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fa307f9737777fb77cd916edf5472303971a5c10d0dff7a39d77074f1fdeff74f7f4fedec9a79feeefecffbe1f51ab65b6c8e9eb79d5e6e576595ce6dbe8f61e7d33cbcfb375d9be9e5675b1bc785957e745494d97ebb21c7d745ee4e5acf9e8d1f77eb18150cce89df67a85df4f678bf1eb16afd167827636c1cbe759d9e478bb6cf33af8a8cea97d7e299fb5f59a3e6aaaba95bfb5cd7936a5d1f89fbccdaf4d6b26c0f1322baf7f90d7064de9bbfb69d6f97b59d58bac2cbc4f9aeb65b5bc5e7c91ad30c6efff92911d66769537d5225fe64df33cbfcc4b1aa037e8a7d51ae81100ee38c0d51fb4a0bc71ccf2b73764f98047ac107f48439ee5cdb42e566d512d6964de68a3532c68fa83556c378e56db78c3d54f7e4ec6db6645d9d0b8bcb19e548b5599bf7b834f08cf1efb9394796f9c5465994f41b12dbc2c84ba43df0bb63242a1c1fff728e5d36a5ecc66f9f2bb7971316f69783a7c8cf96cd9dedba38fa4d700d39b86ac9ffdbf6accf451a008f9e3d147f459f3258b067da0afae2f2e4885e6357d8226a633fdd3f5a51fb4d5db7cd9fdfb1993483f21f2d5c107f9725a5f73afbf1708a0fd168ba2cc6a28ff47d6aae884fcf817c5b4ae9aeabc1d1fff605de7e3d74c97f1932ff6eebf76ef1141770db889fcf24b7ec9ff03ce32a982a2060000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -19,13 +19,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D8BE6A6C28DE3A"',
+  'W/"0x8D9561E52C66404"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'f46fccb6-3b29-4a59-af9f-a20e8d58f6b6',
+  '739fdeb3-2c9d-43ad-bea4-43c9dadc14ee',
   'elapsed-time',
-  '21',
+  '18',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -33,7 +33,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Fri, 22 Jan 2021 00:12:40 GMT',
+  'Tue, 03 Aug 2021 01:30:52 GMT',
   'Content-Length',
-  '662'
+  '656'
 ]);

@@ -48,7 +48,7 @@ export interface SearchDocumentsResult {
    * The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly answers?: AnswerResult[] | null;
+  readonly answers?: AnswerResult[];
   /**
    * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested results in a single Search response. You can use this JSON along with @odata.nextLink to formulate another POST Search request to get the next part of the search response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -100,7 +100,7 @@ export interface AnswerResult {
    * Same text passage as in the Text property with highlighted text phrases most relevant to the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly highlights?: string | null;
+  readonly highlights?: string;
 }
 
 /** Parameters for filtering, sorting, faceting, paging, and other search query behaviors. */
@@ -168,7 +168,7 @@ export interface SearchResult {
    * The relevance score computed by the semantic ranker for the top search results. Search results are sorted by the RerankerScore first and then by the Score. RerankerScore is only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly rerankerScore?: number | null;
+  readonly rerankerScore?: number;
   /**
    * Text fragments from the document that indicate the matching search terms, organized by each applicable field; null if hit highlighting was not enabled for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -178,7 +178,7 @@ export interface SearchResult {
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly captions?: CaptionResult[] | null;
+  readonly captions?: CaptionResult[];
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.. */
@@ -194,7 +194,7 @@ export interface CaptionResult {
    * Same text passage as in the Text property with highlighted phrases most relevant to the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly highlights?: string | null;
+  readonly highlights?: string;
 }
 
 /** Response containing suggestion query results from an index. */
@@ -455,7 +455,7 @@ export const enum KnownApiVersion20210430Preview {
  * Defines values for ApiVersion20210430Preview. \
  * {@link KnownApiVersion20210430Preview} can be used interchangeably with ApiVersion20210430Preview,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **2021-04-30-Preview**: Api Version '2021-04-30-Preview'
  */
 export type ApiVersion20210430Preview = string;
@@ -472,7 +472,7 @@ export const enum KnownQueryLanguage {
  * Defines values for QueryLanguage. \
  * {@link KnownQueryLanguage} can be used interchangeably with QueryLanguage,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **none**: Query language not specified. \
  * **en-us**: English
  */
@@ -490,7 +490,7 @@ export const enum KnownSpeller {
  * Defines values for Speller. \
  * {@link KnownSpeller} can be used interchangeably with Speller,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **none**: Speller not enabled. \
  * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
  */
@@ -508,7 +508,7 @@ export const enum KnownAnswers {
  * Defines values for Answers. \
  * {@link KnownAnswers} can be used interchangeably with Answers,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **none**: Do not return answers for the query. \
  * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
  */
@@ -526,7 +526,7 @@ export const enum KnownCaptions {
  * Defines values for Captions. \
  * {@link KnownCaptions} can be used interchangeably with Captions,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **none**: Do not return captions for the query. \
  * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
  */

@@ -39,7 +39,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { writeBanner, pemFromBase64 } from "./utils/helpers";
+import { writeBanner } from "./utils/helpers";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils";
 
 import { X509 } from "jsrsasign";
@@ -52,13 +52,13 @@ dotenv.config();
 async function setOpenEnclaveAttestationPolicyAadUnsecured() {
   writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
-  // Use the customer specified attestion URL.
+  // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   // This attestation policy blocks all non-debug SGX enclaves,
   // and requires that the product ID be 1, the SVN be greater than 0,
@@ -105,13 +105,13 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
 async function setOpenEnclaveAttestationPolicyAadSecured() {
   writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
-  // Use the customer specified attestion URL.
+  // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const newPolicy = `version= 1.0;
     authorizationrules
@@ -135,12 +135,10 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   const [privateKey, publicKey] = createRSAKey();
   const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
 
-  const setPolicyResult = await client.setPolicy(
-    KnownAttestationType.OpenEnclave,
-    newPolicy,
-    privateKey,
-    certificate
-  );
+  const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy, {
+    privateKey: privateKey,
+    certificate: certificate
+  });
 
   // Verify that the attestation service received the new policy.
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
@@ -170,7 +168,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
 async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
-  // Use the customer specified attestion URL.
+  // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_ISOLATED_URL must be defined.");
@@ -184,7 +182,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
     throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
   }
 
-  const client = new AttestationAdministrationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const newPolicy = `version= 1.0;
       authorizationrules
@@ -207,12 +205,10 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   const privateKey = pemFromBase64(base64PrivateKey, "PRIVATE KEY");
   const certificate = pemFromBase64(base64Certificate, "CERTIFICATE");
 
-  const setPolicyResult = await client.setPolicy(
-    KnownAttestationType.SgxEnclave,
-    newPolicy,
-    privateKey,
-    certificate
-  );
+  const setPolicyResult = await client.setPolicy(KnownAttestationType.SgxEnclave, newPolicy, {
+    privateKey: privateKey,
+    certificate: certificate
+  });
 
   // Verify that the attestation service received the new policy.
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
@@ -232,13 +228,30 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy.
-  const resetPolicyResult = await client.resetPolicy(
-    KnownAttestationType.SgxEnclave,
-    privateKey,
-    certificate
-  );
+  const resetPolicyResult = await client.resetPolicy(KnownAttestationType.SgxEnclave, {
+    privateKey: privateKey,
+    certificate: certificate
+  });
 
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
+}
+
+export type PemType = "CERTIFICATE" | "PRIVATE KEY";
+
+/**
+ *
+ * @param base64 - Base64 encoded DER object to encode as PEM.
+ * @param pemType - PEM object type - typically "CERTIFICATE" |
+ */
+export function pemFromBase64(base64: string, pemType: PemType): string {
+  let pem = "-----BEGIN " + pemType + "-----\n";
+  while (base64 !== "") {
+    pem += base64.substr(0, 64) + "\n";
+    base64 = base64.substr(64);
+  }
+  pem += "-----END " + pemType + "-----\n";
+
+  return pem;
 }
 
 export async function main() {

@@ -294,3 +294,19 @@ export function fileCreationTimeToString(time: Date | TimeNowType | TimePreserve
 export function fileLastWriteTimeToString(time: Date | TimeNowType | TimePreserveType): string {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }
+
+/**
+ * Represents authentication information in Authorization, ProxyAuthorization,
+ * WWW-Authenticate, and Proxy-Authenticate header values.
+ */
+export interface HttpAuthorization {
+  /**
+   * The scheme to use for authorization.
+   */
+  scheme: string;
+
+  /**
+   * the credentials containing the authentication information of the user agent for the resource being requested.
+   */
+  parameter: string;
+}

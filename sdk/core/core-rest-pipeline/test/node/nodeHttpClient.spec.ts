@@ -33,6 +33,9 @@ const httpRequestChecker = {
   on() {
     /* no op */
   },
+  once() {
+    /* no op */
+  },
   end(chunk: unknown) {
     const isString = typeof chunk === "string";
     assert(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
@@ -72,7 +75,8 @@ describe("NodeHttpClient", function() {
 
   it("shouldn't throw on 404", async function() {
     const client = createDefaultHttpClient();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(404));
@@ -83,7 +87,8 @@ describe("NodeHttpClient", function() {
   it("should allow canceling of requests", async function() {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal
@@ -101,7 +106,8 @@ describe("NodeHttpClient", function() {
   it("shouldn't be affected by requests cancelled late", async function() {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal
@@ -117,7 +123,8 @@ describe("NodeHttpClient", function() {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     controller.abort();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal
@@ -133,7 +140,8 @@ describe("NodeHttpClient", function() {
 
   it("should report upload and download progress", async function() {
     const client = createDefaultHttpClient();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     let downloadCalled = false;
     let uploadCalled = false;
     const request = createPipelineRequest({
@@ -157,31 +165,12 @@ describe("NodeHttpClient", function() {
     assert.isTrue(uploadCalled, "no upload progress");
   });
 
-  it("should fail if progress callbacks throw", async function() {
-    const client = createDefaultHttpClient();
-    stubbedHttpsRequest.returns(createRequest());
-    const errorMessage = "it failed horribly!";
-    const request = createPipelineRequest({
-      url: "https://example.com",
-      body: "Some kinda witty message",
-      onUploadProgress: () => {
-        throw new Error(errorMessage);
-      }
-    });
-    const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e) {
-      assert.strictEqual(e.message, errorMessage);
-    }
-  });
-
   it("should honor timeout", async function() {
     const client = createDefaultHttpClient();
 
     const timeoutLength = 2000;
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       timeout: timeoutLength
@@ -198,7 +187,8 @@ describe("NodeHttpClient", function() {
 
   it("should stream response body on matching status code", async function() {
     const client = createDefaultHttpClient();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200])
@@ -212,7 +202,8 @@ describe("NodeHttpClient", function() {
 
   it("should not stream response body on non-matching status code", async function() {
     const client = createDefaultHttpClient();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200])
@@ -240,7 +231,8 @@ describe("NodeHttpClient", function() {
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function() {
     const client = createDefaultHttpClient();
-    stubbedHttpRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpRequest.returns(clientRequest);
     const request = createPipelineRequest({
       allowInsecureConnection: true,
       url: "http://example.com"
@@ -253,7 +245,8 @@ describe("NodeHttpClient", function() {
 
   it("Should decode chunked responses properly", async function() {
     const client = createDefaultHttpClient();
-    stubbedHttpsRequest.returns(createRequest());
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com"
     });
@@ -286,7 +279,10 @@ describe("NodeHttpClient", function() {
       data[i] = i;
     }
 
-    const request = createPipelineRequest({ url: "https://example.com", body: data });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: data
+    });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
@@ -302,7 +298,10 @@ describe("NodeHttpClient", function() {
       data[i] = i;
     }
 
-    const request = createPipelineRequest({ url: "https://example.com", body: data.buffer });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: data.buffer
+    });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
@@ -315,7 +314,10 @@ describe("NodeHttpClient", function() {
 
     const data = Buffer.from("example text");
 
-    const request = createPipelineRequest({ url: "https://example.com", body: data });
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: data
+    });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;

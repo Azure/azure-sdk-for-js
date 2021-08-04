@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const TelemetryItem: coreHttp.CompositeMapper = {
+export const TelemetryItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryItem",
@@ -74,7 +74,7 @@ export const TelemetryItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const MonitorBase: coreHttp.CompositeMapper = {
+export const MonitorBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MonitorBase",
@@ -96,7 +96,7 @@ export const MonitorBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const MonitorDomain: coreHttp.CompositeMapper = {
+export const MonitorDomain: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MonitorDomain",
@@ -114,7 +114,7 @@ export const MonitorDomain: coreHttp.CompositeMapper = {
   }
 };
 
-export const TrackResponse: coreHttp.CompositeMapper = {
+export const TrackResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TrackResponse",
@@ -136,7 +136,10 @@ export const TrackResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "TelemetryErrorDetails" }
+            type: {
+              name: "Composite",
+              className: "TelemetryErrorDetails"
+            }
           }
         }
       }
@@ -144,7 +147,7 @@ export const TrackResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const TelemetryErrorDetails: coreHttp.CompositeMapper = {
+export const TelemetryErrorDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryErrorDetails",
@@ -171,7 +174,7 @@ export const TelemetryErrorDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetricDataPoint: coreHttp.CompositeMapper = {
+export const MetricDataPoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricDataPoint",
@@ -210,24 +213,28 @@ export const MetricDataPoint: coreHttp.CompositeMapper = {
       },
       count: {
         serializedName: "count",
+        nullable: true,
         type: {
           name: "Number"
         }
       },
       min: {
         serializedName: "min",
+        nullable: true,
         type: {
           name: "Number"
         }
       },
       max: {
         serializedName: "max",
+        nullable: true,
         type: {
           name: "Number"
         }
       },
       stdDev: {
         serializedName: "stdDev",
+        nullable: true,
         type: {
           name: "Number"
         }
@@ -236,7 +243,7 @@ export const MetricDataPoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const TelemetryExceptionDetails: coreHttp.CompositeMapper = {
+export const TelemetryExceptionDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryExceptionDetails",
@@ -292,14 +299,19 @@ export const TelemetryExceptionDetails: coreHttp.CompositeMapper = {
         serializedName: "parsedStack",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "StackFrame" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "StackFrame"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const StackFrame: coreHttp.CompositeMapper = {
+export const StackFrame: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StackFrame",
@@ -349,7 +361,7 @@ export const StackFrame: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvailabilityData: coreHttp.CompositeMapper = {
+export const AvailabilityData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AvailabilityData",
@@ -426,7 +438,7 @@ export const AvailabilityData: coreHttp.CompositeMapper = {
   }
 };
 
-export const TelemetryEventData: coreHttp.CompositeMapper = {
+export const TelemetryEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryEventData",
@@ -461,7 +473,7 @@ export const TelemetryEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const TelemetryExceptionData: coreHttp.CompositeMapper = {
+export const TelemetryExceptionData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TelemetryExceptionData",
@@ -474,12 +486,16 @@ export const TelemetryExceptionData: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "TelemetryExceptionDetails" }
+            type: {
+              name: "Composite",
+              className: "TelemetryExceptionDetails"
+            }
           }
         }
       },
       severityLevel: {
         serializedName: "severityLevel",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -511,7 +527,7 @@ export const TelemetryExceptionData: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessageData: coreHttp.CompositeMapper = {
+export const MessageData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MessageData",
@@ -552,7 +568,7 @@ export const MessageData: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetricsData: coreHttp.CompositeMapper = {
+export const MetricsData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricsData",
@@ -564,7 +580,12 @@ export const MetricsData: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "MetricDataPoint" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricDataPoint"
+            }
+          }
         }
       },
       properties: {
@@ -578,7 +599,7 @@ export const MetricsData: coreHttp.CompositeMapper = {
   }
 };
 
-export const PageViewData: coreHttp.CompositeMapper = {
+export const PageViewData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PageViewData",
@@ -647,7 +668,7 @@ export const PageViewData: coreHttp.CompositeMapper = {
   }
 };
 
-export const PageViewPerfData: coreHttp.CompositeMapper = {
+export const PageViewPerfData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PageViewPerfData",
@@ -737,7 +758,7 @@ export const PageViewPerfData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteDependencyData: coreHttp.CompositeMapper = {
+export const RemoteDependencyData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteDependencyData",
@@ -831,7 +852,7 @@ export const RemoteDependencyData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RequestData: coreHttp.CompositeMapper = {
+export const RequestData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RequestData",
