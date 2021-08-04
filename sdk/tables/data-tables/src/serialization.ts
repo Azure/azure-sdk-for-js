@@ -145,10 +145,10 @@ export function deserialize<T extends object = Record<string, any>>(
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
         typedValue = getTypedObject(value, type, disableTypeConversion);
-      } else if (["number", "string"].includes(typeof value)) {
+      } else if (disableTypeConversion  && ["number", "string"].includes(typeof value)) {
         // The service, doesn't return type metadata for number or strings
         // if automatic type conversion is disabled we'll infer the EDM object
-        typedValue = inferTypedObject(key, value, disableTypeConversion);
+        typedValue = inferTypedObject(key, value);
       }
 
       deserialized[transformedKey] = typedValue;
@@ -159,39 +159,25 @@ export function deserialize<T extends object = Record<string, any>>(
 
 function inferTypedObject(
   propertyName: string,
-  value: number | string,
-  disableTypeConversion: boolean
+  value: number | string
 ) {
-  // Use value as is when typeConversion is enabled
-  if (!disableTypeConversion) {
-    return value;
-  }
-
   // We need to skip service metadata fields such as partitionKey and rowKey and use the same value returned by the service
   if (propertyCaseMap.has(propertyName)) {
     return value;
   }
 
-  return typeof value === "string" ? getTypedString(value) : getTypedNumber(value);
+  return typeof value === "string" ? { value, type: "String" } : getTypedNumber(value);
 }
 
 /**
  * Returns the number when typeConversion is enabled or the EDM object with the correct number format Double or Int32 if disabled
  */
-function getTypedNumber(value: number): EdmModel<"Double"> | EdmModel<"Int32"> | number {
-  const isDecimal = value % 1 !== 0;
-  if (isDecimal) {
-    return { value, type: "Double" };
-  } else {
+function getTypedNumber(value: number): EdmModel<"Double"> | EdmModel<"Int32"> {
+  if (Number.isInteger(value)) {
     return { value, type: "Int32" };
+  } else {
+    return { value, type: "Double" };
   }
-}
-
-/**
- * Returns the string when typeConversion is enabled or the EDM\<\"String\"\> object if disabled
- */
-function getTypedString(value: string): EdmModel<"String"> | string {
-  return { value, type: "String" };
 }
 
 export function deserializeObjectsArray<T extends object>(
