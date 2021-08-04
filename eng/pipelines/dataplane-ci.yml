@@ -4,7 +4,7 @@ trigger:
       - main
   paths:
     include:
-    - eng/pipelines/mgmt-pr.yml    
+    - eng/pipelines/dataplane-pr.yml    
     - sdk/applicationinsights/applicationinsights-query
     - sdk/batch/batch
     - sdk/cognitiveservices/cognitiveservices-anomalydetector

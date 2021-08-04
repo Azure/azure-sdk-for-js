@@ -8,7 +8,7 @@ pr:
     - main
   paths:
     include:
-    - eng/pipelines/mgmt-pr.yml
+    - eng/pipelines/dataplane-pr.yml
     - sdk/applicationinsights/applicationinsights-query
     - sdk/batch/batch
     - sdk/cognitiveservices/cognitiveservices-anomalydetector
@@ -54,7 +54,7 @@ jobs:
       versionSpec: $(NodeVersion)
     displayName: Install Node.js $(NodeVersion)
   - task: Npm@1
-    displayName: npm installl
+    displayName: npm install
     inputs:
       command: install
   - task: Npm@1
