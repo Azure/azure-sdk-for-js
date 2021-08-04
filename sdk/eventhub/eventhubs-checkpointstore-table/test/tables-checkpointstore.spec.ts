@@ -4,8 +4,7 @@ import chai from "chai";
 import * as dotenv from "dotenv";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
-import { Checkpoint} from "@azure/event-hubs";
-
+import { Checkpoint } from "@azure/event-hubs";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
 import { CheckpointEntity, PartitionOwnershipEntity } from "../src/tableCheckpointStore";
@@ -84,7 +83,7 @@ describe("TableCheckpointStore", function(): void {
         "green.servicebus.windows.net"
       ];
       const eventHubArray = ["redHub", "blueHub", "greenHub"];
-      const consumerConst = "$default"
+      const consumerConst = "$default";
       /* Checkpoint */
       const checkpoint_entity: CheckpointEntity = {
         partitionKey: "",
@@ -93,10 +92,9 @@ describe("TableCheckpointStore", function(): void {
         offset: 0
       };
       for (let i = 0; i < 3; ++i) {
-        
         checkpoint_entity.sequencenumber = 100 + i;
         checkpoint_entity.rowKey = i.toString();
-        checkpoint_entity.partitionKey= `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`;
+        checkpoint_entity.partitionKey = `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`;
         checkpoint_entity.offset = 1023 + i;
         await client.createEntity(checkpoint_entity);
       }
@@ -109,7 +107,6 @@ describe("TableCheckpointStore", function(): void {
       };
 
       for (let i = 0; i < 3; ++i) {
-       
         ownership_entity.rowKey = i.toString();
         ownership_entity.partitionKey = `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Ownership`;
         ownership_entity.ownerid = "Id" + i;
@@ -147,29 +144,45 @@ describe("TableCheckpointStore", function(): void {
 
       describe("claimOwnership", function() {
         // these errors happen when we have multiple consumers starting up
-       // at the same time and load balancing amongst themselves. This is a
-      // normal thing and shouldn't be reported to the user.
-      it("claimOwnership ignores errors about etags", async () => {
-        const checkpointStore = new TableCheckpointStore(client);
-    
-        const originalClaimedOwnerships = await checkpointStore.claimOwnership([
-          {
-            partitionId: "0",
-            consumerGroup: "$default",
-            fullyQualifiedNamespace: "red.servicebus.windows.net",
-            eventHubName: "redHub",
-            ownerId: "Id" + 0
-          }
-        ]);
-        
-        console.log(originalClaimedOwnerships[0].etag);
-        const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
-    newClaimedOwnerships.length.should.equal(1);
-    
-   
-      });
+        // at the same time and load balancing amongst themselves. This is a
+        // normal thing and shouldn't be reported to the user.
 
-    
+        it("claimOwnership ignores errors about etags", async () => {
+          const checkpointStore = new TableCheckpointStore(client);
+          const listOwnership = await checkpointStore.listOwnership(
+            "blue.servicebus.windows.net",
+            "blueHub",
+            "$default"
+          );
+
+          const originalClaimedOwnerships = await checkpointStore.claimOwnership([
+            listOwnership[0]
+          ]);
+          console.log("succeeded");
+
+          const originalETag = originalClaimedOwnerships[0].etag;
+
+          const newClaimedOwnerships = await checkpointStore.claimOwnership(
+            originalClaimedOwnerships
+          );
+          newClaimedOwnerships.length.should.equal(1);
+
+          newClaimedOwnerships.length.should.equal(1);
+          newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
+
+          // we've now invalidated the previous ownership's etag so using the old etag will fail
+          const shouldNotThrowButNothingWillClaim = await checkpointStore.claimOwnership([
+            {
+              partitionId: "1",
+              consumerGroup: "$default",
+              fullyQualifiedNamespace: "blue.servicebus.windows.net",
+              eventHubName: "blueHub",
+              ownerId: "Id" + 0,
+              etag: originalETag
+            }
+          ]);
+          shouldNotThrowButNothingWillClaim.length.should.equal(0);
+        });
       });
 
       describe("updateCheckpoint", function() {
@@ -188,7 +201,6 @@ describe("TableCheckpointStore", function(): void {
               sequenceNumber: 100 + i,
               offset: 1023 + i
             };
-
             await checkpointStore.updateCheckpoint(checkpoint);
             i++;
           }
