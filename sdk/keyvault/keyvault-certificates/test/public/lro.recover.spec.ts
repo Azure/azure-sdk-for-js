@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Context } from "mocha";
+import { Context, Suite } from "mocha";
 import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
@@ -12,18 +12,19 @@ import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
-describe("Certificates client - LRO - recoverDelete", function() {
+describe("Certificates client - LRO - recoverDelete", function(this: Suite) {
   const certificatePrefix = `lroRecover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: Recorder;
 
+  if (!isPlaybackMode()) {
+    // Necessary for min/max testing which does not account for global timeout cmd line param. This can be removed when #16731 is resolved.
+    this.timeout(6 * 60 * 1000); // 6 minutes
+  }
+
   beforeEach(async function(this: Context) {
-    if (!isPlaybackMode()) {
-      // Necessary for min/max testing which does not account for global timeout cmd line param. This can be removed when #16731 is resolved.
-      this.timeout(6 * 60 * 1000); // 6 minutes
-    }
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;

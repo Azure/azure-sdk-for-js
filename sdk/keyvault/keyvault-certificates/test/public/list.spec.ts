@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { Context } from "mocha";
+import { Context, Suite } from "mocha";
 import * as assert from "assert";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
@@ -15,7 +15,7 @@ import TestClient from "../utils/testClient";
 
 const { expect } = chai;
 
-describe("Certificates client - list certificates in various ways", function() {
+describe("Certificates client - list certificates in various ways", function(this: Suite) {
   const prefix = `list${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
@@ -27,11 +27,12 @@ describe("Certificates client - list certificates in various ways", function() {
     subject: "cn=MyCert"
   };
 
+  if (!isPlaybackMode()) {
+    // Necessary for min/max testing which does not account for global timeout cmd line argument. This can be removed when #16731 is resolved.
+    this.timeout(6 * 60 * 1000); // 6 minutes
+  }
+
   beforeEach(async function(this: Context) {
-    if (!isPlaybackMode()) {
-      // Necessary for min/max testing which does not account for global timeout cmd line argument. This can be removed when #16731 is resolved.
-      this.timeout(6 * 60 * 1000); // 6 minutes
-    }
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
