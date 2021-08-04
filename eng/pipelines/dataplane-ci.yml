@@ -32,13 +32,10 @@ trigger:
     - sdk/cognitiveservices/cognitiveservices-videosearch
     - sdk/cognitiveservices/cognitiveservices-visualsearch
     - sdk/cognitiveservices/cognitiveservices-websearch
-    - sdk/eventhub/event-processor-host
     - sdk/graphrbac/graph
-    - sdk/keyvault/keyvault-common
     - sdk/operationalinsights/loganalytics
     - sdk/servicefabric/servicefabric
     - sdk/storage/storage-datalake
-    - sdk/storage/storage-internal-avro
 
 pr: none
 
