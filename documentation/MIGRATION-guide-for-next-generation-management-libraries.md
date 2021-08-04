@@ -1,8 +1,8 @@
 # Guide for migrating to the next generation of Azure JavaScript SDK for Management Libraries
 
-This document is intended to show the customers of the Javascript/Typescript management libraries how to migrate their code to use the next-generation.
+This document is intended to show the customers of the JavaScript/TypeScript management libraries how to migrate their code to use the next-generation.
 
-**For new customers of the Javascript/Typescript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)) please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
+**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)) please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
 
 ## Why switch to the next-generation
 
@@ -14,7 +14,7 @@ Compared to the current management libraries, the next-generation has the follow
 1. Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
 1. The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
 
-If you have an existing application that uses the Javascript/Typescript Azure SDK packages and you're interested in updating your application to use the next-generation JavaScript/Typescript Azure SDK packages, then the good news is that there is very little for you to do. Here's the things that have changed with this new set of SDKs:
+If you have an existing application that uses the JavaScript/TypeScript Azure SDK packages and you're interested in updating your application to use the next-generation JavaScript/TypeScript Azure SDK packages, then the good news is that there is very little for you to do. Here's the things that have changed with this new set of SDKs:
 
 ## Current status
 
@@ -22,7 +22,7 @@ Currently, we have previewed several packages such as `azure/arm-resources`, `@a
 
 ## Authentication
 
-In the next-generation Javascript/Typescript packages, we only support using `@azure/identity` to do the Authentication. And we have deprecated the authentication methods defined `@azure/ms-rest-nodeauth` and `@azure/ms-rest-browserauth`. If you are using them, please change it accordingly.  
+In the next-generation JavaScript/TypeScript packages, we only support using `@azure/identity` to do the Authentication. And we have deprecated the authentication methods defined `@azure/ms-rest-nodeauth` and `@azure/ms-rest-browserauth`. If you are using them, please change it accordingly.  
 For example, if you are using `loginWithServicePrincipalSecret` method in `@azure/ms-rest-nodeauth` to get the credential, you may replace it with `ClientSecretCredential` in `@azure/identity`.
 
 change
@@ -228,7 +228,7 @@ The following table compares `LROPoller` and `PollerLike`:
 
 | operation                                                                  | `LROPOller`                                  | `PollerLike`                                                                                                                                                                                                    |
 | -------------------------------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| return final results                                                       | `pollUntilDone()`                            | `pollUntilFinished`                                                                                                                                                                                             |
+| return final results                                                       | `pollUntilFinished()`                        | `pollUntilDone()`                                                                                                                                                                                               |
 | poll                                                                       | `poll()`                                     | `poll()`                                                                                                                                                                                                        |
 | access the current state after receiving the response of each poll request | N/A                                          | `onProgress()`                                                                                                                                                                                                  |
 | check whether the operation finished                                       | `isFinished()` / `isFinalStatusAcceptable()` | `isDone()`                                                                                                                                                                                                      |
@@ -241,11 +241,92 @@ The following table compares `LROPoller` and `PollerLike`:
 | get the most recent response                                               | `getMostRecentResponse()`                    | can be accessed using the [`onResponse`](https://github.com/Azure/azure-sdk-for-js/blob/35f86a68def5022d4c03a32d4c8c0362a0158772/sdk/core/core-client/src/interfaces.ts#L115) callback in the operation options |
 | get the current operation status                                           | `getOperationStatus()`                       | can be accessed using the [`onResponse`](https://github.com/Azure/azure-sdk-for-js/blob/35f86a68def5022d4c03a32d4c8c0362a0158772/sdk/core/core-client/src/interfaces.ts#L115) callback in the operation options |
 
-Refer to [@azure/core-lro](https://www.npmjs.com/package/@azure/core-lro) for more details.
+And here are examples of how to commonly use one of the `beginCreateOrUpdateAndWait` LROs found in `@azure/compute`:
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <td colspan="2">
+      <p>
+        Operations that returns a poller.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th>Current Libraries</th>
+    <th>Next Generation</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="typescript">
+const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
+const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
+  resourceGroupName,
+  hostGroupName,
+  hostName,
+  parameter
+);
+const result = await poller.pollUntilFinished().then((response) => {
+  console.log(response);
+});
+      </pre>
+    </td>
+    <td>
+      <pre lang="typescript">
+const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
+const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
+  resourceGroupName,
+  hostGroupName,
+  hostName,
+  parameter
+);
+const result = await poller.pollUntilDone().then((response) => {
+  console.log(response);
+});
+      </pre>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <p>
+        Operations that will poll until finish and return the result directly
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th>Current Libraries</th>
+    <th>Next Generation</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="typescript">
+const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
+await computeClient.dedicatedHosts
+  .createOrUpdate(resourceGroupName, hostGroupName, hostName, parameter)
+  .then((response) => {
+    console.log(response);
+  });
+      </pre>
+    </td>
+    <td>
+      <pre lang="typescript">
+const computeClient = new compute.ComputeManagementClient(credential, subscriptionId);
+await computeClient.dedicatedHosts
+  .beginCreateOrUpdateAndWait(resourceGroupName, hostGroupName, hostName, parameter)
+  .then((response) => {
+    console.log(response);
+  });
+      </pre>
+    </td>
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Please refer to [@azure/core-lro](https://www.npmjs.com/package/@azure/core-lro) for more details.
 
 ## Additional Samples
 
-We also provide some samples [here](https://github.com/Azure-Samples/azure-samples-js-management) for customers on how to use the next generation of Azure Javascript/Typescript management libraries.
+We also provide some samples [here](https://github.com/Azure-Samples/azure-samples-js-management) for customers on how to use the next generation of Azure JavaScript/TypeScript management libraries.
 
 ## Need help
 
