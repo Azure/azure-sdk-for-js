@@ -6,17 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import {
   ApiVersion20171201Preview,
   MonitorManagementClientOptionalParams
 } from "./models";
 
-const packageName = "monitor-metrics-namespaces";
-const packageVersion = "1.0.0-beta.4";
-
 /** @internal */
-export class MonitorManagementClientContext extends coreHttp.ServiceClient {
+export class MonitorManagementClientContext extends coreClient.ServiceClient {
   $host: string;
   apiVersion: ApiVersion20171201Preview;
 
@@ -37,21 +34,25 @@ export class MonitorManagementClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: MonitorManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    const defaultUserAgent = `azsdk-js-${packageName.replace(
-      "@azure/",
-      ""
-    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
+    const packageDetails = `azsdk-js-monitor-metrics-namespaces/1.0.0-beta.4`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, {
+    const optionsWithDefaults = {
+      ...defaults,
       ...options,
-      userAgent: options.userAgent
-        ? `${options.userAgent} ${defaultUserAgent}`
-        : `${defaultUserAgent}`
-    });
-
-    this.requestContentType = "application/json; charset=utf-8";
-    this.baseUri = options.endpoint || "https://management.azure.com";
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.apiVersion = apiVersion;
 

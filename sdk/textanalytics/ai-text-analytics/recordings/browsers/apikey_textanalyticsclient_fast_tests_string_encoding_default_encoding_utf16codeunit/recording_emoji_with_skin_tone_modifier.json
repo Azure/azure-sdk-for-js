@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,10 +10,10 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"👩🏻 SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "ab01d0ca-2dd2-49f1-b058-051d80d1c7b2",
+    "apim-request-id": "a1399d05-bbed-42f4-b1a8-4aa80e812f02",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 29 Jun 2021 21:09:41 GMT",
+    "date": "Tue, 03 Aug 2021 22:52:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

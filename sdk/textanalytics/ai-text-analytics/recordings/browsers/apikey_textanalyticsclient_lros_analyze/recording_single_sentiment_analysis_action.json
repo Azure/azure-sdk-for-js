@@ -2,34 +2,53 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"The food was unacceptable\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"The rooms were beautiful. The AC was good and quiet.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"The breakfast was good, but the toilet was smelly.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"Loved this hotel - good breakfast - nice shuttle service - clean rooms.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"I had a great unobstructed view of the Microsoft campus.\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.\",\"language\":\"en\"},{\"id\":\"6\",\"text\":\"The toilet smelled.\",\"language\":\"en\"}]},\"tasks\":{\"sentimentAnalysisTasks\":[{\"parameters\":{\"opinionMining\":true,\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "d32ce858-c88b-4dca-9860-979d7b3d830a",
-    "date": "Fri, 25 Jun 2021 20:15:57 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+    "apim-request-id": "012c9167-837f-4643-a9f7-45077d37eedb",
+    "date": "Tue, 03 Aug 2021 22:54:50 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7815"
+    "x-envoy-upstream-service-time": "229"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:15:58Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:51Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "d88b488d-4091-4831-9d21-da149d7fda60",
+    "apim-request-id": "37839d0c-98fc-4c2e-8b39-b23d8457907c",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:15:57 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:51Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "5695e19e-537c-466a-8238-827dfae8b9b9",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:54:50 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -38,17 +57,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:15:58Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "67165db7-897c-4995-86db-384d187c4260",
+    "apim-request-id": "fa26cb10-8e85-470b-92eb-eaee2b15edd1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:15:57 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -57,74 +76,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:15:58Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "d159dd92-97b2-4809-989a-95ecc0352cf4",
+    "apim-request-id": "a1bf5681-4130-4f58-b75d-0ec2e2df6bda",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:15:59 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:15:58Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "b6aee283-dd30-4d39-a241-4d13ac1bbb6f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:01 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "a58d7745-91d4-4f12-8ac5-425b15ed255c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:03 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "8a847109-e269-4256-9329-9a1900a273f2",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:05 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -133,17 +95,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "78826bdf-38a9-488d-9b78-5cb13a8b14d8",
+    "apim-request-id": "0ed67790-4bae-404c-adab-ddd1fdca7ba9",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:07 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -152,55 +114,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "8afef0ad-c9e6-4eae-83e4-c2bb084b6057",
+    "apim-request-id": "84a6b32e-ba14-4832-90d4-8108480d0b91",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:10 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "d84b1585-396c-4e22-8c85-0dcc550cb8f9",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:12 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "165ecafe-b04a-4e68-8762-88e13a17f52b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:15 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -209,17 +133,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "29da8f38-0b5d-4a38-8277-8935e8f9b716",
+    "apim-request-id": "b8bfe7cb-33f3-4264-bf6f-3ca47bff2732",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:17 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -228,74 +152,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "28e443dc-83b0-4d77-ac66-8e7d14886ed9",
+    "apim-request-id": "7f2656b4-8d65-4e65-9a34-f0ac9fa8a560",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:19 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "10"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "b6551f55-5df0-4b32-a6ba-ff56b4efaf79",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:21 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "4b5169e3-fef7-472d-a001-558fa11aac51",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:23 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "e45a2792-215d-403e-96dd-1a8510429a18",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:25 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:03 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -304,36 +171,36 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "753ba156-2e37-4dfb-9aaa-37d0802fc502",
+    "apim-request-id": "d75fd07e-7b46-4d26-9974-ed5ca799446f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:27 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "12"
+    "x-envoy-upstream-service-time": "9"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "d2696d88-2655-40b2-a912-3dee7f3fba39",
+    "apim-request-id": "adbfce7a-123b-4f94-beff-587dddc3ca8d",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:29 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -342,59 +209,173 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:03Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "38affcdc-7528-4ff2-9211-7d22d40bddec",
+    "apim-request-id": "0a57e3b5-06e1-45eb-b447-74767d7919cc",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:31 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "126"
+    "x-envoy-upstream-service-time": "9"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:32Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"sentimentAnalysisTasks\":[{\"lastUpdateDateTime\":\"2021-06-25T20:16:32.9432427Z\",\"taskName\":\"SentimentAnalysis_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":25,\"text\":\"The food was unacceptable\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":13,\"length\":12,\"text\":\"unacceptable\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"1\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":25,\"text\":\"The rooms were beautiful.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":15,\"length\":9,\"text\":\"beautiful\",\"isNegated\":false}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":26,\"length\":26,\"text\":\"The AC was good and quiet.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":30,\"length\":2,\"text\":\"AC\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":37,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":46,\"length\":5,\"text\":\"quiet\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"offset\":0,\"length\":50,\"text\":\"The breakfast was good, but the toilet was smelly.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":32,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":18,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":43,\"length\":6,\"text\":\"smelly\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":71,\"text\":\"Loved this hotel - good breakfast - nice shuttle service - clean rooms.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":11,\"length\":5,\"text\":\"hotel\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":24,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":41,\"length\":15,\"text\":\"shuttle service\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":65,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/3\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":19,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":36,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":5,\"text\":\"loved\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":59,\"length\":5,\"text\":\"clean\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":56,\"text\":\"I had a great unobstructed view of the Microsoft campus.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.97,\"negative\":0.03},\"offset\":27,\"length\":4,\"text\":\"view\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":8,\"length\":5,\"text\":\"great\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.93,\"negative\":0.07},\"offset\":14,\"length\":12,\"text\":\"unobstructed\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"5\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":75,\"text\":\"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":5,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":15,\"length\":9,\"text\":\"bathrooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/1\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":42,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":30,\"length\":3,\"text\":\"old\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":53,\"length\":5,\"text\":\"dirty\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"6\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"offset\":0,\"length\":19,\"text\":\"The toilet smelled.\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":11,\"length\":7,\"text\":\"smelled\",\"isNegated\":false}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}]}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "775b8f51-814a-48ba-8728-6666d545b05d",
+    "apim-request-id": "e61e39e2-f551-427e-bdf9-3377c19efaad",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:33 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:11 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "116"
+    "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c696fcbd-acea-4f61-9d1b-c5ea0fd30d6c\",\"lastUpdateDateTime\":\"2021-06-25T20:16:32Z\",\"createdDateTime\":\"2021-06-25T20:15:50Z\",\"expirationDateTime\":\"2021-06-26T20:15:50Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"sentimentAnalysisTasks\":[{\"lastUpdateDateTime\":\"2021-06-25T20:16:32.9432427Z\",\"taskName\":\"SentimentAnalysis_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":25,\"text\":\"The food was unacceptable\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":13,\"length\":12,\"text\":\"unacceptable\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"1\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":25,\"text\":\"The rooms were beautiful.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":15,\"length\":9,\"text\":\"beautiful\",\"isNegated\":false}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":26,\"length\":26,\"text\":\"The AC was good and quiet.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":30,\"length\":2,\"text\":\"AC\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":37,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":46,\"length\":5,\"text\":\"quiet\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"offset\":0,\"length\":50,\"text\":\"The breakfast was good, but the toilet was smelly.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":32,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":18,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":43,\"length\":6,\"text\":\"smelly\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":71,\"text\":\"Loved this hotel - good breakfast - nice shuttle service - clean rooms.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":11,\"length\":5,\"text\":\"hotel\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":24,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":41,\"length\":15,\"text\":\"shuttle service\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":65,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/3\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":19,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":36,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":5,\"text\":\"loved\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":59,\"length\":5,\"text\":\"clean\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":56,\"text\":\"I had a great unobstructed view of the Microsoft campus.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.97,\"negative\":0.03},\"offset\":27,\"length\":4,\"text\":\"view\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":8,\"length\":5,\"text\":\"great\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.93,\"negative\":0.07},\"offset\":14,\"length\":12,\"text\":\"unobstructed\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"5\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":75,\"text\":\"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":5,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":15,\"length\":9,\"text\":\"bathrooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/1\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":42,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":30,\"length\":3,\"text\":\"old\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":53,\"length\":5,\"text\":\"dirty\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"6\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"offset\":0,\"length\":19,\"text\":\"The toilet smelled.\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":11,\"length\":7,\"text\":\"smelled\",\"isNegated\":false}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}]}}",
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "4347c512-4bce-46d1-b802-7b11da2202db",
+    "apim-request-id": "5fc9afdf-0fac-4504-867e-81647eeb256b",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:16:33 GMT",
+    "date": "Tue, 03 Aug 2021 22:55:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "150"
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "50cf26b9-6ff0-435d-91be-697ab7e09321",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:15 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "58958a95-d7b4-4926-b5a2-cdbf1d2bd9c3",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "e9c28f13-efb0-467a-8db6-1ea61edb9bf8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:19 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:54:52Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "81789c43-be13-4862-8acc-02d998c8377e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:55:23Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"sentimentAnalysisTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:55:23.0876183Z\",\"taskName\":\"SentimentAnalysis_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":25,\"text\":\"The food was unacceptable\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":13,\"length\":12,\"text\":\"unacceptable\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"1\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":25,\"text\":\"The rooms were beautiful.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":15,\"length\":9,\"text\":\"beautiful\",\"isNegated\":false}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":26,\"length\":26,\"text\":\"The AC was good and quiet.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":30,\"length\":2,\"text\":\"AC\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":37,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":46,\"length\":5,\"text\":\"quiet\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"offset\":0,\"length\":50,\"text\":\"The breakfast was good, but the toilet was smelly.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":32,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":18,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":43,\"length\":6,\"text\":\"smelly\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":71,\"text\":\"Loved this hotel - good breakfast - nice shuttle service - clean rooms.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":11,\"length\":5,\"text\":\"hotel\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":24,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":41,\"length\":15,\"text\":\"shuttle service\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":65,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/3\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":19,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":36,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":5,\"text\":\"loved\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":59,\"length\":5,\"text\":\"clean\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":56,\"text\":\"I had a great unobstructed view of the Microsoft campus.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.97,\"negative\":0.03},\"offset\":27,\"length\":4,\"text\":\"view\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":8,\"length\":5,\"text\":\"great\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.93,\"negative\":0.07},\"offset\":14,\"length\":12,\"text\":\"unobstructed\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"5\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":75,\"text\":\"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":5,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":15,\"length\":9,\"text\":\"bathrooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/1\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":42,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":30,\"length\":3,\"text\":\"old\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":53,\"length\":5,\"text\":\"dirty\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"6\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"offset\":0,\"length\":19,\"text\":\"The toilet smelled.\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":11,\"length\":7,\"text\":\"smelled\",\"isNegated\":false}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "67664eb5-68c6-445b-983a-fb6797a20adf",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "93"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/0870f020-5433-4973-8865-7bac6ff96fea",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"0870f020-5433-4973-8865-7bac6ff96fea\",\"lastUpdateDateTime\":\"2021-08-03T22:55:23Z\",\"createdDateTime\":\"2021-08-03T22:54:50Z\",\"expirationDateTime\":\"2021-08-04T22:54:50Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"sentimentAnalysisTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:55:23.0876183Z\",\"taskName\":\"SentimentAnalysis_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":25,\"text\":\"The food was unacceptable\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":13,\"length\":12,\"text\":\"unacceptable\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"1\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":25,\"text\":\"The rooms were beautiful.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":15,\"length\":9,\"text\":\"beautiful\",\"isNegated\":false}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":26,\"length\":26,\"text\":\"The AC was good and quiet.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":30,\"length\":2,\"text\":\"AC\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/1/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":37,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":46,\"length\":5,\"text\":\"quiet\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.0,\"negative\":0.99},\"offset\":0,\"length\":50,\"text\":\"The breakfast was good, but the toilet was smelly.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":4,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":32,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/2/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":18,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":43,\"length\":6,\"text\":\"smelly\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":71,\"text\":\"Loved this hotel - good breakfast - nice shuttle service - clean rooms.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":11,\"length\":5,\"text\":\"hotel\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":24,\"length\":9,\"text\":\"breakfast\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":41,\"length\":15,\"text\":\"shuttle service\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":65,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/1\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/3\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/3/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":19,\"length\":4,\"text\":\"good\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":36,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":5,\"text\":\"loved\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":59,\"length\":5,\"text\":\"clean\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":56,\"text\":\"I had a great unobstructed view of the Microsoft campus.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.97,\"negative\":0.03},\"offset\":27,\"length\":4,\"text\":\"view\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/0\"},{\"relationType\":\"assessment\",\"ref\":\"#/documents/4/sentences/0/assessments/1\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":8,\"length\":5,\"text\":\"great\",\"isNegated\":false},{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.93,\"negative\":0.07},\"offset\":14,\"length\":12,\"text\":\"unobstructed\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"5\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":75,\"text\":\"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.\",\"targets\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":5,\"length\":5,\"text\":\"rooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":15,\"length\":9,\"text\":\"bathrooms\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/1\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":42,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/0/sentences/0/assessments/2\"}]}],\"assessments\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"negative\":0.0},\"offset\":0,\"length\":4,\"text\":\"nice\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":30,\"length\":3,\"text\":\"old\",\"isNegated\":false},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"negative\":1.0},\"offset\":53,\"length\":5,\"text\":\"dirty\",\"isNegated\":false}]}],\"warnings\":[]},{\"id\":\"6\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.03,\"neutral\":0.63,\"negative\":0.34},\"offset\":0,\"length\":19,\"text\":\"The toilet smelled.\",\"targets\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":6,\"text\":\"toilet\",\"relations\":[{\"relationType\":\"assessment\",\"ref\":\"#/documents/1/sentences/0/assessments/0\"}]}],\"assessments\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":11,\"length\":7,\"text\":\"smelled\",\"isNegated\":false}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "a804abfd-10a9-4961-b65f-4c301bb10210",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "95"
    }
   }
  ],
@@ -402,5 +383,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "3a7f3ca2530dc07b8daf84a4a93dba9e"
+ "hash": "a1ccf9230410bd4cb8f1a0addf6c03bb"
 }
