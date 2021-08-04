@@ -13,3 +13,4 @@ export * from "./usageModels";
 export * from "./ascOperations";
 export * from "./caches";
 export * from "./storageTargets";
+export * from "./storageTargetOperations";

@@ -16,6 +16,7 @@ export {
   CacheEncryptionSettings,
   CacheHealth,
   CacheIdentity,
+  CacheIdentityUserAssignedIdentitiesValue,
   CacheNetworkSettings,
   CacheSecuritySettings,
   CacheSku,

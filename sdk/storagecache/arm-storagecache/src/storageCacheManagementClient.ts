@@ -23,6 +23,7 @@ class StorageCacheManagementClient extends StorageCacheManagementClientContext {
   ascOperations: operations.AscOperations;
   caches: operations.Caches;
   storageTargets: operations.StorageTargets;
+  storageTarget: operations.StorageTargetOperations;
 
   /**
    * Initializes a new instance of the StorageCacheManagementClient class.
@@ -44,6 +45,7 @@ class StorageCacheManagementClient extends StorageCacheManagementClientContext {
     this.ascOperations = new operations.AscOperations(this);
     this.caches = new operations.Caches(this);
     this.storageTargets = new operations.StorageTargets(this);
+    this.storageTarget = new operations.StorageTargetOperations(this);
   }
 }
 
