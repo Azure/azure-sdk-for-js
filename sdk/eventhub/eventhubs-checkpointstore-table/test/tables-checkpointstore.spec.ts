@@ -156,16 +156,16 @@ describe("TableCheckpointStore", function(): void {
           {
             partitionId: "0",
             consumerGroup: "$default",
-            fullyQualifiedNamespace: "test.servicebus.windows.net",
-            eventHubName: "testHub",
+            fullyQualifiedNamespace: "red.servicebus.windows.net",
+            eventHubName: "redHub",
             ownerId: "Id" + 0
           }
         ]);
         
-        const originalETag = originalClaimedOwnerships[0].etag;
+        console.log(originalClaimedOwnerships[0].etag);
         const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
     newClaimedOwnerships.length.should.equal(1);
-    console.log(originalETag);
+    
    
       });
 
