@@ -23,23 +23,3 @@ export async function getRawResponse<TOptions extends OperationOptions, TResult>
   });
   return { flatResponse, rawResponse: rawResponse! };
 }
-
-export interface SchemaLocationInfo {
-  group: string;
-  name: string;
-}
-
-/**
- * Parses the location header
- */
-export function parseLocationHeader(url: string): SchemaLocationInfo {
-  const regex = new RegExp(/\$schemagroups\/(.*)\/schemas\/(.*?)\/.*/);
-  const res = regex.exec(url);
-  if (res === null) {
-    throw new Error(`Unexpected location header: "${url}"`);
-  }
-  return {
-    group: res[1],
-    name: res[2]
-  };
-}

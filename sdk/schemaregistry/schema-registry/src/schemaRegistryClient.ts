@@ -21,7 +21,7 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { getRawResponse, parseLocationHeader } from "./utils";
+import { getRawResponse } from "./utils";
 
 /**
  * Client for Azure Schema Registry service.
@@ -149,23 +149,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
         options || {}
       );
       const schema = convertSchemaResponse(flatResponse, rawResponse);
-      try {
-        // We parse the URL in the location header but the service should send
-        // parsed information in separate headers instead
-        // see https://github.com/Azure/azure-sdk-for-js/issues/16763
-        const info = parseLocationHeader(flatResponse.location!);
-        this.addToCache(
-          {
-            content: schema.content,
-            group: info.group,
-            name: info.name,
-            serializationType: schema.serializationType
-          },
-          schema
-        );
-      } catch (e) {
-        this.idToSchemaMap.set(id, schema);
-      }
+      // the service should send schema's name and group in separate headers so
+      // we can implement the other direction of the bidirectional caching.
+      // see https://github.com/Azure/azure-sdk-for-js/issues/16763
+      this.idToSchemaMap.set(id, schema);
       return schema;
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
