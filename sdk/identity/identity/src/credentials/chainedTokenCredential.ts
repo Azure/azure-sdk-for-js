@@ -60,7 +60,7 @@ export class ChainedTokenCredential implements TokenCredential {
     let successfulCredentialName = "";
     const errors = [];
 
-    const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ChainedTokenCredential.getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {

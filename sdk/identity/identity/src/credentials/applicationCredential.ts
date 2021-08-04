@@ -12,7 +12,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 
 import { EnvironmentCredential } from "./environmentCredential";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
+import { ManagedIdentityCredential } from "./managedIdentityCredential";
 
 /**
  * Provides options to configure the {@link ApplicationCredential} class.
@@ -37,7 +37,7 @@ interface ApplicationCredentialConstructor {
 
 export const ApplicationCredentials: ApplicationCredentialConstructor[] = [
   EnvironmentCredential,
-  DefaultManagedIdentityCredential
+  ManagedIdentityCredential
 ];
 
 /**
