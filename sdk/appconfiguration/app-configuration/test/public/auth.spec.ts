@@ -32,6 +32,15 @@ describe("Authentication", () => {
   });
 
   it("token authentication works", async function() {
+    switch (process.env["AZURE_AUTHORITY_HOST"]) {
+      case "https://login.microsoftonline.us":
+        credsAndEndpoint.endpoint = credsAndEndpoint.endpoint.toString().replace(".azconfig.io", ".azconfig.azure.us");
+        break;
+      case "https://login.chinacloudapi.cn":
+        credsAndEndpoint.endpoint = credsAndEndpoint.endpoint.toString().replace(".azconfig.io", ".azconfig.azure.cn");
+        break;
+    }
+    
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential

@@ -33,15 +33,6 @@ export interface CredsAndEndpoint {
 }
 
 export function startRecorder(that: Mocha.Context): Recorder {
-  switch (env["AZURE_AUTHORITY_HOST"]) {
-    case "https://login.microsoftonline.us":
-      env["AZ_CONFIG_ENDPOINT"] = env["AZ_CONFIG_ENDPOINT"].toString().replace(".azconfig.io", ".azconfig.azure.us");
-      break;
-    case "https://login.chinacloudapi.cn":
-      env["AZ_CONFIG_ENDPOINT"] = env["AZ_CONFIG_ENDPOINT"].toString().replace(".azconfig.io", ".azconfig.azure.cn");
-      break;
-  }
-
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       APPCONFIG_CONNECTION_STRING:
