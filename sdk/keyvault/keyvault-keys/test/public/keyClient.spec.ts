@@ -211,9 +211,27 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const { version } = (await client.createRsaKey(keyName)).properties;
     const options: UpdateKeyPropertiesOptions = { enabled: false };
-    const result = await client.updateKeyProperties(keyName, version || "", options);
+    const result = await client.updateKeyProperties(keyName, version!, options);
     assert.equal(result.properties.enabled, false, "Unexpected enabled value from updateKey().");
-    await testClient.flushKey(keyName);
+  });
+
+  it("can update a key's properties without specifying a version", async function(this: Context) {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createRsaKey(keyName);
+    const options: UpdateKeyPropertiesOptions = { enabled: false };
+    const result = await client.updateKeyProperties(keyName, options);
+    assert.equal(result.properties.enabled, false, "Unexpected enabled value from updateKey().");
+  });
+
+  it("can update a key's properties for a specific version", async function(this: Context) {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const { version: previousVersion } = (await client.createRsaKey(keyName)).properties;
+    const { version: newVersion } = (await client.createRsaKey(keyName)).properties;
+    assert.notEqual(previousVersion, newVersion);
+
+    const options: UpdateKeyPropertiesOptions = { enabled: false };
+    const result = await client.updateKeyProperties(keyName, previousVersion!, options);
+    assert.equal(result.properties.enabled, false, "Unexpected enabled value from updateKey().");
   });
 
   it("can update a disabled key", async function(this: Context) {

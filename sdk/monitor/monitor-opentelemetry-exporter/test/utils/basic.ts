@@ -7,9 +7,12 @@ import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
-import { delay } from "@azure/core-http";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
+
+function delay<T>(t: number, value?: T): Promise<T | void> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+}
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",

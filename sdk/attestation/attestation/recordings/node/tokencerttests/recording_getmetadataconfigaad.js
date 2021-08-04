@@ -8,7 +8,7 @@ nock('https://aad_attestation_url.wus.attest.azure.net:443', {"encodedQueryParam
   .get('/.well-known/openid-configuration')
   .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://aad_attestation_url.wus.attest.azure.net/revoke","issuer":"https://aad_attestation_url.wus.attest.azure.net","jwks_uri":"https://aad_attestation_url.wus.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
   'Date',
-  'Fri, 23 Jul 2021 22:25:04 GMT',
+  'Tue, 27 Jul 2021 23:24:59 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -16,7 +16,7 @@ nock('https://aad_attestation_url.wus.attest.azure.net:443', {"encodedQueryParam
   'Content-Length',
   '612',
   'x-ms-request-id',
-  '00-d01975a47a6830873a751aa63f238361-0000000000000000-00',
+  '00-6c09ea390b3ca73bf793e202186776a6-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01644.0004'
 ]);

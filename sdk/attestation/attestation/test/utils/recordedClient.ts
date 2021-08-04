@@ -114,13 +114,13 @@ export function createRecordedClient(
     };
   }
   if (authenticatedClient !== undefined && authenticatedClient) {
-    options.credentials = new ClientSecretCredential(
+    const credentials = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET
     );
+    return new AttestationClient(getAttestationUri(endpointType), credentials, options);
   }
-
   return new AttestationClient(getAttestationUri(endpointType), options);
 }
 

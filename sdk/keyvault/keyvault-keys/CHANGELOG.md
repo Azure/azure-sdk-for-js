@@ -1,18 +1,29 @@
 # Release History
 
-## 4.3.0-beta.2 (Unreleased)
+## 4.4.0-beta.1 (Unreleased)
 
 ### Features Added
 
 - Added support for Secure key Release from a Managed HSM.
   - Added `KeyClient.releaseKey` to release a key from a Managed HSM.
   - Added `exportable` and `releasePolicy` to `KeyVaultKey.properties`, `createKeyOptions`, and `importKeyOptions` in order to specify whether the key is exportable and the associated release policy.
+- Added an overload to `KeyClient.updateKeyProperties` that allows the version to be omitted, updating the latest key version.
+- Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
+- Updated the service version to 7.3-preview.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.3.0 (2021-07-29)
+
+### New Features
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 to produce smaller bundles and use more native platform features.
+- Updated our internal core package dependencies to their latest versions to add support for Opentelemetry 1.0.0, which is compatible with the latest versions of our other client libraries.
 
 ## 4.3.0-beta.1 (2021-07-07)
 

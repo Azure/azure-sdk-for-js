@@ -2,10 +2,14 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
+import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
-import { StringIndexType as GeneratedStringIndexType } from "./generated";
+import { GeneratedClient, StringIndexType as GeneratedStringIndexType } from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
+import { createSpan } from "./tracing";
+import { LroResponse } from "@azure/core-lro";
 
 /**
  * @internal
@@ -143,6 +147,16 @@ export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
   return { ...x, piiCategories: x.categoriesFilter };
 }
 
+export function setSentenceCount<X extends { maxSentenceCount?: number }>(
+  x: X
+): X & { sentenceCount?: number } {
+  return { ...x, sentenceCount: x.maxSentenceCount };
+}
+
+export function setOrderBy<X extends { orderBy?: string }>(x: X): X & { sortBy?: string } {
+  return { ...x, sortBy: x.orderBy };
+}
+
 /**
  * @internal
  */
@@ -259,4 +273,73 @@ export function delay(timeInMs: number): Promise<void> {
  */
 export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
   return (value: T1) => fn2(fn1(value));
+}
+
+/**
+ * @internal
+ */
+export async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<LroResponse<TResult>> {
+  const { onResponse } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      onResponse?.(response, flatResponseParam);
+    }
+  });
+  return {
+    flatResponse,
+    rawResponse: {
+      statusCode: rawResponse!.status,
+      headers: rawResponse!.headers.toJSON(),
+      body: rawResponse!.parsedBody
+    }
+  };
+}
+
+/**
+ * @internal
+ */
+export async function sendGetRequest<TOptions extends OperationOptions>(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  client: GeneratedClient,
+  spec: OperationSpec,
+  spanStr: string,
+  options: TOptions,
+  path: string
+): Promise<LroResponse<unknown>> {
+  const { span, updatedOptions: finalOptions } = createSpan(
+    `TextAnalyticsClient-${spanStr}`,
+    options
+  );
+  try {
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) =>
+        client.sendOperationRequest(
+          { options: paramOptions },
+          {
+            ...spec,
+            path,
+            httpMethod: "GET"
+          }
+        ),
+      finalOptions
+    );
+    return {
+      flatResponse: flatResponse,
+      rawResponse
+    };
+  } catch (e) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
 }
