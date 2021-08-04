@@ -23,11 +23,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2d9bbca3-545a-42ff-a091-e871ec8c9701',
+  'fd9ef937-a8ef-463e-9458-a42191d67a02',
   'x-ms-ests-server',
-  '2.1.11898.12 - WUS2 ProdSlices',
+  '2.1.11898.12 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=fpc;; expires=Fri, 03-Sep-2021 08:23:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Fri, 03-Sep-2021 23:51:51 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
@@ -35,14 +35,14 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 08:23:16 GMT',
+  'Wed, 04 Aug 2021 23:51:50 GMT',
   'Content-Length',
   '950'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .get('/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration')
-  .reply(400, {"error":"invalid_12345678-1234-1234-1234-123456789012","error_description":"AADSTS90002: Tenant '12345678-1234-1234-1234-123456789012' not found. This may happen if there are no active subscriptions for the 12345678-1234-1234-1234-123456789012. Check to make sure you have the correct 12345678-1234-1234-1234-123456789012 ID. Check with your subscription administrator.\r\nTrace ID: 81beda46-f15d-4e7d-b42b-71374dccc100\r\nCorrelation ID: c1b9b8e2-4ddf-484d-9e30-78fda6c79269\r\nTimestamp: 2021-08-04 08:23:17Z","error_codes":[90002],"timestamp":"2021-08-04 08:23:17Z","trace_id":"81beda46-f15d-4e7d-b42b-71374dccc100","correlation_id":"c1b9b8e2-4ddf-484d-9e30-78fda6c79269","error_uri":"https://login.microsoftonline.com/error?code=90002"}, [
+  .reply(400, {"error":"invalid_12345678-1234-1234-1234-123456789012","error_description":"AADSTS90002: Tenant '12345678-1234-1234-1234-123456789012' not found. This may happen if there are no active subscriptions for the 12345678-1234-1234-1234-123456789012. Check to make sure you have the correct 12345678-1234-1234-1234-123456789012 ID. Check with your subscription administrator.\r\nTrace ID: a598318a-476a-4c23-bccf-7d8bd8059002\r\nCorrelation ID: ae736832-b4ed-4875-a224-66e74deddd49\r\nTimestamp: 2021-08-04 23:51:51Z","error_codes":[90002],"timestamp":"2021-08-04 23:51:51Z","trace_id":"a598318a-476a-4c23-bccf-7d8bd8059002","correlation_id":"ae736832-b4ed-4875-a224-66e74deddd49","error_uri":"https://login.microsoftonline.com/error?code=90002"}, [
   'Cache-Control',
   'max-age=86400, private',
   'Content-Type',
@@ -58,11 +58,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '81beda46-f15d-4e7d-b42b-71374dccc100',
+  'a598318a-476a-4c23-bccf-7d8bd8059002',
   'x-ms-ests-server',
-  '2.1.11898.12 - EUS ProdSlices',
+  '2.1.11898.12 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=fpc;; expires=Fri, 03-Sep-2021 08:23:17 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Fri, 03-Sep-2021 23:51:51 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
@@ -70,7 +70,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 08:23:16 GMT',
+  'Wed, 04 Aug 2021 23:51:50 GMT',
   'Content-Length',
   '621'
 ]);
