@@ -10,6 +10,7 @@ import {
   DefaultPerfStressOptions
 } from "./options";
 import { PerfStressParallel } from "./parallel";
+import { TestProxyHttpClient } from "./testProxyHttpClient";
 
 export type TestType = "";
 
@@ -104,18 +105,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -185,7 +186,7 @@ export class PerfStressProgram {
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -327,16 +328,19 @@ export class PerfStressProgram {
     // => run the runAsync
     // => stop record
     // => start playback
-    await PerfStressTest.recorder.startRecording();
-    PerfStressTest.recorder._mode = "record";
-    await test.runAsync!();
-
-    await PerfStressTest.recorder.stopRecording();
-    await PerfStressTest.recorder.startPlayback();
-    PerfStressTest.recorder._mode = "playback";
+    if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+      await PerfStressTest.testProxyHttpClient.startRecording();
+      PerfStressTest.testProxyHttpClient._mode = "record";
+      await test.runAsync!();
+      await PerfStressTest.testProxyHttpClient.stopRecording();
+      await PerfStressTest.testProxyHttpClient.startPlayback();
+      PerfStressTest.testProxyHttpClient._mode = "playback";
+    }
   }
 
   private async stopPlayback() {
-    await PerfStressTest.recorder.stopPlayback();
+    if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+      await PerfStressTest.testProxyHttpClient.stopPlayback();
+    }
   }
 }

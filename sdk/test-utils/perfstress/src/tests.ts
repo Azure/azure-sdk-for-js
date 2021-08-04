@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
+import { DefaultHttpClient } from "@azure/core-http";
 import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
@@ -28,7 +29,7 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
-  public static recorder: TestProxyHttpClient;
+  public static testProxyHttpClient: TestProxyHttpClient | DefaultHttpClient;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -51,10 +52,11 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
-  public getHttpClient(): TestProxyHttpClient {
-    if (PerfStressTest.recorder) return PerfStressTest.recorder;
-    PerfStressTest.recorder = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value!);
-    return PerfStressTest.recorder;
+  public getHttpClient(): TestProxyHttpClient | DefaultHttpClient {
+    if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
+    const url = this.parsedOptions["test-proxy"].value;
+    PerfStressTest.testProxyHttpClient = !url ? new DefaultHttpClient() : new TestProxyHttpClient(this.parsedOptions["test-proxy"].value!);
+    return PerfStressTest.testProxyHttpClient;
   }
 }
 
