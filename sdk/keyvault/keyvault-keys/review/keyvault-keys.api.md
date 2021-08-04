@@ -178,11 +178,11 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
+export interface GetKeyRotationPolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface GetRotationPolicyOptions extends coreHttp.OperationOptions {
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -230,7 +230,7 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    getKeyRotationPolicy(name: string, options?: GetRotationPolicyOptions): Promise<KeyRotationPolicy | undefined>;
+    getKeyRotationPolicy(name: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy | undefined>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
@@ -240,7 +240,7 @@ export class KeyClient {
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
-    setKeyRotationPolicy(name: string, policy: KeyRotationPolicyProperties, options?: SetRotationPolicyOptions): Promise<KeyRotationPolicy>;
+    setKeyRotationPolicy(name: string, policy: KeyRotationPolicyProperties, options?: SetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
@@ -487,7 +487,7 @@ export interface RsaEncryptParameters {
 }
 
 // @public
-export interface SetRotationPolicyOptions extends coreHttp.OperationOptions {
+export interface SetKeyRotationPolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
