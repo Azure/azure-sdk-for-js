@@ -482,12 +482,7 @@ const insertEntityOperationSpec: coreClient.OperationSpec = {
   responses: {
     201: {
       bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
       },
       headersMapper: Mappers.TableInsertEntityHeaders
     },

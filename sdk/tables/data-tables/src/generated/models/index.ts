@@ -61,7 +61,7 @@ export interface TableEntityQueryResponse {
   /** The metadata response of the table. */
   odataMetadata?: string;
   /** List of table entities. */
-  value?: { [propertyName: string]: Record<string, unknown> }[];
+  value?: Record<string, unknown>[];
 }
 
 /** A signed identifier. */

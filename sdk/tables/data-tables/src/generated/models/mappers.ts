@@ -183,9 +183,7 @@ export const TableEntityQueryResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Dictionary",
-              value: {
-                type: { name: "Dictionary", value: { type: { name: "any" } } }
-              }
+              value: { type: { name: "any" } }
             }
           }
         }
