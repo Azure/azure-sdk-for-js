@@ -112,13 +112,20 @@ export class TableCheckpointStore implements CheckpointStore {
       // When we have an etag, we know the entity existed.
      // If we encounter an error we should fail.
      try {
-        await this._tableClient.updateEntity(ownershipEntity, 'Replace', {etag:ownership.etag});
-        partitionOwnershipArray.push(ownership);
+       if (ownership.etag) {
+        await this._tableClient.updateEntity(ownershipEntity, "Replace", {etag : ownership.etag}) 
         logger.info(
-          `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
-          `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
-        );
-    } catch (err) {
+         `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
+         `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
+       );
+       partitionOwnershipArray.push(ownership);
+       }
+       else {
+         await this._tableClient.createEntity(ownershipEntity);
+       }
+       
+     }
+    catch (err) {
         if (err.statusCode === 412) {
           // etag failures (precondition not met) aren't fatal errors. They happen
           // as multiple consumers attempt to claim the same partition (first one wins)
@@ -205,4 +212,5 @@ export class TableCheckpointStore implements CheckpointStore {
       logErrorStackTrace(err);
     } 
   }
+ 
 }

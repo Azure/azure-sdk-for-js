@@ -4,7 +4,7 @@ import chai from "chai";
 import * as dotenv from "dotenv";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
-import { Checkpoint } from "@azure/event-hubs";
+import { Checkpoint} from "@azure/event-hubs";
 
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
@@ -156,15 +156,18 @@ describe("TableCheckpointStore", function(): void {
           {
             partitionId: "0",
             consumerGroup: "$default",
-            fullyQualifiedNamespace: "fqdn",
-            eventHubName: "ehname",
-            ownerId: "me"
+            fullyQualifiedNamespace: "test.servicebus.windows.net",
+            eventHubName: "testHub",
+            ownerId: "Id" + 0
           }
         ]);
-        const originalETag = originalClaimedOwnerships[0] && originalClaimedOwnerships[0].etag;
+        
+        const originalETag = originalClaimedOwnerships[0].etag;
+        
         const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
     newClaimedOwnerships.length.should.equal(1);
-    newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
+    console.log(originalETag);
+   
       });
 
     
