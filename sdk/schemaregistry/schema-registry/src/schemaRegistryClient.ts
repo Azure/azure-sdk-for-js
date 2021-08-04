@@ -71,6 +71,11 @@ export class SchemaRegistryClient implements SchemaRegistry {
     this.idToSchemaMap = new Map();
   }
 
+  private addToCache(schema: SchemaDescription, id: SchemaId) {
+    this.schemaToIdMap.set(schema, id);
+    this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
+  }
+
   /**
    * Registers a new schema and returns its ID.
    *
@@ -85,16 +90,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaId> {
-    const response = await this.client.schema.register(
+    const id = await this.client.schema.register(
       schema.group,
       schema.name,
       schema.serializationType,
       schema.content,
       options
-    );
-    const id = convertSchemaIdResponse(response);
-    this.schemaToIdMap.set(schema, id);
-    this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
+    ).then(convertSchemaIdResponse);
+    this.addToCache(schema, id);
     return id;
   }
 
@@ -114,14 +117,15 @@ export class SchemaRegistryClient implements SchemaRegistry {
       return cached;
     }
     try {
-      const response = await this.client.schema.queryIdByContent(
+      const id = await this.client.schema.queryIdByContent(
         schema.group,
         schema.name,
         schema.serializationType,
         schema.content,
         options
-      );
-      return convertSchemaIdResponse(response);
+      ).then(convertSchemaIdResponse);
+      this.addToCache(schema, id);
+      return id;
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -146,7 +150,11 @@ export class SchemaRegistryClient implements SchemaRegistry {
         (paramOptions) => this.client.schema.getById(id, paramOptions),
         options || {}
       );
-      return convertSchemaResponse(flatResponse, rawResponse);
+      const schema = convertSchemaResponse(flatResponse, rawResponse);
+      // we can not cache the other way because we do not have enough information
+      // about the schema description such as the name and the group
+      this.idToSchemaMap.set(id, schema);
+      return schema;
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;

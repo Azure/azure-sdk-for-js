@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 04:31:09 GMT",
+    "date": "Wed, 04 Aug 2021 17:23:17 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - NCUS ProdSlices",
-    "x-ms-request-id": "03c038e6-97f9-413b-9a69-bd5058fff700"
+    "x-ms-ests-server": "2.1.11898.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "d14379d1-6d96-4b03-af04-db0309ea5101"
    }
   },
   {
@@ -32,10 +32,10 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 400,
-   "response": "{\"Code\":400,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:defbf214-8bfb-4e58-b3e2-712449332567_G0, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2021-08-04T04:31:10\"}",
+   "response": "{\"Code\":400,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:28d8358d-03b9-4230-a14f-8996c12e4de3_G24, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2021-08-04T17:23:17\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 04:31:10 GMT",
+    "date": "Wed, 04 Aug 2021 17:23:17 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"

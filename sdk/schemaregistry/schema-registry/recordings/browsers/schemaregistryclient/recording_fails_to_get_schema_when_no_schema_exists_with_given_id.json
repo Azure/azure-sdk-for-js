@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 04:31:10 GMT",
+    "date": "Wed, 04 Aug 2021 17:23:18 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
-    "x-ms-request-id": "6ced4af9-4f68-438b-b0bc-8a7c47925601"
+    "x-ms-ests-server": "2.1.11898.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "41dbebff-ced4-4881-a994-2f134a882601"
    }
   },
   {
@@ -32,10 +32,10 @@
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:3218c41b-b0d6-4810-8cf8-0ee243ea94a5_G0, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-08-04T04:31:12\"}",
+   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:1eb52034-ab92-44ab-a239-400b429d721b_G24, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-08-04T17:23:19\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 04:31:12 GMT",
+    "date": "Wed, 04 Aug 2021 17:23:19 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"

@@ -11,6 +11,7 @@ import { ClientSecretCredential } from "@azure/identity";
 
 import { SchemaRegistryClient, SchemaDescription, SchemaId } from "../src/index";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { convertSchemaIdResponse } from "../src/conversions";
 
 const options: OperationOptions = {
   onResponse: (rawResponse: FullOperationResponse) => {
@@ -155,5 +156,54 @@ describe("SchemaRegistryClient", function() {
     });
     assertIsValidSchemaId(foundId);
     assert.equal(foundId?.id, registered.id);
+  });
+
+  it("cache schema and ID if not registered by the current client instance", async () => {
+    // register a schema without caching.
+    const registered = await client["client"]["schema"].register(
+      schema.group,
+      schema.name,
+      schema.serializationType,
+      schema.content,
+      options
+    ).then(convertSchemaIdResponse);
+    assertIsValidSchemaId(registered);
+
+    let firstCall = false;
+    const foundSchemaFirstCall = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        firstCall = true;
+      }
+    });
+    assert.isTrue(firstCall);
+    assertIsValidSchemaId(foundSchemaFirstCall);
+    assert.equal(foundSchemaFirstCall.content, schema.content);
+
+    const foundSchemaSecondCall = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundSchemaSecondCall);
+    assert.equal(foundSchemaSecondCall.content, schema.content);
+
+    const foundIdFirstCall = await client.getSchemaId(schema, {
+      onResponse: () => {
+        firstCall = true;
+      }
+    });
+    assert.isTrue(firstCall);
+    assertIsValidSchemaId(foundIdFirstCall);
+    assert.equal(foundIdFirstCall?.id, registered.id);
+
+    const foundIdSecondCall = await client.getSchemaId(schema, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundIdSecondCall);
+    assert.equal(foundIdSecondCall?.id, registered.id);
   });
 });
