@@ -24,6 +24,8 @@ export * from "./virtualMachineSizes";
 export * from "./images";
 export * from "./restorePointCollections";
 export * from "./restorePoints";
+export * from "./capacityReservationGroups";
+export * from "./capacityReservations";
 export * from "./virtualMachineScaleSetExtensions";
 export * from "./virtualMachineScaleSetRollingUpgrades";
 export * from "./virtualMachineScaleSetVMExtensions";
