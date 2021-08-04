@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
  * Identifies a Schema by its unique ID, version, and location.
@@ -57,7 +57,7 @@ export interface Schema extends SchemaId {
 /**
  * Options for SchemaRegistrationClient.
  */
-export interface SchemaRegistryClientOptions extends PipelineOptions {}
+export interface SchemaRegistryClientOptions extends CommonClientOptions {}
 
 /**
  * Options for SchemaRegistryClient.registerSchema.

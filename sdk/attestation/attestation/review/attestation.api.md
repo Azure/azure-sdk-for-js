@@ -10,13 +10,13 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AttestationAdministrationClient {
-    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
-    addPolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
-    getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
-    getPolicyManagementCertificates(options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
-    removePolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
-    resetPolicy(attestationType: AttestationType, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
-    setPolicy(attestationType: AttestationType, newPolicyDocument: string, privateKey?: string, certificate?: string, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    constructor(endpoint: string, credentials: TokenCredential, options?: AttestationAdministrationClientOptions);
+    addPolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientPolicyCertificateOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
+    getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientPolicyOperationOptions): Promise<AttestationResponse<string>>;
+    getPolicyManagementCertificates(options?: AttestationAdministrationClientPolicyCertificateOperationOptions): Promise<AttestationResponse<AttestationSigner[]>>;
+    removePolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientPolicyCertificateOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
+    resetPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientPolicyOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, options?: AttestationAdministrationClientPolicyOperationOptions): Promise<AttestationResponse<PolicyResult>>;
     }
 
 // @public
@@ -30,10 +30,21 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
 }
 
 // @public
+export interface AttestationAdministrationClientPolicyCertificateOperationOptions extends AttestationAdministrationClientOperationOptions {
+}
+
+// @public
+export interface AttestationAdministrationClientPolicyOperationOptions extends AttestationAdministrationClientOperationOptions {
+    certificate?: string;
+    privateKey?: string;
+}
+
+// @public
 export class AttestationClient {
-    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
-    attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
-    attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    constructor(endpoint: string, options?: AttestationClientOptions);
+    constructor(endpoint: string, credentials: TokenCredential, options?: AttestationClientOptions);
+    attestOpenEnclave(report: Uint8Array | Buffer | Blob, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    attestSgxEnclave(quote: Uint8Array | Buffer | Blob, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<Record<string, unknown>>;
@@ -107,6 +118,7 @@ export interface AttestationToken {
     critical?: boolean;
     expiresOn?: Date;
     getBody(): unknown;
+    getTokenProblems(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): string[];
     issuedAt?: Date;
     issuer?: string;
     keyId?: string;
@@ -114,7 +126,6 @@ export interface AttestationToken {
     notBefore?: Date;
     serialize(): string;
     type?: string;
-    validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
     x509Url?: string;
 }
 
@@ -122,11 +133,11 @@ export interface AttestationToken {
 export interface AttestationTokenValidationOptions {
     expectedIssuer?: string;
     timeValidationSlack?: number;
+    validateAttestationToken?: (token: AttestationToken, signer?: AttestationSigner) => string[] | undefined;
     validateExpirationTime?: boolean;
     validateIssuer?: boolean;
     validateNotBeforeTime?: boolean;
     validateToken?: boolean;
-    validationCallback?: (token: AttestationToken, signer?: AttestationSigner) => void;
 }
 
 // @public
@@ -135,19 +146,19 @@ export type AttestationType = string;
 // @public
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array;
-    initTimeJson?: Uint8Array;
-    runTimeData?: Uint8Array;
-    runTimeJson?: Uint8Array;
+    initTimeData?: Uint8Array | Buffer | Blob;
+    initTimeJson?: Uint8Array | Buffer | Blob;
+    runTimeData?: Uint8Array | Buffer | Blob;
+    runTimeJson?: Uint8Array | Buffer | Blob;
 }
 
 // @public
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
     draftPolicyForAttestation?: string;
-    initTimeData?: Uint8Array;
-    initTimeJson?: Uint8Array;
-    runTimeData?: Uint8Array;
-    runTimeJson?: Uint8Array;
+    initTimeData?: Uint8Array | Buffer | Blob;
+    initTimeJson?: Uint8Array | Buffer | Blob;
+    runTimeData?: Uint8Array | Buffer | Blob;
+    runTimeJson?: Uint8Array | Buffer | Blob;
 }
 
 // @public

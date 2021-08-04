@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions

@@ -338,7 +338,8 @@
     },
     {
       "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest"
+      "projectFolder": "sdk/purview/purview-catalog-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/purview-scanning",
@@ -531,6 +532,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/eventhubs-checkpointstore-table",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-table",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host",
       "versionPolicyName": "client"
@@ -661,6 +667,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-data-tables",
+      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "client"
@@ -697,7 +708,8 @@
     },
     {
       "packageName": "@azure/iot-modelsrepository",
-      "projectFolder": "sdk/iot/iot-modelsrepository"
+      "projectFolder": "sdk/iot/iot-modelsrepository",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
@@ -837,6 +849,11 @@
     {
       "packageName": "@azure/arm-managedapplications",
       "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webpubsub",
+      "projectFolder": "sdk/web-pubsub/arm-webpubsub",
       "versionPolicyName": "management"
     }
   ]
