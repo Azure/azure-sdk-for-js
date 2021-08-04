@@ -59,6 +59,14 @@
     "README.md",
     "LICENSE"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/client/identityClient.ts",
+        "prefix": "packageDetails"
+      }
+    ]
+  },
   "engines": {
     "node": ">=12.0.0"
   },
