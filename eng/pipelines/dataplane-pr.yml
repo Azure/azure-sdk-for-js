@@ -1,12 +1,11 @@
 trigger:
   branches:
     include:
-    - feature/*
+    - main/*
 pr:
   branches:
     include:
-    - feature/*
-    - '*-preview'
+    - main/*
   paths:
     include:
     - eng/pipelines/mgmt-pr.yml
