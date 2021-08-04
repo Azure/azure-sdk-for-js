@@ -131,7 +131,7 @@ export const Expression: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "Expression",
+        defaultValue: 'Expression',
         type: {
           name: "String"
         }
@@ -199,7 +199,7 @@ export const LinkedServiceReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "LinkedServiceReference",
+        defaultValue: 'LinkedServiceReference',
         type: {
           name: "String"
         }
@@ -579,7 +579,7 @@ export const IntegrationRuntimeReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "IntegrationRuntimeReference",
+        defaultValue: 'IntegrationRuntimeReference',
         type: {
           name: "String"
         }
@@ -1555,6 +1555,28 @@ export const FactoryGitHubConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const GitHubClientSecret: msRest.CompositeMapper = {
+  serializedName: "GitHubClientSecret",
+  type: {
+    name: "Composite",
+    className: "GitHubClientSecret",
+    modelProperties: {
+      byoaSecretAkvUrl: {
+        serializedName: "byoaSecretAkvUrl",
+        type: {
+          name: "String"
+        }
+      },
+      byoaSecretName: {
+        serializedName: "byoaSecretName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FactoryRepoUpdate: msRest.CompositeMapper = {
   serializedName: "FactoryRepoUpdate",
   type: {
@@ -1595,6 +1617,13 @@ export const GitHubAccessTokenRequest: msRest.CompositeMapper = {
         serializedName: "gitHubClientId",
         type: {
           name: "String"
+        }
+      },
+      gitHubClientSecret: {
+        serializedName: "gitHubClientSecret",
+        type: {
+          name: "Composite",
+          className: "GitHubClientSecret"
         }
       },
       gitHubAccessTokenBaseUrl: {
@@ -1703,7 +1732,7 @@ export const PipelineReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "PipelineReference",
+        defaultValue: 'PipelineReference',
         type: {
           name: "String"
         }
@@ -1791,7 +1820,7 @@ export const DatasetReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "DatasetReference",
+        defaultValue: 'DatasetReference',
         type: {
           name: "String"
         }
@@ -2027,6 +2056,20 @@ export const PipelineRunInvokedBy: msRest.CompositeMapper = {
       invokedByType: {
         readOnly: true,
         serializedName: "invokedByType",
+        type: {
+          name: "String"
+        }
+      },
+      pipelineName: {
+        readOnly: true,
+        serializedName: "pipelineName",
+        type: {
+          name: "String"
+        }
+      },
+      pipelineRunId: {
+        readOnly: true,
+        serializedName: "pipelineRunId",
         type: {
           name: "String"
         }
@@ -3411,7 +3454,7 @@ export const DataFlowReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "DataFlowReference",
+        defaultValue: 'DataFlowReference',
         type: {
           name: "String"
         }
@@ -3615,7 +3658,7 @@ export const ManagedVirtualNetworkReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "ManagedVirtualNetworkReference",
+        defaultValue: 'ManagedVirtualNetworkReference',
         type: {
           name: "String"
         }
@@ -3839,6 +3882,158 @@ export const PrivateLinkResourcesWrapper: msRest.CompositeMapper = {
         }
       }
     }
+  }
+};
+
+export const CredentialReference: msRest.CompositeMapper = {
+  serializedName: "CredentialReference",
+  type: {
+    name: "Composite",
+    className: "CredentialReference",
+    modelProperties: {
+      type: {
+        required: true,
+        isConstant: true,
+        serializedName: "type",
+        defaultValue: 'CredentialReference',
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        required: true,
+        serializedName: "referenceName",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const Credential: msRest.CompositeMapper = {
+  serializedName: "Credential",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "Credential",
+    className: "Credential",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      annotations: {
+        serializedName: "annotations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const CredentialResource: msRest.CompositeMapper = {
+  serializedName: "CredentialResource",
+  type: {
+    name: "Composite",
+    className: "CredentialResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Credential",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedIdentityCredential: msRest.CompositeMapper = {
+  serializedName: "ManagedIdentity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
+    uberParent: "Credential",
+    className: "ManagedIdentityCredential",
+    modelProperties: {
+      ...Credential.type.modelProperties,
+      resourceId: {
+        serializedName: "typeProperties.resourceId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: Credential.type.additionalProperties
+  }
+};
+
+export const ServicePrincipalCredential: msRest.CompositeMapper = {
+  serializedName: "ServicePrincipal",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
+    uberParent: "Credential",
+    className: "ServicePrincipalCredential",
+    modelProperties: {
+      ...Credential.type.modelProperties,
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference"
+        }
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Credential.type.additionalProperties
   }
 };
 
@@ -4095,6 +4290,30 @@ export const AzureFunctionLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      resourceId: {
+        serializedName: "typeProperties.resourceId",
+        type: {
+          name: "Object"
+        }
+      },
+      authentication: {
+        serializedName: "typeProperties.authentication",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -4141,6 +4360,18 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.tenant",
         type: {
           name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -4693,6 +4924,18 @@ export const AzureDatabricksLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -5031,6 +5274,18 @@ export const HDInsightOnDemandLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.subnetName",
         type: {
           name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -7491,6 +7746,18 @@ export const RestServiceLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -7869,6 +8136,18 @@ export const AzureBlobFSLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -7938,6 +8217,18 @@ export const AzureDataLakeStoreLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -8698,6 +8989,12 @@ export const AzureMLLinkedService: msRest.CompositeMapper = {
       },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      },
+      authentication: {
+        serializedName: "typeProperties.authentication",
         type: {
           name: "Object"
         }
@@ -9695,6 +9992,18 @@ export const AzureKeyVaultLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -9751,6 +10060,18 @@ export const AzureBatchLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -9848,6 +10169,18 @@ export const AzureSqlMILinkedService: msRest.CompositeMapper = {
           name: "Composite",
           className: "SqlAlwaysEncryptedProperties"
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -9913,6 +10246,18 @@ export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SqlAlwaysEncryptedProperties"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -10019,6 +10364,18 @@ export const AzureSqlDWLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -10148,6 +10505,18 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "String"
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -13079,7 +13448,7 @@ export const OrcDataset: msRest.CompositeMapper = {
       orcCompressionCodec: {
         serializedName: "typeProperties.orcCompressionCodec",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -13391,7 +13760,7 @@ export const AvroDataset: msRest.CompositeMapper = {
       avroCompressionCodec: {
         serializedName: "typeProperties.avroCompressionCodec",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       avroCompressionLevel: {
@@ -13641,7 +14010,7 @@ export const TriggerReference: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "TriggerReference",
+        defaultValue: 'TriggerReference',
         type: {
           name: "String"
         }
@@ -16087,7 +16456,6 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
     className: "WebActivityAuthentication",
     modelProperties: {
       type: {
-        required: true,
         serializedName: "type",
         type: {
           name: "String"
@@ -16123,6 +16491,18 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
         serializedName: "userTenant",
         type: {
           name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     }
@@ -19816,7 +20196,7 @@ export const SSISLogLocation: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "File",
+        defaultValue: 'File',
         type: {
           name: "String"
         }
@@ -20980,7 +21360,7 @@ export const CommonDataServiceForAppsSink: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "writeBehavior",
-        defaultValue: "Upsert",
+        defaultValue: 'Upsert',
         type: {
           name: "String"
         }
@@ -21015,7 +21395,7 @@ export const DynamicsCrmSink: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "writeBehavior",
-        defaultValue: "Upsert",
+        defaultValue: 'Upsert',
         type: {
           name: "String"
         }
@@ -21050,7 +21430,7 @@ export const DynamicsSink: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "writeBehavior",
-        defaultValue: "Upsert",
+        defaultValue: 'Upsert',
         type: {
           name: "String"
         }
@@ -22780,7 +23160,7 @@ export const WebHookActivity: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "typeProperties.method",
-        defaultValue: "POST",
+        defaultValue: 'POST',
         type: {
           name: "String"
         }
@@ -24266,11 +24646,16 @@ export const IntegrationRuntimeSsisProperties: msRest.CompositeMapper = {
           }
         }
       },
-      managedCredential: {
-        serializedName: "managedCredential",
+      credential: {
+        serializedName: "credential",
         type: {
           name: "Composite",
-          className: "EntityReference"
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -25638,485 +26023,489 @@ export const PrivateEndpointConnectionListResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  "SecretBase.SecureString": SecureString,
-  "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
-  SecretBase: SecretBase,
-  FactoryRepoConfiguration: FactoryRepoConfiguration,
-  IntegrationRuntime: IntegrationRuntime,
-  IntegrationRuntimeStatus: IntegrationRuntimeStatus,
-  LinkedService: LinkedService,
-  Dataset: Dataset,
-  Activity: Activity,
-  Trigger: Trigger,
-  "FactoryRepoConfiguration.FactoryVSTSConfiguration": FactoryVSTSConfiguration,
-  "FactoryRepoConfiguration.FactoryGitHubConfiguration": FactoryGitHubConfiguration,
-  DataFlow: DataFlow,
-  "DataFlow.MappingDataFlow": MappingDataFlow,
-  "LinkedService.SharePointOnlineList": SharePointOnlineListLinkedService,
-  "LinkedService.Snowflake": SnowflakeLinkedService,
-  "LinkedService.AzureFunction": AzureFunctionLinkedService,
-  "LinkedService.AzureDataExplorer": AzureDataExplorerLinkedService,
-  "LinkedService.SapTable": SapTableLinkedService,
-  "LinkedService.GoogleAdWords": GoogleAdWordsLinkedService,
-  "LinkedService.OracleServiceCloud": OracleServiceCloudLinkedService,
-  "LinkedService.DynamicsAX": DynamicsAXLinkedService,
-  "LinkedService.Responsys": ResponsysLinkedService,
-  "LinkedService.AzureDatabricksDeltaLake": AzureDatabricksDeltaLakeLinkedService,
-  "LinkedService.AzureDatabricks": AzureDatabricksLinkedService,
-  "LinkedService.AzureDataLakeAnalytics": AzureDataLakeAnalyticsLinkedService,
-  "LinkedService.HDInsightOnDemand": HDInsightOnDemandLinkedService,
-  "LinkedService.SalesforceMarketingCloud": SalesforceMarketingCloudLinkedService,
-  "LinkedService.Netezza": NetezzaLinkedService,
-  "LinkedService.Vertica": VerticaLinkedService,
-  "LinkedService.Zoho": ZohoLinkedService,
-  "LinkedService.Xero": XeroLinkedService,
-  "LinkedService.Square": SquareLinkedService,
-  "LinkedService.Spark": SparkLinkedService,
-  "LinkedService.Shopify": ShopifyLinkedService,
-  "LinkedService.ServiceNow": ServiceNowLinkedService,
-  "LinkedService.QuickBooks": QuickBooksLinkedService,
-  "LinkedService.Presto": PrestoLinkedService,
-  "LinkedService.Phoenix": PhoenixLinkedService,
-  "LinkedService.Paypal": PaypalLinkedService,
-  "LinkedService.Marketo": MarketoLinkedService,
-  "LinkedService.AzureMariaDB": AzureMariaDBLinkedService,
-  "LinkedService.MariaDB": MariaDBLinkedService,
-  "LinkedService.Magento": MagentoLinkedService,
-  "LinkedService.Jira": JiraLinkedService,
-  "LinkedService.Impala": ImpalaLinkedService,
-  "LinkedService.Hubspot": HubspotLinkedService,
-  "LinkedService.Hive": HiveLinkedService,
-  "LinkedService.HBase": HBaseLinkedService,
-  "LinkedService.Greenplum": GreenplumLinkedService,
-  "LinkedService.GoogleBigQuery": GoogleBigQueryLinkedService,
-  "LinkedService.Eloqua": EloquaLinkedService,
-  "LinkedService.Drill": DrillLinkedService,
-  "LinkedService.Couchbase": CouchbaseLinkedService,
-  "LinkedService.Concur": ConcurLinkedService,
-  "LinkedService.AzurePostgreSql": AzurePostgreSqlLinkedService,
-  "LinkedService.AmazonMWS": AmazonMWSLinkedService,
-  "LinkedService.SapHana": SapHanaLinkedService,
-  "LinkedService.SapBW": SapBWLinkedService,
-  "LinkedService.Sftp": SftpServerLinkedService,
-  "LinkedService.FtpServer": FtpServerLinkedService,
-  "LinkedService.HttpServer": HttpLinkedService,
-  "LinkedService.AzureSearch": AzureSearchLinkedService,
-  "LinkedService.CustomDataSource": CustomDataSourceLinkedService,
-  "LinkedService.AmazonRedshift": AmazonRedshiftLinkedService,
-  "LinkedService.AmazonS3": AmazonS3LinkedService,
-  "LinkedService.RestService": RestServiceLinkedService,
-  "LinkedService.SapOpenHub": SapOpenHubLinkedService,
-  "LinkedService.SapEcc": SapEccLinkedService,
-  "LinkedService.SapCloudForCustomer": SapCloudForCustomerLinkedService,
-  "LinkedService.SalesforceServiceCloud": SalesforceServiceCloudLinkedService,
-  "LinkedService.Salesforce": SalesforceLinkedService,
-  "LinkedService.Office365": Office365LinkedService,
-  "LinkedService.AzureBlobFS": AzureBlobFSLinkedService,
-  "LinkedService.AzureDataLakeStore": AzureDataLakeStoreLinkedService,
-  "LinkedService.CosmosDbMongoDbApi": CosmosDbMongoDbApiLinkedService,
-  "LinkedService.MongoDbV2": MongoDbV2LinkedService,
-  "LinkedService.MongoDbAtlas": MongoDbAtlasLinkedService,
-  "LinkedService.MongoDb": MongoDbLinkedService,
-  "LinkedService.Cassandra": CassandraLinkedService,
-  "WebLinkedServiceTypeProperties.ClientCertificate": WebClientCertificateAuthentication,
-  "WebLinkedServiceTypeProperties.Basic": WebBasicAuthentication,
-  "WebLinkedServiceTypeProperties.Anonymous": WebAnonymousAuthentication,
-  WebLinkedServiceTypeProperties: WebLinkedServiceTypeProperties,
-  "LinkedService.Web": WebLinkedService,
-  "LinkedService.OData": ODataLinkedService,
-  "LinkedService.Hdfs": HdfsLinkedService,
-  "LinkedService.MicrosoftAccess": MicrosoftAccessLinkedService,
-  "LinkedService.Informix": InformixLinkedService,
-  "LinkedService.Odbc": OdbcLinkedService,
-  "LinkedService.AzureMLService": AzureMLServiceLinkedService,
-  "LinkedService.AzureML": AzureMLLinkedService,
-  "LinkedService.Teradata": TeradataLinkedService,
-  "LinkedService.Db2": Db2LinkedService,
-  "LinkedService.Sybase": SybaseLinkedService,
-  "LinkedService.PostgreSql": PostgreSqlLinkedService,
-  "LinkedService.MySql": MySqlLinkedService,
-  "LinkedService.AzureMySql": AzureMySqlLinkedService,
-  "LinkedService.Oracle": OracleLinkedService,
-  "LinkedService.GoogleCloudStorage": GoogleCloudStorageLinkedService,
-  "LinkedService.OracleCloudStorage": OracleCloudStorageLinkedService,
-  "LinkedService.AmazonS3Compatible": AmazonS3CompatibleLinkedService,
-  "LinkedService.AzureFileStorage": AzureFileStorageLinkedService,
-  "LinkedService.FileServer": FileServerLinkedService,
-  "LinkedService.HDInsight": HDInsightLinkedService,
-  "LinkedService.CommonDataServiceForApps": CommonDataServiceForAppsLinkedService,
-  "LinkedService.DynamicsCrm": DynamicsCrmLinkedService,
-  "LinkedService.Dynamics": DynamicsLinkedService,
-  "LinkedService.CosmosDb": CosmosDbLinkedService,
-  "LinkedService.AzureKeyVault": AzureKeyVaultLinkedService,
-  "LinkedService.AzureBatch": AzureBatchLinkedService,
-  "LinkedService.AzureSqlMI": AzureSqlMILinkedService,
-  "LinkedService.AzureSqlDatabase": AzureSqlDatabaseLinkedService,
-  "LinkedService.SqlServer": SqlServerLinkedService,
-  "LinkedService.AzureSqlDW": AzureSqlDWLinkedService,
-  "LinkedService.AzureTableStorage": AzureTableStorageLinkedService,
-  "LinkedService.AzureBlobStorage": AzureBlobStorageLinkedService,
-  "LinkedService.AzureStorage": AzureStorageLinkedService,
-  "Dataset.AzureDatabricksDeltaLakeDataset": AzureDatabricksDeltaLakeDataset,
-  "Dataset.SharePointOnlineListResource": SharePointOnlineListResourceDataset,
-  "Dataset.SnowflakeTable": SnowflakeDataset,
-  "Dataset.GoogleAdWordsObject": GoogleAdWordsObjectDataset,
-  "Dataset.AzureDataExplorerTable": AzureDataExplorerTableDataset,
-  "Dataset.OracleServiceCloudObject": OracleServiceCloudObjectDataset,
-  "Dataset.DynamicsAXResource": DynamicsAXResourceDataset,
-  "Dataset.ResponsysObject": ResponsysObjectDataset,
-  "Dataset.SalesforceMarketingCloudObject": SalesforceMarketingCloudObjectDataset,
-  "Dataset.VerticaTable": VerticaTableDataset,
-  "Dataset.NetezzaTable": NetezzaTableDataset,
-  "Dataset.ZohoObject": ZohoObjectDataset,
-  "Dataset.XeroObject": XeroObjectDataset,
-  "Dataset.SquareObject": SquareObjectDataset,
-  "Dataset.SparkObject": SparkObjectDataset,
-  "Dataset.ShopifyObject": ShopifyObjectDataset,
-  "Dataset.ServiceNowObject": ServiceNowObjectDataset,
-  "Dataset.QuickBooksObject": QuickBooksObjectDataset,
-  "Dataset.PrestoObject": PrestoObjectDataset,
-  "Dataset.PhoenixObject": PhoenixObjectDataset,
-  "Dataset.PaypalObject": PaypalObjectDataset,
-  "Dataset.MarketoObject": MarketoObjectDataset,
-  "Dataset.AzureMariaDBTable": AzureMariaDBTableDataset,
-  "Dataset.MariaDBTable": MariaDBTableDataset,
-  "Dataset.MagentoObject": MagentoObjectDataset,
-  "Dataset.JiraObject": JiraObjectDataset,
-  "Dataset.ImpalaObject": ImpalaObjectDataset,
-  "Dataset.HubspotObject": HubspotObjectDataset,
-  "Dataset.HiveObject": HiveObjectDataset,
-  "Dataset.HBaseObject": HBaseObjectDataset,
-  "Dataset.GreenplumTable": GreenplumTableDataset,
-  "Dataset.GoogleBigQueryObject": GoogleBigQueryObjectDataset,
-  "Dataset.EloquaObject": EloquaObjectDataset,
-  "Dataset.DrillTable": DrillTableDataset,
-  "Dataset.CouchbaseTable": CouchbaseTableDataset,
-  "Dataset.ConcurObject": ConcurObjectDataset,
-  "Dataset.AzurePostgreSqlTable": AzurePostgreSqlTableDataset,
-  "Dataset.AmazonMWSObject": AmazonMWSObjectDataset,
-  "DatasetCompression.TarGZip": DatasetTarGZipCompression,
-  "DatasetCompression.Tar": DatasetTarCompression,
-  "DatasetCompression.ZipDeflate": DatasetZipDeflateCompression,
-  "DatasetCompression.Deflate": DatasetDeflateCompression,
-  "DatasetCompression.GZip": DatasetGZipCompression,
-  "DatasetCompression.BZip2": DatasetBZip2Compression,
-  DatasetCompression: DatasetCompression,
-  "DatasetStorageFormat.ParquetFormat": ParquetFormat,
-  "DatasetStorageFormat.OrcFormat": OrcFormat,
-  "DatasetStorageFormat.AvroFormat": AvroFormat,
-  "DatasetStorageFormat.JsonFormat": JsonFormat,
-  "DatasetStorageFormat.TextFormat": TextFormat,
-  DatasetStorageFormat: DatasetStorageFormat,
-  "Dataset.HttpFile": HttpDataset,
-  "Dataset.AzureSearchIndex": AzureSearchIndexDataset,
-  "Dataset.WebTable": WebTableDataset,
-  "Dataset.SapTableResource": SapTableResourceDataset,
-  "Dataset.RestResource": RestResourceDataset,
-  "Dataset.SqlServerTable": SqlServerTableDataset,
-  "Dataset.SapOpenHubTable": SapOpenHubTableDataset,
-  "Dataset.SapHanaTable": SapHanaTableDataset,
-  "Dataset.SapEccResource": SapEccResourceDataset,
-  "Dataset.SapCloudForCustomerResource": SapCloudForCustomerResourceDataset,
-  "Dataset.SapBwCube": SapBwCubeDataset,
-  "Dataset.SybaseTable": SybaseTableDataset,
-  "Dataset.SalesforceServiceCloudObject": SalesforceServiceCloudObjectDataset,
-  "Dataset.SalesforceObject": SalesforceObjectDataset,
-  "Dataset.MicrosoftAccessTable": MicrosoftAccessTableDataset,
-  "Dataset.PostgreSqlTable": PostgreSqlTableDataset,
-  "Dataset.MySqlTable": MySqlTableDataset,
-  "Dataset.OdbcTable": OdbcTableDataset,
-  "Dataset.InformixTable": InformixTableDataset,
-  "Dataset.RelationalTable": RelationalTableDataset,
-  "Dataset.Db2Table": Db2TableDataset,
-  "Dataset.AmazonRedshiftTable": AmazonRedshiftTableDataset,
-  "Dataset.AzureMySqlTable": AzureMySqlTableDataset,
-  "Dataset.TeradataTable": TeradataTableDataset,
-  "Dataset.OracleTable": OracleTableDataset,
-  "Dataset.ODataResource": ODataResourceDataset,
-  "Dataset.CosmosDbMongoDbApiCollection": CosmosDbMongoDbApiCollectionDataset,
-  "Dataset.MongoDbV2Collection": MongoDbV2CollectionDataset,
-  "Dataset.MongoDbAtlasCollection": MongoDbAtlasCollectionDataset,
-  "Dataset.MongoDbCollection": MongoDbCollectionDataset,
-  "Dataset.FileShare": FileShareDataset,
-  "Dataset.Office365Table": Office365Dataset,
-  "Dataset.AzureBlobFSFile": AzureBlobFSDataset,
-  "Dataset.AzureDataLakeStoreFile": AzureDataLakeStoreDataset,
-  "Dataset.CommonDataServiceForAppsEntity": CommonDataServiceForAppsEntityDataset,
-  "Dataset.DynamicsCrmEntity": DynamicsCrmEntityDataset,
-  "Dataset.DynamicsEntity": DynamicsEntityDataset,
-  "Dataset.DocumentDbCollection": DocumentDbCollectionDataset,
-  "Dataset.CosmosDbSqlApiCollection": CosmosDbSqlApiCollectionDataset,
-  "Dataset.CustomDataset": CustomDataset,
-  "Dataset.CassandraTable": CassandraTableDataset,
-  "Dataset.AzureSqlDWTable": AzureSqlDWTableDataset,
-  "Dataset.AzureSqlMITable": AzureSqlMITableDataset,
-  "Dataset.AzureSqlTable": AzureSqlTableDataset,
-  "Dataset.AzureTable": AzureTableDataset,
-  "Dataset.AzureBlob": AzureBlobDataset,
-  "DatasetLocation.HdfsLocation": HdfsLocation,
-  "DatasetLocation.HttpServerLocation": HttpServerLocation,
-  "DatasetLocation.SftpLocation": SftpLocation,
-  "DatasetLocation.FtpServerLocation": FtpServerLocation,
-  "DatasetLocation.GoogleCloudStorageLocation": GoogleCloudStorageLocation,
-  "DatasetLocation.OracleCloudStorageLocation": OracleCloudStorageLocation,
-  "DatasetLocation.AmazonS3CompatibleLocation": AmazonS3CompatibleLocation,
-  "DatasetLocation.AzureFileStorageLocation": AzureFileStorageLocation,
-  "DatasetLocation.FileServerLocation": FileServerLocation,
-  "DatasetLocation.AmazonS3Location": AmazonS3Location,
-  "DatasetLocation.AzureDataLakeStoreLocation": AzureDataLakeStoreLocation,
-  "DatasetLocation.AzureBlobFSLocation": AzureBlobFSLocation,
-  "DatasetLocation.AzureBlobStorageLocation": AzureBlobStorageLocation,
-  DatasetLocation: DatasetLocation,
-  "Dataset.Binary": BinaryDataset,
-  "Dataset.Orc": OrcDataset,
-  "Dataset.Xml": XmlDataset,
-  "Dataset.Json": JsonDataset,
-  "Dataset.DelimitedText": DelimitedTextDataset,
-  "Dataset.Parquet": ParquetDataset,
-  "Dataset.Excel": ExcelDataset,
-  "Dataset.Avro": AvroDataset,
-  "Dataset.AmazonS3Object": AmazonS3Dataset,
-  "Trigger.ChainingTrigger": ChainingTrigger,
-  "Trigger.RerunTumblingWindowTrigger": RerunTumblingWindowTrigger,
-  "DependencyReference.SelfDependencyTumblingWindowTriggerReference": SelfDependencyTumblingWindowTriggerReference,
-  "DependencyReference.TumblingWindowTriggerDependencyReference": TumblingWindowTriggerDependencyReference,
-  "DependencyReference.TriggerDependencyReference": TriggerDependencyReference,
-  DependencyReference: DependencyReference,
-  "Trigger.TumblingWindowTrigger": TumblingWindowTrigger,
-  "Trigger.CustomEventsTrigger": CustomEventsTrigger,
-  "Trigger.BlobEventsTrigger": BlobEventsTrigger,
-  "Trigger.BlobTrigger": BlobTrigger,
-  "Trigger.ScheduleTrigger": ScheduleTrigger,
-  "Trigger.MultiplePipelineTrigger": MultiplePipelineTrigger,
-  "Activity.ExecuteDataFlow": ExecuteDataFlowActivity,
-  "Activity.AzureFunctionActivity": AzureFunctionActivity,
-  "Activity.DatabricksSparkPython": DatabricksSparkPythonActivity,
-  "Activity.DatabricksSparkJar": DatabricksSparkJarActivity,
-  "Activity.DatabricksNotebook": DatabricksNotebookActivity,
-  "Activity.DataLakeAnalyticsU-SQL": DataLakeAnalyticsUSQLActivity,
-  "Activity.AzureMLExecutePipeline": AzureMLExecutePipelineActivity,
-  "Activity.AzureMLUpdateResource": AzureMLUpdateResourceActivity,
-  "Activity.AzureMLBatchExecution": AzureMLBatchExecutionActivity,
-  "CompressionReadSettings.TarGZipReadSettings": TarGZipReadSettings,
-  "CompressionReadSettings.TarReadSettings": TarReadSettings,
-  "CompressionReadSettings.ZipDeflateReadSettings": ZipDeflateReadSettings,
-  CompressionReadSettings: CompressionReadSettings,
-  "FormatReadSettings.BinaryReadSettings": BinaryReadSettings,
-  "FormatReadSettings.XmlReadSettings": XmlReadSettings,
-  "FormatReadSettings.JsonReadSettings": JsonReadSettings,
-  "FormatReadSettings.DelimitedTextReadSettings": DelimitedTextReadSettings,
-  FormatReadSettings: FormatReadSettings,
-  "StoreReadSettings.HdfsReadSettings": HdfsReadSettings,
-  "StoreReadSettings.HttpReadSettings": HttpReadSettings,
-  "StoreReadSettings.SftpReadSettings": SftpReadSettings,
-  "StoreReadSettings.FtpReadSettings": FtpReadSettings,
-  "StoreReadSettings.GoogleCloudStorageReadSettings": GoogleCloudStorageReadSettings,
-  "StoreReadSettings.OracleCloudStorageReadSettings": OracleCloudStorageReadSettings,
-  "StoreReadSettings.AmazonS3CompatibleReadSettings": AmazonS3CompatibleReadSettings,
-  "StoreReadSettings.AzureFileStorageReadSettings": AzureFileStorageReadSettings,
-  "StoreReadSettings.FileServerReadSettings": FileServerReadSettings,
-  "StoreReadSettings.AmazonS3ReadSettings": AmazonS3ReadSettings,
-  "StoreReadSettings.AzureDataLakeStoreReadSettings": AzureDataLakeStoreReadSettings,
-  "StoreReadSettings.AzureBlobFSReadSettings": AzureBlobFSReadSettings,
-  "StoreReadSettings.AzureBlobStorageReadSettings": AzureBlobStorageReadSettings,
-  StoreReadSettings: StoreReadSettings,
-  "Activity.GetMetadata": GetMetadataActivity,
-  "Activity.WebActivity": WebActivity,
-  "CopySource.SharePointOnlineListSource": SharePointOnlineListSource,
-  "ExportSettings.SnowflakeExportCopyCommand": SnowflakeExportCopyCommand,
-  ExportSettings: ExportSettings,
-  "ExportSettings.AzureDatabricksDeltaLakeExportCommand": AzureDatabricksDeltaLakeExportCommand,
-  "CopySource.AzureDatabricksDeltaLakeSource": AzureDatabricksDeltaLakeSource,
-  "CopySource.SnowflakeSource": SnowflakeSource,
-  "CopySource.HttpSource": HttpSource,
-  "CopySource.AzureBlobFSSource": AzureBlobFSSource,
-  "CopySource.AzureDataLakeStoreSource": AzureDataLakeStoreSource,
-  "CopySource.Office365Source": Office365Source,
-  "CopySource.CosmosDbMongoDbApiSource": CosmosDbMongoDbApiSource,
-  "CopySource.MongoDbV2Source": MongoDbV2Source,
-  "CopySource.MongoDbAtlasSource": MongoDbAtlasSource,
-  "CopySource.MongoDbSource": MongoDbSource,
-  "CopySource.WebSource": WebSource,
-  "CopySource.OracleSource": OracleSource,
-  "CopySource.AzureDataExplorerSource": AzureDataExplorerSource,
-  "CopySource.HdfsSource": HdfsSource,
-  "CopySource.FileSystemSource": FileSystemSource,
-  "CopySource.RestSource": RestSource,
-  "CopySource.SalesforceServiceCloudSource": SalesforceServiceCloudSource,
-  "CopySource.ODataSource": ODataSource,
-  "CopySource.MicrosoftAccessSource": MicrosoftAccessSource,
-  "CopySource.RelationalSource": RelationalSource,
-  "CopySource.CommonDataServiceForAppsSource": CommonDataServiceForAppsSource,
-  "CopySource.DynamicsCrmSource": DynamicsCrmSource,
-  "CopySource.DynamicsSource": DynamicsSource,
-  "CopySource.CosmosDbSqlApiSource": CosmosDbSqlApiSource,
-  "CopySource.DocumentDbCollectionSource": DocumentDbCollectionSource,
-  "CopySource.BlobSource": BlobSource,
-  "CopySource.AmazonRedshiftSource": AmazonRedshiftSource,
-  "CopySource.GoogleAdWordsSource": GoogleAdWordsSource,
-  "CopySource.OracleServiceCloudSource": OracleServiceCloudSource,
-  "CopySource.DynamicsAXSource": DynamicsAXSource,
-  "CopySource.ResponsysSource": ResponsysSource,
-  "CopySource.SalesforceMarketingCloudSource": SalesforceMarketingCloudSource,
-  "CopySource.VerticaSource": VerticaSource,
-  "CopySource.NetezzaSource": NetezzaSource,
-  "CopySource.ZohoSource": ZohoSource,
-  "CopySource.XeroSource": XeroSource,
-  "CopySource.SquareSource": SquareSource,
-  "CopySource.SparkSource": SparkSource,
-  "CopySource.ShopifySource": ShopifySource,
-  "CopySource.ServiceNowSource": ServiceNowSource,
-  "CopySource.QuickBooksSource": QuickBooksSource,
-  "CopySource.PrestoSource": PrestoSource,
-  "CopySource.PhoenixSource": PhoenixSource,
-  "CopySource.PaypalSource": PaypalSource,
-  "CopySource.MarketoSource": MarketoSource,
-  "CopySource.AzureMariaDBSource": AzureMariaDBSource,
-  "CopySource.MariaDBSource": MariaDBSource,
-  "CopySource.MagentoSource": MagentoSource,
-  "CopySource.JiraSource": JiraSource,
-  "CopySource.ImpalaSource": ImpalaSource,
-  "CopySource.HubspotSource": HubspotSource,
-  "CopySource.HiveSource": HiveSource,
-  "CopySource.HBaseSource": HBaseSource,
-  "CopySource.GreenplumSource": GreenplumSource,
-  "CopySource.GoogleBigQuerySource": GoogleBigQuerySource,
-  "CopySource.EloquaSource": EloquaSource,
-  "CopySource.DrillSource": DrillSource,
-  "CopySource.CouchbaseSource": CouchbaseSource,
-  "CopySource.ConcurSource": ConcurSource,
-  "CopySource.AzurePostgreSqlSource": AzurePostgreSqlSource,
-  "CopySource.AmazonMWSSource": AmazonMWSSource,
-  "CopySource.CassandraSource": CassandraSource,
-  "CopySource.TeradataSource": TeradataSource,
-  "CopySource.AzureMySqlSource": AzureMySqlSource,
-  "CopySource.SqlDWSource": SqlDWSource,
-  "CopySource.SqlMISource": SqlMISource,
-  "CopySource.AzureSqlSource": AzureSqlSource,
-  "CopySource.SqlServerSource": SqlServerSource,
-  "CopySource.SqlSource": SqlSource,
-  "CopySource.SapTableSource": SapTableSource,
-  "CopySource.SapOpenHubSource": SapOpenHubSource,
-  "CopySource.SapHanaSource": SapHanaSource,
-  "CopySource.SapEccSource": SapEccSource,
-  "CopySource.SapCloudForCustomerSource": SapCloudForCustomerSource,
-  "CopySource.SalesforceSource": SalesforceSource,
-  "CopySource.SapBwSource": SapBwSource,
-  "CopySource.SybaseSource": SybaseSource,
-  "CopySource.PostgreSqlSource": PostgreSqlSource,
-  "CopySource.MySqlSource": MySqlSource,
-  "CopySource.OdbcSource": OdbcSource,
-  "CopySource.Db2Source": Db2Source,
-  "CopySource.InformixSource": InformixSource,
-  "CopySource.AzureTableSource": AzureTableSource,
-  "CopySource.TabularSource": TabularSource,
-  "CopySource.BinarySource": BinarySource,
-  "CopySource.OrcSource": OrcSource,
-  "CopySource.XmlSource": XmlSource,
-  "CopySource.JsonSource": JsonSource,
-  "CopySource.DelimitedTextSource": DelimitedTextSource,
-  "CopySource.ParquetSource": ParquetSource,
-  "CopySource.ExcelSource": ExcelSource,
-  "CopySource.AvroSource": AvroSource,
-  CopySource: CopySource,
-  "Activity.Lookup": LookupActivity,
-  "Activity.AzureDataExplorerCommand": AzureDataExplorerCommandActivity,
-  "Activity.Delete": DeleteActivity,
-  "Activity.SqlServerStoredProcedure": SqlServerStoredProcedureActivity,
-  "Activity.Custom": CustomActivity,
-  "Activity.ExecuteSSISPackage": ExecuteSSISPackageActivity,
-  "Activity.HDInsightSpark": HDInsightSparkActivity,
-  "Activity.HDInsightStreaming": HDInsightStreamingActivity,
-  "Activity.HDInsightMapReduce": HDInsightMapReduceActivity,
-  "Activity.HDInsightPig": HDInsightPigActivity,
-  "Activity.HDInsightHive": HDInsightHiveActivity,
-  "CopySink.CosmosDbMongoDbApiSink": CosmosDbMongoDbApiSink,
-  "CopySink.MongoDbV2Sink": MongoDbV2Sink,
-  "CopySink.MongoDbAtlasSink": MongoDbAtlasSink,
-  "CopySink.SalesforceServiceCloudSink": SalesforceServiceCloudSink,
-  "CopySink.SalesforceSink": SalesforceSink,
-  "CopySink.AzureDataExplorerSink": AzureDataExplorerSink,
-  "CopySink.CommonDataServiceForAppsSink": CommonDataServiceForAppsSink,
-  "CopySink.DynamicsCrmSink": DynamicsCrmSink,
-  "CopySink.DynamicsSink": DynamicsSink,
-  "CopySink.MicrosoftAccessSink": MicrosoftAccessSink,
-  "CopySink.InformixSink": InformixSink,
-  "CopySink.OdbcSink": OdbcSink,
-  "CopySink.AzureSearchIndexSink": AzureSearchIndexSink,
-  "CopySink.AzureBlobFSSink": AzureBlobFSSink,
-  "CopySink.AzureDataLakeStoreSink": AzureDataLakeStoreSink,
-  "CopySink.OracleSink": OracleSink,
-  "ImportSettings.AzureDatabricksDeltaLakeImportCommand": AzureDatabricksDeltaLakeImportCommand,
-  ImportSettings: ImportSettings,
-  "ImportSettings.SnowflakeImportCopyCommand": SnowflakeImportCopyCommand,
-  "CopySink.SnowflakeSink": SnowflakeSink,
-  "CopySink.SqlDWSink": SqlDWSink,
-  "CopySink.SqlMISink": SqlMISink,
-  "CopySink.AzureSqlSink": AzureSqlSink,
-  "CopySink.SqlServerSink": SqlServerSink,
-  "CopySink.SqlSink": SqlSink,
-  "CopySink.CosmosDbSqlApiSink": CosmosDbSqlApiSink,
-  "CopySink.DocumentDbCollectionSink": DocumentDbCollectionSink,
-  "CopySink.FileSystemSink": FileSystemSink,
-  "CopySink.BlobSink": BlobSink,
-  "StoreWriteSettings.AzureFileStorageWriteSettings": AzureFileStorageWriteSettings,
-  "StoreWriteSettings.FileServerWriteSettings": FileServerWriteSettings,
-  "StoreWriteSettings.AzureDataLakeStoreWriteSettings": AzureDataLakeStoreWriteSettings,
-  "StoreWriteSettings.AzureBlobFSWriteSettings": AzureBlobFSWriteSettings,
-  "StoreWriteSettings.AzureBlobStorageWriteSettings": AzureBlobStorageWriteSettings,
-  "StoreWriteSettings.SftpWriteSettings": SftpWriteSettings,
-  StoreWriteSettings: StoreWriteSettings,
-  "CopySink.BinarySink": BinarySink,
-  "FormatWriteSettings.JsonWriteSettings": JsonWriteSettings,
-  "FormatWriteSettings.DelimitedTextWriteSettings": DelimitedTextWriteSettings,
-  "FormatWriteSettings.OrcWriteSettings": OrcWriteSettings,
-  "FormatWriteSettings.AvroWriteSettings": AvroWriteSettings,
-  FormatWriteSettings: FormatWriteSettings,
-  "FormatWriteSettings.ParquetWriteSettings": ParquetWriteSettings,
-  "CopySink.ParquetSink": ParquetSink,
-  "CopySink.AvroSink": AvroSink,
-  "CopySink.AzureTableSink": AzureTableSink,
-  "CopySink.AzureQueueSink": AzureQueueSink,
-  "CopySink.SapCloudForCustomerSink": SapCloudForCustomerSink,
-  "CopySink.AzureDatabricksDeltaLakeSink": AzureDatabricksDeltaLakeSink,
-  "CopySink.AzureMySqlSink": AzureMySqlSink,
-  "CopySink.AzurePostgreSqlSink": AzurePostgreSqlSink,
-  "CopySink.RestSink": RestSink,
-  "CopySink.OrcSink": OrcSink,
-  "CopySink.JsonSink": JsonSink,
-  "CopySink.DelimitedTextSink": DelimitedTextSink,
-  CopySink: CopySink,
-  "Activity.Copy": CopyActivity,
-  "Activity.Execution": ExecutionActivity,
-  "Activity.WebHook": WebHookActivity,
-  "Activity.AppendVariable": AppendVariableActivity,
-  "Activity.SetVariable": SetVariableActivity,
-  "Activity.Filter": FilterActivity,
-  "Activity.Validation": ValidationActivity,
-  "Activity.Until": UntilActivity,
-  "Activity.Wait": WaitActivity,
-  "Activity.ForEach": ForEachActivity,
-  "Activity.Switch": SwitchActivity,
-  "Activity.IfCondition": IfConditionActivity,
-  "Activity.ExecutePipeline": ExecutePipelineActivity,
-  "Activity.Container": ControlActivity,
-  "IntegrationRuntimeStatus.SelfHosted": SelfHostedIntegrationRuntimeStatus,
-  "IntegrationRuntimeStatus.Managed": ManagedIntegrationRuntimeStatus,
-  "LinkedIntegrationRuntimeType.RBAC": LinkedIntegrationRuntimeRbacAuthorization,
-  "LinkedIntegrationRuntimeType.Key": LinkedIntegrationRuntimeKeyAuthorization,
-  LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
-  "IntegrationRuntime.SelfHosted": SelfHostedIntegrationRuntime,
-  "CustomSetupBase.AzPowerShellSetup": AzPowerShellSetup,
-  "CustomSetupBase.ComponentSetup": ComponentSetup,
-  "CustomSetupBase.EnvironmentVariableSetup": EnvironmentVariableSetup,
-  "CustomSetupBase.CmdkeySetup": CmdkeySetup,
-  CustomSetupBase: CustomSetupBase,
-  "IntegrationRuntime.Managed": ManagedIntegrationRuntime,
-  "SsisObjectMetadata.Environment": SsisEnvironment,
-  "SsisObjectMetadata.Package": SsisPackage,
-  "SsisObjectMetadata.Project": SsisProject,
-  "SsisObjectMetadata.Folder": SsisFolder,
-  SsisObjectMetadata: SsisObjectMetadata,
-  CopyTranslator: CopyTranslator,
-  "CopyTranslator.TabularTranslator": TabularTranslator
+  'SecretBase.SecureString' : SecureString,
+  'SecretBase.AzureKeyVaultSecret' : AzureKeyVaultSecretReference,
+  'SecretBase' : SecretBase,
+  'FactoryRepoConfiguration' : FactoryRepoConfiguration,
+  'IntegrationRuntime' : IntegrationRuntime,
+  'IntegrationRuntimeStatus' : IntegrationRuntimeStatus,
+  'LinkedService' : LinkedService,
+  'Dataset' : Dataset,
+  'Activity' : Activity,
+  'Trigger' : Trigger,
+  'FactoryRepoConfiguration.FactoryVSTSConfiguration' : FactoryVSTSConfiguration,
+  'FactoryRepoConfiguration.FactoryGitHubConfiguration' : FactoryGitHubConfiguration,
+  'DataFlow' : DataFlow,
+  'Credential' : Credential,
+  'Credential.ManagedIdentity' : ManagedIdentityCredential,
+  'Credential.ServicePrincipal' : ServicePrincipalCredential,
+  'DataFlow.MappingDataFlow' : MappingDataFlow,
+  'LinkedService.SharePointOnlineList' : SharePointOnlineListLinkedService,
+  'LinkedService.Snowflake' : SnowflakeLinkedService,
+  'LinkedService.AzureFunction' : AzureFunctionLinkedService,
+  'LinkedService.AzureDataExplorer' : AzureDataExplorerLinkedService,
+  'LinkedService.SapTable' : SapTableLinkedService,
+  'LinkedService.GoogleAdWords' : GoogleAdWordsLinkedService,
+  'LinkedService.OracleServiceCloud' : OracleServiceCloudLinkedService,
+  'LinkedService.DynamicsAX' : DynamicsAXLinkedService,
+  'LinkedService.Responsys' : ResponsysLinkedService,
+  'LinkedService.AzureDatabricksDeltaLake' : AzureDatabricksDeltaLakeLinkedService,
+  'LinkedService.AzureDatabricks' : AzureDatabricksLinkedService,
+  'LinkedService.AzureDataLakeAnalytics' : AzureDataLakeAnalyticsLinkedService,
+  'LinkedService.HDInsightOnDemand' : HDInsightOnDemandLinkedService,
+  'LinkedService.SalesforceMarketingCloud' : SalesforceMarketingCloudLinkedService,
+  'LinkedService.Netezza' : NetezzaLinkedService,
+  'LinkedService.Vertica' : VerticaLinkedService,
+  'LinkedService.Zoho' : ZohoLinkedService,
+  'LinkedService.Xero' : XeroLinkedService,
+  'LinkedService.Square' : SquareLinkedService,
+  'LinkedService.Spark' : SparkLinkedService,
+  'LinkedService.Shopify' : ShopifyLinkedService,
+  'LinkedService.ServiceNow' : ServiceNowLinkedService,
+  'LinkedService.QuickBooks' : QuickBooksLinkedService,
+  'LinkedService.Presto' : PrestoLinkedService,
+  'LinkedService.Phoenix' : PhoenixLinkedService,
+  'LinkedService.Paypal' : PaypalLinkedService,
+  'LinkedService.Marketo' : MarketoLinkedService,
+  'LinkedService.AzureMariaDB' : AzureMariaDBLinkedService,
+  'LinkedService.MariaDB' : MariaDBLinkedService,
+  'LinkedService.Magento' : MagentoLinkedService,
+  'LinkedService.Jira' : JiraLinkedService,
+  'LinkedService.Impala' : ImpalaLinkedService,
+  'LinkedService.Hubspot' : HubspotLinkedService,
+  'LinkedService.Hive' : HiveLinkedService,
+  'LinkedService.HBase' : HBaseLinkedService,
+  'LinkedService.Greenplum' : GreenplumLinkedService,
+  'LinkedService.GoogleBigQuery' : GoogleBigQueryLinkedService,
+  'LinkedService.Eloqua' : EloquaLinkedService,
+  'LinkedService.Drill' : DrillLinkedService,
+  'LinkedService.Couchbase' : CouchbaseLinkedService,
+  'LinkedService.Concur' : ConcurLinkedService,
+  'LinkedService.AzurePostgreSql' : AzurePostgreSqlLinkedService,
+  'LinkedService.AmazonMWS' : AmazonMWSLinkedService,
+  'LinkedService.SapHana' : SapHanaLinkedService,
+  'LinkedService.SapBW' : SapBWLinkedService,
+  'LinkedService.Sftp' : SftpServerLinkedService,
+  'LinkedService.FtpServer' : FtpServerLinkedService,
+  'LinkedService.HttpServer' : HttpLinkedService,
+  'LinkedService.AzureSearch' : AzureSearchLinkedService,
+  'LinkedService.CustomDataSource' : CustomDataSourceLinkedService,
+  'LinkedService.AmazonRedshift' : AmazonRedshiftLinkedService,
+  'LinkedService.AmazonS3' : AmazonS3LinkedService,
+  'LinkedService.RestService' : RestServiceLinkedService,
+  'LinkedService.SapOpenHub' : SapOpenHubLinkedService,
+  'LinkedService.SapEcc' : SapEccLinkedService,
+  'LinkedService.SapCloudForCustomer' : SapCloudForCustomerLinkedService,
+  'LinkedService.SalesforceServiceCloud' : SalesforceServiceCloudLinkedService,
+  'LinkedService.Salesforce' : SalesforceLinkedService,
+  'LinkedService.Office365' : Office365LinkedService,
+  'LinkedService.AzureBlobFS' : AzureBlobFSLinkedService,
+  'LinkedService.AzureDataLakeStore' : AzureDataLakeStoreLinkedService,
+  'LinkedService.CosmosDbMongoDbApi' : CosmosDbMongoDbApiLinkedService,
+  'LinkedService.MongoDbV2' : MongoDbV2LinkedService,
+  'LinkedService.MongoDbAtlas' : MongoDbAtlasLinkedService,
+  'LinkedService.MongoDb' : MongoDbLinkedService,
+  'LinkedService.Cassandra' : CassandraLinkedService,
+  'WebLinkedServiceTypeProperties.ClientCertificate' : WebClientCertificateAuthentication,
+  'WebLinkedServiceTypeProperties.Basic' : WebBasicAuthentication,
+  'WebLinkedServiceTypeProperties.Anonymous' : WebAnonymousAuthentication,
+  'WebLinkedServiceTypeProperties' : WebLinkedServiceTypeProperties,
+  'LinkedService.Web' : WebLinkedService,
+  'LinkedService.OData' : ODataLinkedService,
+  'LinkedService.Hdfs' : HdfsLinkedService,
+  'LinkedService.MicrosoftAccess' : MicrosoftAccessLinkedService,
+  'LinkedService.Informix' : InformixLinkedService,
+  'LinkedService.Odbc' : OdbcLinkedService,
+  'LinkedService.AzureMLService' : AzureMLServiceLinkedService,
+  'LinkedService.AzureML' : AzureMLLinkedService,
+  'LinkedService.Teradata' : TeradataLinkedService,
+  'LinkedService.Db2' : Db2LinkedService,
+  'LinkedService.Sybase' : SybaseLinkedService,
+  'LinkedService.PostgreSql' : PostgreSqlLinkedService,
+  'LinkedService.MySql' : MySqlLinkedService,
+  'LinkedService.AzureMySql' : AzureMySqlLinkedService,
+  'LinkedService.Oracle' : OracleLinkedService,
+  'LinkedService.GoogleCloudStorage' : GoogleCloudStorageLinkedService,
+  'LinkedService.OracleCloudStorage' : OracleCloudStorageLinkedService,
+  'LinkedService.AmazonS3Compatible' : AmazonS3CompatibleLinkedService,
+  'LinkedService.AzureFileStorage' : AzureFileStorageLinkedService,
+  'LinkedService.FileServer' : FileServerLinkedService,
+  'LinkedService.HDInsight' : HDInsightLinkedService,
+  'LinkedService.CommonDataServiceForApps' : CommonDataServiceForAppsLinkedService,
+  'LinkedService.DynamicsCrm' : DynamicsCrmLinkedService,
+  'LinkedService.Dynamics' : DynamicsLinkedService,
+  'LinkedService.CosmosDb' : CosmosDbLinkedService,
+  'LinkedService.AzureKeyVault' : AzureKeyVaultLinkedService,
+  'LinkedService.AzureBatch' : AzureBatchLinkedService,
+  'LinkedService.AzureSqlMI' : AzureSqlMILinkedService,
+  'LinkedService.AzureSqlDatabase' : AzureSqlDatabaseLinkedService,
+  'LinkedService.SqlServer' : SqlServerLinkedService,
+  'LinkedService.AzureSqlDW' : AzureSqlDWLinkedService,
+  'LinkedService.AzureTableStorage' : AzureTableStorageLinkedService,
+  'LinkedService.AzureBlobStorage' : AzureBlobStorageLinkedService,
+  'LinkedService.AzureStorage' : AzureStorageLinkedService,
+  'Dataset.AzureDatabricksDeltaLakeDataset' : AzureDatabricksDeltaLakeDataset,
+  'Dataset.SharePointOnlineListResource' : SharePointOnlineListResourceDataset,
+  'Dataset.SnowflakeTable' : SnowflakeDataset,
+  'Dataset.GoogleAdWordsObject' : GoogleAdWordsObjectDataset,
+  'Dataset.AzureDataExplorerTable' : AzureDataExplorerTableDataset,
+  'Dataset.OracleServiceCloudObject' : OracleServiceCloudObjectDataset,
+  'Dataset.DynamicsAXResource' : DynamicsAXResourceDataset,
+  'Dataset.ResponsysObject' : ResponsysObjectDataset,
+  'Dataset.SalesforceMarketingCloudObject' : SalesforceMarketingCloudObjectDataset,
+  'Dataset.VerticaTable' : VerticaTableDataset,
+  'Dataset.NetezzaTable' : NetezzaTableDataset,
+  'Dataset.ZohoObject' : ZohoObjectDataset,
+  'Dataset.XeroObject' : XeroObjectDataset,
+  'Dataset.SquareObject' : SquareObjectDataset,
+  'Dataset.SparkObject' : SparkObjectDataset,
+  'Dataset.ShopifyObject' : ShopifyObjectDataset,
+  'Dataset.ServiceNowObject' : ServiceNowObjectDataset,
+  'Dataset.QuickBooksObject' : QuickBooksObjectDataset,
+  'Dataset.PrestoObject' : PrestoObjectDataset,
+  'Dataset.PhoenixObject' : PhoenixObjectDataset,
+  'Dataset.PaypalObject' : PaypalObjectDataset,
+  'Dataset.MarketoObject' : MarketoObjectDataset,
+  'Dataset.AzureMariaDBTable' : AzureMariaDBTableDataset,
+  'Dataset.MariaDBTable' : MariaDBTableDataset,
+  'Dataset.MagentoObject' : MagentoObjectDataset,
+  'Dataset.JiraObject' : JiraObjectDataset,
+  'Dataset.ImpalaObject' : ImpalaObjectDataset,
+  'Dataset.HubspotObject' : HubspotObjectDataset,
+  'Dataset.HiveObject' : HiveObjectDataset,
+  'Dataset.HBaseObject' : HBaseObjectDataset,
+  'Dataset.GreenplumTable' : GreenplumTableDataset,
+  'Dataset.GoogleBigQueryObject' : GoogleBigQueryObjectDataset,
+  'Dataset.EloquaObject' : EloquaObjectDataset,
+  'Dataset.DrillTable' : DrillTableDataset,
+  'Dataset.CouchbaseTable' : CouchbaseTableDataset,
+  'Dataset.ConcurObject' : ConcurObjectDataset,
+  'Dataset.AzurePostgreSqlTable' : AzurePostgreSqlTableDataset,
+  'Dataset.AmazonMWSObject' : AmazonMWSObjectDataset,
+  'DatasetCompression.TarGZip' : DatasetTarGZipCompression,
+  'DatasetCompression.Tar' : DatasetTarCompression,
+  'DatasetCompression.ZipDeflate' : DatasetZipDeflateCompression,
+  'DatasetCompression.Deflate' : DatasetDeflateCompression,
+  'DatasetCompression.GZip' : DatasetGZipCompression,
+  'DatasetCompression.BZip2' : DatasetBZip2Compression,
+  'DatasetCompression' : DatasetCompression,
+  'DatasetStorageFormat.ParquetFormat' : ParquetFormat,
+  'DatasetStorageFormat.OrcFormat' : OrcFormat,
+  'DatasetStorageFormat.AvroFormat' : AvroFormat,
+  'DatasetStorageFormat.JsonFormat' : JsonFormat,
+  'DatasetStorageFormat.TextFormat' : TextFormat,
+  'DatasetStorageFormat' : DatasetStorageFormat,
+  'Dataset.HttpFile' : HttpDataset,
+  'Dataset.AzureSearchIndex' : AzureSearchIndexDataset,
+  'Dataset.WebTable' : WebTableDataset,
+  'Dataset.SapTableResource' : SapTableResourceDataset,
+  'Dataset.RestResource' : RestResourceDataset,
+  'Dataset.SqlServerTable' : SqlServerTableDataset,
+  'Dataset.SapOpenHubTable' : SapOpenHubTableDataset,
+  'Dataset.SapHanaTable' : SapHanaTableDataset,
+  'Dataset.SapEccResource' : SapEccResourceDataset,
+  'Dataset.SapCloudForCustomerResource' : SapCloudForCustomerResourceDataset,
+  'Dataset.SapBwCube' : SapBwCubeDataset,
+  'Dataset.SybaseTable' : SybaseTableDataset,
+  'Dataset.SalesforceServiceCloudObject' : SalesforceServiceCloudObjectDataset,
+  'Dataset.SalesforceObject' : SalesforceObjectDataset,
+  'Dataset.MicrosoftAccessTable' : MicrosoftAccessTableDataset,
+  'Dataset.PostgreSqlTable' : PostgreSqlTableDataset,
+  'Dataset.MySqlTable' : MySqlTableDataset,
+  'Dataset.OdbcTable' : OdbcTableDataset,
+  'Dataset.InformixTable' : InformixTableDataset,
+  'Dataset.RelationalTable' : RelationalTableDataset,
+  'Dataset.Db2Table' : Db2TableDataset,
+  'Dataset.AmazonRedshiftTable' : AmazonRedshiftTableDataset,
+  'Dataset.AzureMySqlTable' : AzureMySqlTableDataset,
+  'Dataset.TeradataTable' : TeradataTableDataset,
+  'Dataset.OracleTable' : OracleTableDataset,
+  'Dataset.ODataResource' : ODataResourceDataset,
+  'Dataset.CosmosDbMongoDbApiCollection' : CosmosDbMongoDbApiCollectionDataset,
+  'Dataset.MongoDbV2Collection' : MongoDbV2CollectionDataset,
+  'Dataset.MongoDbAtlasCollection' : MongoDbAtlasCollectionDataset,
+  'Dataset.MongoDbCollection' : MongoDbCollectionDataset,
+  'Dataset.FileShare' : FileShareDataset,
+  'Dataset.Office365Table' : Office365Dataset,
+  'Dataset.AzureBlobFSFile' : AzureBlobFSDataset,
+  'Dataset.AzureDataLakeStoreFile' : AzureDataLakeStoreDataset,
+  'Dataset.CommonDataServiceForAppsEntity' : CommonDataServiceForAppsEntityDataset,
+  'Dataset.DynamicsCrmEntity' : DynamicsCrmEntityDataset,
+  'Dataset.DynamicsEntity' : DynamicsEntityDataset,
+  'Dataset.DocumentDbCollection' : DocumentDbCollectionDataset,
+  'Dataset.CosmosDbSqlApiCollection' : CosmosDbSqlApiCollectionDataset,
+  'Dataset.CustomDataset' : CustomDataset,
+  'Dataset.CassandraTable' : CassandraTableDataset,
+  'Dataset.AzureSqlDWTable' : AzureSqlDWTableDataset,
+  'Dataset.AzureSqlMITable' : AzureSqlMITableDataset,
+  'Dataset.AzureSqlTable' : AzureSqlTableDataset,
+  'Dataset.AzureTable' : AzureTableDataset,
+  'Dataset.AzureBlob' : AzureBlobDataset,
+  'DatasetLocation.HdfsLocation' : HdfsLocation,
+  'DatasetLocation.HttpServerLocation' : HttpServerLocation,
+  'DatasetLocation.SftpLocation' : SftpLocation,
+  'DatasetLocation.FtpServerLocation' : FtpServerLocation,
+  'DatasetLocation.GoogleCloudStorageLocation' : GoogleCloudStorageLocation,
+  'DatasetLocation.OracleCloudStorageLocation' : OracleCloudStorageLocation,
+  'DatasetLocation.AmazonS3CompatibleLocation' : AmazonS3CompatibleLocation,
+  'DatasetLocation.AzureFileStorageLocation' : AzureFileStorageLocation,
+  'DatasetLocation.FileServerLocation' : FileServerLocation,
+  'DatasetLocation.AmazonS3Location' : AmazonS3Location,
+  'DatasetLocation.AzureDataLakeStoreLocation' : AzureDataLakeStoreLocation,
+  'DatasetLocation.AzureBlobFSLocation' : AzureBlobFSLocation,
+  'DatasetLocation.AzureBlobStorageLocation' : AzureBlobStorageLocation,
+  'DatasetLocation' : DatasetLocation,
+  'Dataset.Binary' : BinaryDataset,
+  'Dataset.Orc' : OrcDataset,
+  'Dataset.Xml' : XmlDataset,
+  'Dataset.Json' : JsonDataset,
+  'Dataset.DelimitedText' : DelimitedTextDataset,
+  'Dataset.Parquet' : ParquetDataset,
+  'Dataset.Excel' : ExcelDataset,
+  'Dataset.Avro' : AvroDataset,
+  'Dataset.AmazonS3Object' : AmazonS3Dataset,
+  'Trigger.ChainingTrigger' : ChainingTrigger,
+  'Trigger.RerunTumblingWindowTrigger' : RerunTumblingWindowTrigger,
+  'DependencyReference.SelfDependencyTumblingWindowTriggerReference' : SelfDependencyTumblingWindowTriggerReference,
+  'DependencyReference.TumblingWindowTriggerDependencyReference' : TumblingWindowTriggerDependencyReference,
+  'DependencyReference.TriggerDependencyReference' : TriggerDependencyReference,
+  'DependencyReference' : DependencyReference,
+  'Trigger.TumblingWindowTrigger' : TumblingWindowTrigger,
+  'Trigger.CustomEventsTrigger' : CustomEventsTrigger,
+  'Trigger.BlobEventsTrigger' : BlobEventsTrigger,
+  'Trigger.BlobTrigger' : BlobTrigger,
+  'Trigger.ScheduleTrigger' : ScheduleTrigger,
+  'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
+  'Activity.ExecuteDataFlow' : ExecuteDataFlowActivity,
+  'Activity.AzureFunctionActivity' : AzureFunctionActivity,
+  'Activity.DatabricksSparkPython' : DatabricksSparkPythonActivity,
+  'Activity.DatabricksSparkJar' : DatabricksSparkJarActivity,
+  'Activity.DatabricksNotebook' : DatabricksNotebookActivity,
+  'Activity.DataLakeAnalyticsU-SQL' : DataLakeAnalyticsUSQLActivity,
+  'Activity.AzureMLExecutePipeline' : AzureMLExecutePipelineActivity,
+  'Activity.AzureMLUpdateResource' : AzureMLUpdateResourceActivity,
+  'Activity.AzureMLBatchExecution' : AzureMLBatchExecutionActivity,
+  'CompressionReadSettings.TarGZipReadSettings' : TarGZipReadSettings,
+  'CompressionReadSettings.TarReadSettings' : TarReadSettings,
+  'CompressionReadSettings.ZipDeflateReadSettings' : ZipDeflateReadSettings,
+  'CompressionReadSettings' : CompressionReadSettings,
+  'FormatReadSettings.BinaryReadSettings' : BinaryReadSettings,
+  'FormatReadSettings.XmlReadSettings' : XmlReadSettings,
+  'FormatReadSettings.JsonReadSettings' : JsonReadSettings,
+  'FormatReadSettings.DelimitedTextReadSettings' : DelimitedTextReadSettings,
+  'FormatReadSettings' : FormatReadSettings,
+  'StoreReadSettings.HdfsReadSettings' : HdfsReadSettings,
+  'StoreReadSettings.HttpReadSettings' : HttpReadSettings,
+  'StoreReadSettings.SftpReadSettings' : SftpReadSettings,
+  'StoreReadSettings.FtpReadSettings' : FtpReadSettings,
+  'StoreReadSettings.GoogleCloudStorageReadSettings' : GoogleCloudStorageReadSettings,
+  'StoreReadSettings.OracleCloudStorageReadSettings' : OracleCloudStorageReadSettings,
+  'StoreReadSettings.AmazonS3CompatibleReadSettings' : AmazonS3CompatibleReadSettings,
+  'StoreReadSettings.AzureFileStorageReadSettings' : AzureFileStorageReadSettings,
+  'StoreReadSettings.FileServerReadSettings' : FileServerReadSettings,
+  'StoreReadSettings.AmazonS3ReadSettings' : AmazonS3ReadSettings,
+  'StoreReadSettings.AzureDataLakeStoreReadSettings' : AzureDataLakeStoreReadSettings,
+  'StoreReadSettings.AzureBlobFSReadSettings' : AzureBlobFSReadSettings,
+  'StoreReadSettings.AzureBlobStorageReadSettings' : AzureBlobStorageReadSettings,
+  'StoreReadSettings' : StoreReadSettings,
+  'Activity.GetMetadata' : GetMetadataActivity,
+  'Activity.WebActivity' : WebActivity,
+  'CopySource.SharePointOnlineListSource' : SharePointOnlineListSource,
+  'ExportSettings.SnowflakeExportCopyCommand' : SnowflakeExportCopyCommand,
+  'ExportSettings' : ExportSettings,
+  'ExportSettings.AzureDatabricksDeltaLakeExportCommand' : AzureDatabricksDeltaLakeExportCommand,
+  'CopySource.AzureDatabricksDeltaLakeSource' : AzureDatabricksDeltaLakeSource,
+  'CopySource.SnowflakeSource' : SnowflakeSource,
+  'CopySource.HttpSource' : HttpSource,
+  'CopySource.AzureBlobFSSource' : AzureBlobFSSource,
+  'CopySource.AzureDataLakeStoreSource' : AzureDataLakeStoreSource,
+  'CopySource.Office365Source' : Office365Source,
+  'CopySource.CosmosDbMongoDbApiSource' : CosmosDbMongoDbApiSource,
+  'CopySource.MongoDbV2Source' : MongoDbV2Source,
+  'CopySource.MongoDbAtlasSource' : MongoDbAtlasSource,
+  'CopySource.MongoDbSource' : MongoDbSource,
+  'CopySource.WebSource' : WebSource,
+  'CopySource.OracleSource' : OracleSource,
+  'CopySource.AzureDataExplorerSource' : AzureDataExplorerSource,
+  'CopySource.HdfsSource' : HdfsSource,
+  'CopySource.FileSystemSource' : FileSystemSource,
+  'CopySource.RestSource' : RestSource,
+  'CopySource.SalesforceServiceCloudSource' : SalesforceServiceCloudSource,
+  'CopySource.ODataSource' : ODataSource,
+  'CopySource.MicrosoftAccessSource' : MicrosoftAccessSource,
+  'CopySource.RelationalSource' : RelationalSource,
+  'CopySource.CommonDataServiceForAppsSource' : CommonDataServiceForAppsSource,
+  'CopySource.DynamicsCrmSource' : DynamicsCrmSource,
+  'CopySource.DynamicsSource' : DynamicsSource,
+  'CopySource.CosmosDbSqlApiSource' : CosmosDbSqlApiSource,
+  'CopySource.DocumentDbCollectionSource' : DocumentDbCollectionSource,
+  'CopySource.BlobSource' : BlobSource,
+  'CopySource.AmazonRedshiftSource' : AmazonRedshiftSource,
+  'CopySource.GoogleAdWordsSource' : GoogleAdWordsSource,
+  'CopySource.OracleServiceCloudSource' : OracleServiceCloudSource,
+  'CopySource.DynamicsAXSource' : DynamicsAXSource,
+  'CopySource.ResponsysSource' : ResponsysSource,
+  'CopySource.SalesforceMarketingCloudSource' : SalesforceMarketingCloudSource,
+  'CopySource.VerticaSource' : VerticaSource,
+  'CopySource.NetezzaSource' : NetezzaSource,
+  'CopySource.ZohoSource' : ZohoSource,
+  'CopySource.XeroSource' : XeroSource,
+  'CopySource.SquareSource' : SquareSource,
+  'CopySource.SparkSource' : SparkSource,
+  'CopySource.ShopifySource' : ShopifySource,
+  'CopySource.ServiceNowSource' : ServiceNowSource,
+  'CopySource.QuickBooksSource' : QuickBooksSource,
+  'CopySource.PrestoSource' : PrestoSource,
+  'CopySource.PhoenixSource' : PhoenixSource,
+  'CopySource.PaypalSource' : PaypalSource,
+  'CopySource.MarketoSource' : MarketoSource,
+  'CopySource.AzureMariaDBSource' : AzureMariaDBSource,
+  'CopySource.MariaDBSource' : MariaDBSource,
+  'CopySource.MagentoSource' : MagentoSource,
+  'CopySource.JiraSource' : JiraSource,
+  'CopySource.ImpalaSource' : ImpalaSource,
+  'CopySource.HubspotSource' : HubspotSource,
+  'CopySource.HiveSource' : HiveSource,
+  'CopySource.HBaseSource' : HBaseSource,
+  'CopySource.GreenplumSource' : GreenplumSource,
+  'CopySource.GoogleBigQuerySource' : GoogleBigQuerySource,
+  'CopySource.EloquaSource' : EloquaSource,
+  'CopySource.DrillSource' : DrillSource,
+  'CopySource.CouchbaseSource' : CouchbaseSource,
+  'CopySource.ConcurSource' : ConcurSource,
+  'CopySource.AzurePostgreSqlSource' : AzurePostgreSqlSource,
+  'CopySource.AmazonMWSSource' : AmazonMWSSource,
+  'CopySource.CassandraSource' : CassandraSource,
+  'CopySource.TeradataSource' : TeradataSource,
+  'CopySource.AzureMySqlSource' : AzureMySqlSource,
+  'CopySource.SqlDWSource' : SqlDWSource,
+  'CopySource.SqlMISource' : SqlMISource,
+  'CopySource.AzureSqlSource' : AzureSqlSource,
+  'CopySource.SqlServerSource' : SqlServerSource,
+  'CopySource.SqlSource' : SqlSource,
+  'CopySource.SapTableSource' : SapTableSource,
+  'CopySource.SapOpenHubSource' : SapOpenHubSource,
+  'CopySource.SapHanaSource' : SapHanaSource,
+  'CopySource.SapEccSource' : SapEccSource,
+  'CopySource.SapCloudForCustomerSource' : SapCloudForCustomerSource,
+  'CopySource.SalesforceSource' : SalesforceSource,
+  'CopySource.SapBwSource' : SapBwSource,
+  'CopySource.SybaseSource' : SybaseSource,
+  'CopySource.PostgreSqlSource' : PostgreSqlSource,
+  'CopySource.MySqlSource' : MySqlSource,
+  'CopySource.OdbcSource' : OdbcSource,
+  'CopySource.Db2Source' : Db2Source,
+  'CopySource.InformixSource' : InformixSource,
+  'CopySource.AzureTableSource' : AzureTableSource,
+  'CopySource.TabularSource' : TabularSource,
+  'CopySource.BinarySource' : BinarySource,
+  'CopySource.OrcSource' : OrcSource,
+  'CopySource.XmlSource' : XmlSource,
+  'CopySource.JsonSource' : JsonSource,
+  'CopySource.DelimitedTextSource' : DelimitedTextSource,
+  'CopySource.ParquetSource' : ParquetSource,
+  'CopySource.ExcelSource' : ExcelSource,
+  'CopySource.AvroSource' : AvroSource,
+  'CopySource' : CopySource,
+  'Activity.Lookup' : LookupActivity,
+  'Activity.AzureDataExplorerCommand' : AzureDataExplorerCommandActivity,
+  'Activity.Delete' : DeleteActivity,
+  'Activity.SqlServerStoredProcedure' : SqlServerStoredProcedureActivity,
+  'Activity.Custom' : CustomActivity,
+  'Activity.ExecuteSSISPackage' : ExecuteSSISPackageActivity,
+  'Activity.HDInsightSpark' : HDInsightSparkActivity,
+  'Activity.HDInsightStreaming' : HDInsightStreamingActivity,
+  'Activity.HDInsightMapReduce' : HDInsightMapReduceActivity,
+  'Activity.HDInsightPig' : HDInsightPigActivity,
+  'Activity.HDInsightHive' : HDInsightHiveActivity,
+  'CopySink.CosmosDbMongoDbApiSink' : CosmosDbMongoDbApiSink,
+  'CopySink.MongoDbV2Sink' : MongoDbV2Sink,
+  'CopySink.MongoDbAtlasSink' : MongoDbAtlasSink,
+  'CopySink.SalesforceServiceCloudSink' : SalesforceServiceCloudSink,
+  'CopySink.SalesforceSink' : SalesforceSink,
+  'CopySink.AzureDataExplorerSink' : AzureDataExplorerSink,
+  'CopySink.CommonDataServiceForAppsSink' : CommonDataServiceForAppsSink,
+  'CopySink.DynamicsCrmSink' : DynamicsCrmSink,
+  'CopySink.DynamicsSink' : DynamicsSink,
+  'CopySink.MicrosoftAccessSink' : MicrosoftAccessSink,
+  'CopySink.InformixSink' : InformixSink,
+  'CopySink.OdbcSink' : OdbcSink,
+  'CopySink.AzureSearchIndexSink' : AzureSearchIndexSink,
+  'CopySink.AzureBlobFSSink' : AzureBlobFSSink,
+  'CopySink.AzureDataLakeStoreSink' : AzureDataLakeStoreSink,
+  'CopySink.OracleSink' : OracleSink,
+  'ImportSettings.AzureDatabricksDeltaLakeImportCommand' : AzureDatabricksDeltaLakeImportCommand,
+  'ImportSettings' : ImportSettings,
+  'ImportSettings.SnowflakeImportCopyCommand' : SnowflakeImportCopyCommand,
+  'CopySink.SnowflakeSink' : SnowflakeSink,
+  'CopySink.SqlDWSink' : SqlDWSink,
+  'CopySink.SqlMISink' : SqlMISink,
+  'CopySink.AzureSqlSink' : AzureSqlSink,
+  'CopySink.SqlServerSink' : SqlServerSink,
+  'CopySink.SqlSink' : SqlSink,
+  'CopySink.CosmosDbSqlApiSink' : CosmosDbSqlApiSink,
+  'CopySink.DocumentDbCollectionSink' : DocumentDbCollectionSink,
+  'CopySink.FileSystemSink' : FileSystemSink,
+  'CopySink.BlobSink' : BlobSink,
+  'StoreWriteSettings.AzureFileStorageWriteSettings' : AzureFileStorageWriteSettings,
+  'StoreWriteSettings.FileServerWriteSettings' : FileServerWriteSettings,
+  'StoreWriteSettings.AzureDataLakeStoreWriteSettings' : AzureDataLakeStoreWriteSettings,
+  'StoreWriteSettings.AzureBlobFSWriteSettings' : AzureBlobFSWriteSettings,
+  'StoreWriteSettings.AzureBlobStorageWriteSettings' : AzureBlobStorageWriteSettings,
+  'StoreWriteSettings.SftpWriteSettings' : SftpWriteSettings,
+  'StoreWriteSettings' : StoreWriteSettings,
+  'CopySink.BinarySink' : BinarySink,
+  'FormatWriteSettings.JsonWriteSettings' : JsonWriteSettings,
+  'FormatWriteSettings.DelimitedTextWriteSettings' : DelimitedTextWriteSettings,
+  'FormatWriteSettings.OrcWriteSettings' : OrcWriteSettings,
+  'FormatWriteSettings.AvroWriteSettings' : AvroWriteSettings,
+  'FormatWriteSettings' : FormatWriteSettings,
+  'FormatWriteSettings.ParquetWriteSettings' : ParquetWriteSettings,
+  'CopySink.ParquetSink' : ParquetSink,
+  'CopySink.AvroSink' : AvroSink,
+  'CopySink.AzureTableSink' : AzureTableSink,
+  'CopySink.AzureQueueSink' : AzureQueueSink,
+  'CopySink.SapCloudForCustomerSink' : SapCloudForCustomerSink,
+  'CopySink.AzureDatabricksDeltaLakeSink' : AzureDatabricksDeltaLakeSink,
+  'CopySink.AzureMySqlSink' : AzureMySqlSink,
+  'CopySink.AzurePostgreSqlSink' : AzurePostgreSqlSink,
+  'CopySink.RestSink' : RestSink,
+  'CopySink.OrcSink' : OrcSink,
+  'CopySink.JsonSink' : JsonSink,
+  'CopySink.DelimitedTextSink' : DelimitedTextSink,
+  'CopySink' : CopySink,
+  'Activity.Copy' : CopyActivity,
+  'Activity.Execution' : ExecutionActivity,
+  'Activity.WebHook' : WebHookActivity,
+  'Activity.AppendVariable' : AppendVariableActivity,
+  'Activity.SetVariable' : SetVariableActivity,
+  'Activity.Filter' : FilterActivity,
+  'Activity.Validation' : ValidationActivity,
+  'Activity.Until' : UntilActivity,
+  'Activity.Wait' : WaitActivity,
+  'Activity.ForEach' : ForEachActivity,
+  'Activity.Switch' : SwitchActivity,
+  'Activity.IfCondition' : IfConditionActivity,
+  'Activity.ExecutePipeline' : ExecutePipelineActivity,
+  'Activity.Container' : ControlActivity,
+  'IntegrationRuntimeStatus.SelfHosted' : SelfHostedIntegrationRuntimeStatus,
+  'IntegrationRuntimeStatus.Managed' : ManagedIntegrationRuntimeStatus,
+  'LinkedIntegrationRuntimeType.RBAC' : LinkedIntegrationRuntimeRbacAuthorization,
+  'LinkedIntegrationRuntimeType.Key' : LinkedIntegrationRuntimeKeyAuthorization,
+  'LinkedIntegrationRuntimeType' : LinkedIntegrationRuntimeType,
+  'IntegrationRuntime.SelfHosted' : SelfHostedIntegrationRuntime,
+  'CustomSetupBase.AzPowerShellSetup' : AzPowerShellSetup,
+  'CustomSetupBase.ComponentSetup' : ComponentSetup,
+  'CustomSetupBase.EnvironmentVariableSetup' : EnvironmentVariableSetup,
+  'CustomSetupBase.CmdkeySetup' : CmdkeySetup,
+  'CustomSetupBase' : CustomSetupBase,
+  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime,
+  'SsisObjectMetadata.Environment' : SsisEnvironment,
+  'SsisObjectMetadata.Package' : SsisPackage,
+  'SsisObjectMetadata.Project' : SsisProject,
+  'SsisObjectMetadata.Folder' : SsisFolder,
+  'SsisObjectMetadata' : SsisObjectMetadata,
+  'CopyTranslator' : CopyTranslator,
+  'CopyTranslator.TabularTranslator' : TabularTranslator
+
 };

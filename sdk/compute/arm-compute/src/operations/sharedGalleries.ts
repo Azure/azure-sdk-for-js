@@ -31,10 +31,7 @@ export class SharedGalleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.SharedGalleriesListResponse>
    */
-  list(
-    location: string,
-    options?: Models.SharedGalleriesListOptionalParams
-  ): Promise<Models.SharedGalleriesListResponse>;
+  list(location: string, options?: Models.SharedGalleriesListOptionalParams): Promise<Models.SharedGalleriesListResponse>;
   /**
    * @param location Resource location.
    * @param callback The callback
@@ -45,26 +42,15 @@ export class SharedGalleries {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    location: string,
-    options: Models.SharedGalleriesListOptionalParams,
-    callback: msRest.ServiceCallback<Models.SharedGalleryList>
-  ): void;
-  list(
-    location: string,
-    options?:
-      | Models.SharedGalleriesListOptionalParams
-      | msRest.ServiceCallback<Models.SharedGalleryList>,
-    callback?: msRest.ServiceCallback<Models.SharedGalleryList>
-  ): Promise<Models.SharedGalleriesListResponse> {
+  list(location: string, options: Models.SharedGalleriesListOptionalParams, callback: msRest.ServiceCallback<Models.SharedGalleryList>): void;
+  list(location: string, options?: Models.SharedGalleriesListOptionalParams | msRest.ServiceCallback<Models.SharedGalleryList>, callback?: msRest.ServiceCallback<Models.SharedGalleryList>): Promise<Models.SharedGalleriesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.SharedGalleriesListResponse>;
+      callback) as Promise<Models.SharedGalleriesListResponse>;
   }
 
   /**
@@ -74,39 +60,21 @@ export class SharedGalleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.SharedGalleriesGetResponse>
    */
-  get(
-    location: string,
-    galleryUniqueName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SharedGalleriesGetResponse>;
+  get(location: string, galleryUniqueName: string, options?: msRest.RequestOptionsBase): Promise<Models.SharedGalleriesGetResponse>;
   /**
    * @param location Resource location.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param callback The callback
    */
-  get(
-    location: string,
-    galleryUniqueName: string,
-    callback: msRest.ServiceCallback<Models.SharedGallery>
-  ): void;
+  get(location: string, galleryUniqueName: string, callback: msRest.ServiceCallback<Models.SharedGallery>): void;
   /**
    * @param location Resource location.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    location: string,
-    galleryUniqueName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.SharedGallery>
-  ): void;
-  get(
-    location: string,
-    galleryUniqueName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedGallery>,
-    callback?: msRest.ServiceCallback<Models.SharedGallery>
-  ): Promise<Models.SharedGalleriesGetResponse> {
+  get(location: string, galleryUniqueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedGallery>): void;
+  get(location: string, galleryUniqueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedGallery>, callback?: msRest.ServiceCallback<Models.SharedGallery>): Promise<Models.SharedGalleriesGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -114,8 +82,7 @@ export class SharedGalleries {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.SharedGalleriesGetResponse>;
+      callback) as Promise<Models.SharedGalleriesGetResponse>;
   }
 
   /**
@@ -124,10 +91,7 @@ export class SharedGalleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.SharedGalleriesListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.SharedGalleriesListNextOptionalParams
-  ): Promise<Models.SharedGalleriesListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.SharedGalleriesListNextOptionalParams): Promise<Models.SharedGalleriesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -138,26 +102,15 @@ export class SharedGalleries {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.SharedGalleriesListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.SharedGalleryList>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.SharedGalleriesListNextOptionalParams
-      | msRest.ServiceCallback<Models.SharedGalleryList>,
-    callback?: msRest.ServiceCallback<Models.SharedGalleryList>
-  ): Promise<Models.SharedGalleriesListNextResponse> {
+  listNext(nextPageLink: string, options: Models.SharedGalleriesListNextOptionalParams, callback: msRest.ServiceCallback<Models.SharedGalleryList>): void;
+  listNext(nextPageLink: string, options?: Models.SharedGalleriesListNextOptionalParams | msRest.ServiceCallback<Models.SharedGalleryList>, callback?: msRest.ServiceCallback<Models.SharedGalleryList>): Promise<Models.SharedGalleriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.SharedGalleriesListNextResponse>;
+      callback) as Promise<Models.SharedGalleriesListNextResponse>;
   }
 }
 
@@ -165,11 +118,18 @@ export class SharedGalleries {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
-  urlParameters: [Parameters.subscriptionId, Parameters.location0],
-  queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location0
+  ],
+  queryParameters: [
+    Parameters.apiVersion3,
+    Parameters.sharedTo
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SharedGalleryList
@@ -183,11 +143,18 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.location0, Parameters.galleryUniqueName],
-  queryParameters: [Parameters.apiVersion3],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location0,
+    Parameters.galleryUniqueName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SharedGallery
@@ -203,9 +170,16 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion3,
+    Parameters.sharedTo
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SharedGalleryList

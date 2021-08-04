@@ -7,12 +7,14 @@
  */
 
 export {
+  AccessUri,
   ApiError,
   ApiErrorBase,
   CloudError,
   DiskRestorePoint,
   DiskRestorePointList,
   Encryption,
+  GrantAccessData,
   InnerError,
   ProxyOnlyResource,
   PurchasePlan
