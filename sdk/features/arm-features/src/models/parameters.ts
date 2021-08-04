@@ -11,6 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
+import { SubscriptionFeatureRegistration as SubscriptionFeatureRegistrationMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -39,7 +40,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2015-12-01",
+    defaultValue: "2021-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -91,4 +92,44 @@ export const featureName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const providerNamespace: OperationURLParameter = {
+  parameterPath: "providerNamespace",
+  mapper: {
+    serializedName: "providerNamespace",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const subscriptionFeatureRegistrationType: OperationParameter = {
+  parameterPath: ["options", "subscriptionFeatureRegistrationType"],
+  mapper: SubscriptionFeatureRegistrationMapper
 };
