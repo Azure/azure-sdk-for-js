@@ -1,29 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models";
 
 /**
- * an interface that describes how to communicate with the service and how to build a page of items.
- */
-export interface PagedResult<TOptions extends Record<string, any>, TResponse, TPage> {
-  /**
-   * A method that send a GET request to the service and returns a response.
-   */
-  sendGetRequest: (path: string, options: TOptions) => Promise<TResponse>;
-  /**
-   * A method that extracts the link to the next page of results from the response.
-   */
-  getNextLink?: (response: TResponse) => string | undefined;
-  /**
-   * A method to build a page of items from the response.
-   */
-  buildPage?: (response: TResponse) => TPage;
-}
-
-/**
- * @internal
- *
  * returns an async iterator that will retrieve items from the server. It also has a `byPage`
  * method that can return pages of items at once.
  *
@@ -55,8 +35,10 @@ export function getPagedAsyncIterator<
       return this;
     },
     byPage: (settings?: PageSettings) => {
-      const pageOptions = { ...options, top: settings?.maxPageSize };
-      return getPageAsyncIterator(pagedResult, path, pageOptions);
+      const pageOptions = { ...options };
+      (pageOptions as Record<string, unknown>)[pagedResult.maxPageSizeParam ?? "top"] =
+        settings?.maxPageSize;
+      return getPageAsyncIterator(pagedResult, settings?.continuationToken ?? path, pageOptions);
     }
   };
 }

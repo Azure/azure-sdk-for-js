@@ -5,10 +5,21 @@
 ```ts
 
 // @public
+export function getPagedAsyncIterator<TOptions extends Record<string, any>, TResponse, TElement, TPage = TElement[]>(pagedResult: PagedResult<TOptions, TResponse, TPage>, path: string, options: TOptions): PagedAsyncIterableIterator<TElement, TPage>;
+
+// @public
 export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT, PageSettingsT>;
     byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT>;
     next(): Promise<IteratorResult<T, T>>;
+}
+
+// @public
+export interface PagedResult<TOptions extends Record<string, any>, TResponse, TPage> {
+    buildPage?: (response: TResponse) => TPage;
+    getNextLink?: (response: TResponse) => string | undefined;
+    maxPageSizeParam?: string;
+    sendGetRequest: (path: string, options: TOptions) => Promise<TResponse>;
 }
 
 // @public
