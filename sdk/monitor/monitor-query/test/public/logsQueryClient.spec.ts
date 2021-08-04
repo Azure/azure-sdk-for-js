@@ -369,13 +369,13 @@ describe("LogsQueryClient live tests", function() {
       });
     });
 
-    it("queryLogs (last day)", async () => {
-      const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
+    it("queryLogs (last 2 days)", async () => {
+      const kustoQuery = `AppDependencies | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
       const singleQueryLogsResult = await createClient().queryLogs(
         monitorWorkspaceId,
         kustoQuery,
-        Durations.lastDay
+        Durations.last2Days
       );
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
@@ -388,7 +388,7 @@ describe("LogsQueryClient live tests", function() {
           columns: ["Kind", "Name", "Target", "TestRunId"],
           rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
         },
-        "Query for the last day"
+        "Query for the last 2 days"
       );
     });
 
@@ -397,13 +397,13 @@ describe("LogsQueryClient live tests", function() {
         queries: [
           {
             workspaceId: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
-            timespan: Durations.last24Hours
+            query: `AppDependencies | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
+            timespan: Durations.last48Hours
           },
           {
             workspaceId: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-            timespan: Durations.last24Hours,
+            query: `AppDependencies| count`,
+            timespan: Durations.last48Hours,
             includeQueryStatistics: true,
             serverTimeoutInSeconds: 60 * 10
           }
