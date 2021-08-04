@@ -18,7 +18,6 @@ import {
   KeyOperation,
   KeyProperties,
   KeyRotationPolicy,
-  KeyRotationLifetimeAction,
   KeyRotationPolicyProperties
 } from "./keysModels";
 
@@ -123,7 +122,9 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
   return resultObject;
 }
 
-// TODO: tests and docs
+/**
+ * @internal
+ */
 export const keyRotationTransformations = {
   propertiesToGenerated: function(
     parameters: KeyRotationPolicyProperties
@@ -132,29 +133,24 @@ export const keyRotationTransformations = {
       attributes: {
         expiryTime: parameters.expiresIn
       },
-      lifetimeActions: keyRotationTransformations.convertLifetimeActions(parameters.lifetimeActions)
+      lifetimeActions: parameters.lifetimeActions?.map((action) => {
+        const generatedAction: LifetimeActions = {
+          action: { type: action.action },
+          trigger: {}
+        };
+
+        if (action.timeAfterCreate) {
+          generatedAction.trigger!.timeAfterCreate = action.timeAfterCreate;
+        }
+
+        if (action.timeBeforeExpiry) {
+          generatedAction.trigger!.timeBeforeExpiry = action.timeBeforeExpiry;
+        }
+
+        return generatedAction;
+      })
     };
     return policy;
-  },
-  convertLifetimeActions(
-    publicActions?: KeyRotationLifetimeAction[]
-  ): LifetimeActions[] | undefined {
-    return publicActions?.map((action) => {
-      const generatedAction: LifetimeActions = {
-        action: { type: action.action },
-        trigger: {}
-      };
-
-      if (action.timeAfterCreate) {
-        generatedAction.trigger!.timeAfterCreate = action.timeAfterCreate;
-      }
-
-      if (action.timeBeforeExpiry) {
-        generatedAction.trigger!.timeBeforeExpiry = action.timeBeforeExpiry;
-      }
-
-      return generatedAction;
-    });
   },
   generatedToPublic(generated: GeneratedPolicy): KeyRotationPolicy {
     const policy: KeyRotationPolicy = {
