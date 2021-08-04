@@ -850,6 +850,11 @@
       "packageName": "@azure/arm-managedapplications",
       "projectFolder": "sdk/managedapplications/arm-managedapplications",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webpubsub",
+      "projectFolder": "sdk/web-pubsub/arm-webpubsub",
+      "versionPolicyName": "management"
     }
   ]
 }
