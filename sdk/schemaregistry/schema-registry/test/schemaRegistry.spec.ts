@@ -135,4 +135,25 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(found);
     assert.equal(found.content, schema.content);
   });
+
+  it("cache schema and ID", async () => {
+    const registered = await client.registerSchema(schema, options);
+    assertIsValidSchemaId(registered);
+
+    const foundSchema = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundSchema);
+    assert.equal(foundSchema.content, schema.content);
+
+    const foundId = await client.getSchemaId(schema, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundId);
+    assert.equal(foundId?.id, registered.id);
+  });
 });

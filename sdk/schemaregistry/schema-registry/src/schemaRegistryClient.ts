@@ -33,6 +33,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
 
+  private readonly schemaToIdMap: Map<SchemaDescription, SchemaId>;
+  private readonly idToSchemaMap: Map<string, Schema>;
+
   /**
    * Creates a new client for Azure Schema Registry service.
    *
@@ -64,6 +67,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     this.client.pipeline.addPolicy(authPolicy);
+    this.schemaToIdMap = new Map();
+    this.idToSchemaMap = new Map();
   }
 
   /**
@@ -87,7 +92,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
       schema.content,
       options
     );
-    return convertSchemaIdResponse(response);
+    const id = convertSchemaIdResponse(response);
+    this.schemaToIdMap.set(schema, id);
+    this.idToSchemaMap.set(id.id, { ...id, content: schema.content});
+    return id;
   }
 
   /**
@@ -101,6 +109,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaIdOptions
   ): Promise<SchemaId | undefined> {
+    const cached = this.schemaToIdMap.get(schema);
+    if (cached !== undefined) {
+      return cached;
+    }
     try {
       const response = await this.client.schema.queryIdByContent(
         schema.group,
@@ -125,6 +137,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
+    const cached = this.idToSchemaMap.get(id);
+    if (cached !== undefined) {
+      return cached;
+    }
     try {
       const { flatResponse, rawResponse } = await getRawResponse(
         (paramOptions) => this.client.schema.getById(id, paramOptions),

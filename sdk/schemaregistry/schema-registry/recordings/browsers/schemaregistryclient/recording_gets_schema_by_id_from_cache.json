@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 03:10:50 GMT",
+    "date": "Wed, 04 Aug 2021 03:18:01 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - NCUS ProdSlices",
-    "x-ms-request-id": "94702360-cbc8-47a8-8afd-e622c5f8f500"
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "901e4a39-66eb-4f63-b0f8-a229221a4501"
    }
   },
   {
@@ -35,7 +35,7 @@
    "response": "{\"id\":\"9f5e37429ed34806bc442f39fdfce97e\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 03:10:50 GMT",
+    "date": "Wed, 04 Aug 2021 03:18:01 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
     "schema-id": "9f5e37429ed34806bc442f39fdfce97e",
     "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/9f5e37429ed34806bc442f39fdfce97e?api-version=2020-09-01-preview",
@@ -52,5 +52,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "32845d57203f28248f74ca34ea8c7072"
+ "hash": "3cca8d9a288106333c45b9e290187edb"
 }
