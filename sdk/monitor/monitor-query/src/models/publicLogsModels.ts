@@ -93,13 +93,6 @@ export interface BatchQuery {
   timespan: string;
   /** A list of workspaces that are included in the query. */
   additionalWorkspaces?: string[];
-  /** A list of qualified workspace names that are included in the query. */
-  qualifiedNames?: string[];
-  /** A list of workspace IDs that are included in the query. */
-  workspaceIds?: string[];
-  /** A list of Azure resource IDs that are included in the query. */
-  azureResourceIds?: string[];
-
   /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)

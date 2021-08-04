@@ -31,6 +31,7 @@ export async function main() {
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
     Durations.lastHour,
+    [],
     {
       // optionally enable returning additional statistics about the query's execution.
       // (by default this is off)

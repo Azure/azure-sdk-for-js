@@ -49,15 +49,15 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
   const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
     const body: QueryBody &
       Partial<
-        Pick<BatchQuery, "includeQueryStatistics" | "serverTimeoutInSeconds" | "workspace">
+        Pick<BatchQuery, "includeQueryStatistics" | "serverTimeoutInSeconds" | "workspaceId">
       > = { ...query };
-    delete body["workspace"];
+    delete body["workspaceId"];
     delete body["serverTimeoutInSeconds"];
     delete body["includeQueryStatistics"];
 
     const generatedRequest: GeneratedBatchQueryRequest = {
       id: id.toString(),
-      workspace: query.workspace,
+      workspace: query.workspaceId,
       headers: formatPreferHeader(query),
       body
     };

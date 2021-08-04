@@ -13,15 +13,12 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export interface BatchQuery {
-    azureResourceIds?: string[];
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
-    qualifiedNames?: string[];
     query: string;
     serverTimeoutInSeconds?: number;
     timespan: string;
-    workspace: string;
-    workspaceIds?: string[];
-    workspaces?: string[];
+    workspaceId: string;
 }
 
 // @public
@@ -83,7 +80,7 @@ export type LogsColumnType = string;
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
+    queryLogs(workspaceId: string, query: string, timespan: string, additionalWorkspaces?: string[], options?: QueryLogsOptions): Promise<QueryLogsResult>;
     queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
@@ -212,7 +209,11 @@ export interface QueryLogsBatch {
 }
 
 // @public
-export type QueryLogsBatchOptions = OperationOptions;
+export interface QueryLogsBatchOptions extends OperationOptions {
+    includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
+    serverTimeoutInSeconds?: number;
+}
 
 // @public
 export interface QueryLogsBatchResult {
