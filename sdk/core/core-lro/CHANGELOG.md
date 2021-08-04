@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.0 (Unreleased)
+## 2.2.0 (2021-08-05)
 
 ### Features Added
 
