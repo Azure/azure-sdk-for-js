@@ -7,6 +7,7 @@
 - Added support for Secure key Release from a Managed HSM.
   - Added `KeyClient.releaseKey` to release a key from a Managed HSM.
   - Added `exportable` and `releasePolicy` to `KeyVaultKey.properties`, `createKeyOptions`, and `importKeyOptions` in order to specify whether the key is exportable and the associated release policy.
+- Added an overload to `KeyClient.updateKeyProperties` that allows the version to be omitted, updating the latest key version.
 - Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
 - Updated the service version to 7.3-preview.
 

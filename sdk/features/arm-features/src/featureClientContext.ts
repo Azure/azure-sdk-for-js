@@ -18,7 +18,7 @@ export class FeatureClientContext extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the FeatureClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The Azure subscription ID.
    * @param options The parameter options
    */
   constructor(
@@ -42,7 +42,7 @@ export class FeatureClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-features/30.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-features/30.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -65,6 +65,6 @@ export class FeatureClientContext extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2015-12-01";
+    this.apiVersion = options.apiVersion || "2021-07-01";
   }
 }

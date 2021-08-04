@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="dom"/>
+
 import { assert } from "chai";
 import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
 import { isNode } from "@azure/test-utils";

@@ -1,14 +1,11 @@
 # Release History
 
-## 5.1.1 (Unreleased)
+## 5.2.0-beta.1 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- We are now targeting the service's v3.2-preview.1 API as the default instead of v3.1.
+- `beginAnalyzeActions` now supports extract summary actions.
 
 ## 5.1.0 (2021-07-07)
 

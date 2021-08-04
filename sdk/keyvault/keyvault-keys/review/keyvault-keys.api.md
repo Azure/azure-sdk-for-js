@@ -235,6 +235,7 @@ export class KeyClient {
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
 }
 
@@ -482,6 +483,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     expiresOn?: Date;
     keyOps?: KeyOperation[];
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };

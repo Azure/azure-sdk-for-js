@@ -10,8 +10,14 @@ import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FeaturesImpl } from "./operations";
-import { Features } from "./operationsInterfaces";
+import {
+  FeaturesImpl,
+  SubscriptionFeatureRegistrationsImpl
+} from "./operations";
+import {
+  Features,
+  SubscriptionFeatureRegistrations
+} from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { FeatureClientContext } from "./featureClientContext";
@@ -20,10 +26,8 @@ import {
   Operation,
   FeatureClientListOperationsNextOptionalParams,
   FeatureClientListOperationsOptionalParams,
-  FeatureClientListOperationsNextNextOptionalParams,
   FeatureClientListOperationsResponse,
-  FeatureClientListOperationsNextResponse,
-  FeatureClientListOperationsNextNextResponse
+  FeatureClientListOperationsNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +35,7 @@ export class FeatureClient extends FeatureClientContext {
   /**
    * Initializes a new instance of the FeatureClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The Azure subscription ID.
    * @param options The parameter options
    */
   constructor(
@@ -41,6 +45,9 @@ export class FeatureClient extends FeatureClientContext {
   ) {
     super(credentials, subscriptionId, options);
     this.features = new FeaturesImpl(this);
+    this.subscriptionFeatureRegistrations = new SubscriptionFeatureRegistrationsImpl(
+      this
+    );
   }
 
   /**
@@ -86,55 +93,6 @@ export class FeatureClient extends FeatureClientContext {
   }
 
   /**
-   * ListOperationsNext
-   * @param nextLink The nextLink from the previous successful call to the ListOperations method.
-   * @param options The options parameters.
-   */
-  public listOperationsNext(
-    nextLink: string,
-    options?: FeatureClientListOperationsNextOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
-    const iter = this.listOperationsNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listOperationsNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listOperationsNextPagingPage(
-    nextLink: string,
-    options?: FeatureClientListOperationsNextOptionalParams
-  ): AsyncIterableIterator<Operation[]> {
-    let result = await this._listOperationsNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listOperationsNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listOperationsNextPagingAll(
-    nextLink: string,
-    options?: FeatureClientListOperationsNextOptionalParams
-  ): AsyncIterableIterator<Operation> {
-    for await (const page of this.listOperationsNextPagingPage(
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists all of the available Microsoft.Features REST API operations.
    * @param options The options parameters.
    */
@@ -159,22 +117,8 @@ export class FeatureClient extends FeatureClientContext {
     );
   }
 
-  /**
-   * ListOperationsNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListOperationsNext method.
-   * @param options The options parameters.
-   */
-  private _listOperationsNextNext(
-    nextLink: string,
-    options?: FeatureClientListOperationsNextNextOptionalParams
-  ): Promise<FeatureClientListOperationsNextNextResponse> {
-    return this.sendOperationRequest(
-      { nextLink, options },
-      listOperationsNextNextOperationSpec
-    );
-  }
-
   features: Features;
+  subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -185,6 +129,9 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -198,19 +145,9 @@ const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationsNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

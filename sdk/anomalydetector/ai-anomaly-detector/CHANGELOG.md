@@ -1,5 +1,7 @@
 # Release History
 
+## 3.0.0-beta.4 (UNRELEASED)
+
 ## 3.0.0-beta.3 (2021-04-16)
 
 - Introduced the following new APIs related to Mutivariate Models:trainMultivariateModel, getMultivariateModel, deleteMultivariateModel, detectAnomaly, getDetectionResult, exportModel, listMultivariateModel, listMultivariateModelNext.
