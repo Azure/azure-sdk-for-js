@@ -4,7 +4,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 REST API for Azure WebPubSub Service
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/arm-webpubsub) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/arm-webpubsub) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-webpubsub) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-webpubsub) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
