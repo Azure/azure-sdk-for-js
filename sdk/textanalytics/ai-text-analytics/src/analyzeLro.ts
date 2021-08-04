@@ -21,7 +21,7 @@ import {
   skip,
   top
 } from "./generated/models/parameters";
-import { getPagedAsyncIterator, PagedResult } from "./paging";
+import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
 import {
   AnalyzeActionsResult,
