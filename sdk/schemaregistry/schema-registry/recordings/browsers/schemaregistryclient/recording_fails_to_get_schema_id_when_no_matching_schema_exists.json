@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 17:23:17 GMT",
+    "date": "Wed, 04 Aug 2021 20:29:29 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - NCUS ProdSlices",
-    "x-ms-request-id": "653fdb05-57eb-4091-b65c-856abefa3401"
+    "x-ms-ests-server": "2.1.11935.12 - SCUS ProdSlices",
+    "x-ms-request-id": "ddb2faaa-02cc-462d-8805-c4744a710000"
    }
   },
   {
@@ -32,10 +32,10 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema group-1\\/never-registered does not exist. TrackingId:5be588bc-81da-4fcb-bc82-a4eb4088b4a8_G24, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/never-registered, Timestamp:2021-08-04T17:23:18\"}",
+   "response": "{\"Code\":404,\"Detail\":\"Schema group-1\\/never-registered does not exist. TrackingId:20190a60-ad1b-49a2-8fe0-bc1a0a4f81ba_G5, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/never-registered, Timestamp:2021-08-04T20:29:30\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 17:23:18 GMT",
+    "date": "Wed, 04 Aug 2021 20:29:30 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"

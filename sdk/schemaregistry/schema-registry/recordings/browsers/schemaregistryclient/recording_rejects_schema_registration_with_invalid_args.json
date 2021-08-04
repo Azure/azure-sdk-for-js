@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 17:23:15 GMT",
+    "date": "Wed, 04 Aug 2021 20:29:27 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - EUS ProdSlices",
-    "x-ms-request-id": "74399043-50a4-40bc-a751-4f0869b64e01"
+    "x-ms-ests-server": "2.1.11935.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "8b9a715f-a01a-434f-9193-aab69d470700"
    }
   },
   {
@@ -32,10 +32,10 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 400,
-   "response": "{\"Code\":400,\"Detail\":\"Invalid schema type for PUT request. 'not-valid' is not supported. TrackingId:8f0f3c3d-b753-40fa-84ab-e159ec5a58f7_G24, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2021-08-04T17:23:16\"}",
+   "response": "{\"Code\":400,\"Detail\":\"Invalid schema type for PUT request. 'not-valid' is not supported. TrackingId:beba338e-4552-4fa1-be77-bc70caa62581_G5, SystemTracker:endpoint:$schemagroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2021-08-04T20:29:29\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 17:23:16 GMT",
+    "date": "Wed, 04 Aug 2021 20:29:29 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"

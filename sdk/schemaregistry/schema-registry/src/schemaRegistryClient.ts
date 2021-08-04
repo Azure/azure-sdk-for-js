@@ -3,7 +3,6 @@
 
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions
@@ -22,6 +21,7 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
+import { getRawResponse, parseLocationHeader } from "./utils";
 
 /**
  * Client for Azure Schema Registry service.
@@ -149,9 +149,23 @@ export class SchemaRegistryClient implements SchemaRegistry {
         options || {}
       );
       const schema = convertSchemaResponse(flatResponse, rawResponse);
-      // we can not cache the other way because we do not have enough information
-      // about the schema description such as the name and the group
-      this.idToSchemaMap.set(id, schema);
+      try {
+        // We parse the URL in the location header but the service should send
+        // parsed information in separate headers instead
+        // see https://github.com/Azure/azure-sdk-for-js/issues/16763
+        const info = parseLocationHeader(flatResponse.location!);
+        this.addToCache(
+          {
+            content: schema.content,
+            group: info.group,
+            name: info.name,
+            serializationType: schema.serializationType
+          },
+          schema
+        );
+      } catch (e) {
+        this.idToSchemaMap.set(id, schema);
+      }
       return schema;
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
@@ -160,25 +174,4 @@ export class SchemaRegistryClient implements SchemaRegistry {
       throw error;
     }
   }
-}
-
-interface ReturnType<T> {
-  flatResponse: T;
-  rawResponse: FullOperationResponse;
-}
-
-async function getRawResponse<TOptions extends OperationOptions, TResult>(
-  f: (options: TOptions) => Promise<TResult>,
-  options: TOptions
-): Promise<ReturnType<TResult>> {
-  const { onResponse } = options || {};
-  let rawResponse: FullOperationResponse | undefined = undefined;
-  const flatResponse = await f({
-    ...options,
-    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
-      rawResponse = response;
-      onResponse?.(response, flatResponseParam);
-    }
-  });
-  return { flatResponse, rawResponse: rawResponse! };
 }

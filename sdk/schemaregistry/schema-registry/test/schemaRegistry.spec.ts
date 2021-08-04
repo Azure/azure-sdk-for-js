@@ -166,15 +166,16 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(registered);
 
     let firstCall = false;
+    // first call sends a request to the service and then cache the response
     const foundSchemaFirstCall = await client.getSchemaById(registered.id, {
       onResponse: () => {
         firstCall = true;
       }
     });
-    assert.isTrue(firstCall);
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
     assertIsValidSchemaId(foundSchemaFirstCall);
     assert.equal(foundSchemaFirstCall.content, schema.content);
-
+    // second call returns the result from the cache
     const foundSchemaSecondCall = await client.getSchemaById(registered.id, {
       onResponse: () => {
         assert.fail("Unexpected call to the service");
@@ -184,15 +185,18 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(foundSchemaSecondCall);
     assert.equal(foundSchemaSecondCall.content, schema.content);
 
+    firstCall = false;
+    // first call sends a request to the service and then cache the response
     const foundIdFirstCall = await client.getSchemaId(schema, {
       onResponse: () => {
         firstCall = true;
       }
     });
-    assert.isTrue(firstCall);
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
     assertIsValidSchemaId(foundIdFirstCall);
     assert.equal(foundIdFirstCall?.id, registered.id);
 
+    // second call returns the result from the cache
     const foundIdSecondCall = await client.getSchemaId(schema, {
       onResponse: () => {
         assert.fail("Unexpected call to the service");
