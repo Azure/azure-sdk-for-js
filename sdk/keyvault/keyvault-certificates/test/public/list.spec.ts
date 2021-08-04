@@ -28,6 +28,10 @@ describe("Certificates client - list certificates in various ways", function() {
   };
 
   beforeEach(async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Necessary for min/max testing which does not account for global timeout cmd line argument. This can be removed when #16731 is resolved.
+      this.timeout(6 * 60 * 1000); // 6 minutes
+    }
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -200,10 +204,6 @@ describe("Certificates client - list certificates in various ways", function() {
   });
 
   it("can retrieve all versions of a certificate", async function(this: Context) {
-    if (!isPlaybackMode()) {
-      // Necessary for min/max testing which does not account for global timeout cmd line param. This can be removed when #16731 is resolved.
-      this.timeout(6 * 60 * 1000); // 6 minutes
-    }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const certificateTags = ["tag01", "tag02", "tag03"];
