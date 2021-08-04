@@ -101,7 +101,11 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody = JSON.parse(response.bodyAsText);
+      const parsedBody: {
+        token?: string;
+        access_token?: string;
+        refresh_token?: string;
+      } = JSON.parse(response.bodyAsText);
 
       if (!parsedBody.access_token) {
         return null;
