@@ -54,7 +54,7 @@ jobs:
       versionSpec: $(NodeVersion)
     displayName: Install Node.js $(NodeVersion)
   - task: Npm@1
-    displayName: npm install
+    displayName: npm installl
     inputs:
       command: install
   - task: Npm@1
