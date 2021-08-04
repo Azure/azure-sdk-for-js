@@ -67,7 +67,7 @@ import {
   KeyExportEncryptionAlgorithm,
   RandomBytes,
   RotateKeyOptions,
-  SetKeyRotationPolicyOptions,
+  UpdateKeyRotationPolicyOptions,
   GetKeyRotationPolicyOptions,
   KeyRotationLifetimeAction,
   KeyRotationPolicy,
@@ -201,7 +201,7 @@ export {
   KeyRotationPolicyProperties,
   KeyRotationPolicy,
   KeyRotationLifetimeAction,
-  SetKeyRotationPolicyOptions,
+  UpdateKeyRotationPolicyOptions,
   GetKeyRotationPolicyOptions,
   logger
 };
@@ -805,7 +805,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * await client.setKeyRotationPolicy("MyKey", myPolicy);
+   * await client.updateKeyRotationPolicy("MyKey", myPolicy);
    * let result = await client.getKeyRotationPolicy("myKey");
    * ```
    *
@@ -832,19 +832,19 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * const setPolicy = await client.setKeyRotationPolicy("MyKey", myPolicy);
+   * const setPolicy = await client.updateKeyRotationPolicy("MyKey", myPolicy);
    * ```
    *
    * @param name - The name of the key.
    * @param policyProperties - The {@link KeyRotationPolicyProperties} for the policy.
    * @param options - The optional parameters.
    */
-  public setKeyRotationPolicy(
+  public updateKeyRotationPolicy(
     name: string,
     policy: KeyRotationPolicyProperties,
-    options: SetKeyRotationPolicyOptions = {}
+    options: UpdateKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy> {
-    return withTrace("setKeyRotationPolicy", options, async (updatedOptions) => {
+    return withTrace("updateKeyRotationPolicy", options, async (updatedOptions) => {
       const result = await this.client.updateKeyRotationPolicy(
         this.vaultUrl,
         name,

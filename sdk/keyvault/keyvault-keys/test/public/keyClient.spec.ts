@@ -424,11 +424,11 @@ describe("Keys client - create, read, update and delete operations", () => {
       ]);
     });
 
-    it("setKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
+    it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
       const keyName = recorder.getUniqueName("keyrotationpolicy");
       const key = await client.createKey(keyName, "RSA");
 
-      const rotationPolicy = await client.setKeyRotationPolicy(key.name, {
+      const rotationPolicy = await client.updateKeyRotationPolicy(key.name, {
         expiresIn: "P90D",
         lifetimeActions: [
           {
@@ -443,12 +443,12 @@ describe("Keys client - create, read, update and delete operations", () => {
       assert.deepEqual(fetchedPolicy, rotationPolicy);
     });
 
-    it("setKeyRotationPolicy supports updating an existing policy", async () => {
+    it("updateKeyRotationPolicy supports updating an existing policy", async () => {
       const keyName = recorder.getUniqueName("keyrotationpolicy");
       const key = await client.createKey(keyName, "RSA");
 
       // Create a policy which we will override later.
-      await client.setKeyRotationPolicy(key.name, {
+      await client.updateKeyRotationPolicy(key.name, {
         lifetimeActions: [
           {
             action: "Rotate",
@@ -457,7 +457,7 @@ describe("Keys client - create, read, update and delete operations", () => {
         ]
       });
 
-      const updatedPolicy = await client.setKeyRotationPolicy(key.name, {
+      const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
         expiresIn: "P90D",
         lifetimeActions: [
           {
@@ -482,13 +482,13 @@ describe("Keys client - create, read, update and delete operations", () => {
       });
     });
 
-    it("setKeyRotationPolicy supports tracing", async () => {
-      const keyName = recorder.getUniqueName("setrotationpolicy");
+    it("updateKeyRotationPolicy supports tracing", async () => {
+      const keyName = recorder.getUniqueName("updaterotationpolicy");
       const key = await client.createKey(keyName, "EC");
 
       await supportsTracing(
         (tracingOptions) =>
-          client.setKeyRotationPolicy(
+          client.updateKeyRotationPolicy(
             key.name,
             {
               lifetimeActions: [
@@ -500,7 +500,7 @@ describe("Keys client - create, read, update and delete operations", () => {
             },
             { tracingOptions }
           ),
-        ["Azure.KeyVault.Keys.KeyClient.setKeyRotationPolicy"]
+        ["Azure.KeyVault.Keys.KeyClient.updateKeyRotationPolicy"]
       );
     });
 

@@ -666,9 +666,9 @@ export interface KeyRotationLifetimeAction {
 export type KeyRotationPolicyAction = "Rotate" | "Notify";
 
 /**
- * Options for {@link KeyClient.setRotationPolicy}
+ * Options for {@link KeyClient.updateKeyRotationPolicy}
  */
-export interface SetKeyRotationPolicyOptions extends coreHttp.OperationOptions {}
+export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options for {@link KeyClient.getRotationPolicy}

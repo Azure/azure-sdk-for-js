@@ -240,9 +240,9 @@ export class KeyClient {
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
-    setKeyRotationPolicy(name: string, policy: KeyRotationPolicyProperties, options?: SetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyRotationPolicy(name: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     readonly vaultUrl: string;
 }
 
@@ -487,10 +487,6 @@ export interface RsaEncryptParameters {
 }
 
 // @public
-export interface SetKeyRotationPolicyOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export type SignatureAlgorithm = string;
 
 // @public
@@ -525,6 +521,10 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
