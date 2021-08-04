@@ -8521,7 +8521,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-tHT68iExFK+Zuy11hWWGj295Plu7gmMHHUjgOAgZ35yncurFtETI6VZSFBJF5+jQjzDbpo9tQEOy7rrufUAOdw==
+      integrity: sha512-6BcD0mlW1ZofyM5ZZy/z0XGC2cIRux0IEguNhsaC5yOgvpVsvWKrV4yBaAA+4K/gH+CGgTrC+r56YBgTGMHFQA==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
