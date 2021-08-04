@@ -66,6 +66,9 @@ export function getAuthority(tenantId: string, host?: string): string {
 
 /**
  * Generates the known authorities.
+ * If the Tenant Id is `adfs`, the authority can't be validated since the format won't match the expected one.
+ * For that reason, we have to force MSAL to disable validating the authority
+ * by sending it within the known authorities in the MSAL configuration.
  * @internal
  */
 export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
