@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/nonexistentkey162809085617500600/rotationpolicy",
+   "url": "https://keyvault_name.vault.azure.net/keys/nonexistentkey162809772132607179/rotationpolicy",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -13,18 +13,18 @@
     "cache-control": "no-cache",
     "content-length": "97",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 15:27:36 GMT",
+    "date": "Wed, 04 Aug 2021 17:22:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "52e8f933-bcb6-44f9-ad0c-4fbd9802fbbc",
+    "x-ms-client-request-id": "94a04049-e9eb-4abe-8ce5-727496c32aa9",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "eastus",
     "x-ms-keyvault-service-version": "1.9.48.0",
-    "x-ms-request-id": "087050d1-6621-4d73-9539-79320a94b54f",
+    "x-ms-request-id": "a25e2c27-7813-46a5-9b0e-092b87166701",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -39,7 +39,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 15:27:36 GMT",
+    "date": "Wed, 04 Aug 2021 17:22:00 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -48,41 +48,41 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - NCUS ProdSlices",
-    "x-ms-request-id": "98ed8392-48e2-47df-8bb1-d4ea43a11901"
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "89c385e5-92e7-4e18-b1ce-2f0a87057601"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/nonexistentkey162809085617500600/rotationpolicy",
+   "url": "https://keyvault_name.vault.azure.net/keys/nonexistentkey162809772132607179/rotationpolicy",
    "query": {
     "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) nonexistentkey162809085617500600 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) nonexistentkey162809772132607179 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "320",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 15:27:36 GMT",
+    "date": "Wed, 04 Aug 2021 17:22:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "52e8f933-bcb6-44f9-ad0c-4fbd9802fbbc",
+    "x-ms-client-request-id": "94a04049-e9eb-4abe-8ce5-727496c32aa9",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "eastus",
     "x-ms-keyvault-service-version": "1.9.48.0",
-    "x-ms-request-id": "3c6d5bc2-f5d6-4fa0-ae72-151ec3236864",
+    "x-ms-request-id": "9f87a276-7fea-4db0-b64c-e491fbc6a687",
     "x-powered-by": "ASP.NET"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "nonexistentkey": "nonexistentkey162809085617500600"
+   "nonexistentkey": "nonexistentkey162809772132607179"
   },
   "newDate": {}
  },

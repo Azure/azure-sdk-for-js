@@ -67,11 +67,12 @@ import {
   KeyExportEncryptionAlgorithm,
   RandomBytes,
   RotateKeyOptions,
-  SetRotationPolicyOptions,
-  GetRotationPolicyOptions,
+  SetKeyRotationPolicyOptions,
+  GetKeyRotationPolicyOptions,
   KeyRotationLifetimeAction,
   KeyRotationPolicy,
-  KeyRotationPolicyProperties
+  KeyRotationPolicyProperties,
+  KeyRotationPolicyAction
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -196,11 +197,12 @@ export {
   ReleaseKeyResult,
   KeyReleasePolicy,
   KeyExportEncryptionAlgorithm,
+  KeyRotationPolicyAction,
   KeyRotationPolicyProperties,
   KeyRotationPolicy,
   KeyRotationLifetimeAction,
-  SetRotationPolicyOptions,
-  GetRotationPolicyOptions,
+  SetKeyRotationPolicyOptions,
+  GetKeyRotationPolicyOptions,
   logger
 };
 
@@ -751,11 +753,9 @@ export class KeyClient {
    *
    * @param name - The name of the key to rotate.
    * @param options - The optional parameters.
-   *
-   * @returns The rotated key.
    */
   public rotateKey(name: string, options: RotateKeyOptions = {}): Promise<KeyVaultKey> {
-    return withTrace("rotate", options, async (updatedOptions) => {
+    return withTrace("rotateKey", options, async (updatedOptions) => {
       const key = await this.client.rotateKey(this.vaultUrl, name, updatedOptions);
       return getKeyFromKeyBundle(key);
     });
@@ -814,9 +814,9 @@ export class KeyClient {
    */
   public getKeyRotationPolicy(
     name: string,
-    options: GetRotationPolicyOptions = {}
+    options: GetKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy | undefined> {
-    return withTrace("getRotationPolicy", options, async () => {
+    return withTrace("getKeyRotationPolicy", options, async () => {
       const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, name);
       if (policy.id) {
         return keyRotationTransformations.generatedToPublic(policy);
@@ -842,7 +842,7 @@ export class KeyClient {
   public setKeyRotationPolicy(
     name: string,
     policy: KeyRotationPolicyProperties,
-    options: SetRotationPolicyOptions = {}
+    options: SetKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy> {
     return withTrace("setKeyRotationPolicy", options, async (updatedOptions) => {
       const result = await this.client.updateKeyRotationPolicy(

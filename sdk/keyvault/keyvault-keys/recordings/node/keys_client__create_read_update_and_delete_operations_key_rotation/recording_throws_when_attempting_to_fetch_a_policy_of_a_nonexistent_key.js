@@ -2,10 +2,10 @@ let nock = require('nock');
 
 module.exports.hash = "d83a7289c14f74c74c44e9cb7544ddbc";
 
-module.exports.testInfo = {"uniqueName":{"nonexistentkey":"nonexistentkey162809085030506348"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"nonexistentkey":"nonexistentkey162809770795800220"},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/nonexistentkey162809085030506348/rotationpolicy')
+  .get('/keys/nonexistentkey162809770795800220/rotationpolicy')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"AKV10000: Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -23,9 +23,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'c764a89c-5406-48cf-8e6e-da11452a5a18',
+  'b32496d0-5a71-4044-8895-dfb7a81d6609',
   'x-ms-request-id',
-  '49b08f9f-359b-4361-9164-2a5970978028',
+  '49071e73-3eb3-460b-8432-3d093115933b',
   'x-ms-keyvault-service-version',
   '1.9.48.0',
   'x-ms-keyvault-network-info',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 04 Aug 2021 15:27:30 GMT'
+  'Wed, 04 Aug 2021 17:21:47 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -59,19 +59,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b6c22b7f-32d6-4e68-90e2-1caa2b158701',
+  'bea5e1c4-cd04-405b-b94e-3e61dec80602',
   'x-ms-ests-server',
-  '2.1.11898.12 - EUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ak5aFnf0q5REozd-MexqntI; expires=Fri, 03-Sep-2021 15:27:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aoa2tN8ZC79OoSXiZJ8Br3uN_3OUBQAAAKXDnNgOAAAA; expires=Fri, 03-Sep-2021 17:21:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrep14BbBRZOxRFLwSoF1yE0GZBL64LZuT5UOJBrKOHB5cNgAvmtA_VbCapYuGuRnJOiMmZ6E4acU14qxpR7yMY0JGBnJtvyLGxWMsn5Kf8i2gKO_CjGyvNINIj0Ukt2-SX-MYSUDhUSm12BcKlLEiPI5Gwk0NKoeQgobjQf-nQKIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZNsWtdnUr7-NE4MmNtLN4bXaEHQkXsz7r_QbxDC7ndHJweHfIIbDoQEY2ZlJ85SGGU4Lf6tqwh3MEpI9-QVSR8oa_2nSaFs4-KalvrBQELPi8iThTHFKb9HPcr_3lHo1eeOpSdOyBZy4QWy-wjnEkJTsCt_OjT5MWB5PWL4uFhYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 15:27:30 GMT',
+  'Wed, 04 Aug 2021 17:21:47 GMT',
   'Content-Length',
   '980'
 ]);
@@ -94,25 +94,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0777c497-caa3-460d-bd60-3ebce55f5301',
+  'b3015029-a699-428f-8b42-8292a7ae3d01',
   'x-ms-ests-server',
-  '2.1.11898.12 - SCUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ak5aFnf0q5REozd-MexqntI; expires=Fri, 03-Sep-2021 15:27:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aoa2tN8ZC79OoSXiZJ8Br3uN_3OUBQAAAKXDnNgOAAAA; expires=Fri, 03-Sep-2021 17:21:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrNcIdGWK8yz9Eg94e9W62DLlXfwhz9YoPDqCtYFHC_MdUpV7iGF41JNySA0K5ExR6uOxhztFAvsUvvo-T_sj9J9HDFBdlx9RMCazaSlggKQsIXIotibM1zVvGs8prX166KiHBKBCWiBTW7N6dkJ0U9U_WLcw2kxtjDJ8mcwkJhkogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr4MFcxUDx4PfIrTLtGq3uKHalawbJCqL4mdUn3EmN2egT3z994kb-Ogh19hWKI2v1r4Lseu9inW9XPlRioktauLg9spz7uLLQH0Cp5_s-bMljP0moGe5XUVtcNGHdRb0Ax8AgRyh326yF6DdDFJX7EYpUrh-J8TAJZgIH6vxEz2AgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 15:27:30 GMT',
+  'Wed, 04 Aug 2021 17:21:47 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=c8f24321-c066-4c54-b2f0-c98536445389&client_secret=azure_client_secret")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=15cf63fa-1875-488c-9aac-d839b8881963&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -129,27 +129,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '3a2b0155-25ce-4aaa-b0e2-0e80d17c1f01',
+  'c783d9d1-20c7-4d26-96c7-2c2250905401',
   'x-ms-ests-server',
-  '2.1.11898.12 - NCUS ProdSlices',
+  '2.1.11898.12 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Ak5aFnf0q5REozd-MexqntKN_3OUAQAAAOKonNgOAAAA; expires=Fri, 03-Sep-2021 15:27:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aoa2tN8ZC79OoSXiZJ8Br3uN_3OUBQAAAKXDnNgOAAAA; expires=Fri, 03-Sep-2021 17:21:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 15:27:31 GMT',
+  'Wed, 04 Aug 2021 17:21:47 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/nonexistentkey162809085030506348/rotationpolicy')
+  .get('/keys/nonexistentkey162809770795800220/rotationpolicy')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"A key with (name/id) nonexistentkey162809085030506348 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"A key with (name/id) nonexistentkey162809770795800220 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -163,9 +163,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'c764a89c-5406-48cf-8e6e-da11452a5a18',
+  'b32496d0-5a71-4044-8895-dfb7a81d6609',
   'x-ms-request-id',
-  '297e190a-b7f6-4f9d-b1a0-b8f83af50f4e',
+  'e3d7eab8-05cb-4aed-b38f-2fb1d10b460f',
   'x-ms-keyvault-service-version',
   '1.9.48.0',
   'x-ms-keyvault-network-info',
@@ -177,5 +177,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 04 Aug 2021 15:27:31 GMT'
+  'Wed, 04 Aug 2021 17:21:47 GMT'
 ]);

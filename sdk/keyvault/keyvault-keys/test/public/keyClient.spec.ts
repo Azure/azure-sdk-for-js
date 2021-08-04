@@ -400,8 +400,8 @@ describe("Keys client - create, read, update and delete operations", () => {
     );
   });
 
-  onVersions({ minVer: "7.3-preview" }).describe("key rotation", () => {
-    it("rotate supports rotating a key", async () => {
+  onVersions({ minVer: "7.3-preview" }).describe.only("key rotation", () => {
+    it("rotateKey supports rotating a key", async () => {
       const keyName = recorder.getUniqueName("keyrotate");
       const key = await client.createKey(keyName, "RSA");
       const rotatedKey = await client.rotateKey(keyName);
@@ -415,16 +415,16 @@ describe("Keys client - create, read, update and delete operations", () => {
       assert.notDeepEqual(rotatedKey.key?.n, key.key?.n);
     });
 
-    it("rotate supports tracing", async () => {
+    it("rotateKey supports tracing", async () => {
       const keyName = recorder.getUniqueName("keyrotatetracing");
       const key = await client.createKey(keyName, "RSA");
 
       await supportsTracing((tracingOptions) => client.rotateKey(key.name, { tracingOptions }), [
-        "Azure.KeyVault.Keys.KeyClient.rotate"
+        "Azure.KeyVault.Keys.KeyClient.rotateKey"
       ]);
     });
 
-    it("setRotationPolicy supports creating a new rotation policy and fetching it", async () => {
+    it("setKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
       const keyName = recorder.getUniqueName("keyrotationpolicy");
       const key = await client.createKey(keyName, "RSA");
 
@@ -443,7 +443,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       assert.deepEqual(fetchedPolicy, rotationPolicy);
     });
 
-    it("setRotationPolicy supports updating an existing policy", async () => {
+    it("setKeyRotationPolicy supports updating an existing policy", async () => {
       const keyName = recorder.getUniqueName("keyrotationpolicy");
       const key = await client.createKey(keyName, "RSA");
 
@@ -482,7 +482,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       });
     });
 
-    it("setRotationPolicy supports tracing", async () => {
+    it("setKeyRotationPolicy supports tracing", async () => {
       const keyName = recorder.getUniqueName("setrotationpolicy");
       const key = await client.createKey(keyName, "EC");
 
@@ -504,7 +504,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    it("getRotationPolicy returns undefined if there is no rotation policy", async () => {
+    it("getKeyRotationPolicy returns undefined if there is no rotation policy", async () => {
       const keyName = recorder.getUniqueName("getrotationpolicy");
       await client.createKey(keyName, "RSA");
 
@@ -517,22 +517,13 @@ describe("Keys client - create, read, update and delete operations", () => {
       await assert.isRejected(client.getKeyRotationPolicy(keyName));
     });
 
-    it("throws when trying to get the policy of a deleted key", async () => {
-      const keyName = recorder.getUniqueName("getrotationpolicy");
-      await client.createKey(keyName, "RSA");
-      const poller = await client.beginDeleteKey(keyName, testPollerProperties);
-      await poller.pollUntilDone();
-
-      await assert.isRejected(client.getKeyRotationPolicy(keyName));
-    });
-
-    it("getRotationPolicy supports tracing", async () => {
+    it("getKeyRotationPolicy supports tracing", async () => {
       const keyName = recorder.getUniqueName("rotationpolicytracing");
       const key = await client.createKey(keyName, "RSA");
 
       await supportsTracing(
         (tracingOptions) => client.getKeyRotationPolicy(key.name, { tracingOptions }),
-        ["Azure.KeyVault.Keys.KeyClient.getRotationPolicy"]
+        ["Azure.KeyVault.Keys.KeyClient.getKeyRotationPolicy"]
       );
     });
   });

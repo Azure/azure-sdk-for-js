@@ -295,7 +295,6 @@ export interface KeyReleasePolicy {
 
 // @public
 export interface KeyRotationLifetimeAction {
-    // Warning: (ae-forgotten-export) The symbol "KeyRotationPolicyAction" needs to be exported by the entry point index.d.ts
     action?: KeyRotationPolicyAction;
     timeAfterCreate?: string;
     timeBeforeExpiry?: string;
@@ -307,6 +306,9 @@ export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
     readonly id: string;
     readonly updatedOn?: Date;
 }
+
+// @public
+export type KeyRotationPolicyAction = "Rotate" | "Notify";
 
 // @public
 export interface KeyRotationPolicyProperties {
