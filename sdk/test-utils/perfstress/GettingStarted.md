@@ -286,3 +286,5 @@ Sample command(using storage-blob perf tests as example!)
 > npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
 
 > npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+
+**Using proxy-tool** part is still under construction. Please reach out to the team if you face issues.
