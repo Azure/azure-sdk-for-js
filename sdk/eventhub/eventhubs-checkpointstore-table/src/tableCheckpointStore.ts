@@ -42,7 +42,6 @@ export class TableCheckpointStore implements CheckpointStore {
    * converts timestamp to date and returns time in milliseconds
    *
    */
-
   private async _toMillisecs(time: string | undefined): Promise<number> {
     let millisecs: number;
     if (typeof time === "string") {
