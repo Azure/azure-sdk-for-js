@@ -160,13 +160,9 @@ describe("SchemaRegistryClient", function() {
 
   it("cache schema and ID if not registered by the current client instance", async () => {
     // register a schema without caching.
-    const registered = await client["client"]["schema"].register(
-      schema.group,
-      schema.name,
-      schema.serializationType,
-      schema.content,
-      options
-    ).then(convertSchemaIdResponse);
+    const registered = await client["client"]["schema"]
+      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+      .then(convertSchemaIdResponse);
     assertIsValidSchemaId(registered);
 
     let firstCall = false;

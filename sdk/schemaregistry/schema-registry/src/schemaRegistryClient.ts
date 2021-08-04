@@ -71,7 +71,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     this.idToSchemaMap = new Map();
   }
 
-  private addToCache(schema: SchemaDescription, id: SchemaId) {
+  private addToCache(schema: SchemaDescription, id: SchemaId): void {
     this.schemaToIdMap.set(schema, id);
     this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
   }
@@ -90,13 +90,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaId> {
-    const id = await this.client.schema.register(
-      schema.group,
-      schema.name,
-      schema.serializationType,
-      schema.content,
-      options
-    ).then(convertSchemaIdResponse);
+    const id = await this.client.schema
+      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+      .then(convertSchemaIdResponse);
     this.addToCache(schema, id);
     return id;
   }
@@ -117,13 +113,15 @@ export class SchemaRegistryClient implements SchemaRegistry {
       return cached;
     }
     try {
-      const id = await this.client.schema.queryIdByContent(
-        schema.group,
-        schema.name,
-        schema.serializationType,
-        schema.content,
-        options
-      ).then(convertSchemaIdResponse);
+      const id = await this.client.schema
+        .queryIdByContent(
+          schema.group,
+          schema.name,
+          schema.serializationType,
+          schema.content,
+          options
+        )
+        .then(convertSchemaIdResponse);
       this.addToCache(schema, id);
       return id;
     } catch (error) {
