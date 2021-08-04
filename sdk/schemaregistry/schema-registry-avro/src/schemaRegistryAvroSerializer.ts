@@ -151,9 +151,8 @@ export class SchemaRegistryAvroSerializer {
   //
   // Avoid hitting the schema registry on every call by caching schemas.
   //
-  // Currently the cache can only be discarded by throwing away the serializer
-  // and creating a new one, but this will be revisited after the initial
-  // preview:
+  // Currently the serializer-level cache can only be discarded by throwing away the serializer
+  // and creating a new one, but this will be revisited before the general availability release
   //
   // https://github.com/Azure/azure-sdk-for-js/issues/10438
   //
