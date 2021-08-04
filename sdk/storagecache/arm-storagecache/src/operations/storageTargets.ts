@@ -87,7 +87,7 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: Models.StorageTargetsDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,cacheName,storageTargetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -180,7 +180,7 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: Models.StorageTargetsBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -332,7 +332,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.storageTargetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.force
   ],
   headerParameters: [
     Parameters.acceptLanguage

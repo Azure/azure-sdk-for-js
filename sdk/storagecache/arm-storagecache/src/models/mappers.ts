@@ -333,6 +333,30 @@ export const AscOperation: msRest.CompositeMapper = {
   }
 };
 
+export const CacheIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "CacheIdentity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "CacheIdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CacheIdentity: msRest.CompositeMapper = {
   serializedName: "CacheIdentity",
   type: {
@@ -359,8 +383,22 @@ export const CacheIdentity: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
             "None"
           ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "CacheIdentityUserAssignedIdentitiesValue"
+            }
+          }
         }
       }
     }
@@ -565,6 +603,7 @@ export const CacheNetworkSettings: msRest.CompositeMapper = {
       },
       ntpServer: {
         serializedName: "ntpServer",
+        defaultValue: 'time.windows.com',
         type: {
           name: "String"
         }
@@ -625,6 +664,12 @@ export const CacheEncryptionSettings: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "KeyVaultKeyReference"
+        }
+      },
+      rotationToLatestKeyVersionEnabled: {
+        serializedName: "rotationToLatestKeyVersionEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1061,6 +1106,7 @@ export const Cache: msRest.CompositeMapper = {
         }
       },
       provisioningState: {
+        readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
@@ -1073,6 +1119,7 @@ export const Cache: msRest.CompositeMapper = {
         }
       },
       upgradeStatus: {
+        readOnly: true,
         serializedName: "properties.upgradeStatus",
         type: {
           name: "Composite",
@@ -1144,6 +1191,7 @@ export const NamespaceJunction: msRest.CompositeMapper = {
       },
       nfsAccessPolicy: {
         serializedName: "nfsAccessPolicy",
+        defaultValue: 'default',
         type: {
           name: "String"
         }
@@ -1161,7 +1209,7 @@ export const Nfs3Target: msRest.CompositeMapper = {
       target: {
         serializedName: "target",
         constraints: {
-          Pattern: /^[-.0-9a-zA-Z]+$/
+          Pattern: /^[-.,0-9a-zA-Z]+$/
         },
         type: {
           name: "String"
@@ -1309,6 +1357,7 @@ export const StorageTarget: msRest.CompositeMapper = {
         }
       },
       provisioningState: {
+        readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
