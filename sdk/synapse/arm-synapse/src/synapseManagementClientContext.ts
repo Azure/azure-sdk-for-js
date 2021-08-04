@@ -13,7 +13,7 @@ import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-synapse";
-const packageVersion = "5.2.0";
+const packageVersion = "5.2.1";
 
 export class SynapseManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

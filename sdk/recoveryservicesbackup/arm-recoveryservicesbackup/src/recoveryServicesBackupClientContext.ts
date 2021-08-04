@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-recoveryservicesbackup";
-const packageVersion = "7.0.0";
+const packageVersion = "7.0.1";
 
 export class RecoveryServicesBackupClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

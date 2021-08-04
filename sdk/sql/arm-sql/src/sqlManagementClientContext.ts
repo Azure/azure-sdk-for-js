@@ -14,7 +14,7 @@ import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-sql";
-const packageVersion = "7.1.0";
+const packageVersion = "7.1.1";
 
 export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -42,7 +42,7 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -56,10 +56,10 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }
@@ -70,13 +70,13 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
    * This override adds the header "Accept: application/json" to every request
    */
   sendRequest(options: msRest.RequestPrepareOptions | msRest.WebResourceLike) {
-    if(!options.headers) {
-      options.headers = {accept: "application/json"};
+    if (!options.headers) {
+      options.headers = { accept: "application/json" };
     } else {
       if (options.headers.set) {
         options.headers.set("accept", "application/json");
       } else {
-        (options.headers as {[key: string]: any})["accept"] = "application/json"
+        (options.headers as { [key: string]: any })["accept"] = "application/json"
       }
     }
 
