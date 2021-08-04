@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-signalr";
-const packageVersion = "4.2.1";
+const packageVersion = "4.2.0";
 
 export class SignalRManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

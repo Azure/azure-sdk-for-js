@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-security";
-const packageVersion = "3.0.1";
+const packageVersion = "3.0.0";
 
 export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

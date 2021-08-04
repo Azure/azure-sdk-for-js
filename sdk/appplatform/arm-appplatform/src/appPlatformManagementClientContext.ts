@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-appplatform";
-const packageVersion = "1.4.1";
+const packageVersion = "1.4.0";
 
 export class AppPlatformManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

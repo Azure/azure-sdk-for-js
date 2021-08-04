@@ -7,11 +7,5 @@
  */
 
 export {
-  BatchLocationQuota,
-  CheckNameAvailabilityParameters,
-  CheckNameAvailabilityResult,
-  CloudError,
-  SkuCapability,
-  SupportedSku,
-  SupportedSkusResult
+  CloudError
 } from "../models/mappers";
