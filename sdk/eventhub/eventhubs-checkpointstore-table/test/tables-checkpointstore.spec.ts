@@ -163,7 +163,6 @@ describe("TableCheckpointStore", function(): void {
         ]);
         
         const originalETag = originalClaimedOwnerships[0].etag;
-        
         const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
     newClaimedOwnerships.length.should.equal(1);
     console.log(originalETag);
