@@ -4,7 +4,11 @@
 
 ### Features Added
 
+- `additionalWorkspaces` added as an optional parameter to `QueryLogsOptions` for the `queryLogs` API
+
 ### Breaking Changes
+
+- `workspace` renamed to `workspaceId`
 
 ### Bugs Fixed
 
