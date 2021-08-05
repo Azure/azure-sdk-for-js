@@ -1,7 +1,7 @@
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { TablesTest } from "./tables.spec";
 import { TransactionAction } from "@azure/data-tables";
-import { createBaseEntity } from "./utils/createBaseEntity";
+import { createSimpleEntity } from "./utils/createBaseEntity";
 
 interface TablesCreateEntityBatchTestOptions {
   batchSize: number;
@@ -34,7 +34,7 @@ export class CreateEntityBatchTest extends TablesTest<TablesCreateEntityBatchTes
     let batch: TransactionAction[] = [];
 
     for (let i = 0; i < this.parsedOptions.batchSize.value!; i++) {
-      batch.push(["create", createBaseEntity()]);
+      batch.push(["create", createSimpleEntity()]);
       batchSize++;
       if (batchSize >= 100) {
         await this.client.submitTransaction(batch);
