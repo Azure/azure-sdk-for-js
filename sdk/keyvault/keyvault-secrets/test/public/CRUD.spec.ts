@@ -42,7 +42,6 @@ describe("Secret client - create, read, update and delete operations", () => {
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await testClient.flushSecret(secretName);
   });
 
   // If this test is not skipped in the browser's playback, no other test will be played back.
@@ -103,7 +102,6 @@ describe("Secret client - create, read, update and delete operations", () => {
       emptySecretValue,
       "Unexpected secret value in result from setSecret()."
     );
-    await testClient.flushSecret(secretName);
   });
 
   it("can set a secret with attributes", async function(this: Context) {
@@ -119,7 +117,6 @@ describe("Secret client - create, read, update and delete operations", () => {
       updated!.properties.expiresOn!.getDate(),
       "Expect attribute 'expiresOn' to be defined."
     );
-    await testClient.flushSecret(secretName);
   });
 
   it("can update a secret", async function(this: Context) {
@@ -140,7 +137,6 @@ describe("Secret client - create, read, update and delete operations", () => {
       expiryDate.getDate(),
       "Expect attribute 'expiresOn' to be updated."
     );
-    await testClient.flushSecret(secretName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -181,7 +177,6 @@ describe("Secret client - create, read, update and delete operations", () => {
       expiryDate.getDate(),
       "Expect attribute 'expiresOn' to be updated."
     );
-    await testClient.flushSecret(secretName);
   });
 
   it("can get a secret", async function(this: Context) {
@@ -192,7 +187,6 @@ describe("Secret client - create, read, update and delete operations", () => {
     const result = await client.getSecret(secretName);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await testClient.flushSecret(secretName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -233,7 +227,6 @@ describe("Secret client - create, read, update and delete operations", () => {
       "Operation get is not allowed on a disabled secret.",
       "Unexpected error after trying to get a disabled secret"
     );
-    await testClient.flushSecret(secretName);
   });
 
   it("can retrieve the latest version of a secret value", async function(this: Context) {
@@ -246,7 +239,6 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await testClient.flushSecret(secretName);
   });
 
   it("can get a secret (Non Existing)", async function(this: Context) {
@@ -299,7 +291,6 @@ describe("Secret client - create, read, update and delete operations", () => {
         throw e;
       }
     }
-    await testClient.purgeSecret(secretName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -358,7 +349,6 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     const getResult = await client.getDeletedSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
-    await testClient.purgeSecret(secretName);
   });
 
   it("can get a deleted secret (Non Existing)", async function(this: Context) {
