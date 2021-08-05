@@ -334,8 +334,9 @@ export class PerfStressProgram {
     } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClientV1) {
       recorder = PerfStressTest.testProxyHttpClientV1;
     } else {
-      throw "";
+      return;
     }
+
     await recorder.startRecording();
     recorder._mode = "record";
     await test.runAsync!();
@@ -348,10 +349,8 @@ export class PerfStressProgram {
   private async stopPlayback() {
     if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
       await PerfStressTest.testProxyHttpClient.stopPlayback();
-    } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClient) {
+    } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClientV1) {
       await PerfStressTest.testProxyHttpClientV1.stopPlayback();
-    } else {
-      throw "";
     }
   }
 }
