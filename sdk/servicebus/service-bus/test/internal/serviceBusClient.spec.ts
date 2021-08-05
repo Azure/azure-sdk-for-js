@@ -315,6 +315,7 @@ describe("ServiceBusClient live tests", () => {
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
       "Endpoint=sb://((.*).servicebus.chinacloudapi.cn)"
     ) || "")[1];
+    console.log("===========",serviceBusEndpoint);
 
     /**
      * Utility to create EnvironmentCredential using `@azure/identity`
