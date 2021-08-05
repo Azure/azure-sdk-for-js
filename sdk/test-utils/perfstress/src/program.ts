@@ -10,7 +10,7 @@ import {
   DefaultPerfStressOptions
 } from "./options";
 import { PerfStressParallel } from "./parallel";
-import { TestProxyHttpClient, TestProxyHttpClientV2 } from "./testProxyHttpClient";
+import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
 
 export type TestType = "";
 
@@ -328,11 +328,11 @@ export class PerfStressProgram {
     // => run the runAsync
     // => stop record
     // => start playback
-    let recorder: TestProxyHttpClient | TestProxyHttpClientV2;
-    if (PerfStressTest.testProxyHttpClientV2 instanceof TestProxyHttpClientV2) {
-      recorder = PerfStressTest.testProxyHttpClientV2;
-    } else if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+    let recorder: TestProxyHttpClientV1 | TestProxyHttpClient;
+    if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
       recorder = PerfStressTest.testProxyHttpClient;
+    } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClientV1) {
+      recorder = PerfStressTest.testProxyHttpClientV1;
     } else {
       throw "";
     }
@@ -346,10 +346,10 @@ export class PerfStressProgram {
   }
 
   private async stopPlayback() {
-    if (PerfStressTest.testProxyHttpClientV2 instanceof TestProxyHttpClientV2) {
-      await PerfStressTest.testProxyHttpClientV2.stopPlayback();
-    } else if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+    if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
       await PerfStressTest.testProxyHttpClient.stopPlayback();
+    } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClient) {
+      await PerfStressTest.testProxyHttpClientV1.stopPlayback();
     } else {
       throw "";
     }

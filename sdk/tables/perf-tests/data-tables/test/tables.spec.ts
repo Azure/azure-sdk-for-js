@@ -10,7 +10,7 @@ export abstract class TablesTest<TOptions = Record<string, unknown>> extends Per
     super();
     const connectionString = getEnvVar("SAS_CONNECTION_STRING");
     this.client = TableClient.fromConnectionString(connectionString, tableName);
-    this.client.pipeline.addPolicy(testProxyHttpPolicy(this.getHttpClientV2()));
+    this.client.pipeline.addPolicy(testProxyHttpPolicy(this.getHttpClient()));
   }
 
   public async globalSetup() {

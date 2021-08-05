@@ -10,7 +10,7 @@ import {
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
-import { TestProxyHttpClient, TestProxyHttpClientV2 } from "./testProxyHttpClient";
+import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
@@ -29,8 +29,8 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
-  public static testProxyHttpClient: TestProxyHttpClient | DefaultHttpClient;
-  public static testProxyHttpClientV2: TestProxyHttpClientV2;
+  public static testProxyHttpClientV1: TestProxyHttpClientV1 | DefaultHttpClient;
+  public static testProxyHttpClient: TestProxyHttpClient;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -53,17 +53,17 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
-  public getHttpClient(): TestProxyHttpClient | DefaultHttpClient {
-    if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
+  public getHttpClientV1(): TestProxyHttpClientV1 | DefaultHttpClient {
+    if (PerfStressTest.testProxyHttpClientV1) return PerfStressTest.testProxyHttpClientV1;
     const url = this.parsedOptions["test-proxy"].value;
-    PerfStressTest.testProxyHttpClient = !url ? new DefaultHttpClient() : new TestProxyHttpClient(this.parsedOptions["test-proxy"].value!);
-    return PerfStressTest.testProxyHttpClient;
+    PerfStressTest.testProxyHttpClientV1 = !url ? new DefaultHttpClient() : new TestProxyHttpClientV1(this.parsedOptions["test-proxy"].value!);
+    return PerfStressTest.testProxyHttpClientV1;
   }
 
-  public getHttpClientV2(): TestProxyHttpClientV2 {
-    if (PerfStressTest.testProxyHttpClientV2) return PerfStressTest.testProxyHttpClientV2;
-    PerfStressTest.testProxyHttpClientV2 = new TestProxyHttpClientV2(this.parsedOptions["test-proxy"].value!);
-    return PerfStressTest.testProxyHttpClientV2;
+  public getHttpClient(): TestProxyHttpClient {
+    if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
+    PerfStressTest.testProxyHttpClient = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value!);
+    return PerfStressTest.testProxyHttpClient;
   }
 }
 

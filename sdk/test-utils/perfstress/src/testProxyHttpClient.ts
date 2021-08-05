@@ -13,7 +13,7 @@ const paths = {
   stop: "/stop"
 };
 
-export class TestProxyHttpClient extends DefaultHttpClient {
+export class TestProxyHttpClientV1 extends DefaultHttpClient {
   private _uri: string;
   private _httpClient: DefaultHttpClient;
   private _recordingId?: string;
@@ -103,7 +103,7 @@ export class TestProxyHttpClient extends DefaultHttpClient {
 }
 
 
-export class TestProxyHttpClientV2 {
+export class TestProxyHttpClient {
   private _uri: string;
   private _httpClient: HttpClient;
   private _recordingId?: string;
@@ -192,11 +192,11 @@ export class TestProxyHttpClientV2 {
   }
 }
 
-export function testProxyHttpPolicy(testProxyHttpClientV2: TestProxyHttpClientV2): PipelinePolicy {
+export function testProxyHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const modifiedRequest = await testProxyHttpClientV2.sendRequest(request);
+      const modifiedRequest = await testProxyHttpClient.sendRequest(request);
       return next(modifiedRequest);
     }
   };
