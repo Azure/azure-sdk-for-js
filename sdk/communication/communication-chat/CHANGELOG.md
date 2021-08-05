@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.1.0-beta.1 (2021-08-10)
 
 ### Features Added
 
@@ -11,12 +11,6 @@
 - Added `senderDisplayName` in `sendTypingNotification` operation.
 - Updated to @azure/communication-signaling@1.0.0-beta.5.
 - Enabled real-time notification for React Native.
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
 
 ## 1.0.0 (2021-03-29)
 
