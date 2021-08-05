@@ -123,7 +123,7 @@ export class LogsQueryClient {
     batch: QueryLogsBatch,
     options?: QueryLogsBatchOptions
   ): Promise<QueryLogsBatchResult> {
-    const generatedRequest = convertRequestForQueryBatch(batch);
+    const generatedRequest = convertRequestForQueryBatch(batch, options);
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
       {

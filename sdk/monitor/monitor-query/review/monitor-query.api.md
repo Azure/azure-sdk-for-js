@@ -13,10 +13,7 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export interface BatchQuery {
-    additionalWorkspaces?: string[];
-    includeQueryStatistics?: boolean;
     query: string;
-    serverTimeoutInSeconds?: number;
     timespan: string;
     workspaceId: string;
 }
@@ -80,7 +77,7 @@ export type LogsColumnType = string;
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    queryLogs(workspaceId: string, query: string, timespan: string, additionalWorkspaces?: string[], options?: QueryLogsOptions): Promise<QueryLogsResult>;
+    queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
@@ -210,6 +207,7 @@ export interface QueryLogsBatch {
 
 // @public
 export interface QueryLogsBatchOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
@@ -227,6 +225,7 @@ export interface QueryLogsBatchResult {
 
 // @public
 export interface QueryLogsOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;

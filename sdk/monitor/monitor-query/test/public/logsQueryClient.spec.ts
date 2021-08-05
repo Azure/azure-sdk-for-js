@@ -83,7 +83,6 @@ describe("LogsQueryClient live tests", function() {
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
         Durations.last24Hours,
-        [],
         {
           // the query above easily takes longer than 1 second.
           serverTimeoutInSeconds: 1
@@ -124,7 +123,6 @@ describe("LogsQueryClient live tests", function() {
       monitorWorkspaceId,
       "AppEvents | limit 1",
       Durations.last24Hours,
-      [],
       {
         includeQueryStatistics: true
       }
@@ -141,7 +139,6 @@ describe("LogsQueryClient live tests", function() {
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
       Durations.last24Hours,
-      [],
       {
         includeVisualization: true
       }
@@ -403,14 +400,15 @@ describe("LogsQueryClient live tests", function() {
           {
             workspaceId: monitorWorkspaceId,
             query: `AppDependencies| count`,
-            timespan: Durations.last24Hours,
-            includeQueryStatistics: true,
-            serverTimeoutInSeconds: 60 * 10
+            timespan: Durations.last24Hours
           }
         ]
       };
 
-      const result = await createClient().queryLogsBatch(batchRequest);
+      const result = await createClient().queryLogsBatch(batchRequest, {
+        includeQueryStatistics: true,
+        serverTimeoutInSeconds: 60 * 10
+      });
 
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);

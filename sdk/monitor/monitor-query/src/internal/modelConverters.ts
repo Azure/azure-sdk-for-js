@@ -33,6 +33,7 @@ import {
   GetMetricNamespacesResult,
   LogsTable,
   QueryLogsBatch,
+  QueryLogsBatchOptions,
   QueryLogsBatchResult,
   QueryMetricsOptions,
   QueryMetricsResult
@@ -43,14 +44,18 @@ import { FullOperationResponse } from "../../../../core/core-client/types/latest
 /**
  * @internal
  */
-export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBatchRequest {
+export function convertRequestForQueryBatch(
+  batch: QueryLogsBatch,
+  batchOptions?: QueryLogsBatchOptions
+): GeneratedBatchRequest {
   let id = 0;
 
   const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
     const body: QueryBody &
-      Partial<
-        Pick<BatchQuery, "includeQueryStatistics" | "serverTimeoutInSeconds" | "workspaceId">
-      > = { ...query };
+      Partial<Pick<BatchQuery, "workspaceId">> &
+      Partial<Pick<QueryLogsBatchOptions, "serverTimeoutInSeconds" | "includeQueryStatistics">> = {
+      ...query
+    };
     delete body["workspaceId"];
     delete body["serverTimeoutInSeconds"];
     delete body["includeQueryStatistics"];
@@ -58,7 +63,7 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
     const generatedRequest: GeneratedBatchQueryRequest = {
       id: id.toString(),
       workspace: query.workspaceId,
-      headers: formatPreferHeader(query),
+      headers: formatPreferHeader(batchOptions),
       body
     };
 
