@@ -42,7 +42,7 @@ describe("TableCheckpointStore", function(): void {
   let tableName: string;
 
   describe("Runs tests on table with no entities", function() {
-    tableName = `table${new Date().getTime()}`;
+    tableName = `table${new Date().getTime()}${Math.floor(Math.random() * 10) + 1}`;
     beforeEach("creating table", async () => {
       await serviceClient.createTable(tableName);
     });
