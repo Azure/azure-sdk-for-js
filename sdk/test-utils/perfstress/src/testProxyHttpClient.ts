@@ -103,7 +103,7 @@ export class TestProxyHttpClient extends DefaultHttpClient {
 }
 
 
-export class RecordingHttpClientV2 {
+export class TestProxyHttpClientV2 {
   private _uri: string;
   private _httpClient: HttpClient;
   private _recordingId?: string;
@@ -192,7 +192,7 @@ export class RecordingHttpClientV2 {
   }
 }
 
-export function recordingPolicy(recordingHttpClientV2: RecordingHttpClientV2): PipelinePolicy {
+export function recordingPolicy(recordingHttpClientV2: TestProxyHttpClientV2): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
