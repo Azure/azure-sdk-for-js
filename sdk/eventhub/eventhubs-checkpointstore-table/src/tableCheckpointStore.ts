@@ -6,6 +6,17 @@ import { odata, TableClient, TableInsertEntityHeaders } from "@azure/data-tables
 import { logger, logErrorStackTrace } from "./log";
 
 /**
+ * checks if value of timestamp is a string
+ *
+ *
+ */
+function _hasTimestamp<T extends TableInsertEntityHeaders>(
+  value: T
+): value is T & { Timestamp: string } {
+  return typeof (value as any).Timestamp === "string";
+}
+
+/**
  * A checkpoint entity of type CheckpointEntity to be stored in the table
  * @internal
  *
@@ -21,8 +32,8 @@ export interface CheckpointEntity {
    *
    */
   rowKey: string;
-  sequencenumber: number;
-  offset: number;
+  sequencenumber: string;
+  offset: string;
 }
 
 /**
@@ -52,17 +63,6 @@ export class TableCheckpointStore implements CheckpointStore {
 
   constructor(tableClient: TableClient) {
     this._tableClient = tableClient;
-  }
-
-  /**
-   * checks if value of timestamp is a string
-   *
-   *
-   */
-  private _hasTimestamp<T extends TableInsertEntityHeaders>(
-    value: T
-  ): value is T & { Timestamp: string } {
-    return typeof (value as any).Timestamp === "string";
   }
 
   /**
@@ -171,7 +171,7 @@ export class TableCheckpointStore implements CheckpointStore {
             }
           });
 
-          if (!this._hasTimestamp(newOwnershipMetadata)) {
+          if (!_hasTimestamp(newOwnershipMetadata)) {
             throw new Error(
               `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${ownershipEntity.rowKey}"`
             );
@@ -228,8 +228,8 @@ export class TableCheckpointStore implements CheckpointStore {
         eventHubName,
         fullyQualifiedNamespace,
         partitionId: entity.rowKey,
-        offset: entity.offset,
-        sequenceNumber: entity.sequencenumber
+        offset: parseInt(entity.offset),
+        sequenceNumber: parseInt(entity.sequencenumber)
       });
     }
     return checkpoints;
@@ -249,8 +249,8 @@ export class TableCheckpointStore implements CheckpointStore {
     const checkpointEntity: CheckpointEntity = {
       partitionKey: partitionKey,
       rowKey: checkpoint.partitionId,
-      sequencenumber: checkpoint.sequenceNumber,
-      offset: checkpoint.offset
+      sequencenumber: checkpoint.sequenceNumber.toString(),
+      offset: checkpoint.offset.toString()
     };
     try {
       await this._tableClient.upsertEntity(checkpointEntity);
@@ -261,7 +261,7 @@ export class TableCheckpointStore implements CheckpointStore {
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message
       );
-      throw err;
+      throw new Error("Error while updating checkpoint");
     }
   }
 }

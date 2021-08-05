@@ -39,22 +39,22 @@ const serviceClient = new TableServiceClient(
 
 describe("TableCheckpointStore", function(): void {
   let client: TableClient;
-  let table_name: string;
+  let tableName: string;
 
   describe("Runs tests on table with no entities", function() {
-    table_name = `table${new Date().getTime()}`;
+    tableName = `table${new Date().getTime()}`;
     beforeEach("creating table", async () => {
-      await serviceClient.createTable(table_name);
+      await serviceClient.createTable(tableName);
     });
 
     client = new TableClient(
       `https://${service.storageAccountName}.table.core.windows.net`,
-      table_name,
+      tableName,
       credential
     );
 
     afterEach(async () => {
-      await serviceClient.deleteTable(table_name);
+      await serviceClient.deleteTable(tableName);
     });
 
     describe("listOwnership", function() {
@@ -69,44 +69,15 @@ describe("TableCheckpointStore", function(): void {
       });
     });
 
-    describe("updateOwnership", function() {
-      it("forwards errors", async () => {
-        const checkpointStore = new TableCheckpointStore(client);
-        const eventHubProperties = {
-          fullyQualifiedNamespace: "brown.servicebus.windows.net",
-          eventHubName: "testEventHub",
-          consumerGroup: "testConsumerGroup"
-        };
-        // now let's induce a bad failure (removing the table)
-        await serviceClient.deleteTable(table_name);
-
-        // Create the checkpoint to add.
-        const checkpoint: Checkpoint = {
-          consumerGroup: eventHubProperties.consumerGroup,
-          eventHubName: eventHubProperties.eventHubName,
-          fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
-          offset: 0,
-          partitionId: "0",
-          sequenceNumber: 1
-        };
-        try {
-          await checkpointStore.updateCheckpoint(checkpoint);
-          throw new Error("Failed");
-        } catch (err) {
-          err.message.should.not.equal("Failed");
-        }
-      });
-    });
-
     describe("Runs tests on a populated table", function() {
       beforeEach("creating table", async () => {
-        table_name = `table${new Date().getTime()}`;
+        tableName = `table${new Date().getTime()}`;
         client = new TableClient(
           `https://${service.storageAccountName}.table.core.windows.net`,
-          table_name,
+          tableName,
           credential
         );
-        await serviceClient.createTable(table_name);
+        await serviceClient.createTable(tableName);
         const namespaceArray = [
           "red.servicebus.windows.net",
           "blue.servicebus.windows.net",
@@ -115,38 +86,29 @@ describe("TableCheckpointStore", function(): void {
         const eventHubArray = ["redHub", "blueHub", "greenHub"];
         const consumerConst = "$default";
         /* Checkpoint */
-        const checkpoint_entity: CheckpointEntity = {
-          partitionKey: "",
-          rowKey: "",
-          sequencenumber: 0,
-          offset: 0
-        };
         for (let i = 0; i < 3; ++i) {
-          checkpoint_entity.sequencenumber = 100 + i;
-          checkpoint_entity.rowKey = i.toString();
-          checkpoint_entity.partitionKey = `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`;
-          checkpoint_entity.offset = 1023 + i;
+          const checkpoint_entity: CheckpointEntity = {
+            partitionKey: `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`,
+            rowKey: i.toString(),
+            sequencenumber: (100 + i).toString(),
+            offset: (1023 + i).toString()
+          };
           await client.createEntity(checkpoint_entity);
         }
 
         /* Ownership */
-        const ownership_entity: PartitionOwnershipEntity = {
-          partitionKey: "",
-          rowKey: "",
-          ownerid: ""
-        };
-
         for (let i = 0; i < 3; ++i) {
-          ownership_entity.rowKey = i.toString();
-          ownership_entity.partitionKey = `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Ownership`;
-          ownership_entity.ownerid = "Id" + i;
-
+          const ownership_entity: PartitionOwnershipEntity = {
+            partitionKey: `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Ownership`,
+            rowKey: i.toString(),
+            ownerid: "Id" + i
+          };
           await client.createEntity(ownership_entity);
         }
       });
 
       afterEach(async () => {
-        await serviceClient.deleteTable(table_name);
+        await serviceClient.deleteTable(tableName);
       });
 
       describe("listOwnership", function() {
