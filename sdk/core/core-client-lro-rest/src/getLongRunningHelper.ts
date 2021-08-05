@@ -18,7 +18,7 @@ export interface PollerOptions {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
