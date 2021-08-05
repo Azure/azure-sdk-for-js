@@ -11,6 +11,10 @@ import { logger, logErrorStackTrace } from "./log";
  * @hidden
  */
 export interface CheckpointEntity {
+  /**
+  * The partitionKey is a composite key assembled in the following format:
+  * `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`
+  */
   partitionKey: string;
   rowKey: string;
   sequencenumber: number;
