@@ -191,16 +191,20 @@ describe("TableCheckpointStore", function(): void {
 
             const originalETag = originalClaimedOwnerships[0].etag;
 
+            console.log(originalClaimedOwnerships);
+            console.log(listOwnership[0]);
+
             const newClaimedOwnerships = await checkpointStore.claimOwnership(
               originalClaimedOwnerships
             );
-
+            console.log(newClaimedOwnerships);
             newClaimedOwnerships.length.should.equal(1);
 
             newClaimedOwnerships.length.should.equal(1);
             newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
 
             // we've now invalidated the previous ownership's etag so using the old etag will fail
+
             const shouldNotThrowButNothingWillClaim = await checkpointStore.claimOwnership([
               {
                 partitionId: "1",
