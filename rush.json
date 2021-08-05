@@ -432,6 +432,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure-rest/core-client-lro",
+      "projectFolder": "sdk/core/core-client-lro-rest",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure-rest/core-client",
       "projectFolder": "sdk/core/core-client-rest",
       "versionPolicyName": "core"

@@ -95,9 +95,6 @@ describe("Challenge based authentication tests", () => {
     for (const name of secretNames) {
       await client.setSecret(name, "value");
     }
-    for (const name of secretNames) {
-      await testClient.flushSecret(name);
-    }
 
     // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);

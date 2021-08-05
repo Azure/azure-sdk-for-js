@@ -60,10 +60,6 @@ describe("Certificates client - merge and import certificates", () => {
     const buffer = base64ToUint8Array(base64EncodedCertificate);
 
     await client.importCertificate(certificateNames[1], buffer);
-
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   it("can import a certificate from a certificate's base64 secret value", async function(this: Context) {
@@ -88,10 +84,6 @@ describe("Certificates client - merge and import certificates", () => {
         contentType: "application/x-pem-file"
       }
     });
-
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   // The signed certificate will never be the same, so we can't play it back.
@@ -139,7 +131,5 @@ ${base64Csr}
       .join("");
 
     await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
-
-    await testClient.flushCertificate(certificateName);
   });
 });
