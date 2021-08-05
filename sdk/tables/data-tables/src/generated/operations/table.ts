@@ -351,12 +351,7 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreClient.OperationSpec
   responses: {
     200: {
       bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
       },
       headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyHeaders
     },

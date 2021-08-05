@@ -61,7 +61,7 @@ export interface TableEntityQueryResponse {
   /** The metadata response of the table. */
   odataMetadata?: string;
   /** List of table entities. */
-  value?: Record<string, unknown>[];
+  value?: { [propertyName: string]: any }[];
 }
 
 /** A signed identifier. */
@@ -552,7 +552,7 @@ export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
 
 /** Contains response data for the queryEntitiesWithPartitionAndRowKey operation. */
 export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
-  [propertyName: string]: Record<string, unknown>;
+  [propertyName: string]: any;
 };
 
 /** Optional parameters. */
@@ -565,7 +565,7 @@ export interface TableUpdateEntityOptionalParams
   /** The timeout parameter is expressed in seconds. */
   timeout?: number;
   /** The properties for the table entity. */
-  tableEntityProperties?: { [propertyName: string]: Record<string, unknown> };
+  tableEntityProperties?: { [propertyName: string]: any };
   /** Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found. */
   ifMatch?: string;
 }
@@ -583,7 +583,7 @@ export interface TableMergeEntityOptionalParams
   /** The timeout parameter is expressed in seconds. */
   timeout?: number;
   /** The properties for the table entity. */
-  tableEntityProperties?: { [propertyName: string]: Record<string, unknown> };
+  tableEntityProperties?: { [propertyName: string]: any };
   /** Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found. */
   ifMatch?: string;
 }
@@ -617,12 +617,12 @@ export interface TableInsertEntityOptionalParams
   /** The timeout parameter is expressed in seconds. */
   timeout?: number;
   /** The properties for the table entity. */
-  tableEntityProperties?: { [propertyName: string]: Record<string, unknown> };
+  tableEntityProperties?: { [propertyName: string]: any };
 }
 
 /** Contains response data for the insertEntity operation. */
 export type TableInsertEntityResponse = TableInsertEntityHeaders & {
-  [propertyName: string]: Record<string, unknown>;
+  [propertyName: string]: any;
 };
 
 /** Optional parameters. */
