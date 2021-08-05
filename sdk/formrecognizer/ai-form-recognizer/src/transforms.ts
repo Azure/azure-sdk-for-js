@@ -52,6 +52,22 @@ function toBoundingBox(original: number[]): Point2D[] {
 }
 
 /**
+ * Utility type to remove null | undefined from a type.
+ * @internal
+ */
+type NotNull<T> = T extends null | undefined ? never : T;
+
+/**
+ * Extracts the keys of a type whose value types are assignable to a Condition.
+ * @internal
+ */
+type KeysWhere<T, Condition> = NotNull<
+  {
+    [K in keyof T]: T[K] extends Condition ? K : never;
+  }[keyof T]
+>;
+
+/**
  * @internal
  */
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
@@ -111,26 +127,39 @@ export function toFormPage(original: ReadResultModel): FormPage {
   };
 }
 
-// Note: might need to support other element types in future, e.g., checkbox
-const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
+/**
+ * A RegExp that can handle parsing an ElementReference. It handles any keys of FormPage and
+ * Supports optionally specifying "words" at the end. This is kind of hacked together, but
+ * can handle all the valid element references in Form Recognizer so far.
+ */
+const elementReferencePattern = /\/readResults\/(\d+)\/([a-z][a-zA-Z]*)\/(\d+)(?:\/words\/(\d+))?/;
 
 /**
+ * Parse an ElementReference of a known structure.
  * @internal
+ * @param ref - the string representation (JSON Pointer) of the ElementReference
+ * @param readResults - The transformed ReadResults into which the reference points
+ * @returns a reference to the FormElement that the ElementReference refers to
  */
-export function toFormContent(element: string, readResults: FormPage[]): FormElement {
-  const result = textPattern.exec(element);
-  if (!result || !result[0] || !result[1] || !result[2]) {
-    throw new Error(`Unexpected element reference encountered: ${element}`);
+export function elementReferenceToFormElement(ref: string, readResults: FormPage[]): FormElement {
+  const result = elementReferencePattern.exec(ref);
+
+  if (result === null) {
+    throw new Error(`Unexpected element reference encountered: "${ref}"`);
   }
 
   const readIndex = Number.parseInt(result[1]);
-  const lineIndex = Number.parseInt(result[2]);
-  if (result[3]) {
-    const wordIndex = Number.parseInt(result[3]);
-    return readResults[readIndex].lines![lineIndex].words[wordIndex];
-  } else {
-    return readResults[readIndex].lines![lineIndex];
+  const elementKind = result[2] as KeysWhere<FormPage, FormElement[] | undefined>;
+  const elementIndex = Number.parseInt(result[3]);
+  const wordIndex = Number.parseInt(result[4]);
+
+  const baseElement = readResults[readIndex][elementKind]![elementIndex];
+
+  if (!Number.isNaN(wordIndex) && elementKind === "lines") {
+    return (baseElement as FormLine).words[wordIndex];
   }
+
+  return baseElement;
 }
 
 /**
@@ -145,7 +174,9 @@ export function toFieldData(
     pageNumber,
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-    fieldElements: original.elements?.map((element) => toFormContent(element, readResults!))
+    fieldElements: original.elements?.map((element) =>
+      elementReferenceToFormElement(element, readResults!)
+    )
   };
 }
 
@@ -182,7 +213,9 @@ export function toFormTable(
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
-      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults)),
+      fieldElements: cell.elements?.map((element) =>
+        elementReferenceToFormElement(element, readResults)
+      ),
       rowIndex: cell.rowIndex,
       columnSpan: cell.columnSpan ?? 1,
       rowSpan: cell.rowSpan ?? 1,
@@ -316,7 +349,9 @@ export function toFormFieldFromFieldValueModel(
       pageNumber: original.pageNumber ?? 0,
       text: original.text,
       boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-      fieldElements: original.elements?.map((element) => toFormContent(element, readResults))
+      fieldElements: original.elements?.map((element) =>
+        elementReferenceToFormElement(element, readResults)
+      )
     },
     valueType: original.type,
     value

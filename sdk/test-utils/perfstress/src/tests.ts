@@ -3,13 +3,14 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
+import { DefaultHttpClient } from "@azure/core-http";
 import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
-import { RecordingHttpClient, RecordingHttpClientV2 } from "./recordingClient";
+import { TestProxyHttpClient, TestProxyHttpClientV2 } from "./testProxyHttpClient";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
@@ -28,8 +29,8 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
-  public static recorder: RecordingHttpClient;
-  public static recorderV2: RecordingHttpClientV2;
+  public static testProxyHttpClient: TestProxyHttpClient | DefaultHttpClient;
+  public static testProxyHttpClientV2: TestProxyHttpClientV2;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -52,16 +53,17 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
-  public getRecordingClient(): RecordingHttpClient {
-    if (PerfStressTest.recorder) return PerfStressTest.recorder;
-    PerfStressTest.recorder = new RecordingHttpClient(this.parsedOptions["test-proxy"].value!);
-    return PerfStressTest.recorder;
+  public getHttpClient(): TestProxyHttpClient | DefaultHttpClient {
+    if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
+    const url = this.parsedOptions["test-proxy"].value;
+    PerfStressTest.testProxyHttpClient = !url ? new DefaultHttpClient() : new TestProxyHttpClient(this.parsedOptions["test-proxy"].value!);
+    return PerfStressTest.testProxyHttpClient;
   }
 
-  public getRecordingClientV2(): RecordingHttpClientV2 {
-    if (PerfStressTest.recorderV2) return PerfStressTest.recorderV2;
-    PerfStressTest.recorderV2 = new RecordingHttpClientV2(this.parsedOptions["test-proxy"].value!);
-    return PerfStressTest.recorderV2;
+  public getRecordingClientV2(): TestProxyHttpClientV2 {
+    if (PerfStressTest.testProxyHttpClientV2) return PerfStressTest.testProxyHttpClientV2;
+    PerfStressTest.testProxyHttpClientV2 = new TestProxyHttpClientV2(this.parsedOptions["test-proxy"].value!);
+    return PerfStressTest.testProxyHttpClientV2;
   }
 }
 

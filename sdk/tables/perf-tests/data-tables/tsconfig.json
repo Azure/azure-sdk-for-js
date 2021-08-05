@@ -2,7 +2,7 @@
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
     "module": "CommonJS",
-    "outDir": "./dist-esm",
+    "noEmit": true,
     "declarationDir": "./types",
     "lib": ["dom", "esnext"],
   },

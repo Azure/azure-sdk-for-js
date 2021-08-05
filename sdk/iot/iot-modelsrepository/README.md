@@ -39,6 +39,8 @@ npm install @azure/iot-modelsrepository
 // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
 // https://devicemodels.azure.com/ is used and the model dependency resolution
 // configuration is set to TryFromExpanded.
+const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
+
 const client = new ModelsRepositoryClient();
 console.log(`Initialized client point to global endpoint: ${client.repositoryLocation}`);
 ```
@@ -69,7 +71,7 @@ const models = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpan
 
 // In this case the above dtmi has 2 model dependencies.
 // dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
-console.log(`${dtmi} resolved in ${models.keys().length} interfaces.`);
+console.log(`${dtmi} resolved in ${Object.keys(models).length} interfaces.`);
 ```
 
 GitHub pull-request workflows are a core aspect of the IoT Models Repository service. To submit models, the user is expected to fork and clone the global [models repository project](https://github.com/Azure/iot-plugandplay-models) then iterate against the local copy. Changes would then be pushed to the fork (ideally in a new branch) and a PR created against the global repository.

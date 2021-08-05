@@ -1,10 +1,10 @@
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { TablesTest } from "./tables.spec";
-import { createBaseEntity } from "./utils/createBaseEntity";
+import { TableEntity } from "@azure/data-tables";
+import { createSimpleEntity } from "./utils/createBaseEntity";
 
 export class CreateSimpleEntityTest extends TablesTest {
   public options: PerfStressOptionDictionary = {};
-  public static baseEntity = createBaseEntity();
 
   constructor() {
     super("SimpleEntityPerf");
@@ -19,6 +19,7 @@ export class CreateSimpleEntityTest extends TablesTest {
   }
 
   async runAsync(): Promise<void> {
-    await this.client.createEntity(CreateSimpleEntityTest.baseEntity);
+    const simpleEntity: TableEntity = createSimpleEntity();
+    await this.client.createEntity(simpleEntity);
   }
 }

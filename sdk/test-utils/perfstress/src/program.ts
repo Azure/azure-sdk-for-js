@@ -10,7 +10,7 @@ import {
   DefaultPerfStressOptions
 } from "./options";
 import { PerfStressParallel } from "./parallel";
-import { RecordingHttpClient, RecordingHttpClientV2 } from "./recordingClient";
+import { TestProxyHttpClient, TestProxyHttpClientV2 } from "./testProxyHttpClient";
 
 export type TestType = "";
 
@@ -69,7 +69,7 @@ export class PerfStressProgram {
   private getOperationsPerSecond(parallels: PerfStressParallel[]): number {
     return parallels.reduce((sum, parallel) => {
       let parallelResult = 0;
-      if (parallel.lastMillisecondsElapsed > 0) {
+      if (parallel.completedOperations > 0) {
         parallelResult = parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
       }
       return sum + parallelResult;
@@ -328,11 +328,13 @@ export class PerfStressProgram {
     // => run the runAsync
     // => stop record
     // => start playback
-    let recorder: RecordingHttpClient | RecordingHttpClientV2;
-    if (PerfStressTest.recorderV2) {
-      recorder = PerfStressTest.recorderV2;
+    let recorder: TestProxyHttpClient | TestProxyHttpClientV2;
+    if (PerfStressTest.testProxyHttpClientV2 instanceof TestProxyHttpClientV2) {
+      recorder = PerfStressTest.testProxyHttpClientV2;
+    } else if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+      recorder = PerfStressTest.testProxyHttpClient;
     } else {
-      recorder = PerfStressTest.recorder;
+      throw "";
     }
     await recorder.startRecording();
     recorder._mode = "record";
@@ -344,12 +346,12 @@ export class PerfStressProgram {
   }
 
   private async stopPlayback() {
-    let recorder: RecordingHttpClient | RecordingHttpClientV2;
-    if (PerfStressTest.recorderV2) {
-      recorder = PerfStressTest.recorderV2;
+    if (PerfStressTest.testProxyHttpClientV2 instanceof TestProxyHttpClientV2) {
+      await PerfStressTest.testProxyHttpClientV2.stopPlayback();
+    } else if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+      await PerfStressTest.testProxyHttpClient.stopPlayback();
     } else {
-      recorder = PerfStressTest.recorder;
+      throw "";
     }
-    await recorder.stopPlayback();
   }
 }
