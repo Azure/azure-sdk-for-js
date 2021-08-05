@@ -3,8 +3,15 @@
 
 import { HttpOperationResponse, URLBuilder } from "@azure/core-http";
 import { DefaultHttpClient, WebResource, WebResourceLike } from "@azure/core-http";
-import { PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest, createDefaultHttpClient, HttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
-
+import {
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  createDefaultHttpClient,
+  HttpClient,
+  createPipelineRequest
+} from "@azure/core-rest-pipeline";
 
 const paths = {
   playback: "/playback",
@@ -102,7 +109,6 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
   }
 }
 
-
 export class TestProxyHttpClient {
   private _uri: string;
   private _httpClient: HttpClient;
@@ -184,7 +190,7 @@ export class TestProxyHttpClient {
   }
 
   private _createRecordingRequest(uri: string): PipelineRequest {
-    const req = createPipelineRequest({ url: uri, method: "POST" })
+    const req = createPipelineRequest({ url: uri, method: "POST" });
     if (this._recordingId !== undefined) {
       req.headers.set("x-recording-id", this._recordingId);
     }

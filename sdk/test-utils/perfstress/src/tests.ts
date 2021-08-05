@@ -16,7 +16,7 @@ import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClien
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
 export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new(): PerfStressTest<TOptions>;
+  new (): PerfStressTest<TOptions>;
 }
 
 /**
@@ -56,13 +56,17 @@ export abstract class PerfStressTest<TOptions = {}> {
   public getHttpClientV1(): TestProxyHttpClientV1 | DefaultHttpClient {
     if (PerfStressTest.testProxyHttpClientV1) return PerfStressTest.testProxyHttpClientV1;
     const url = this.parsedOptions["test-proxy"].value;
-    PerfStressTest.testProxyHttpClientV1 = !url ? new DefaultHttpClient() : new TestProxyHttpClientV1(this.parsedOptions["test-proxy"].value!);
+    PerfStressTest.testProxyHttpClientV1 = !url
+      ? new DefaultHttpClient()
+      : new TestProxyHttpClientV1(this.parsedOptions["test-proxy"].value!);
     return PerfStressTest.testProxyHttpClientV1;
   }
 
   public getHttpClient(): TestProxyHttpClient {
     if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
-    PerfStressTest.testProxyHttpClient = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value!);
+    PerfStressTest.testProxyHttpClient = new TestProxyHttpClient(
+      this.parsedOptions["test-proxy"].value!
+    );
     return PerfStressTest.testProxyHttpClient;
   }
 }
