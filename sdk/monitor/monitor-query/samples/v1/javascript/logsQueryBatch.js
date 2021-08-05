@@ -21,16 +21,38 @@ async function main() {
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
-
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: [
-      {
-        workspace: monitorWorkspaceId,
-        query: kqlQuery,
-        timespan: "P1D"
-      }
-    ]
-  });
+  const queriesBatch = [
+    {
+      workspaceId: monitorWorkspaceId,
+      query: kqlQuery,
+      timespan: "P1D"
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AzureActivity | summarize count()",
+      timespan: "PT1H"
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query:
+        "AppRequests | take 10  | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
+      timespan: "PT1H"
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AppRequests | take 2",
+      timespan: "PT1H"
+    }
+  ];
+  const queryOptions = {
+    includeQueryStatistics: true
+  };
+  const result = await logsQueryClient.queryLogsBatch(
+    {
+      queries: queriesBatch
+    },
+    queryOptions
+  );
 
   if (result.results == null) {
     throw new Error("No response for query");
