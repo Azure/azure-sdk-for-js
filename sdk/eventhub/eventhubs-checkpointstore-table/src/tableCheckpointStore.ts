@@ -132,6 +132,7 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
     for (const ownership of partitionOwnership) {
+      const updatedOwnership = {...ownership};
       const partitionKey = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
       const ownershipEntity: PartitionOwnershipEntity = {
         partitionKey: partitionKey,
@@ -155,9 +156,9 @@ export class TableCheckpointStore implements CheckpointStore {
               `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${entityRetrieved.rowKey}"`
             );
           }
-          ownership.lastModifiedTimeInMs = new Date(entityRetrieved.timestamp).getTime();
-          ownership.etag = updatedMetadata.etag;
-          partitionOwnershipArray.push(ownership);
+          updatedOwnership.lastModifiedTimeInMs = new Date(entityRetrieved.timestamp).getTime();
+          updatedOwnership.etag = updatedMetadata.etag;
+          partitionOwnershipArray.push(updatedOwnership);
           logger.info(
             `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
             `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
@@ -177,9 +178,9 @@ export class TableCheckpointStore implements CheckpointStore {
             );
           }
 
-          ownership.lastModifiedTimeInMs = new Date(newOwnershipMetadata.Timestamp).getTime();
-          ownership.etag = newOwnershipMetadata.etag;
-          partitionOwnershipArray.push(ownership);
+          updatedOwnership.lastModifiedTimeInMs = new Date(newOwnershipMetadata.Timestamp).getTime();
+          updatedOwnership.etag = newOwnershipMetadata.etag;
+          partitionOwnershipArray.push(updatedOwnership);
         }
       } catch (err) {
         if (err.statusCode === 412) {
@@ -261,7 +262,7 @@ export class TableCheckpointStore implements CheckpointStore {
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message
       );
-      throw new Error("Error while updating checkpoint");
+      throw err;
     }
   }
 }
