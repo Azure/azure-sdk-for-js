@@ -265,6 +265,26 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 
 ## [Using Proxy Tool](#using-proxy-tool)
 
+### Using the testProxy option
+
+To be able to leverage the powers of playing the back the requests using the test proxy, add the following to your code.
+
+      ```ts
+      /// Core V1 SDKs - For services depending on core-http
+      /// Pass the proxy client as the httpClient in the client options
+      this.blobServiceClient = BlobServiceClient.fromConnectionString(
+        connectionString,
+        {
+          httpClient: this.getHttpClientV1()
+        }
+      );
+
+      /// Core V1 SDKs - For services depending on core-rest-pipeline
+      /// Use the addPolicy call to add the test proxy policy
+      this.client = TableClient.fromConnectionString(connectionString, tableName);
+      this.client.pipeline.addPolicy(testProxyHttpPolicy(this.getHttpClient()));
+      ```
+
 ### Running the proxy server
 
 Run this command
@@ -281,6 +301,8 @@ And then repeat the above command.
 
 Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
 
+To use the proxy-tool in your test pass this option in cli `--test-proxy http://localhost:5000`(Make sure the port is same as what you have used to run the `docker run` command).
+
 Sample command(using storage-blob perf tests as example (Core-v1)!)
 
 > npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
@@ -293,4 +315,4 @@ Sample command(using data-tables perf tests as example (Core-v2)!)
 
 > npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
 
-**Using proxy-tool** part is still under construction. Please reach out to the team if you face issues.
+**Using proxy-tool** part is still under construction. Please reach out to the owners/team if you face issues.
