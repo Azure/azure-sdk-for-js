@@ -12,6 +12,10 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
  */
 export interface QueryLogsOptions extends OperationOptions {
   /**
+   * A list of workspaces that are included in the query. These can be list of azure resource ids, workspace ids or qualified names
+   */
+  additionalWorkspaces?: string[];
+  /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
    */
@@ -54,6 +58,10 @@ export interface QueryLogsResult {
 /** Options when query logs with a batch. */
 export interface QueryLogsBatchOptions extends OperationOptions {
   /**
+   * A list of workspaces that are included in the query. These can be list of azure resource ids, workspace ids or qualified names
+   */
+  additionalWorkspaces?: string[];
+  /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
    */
@@ -91,18 +99,6 @@ export interface BatchQuery {
   query: string;
   /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
   timespan: string;
-  /** A list of workspaces that are included in the query. */
-  additionalWorkspaces?: string[];
-  /**
-   * The maximum amount of time the server will spend processing the query.
-   * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
-   */
-  serverTimeoutInSeconds?: number;
-
-  /**
-   * Results will also include statistics about the query.
-   */
-  includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
 }
 
 /** Results for a batch query. */

@@ -74,7 +74,6 @@ export class LogsQueryClient {
    * @param query - A Log Analytics Query
    * @param timespan - The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
    *  Some common durations can be found in the `Durations` object.
-   * @param additionalWorkspaces - A list of workspaces that are included in the query.
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
    */
@@ -82,7 +81,6 @@ export class LogsQueryClient {
     workspaceId: string,
     query: string,
     timespan: string,
-    additionalWorkspaces?: string[],
     options?: QueryLogsOptions
   ): Promise<QueryLogsResult> {
     const { flatResponse, rawResponse } = await getRawResponse(
@@ -92,7 +90,7 @@ export class LogsQueryClient {
           {
             query,
             timespan,
-            workspaces: additionalWorkspaces?.map((x) => x)
+            workspaces: options?.additionalWorkspaces
           },
           paramOptions
         ),
