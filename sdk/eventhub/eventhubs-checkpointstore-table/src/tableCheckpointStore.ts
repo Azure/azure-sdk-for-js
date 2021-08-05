@@ -122,53 +122,56 @@ export class TableCheckpointStore implements CheckpointStore {
 
       // When we have an etag, we know the entity existed.
       // If we encounter an error we should fail.
-
-      if (ownership.etag) {
-        const updatedMetadata = await this._tableClient.updateEntity(ownershipEntity, "Replace", {
-          etag: ownership.etag
-        });
-        ownership.etag = updatedMetadata.etag;
-        ownership.lastModifiedTimeInMs = Number(updatedMetadata.date?.getTime());
-        partitionOwnershipArray.push(ownership);
-        logger.info(
-          `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
-          `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
-        );
-      } else {
-        try {
-          const newOwnershipMetadata = await this._tableClient.createEntity(ownershipEntity, {
-            requestOptions: {
-              customHeaders: {
-                Prefer: "return-content"
-              }
-            }
+      try {
+        if (ownership.etag) {
+          const updatedMetadata = await this._tableClient.updateEntity(ownershipEntity, "Replace", {
+            etag: ownership.etag
           });
-          ownership.etag = newOwnershipMetadata.etag;
-          ownership.lastModifiedTimeInMs = await this._toMillisecs(
-            (newOwnershipMetadata as any).Timestamp
-          );
+          ownership.etag = updatedMetadata.etag;
+          ownership.lastModifiedTimeInMs = Number(updatedMetadata.date?.getTime());
           partitionOwnershipArray.push(ownership);
-        } catch (err) {
-          if (err.statusCode === 412) {
-            // etag failures (precondition not met) aren't fatal errors. They happen
-            // as multiple consumers attempt to claim the same partition (first one wins)
-            // and losers get this error.
-            logger.verbose(
-              `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`
-            );
-            continue;
-          }
-          logger.warning(
-            `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
-            err.message
+          logger.info(
+            `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
+            `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
           );
-          logErrorStackTrace(err);
-          throw err;
+        } else {
+          try {
+            const newOwnershipMetadata = await this._tableClient.createEntity(ownershipEntity, {
+              requestOptions: {
+                customHeaders: {
+                  Prefer: "return-content"
+                }
+              }
+            });
+            ownership.etag = newOwnershipMetadata.etag;
+            ownership.lastModifiedTimeInMs = await this._toMillisecs(
+              (newOwnershipMetadata as any).Timestamp
+            );
+            partitionOwnershipArray.push(ownership);
+          } catch (err) {
+            throw new Error("Entity was not created");
+          }
         }
+      } catch (err) {
+        if (err.statusCode === 412) {
+          // etag failures (precondition not met) aren't fatal errors. They happen
+          // as multiple consumers attempt to claim the same partition (first one wins)
+          // and losers get this error.
+          logger.verbose(
+            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`
+          );
+          continue;
+        }
+        logger.warning(
+          `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
+          err.message
+        );
+        logErrorStackTrace(err);
       }
     }
     return partitionOwnershipArray;
   }
+
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
    *
@@ -229,7 +232,7 @@ export class TableCheckpointStore implements CheckpointStore {
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message
       );
-      throw new Error("Failed to update checkpoint");
+      throw err;
     }
   }
 }
