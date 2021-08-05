@@ -92,10 +92,6 @@ describe("Certificates client - list certificates in various ways", function(thi
     }
 
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
-
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   it("can list deleted certificates", async function(this: Context) {
@@ -122,10 +118,6 @@ describe("Certificates client - list certificates in various ways", function(thi
     }
 
     assert.equal(found, 2, "Unexpected number of certificates found by getDeletedCertificates.");
-
-    for (const name of certificateNames) {
-      await testClient.purgeCertificate(name);
-    }
   });
 
   it("can list certificates by page", async function(this: Context) {
@@ -150,9 +142,6 @@ describe("Certificates client - list certificates in various ways", function(thi
       }
     }
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   if (isNode && !isPlaybackMode()) {
@@ -190,9 +179,6 @@ describe("Certificates client - list certificates in various ways", function(thi
       }
     }
     assert.equal(found, 2, "Unexpected number of certificates found by getDeletedCertificates.");
-    for (const name of certificateNames) {
-      await testClient.purgeCertificate(name);
-    }
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers only
@@ -247,7 +233,6 @@ describe("Certificates client - list certificates in various ways", function(thi
     versions.sort(comp);
 
     expect(results).to.deep.equal(versions);
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers only

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Context } from "mocha";
+import { Context, Suite } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
@@ -12,7 +12,7 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
-describe("Certificates client - restore certificates and recover backups", () => {
+describe("Certificates client - restore certificates and recover backups", function(this: Suite) {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
@@ -23,6 +23,11 @@ describe("Certificates client - restore certificates and recover backups", () =>
     issuerName: "Self",
     subject: "cn=MyCert"
   };
+
+  if (!isPlaybackMode()) {
+    // Necessary for min/max testing which does not account for global timeout cmd line argument. This can be removed when #16731 is resolved.
+    this.timeout(6 * 60 * 1000); // 6 minutes
+  }
 
   beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
@@ -37,7 +42,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
   });
 
   // The tests follow
-
   it("can recover a deleted certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
@@ -100,7 +104,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
       // One would normally do this, but this can't immediately happen after the resource is purged:
       // await client.restoreCertificateBackup(backup as Uint8Array);
-
       // This test implementation of a restore poller only applies for backups that have been recently deleted.
       // Backups might not be ready to be restored in an unknown amount of time.
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues

@@ -67,8 +67,6 @@ describe("Certificates client - LRO - recoverDelete", function(this: Suite) {
 
     // The final certificate can also be obtained this way:
     assert.equal(recoverPoller.getOperationState().result!.name, certificateName);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
@@ -113,8 +111,6 @@ describe("Certificates client - LRO - recoverDelete", function(this: Suite) {
     const deletedCertificate: DeletedCertificate = await resumePoller.pollUntilDone();
     assert.equal(deletedCertificate.name, certificateName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
