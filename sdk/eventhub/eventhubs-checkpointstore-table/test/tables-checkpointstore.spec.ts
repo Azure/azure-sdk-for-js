@@ -211,7 +211,7 @@ describe("TableCheckpointStore", function(): void {
                 etag: originalETag
               }
             ]);
-            
+
             shouldNotThrowButNothingWillClaim.length.should.equal(0);
           });
           it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
