@@ -60,7 +60,7 @@ export abstract class PerfStressTest<TOptions = {}> {
     return PerfStressTest.testProxyHttpClient;
   }
 
-  public getRecordingClientV2(): TestProxyHttpClientV2 {
+  public getHttpClientV2(): TestProxyHttpClientV2 {
     if (PerfStressTest.testProxyHttpClientV2) return PerfStressTest.testProxyHttpClientV2;
     PerfStressTest.testProxyHttpClientV2 = new TestProxyHttpClientV2(this.parsedOptions["test-proxy"].value!);
     return PerfStressTest.testProxyHttpClientV2;

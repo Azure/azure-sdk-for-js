@@ -192,11 +192,11 @@ export class TestProxyHttpClientV2 {
   }
 }
 
-export function recordingPolicy(recordingHttpClientV2: TestProxyHttpClientV2): PipelinePolicy {
+export function testProxyHttpPolicy(testProxyHttpClientV2: TestProxyHttpClientV2): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const modifiedRequest = await recordingHttpClientV2.sendRequest(request);
+      const modifiedRequest = await testProxyHttpClientV2.sendRequest(request);
       return next(modifiedRequest);
     }
   };
