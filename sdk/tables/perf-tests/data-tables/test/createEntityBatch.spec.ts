@@ -1,6 +1,6 @@
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { TablesTest } from "./tables.spec";
-import {TransactionAction } from "@azure/data-tables";
+import { TransactionAction } from "@azure/data-tables";
 import { createBaseEntity } from "./utils/createBaseEntity";
 
 interface TablesCreateEntityBatchTestOptions {
