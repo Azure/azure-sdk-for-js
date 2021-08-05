@@ -4,7 +4,7 @@ import chai from "chai";
 import * as dotenv from "dotenv";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
-import { Checkpoint } from "@azure/event-hubs";
+import { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
 import { CheckpointEntity, PartitionOwnershipEntity } from "../src/tableCheckpointStore";
@@ -64,6 +64,67 @@ describe("TableCheckpointStore", function(): void {
           "testConsumerGroup"
         );
         should.equal(listOwnership.length, 0);
+      });
+    });
+
+    describe("updateOwnership", function() {
+      it("forwards errors", async () => {
+        const checkpointStore = new TableCheckpointStore(client);
+        const eventHubProperties = {
+          fullyQualifiedNamespace: "brown.servicebus.windows.net",
+          eventHubName: "testEventHub",
+          consumerGroup: "testConsumerGroup"
+        };
+        // now let's induce a bad failure (removing the table)
+        await serviceClient.deleteTable(table_name);
+
+        // Create the checkpoint to add.
+        const checkpoint: Checkpoint = {
+          consumerGroup: eventHubProperties.consumerGroup,
+          eventHubName: eventHubProperties.eventHubName,
+          fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
+          offset: 0,
+          partitionId: "0",
+          sequenceNumber: 1
+        };
+        try {
+          await checkpointStore.updateCheckpoint(checkpoint);
+          throw new Error("Failed");
+        } catch (err) {
+          err.message.should.not.equal("Failed");
+        }
+      });
+    });
+
+    describe("claimOwnership", function() {
+      it.only("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
+        void
+      > {
+        const checkpointStore = new TableCheckpointStore(client);
+        const listOwnership = await checkpointStore.listOwnership(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup"
+        );
+        should.equal(listOwnership.length, 0);
+
+        const partitionOwnership: PartitionOwnership = {
+          ownerId: "Id1",
+          partitionId: "0",
+          fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
+          consumerGroup: "testConsumerGroup",
+          eventHubName: "testEventHub"
+        };
+        const partitionOwnershipArray = await checkpointStore.claimOwnership([partitionOwnership]);
+        should.equal(partitionOwnershipArray.length, 1);
+
+        const ownershipList = await checkpointStore.listOwnership(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup"
+        );
+
+        should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
       });
     });
   });
@@ -158,8 +219,6 @@ describe("TableCheckpointStore", function(): void {
           const originalClaimedOwnerships = await checkpointStore.claimOwnership([
             listOwnership[0]
           ]);
-          console.log("succeeded");
-
           const originalETag = originalClaimedOwnerships[0].etag;
 
           const newClaimedOwnerships = await checkpointStore.claimOwnership(
@@ -248,6 +307,42 @@ describe("TableCheckpointStore", function(): void {
             checkpoint.sequenceNumber!.should.equal(100 + i + 1);
             checkpoint.offset!.should.equal(1023 + i + 1);
           }
+        });
+
+        it("creates a checkpoint where one doesn't already exist", async () => {
+          const checkpointStore = new TableCheckpointStore(client);
+          const eventHubProperties = {
+            fullyQualifiedNamespace: "pink.servicebus.windows.net",
+            eventHubName: "pinkHub",
+            consumerGroup: "testConsumerGroup"
+          };
+          // Ensure that there aren't any checkpoints.
+          let checkpoints = await checkpointStore.listCheckpoints(
+            eventHubProperties.fullyQualifiedNamespace,
+            eventHubProperties.eventHubName,
+            eventHubProperties.consumerGroup
+          );
+          checkpoints.length.should.equal(0);
+          // Create the checkpoint to add.
+          const checkpoint: Checkpoint = {
+            consumerGroup: eventHubProperties.consumerGroup,
+            eventHubName: eventHubProperties.eventHubName,
+            fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
+            offset: 0,
+            partitionId: "0",
+            sequenceNumber: 1
+          };
+
+          await checkpointStore.updateCheckpoint(checkpoint);
+          // Ensure that there is a checkpoint.
+          checkpoints = await checkpointStore.listCheckpoints(
+            eventHubProperties.fullyQualifiedNamespace,
+            eventHubProperties.eventHubName,
+            eventHubProperties.consumerGroup
+          );
+
+          checkpoints.length.should.equal(1);
+          console.log(checkpoints);
         });
       });
     });
