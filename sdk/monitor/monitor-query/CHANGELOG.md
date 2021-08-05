@@ -8,7 +8,9 @@
 
 ### Breaking Changes
 
-- `workspace` renamed to `workspaceId`
+- `workspace` renamed to `workspaceId` in querybatch
+- removed all other params and put additionalWorkspaces as an optional parameter instead in QueryBatchOptions for querybatch Api
+- moved includeQueryStatistics and includeVisualization into QueryBatchOptions since these are optional parameters
 
 ### Bugs Fixed
 
