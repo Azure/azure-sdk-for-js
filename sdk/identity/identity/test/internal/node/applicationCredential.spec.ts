@@ -11,12 +11,7 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 
-// interface AuthRequestDetails {
-//     requests: WebResource[];
-//     token: AccessToken | null;
-//   }
-
-describe("ApplicationCredential (internal)", function() {
+describe("ApplicationCredential testing Managed Identity (internal)", function() {
   let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
@@ -25,6 +20,8 @@ describe("ApplicationCredential (internal)", function() {
     envCopy = JSON.stringify(process.env);
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
+    delete process.env.AZURE_CLIENT_SECRET;
+    delete process.env.AZURE_TENANT_ID;
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
@@ -32,6 +29,8 @@ describe("ApplicationCredential (internal)", function() {
     const env = JSON.parse(envCopy);
     process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
     process.env.MSI_SECRET = env.MSI_SECRET;
+    process.env.AZURE_CLIENT_SECRET = env.AZURE_CLIENT_SECRET;
+    process.env.AZURE_TENANT_ID = env.AZURE_TENANT_ID;
     await testContext.restore();
   });
 
@@ -90,6 +89,7 @@ describe("ApplicationCredential (internal)", function() {
 
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
+    process.env.AZURE_CLIENT_ID = "client";
     process.env.MSI_ENDPOINT = "https://endpoint";
     process.env.MSI_SECRET = "secret";
 

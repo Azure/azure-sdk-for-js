@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
-import { CredentialUnavailableError, ApplicationCredential } from "../../../src";
+import { ApplicationCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { getError } from "../../authTestUtils";
 import { Context } from "mocha";
@@ -82,12 +82,12 @@ describe("ApplicationCredential", function() {
 
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
     const credential = new ApplicationCredential();
-    await assertRejects(
-      credential.getToken(scope),
-      (error: CredentialUnavailableError) =>
-        error.message.indexOf(
-          `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential is unavailable. Network unreachable.`
-        ) > -1
+    const error = await getError(credential.getToken(scope));
+    assert.equal(error.name, "CredentialUnavailableError");
+    assert.ok(
+      error.message.indexOf(
+        `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential is unavailable. Network unreachable.`
+      ) > -1
     );
   });
 
