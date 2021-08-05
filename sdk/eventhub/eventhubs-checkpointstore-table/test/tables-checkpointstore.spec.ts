@@ -4,7 +4,7 @@ import chai from "chai";
 const should = chai.should();
 import { TableCheckpointStore } from "../src";
 import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:checkpointStoreTable");
+const debug = debugModule("azure:event-hubs:tableCheckpointStore");
 import { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
