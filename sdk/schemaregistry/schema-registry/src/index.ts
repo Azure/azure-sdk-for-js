@@ -3,3 +3,4 @@
 
 export * from "./models";
 export { SchemaRegistryClient } from "./schemaRegistryClient";
+export { KnownSerializationType } from "./generated";
