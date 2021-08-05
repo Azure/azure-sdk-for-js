@@ -42,17 +42,15 @@ describe("TableCheckpointStore", function(): void {
   let tableName: string;
 
   describe("Runs tests on table with no entities", function() {
-    tableName = `table${new Date().getTime()}${Math.floor(Math.random() * 10) + 1}`;
     beforeEach("creating table", async () => {
+      tableName = `table${new Date().getTime()}${Math.floor(Math.random() * 10) + 1}`;
+      client = new TableClient(
+        `https://${service.storageAccountName}.table.core.windows.net`,
+        tableName,
+        credential
+      );
       await serviceClient.createTable(tableName);
     });
-
-    client = new TableClient(
-      `https://${service.storageAccountName}.table.core.windows.net`,
-      tableName,
-      credential
-    );
-
     afterEach(async () => {
       await serviceClient.deleteTable(tableName);
     });
@@ -69,449 +67,446 @@ describe("TableCheckpointStore", function(): void {
       });
     });
 
-    describe("Runs tests on a populated table", function() {
-      beforeEach("creating table", async () => {
-        tableName = `table${new Date().getTime()}`;
-        client = new TableClient(
-          `https://${service.storageAccountName}.table.core.windows.net`,
-          tableName,
-          credential
+    describe("listCheckpoints", function() {
+      it("listCheckpoint should return an empty array", async function(): Promise<void> {
+        const checkpointStore = new TableCheckpointStore(client);
+        const checkpoints = await checkpointStore.listCheckpoints(
+          "test.servicebus.windows.net",
+          "testHub",
+          "testConsumerGroup"
         );
-        await serviceClient.createTable(tableName);
-        const namespaceArray = [
-          "red.servicebus.windows.net",
+        should.equal(checkpoints.length, 0);
+      });
+    });
+  });
+
+  describe("Runs tests on a populated table", function() {
+    beforeEach("creating table", async () => {
+      tableName = `table${new Date().getTime()}`;
+      client = new TableClient(
+        `https://${service.storageAccountName}.table.core.windows.net`,
+        tableName,
+        credential
+      );
+      await serviceClient.createTable(tableName);
+      const namespaceArray = [
+        "red.servicebus.windows.net",
+        "blue.servicebus.windows.net",
+        "green.servicebus.windows.net"
+      ];
+      const eventHubArray = ["redHub", "blueHub", "greenHub"];
+      const consumerConst = "$default";
+      /* Checkpoint */
+      for (let i = 0; i < 3; ++i) {
+        const checkpoint_entity: CheckpointEntity = {
+          partitionKey: `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`,
+          rowKey: i.toString(),
+          sequencenumber: (100 + i).toString(),
+          offset: (1023 + i).toString()
+        };
+        await client.createEntity(checkpoint_entity);
+      }
+
+      /* Ownership */
+      for (let i = 0; i < 3; ++i) {
+        const ownership_entity: PartitionOwnershipEntity = {
+          partitionKey: `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Ownership`,
+          rowKey: i.toString(),
+          ownerid: "Id" + i
+        };
+        await client.createEntity(ownership_entity);
+      }
+    });
+
+    afterEach(async () => {
+      await serviceClient.deleteTable(tableName);
+    });
+
+    describe("listOwnership", function() {
+      it("listOwnership should print an array of ownerships", async function() {
+        const checkpointStore = new TableCheckpointStore(client);
+        const listOwnership = await checkpointStore.listOwnership(
           "blue.servicebus.windows.net",
-          "green.servicebus.windows.net"
-        ];
-        const eventHubArray = ["redHub", "blueHub", "greenHub"];
-        const consumerConst = "$default";
-        /* Checkpoint */
-        for (let i = 0; i < 3; ++i) {
-          const checkpoint_entity: CheckpointEntity = {
-            partitionKey: `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Checkpoint`,
-            rowKey: i.toString(),
-            sequencenumber: (100 + i).toString(),
-            offset: (1023 + i).toString()
-          };
-          await client.createEntity(checkpoint_entity);
-        }
-
-        /* Ownership */
-        for (let i = 0; i < 3; ++i) {
-          const ownership_entity: PartitionOwnershipEntity = {
-            partitionKey: `${namespaceArray[i]} ${eventHubArray[i]} ${consumerConst} Ownership`,
-            rowKey: i.toString(),
-            ownerid: "Id" + i
-          };
-          await client.createEntity(ownership_entity);
-        }
+          "blueHub",
+          "$default"
+        );
+        console.log(listOwnership);
       });
 
-      afterEach(async () => {
-        await serviceClient.deleteTable(tableName);
+      describe("listCheckpoints", function() {
+        it("listCheckpoints should print out an array of checkpoints", async function() {
+          const checkpointStore = new TableCheckpointStore(client);
+          const listCheckpoint = await checkpointStore.listCheckpoints(
+            "green.servicebus.windows.net",
+            "greenHub",
+            "$default"
+          );
+          console.log(listCheckpoint);
+        });
       });
 
-      describe("listOwnership", function() {
-        it("listOwnership should print an array of ownerships", async function() {
+      describe("claimOwnership", function() {
+        // these errors happen when we have multiple consumers starting up
+        // at the same time and load balancing amongst themselves. This is a
+        // normal thing and shouldn't be reported to the user.
+
+        it("claimOwnership ignores errors about etags", async () => {
           const checkpointStore = new TableCheckpointStore(client);
           const listOwnership = await checkpointStore.listOwnership(
             "blue.servicebus.windows.net",
             "blueHub",
             "$default"
           );
-          console.log(listOwnership);
+
+          const originalClaimedOwnerships = await checkpointStore.claimOwnership([
+            listOwnership[0]
+          ]);
+
+          const originalETag = originalClaimedOwnerships[0].etag;
+
+          console.log(originalClaimedOwnerships);
+          console.log(listOwnership[0]);
+
+          const newClaimedOwnerships = await checkpointStore.claimOwnership(
+            originalClaimedOwnerships
+          );
+          console.log(newClaimedOwnerships);
+          newClaimedOwnerships.length.should.equal(1);
+
+          newClaimedOwnerships.length.should.equal(1);
+          newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
+
+          // we've now invalidated the previous ownership's etag so using the old etag will fail
+
+          const shouldNotThrowButNothingWillClaim = await checkpointStore.claimOwnership([
+            {
+              partitionId: "1",
+              consumerGroup: "$default",
+              fullyQualifiedNamespace: "blue.servicebus.windows.net",
+              eventHubName: "blueHub",
+              ownerId: "Id" + 0,
+              etag: originalETag
+            }
+          ]);
+
+          shouldNotThrowButNothingWillClaim.length.should.equal(0);
         });
+        it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
+          void
+        > {
+          const checkpointStore = new TableCheckpointStore(client);
+          const listOwnership = await checkpointStore.listOwnership(
+            "testNamespace.servicebus.windows.net",
+            "testEventHub",
+            "testConsumerGroup"
+          );
+          should.equal(listOwnership.length, 0);
 
-        describe("listCheckpoints", function() {
-          it("listCheckpoints should print out an array of checkpoints", async function() {
-            const checkpointStore = new TableCheckpointStore(client);
-            const listCheckpoint = await checkpointStore.listCheckpoints(
-              "green.servicebus.windows.net",
-              "greenHub",
-              "$default"
-            );
-            console.log(listCheckpoint);
-          });
+          const partitionOwnership: PartitionOwnership = {
+            ownerId: "Id1",
+            partitionId: "0",
+            fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
+            consumerGroup: "testConsumerGroup",
+            eventHubName: "testEventHub"
+          };
+          const partitionOwnershipArray = await checkpointStore.claimOwnership([
+            partitionOwnership
+          ]);
+          should.equal(partitionOwnershipArray.length, 1);
+
+          const ownershipList = await checkpointStore.listOwnership(
+            "testNamespace.servicebus.windows.net",
+            "testEventHub",
+            "testConsumerGroup"
+          );
+
+          should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
+          should.equal(
+            ownershipList[0].ownerId,
+            "Id1",
+            "The 1st ownership item has the wrong ownerId."
+          );
+          should.equal(
+            ownershipList[0].consumerGroup,
+            "testConsumerGroup",
+            "The 1st ownership item has the wrong consumerGroup."
+          );
+          should.equal(
+            ownershipList[0].fullyQualifiedNamespace,
+            "testNamespace.servicebus.windows.net",
+            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+          );
+          should.equal(
+            ownershipList[0].eventHubName,
+            "testEventHub",
+            "The 1st ownership item has the wrong eventHubName."
+          );
+          should.equal(
+            ownershipList[0].partitionId,
+            "0",
+            "The 1st ownership item has the wrong partitionId."
+          );
+          should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+          should.exist(ownershipList[0].etag, "etag should exist.");
+          debug(
+            `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${
+              ownershipList[0].etag
+            }`
+          );
         });
+        it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function(): Promise<
+          void
+        > {
+          const checkpointStore = new TableCheckpointStore(client);
+          const listOwnership = await checkpointStore.listOwnership(
+            "testNamespace.servicebus.windows.net",
+            "testEventHub",
+            "testConsumerGroup"
+          );
+          should.equal(listOwnership.length, 0);
+          const partitionOwnershipArray: PartitionOwnership[] = [];
 
-        describe("claimOwnership", function() {
-          // these errors happen when we have multiple consumers starting up
-          // at the same time and load balancing amongst themselves. This is a
-          // normal thing and shouldn't be reported to the user.
-
-          it("claimOwnership ignores errors about etags", async () => {
-            const checkpointStore = new TableCheckpointStore(client);
-            const listOwnership = await checkpointStore.listOwnership(
-              "blue.servicebus.windows.net",
-              "blueHub",
-              "$default"
-            );
-
-            const originalClaimedOwnerships = await checkpointStore.claimOwnership([
-              listOwnership[0]
-            ]);
-
-            const originalETag = originalClaimedOwnerships[0].etag;
-
-            console.log(originalClaimedOwnerships);
-            console.log(listOwnership[0]);
-
-            const newClaimedOwnerships = await checkpointStore.claimOwnership(
-              originalClaimedOwnerships
-            );
-            console.log(newClaimedOwnerships);
-            newClaimedOwnerships.length.should.equal(1);
-
-            newClaimedOwnerships.length.should.equal(1);
-            newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
-
-            // we've now invalidated the previous ownership's etag so using the old etag will fail
-
-            const shouldNotThrowButNothingWillClaim = await checkpointStore.claimOwnership([
-              {
-                partitionId: "1",
-                consumerGroup: "$default",
-                fullyQualifiedNamespace: "blue.servicebus.windows.net",
-                eventHubName: "blueHub",
-                ownerId: "Id" + 0,
-                etag: originalETag
-              }
-            ]);
-
-            shouldNotThrowButNothingWillClaim.length.should.equal(0);
-          });
-          it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
-            void
-          > {
-            const checkpointStore = new TableCheckpointStore(client);
-            const listOwnership = await checkpointStore.listOwnership(
-              "testNamespace.servicebus.windows.net",
-              "testEventHub",
-              "testConsumerGroup"
-            );
-            should.equal(listOwnership.length, 0);
-
+          for (let index = 0; index < 3; index++) {
             const partitionOwnership: PartitionOwnership = {
               ownerId: "Id1",
-              partitionId: "0",
+              partitionId: `${index}`,
               fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
               consumerGroup: "testConsumerGroup",
               eventHubName: "testEventHub"
             };
-            const partitionOwnershipArray = await checkpointStore.claimOwnership([
-              partitionOwnership
-            ]);
-            should.equal(partitionOwnershipArray.length, 1);
+            partitionOwnershipArray.push(partitionOwnership);
+          }
 
-            const ownershipList = await checkpointStore.listOwnership(
-              "testNamespace.servicebus.windows.net",
-              "testEventHub",
-              "testConsumerGroup"
-            );
+          await checkpointStore.claimOwnership([partitionOwnershipArray[0]]);
+          await checkpointStore.claimOwnership([partitionOwnershipArray[1]]);
+          await checkpointStore.claimOwnership([partitionOwnershipArray[2]]);
+          const ownershipList = await checkpointStore.listOwnership(
+            "testNamespace.servicebus.windows.net",
+            "testEventHub",
+            "testConsumerGroup"
+          );
+          should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
+          should.equal(
+            ownershipList[0].ownerId,
+            "Id1",
+            "The 1st ownership item has the wrong ownerId."
+          );
+          should.equal(
+            ownershipList[0].consumerGroup,
+            "testConsumerGroup",
+            "The 1st ownership item has the wrong consumerGroup."
+          );
+          should.equal(
+            ownershipList[0].fullyQualifiedNamespace,
+            "testNamespace.servicebus.windows.net",
+            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+          );
 
-            should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
-            should.equal(
-              ownershipList[0].ownerId,
-              "Id1",
-              "The 1st ownership item has the wrong ownerId."
-            );
-            should.equal(
-              ownershipList[0].consumerGroup,
-              "testConsumerGroup",
-              "The 1st ownership item has the wrong consumerGroup."
-            );
-            should.equal(
-              ownershipList[0].fullyQualifiedNamespace,
-              "testNamespace.servicebus.windows.net",
-              "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
-            );
-            should.equal(
-              ownershipList[0].eventHubName,
-              "testEventHub",
-              "The 1st ownership item has the wrong eventHubName."
-            );
-            should.equal(
-              ownershipList[0].partitionId,
-              "0",
-              "The 1st ownership item has the wrong partitionId."
-            );
-            should.exist(
-              ownershipList[0].lastModifiedTimeInMs,
-              "lastModifiedTimeInMs should exist."
-            );
-            should.exist(ownershipList[0].etag, "etag should exist.");
-            debug(
-              `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${
-                ownershipList[0].etag
-              }`
-            );
-          });
-          it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function(): Promise<
-            void
-          > {
-            const checkpointStore = new TableCheckpointStore(client);
-            const listOwnership = await checkpointStore.listOwnership(
-              "testNamespace.servicebus.windows.net",
-              "testEventHub",
-              "testConsumerGroup"
-            );
-            should.equal(listOwnership.length, 0);
-            const partitionOwnershipArray: PartitionOwnership[] = [];
+          should.equal(
+            ownershipList[0].eventHubName,
+            "testEventHub",
+            "The 1st ownership item has the wrong eventHubName."
+          );
+          should.equal(
+            ownershipList[0].partitionId,
+            "0",
+            "The 1st ownership item has the wrong partitionId."
+          );
+          should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+          should.exist(ownershipList[0].etag, "etag should exist.");
+          debug(
+            `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${
+              ownershipList[0].etag
+            }`
+          );
+        });
 
-            for (let index = 0; index < 3; index++) {
-              const partitionOwnership: PartitionOwnership = {
-                ownerId: "Id1",
-                partitionId: `${index}`,
-                fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-                consumerGroup: "testConsumerGroup",
-                eventHubName: "testEventHub"
-              };
-              partitionOwnershipArray.push(partitionOwnership);
-            }
+        it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function(): Promise<
+          void
+        > {
+          const checkpointStore = new TableCheckpointStore(client);
+          const listOwnership = await checkpointStore.listOwnership(
+            "testNamespace.servicebus.windows.net",
+            "testEventHub",
+            "testConsumerGroup"
+          );
+          should.equal(listOwnership.length, 0);
 
-            await checkpointStore.claimOwnership([partitionOwnershipArray[0]]);
-            await checkpointStore.claimOwnership([partitionOwnershipArray[1]]);
-            await checkpointStore.claimOwnership([partitionOwnershipArray[2]]);
-            const ownershipList = await checkpointStore.listOwnership(
-              "testNamespace.servicebus.windows.net",
-              "testEventHub",
-              "testConsumerGroup"
-            );
-            should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
-            should.equal(
-              ownershipList[0].ownerId,
-              "Id1",
-              "The 1st ownership item has the wrong ownerId."
-            );
-            should.equal(
-              ownershipList[0].consumerGroup,
-              "testConsumerGroup",
-              "The 1st ownership item has the wrong consumerGroup."
-            );
-            should.equal(
-              ownershipList[0].fullyQualifiedNamespace,
-              "testNamespace.servicebus.windows.net",
-              "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
-            );
+          const partitionOwnershipArray: PartitionOwnership[] = [];
 
-            should.equal(
-              ownershipList[0].eventHubName,
-              "testEventHub",
-              "The 1st ownership item has the wrong eventHubName."
-            );
-            should.equal(
-              ownershipList[0].partitionId,
-              "0",
-              "The 1st ownership item has the wrong partitionId."
-            );
-            should.exist(
-              ownershipList[0].lastModifiedTimeInMs,
-              "lastModifiedTimeInMs should exist."
-            );
-            should.exist(ownershipList[0].etag, "etag should exist.");
-            debug(
-              `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${
-                ownershipList[0].etag
-              }`
-            );
-          });
+          for (let index = 0; index < 3; index++) {
+            const partitionOwnership: PartitionOwnership = {
+              ownerId: "Id1",
+              partitionId: `${index}`,
+              fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
+              consumerGroup: "testConsumerGroup",
+              eventHubName: "testEventHub"
+            };
+            partitionOwnershipArray.push(partitionOwnership);
+          }
+          await checkpointStore.claimOwnership([partitionOwnershipArray[0]]);
+          await checkpointStore.claimOwnership([partitionOwnershipArray[1]]);
+          await checkpointStore.claimOwnership([partitionOwnershipArray[2]]);
 
-          it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function(): Promise<
-            void
-          > {
-            const checkpointStore = new TableCheckpointStore(client);
-            const listOwnership = await checkpointStore.listOwnership(
-              "testNamespace.servicebus.windows.net",
-              "testEventHub",
-              "testConsumerGroup"
-            );
-            should.equal(listOwnership.length, 0);
+          const ownershipList = await checkpointStore.listOwnership(
+            "testNamespace.servicebus.windows.net",
+            "testEventHub",
+            "testConsumerGroup"
+          );
 
-            const partitionOwnershipArray: PartitionOwnership[] = [];
+          should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
+          should.equal(
+            ownershipList[0].ownerId,
+            "Id1",
+            "The 1st ownership item has the wrong ownerId."
+          );
+          should.equal(
+            ownershipList[0].consumerGroup,
+            "testConsumerGroup",
+            "The 1st ownership item has the wrong consumerGroup."
+          );
 
-            for (let index = 0; index < 3; index++) {
-              const partitionOwnership: PartitionOwnership = {
-                ownerId: "Id1",
-                partitionId: `${index}`,
-                fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-                consumerGroup: "testConsumerGroup",
-                eventHubName: "testEventHub"
-              };
-              partitionOwnershipArray.push(partitionOwnership);
-            }
-            await checkpointStore.claimOwnership([partitionOwnershipArray[0]]);
-            await checkpointStore.claimOwnership([partitionOwnershipArray[1]]);
-            await checkpointStore.claimOwnership([partitionOwnershipArray[2]]);
+          should.equal(
+            ownershipList[0].fullyQualifiedNamespace,
+            "testNamespace.servicebus.windows.net",
+            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+          );
+          should.equal(
+            ownershipList[0].eventHubName,
+            "testEventHub",
+            "The 1st ownership item has the wrong eventHubName."
+          );
+          should.equal(
+            ownershipList[0].eventHubName,
+            "testEventHub",
+            "The 1st ownership item has the wrong eventHubName."
+          );
+          should.equal(
+            ownershipList[0].partitionId,
+            "0",
+            "The 1st ownership item has the wrong partitionId."
+          );
+          should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+          should.exist(ownershipList[0].etag, "etag should exist.");
 
-            const ownershipList = await checkpointStore.listOwnership(
-              "testNamespace.servicebus.windows.net",
-              "testEventHub",
-              "testConsumerGroup"
-            );
+          should.equal(
+            ownershipList[1].partitionId,
+            "1",
+            "The 2nd ownership item has the wrong partitionId."
+          );
+          should.exist(ownershipList[1].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+          should.exist(ownershipList[1].etag, "etag should exist.");
 
-            should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
-            should.equal(
-              ownershipList[0].ownerId,
-              "Id1",
-              "The 1st ownership item has the wrong ownerId."
-            );
-            should.equal(
-              ownershipList[0].consumerGroup,
-              "testConsumerGroup",
-              "The 1st ownership item has the wrong consumerGroup."
-            );
-
-            should.equal(
-              ownershipList[0].fullyQualifiedNamespace,
-              "testNamespace.servicebus.windows.net",
-              "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
-            );
-            should.equal(
-              ownershipList[0].eventHubName,
-              "testEventHub",
-              "The 1st ownership item has the wrong eventHubName."
-            );
-            should.equal(
-              ownershipList[0].eventHubName,
-              "testEventHub",
-              "The 1st ownership item has the wrong eventHubName."
-            );
-            should.equal(
-              ownershipList[0].partitionId,
-              "0",
-              "The 1st ownership item has the wrong partitionId."
-            );
-            should.exist(
-              ownershipList[0].lastModifiedTimeInMs,
-              "lastModifiedTimeInMs should exist."
-            );
-            should.exist(ownershipList[0].etag, "etag should exist.");
-
-            should.equal(
-              ownershipList[1].partitionId,
-              "1",
-              "The 2nd ownership item has the wrong partitionId."
-            );
-            should.exist(
-              ownershipList[1].lastModifiedTimeInMs,
-              "lastModifiedTimeInMs should exist."
-            );
-            should.exist(ownershipList[1].etag, "etag should exist.");
-
-            should.equal(
-              ownershipList[2].partitionId,
-              "2",
-              "The 3rd ownership item has the wrong partitionId."
-            );
-            should.exist(
-              ownershipList[2].lastModifiedTimeInMs,
-              "lastModifiedTimeInMs should exist."
-            );
-            should.exist(ownershipList[2].etag, "etag should exist.");
-          });
+          should.equal(
+            ownershipList[2].partitionId,
+            "2",
+            "The 3rd ownership item has the wrong partitionId."
+          );
+          should.exist(ownershipList[2].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+          should.exist(ownershipList[2].etag, "etag should exist.");
         });
       });
+    });
 
-      describe("updateCheckpoint", function() {
-        it("updates checkpoints successfully", async () => {
-          const checkpointStore = new TableCheckpointStore(client);
-          const eventHubProperties = {
-            fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-            eventHubName: "testEventHub",
-            consumerGroup: "testConsumerGroup"
-          };
-          let i = 0;
-          while (i < 3) {
-            const checkpoint: Checkpoint = {
-              ...eventHubProperties,
-              partitionId: i.toString(),
-              sequenceNumber: 100 + i,
-              offset: 1023 + i
-            };
-            await checkpointStore.updateCheckpoint(checkpoint);
-            i++;
-          }
-
-          let checkpoints = await checkpointStore.listCheckpoints(
-            eventHubProperties.fullyQualifiedNamespace,
-            eventHubProperties.eventHubName,
-            eventHubProperties.consumerGroup
-          );
-          console.log(checkpoints);
-          checkpoints.length.should.equal(3);
-          checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
-
-          for (i = 0; i < 3; ++i) {
-            const checkpoint = checkpoints[i];
-
-            checkpoint.partitionId.should.equal(i.toString());
-            checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-            checkpoint.consumerGroup.should.equal("testConsumerGroup");
-            checkpoint.eventHubName.should.equal("testEventHub");
-            checkpoint.sequenceNumber!.should.equal(100 + i);
-            checkpoint.offset!.should.equal(1023 + i);
-
-            // now update it
-            checkpoint.offset++;
-            checkpoint.sequenceNumber++;
-
-            await checkpointStore.updateCheckpoint(checkpoint);
-          }
-          checkpoints = await checkpointStore.listCheckpoints(
-            eventHubProperties.fullyQualifiedNamespace,
-            eventHubProperties.eventHubName,
-            eventHubProperties.consumerGroup
-          );
-          console.log(checkpoints);
-          checkpoints.length.should.equal(3);
-          checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
-          for (i = 0; i < 3; ++i) {
-            const checkpoint = checkpoints[i];
-
-            checkpoint.partitionId.should.equal(i.toString());
-            checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-            checkpoint.consumerGroup.should.equal("testConsumerGroup");
-            checkpoint.eventHubName.should.equal("testEventHub");
-            checkpoint.sequenceNumber!.should.equal(100 + i + 1);
-            checkpoint.offset!.should.equal(1023 + i + 1);
-          }
-        });
-
-        it("creates a checkpoint where one doesn't already exist", async () => {
-          const checkpointStore = new TableCheckpointStore(client);
-          const eventHubProperties = {
-            fullyQualifiedNamespace: "pink.servicebus.windows.net",
-            eventHubName: "pinkHub",
-            consumerGroup: "testConsumerGroup"
-          };
-          // Ensure that there aren't any checkpoints.
-          let checkpoints = await checkpointStore.listCheckpoints(
-            eventHubProperties.fullyQualifiedNamespace,
-            eventHubProperties.eventHubName,
-            eventHubProperties.consumerGroup
-          );
-          checkpoints.length.should.equal(0);
-          // Create the checkpoint to add.
+    describe("updateCheckpoint", function() {
+      it("updates checkpoints successfully", async () => {
+        const checkpointStore = new TableCheckpointStore(client);
+        const eventHubProperties = {
+          fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
+          eventHubName: "testEventHub",
+          consumerGroup: "testConsumerGroup"
+        };
+        let i = 0;
+        while (i < 3) {
           const checkpoint: Checkpoint = {
-            consumerGroup: eventHubProperties.consumerGroup,
-            eventHubName: eventHubProperties.eventHubName,
-            fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
-            offset: 0,
-            partitionId: "0",
-            sequenceNumber: 1
+            ...eventHubProperties,
+            partitionId: i.toString(),
+            sequenceNumber: 100 + i,
+            offset: 1023 + i
           };
+          await checkpointStore.updateCheckpoint(checkpoint);
+          i++;
+        }
+
+        let checkpoints = await checkpointStore.listCheckpoints(
+          eventHubProperties.fullyQualifiedNamespace,
+          eventHubProperties.eventHubName,
+          eventHubProperties.consumerGroup
+        );
+        console.log(checkpoints);
+        checkpoints.length.should.equal(3);
+        checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+
+        for (i = 0; i < 3; ++i) {
+          const checkpoint = checkpoints[i];
+
+          checkpoint.partitionId.should.equal(i.toString());
+          checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
+          checkpoint.consumerGroup.should.equal("testConsumerGroup");
+          checkpoint.eventHubName.should.equal("testEventHub");
+          checkpoint.sequenceNumber!.should.equal(100 + i);
+          checkpoint.offset!.should.equal(1023 + i);
+
+          // now update it
+          checkpoint.offset++;
+          checkpoint.sequenceNumber++;
 
           await checkpointStore.updateCheckpoint(checkpoint);
-          // Ensure that there is a checkpoint.
-          checkpoints = await checkpointStore.listCheckpoints(
-            eventHubProperties.fullyQualifiedNamespace,
-            eventHubProperties.eventHubName,
-            eventHubProperties.consumerGroup
-          );
+        }
+        checkpoints = await checkpointStore.listCheckpoints(
+          eventHubProperties.fullyQualifiedNamespace,
+          eventHubProperties.eventHubName,
+          eventHubProperties.consumerGroup
+        );
+        console.log(checkpoints);
+        checkpoints.length.should.equal(3);
+        checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+        for (i = 0; i < 3; ++i) {
+          const checkpoint = checkpoints[i];
 
-          checkpoints.length.should.equal(1);
-          console.log(checkpoints);
-        });
+          checkpoint.partitionId.should.equal(i.toString());
+          checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
+          checkpoint.consumerGroup.should.equal("testConsumerGroup");
+          checkpoint.eventHubName.should.equal("testEventHub");
+          checkpoint.sequenceNumber!.should.equal(100 + i + 1);
+          checkpoint.offset!.should.equal(1023 + i + 1);
+        }
+      });
+
+      it("creates a checkpoint where one doesn't already exist", async () => {
+        const checkpointStore = new TableCheckpointStore(client);
+        const eventHubProperties = {
+          fullyQualifiedNamespace: "pink.servicebus.windows.net",
+          eventHubName: "pinkHub",
+          consumerGroup: "testConsumerGroup"
+        };
+        // Ensure that there aren't any checkpoints.
+        let checkpoints = await checkpointStore.listCheckpoints(
+          eventHubProperties.fullyQualifiedNamespace,
+          eventHubProperties.eventHubName,
+          eventHubProperties.consumerGroup
+        );
+        checkpoints.length.should.equal(0);
+        // Create the checkpoint to add.
+        const checkpoint: Checkpoint = {
+          consumerGroup: eventHubProperties.consumerGroup,
+          eventHubName: eventHubProperties.eventHubName,
+          fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
+          offset: 0,
+          partitionId: "0",
+          sequenceNumber: 1
+        };
+
+        await checkpointStore.updateCheckpoint(checkpoint);
+        // Ensure that there is a checkpoint.
+        checkpoints = await checkpointStore.listCheckpoints(
+          eventHubProperties.fullyQualifiedNamespace,
+          eventHubProperties.eventHubName,
+          eventHubProperties.consumerGroup
+        );
+
+        checkpoints.length.should.equal(1);
+        console.log(checkpoints);
       });
     });
   });
