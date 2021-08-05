@@ -64,7 +64,7 @@ export function convertRequestForQueryBatch(
     delete body["workspaceId"];
     delete body["serverTimeoutInSeconds"];
     delete body["includeQueryStatistics"];
-    body["additionalWorkspaces"] = batchOptions?.additionalWorkspaces;
+    body["workspaces"] = batchOptions?.additionalWorkspaces;
 
     const generatedRequest: GeneratedBatchQueryRequest = {
       id: id.toString(),

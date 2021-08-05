@@ -12,7 +12,11 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
  */
 export interface QueryLogsOptions extends OperationOptions {
   /**
-   * A list of workspaces that are included in the query. These can be list of azure resource ids, workspace ids or qualified names
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
    */
   additionalWorkspaces?: string[];
   /**
@@ -58,7 +62,11 @@ export interface QueryLogsResult {
 /** Options when query logs with a batch. */
 export interface QueryLogsBatchOptions extends OperationOptions {
   /**
-   * A list of workspaces that are included in the query. These can be list of azure resource ids, workspace ids or qualified names
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
    */
   additionalWorkspaces?: string[];
   /**

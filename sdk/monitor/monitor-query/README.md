@@ -172,7 +172,45 @@ async function run() {
 run().catch((err) => console.log("ERROR:", err));
 ```
 
-#### Specifying server timeout
+#### Set logs query timeout
+
+```
+  // setting optional parameters
+   const queryLogsOptions: QueryLogsOptions = {
+    // explicitly control the amount of time the server can spend processing the query.
+    serverTimeoutInSeconds: 60
+  };
+
+  const result = await logsQueryClient.queryLogs(
+    azureLogAnalyticsWorkspaceId,
+    kustoQuery,
+    Durations.last24Hours,
+    queryLogsOptions
+  );
+
+  const tablesFromResult = result.tables;
+
+  if (tablesFromResult == null) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
+  }
+
+  console.log(`Results for query '${kustoQuery}'`);
+
+// Formatting the table from results
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columns
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
+  }
+}
+```
 
 For more samples see here: [samples][samples].
 

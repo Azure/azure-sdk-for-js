@@ -51,10 +51,11 @@ describe("Model unit tests", () => {
       assert.deepEqual(generatedRequest, <GeneratedBatchRequest>{
         requests: [
           {
-            id: "0", // auto-generated,
+            id: "0",
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
+              workspaces: undefined,
               query: "the kusto query",
               timespan: Durations.last24Hours
             }
