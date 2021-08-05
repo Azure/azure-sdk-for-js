@@ -118,7 +118,7 @@ describe("TableCheckpointStore", function(): void {
           consumerGroup: "testConsumerGroup"
         };
 
-        // now let's induce a bad failure (removing the container)
+        // now let's induce a bad failure (removing the table)
         await client.deleteTable();
 
         // Create the checkpoint to add.
