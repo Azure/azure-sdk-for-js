@@ -10,12 +10,6 @@
 - Updated to @azure/communication-signaling@1.0.0-beta.5.
 - Enabled real-time notification for React Native.
 
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
 ## 1.0.0 (2021-03-29)
 
 ### Breaking Changes
