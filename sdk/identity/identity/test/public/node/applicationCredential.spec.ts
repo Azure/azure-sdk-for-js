@@ -4,13 +4,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
-import {
-  AuthenticationError,
-  CredentialUnavailableError,
-  ApplicationCredential
-} from "../../../src";
+import { CredentialUnavailableError, ApplicationCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
-import { assertRejects } from "../../authTestUtils";
+import { getError } from "../../authTestUtils";
 import { Context } from "mocha";
 
 describe("ApplicationCredential", function() {
@@ -102,10 +98,8 @@ describe("ApplicationCredential", function() {
 
     const credential = new ApplicationCredential();
 
-    await assertRejects(
-      credential.getToken(scope),
-      (error: AuthenticationError) =>
-        error.errorResponse.error.indexOf("EnvironmentCredential authentication failed.") > -1
-    );
+    const error = await getError(credential.getToken(scope));
+    assert.equal(error.name, "AuthenticationError");
+    assert.ok(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);
   });
 });

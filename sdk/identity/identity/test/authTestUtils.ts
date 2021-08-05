@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import assert from "assert";
 import { AuthenticationError } from "../src";
 import { DefaultAuthorityHost } from "../src/constants";
 
