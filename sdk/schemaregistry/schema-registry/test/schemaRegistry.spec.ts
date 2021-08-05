@@ -11,6 +11,7 @@ import { ClientSecretCredential } from "@azure/identity";
 
 import { SchemaRegistryClient, SchemaDescription, SchemaId } from "../src/index";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { convertSchemaIdResponse } from "../src/conversions";
 
 const options: OperationOptions = {
   onResponse: (rawResponse: FullOperationResponse) => {
@@ -134,5 +135,75 @@ describe("SchemaRegistryClient", function() {
     const found = await client.getSchemaById(registered.id, options);
     assertIsValidSchemaId(found);
     assert.equal(found.content, schema.content);
+  });
+
+  it("cache schema and ID", async () => {
+    const registered = await client.registerSchema(schema, options);
+    assertIsValidSchemaId(registered);
+
+    const foundSchema = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundSchema);
+    assert.equal(foundSchema.content, schema.content);
+
+    const foundId = await client.getSchemaId(schema, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundId);
+    assert.equal(foundId?.id, registered.id);
+  });
+
+  it("cache schema and ID if not registered by the current client instance", async () => {
+    // register a schema without caching.
+    const registered = await client["client"]["schema"]
+      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+      .then(convertSchemaIdResponse);
+    assertIsValidSchemaId(registered);
+
+    let firstCall = false;
+    // first call sends a request to the service and then cache the response
+    const foundSchemaFirstCall = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        firstCall = true;
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundSchemaFirstCall);
+    assert.equal(foundSchemaFirstCall.content, schema.content);
+    // second call returns the result from the cache
+    const foundSchemaSecondCall = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundSchemaSecondCall);
+    assert.equal(foundSchemaSecondCall.content, schema.content);
+
+    firstCall = false;
+    // first call sends a request to the service and then cache the response
+    const foundIdFirstCall = await client.getSchemaId(schema, {
+      onResponse: () => {
+        firstCall = true;
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundIdFirstCall);
+    assert.equal(foundIdFirstCall?.id, registered.id);
+
+    // second call returns the result from the cache
+    const foundIdSecondCall = await client.getSchemaId(schema, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundIdSecondCall);
+    assert.equal(foundIdSecondCall?.id, registered.id);
   });
 });

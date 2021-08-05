@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
-import { EdmTypes, SignedIdentifier } from "./models";
+import { Edm as EdmModel, EdmTypes, SignedIdentifier } from "./models";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 import { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
 
@@ -145,11 +145,36 @@ export function deserialize<T extends object = Record<string, any>>(
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
         typedValue = getTypedObject(value, type, disableTypeConversion);
+      } else if (disableTypeConversion && ["number", "string"].includes(typeof value)) {
+        // The service, doesn't return type metadata for number or strings
+        // if automatic type conversion is disabled we'll infer the EDM object
+        typedValue = inferTypedObject(key, value);
       }
+
       deserialized[transformedKey] = typedValue;
     }
   }
   return deserialized;
+}
+
+function inferTypedObject(propertyName: string, value: number | string) {
+  // We need to skip service metadata fields such as partitionKey and rowKey and use the same value returned by the service
+  if (propertyCaseMap.has(propertyName)) {
+    return value;
+  }
+
+  return typeof value === "string" ? { value, type: "String" } : getTypedNumber(value);
+}
+
+/**
+ * Returns the number when typeConversion is enabled or the EDM object with the correct number format Double or Int32 if disabled
+ */
+function getTypedNumber(value: number): EdmModel<"Double"> | EdmModel<"Int32"> {
+  if (Number.isInteger(value)) {
+    return { value, type: "Int32" };
+  } else {
+    return { value, type: "Double" };
+  }
 }
 
 export function deserializeObjectsArray<T extends object>(

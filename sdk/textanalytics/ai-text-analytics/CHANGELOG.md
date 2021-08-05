@@ -14,6 +14,8 @@
 - We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
 - `beginAnalyzeHealthcareEntities` now works with Azure Active Directory credentials.
 - `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
