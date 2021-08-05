@@ -22,8 +22,8 @@ export { PollerLike }
 
 // @public
 export interface PollerOptions {
-    intervalInMs?: number;
     resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 export { PollOperationState }
