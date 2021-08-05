@@ -266,7 +266,7 @@ const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
   hostName,
   parameter
 );
-console.log(`Are we done yet? ${poller.getPollState().state !== "InProgress"}`)
+console.log(`The current status? ${poller.getPollState().state"}`)
 const result = await poller.pollUntilFinished().then((response) => {
   console.log(response);
 });
@@ -282,7 +282,7 @@ const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
   parameter
 );
 poller.onProgress((state) => {
-  console.log(`Are we done yet? ${state.isCompleted});
+  console.log(`Are we done yet? ${Boolean(state.isCompleted)});
 })
 const result = await poller.pollUntilDone().then((response) => {
   console.log(response);
