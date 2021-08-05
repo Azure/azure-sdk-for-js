@@ -89,7 +89,7 @@ describe("Model unit tests", () => {
 
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
         body: {
-          additionalWorkspaces: ["additionalWorkspace", "resourceId1"],
+          workspaces: ["additionalWorkspace", "resourceId1"],
           query: "the kusto query",
           timespan: "PT5M"
         },
