@@ -1,15 +1,22 @@
 # Azure Monitor Workspace query client library for JavaScript
 
-[Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/overview) is a comprehensive solution for collecting, analyzing, and acting on telemetry from your cloud and on-premises environments.
+[Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/overview) is a comprehensive solution for collecting, analyzing, and acting on telemetry from your cloud and on-premises environments. This service helps you maximize the availability and performance of your apps.
 
+All data collected by Azure Monitor fits into one of two fundamental types:
+
+- Metrics - Numerical values that describe some aspect of a system at a particular time. They're lightweight and can support near real-time scenarios.
+- Logs - Disparate types of data organized into records with different sets of properties for each type. Performance data and telemetry such as events, exceptions, and traces are stored as logs.
+
+To programmatically analyze these data sources, the Azure Monitor Query client library can be used.
 Use the client library for Azure Monitor to:
 
 - Query logs using the [Kusto query language][kusto_query_language]
 - Query metrics
 
 Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/) 
-- [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) 
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query)
 - [API reference documentation][msdocs_apiref]
 - [Product documentation][azure_monitor_product_documentation]
 - [Samples][samples]
@@ -32,7 +39,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure Subscription](https://azure.microsoft.com)
-- An [Azure Monitor][azure_monitor_product_documentation] resource 
+- An [Azure Monitor][azure_monitor_product_documentation] resource
 
 ### Create an Azure Monitor resource
 
@@ -72,16 +79,60 @@ More information about `@azure/identity` can be found [here](https://github.com/
 
 ## Key concepts
 
+### Logs
+
+Azure Monitor Logs collects and organizes log and performance data from monitored resources. Data from different sources can be consolidated into a single workspace. Examples of data sources include:
+
+- Platform logs from Azure services.
+- Log and performance data from virtual machine agents.
+- Usage and performance data from apps.
+
+#### Azure Log Analytics workspaces
+
+Data collected by Azure Monitor Logs is stored in one or more [Log Analytics workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-workspaces). The workspace defines the:
+
+- Geographic location of the data.
+- Access rights defining which users can access data.
+- Configuration settings, such as the pricing tier and data retention.
+
+#### Log queries
+
+Data from the disparate sources can be analyzed together using [Kusto Query Language (KQL)](https://docs.microsoft.com/azure/data-explorer/kusto/query/)&mdash;the same query language used by [Azure Data Explorer](https://docs.microsoft.com/azure/data-explorer/data-explorer-overview). Data is retrieved from a Log Analytics workspace using a KQL query&mdash;a read-only request to process data and return results. For more information, see [Log queries in Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/logs/log-query-overview).
+
+#### Logs Query Client
+
 The [`LogsQueryClient`][msdocs_logs_client] allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
 portal using tables like `AppEvents`, `AppDependencies` and others.
+
+### Metrics
+
+Azure Monitor Metrics collects numeric data from monitored resources into a time series database. Metrics are collected at regular intervals and describe some aspect of a system at a particular time. Metrics in Azure Monitor are lightweight and can support near real-time scenarios. They're useful for alerting and fast detection of issues. Metrics can be:
+
+- Analyzed interactively with [Metrics Explorer](https://docs.microsoft.com/azure/azure-monitor/essentials/metrics-getting-started).
+- Used to receive notifications with an alert when a value crosses a threshold.
+- Visualized in a workbook or dashboard.
+
+#### Metrics data structure
+
+Each set of metric values is a time series with the following characteristics:
+
+- The time the value was collected
+- The resource associated with the value
+- A namespace that acts like a category for the metric
+- A metric name
+- The value itself
+- Some metrics may have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
+
+#### Metrics Query Client
 
 The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
 
 ## Examples
 
-#### Querying logs
+### Querying logs
 
-The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language.
+The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language. The timespan can be specified as a string in an ISO8601 duration format.
+You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
 ```javascript
 const { LogsQueryClient } = require("@azure/monitor-query");
@@ -92,7 +143,11 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
+  const result = await logsQueryClient.queryLogs(
+    azureLogAnalyticsWorkspaceId,
+    kustoQuery,
+    Durations.last24Hours
+  );
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
@@ -115,6 +170,46 @@ async function run() {
   }
 }
 run().catch((err) => console.log("ERROR:", err));
+```
+
+#### Set logs query timeout
+
+```
+  // setting optional parameters
+   const queryLogsOptions: QueryLogsOptions = {
+    // explicitly control the amount of time the server can spend processing the query.
+    serverTimeoutInSeconds: 60
+  };
+
+  const result = await logsQueryClient.queryLogs(
+    azureLogAnalyticsWorkspaceId,
+    kustoQuery,
+    Durations.last24Hours,
+    queryLogsOptions
+  );
+
+  const tablesFromResult = result.tables;
+
+  if (tablesFromResult == null) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
+  }
+
+  console.log(`Results for query '${kustoQuery}'`);
+
+// Formatting the table from results
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columns
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
+  }
+}
 ```
 
 For more samples see here: [samples][samples].
