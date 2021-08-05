@@ -160,7 +160,7 @@ export const keyRotationTransformations = {
       expiresIn: generated.attributes?.expiryTime,
       lifetimeActions: generated.lifetimeActions?.map((action) => {
         return {
-          action: action.action?.type,
+          action: action.action!.type!,
           timeAfterCreate: action.trigger?.timeAfterCreate,
           timeBeforeExpiry: action.trigger?.timeBeforeExpiry
         };

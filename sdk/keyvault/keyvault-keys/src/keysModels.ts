@@ -657,7 +657,7 @@ export interface KeyRotationLifetimeAction {
   /**
    * The action that will be executed.
    */
-  action?: KeyRotationPolicyAction;
+  action: KeyRotationPolicyAction;
 }
 
 /**

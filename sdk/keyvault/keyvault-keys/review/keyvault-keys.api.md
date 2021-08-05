@@ -295,7 +295,7 @@ export interface KeyReleasePolicy {
 
 // @public
 export interface KeyRotationLifetimeAction {
-    action?: KeyRotationPolicyAction;
+    action: KeyRotationPolicyAction;
     timeAfterCreate?: string;
     timeBeforeExpiry?: string;
 }
