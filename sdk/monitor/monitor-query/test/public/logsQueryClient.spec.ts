@@ -365,7 +365,7 @@ describe("LogsQueryClient live tests", function() {
       // (we'll wait until the data is there before running all the tests)
       await checkLogsHaveBeenIngested({
         maxTries: 240,
-        secondsBetweenQueries: 1
+        secondsBetweenQueries: 5
       });
     });
 
