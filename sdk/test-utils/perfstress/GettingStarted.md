@@ -295,14 +295,6 @@ Run this command
 
 - `docker run -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
 
-If the above command doesn't work directly, try logging in. [@Scott Beddall is trying to iron out the kinks :)]
-
-> az login
-
-> az acr login --name azsdkengsys
-
-And then repeat the above command.
-
 Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
 
 To use the proxy-tool in your test pass this option in cli `--test-proxy http://localhost:5000`(Make sure the port is same as what you have used to run the `docker run` command).
