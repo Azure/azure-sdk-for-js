@@ -53,12 +53,18 @@ export function convertRequestForQueryBatch(
   const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
     const body: QueryBody &
       Partial<Pick<BatchQuery, "workspaceId">> &
-      Partial<Pick<QueryLogsBatchOptions, "serverTimeoutInSeconds" | "includeQueryStatistics">> = {
+      Partial<
+        Pick<
+          QueryLogsBatchOptions,
+          "serverTimeoutInSeconds" | "includeQueryStatistics" | "additionalWorkspaces"
+        >
+      > = {
       ...query
     };
     delete body["workspaceId"];
     delete body["serverTimeoutInSeconds"];
     delete body["includeQueryStatistics"];
+    body["additionalWorkspaces"] = batchOptions?.additionalWorkspaces;
 
     const generatedRequest: GeneratedBatchQueryRequest = {
       id: id.toString(),
