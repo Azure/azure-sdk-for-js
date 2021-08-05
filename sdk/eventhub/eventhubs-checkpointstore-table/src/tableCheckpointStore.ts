@@ -2,16 +2,24 @@
 // Licensed under the MIT license.
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { odata, TableClient } from "@azure/data-tables";
+import { odata, TableClient, TableInsertEntityHeaders } from "@azure/data-tables";
 import { logger, logErrorStackTrace } from "./log";
 
 /**
  * A checkpoint entity of type CheckpointEntity to be stored in the table
  * @internal
- * @hidden
+ * 
  */
 export interface CheckpointEntity {
+  /**
+  * The partitionKey is a composite key assembled in the following format:
+  * `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`
+  */
   partitionKey: string;
+  /**
+  * The rowKey is the partitionId
+  * 
+  */
   rowKey: string;
   sequencenumber: number;
   offset: number;
@@ -23,7 +31,15 @@ export interface CheckpointEntity {
  * @hidden
  */
 export interface PartitionOwnershipEntity {
+  /**
+  * The partitionKey is a composite key assembled in the following format:
+  * `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Ownership`
+  */
   partitionKey: string;
+  /**
+  * The rowKey is the partitionId
+  * 
+  */
   rowKey: string;
   ownerid: string;
 }
@@ -39,19 +55,14 @@ export class TableCheckpointStore implements CheckpointStore {
   }
 
   /**
-   * converts timestamp to date and returns time in milliseconds
+   * checks if value of timestamp is a string
+   * 
    *
    */
-  private async _toMillisecs(time: string | undefined): Promise<number> {
-    let millisecs: number;
-    if (typeof time === "string") {
-      const toDate = new Date(time);
-      millisecs = toDate.getTime();
-      return millisecs;
-    } else {
-      throw new Error("invalid date");
-    }
+   private _hasTimestamp<T extends TableInsertEntityHeaders>(value: T): value is T & { Timestamp: string } {
+    return typeof (value as any).Timestamp === 'string';
   }
+  
   /**
    * Get the list of all existing partition ownership from the underlying data store. May return empty
    * results if there are is no existing ownership information.
@@ -78,16 +89,22 @@ export class TableCheckpointStore implements CheckpointStore {
     });
     try {
       for await (const entity of entitiesIter) {
-        const partitionOwnership: PartitionOwnership = {
-          fullyQualifiedNamespace,
-          eventHubName,
-          consumerGroup,
-          ownerId: entity.ownerid,
-          partitionId: entity.rowKey,
-          lastModifiedTimeInMs: await this._toMillisecs(entity.timestamp),
-          etag: entity.etag
-        };
-        partitionOwnershipArray.push(partitionOwnership);
+        if (!entity.timestamp) {
+          throw new Error(`Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${entity.rowKey}"`);
+        }
+
+          const partitionOwnership: PartitionOwnership = {
+            fullyQualifiedNamespace,
+            eventHubName,
+            consumerGroup,
+            ownerId: entity.ownerid,
+            partitionId: entity.rowKey,
+            lastModifiedTimeInMs: new Date(entity.timestamp).getTime(),
+            etag: entity.etag
+          };
+          partitionOwnershipArray.push(partitionOwnership);
+        
+        
       }
       return partitionOwnershipArray;
     } catch (err) {
@@ -113,9 +130,9 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
     for (const ownership of partitionOwnership) {
-      const partition_Key = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
+      const partitionKey = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
       const ownershipEntity: PartitionOwnershipEntity = {
-        partitionKey: partition_Key,
+        partitionKey: partitionKey,
         rowKey: ownership.partitionId,
         ownerid: ownership.ownerId
       };
@@ -127,17 +144,18 @@ export class TableCheckpointStore implements CheckpointStore {
           const updatedMetadata = await this._tableClient.updateEntity(ownershipEntity, "Replace", {
             etag: ownership.etag
           });
+          if (!this._hasTimestamp(updatedMetadata)) {
+            throw new Error(`Unable to retrieve timestamp from partitionKey "`);
+          }
+          ownership.lastModifiedTimeInMs = new Date(updatedMetadata.Timestamp).getTime();
           ownership.etag = updatedMetadata.etag;
-          ownership.lastModifiedTimeInMs = await this._toMillisecs(
-            (updatedMetadata as any).Timestamp
-          );
           partitionOwnershipArray.push(ownership);
           logger.info(
             `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
             `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
           );
         } else {
-          try {
+          
             const newOwnershipMetadata = await this._tableClient.createEntity(ownershipEntity, {
               requestOptions: {
                 customHeaders: {
@@ -145,14 +163,13 @@ export class TableCheckpointStore implements CheckpointStore {
                 }
               }
             });
+            if (!this._hasTimestamp(newOwnershipMetadata)) {
+              throw new Error(`Unable to retrieve timestamp from partitionKey "`);
+            }
+            ownership.lastModifiedTimeInMs = new Date(newOwnershipMetadata.Timestamp).getTime();
             ownership.etag = newOwnershipMetadata.etag;
-            ownership.lastModifiedTimeInMs = await this._toMillisecs(
-              (newOwnershipMetadata as any).Timestamp
-            );
             partitionOwnershipArray.push(ownership);
-          } catch (err) {
-            throw new Error("Entity was not created");
-          }
+          
         }
       } catch (err) {
         if (err.statusCode === 412) {
@@ -190,10 +207,10 @@ export class TableCheckpointStore implements CheckpointStore {
     eventHubName: string,
     consumerGroup: string
   ): Promise<Checkpoint[]> {
-    const partition_Key = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
+    const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
     const entitiesIter = this._tableClient.listEntities<CheckpointEntity>({
-      queryOptions: { filter: odata`PartitionKey eq ${partition_Key}` }
+      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
     });
     for await (const entity of entitiesIter) {
       checkpoints.push({
@@ -218,9 +235,9 @@ export class TableCheckpointStore implements CheckpointStore {
    * @returns A promise that resolves when the checkpoint has been updated.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
-    const partition_Key = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
+    const partitionKey = `${checkpoint.fullyQualifiedNamespace} ${checkpoint.eventHubName} ${checkpoint.consumerGroup} Checkpoint`;
     const checkpointEntity: CheckpointEntity = {
-      partitionKey: partition_Key,
+      partitionKey: partitionKey,
       rowKey: checkpoint.partitionId,
       sequencenumber: checkpoint.sequenceNumber,
       offset: checkpoint.offset
