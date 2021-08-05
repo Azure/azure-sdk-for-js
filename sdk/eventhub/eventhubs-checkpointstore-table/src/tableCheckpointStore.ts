@@ -132,7 +132,7 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
     for (const ownership of partitionOwnership) {
-      const updatedOwnership = {...ownership};
+      const updatedOwnership = { ...ownership };
       const partitionKey = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
       const ownershipEntity: PartitionOwnershipEntity = {
         partitionKey: partitionKey,
@@ -178,7 +178,9 @@ export class TableCheckpointStore implements CheckpointStore {
             );
           }
 
-          updatedOwnership.lastModifiedTimeInMs = new Date(newOwnershipMetadata.Timestamp).getTime();
+          updatedOwnership.lastModifiedTimeInMs = new Date(
+            newOwnershipMetadata.Timestamp
+          ).getTime();
           updatedOwnership.etag = newOwnershipMetadata.etag;
           partitionOwnershipArray.push(updatedOwnership);
         }
