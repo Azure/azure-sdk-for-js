@@ -3,16 +3,12 @@
 
 import assert from "assert";
 import { RestError } from "@azure/core-http";
-import {
-  ManagedIdentityCredential,
-  AuthenticationError,
-  ApplicationCredential
-} from "../../../src";
+import { AuthenticationError, ApplicationCredential } from "../../../src";
 import { MockAuthHttpClient, assertRejects } from "../../authTestUtils";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
 
-describe("ManagedIdentityCredential", function() {
+describe.skip("ApplicationCredential (internal)", function() {
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
 
@@ -37,7 +33,7 @@ describe("ManagedIdentityCredential", function() {
       authResponse: [{ error: imdsError }]
     });
 
-    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+    const credential = new ApplicationCredential({
       ...mockHttpClient.tokenCredentialOptions
     });
     await assertRejects(
@@ -50,7 +46,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
-      error: "ManagedIdentityCredential authentication failed.",
+      error: "ApplicationCredential authentication failed.",
       error_description: ""
     };
 
@@ -58,7 +54,7 @@ describe("ManagedIdentityCredential", function() {
       authResponse: [{ status: 200 }, { status: 500, parsedBody: errResponse }]
     });
 
-    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+    const credential = new ApplicationCredential({
       ...mockHttpClient.tokenCredentialOptions
     });
     await assertRejects(
@@ -74,8 +70,8 @@ describe("ManagedIdentityCredential", function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [{ status: 200 }, { error: netError }]
     });
-
-    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+    console.dir(mockHttpClient.tokenCredentialOptions);
+    const credential = new ApplicationCredential({
       ...mockHttpClient.tokenCredentialOptions
     });
     await assertRejects(
