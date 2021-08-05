@@ -34,7 +34,6 @@ import { logger } from "./log";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { Pipeline as BlobPipeline } from "@azure/storage-blob";
 import {
   StorageDataLakeLoggingAllowedHeaderNames,
   StorageDataLakeLoggingAllowedQueryParameters,
@@ -79,7 +78,7 @@ export interface PipelineOptions {
  * Refer to {@link newPipeline} and provided policies before implementing your
  * customized Pipeline.
  */
-export class Pipeline extends BlobPipeline {
+export class Pipeline {
   /**
    * A list of chained request policy factories.
    */
@@ -96,7 +95,6 @@ export class Pipeline extends BlobPipeline {
    * @param options -
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
-    super(factories, options);
     this.factories = factories;
     // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
     // avoid each client creating its own http client.
