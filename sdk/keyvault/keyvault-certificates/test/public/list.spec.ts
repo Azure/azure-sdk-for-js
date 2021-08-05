@@ -87,10 +87,6 @@ describe("Certificates client - list certificates in various ways", () => {
     }
 
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
-
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   it("can list deleted certificates", async function(this: Context) {
@@ -145,9 +141,6 @@ describe("Certificates client - list certificates in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   if (isNode && !isPlaybackMode()) {
@@ -242,7 +235,6 @@ describe("Certificates client - list certificates in various ways", () => {
     versions.sort(comp);
 
     expect(results).to.deep.equal(versions);
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers only
