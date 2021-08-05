@@ -855,6 +855,11 @@
       "packageName": "@azure/arm-webpubsub",
       "projectFolder": "sdk/web-pubsub/arm-webpubsub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sql",
+      "projectFolder": "sdk/sql/arm-sql",
+      "versionPolicyName": "management"
     }
   ]
 }

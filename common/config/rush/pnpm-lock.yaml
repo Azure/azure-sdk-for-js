@@ -15,6 +15,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
+  '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
@@ -8738,6 +8739,26 @@ packages:
       integrity: sha512-qCoJfklY7j2h5N8EgS7J/9fgg52p1QJminenS8L2y2O8z2mnEc/qr5PqkypeM7GZaQXUf0vK68A0U6fOEuWRxg==
       tarball: file:projects/arm-resources.tgz
     version: 0.0.0
+  file:projects/arm-sql.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.10
+    dev: false
+    name: '@rush-temp/arm-sql'
+    resolution:
+      integrity: sha512-d740cACOOsMXQ3bwlpaXrGeOxAVZMCf+6D+LKN8ltZbTJHPrw5Jv0q6tCp7k+aa+nY6hBP1qYtYfKpk0Rg4wuA==
+      tarball: file:projects/arm-sql.tgz
+    version: 0.0.0
   file:projects/arm-storage.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -12406,6 +12427,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
+  '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
