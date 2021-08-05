@@ -128,7 +128,8 @@ export class TableCheckpointStore implements CheckpointStore {
             etag: ownership.etag
           });
           ownership.etag = updatedMetadata.etag;
-          ownership.lastModifiedTimeInMs = Number(updatedMetadata.date?.getTime());
+          ownership.lastModifiedTimeInMs = await this._toMillisecs(
+            (updatedMetadata as any).Timestamp);
           partitionOwnershipArray.push(ownership);
           logger.info(
             `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
