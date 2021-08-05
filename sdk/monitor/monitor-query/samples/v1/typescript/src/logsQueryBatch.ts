@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, QueryLogsBatchOptions, QueryLogsOptions } from "@azure/monitor-query";
+import { LogsQueryClient, QueryLogsBatchOptions } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -58,6 +58,7 @@ export async function main() {
     throw new Error("No response for query");
   }
 
+  let i = 0;
   for (const response of result.results) {
     console.log(`Results for query with id: ${response.id}`);
 
@@ -67,7 +68,9 @@ export async function main() {
       if (response.tables == null) {
         console.log(`No results for query`);
       } else {
-        console.log(`Printing results from query '${kqlQuery}' for 1 day.`);
+        console.log(
+          `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        );
 
         for (const table of response.tables) {
           const columnHeaderString = table.columns
@@ -82,6 +85,8 @@ export async function main() {
         }
       }
     }
+    // next query
+    i++;
   }
 }
 
