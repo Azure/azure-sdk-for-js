@@ -936,7 +936,7 @@ By setting the option `disableAutomaticAuthentication` to `true` the credential 
 
 ```
 try {
-    await client.getSecret("secret-name");
+  await client.getSecret("secret-name");
 } catch (e) {
   await ensureAnimationCompleted();
 
