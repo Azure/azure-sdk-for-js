@@ -6,7 +6,7 @@ import { odata, TableClient, TableInsertEntityHeaders } from "@azure/data-tables
 import { logger, logErrorStackTrace } from "./log";
 
 /**
- * checks if value of timestamp is a string
+ * Checks if the value contains a `Timestamp` field of type `string`.
  *
  *
  */
