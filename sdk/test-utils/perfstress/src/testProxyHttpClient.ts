@@ -20,11 +20,61 @@ const paths = {
   stop: "/stop"
 };
 
+/**
+ * Helper class to manage the recording state to make sure the proxy-tool is not flooded with unintended requests.
+ * 
+ * => then start record
+ * => run the runAsync
+ * => stop record
+ * => start playback
+ * => stop playback
+ */
+export class RecordingStateManager {
+  public state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback" | undefined;
+
+  /**
+   * validateState
+   */
+  public validateState(currentFlow: "starting-recording" | "stopping-recording" | "starting-playback" | "stopping-playback") {
+    if (currentFlow === "starting-recording") {
+      if (this.state === "started-recording") {
+        throw new Error("Already started recording, should not have called again.");
+      }
+    }
+    if (currentFlow === "stopping-recording") {
+      if (this.state === "stopped-recording") {
+        throw new Error("Already stopped recording, should not have called again.");
+      }
+      if (this.state !== "started-recording") {
+        throw new Error("Please start recording before calling stop.");
+      }
+    }
+    if (currentFlow === "starting-playback") {
+      if (this.state !== "stopped-recording") {
+        throw new Error("Did not stop recording, stop recording before starting playback.");
+      }
+    }
+    if (currentFlow === "stopping-playback") {
+      if (this.state !== "started-playback") {
+        throw new Error("Did not start playback, start playback before calling stop.");
+      }
+    }
+  }
+
+  /**
+   * setState
+   */
+  public setState(state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback") {
+    this.state = state;
+  }
+}
+
 export class TestProxyHttpClientV1 extends DefaultHttpClient {
   private _uri: string;
   private _httpClient: DefaultHttpClient;
   private _recordingId?: string;
   public _mode!: string;
+  private stateManager: RecordingStateManager = new RecordingStateManager();
 
   constructor(uri: string) {
     super();
@@ -54,6 +104,7 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
   }
 
   async startRecording(): Promise<void> {
+    this.stateManager.validateState("starting-recording");
     const startUri = this._uri + paths.record + paths.start;
     const req = this._createRecordingRequest(startUri);
     const rsp = await this._httpClient.sendRequest(req);
@@ -65,16 +116,20 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
       throw new Error("No recording ID returned.");
     }
     this._recordingId = id;
+    this.stateManager.setState("started-recording");
   }
 
   async stopRecording(): Promise<void> {
+    this.stateManager.validateState("stopping-recording");
     const stopUri = this._uri + paths.record + paths.stop;
     const req = this._createRecordingRequest(stopUri);
     req.headers.set("x-recording-id", this._recordingId!);
     await this._httpClient.sendRequest(req);
+    this.stateManager.setState("stopped-recording");
   }
 
   async startPlayback(): Promise<void> {
+    this.stateManager.validateState("starting-playback")
     const startUri = this._uri + paths.playback + paths.start;
     const req = this._createRecordingRequest(startUri);
     req.headers.set("x-recording-id", this._recordingId!);
@@ -87,9 +142,11 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
       throw new Error("No recording ID returned.");
     }
     this._recordingId = id;
+    this.stateManager.setState("started-playback");
   }
 
   async stopPlayback(): Promise<void> {
+    this.stateManager.validateState("stopping-playback");
     const stopUri = this._uri + paths.playback + paths.stop;
     const req = this._createRecordingRequest(stopUri);
     req.headers.set("x-recording-id", this._recordingId!);
@@ -98,6 +155,7 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
 
     this._mode = "live";
     this._recordingId = undefined;
+    this.stateManager.setState("stopped-playback");
   }
 
   private _createRecordingRequest(uri: string) {
@@ -114,6 +172,7 @@ export class TestProxyHttpClient {
   private _httpClient: HttpClient;
   private _recordingId?: string;
   public _mode!: string;
+  private stateManager: RecordingStateManager = new RecordingStateManager();
 
   constructor(uri: string) {
     this._uri = uri;
@@ -143,6 +202,7 @@ export class TestProxyHttpClient {
   }
 
   async startRecording(): Promise<void> {
+    this.stateManager.validateState("starting-recording");
     const startUri = this._uri + paths.record + paths.start;
     const req = this._createRecordingRequest(startUri);
     const rsp = await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
@@ -154,16 +214,20 @@ export class TestProxyHttpClient {
       throw new Error("No recording ID returned.");
     }
     this._recordingId = id;
+    this.stateManager.setState("started-recording");
   }
 
   async stopRecording(): Promise<void> {
+    this.stateManager.validateState("stopping-recording");
     const stopUri = this._uri + paths.record + paths.stop;
     const req = this._createRecordingRequest(stopUri);
     req.headers.set("x-recording-id", this._recordingId!);
     await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
+    this.stateManager.setState("stopped-recording");
   }
 
   async startPlayback(): Promise<void> {
+    this.stateManager.validateState("starting-playback");
     const startUri = this._uri + paths.playback + paths.start;
     const req = this._createRecordingRequest(startUri);
     req.headers.set("x-recording-id", this._recordingId!);
@@ -176,9 +240,11 @@ export class TestProxyHttpClient {
       throw new Error("No recording ID returned.");
     }
     this._recordingId = id;
+    this.stateManager.setState("started-playback");
   }
 
   async stopPlayback(): Promise<void> {
+    this.stateManager.validateState("stopping-playback");
     const stopUri = this._uri + paths.playback + paths.stop;
     const req = this._createRecordingRequest(stopUri);
     req.headers.set("x-recording-id", this._recordingId!);
@@ -187,6 +253,7 @@ export class TestProxyHttpClient {
 
     this._mode = "live";
     this._recordingId = undefined;
+    this.stateManager.setState("stopped-playback");
   }
 
   private _createRecordingRequest(uri: string): PipelineRequest {
