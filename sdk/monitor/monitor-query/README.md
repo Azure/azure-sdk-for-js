@@ -292,6 +292,96 @@ export async function main() {
 }
 ```
 
+### Query metrics
+
+The following example gets metrics for a Metrics Advisor subscription. The resource URI is that of a metrics advisor resource.
+
+The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
+
+To find the resource URI:
+
+1. Navigate to your resource's page in the Azure portal.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
+
+```
+import { DefaultAzureCredential } from "@azure/identity";
+import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const metricsResourceId = process.env.METRICS_RESOURCE_ID;
+
+export async function main() {
+  const tokenCredential = new DefaultAzureCredential();
+  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
+
+  if (!metricsResourceId) {
+    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
+  }
+
+  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
+
+  for (const definition of result.definitions) {
+    console.log(`Definition = ${definition.name}`);
+  }
+
+  const firstMetric = result.definitions[0];
+
+  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+
+  const metricsResponse = await metricsQueryClient.queryMetrics(
+    metricsResourceId,
+    Durations.last5Minutes,
+    {
+      metricNames: [firstMetric.name!],
+      interval: "PT1M"
+    }
+  );
+
+  console.log(
+    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
+  );
+
+  const metrics: Metric[] = metricsResponse.metrics;
+  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+  process.exit(1);
+});
+```
+
+### Advanced scenarios
+
+#### Query multiple workspaces
+
+The same log query can be executed across multiple Log Analytics workspaces. In addition to the KQL query, the following parameters are required:
+
+- `workspace_id` - The first (primary) workspace ID.
+- `additional_workspaces` - A list of workspaces, excluding the workspace provided in the `workspace_id` parameter. The parameter's list items may consist of the following identifier formats:
+  - Qualified workspace names
+  - Workspace IDs
+  - Azure resource IDs
+
+For example, the following query executes in three workspaces:
+
+```
+  const queryLogsOptions: QueryLogsOptions = {
+     additionalWorkspaces: ["<workspace2>", "<workspace3>"]
+  };
+
+  const kustoQuery = "AppEvents | limit 1";
+  const result = await logsQueryClient.queryLogs(
+    azureLogAnalyticsWorkspaceId,
+    kustoQuery,
+    Durations.last24Hours,
+    queryLogsOptions
+  );
+```
+
 For more samples see here: [samples][samples].
 
 ## Troubleshooting
