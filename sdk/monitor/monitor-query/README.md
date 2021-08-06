@@ -368,7 +368,7 @@ The same log query can be executed across multiple Log Analytics workspaces. In 
 
 For example, the following query executes in three workspaces:
 
-```
+```javascript
   const queryLogsOptions: QueryLogsOptions = {
      additionalWorkspaces: ["<workspace2>", "<workspace3>"]
   };
