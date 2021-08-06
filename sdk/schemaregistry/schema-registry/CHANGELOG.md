@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+### Features Added
+
+- Support caching of registered schemas and send requests to the service only if the cache does not have the looked-up schema/schema ID.
+
 ### Breaking Changes
 
 - Change SchemaRegistryClient.getSchemaId and SchemaRegistryClient.getSchemaById to return `undefined` instead of throwing when schema is not found ([Issue #15130](https://github.com/Azure/azure-sdk-for-js/issues/15130))

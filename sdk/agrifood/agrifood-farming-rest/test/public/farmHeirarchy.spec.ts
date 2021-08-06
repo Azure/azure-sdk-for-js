@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsRestClient } from "../../src";
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { FarmBeatsRestClient, getPoller } from "../../src";
+import { Recorder } from "@azure/test-utils-recorder";
+import { isNode } from "@azure/core-util";
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { wait } from "./utils/wait";
 
 const startDateTime = new Date("2020-02-01T08:00:00.000Z");
 const endDateTime = new Date("2020-03-02T08:00:00.000Z");
-const farmerId = `test-farmer-id-1622056799928`;
-const jobId = `test-job-id-1622056799928`;
-const boundaryId = `test-boundary-id-1622056799928`;
+const suffix = isNode ? "node" : "browser";
+const farmerId = `tst103${suffix}`;
+const jobId = `jhjob103${suffix}`;
+const boundaryId = `jhboundary103${suffix}`;
 const testFarmer = {
   name: "Contoso Farmer",
   description: "Your custom farmer description here",
@@ -23,17 +24,10 @@ const testFarmer = {
 describe("Farmer Operations", () => {
   let recorder: Recorder;
   let client: FarmBeatsRestClient;
-  let pollWaitInMs: number;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
     client = createClient();
-
-    if (isPlaybackMode()) {
-      pollWaitInMs = 0;
-    } else {
-      pollWaitInMs = 5000;
-    }
   });
 
   afterEach(async function () {
@@ -62,13 +56,27 @@ describe("Farmer Operations", () => {
           geometry: {
             coordinates: [
               [
-                [73.70457172393799, 20.545385304358106],
-                [73.70457172393799, 20.545385304358106],
-                [73.70448589324951, 20.542411534243367],
-                [73.70877742767334, 20.541688176010233],
-                [73.71023654937744, 20.545083911372505],
-                [73.70663166046143, 20.546992723579137],
-                [73.70457172393799, 20.545385304358106],
+                [-6.6730517, 43.5298824],
+                [-6.676265, 43.5262614],
+                [-6.6757983, 43.5260669],
+                [-6.6760236, 43.5254835],
+                [-6.6768819, 43.5245228],
+                [-6.6760075, 43.5243322],
+                [-6.6753209, 43.5252112],
+                [-6.6744518, 43.5247095],
+                [-6.6730678, 43.525114],
+                [-6.6723222, 43.5256702],
+                [-6.6739959, 43.5264753],
+                [-6.6726387, 43.5274282],
+                [-6.6712493, 43.5279261],
+                [-6.6703159, 43.5280428],
+                [-6.6693288, 43.5277394],
+                [-6.6692644, 43.52807],
+                [-6.6694576, 43.5282256],
+                [-6.671319, 43.5294274],
+                [-6.6717964, 43.5296024],
+                [-6.6730303, 43.5298824],
+                [-6.6730517, 43.5298824],
               ],
             ],
             type: "Polygon",
@@ -86,7 +94,7 @@ describe("Farmer Operations", () => {
   });
 
   it("should create a satelite job", async () => {
-    const result = await client.path("/scenes/satellite/ingest-data/{jobId}", jobId).put({
+    const initialResponse = await client.path("/scenes/satellite/ingest-data/{jobId}", jobId).put({
       body: {
         farmerId,
         boundaryId,
@@ -96,34 +104,14 @@ describe("Farmer Operations", () => {
       },
     });
 
-    if (result.status !== "202") {
-      throw result.body.error;
+    if (initialResponse.status !== "202") {
+      throw initialResponse.body.error;
     }
 
-    assert.equal(result.body.farmerId, farmerId);
+    const poller = getPoller(client, initialResponse);
+    const result = await poller.pollUntilDone();
 
-    let operationStatus: string;
-
-    do {
-      const statusResult = await client.path("/scenes/satellite/ingest-data/{jobId}", jobId).get();
-      if (statusResult.status !== "200") {
-        throw statusResult.body.error;
-      }
-
-      operationStatus = statusResult.body.status ?? "Failed";
-
-      if (["Failed", "Cancelled"].includes(operationStatus)) {
-        throw new Error("Job Failed");
-      }
-
-      if (statusResult.body.status === "Succeeded") {
-        break;
-      }
-
-      await wait(pollWaitInMs);
-    } while (["Waiting", "Running"].includes(operationStatus));
-
-    assert.ok("Job completed");
+    assert.equal(result.body.boundaryId, boundaryId);
   });
 
   it("should get corresponding scenes", async () => {
@@ -142,7 +130,7 @@ describe("Farmer Operations", () => {
     });
 
     if (result.status !== "200") {
-      throw result.body.error;
+      throw new Error(`Unexpected status ${result.status}`);
     }
 
     assert.ok(result.body.value?.length, "Expected to list scenes, but got nothing");

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2021-03-15)
+## 1.0.0 (2021-08-05)
 
 GA release of this package.
 

@@ -12,7 +12,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/batch";
-const packageVersion = "8.0.0";
+const packageVersion = "9.0.0";
 
 export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

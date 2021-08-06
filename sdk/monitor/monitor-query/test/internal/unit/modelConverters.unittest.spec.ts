@@ -42,7 +42,7 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "the kusto query",
-            workspace: "the primary workspace id",
+            workspaceId: "the primary workspace id",
             timespan: Durations.last24Hours
           }
         ]
@@ -51,10 +51,11 @@ describe("Model unit tests", () => {
       assert.deepEqual(generatedRequest, <GeneratedBatchRequest>{
         requests: [
           {
-            id: "0", // auto-generated,
+            id: "0",
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
+              workspaces: undefined,
               query: "the kusto query",
               timespan: Durations.last24Hours
             }
@@ -64,41 +65,39 @@ describe("Model unit tests", () => {
     });
 
     it("convertToBatchRequest (complex)", () => {
-      const generatedRequest = convertRequestForQueryBatch({
-        queries: [
-          {
-            query: "<placeholder>",
-            workspace: "<placeholder>",
-            timespan: Durations.last24Hours
-          },
-          {
-            azureResourceIds: ["resourceId1"],
-            includeQueryStatistics: true,
-            qualifiedNames: ["qualifiedName"],
-            query: "the kusto query",
-            serverTimeoutInSeconds: 100,
-            timespan: Durations.last5Minutes,
-            workspace: "the primary workspace id",
-            workspaceIds: ["additionalWorkspaceId"],
-            workspaces: ["additionalWorkspace"]
-          }
-        ]
-      });
+      const generatedRequest = convertRequestForQueryBatch(
+        {
+          queries: [
+            {
+              query: "<placeholder>",
+              workspaceId: "<placeholder>",
+              timespan: Durations.last24Hours
+            },
+            {
+              query: "the kusto query",
+              timespan: Durations.last5Minutes,
+              workspaceId: "the primary workspace id"
+            }
+          ]
+        },
+        {
+          includeQueryStatistics: true,
+          serverTimeoutInSeconds: 100,
+          additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
+        }
+      );
 
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
-        id: "1", // auto-generated (increments by 1 for each query in the batch)
-        workspace: "the primary workspace id",
+        body: {
+          workspaces: ["additionalWorkspace", "resourceId1"],
+          query: "the kusto query",
+          timespan: "PT5M"
+        },
         headers: {
           Prefer: "wait=100,include-statistics=true"
         },
-        body: {
-          azureResourceIds: ["resourceId1"],
-          qualifiedNames: ["qualifiedName"],
-          query: "the kusto query",
-          timespan: Durations.last5Minutes,
-          workspaceIds: ["additionalWorkspaceId"],
-          workspaces: ["additionalWorkspace"]
-        }
+        workspace: "the primary workspace id",
+        id: "1" // auto-generated (increments by 1 for each query in the batch)
       });
 
       assert.equal(generatedRequest?.requests?.length, 2);
