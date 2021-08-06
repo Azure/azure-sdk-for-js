@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- `ChainedTokenCredential` and `DefaultAzureCredential` now expose a property named `selectedCredential`, which will store the selected credential once any of the available credentials succeeds.
 ### Breaking Changes
 
 ### Bugs Fixed
