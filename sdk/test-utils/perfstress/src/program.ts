@@ -105,18 +105,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -186,7 +186,7 @@ export class PerfStressProgram {
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -322,6 +322,31 @@ export class PerfStressProgram {
     }
   }
 
+
+
+  /**
+   * 
+   * ## Workflow of the perf test
+   * - test resources are setup
+   *   - hitting the live service
+   * - then start record
+   *   - making a request to the proxy server to start recording
+   *   - proxy server gives a recording id, we'll use this id to save the actual requests and responses
+   * - run the runAsync once
+   *   - proxy-server saves all the requests and responses in memory
+   * - stop record
+   *   - making a request to the proxy server to stop recording
+   * - start playback
+   *   - making a request to the proxy server to start playback
+   *   - we use the same recording-id that we used in the record mode since that's the only way proxy-server knows what requests are supposed to be played back
+   *   - as a response, we get a new recording-id, which will be used for future playback requests
+   * - run runAsync again
+   *   - based on the duration, iterations, and parallel options provided for the perf test
+   *   - all the requests in the runAsync method are played back since we have already recorded them before
+   * - when the runAsync loops end, stop playback
+   *   - making a request to the proxy server to stop playing back
+   * - delete the live resources that we have created before
+   */
   private async recordAndStartPlayback(test: PerfStressTest) {
     // If test-proxy,
     // => then start record
