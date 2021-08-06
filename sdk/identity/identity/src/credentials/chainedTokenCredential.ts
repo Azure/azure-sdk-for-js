@@ -29,7 +29,7 @@ export class ChainedTokenCredential implements TokenCredential {
   /**
    * The selected credential, in case users want to read it or use it directly.
    */
-  public selectedCredential: TokenCredential | undefined;
+  public selectedCredential?: TokenCredential;
 
   /**
    * Creates an instance of ChainedTokenCredential using the given credentials.
