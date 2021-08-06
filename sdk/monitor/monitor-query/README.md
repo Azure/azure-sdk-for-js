@@ -419,7 +419,6 @@ export async function main() {
       }
     }
   }
-
 }
 
 main().catch((err) => {
