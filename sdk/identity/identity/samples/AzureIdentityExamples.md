@@ -1014,13 +1014,12 @@ const readFileAsync = promisify(fs.readFile);
 const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH),{ encoding: "utf-8" });
 const authRecord: AuthenticationRecord= deserializeAuthenticationRecord(fileContent);
 
-const options: InteractiveBrowserCredentialOptions = {
+const credential = new InteractiveBrowserCredential({
   tokenCachePersistenceOptions: {
     enabled: true
   },
   authenticationRecord: authRecord
-};
-const credential = new InteractiveBrowserCredential(options);
+});
 
 ```
 
