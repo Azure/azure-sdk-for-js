@@ -360,8 +360,8 @@ main().catch((err) => {
 
 The same log query can be executed across multiple Log Analytics workspaces. In addition to the KQL query, the following parameters are required:
 
-- `workspace_id` - The first (primary) workspace ID.
-- `additional_workspaces` - A list of workspaces, excluding the workspace provided in the `workspace_id` parameter. The parameter's list items may consist of the following identifier formats:
+- `workspaceId` - The first (primary) workspace ID.
+- `additionalWorkspaces` - A list of workspaces, excluding the workspace provided in the `workspaceId` parameter. The parameter's list items may consist of the following identifier formats:
   - Qualified workspace names
   - Workspace IDs
   - Azure resource IDs
