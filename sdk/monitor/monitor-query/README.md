@@ -239,7 +239,7 @@ export async function main() {
     {
       workspaceId: monitorWorkspaceId,
       query:
-        "AppRequests | take 10  | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
+        "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
       timespan: "PT1H"
     },
     {
