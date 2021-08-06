@@ -7,8 +7,6 @@ import { logger, logErrorStackTrace } from "./log";
 
 /**
  * checks if value of timestamp is a string
- *
- *
  */
 function _hasTimestamp<T extends TableInsertEntityHeaders>(
   value: T
