@@ -80,13 +80,14 @@ describe("ApplicationCredential", function() {
     })
   );
 
-  it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
+  it("throws an AggregateAuthenticationError when getToken is called and no credential was configured", async () => {
     const credential = new ApplicationCredential();
     const error = await getError(credential.getToken(scope));
-    assert.equal(error.name, "CredentialUnavailableError");
+    assert.equal(error.name, "AggregateAuthenticationError");
+    console.log(`${error.message}`);
     assert.ok(
       error.message.indexOf(
-        `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential is unavailable. Network unreachable.`
+        `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential authentication failed. Message ManagedIdentityCredential - No MSI credential available`
       ) > -1
     );
   });
