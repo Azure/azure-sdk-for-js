@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { env, delay } from "@azure/test-utils-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";

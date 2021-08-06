@@ -100,7 +100,7 @@ The `DefaultAzureCredential` is appropriate for most scenarios where the applica
 
 > Note: `DefaultAzureCredential` is intended to simplify getting started with the SDK by handling common scenarios with reasonable default behaviors. Developers who want more control or whose scenario isn't served by the default settings should use other credential types.
 
-If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order:
+If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order:
 
 ![DefaultAzureCredential authentication flow][defaultauthflow_image]
 
