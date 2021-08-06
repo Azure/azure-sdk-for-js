@@ -1,20 +1,16 @@
 # Release History
 
-## 4.4.1 (Unreleased)
+## 4.5.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added new System Event: `Microsoft.ContainerService.NewKubernetesVersionAvailable`
 
 ## 4.4.0 (2021-07-19)
 
 ### Features Added
 
-- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our 
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our
   [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 - `EventGridPublisherClient` now supports Azure Active Directory (AAD) for authentication. When constructing an `EventGridPublisherClient` you may now pass an instance

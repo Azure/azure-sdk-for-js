@@ -64,6 +64,7 @@ export {
   ContainerRegistryImageDeletedEventData,
   ContainerRegistryChartDeletedEventData,
   ContainerRegistryChartPushedEventData,
+  ContainerServiceNewKubernetesVersionAvailableEventData,
   DeviceConnectionStateEventInfo,
   DeviceTwinInfo,
   DeviceTwinInfoProperties,
