@@ -919,13 +919,12 @@ In this example, the custom credential type `RotatingCertificateCredential` agai
 
 In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library which interact with the user offer mechanisms to fully control user interaction.These settings are available under `InteractiveCredentialOptions` in both node and browser.
 
-```
-  const options: InteractiveCredentialOptions = {
-    disableAutomaticAuthentication: true
-  };
-  const credential = new InteractiveBrowserCredential(options);
-  await credential.authenticate("https://vault.azure.net/.default");
-  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+```ts
+const credential = new InteractiveBrowserCredential({
+  disableAutomaticAuthentication: true
+});
+await credential.authenticate("https://vault.azure.net/.default");
+const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 ```
 
 In this sample, the application is again using the `InteractiveBrowserCredential` to authenticate a SecretClient, but with two major differences from our first example. First, in this example, the application is explicitly forcing any user interaction to happen before the credential is given to the client by calling the `authenticate` method.
@@ -934,13 +933,13 @@ The second difference is here the application is preventing the credential from 
 
 By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an error `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
 
-```
+```ts
 try {
   await client.getSecret("secret-name");
 } catch (e) {
   await ensureAnimationCompleted();
 
-  if (e.name === "AuthenticationRequiredError"){
+  if (e.name === "AuthenticationRequiredError") {
     await credential.authenticate(e.scopes);
     console.log("Secret", await client.getSecret("secret-name"));
   } else {
@@ -953,7 +952,7 @@ try {
 
 Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`. In `@azure/identity` starting from v2 we need to use the package `@azure/identity-cache-persistence` that provides an extension to the identity package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level useIdentityExtension function from the @azure/identity package. Enable token cache persistence in your program as follows:
 
-```
+```ts
 import { useIdentityExtension } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
@@ -968,7 +967,7 @@ The credential handles persisting all the data needed to silently authenticate o
 
 To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option.
 
-```
+```ts
 import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
@@ -987,7 +986,7 @@ The `AuthenticationRecord` which is returned from the `authenticate`, contains d
 
 Here is an example of an application storing the `AuthenticationRecord` to the local file system after authenticating the user.
 
-```
+```ts
 import fs from "fs";
 import { promisify } from "util";
 import path from "path";
@@ -1003,7 +1002,7 @@ await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
 
 Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
-```
+```ts
 import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
@@ -1011,8 +1010,10 @@ useIdentityExtension(cachePersistenceExtension);
 
 const AUTH_RECORD_PATH = "./tokencache.bin";
 const readFileAsync = promisify(fs.readFile);
-const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH),{ encoding: "utf-8" });
-const authRecord: AuthenticationRecord= deserializeAuthenticationRecord(fileContent);
+const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), {
+  encoding: "utf-8"
+});
+const authRecord: AuthenticationRecord = deserializeAuthenticationRecord(fileContent);
 
 const credential = new InteractiveBrowserCredential({
   tokenCachePersistenceOptions: {
@@ -1020,7 +1021,6 @@ const credential = new InteractiveBrowserCredential({
   },
   authenticationRecord: authRecord
 });
-
 ```
 
 The credential created in this example will silently authenticate given that a valid token for corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required such as on token expiry, or when additional authentication is required for a particular resource.
@@ -1035,7 +1035,7 @@ Many credential implementations in the `@azure/identity` library have an underly
 
 The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
-```
+```ts
 import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
@@ -1052,38 +1052,44 @@ const credential = new InteractiveBrowserCredential({
 
 Some applications may prefer to isolate the token cache they use rather than using the shared instance. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
 
-```
-import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+```ts
+import {
+  useIdentityExtension,
+  InteractiveBrowserCredential,
+  InteractiveBrowserCredentialOptions
+} from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
 
-  const options: InteractiveBrowserCredentialOptions =  {
-    tokenCachePersistenceOptions: {
-      enabled: true,
-      name: "my_application_name"
-    }
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true,
+    name: "my_application_name"
   }
-  const credential = new InteractiveBrowserCredential(options);
+});
 ```
 
 #### Allowing unencrypted storage
 
 By default the token cache will protect any data which is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
 
-```
-import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+```ts
+import {
+  useIdentityExtension,
+  InteractiveBrowserCredential,
+  InteractiveBrowserCredentialOptions
+} from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
 
- const options: InteractiveBrowserCredentialOptions =  {
-    tokenCachePersistenceOptions: {
-      enabled: true,
-      allowUnencryptedStorage: true
-    }
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true,
+    allowUnencryptedStorage: true
   }
-  const credential = new InteractiveBrowserCredential(options);
+});
 ```
 
 By setting `allowUnencryptedStorage` to true, the credential will encrypt the contents of the token cache before persisting it if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file ACL'd to the current account. If `allowUnencryptedStorage` is false (the default), a `CredentialUnavailableError` will be thrown in the case no data protection is available.
