@@ -32,19 +32,3 @@ export type CredentialPolicyCreator = (
   nextPolicy: RequestPolicy,
   options: RequestPolicyOptions
 ) => CredentialPolicy;
-
-/**
- * A helper to detect when a passed argument is a Credential subclass
- * @param credential Possibly a Credential type
- * @returns true if the argument is a Credential
- */
-export function isCredential(credential: unknown): credential is Credential {
-  if (!credential || typeof credential !== "object") {
-    return false;
-  }
-  const castCredential = credential as {
-    create: unknown;
-  };
-
-  return typeof castCredential.create === "function";
-}
