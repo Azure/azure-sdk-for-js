@@ -969,17 +969,16 @@ The credential handles persisting all the data needed to silently authenticate o
 To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option.
 
 ```
-import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
 
-const options: InteractiveBrowserCredentialOptions =  {
+const credential = new InteractiveBrowserCredential({
   tokenCachePersistenceOptions: {
     enabled: true
   }
-}
-const credential = new InteractiveBrowserCredential(options);
+});
 ```
 
 #### Persisting the Authentication Record
