@@ -1004,7 +1004,7 @@ await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
 Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
 ```
-import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
