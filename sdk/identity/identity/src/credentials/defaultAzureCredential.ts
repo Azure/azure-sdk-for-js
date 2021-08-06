@@ -44,7 +44,7 @@ interface DefaultCredentialConstructor {
  * A shim around ManagedIdentityCredential that adapts it to accept
  * `DefaultAzureCredentialOptions`.
  *
- *
+ * @internal
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
   constructor(options?: DefaultAzureCredentialOptions) {

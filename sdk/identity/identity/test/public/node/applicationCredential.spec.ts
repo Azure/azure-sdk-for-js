@@ -61,7 +61,7 @@ describe("ApplicationCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.ChainedTokenCredential.getToken",
+          name: "Azure.Identity.ChainedTokenCredential-getToken",
           children: [
             {
               name: "Azure.Identity.EnvironmentCredential.getToken",
