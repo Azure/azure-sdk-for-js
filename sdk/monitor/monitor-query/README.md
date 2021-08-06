@@ -216,7 +216,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 The following example demonstrates sending multiple queries at the same time using batch query API. The queries can be represented as a list of `BatchQuery` objects.
 
-```
+```javascript
 export async function main() {
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
