@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ApplicationCredential } from "../../../src";
 import { prepareIdentityTests } from "../../httpRequests";

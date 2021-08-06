@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import { join } from "path";
 import { tmpdir } from "os";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
