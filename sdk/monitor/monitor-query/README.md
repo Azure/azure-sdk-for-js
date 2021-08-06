@@ -304,7 +304,7 @@ To find the resource URI:
 2. From the **Overview** blade, select the **JSON View** link.
 3. In the resulting JSON, copy the value of the `id` property.
 
-```
+```javascript
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
