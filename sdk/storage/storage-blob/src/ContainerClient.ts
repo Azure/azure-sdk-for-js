@@ -43,7 +43,7 @@ import {
   ContainerRequestConditions,
   ModifiedAccessConditions
 } from "./models";
-import { isPipelineLike, newPipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
@@ -68,7 +68,6 @@ import {
   PageBlobClient
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
-import { isCredential } from "./credentials/Credential";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -626,17 +625,72 @@ export class ContainerClient extends StorageClient {
    */
   constructor(url: string, pipeline: PipelineLike);
   constructor(
-    ...args:
-      | [connectionString: string, containerName: string, options?: StoragePipelineOptions]
-      | [
-          url: string,
-          credential?: (StorageSharedKeyCredential | AnonymousCredential | TokenCredential),
-          options?: StoragePipelineOptions
-        ]
-      | [url: string, pipeline: PipelineLike]
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName?:
+      | string
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | PipelineLike,
+    options?: StoragePipelineOptions
   ) {
-    const { pipeline, url } = disambiguateContainterClientParameters(args);
+    let pipeline: PipelineLike;
+    let url: string;
+    options = options || {};
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
+      isTokenCredential(credentialOrPipelineOrContainerName)
+    ) {
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      url = urlOrConnectionString;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // The second parameter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string"
+    ) {
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
+      const containerName = credentialOrPipelineOrContainerName;
 
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      if (extractedCreds.kind === "AccountConnString") {
+        if (isNode) {
+          const sharedKeyCredential = new StorageSharedKeyCredential(
+            extractedCreds.accountName!,
+            extractedCreds.accountKey
+          );
+          url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
+        } else {
+          throw new Error("Account connection string is only supported in Node.js environment");
+        }
+      } else if (extractedCreds.kind === "SASConnString") {
+        url =
+          appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
+          "?" +
+          extractedCreds.accountSas;
+        pipeline = newPipeline(new AnonymousCredential(), options);
+      } else {
+        throw new Error(
+          "Connection string must be either an Account connection string or a SAS connection string"
+        );
+      }
+    } else {
+      throw new Error("Expecting non-empty strings for containerName parameter");
+    }
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
     this.containerContext = new Container(this.storageClientContext);
@@ -1774,60 +1828,5 @@ export class ContainerClient extends StorageClient {
    */
   public getBlobBatchClient(): BlobBatchClient {
     return new BlobBatchClient(this.url, this.pipeline);
-  }
-}
-
-function disambiguateContainterClientParameters(
-  args:
-    | [connectionString: string, containerName: string, options?: StoragePipelineOptions]
-    | [
-        url: string,
-        credential?: (StorageSharedKeyCredential | AnonymousCredential | TokenCredential),
-        options?: StoragePipelineOptions
-      ]
-    | [url: string, pipeline: PipelineLike]
-): { url: string; pipeline: PipelineLike } {
-  const options = args[2] ?? {};
-  if (typeof args[1] == "string") {
-    // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
-    const containerName = args[1];
-
-    const extractedCreds = extractConnectionStringParts(args[0]);
-    if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
-        const sharedKeyCredential = new StorageSharedKeyCredential(
-          extractedCreds.accountName!,
-          extractedCreds.accountKey
-        );
-        const url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        const pipeline = newPipeline(sharedKeyCredential, options);
-        return { url, pipeline };
-      } else {
-        throw new Error("Account connection string is only supported in Node.js environment");
-      }
-    } else if (extractedCreds.kind === "SASConnString") {
-      const url =
-        appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
-        "?" +
-        extractedCreds.accountSas;
-      const pipeline = newPipeline(new AnonymousCredential(), options);
-      return { url, pipeline };
-    } else {
-      throw new Error(
-        "Connection string must be either an Account connection string or a SAS connection string"
-      );
-    }
-  } else if (isCredential(args[1]) || isTokenCredential(args[1]) || !args[1]) {
-    // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
-    return {
-      url: args[0],
-      pipeline: newPipeline(args[1] ?? new AnonymousCredential(), options)
-    };
-  } else if (isPipelineLike(args[1])) {
-    // (url: string, pipeline: PipelineLike)
-    return { url: args[0], pipeline: args[1] };
-  } else {
-    throw new Error("Expecting non-empty strings for containerName parameter");
   }
 }
