@@ -27,7 +27,7 @@ import {
 } from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { LIB_INFO, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -154,16 +154,6 @@ export class TableServiceClient {
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
     clientOptions.endpoint = clientOptions.endpoint || this.url;
-
-    if (!clientOptions.userAgentOptions) {
-      clientOptions.userAgentOptions = {};
-    }
-
-    if (clientOptions.userAgentOptions.userAgentPrefix) {
-      clientOptions.userAgentOptions.userAgentPrefix = `${clientOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
-    } else {
-      clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
-    }
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,

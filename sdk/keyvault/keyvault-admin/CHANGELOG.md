@@ -1,14 +1,17 @@
 # Release History
 
-## 4.2.0-beta.1 (Unreleased)
+## 4.2.0-beta.1 (2021-08-10)
 
-### Features Added
+- Move generated client to use @azure/core-rest-pipeline. For more information about Core V2, please refer to [the documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core#core-v1-and-core-v2).
 
-### Breaking Changes
+  - With this change, the response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag.
 
-### Bugs Fixed
-
-### Other Changes
+    ```typescript
+    let rawResponse: FullOperationResponse | undefined;
+    await client.getRoleDefinition(globalScope, "roleDefinitionName", {
+      onResponse: (response) => (rawResponse = response)
+    });
+    ```
 
 ## 4.1.0 (2021-07-29)
 
