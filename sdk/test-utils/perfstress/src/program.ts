@@ -325,6 +325,8 @@ export class PerfStressProgram {
 
 
   /**
+   * This method records the requests-responses and lets the proxy-server know when to playback.
+   * We run runAsync once in record mode to save the requests and responses in memory and then a ton of times in playback.
    * 
    * ## Workflow of the perf test
    * - test resources are setup
