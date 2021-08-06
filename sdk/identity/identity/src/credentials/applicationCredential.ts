@@ -5,11 +5,8 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-
 import { TokenCredentialOptions } from "../client/identityClient";
-
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-
 import { EnvironmentCredential } from "./environmentCredential";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
