@@ -120,28 +120,24 @@ export async function prepareIdentityTests({
   }
 
   /**
-   * Safely stubs an object's method.
-   * Meaning, it will try to restore it if it has been previously stubbed.
-   */
-  function safelyStub(obj: any, method: string): sinon.SinonStub {
-    const maybeStub = obj[method] as { restore?: () => void };
-    if (maybeStub.restore) {
-      maybeStub.restore();
-    }
-    return sandbox.stub(obj, method);
-  }
-
-  /**
    * Wraps the outgoing request in a mocked environment, then returns the result of the request.
    */
   async function sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
-    const stubbedHttpsRequest = safelyStub(https, "request");
+    if ((https.request as any).restore) {
+      (https.request as any).restore.restore();
+    }
     const request = createRequest();
-    sandbox.stub(request, "once").yields(responseToIncomingMessage(response));
-    stubbedHttpsRequest.returns(request);
+    sandbox.replace(
+      https,
+      "request",
+      (_options: string | URL | http.RequestOptions, resolve: any) => {
+        resolve(responseToIncomingMessage(response));
+        return request;
+      }
+    );
     clock.runAllAsync();
     return sendPromise();
   }
@@ -168,29 +164,36 @@ export async function prepareIdentityTests({
     secureResponses = []
   }) => {
     /**
-     * Helps loop over a list of responses,
-     * and assign them as answers to a stubbed <module>.request() method.
-     * It also fills up a given spies array, for later inspection.
+     * Helps replace the <provider>.request() method with one we can control.
      */
     const registerResponses = (
+      provider: "http" | "https",
       responses: { response?: TestResponse; error?: RestError }[],
-      stubbedRequest: sinon.SinonStub,
       spies: sinon.SinonSpy[]
-    ): void =>
-      responses.forEach(({ response, error }, index) => {
-        const request = createRequest();
-        spies.push(sandbox.spy(request, "end"));
-        stubbedRequest.onCall(index).returns(request);
-        if (error) {
-          stubbedRequest.onCall(index).throws(error);
-        } else if (response) {
-          sandbox.stub(request, "once").yields(responseToIncomingMessage(response));
-        } else {
-          throw new Error(
-            "Bad fake response structure. Expected either an `error` or a `response` property."
-          );
+    ): http.RequestOptions[] => {
+      const providerObject = provider === "http" ? http : https;
+      const totalOptions: http.RequestOptions[] = [];
+
+      sandbox.replace(
+        providerObject,
+        "request",
+        (options: string | URL | http.RequestOptions, resolve: any) => {
+          totalOptions.push(options as http.RequestOptions);
+
+          const { response, error } = responses.shift()!;
+          if (error) {
+            throw error;
+          } else {
+            resolve(responseToIncomingMessage(response!));
+          }
+          const request = createRequest();
+          spies.push(sandbox.spy(request, "end"));
+          return request;
         }
-      });
+      );
+
+      return totalOptions;
+    };
 
     // We optimistically order the incoming responses as:
     // The first set of responses will be those that are expected to come from insecure endpoints,
@@ -200,11 +203,10 @@ export async function prepareIdentityTests({
     // requests to go out to insecure endpoints, specially at the beginning of the authentication flow.
     // An example would be the IMDS endpoint.
     const insecureSpies: sinon.SinonSpy[] = [];
-    const stubbedHttpRequest = safelyStub(http, "request");
-    registerResponses(insecureResponses, stubbedHttpRequest, insecureSpies);
+    const insecureOptions = registerResponses("http", insecureResponses, insecureSpies);
+
     const secureSpies: sinon.SinonSpy[] = [];
-    const stubbedHttpsRequest = safelyStub(https, "request");
-    registerResponses(secureResponses, stubbedHttpsRequest, secureSpies);
+    const secureOptions = registerResponses("https", secureResponses, secureSpies);
 
     let result: AccessToken | null = null;
     let error: RestError | undefined;
@@ -227,7 +229,7 @@ export async function prepareIdentityTests({
      * and the request spies we've been accumulating throughout the getToken() execution.
      */
     const extractRequests = (
-      stubbedRequest: sinon.SinonStub,
+      options: http.RequestOptions[],
       spies: sinon.SinonSpy[],
       protocol: "http" | "https"
     ): {
@@ -237,10 +239,10 @@ export async function prepareIdentityTests({
       headers: Record<string, string>;
     }[] =>
       spies.reduce((accumulator: any, spy: sinon.SinonSpy, index: number) => {
-        if (!stubbedRequest.args[index]) {
+        if (!options[index]) {
           return accumulator;
         }
-        const requestOptions = stubbedRequest.args[index][0];
+        const requestOptions = options[index];
         return [
           ...accumulator,
           {
@@ -256,8 +258,8 @@ export async function prepareIdentityTests({
       result,
       error,
       requests: [
-        ...extractRequests(stubbedHttpRequest, insecureSpies, "http"),
-        ...extractRequests(stubbedHttpsRequest, secureSpies, "https")
+        ...extractRequests(insecureOptions, insecureSpies, "http"),
+        ...extractRequests(secureOptions, secureSpies, "https")
       ]
     };
   };

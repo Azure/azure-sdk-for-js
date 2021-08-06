@@ -59,7 +59,7 @@ describe("ManagedIdentityCredential", function() {
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
-          token: "token",
+          access_token: "token",
           expires_on: "06/20/2019 02:57:58 +00:00"
         })
       ]
@@ -259,6 +259,8 @@ describe("ManagedIdentityCredential", function() {
     });
     assert.equal(authDetails.requests.length, 5);
     assert.ok(authDetails.error!.message.indexOf("authentication failed") > -1);
+
+    await testContext.restore();
 
     const authDetails2 = await sendCredentialRequests({
       scopes: ["scopes"],
