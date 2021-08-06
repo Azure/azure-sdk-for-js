@@ -4,15 +4,9 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/search-documents": [
-        "./src/index"
-      ]
+      "@azure/search-documents": ["./src/index"]
     }
   },
   "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm"],
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
