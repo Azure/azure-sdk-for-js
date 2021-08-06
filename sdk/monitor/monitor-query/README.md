@@ -400,7 +400,7 @@ export async function main() {
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",
-      aggregations: ["Count"]
+      aggregations: [AggregationType.Count]
     }
   );
 
