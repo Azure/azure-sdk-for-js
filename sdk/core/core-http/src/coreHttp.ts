@@ -113,7 +113,7 @@ export {
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
 export { delay } from "./util/delay";
-export { createSpanFunction, CreateSpanFunctionArgs as SpanConfig } from "@azure/core-tracing";
+export { Span, SpanConfig, SpanStatusCode, createSpanFunction } from "./util/tracing";
 
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";

@@ -58,11 +58,11 @@
   },
   "dependencies": {
     "@azure/core-http": "^2.0.0",
-    "@azure/core-tracing": "1.0.0-preview.13",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/test-utils": "^1.0.0",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "eslint": "^7.15.0",
     "prettier": "^1.16.4",

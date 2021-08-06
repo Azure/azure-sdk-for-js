@@ -12,6 +12,7 @@ import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { Span } from '@azure/core-tracing';
 import { CreateSpanFunctionArgs as SpanConfig } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
@@ -803,7 +804,16 @@ export interface SimpleMapperType {
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
+export { Span }
+
 export { SpanConfig }
+
+// @public (undocumented)
+export const SpanStatusCode: {
+    UNSET: number;
+    OK: number;
+    ERROR: number;
+};
 
 // @public
 export function stringifyXML(obj: unknown, opts?: SerializerOptions): string;
