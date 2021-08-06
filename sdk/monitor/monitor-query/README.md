@@ -212,6 +212,86 @@ run().catch((err) => console.log("ERROR:", err));
 }
 ```
 
+### Batch logs query
+
+The following example demonstrates sending multiple queries at the same time using batch query API. The queries can be represented as a list of `BatchQuery` objects.
+
+```
+export async function main() {
+  if (!monitorWorkspaceId) {
+    throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
+  }
+
+  const tokenCredential = new DefaultAzureCredential();
+  const logsQueryClient = new LogsQueryClient(tokenCredential);
+
+  const queriesBatch: BatchQuery[] = [
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
+      timespan: "P1D"
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AzureActivity | summarize count()",
+      timespan: "PT1H"
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query:
+        "AppRequests | take 10  | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
+      timespan: "PT1H"
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AppRequests | take 2",
+      timespan: "PT1H"
+    }
+  ];
+
+  const result = await logsQueryClient.queryLogsBatch(
+    {
+      queries: queriesBatch
+    }
+  );
+
+  if (result.results == null) {
+    throw new Error("No response for query");
+  }
+
+  let i = 0;
+  for (const response of result.results) {
+    console.log(`Results for query with id: ${response.id}`);
+
+    if (response.error) {
+      console.log(` Query had errors:`, response.error);
+    } else {
+      if (response.tables == null) {
+        console.log(`No results for query`);
+      } else {
+        console.log(
+          `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        );
+
+        for (const table of response.tables) {
+          const columnHeaderString = table.columns
+            .map((column) => `${column.name}(${column.type}) `)
+            .join("| ");
+          console.log(columnHeaderString);
+
+          for (const row of table.rows) {
+            const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+            console.log(columnValuesString);
+          }
+        }
+      }
+    }
+    // next query
+    i++;
+  }
+}
+```
+
 For more samples see here: [samples][samples].
 
 ## Troubleshooting
