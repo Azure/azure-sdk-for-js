@@ -33,25 +33,37 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
 }
 
 /**
- * an interface that describes how to communicate with the service and how to build a page of items.
+ * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<TOptions extends Record<string, any>, TResponse, TPage> {
+export interface PagedResult<TGetRequestOptions, TResponse> {
+  /**
+   * A method that send a GET request to the service and returns a response with a page of results.
+   */
+  fetchPage: (url: string, options: TGetRequestOptions) => Promise<TResponse>;
+}
+
+/**
+ * Options to control the behavior of how paging works.
+ */
+export interface PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings> {
   /**
    * The name of the service parameter that specifies the max page size. The default is `top`.
    */
   maxPageSizeParam?: string;
   /**
-   * A method that send a GET request to the service and returns a response.
+   * a function to implement the `byPage` method on the paged async iterator. The default is
+   * one that sets the `maxPageSizeParam` from `settings.maxPageSize` and uses `settings.continuationToken`
+   * if exists.
    */
-  sendGetRequest: (path: string, options: TOptions) => Promise<TResponse>;
+  byPage?: (settings?: TPageSettings | undefined) => AsyncIterableIterator<TPage>;
   /**
    * A method that extracts the link to the next page of results from the response. The
    * default is `nextLink`.
    */
   getNextLink?: (response: TResponse) => string | undefined;
   /**
-   * A method to build a page of items from the response. The default is returning
+   * A method to process a page of items from the response. The default is returning
    * the `results` property of the response as is.
    */
-  buildPage?: (response: TResponse) => TPage;
+  processPage?: (response: TResponse) => TPage;
 }

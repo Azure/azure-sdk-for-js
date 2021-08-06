@@ -6,8 +6,8 @@ import { getPagedAsyncIterator, PagedResult } from "../src";
 
 describe("getPagedAsyncIterator", function() {
   it("should return an iterator over an empty collection", async function() {
-    const pagedResult: PagedResult<any, any, any> = {
-      async sendGetRequest() {
+    const pagedResult: PagedResult<any, any> = {
+      async fetchPage() {
         return Promise.resolve({
           results: []
         });
@@ -21,8 +21,8 @@ describe("getPagedAsyncIterator", function() {
 
   it("should return an iterator over an non-empty collection", async function() {
     const collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const pagedResult: PagedResult<any, any, any> = {
-      async sendGetRequest() {
+    const pagedResult: PagedResult<any, any> = {
+      async fetchPage() {
         return Promise.resolve({
           results: collection
         });
@@ -37,8 +37,8 @@ describe("getPagedAsyncIterator", function() {
   });
 
   it("should return an iterator over an non-collection", async function() {
-    const pagedResult: PagedResult<any, any, any> = {
-      async sendGetRequest() {
+    const pagedResult: PagedResult<any, any> = {
+      async fetchPage() {
         return Promise.resolve({
           results: {}
         });
@@ -51,8 +51,8 @@ describe("getPagedAsyncIterator", function() {
   });
 
   it("should return an iterator over no pages", async function() {
-    const pagedResult: PagedResult<any, any, any> = {
-      async sendGetRequest() {
+    const pagedResult: PagedResult<any, any> = {
+      async fetchPage() {
         return Promise.resolve({ results: [] });
       }
     };
@@ -65,8 +65,8 @@ describe("getPagedAsyncIterator", function() {
   it("should return an iterator over multiple pages (collections)", async function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     let currIndex = 0;
-    const pagedResult: PagedResult<any, any, any> = {
-      async sendGetRequest(_path, options) {
+    const pagedResult: PagedResult<any, any> = {
+      async fetchPage(_path, options) {
         const top = options.top || 5;
         if (currIndex < collection.length) {
           const res = collection.slice(currIndex, Math.min(currIndex + top, collection.length));
@@ -90,7 +90,7 @@ describe("getPagedAsyncIterator", function() {
     currIndex = 0;
     let pagesCount = 0;
     const maxPageSize = 5;
-    const receivedPages = [];
+    const receivedPages: any[] = [];
     for await (const val of iterator.byPage({ maxPageSize: maxPageSize })) {
       ++pagesCount;
       assert.isAtMost(val.length, maxPageSize);
@@ -104,8 +104,8 @@ describe("getPagedAsyncIterator", function() {
     const maxPageSize = 5;
     const collection = Array.from(Array(10), (_, i) => i + 1);
     let currIndex = 0;
-    const pagedResult: PagedResult<any, any, any> = {
-      async sendGetRequest(_path, options) {
+    const pagedResult: PagedResult<any, any> = {
+      async fetchPage(_path, options) {
         const top = options.top || 5;
         if (currIndex < collection.length) {
           const res = collection.slice(currIndex, Math.min(currIndex + top, collection.length));
@@ -120,7 +120,7 @@ describe("getPagedAsyncIterator", function() {
         }
       }
     };
-    const iterator = getPagedAsyncIterator(pagedResult, "", {});
+    const iterator = getPagedAsyncIterator<{}, any, any, any>(pagedResult, "", {});
     let receivedItems = []; // they're pages too
     let pagesCount = 0;
     for await (const val of iterator) {

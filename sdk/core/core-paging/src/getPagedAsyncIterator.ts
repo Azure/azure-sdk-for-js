@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models";
+import {
+  PagedAsyncIterableIterator,
+  PageSettings,
+  PagedResult,
+  PagedAsyncIteratorOptions
+} from "./models";
 
 /**
  * returns an async iterator that will retrieve items from the server. It also has a `byPage`
@@ -9,22 +14,25 @@ import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models"
  *
  * @param pagedResult - an object that describes how to communicate with the service and how to build a page of items.
  * @param path - the path to the resource to retrieve
- * @param options - the options to pass to the service
+ * @param getRequestOptions - the options to pass to the service
  * @returns a paged async iterator that will retrieve items from the server.
  */
 export function getPagedAsyncIterator<
-  TOptions extends Record<string, any>,
+  TGetRequestOptions,
   TResponse,
   TElement,
-  TPage = TElement[]
+  TPage = TElement[],
+  TPageSettings = PageSettings
 >(
-  pagedResult: PagedResult<TOptions, TResponse, TPage>,
+  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
   path: string,
-  options: TOptions
-): PagedAsyncIterableIterator<TElement, TPage> {
-  const iter = getItemAsyncIterator<TOptions, TResponse, TElement, TPage>(
+  getRequestOptions: TGetRequestOptions,
+  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
+): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
+  const iter = getItemAsyncIterator<TGetRequestOptions, TResponse, TElement, TPage, TPageSettings>(
     pagedResult,
     path,
+    getRequestOptions,
     options
   );
   return {
@@ -34,27 +42,30 @@ export function getPagedAsyncIterator<
     [Symbol.asyncIterator]() {
       return this;
     },
-    byPage: (settings?: PageSettings) => {
-      const pageOptions = { ...options };
-      (pageOptions as Record<string, unknown>)[pagedResult.maxPageSizeParam ?? "top"] =
-        settings?.maxPageSize;
-      return getPageAsyncIterator(pagedResult, settings?.continuationToken ?? path, pageOptions);
-    }
+    byPage:
+      options?.byPage ??
+      ((settings?: PageSettings) => {
+        const pageOptions = { ...getRequestOptions };
+        (pageOptions as Record<string, unknown>)[options?.maxPageSizeParam ?? "top"] =
+          settings?.maxPageSize;
+        return getPageAsyncIterator(
+          pagedResult,
+          settings?.continuationToken ?? path,
+          pageOptions,
+          options
+        );
+      })
   };
 }
 
-async function* getItemAsyncIterator<
-  TOptions extends Record<string, unknown>,
-  TResponse,
-  TElement,
-  TPage
->(
-  pagedResult: PagedResult<TOptions, TResponse, TPage>,
+async function* getItemAsyncIterator<TGetRequestOptions, TResponse, TElement, TPage, TPageSettings>(
+  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
   path: string,
-  options: TOptions
+  getRequestOptions: TGetRequestOptions,
+  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): AsyncIterableIterator<TElement> {
   const metaInfo = { isArray: false };
-  const pages = getPageAsyncIterator(pagedResult, path, options, metaInfo);
+  const pages = getPageAsyncIterator(pagedResult, path, getRequestOptions, options, metaInfo);
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!metaInfo.isArray) {
@@ -68,23 +79,29 @@ async function* getItemAsyncIterator<
   }
 }
 
-async function* getPageAsyncIterator<TOptions extends Record<string, unknown>, TResponse, TPage>(
-  pagedResult: PagedResult<TOptions, TResponse, TPage>,
+async function* getPageAsyncIterator<TGetRequestOptions, TResponse, TPage, TPageSettings>(
+  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
   path: string,
-  options: TOptions,
+  getRequestOptions: TGetRequestOptions,
+  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>,
   metaInfo: { isArray: boolean } = { isArray: true }
 ): AsyncIterableIterator<TPage> {
-  let response = await retrievePage<TOptions, TResponse, TPage>(pagedResult, path, options);
+  let response = await retrievePage<TGetRequestOptions, TResponse, TPage, TPageSettings>(
+    pagedResult,
+    path,
+    getRequestOptions,
+    options
+  );
   metaInfo.isArray = Array.isArray(response.result);
   yield response.result;
   while (response.nextLink) {
-    response = await retrievePage(pagedResult, response.nextLink, options);
+    response = await retrievePage(pagedResult, response.nextLink, getRequestOptions, options);
     yield response.result;
   }
 }
 
-function getDefaultNextLink<TResponse>(response: TResponse): string | undefined {
-  return (response as any).nextLink;
+function getDefaultNextLink(response: any): string | undefined {
+  return response.nextLink;
 }
 
 interface ResultWithPaging<TPage> {
@@ -92,14 +109,15 @@ interface ResultWithPaging<TPage> {
   nextLink?: string;
 }
 
-async function retrievePage<TOptions extends Record<string, unknown>, TResponse, TPage>(
-  pagedResult: PagedResult<TOptions, TResponse, TPage>,
+async function retrievePage<TGetRequestOptions, TResponse, TPage, TPageSettings>(
+  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
   path: string,
-  options: TOptions
+  getRequestOptions: TGetRequestOptions,
+  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): Promise<ResultWithPaging<TPage>> {
-  const response = await pagedResult.sendGetRequest(path, options);
-  const result: TPage = pagedResult.buildPage?.(response) ?? (response as any).results;
-  const getNextLink = pagedResult.getNextLink ?? getDefaultNextLink;
+  const response = await pagedResult.fetchPage(path, getRequestOptions);
+  const result: TPage = options?.processPage?.(response) ?? (response as any).results;
+  const getNextLink = options?.getNextLink ?? getDefaultNextLink;
   return {
     result,
     nextLink: getNextLink(response)
