@@ -3,28 +3,34 @@ import {
   AzureKeyCredential,
   SearchClient,
   GeographyPoint,
-  SearchIndexClient,
-  DEFAULT_FLUSH_WINDOW
+  SearchIndexClient
 } from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME } from "../../utils/setup";
-import { Hotel } from "../../utils/interfaces";
+import { createIndex, documentKeyRetriever, WAIT_TIME } from "./setup";
+import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample is to demonstrate the use of SearchIndexingBufferedSender.
- * In this sample, the autoFlush is set to true. i.e. the user does not
- * want to call the flush manually. The upload action happen automatically
- * when the time interval is met. The time interval is set to 60000ms
- * by default.
+ * @summary Demonstrates the SearchIndexingBufferedSender with Manual Flush.
  */
-const endpoint = process.env.SEARCH_API_ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_KEY || "";
-const TEST_INDEX_NAME = "hotel-live-sample-test2";
+
+/**
+ * This sample is to demonstrate the use of SearchIndexingBufferedSender.
+ * In this sample, the autoFlush is set to false. i.e. the user
+ * wants to call the flush manually.
+ */
+const endpoint = process.env.ENDPOINT || "";
+const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
+const TEST_INDEX_NAME = "example-index-sample-6";
 
 export async function main() {
-  console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Timer Sample`);
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
+
+  console.log(`Running SearchIndexingBufferedSender-uploadDocuments-Without AutoFlush Sample`);
 
   const credential = new AzureKeyCredential(apiKey);
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
@@ -41,7 +47,7 @@ export async function main() {
     searchClient,
     documentKeyRetriever,
     {
-      autoFlush: true
+      autoFlush: false
     }
   );
 
@@ -88,13 +94,7 @@ export async function main() {
     }
   ]);
 
-  const wait_time = DEFAULT_FLUSH_WINDOW + 5000;
-  console.log(`Waiting for ${wait_time} ms to meet the flush window interval....`);
-  await delay(wait_time);
-
-  // When the autoFlush is set to true, the user
-  // has to call the dispose method to clear the
-  // timer.
+  await bufferedClient.flush();
   bufferedClient.dispose();
   await indexClient.deleteIndex(TEST_INDEX_NAME);
   await delay(WAIT_TIME);
