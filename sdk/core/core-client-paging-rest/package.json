@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client-paging",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A helper library which implements Autorest x-ms-pageable spec for pagination.",
   "sdk-type": "client",
   "main": "dist/index.js",
