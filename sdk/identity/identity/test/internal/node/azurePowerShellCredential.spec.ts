@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
+import { assert } from "chai";
 import Sinon from "sinon";
 import { AzurePowerShellCredential } from "../../../src";
 import {
@@ -15,7 +15,7 @@ import { processUtils } from "../../../src/util/processUtils";
 
 import { commandStack } from "../../../src/credentials/azurePowerShellCredential";
 
-function resetCommandStack() {
+function resetCommandStack(): void {
   commandStack[0] = formatCommand("pwsh");
   if (process.platform === "win32") {
     commandStack[1] = formatCommand("powershell");
