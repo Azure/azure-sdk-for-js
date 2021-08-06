@@ -6,7 +6,8 @@ import { odata, TableClient, TableInsertEntityHeaders } from "@azure/data-tables
 import { logger, logErrorStackTrace } from "./log";
 
 /**
- * checks if value of timestamp is a string
+ * 
+ * Checks if the value contains a `Timestamp` field of type `string`.
  */
 function _hasTimestamp<T extends TableInsertEntityHeaders>(
   value: T
@@ -229,8 +230,8 @@ export class TableCheckpointStore implements CheckpointStore {
         eventHubName,
         fullyQualifiedNamespace,
         partitionId: entity.rowKey,
-        offset: parseInt(entity.offset),
-        sequenceNumber: parseInt(entity.sequencenumber)
+        offset: parseInt(entity.offset, 10),
+        sequenceNumber: parseInt(entity.sequencenumber, 10)
       });
     }
     return checkpoints;
