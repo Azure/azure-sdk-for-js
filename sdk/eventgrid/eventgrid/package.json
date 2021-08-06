@@ -50,8 +50,8 @@
         "prefix": "package-version"
       },
       {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
       }
     ]
   },

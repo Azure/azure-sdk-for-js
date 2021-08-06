@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-import { assertRejects } from "../authTestUtils";
+import { assert } from "chai";
 import {
   ChainedTokenCredential,
   TokenCredential,
@@ -11,6 +10,7 @@ import {
   CredentialUnavailableError,
   AuthenticationRequiredError
 } from "../../src";
+import { getError } from "../authTestUtils";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {
@@ -64,9 +64,9 @@ describe("ChainedTokenCredential", function() {
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable.")))
     );
 
-    await assertRejects(
-      chainedTokenCredential.getToken("scope"),
-      (err: AggregateAuthenticationError) => err.errors.length === 2
+    const error = await getError<AggregateAuthenticationError>(
+      chainedTokenCredential.getToken("scope")
     );
+    assert.equal(error.errors.length, 2);
   });
 });

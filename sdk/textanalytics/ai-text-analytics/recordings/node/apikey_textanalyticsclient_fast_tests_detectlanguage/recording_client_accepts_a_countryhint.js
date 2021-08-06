@@ -5,8 +5,8 @@ module.exports.hash = "c05939b25e4a8a5b449063e05b2d2fd7";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/languages', {"documents":[{"id":"0","text":"impossible","countryHint":"fr"}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":0.58},"warnings":[]}],"errors":[],"modelVersion":"2021-01-05"}, [
+  .post('/text/analytics/v3.2-preview.1/languages', {"documents":[{"id":"0","text":"impossible","countryHint":"fr"}]})
+  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"French","iso6391Name":"fr","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2021-01-05"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -14,13 +14,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1',
   'x-envoy-upstream-service-time',
-  '8',
+  '9',
   'apim-request-id',
-  'fe7dbc13-f100-4fd0-ac71-41d7e8531dee',
+  '50f1ee13-08a8-4029-a9e6-c215ae20e039',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:46:11 GMT'
+  'Tue, 03 Aug 2021 22:36:39 GMT'
 ]);

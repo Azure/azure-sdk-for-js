@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Contains the tables, columns & rows resulting from a query. */
 export interface QueryResults {
@@ -512,89 +512,47 @@ export enum KnownMetadataColumnDataType {
 export type MetadataColumnDataType = string;
 
 /** Optional parameters. */
-export interface QueryGetOptionalParams extends coreHttp.OperationOptions {
+export interface QueryGetOptionalParams extends coreClient.OperationOptions {
   /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
   timespan?: string;
 }
 
 /** Contains response data for the get operation. */
-export type QueryGetResponse = QueryResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueryResults;
-  };
-};
+export type QueryGetResponse = QueryResults;
 
 /** Optional parameters. */
-export interface QueryExecuteOptionalParams extends coreHttp.OperationOptions {
+export interface QueryExecuteOptionalParams
+  extends coreClient.OperationOptions {
   /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
   prefer?: string;
 }
 
 /** Contains response data for the execute operation. */
-export type QueryExecuteResponse = QueryResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QueryResults;
-  };
-};
+export type QueryExecuteResponse = QueryResults;
 
 /** Optional parameters. */
-export interface QueryBatchOptionalParams extends coreHttp.OperationOptions {}
+export interface QueryBatchOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the batch operation. */
-export type QueryBatchResponse = BatchResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: BatchResponse;
-  };
-};
+export type QueryBatchResponse = BatchResponse;
 
 /** Optional parameters. */
-export interface MetadataGetOptionalParams extends coreHttp.OperationOptions {}
+export interface MetadataGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MetadataGetResponse = MetadataResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetadataResults;
-  };
-};
+export type MetadataGetResponse = MetadataResults;
 
 /** Optional parameters. */
-export interface MetadataPostOptionalParams extends coreHttp.OperationOptions {}
+export interface MetadataPostOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the post operation. */
-export type MetadataPostResponse = MetadataResults & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetadataResults;
-  };
-};
+export type MetadataPostResponse = MetadataResults;
 
 /** Optional parameters. */
 export interface AzureLogAnalyticsOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

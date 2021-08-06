@@ -32,7 +32,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     private lro: LongRunningOperation<TResult>,
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
-    private updateState?: (state: TState, lastResponse: RawResponse) => void
+    private updateState?: (state: TState, lastResponse: RawResponse) => void,
+    private isDone?: (lastResponse: TResult, state: TState) => boolean
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -77,11 +78,13 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
             "Bad state: LRO mode is undefined. Please check if the serialized state is well-formed."
           );
         }
-        this.getLroStatusFromResponse = createGetLroStatusFromResponse(
-          this.lro,
-          state.config,
-          this.lroResourceLocationConfig
-        );
+        const isDone = this.isDone;
+        this.getLroStatusFromResponse = isDone
+          ? (response: LroResponse<TResult>) => ({
+              ...response,
+              done: isDone(response.flatResponse, this.state)
+            })
+          : createGetLroStatusFromResponse(this.lro, state.config, this.lroResourceLocationConfig);
         this.poll = createPoll(this.lro);
       }
       if (!state.pollingURL) {
