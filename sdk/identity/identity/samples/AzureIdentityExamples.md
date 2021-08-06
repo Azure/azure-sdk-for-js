@@ -1036,17 +1036,16 @@ Many credential implementations in the `@azure/identity` library have an underly
 The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
 ```
-import { useIdentityExtension, InteractiveBrowserCredential, InteractiveBrowserCredentialOptions } from "@azure/identity";
+import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
 
-  const options: InteractiveBrowserCredentialOptions =  {
-    tokenCachePersistenceOptions: {
-      enabled: true
-    }
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true
   }
-  const credential = new InteractiveBrowserCredential(options);
+});
 ```
 
 #### Using a named token cache
