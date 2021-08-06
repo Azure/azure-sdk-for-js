@@ -264,7 +264,7 @@ export async function main() {
     console.log(`Results for query with id: ${response.id}`);
 
     if (response.error) {
-      console.log(` Query had errors:`, response.error);
+      console.log(`Query had errors:`, response.error);
     } else {
       if (response.tables == null) {
         console.log(`No results for query`);
