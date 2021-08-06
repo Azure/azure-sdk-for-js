@@ -50,6 +50,8 @@ extends:
         safeName: azurerestcoreclient
       - name: azure-rest-core-client-paging
         safeName: azurerestcoreclientpaging
+      - name: azure-rest-core-lro
+        safeName: azurerestcoreclientlro
       - name: azure-core-crypto
         safeName: azurecorecrypto
       - name: azure-core-http
