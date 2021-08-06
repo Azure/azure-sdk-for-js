@@ -214,7 +214,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 ### Batch logs query
 
-The following example demonstrates sending multiple queries at the same time using batch query API. The queries can be represented as a list of `BatchQuery` objects.
+The following example demonstrates sending multiple queries at the same time using the batch query API. The queries can be represented as a list of `BatchQuery` objects.
 
 ```javascript
 export async function main() {
