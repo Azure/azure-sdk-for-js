@@ -249,11 +249,9 @@ export async function main() {
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch(
-    {
-      queries: queriesBatch
-    }
-  );
+  const result = await logsQueryClient.queryLogsBatch({
+    queries: queriesBatch
+  });
 
   if (result.results == null) {
     throw new Error("No response for query");
@@ -354,6 +352,82 @@ main().catch((err) => {
 });
 ```
 
+### Handle metrics response
+
+The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` param. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
+
+```
+QueryMetricsResult
+|---cost
+|---timespan
+|---interval
+|---namespace
+|---resourceRegion
+|---metrics (list of `Metric` objects)
+    |---id
+    |---type
+    |---name
+    |---unit
+    |---displayDescription
+    |---errorCode
+    |---timeseries (list of `TimeSeriesElement` objects)
+        |---metadataValues
+        |---data (list of data points represented by `MetricValue` objects)
+```
+
+#### Example of handling response
+
+```javascript
+import { DefaultAzureCredential } from "@azure/identity";
+import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+const metricsResourceId = process.env.METRICS_RESOURCE_ID;
+export async function main() {
+  const tokenCredential = new DefaultAzureCredential();
+  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
+
+  if (!metricsResourceId) {
+    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
+  }
+
+  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+
+  const metricsResponse = await metricsQueryClient.queryMetrics(
+    metricsResourceId,
+    Durations.last5Minutes,
+    {
+      metricNames: ["MatchedEventCount"],
+      interval: "PT1M",
+      aggregations: ["Count"]
+    }
+  );
+
+  console.log(
+    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
+  );
+
+  const metrics: Metric[] = metricsResponse.metrics;
+  for(const metric of metrics){
+    console.log(metric.name);
+    for(const timeseriesElement of metric.timeseries){
+      for(const metricValue of timeseriesElement.data!){
+        if(metricValue.count!==0){
+          console.log(`There are ${metricValue.count} matched events at ${metricValue.timeStamp}`);
+        }
+      }
+    }
+  }
+
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+  process.exit(1);
+});
+```
+
 ### Advanced scenarios
 
 #### Query multiple workspaces
@@ -369,17 +443,17 @@ The same log query can be executed across multiple Log Analytics workspaces. In 
 For example, the following query executes in three workspaces:
 
 ```javascript
-  const queryLogsOptions: QueryLogsOptions = {
-     additionalWorkspaces: ["<workspace2>", "<workspace3>"]
-  };
+const queryLogsOptions: QueryLogsOptions = {
+  additionalWorkspaces: ["<workspace2>", "<workspace3>"]
+};
 
-  const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryLogs(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    Durations.last24Hours,
-    queryLogsOptions
-  );
+const kustoQuery = "AppEvents | limit 1";
+const result = await logsQueryClient.queryLogs(
+  azureLogAnalyticsWorkspaceId,
+  kustoQuery,
+  Durations.last24Hours,
+  queryLogsOptions
+);
 ```
 
 For more samples see here: [samples][samples].
