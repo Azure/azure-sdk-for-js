@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-
 import { assert } from "chai";
 import { ApplicationCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
@@ -42,7 +40,7 @@ describe("ApplicationCredential", function() {
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
   it(
