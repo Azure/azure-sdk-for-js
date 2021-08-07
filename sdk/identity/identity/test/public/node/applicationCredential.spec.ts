@@ -85,7 +85,7 @@ describe("ApplicationCredential", function() {
     console.log(`${error.message}`);
     assert.ok(
       error.message.indexOf(
-        `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential authentication failed. Message ManagedIdentityCredential - No MSI credential available`
+        `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential authentication failed.`
       ) > -1
     );
   });
