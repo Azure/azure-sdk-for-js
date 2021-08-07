@@ -5,6 +5,8 @@
 ### Features Added
 
 - Added `additionalWorkspaces` as an optional parameter to `QueryLogsOptions` and `BatchQuery` for the `queryLogs` and `queryLogsBatch` API to allow multiple workspaces
+- Allow returning statistics and visualization information to user for each query result in `QueryLogsBatchResult`
+- Adding Error information in `QueryLogsResult`.
 
 ### Breaking Changes
 

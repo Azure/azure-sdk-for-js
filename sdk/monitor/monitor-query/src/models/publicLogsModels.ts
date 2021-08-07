@@ -120,6 +120,10 @@ export interface QueryLogsBatchResult {
     // (hoisted up from `LogQueryResult`)
     tables?: LogsTable[];
     error?: ErrorInfo;
+    /** Statistics represented in JSON format. */
+    statistics?: any;
+    /** Visualization data in JSON format. */
+    visualization?: any;
   }[];
 
   // TODO: this is omitted from the Java models.

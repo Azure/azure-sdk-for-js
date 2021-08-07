@@ -219,6 +219,8 @@ export interface QueryLogsBatchResult {
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
+        statistics?: any;
+        visualization?: any;
     }[];
 }
 
