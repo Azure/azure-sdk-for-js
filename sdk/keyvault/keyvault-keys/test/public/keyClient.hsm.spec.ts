@@ -73,7 +73,7 @@ onVersions({ minVer: "7.2" }).describe(
       });
     });
 
-    onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
+    onVersions({ minVer: "7.3-preview" }).describe.only("releaseKey", () => {
       let attestation: string;
       let encodedReleasePolicy: Uint8Array;
 
@@ -159,7 +159,7 @@ onVersions({ minVer: "7.2" }).describe(
                   value: "false"
                 }
               ],
-              authority: "https://sharedeus.eus.attest.azure.net/"
+              authority: env.AZURE_KEYVAULT_ATTESTATION_URI
             }
           ],
           version: "1.0"
@@ -174,10 +174,6 @@ onVersions({ minVer: "7.2" }).describe(
         );
 
         // Note: the service will parse the policy and return a different shape, for example: { "claim": "sdk-test", "equals": "false" } in this test.
-        assert.equal(
-          decodedReleasePolicy.anyOf[0].authority,
-          "https://sharedeus.eus.attest.azure.net/"
-        );
         assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
       });
 
