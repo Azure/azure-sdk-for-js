@@ -22,7 +22,7 @@ const paths = {
 
 /**
  * Helper class to manage the recording state to make sure the proxy-tool is not flooded with unintended requests.
- * 
+ *
  * => then start record
  * => run the runAsync
  * => stop record
@@ -30,12 +30,23 @@ const paths = {
  * => stop playback
  */
 export class RecordingStateManager {
-  public state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback" | undefined;
+  public state:
+    | "started-recording"
+    | "stopped-recording"
+    | "started-playback"
+    | "stopped-playback"
+    | undefined;
 
   /**
    * validateState
    */
-  public validateState(currentFlow: "starting-recording" | "stopping-recording" | "starting-playback" | "stopping-playback") {
+  public validateState(
+    currentFlow:
+      | "starting-recording"
+      | "stopping-recording"
+      | "starting-playback"
+      | "stopping-playback"
+  ) {
     if (currentFlow === "starting-recording") {
       if (this.state === "started-recording") {
         throw new Error("Already started recording, should not have called again.");
@@ -64,7 +75,9 @@ export class RecordingStateManager {
   /**
    * setState
    */
-  public setState(state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback") {
+  public setState(
+    state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback"
+  ) {
     this.state = state;
   }
 }
@@ -129,7 +142,7 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
   }
 
   async startPlayback(): Promise<void> {
-    this.stateManager.validateState("starting-playback")
+    this.stateManager.validateState("starting-playback");
     const startUri = this._uri + paths.playback + paths.start;
     const req = this._createRecordingRequest(startUri);
     req.headers.set("x-recording-id", this._recordingId!);
