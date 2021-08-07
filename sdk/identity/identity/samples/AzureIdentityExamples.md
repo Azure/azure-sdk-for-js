@@ -937,8 +937,6 @@ By setting the option `disableAutomaticAuthentication` to `true` the credential 
 try {
   await client.getSecret("secret-name");
 } catch (e) {
-  await ensureAnimationCompleted();
-
   if (e.name === "AuthenticationRequiredError") {
     await credential.authenticate(e.scopes);
     console.log("Secret", await client.getSecret("secret-name"));
@@ -982,20 +980,44 @@ const credential = new InteractiveBrowserCredential({
 
 #### Persisting the Authentication Record
 
-The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It is needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There is no sensitive data in the `AuthenticationRecord` so it can be persisted in a non-protected state.
+The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It is needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There is no sensitive data in the `AuthenticationRecord` so it can be persisted in a non-protected state. Ensure that you pass in the appropriate scopes for your service to `authenticate` method.
 
 Here is an example of an application storing the `AuthenticationRecord` to the local file system after authenticating the user.
 
 ```ts
+import {
+  useIdentityExtension,
+  InteractiveBrowserCredential,
+  AuthenticationRecord,
+  serializeAuthenticationRecord
+} from "@azure/identity";
+import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 import fs from "fs";
 import { promisify } from "util";
 import path from "path";
-const AUTH_RECORD_PATH = "./tokencache.bin";
 
-const authRecord: AuthenticationRecord = await credential.authenticate();
-const writeFileAsync = promisify(fs.writeFile);
-const content = serializeAuthenticationRecord(authRecord);
-await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
+useIdentityExtension(cachePersistenceExtension);
+
+export async function main(): Promise<void> {
+  const AUTH_RECORD_PATH = "./tokencache.bin";
+  const credential = new InteractiveBrowserCredential({
+    tokenCachePersistenceOptions: {
+      enabled: true
+    }
+  });
+  const authRecord: AuthenticationRecord = await credential.authenticate(
+    "https://service/.default"
+  );
+  const writeFileAsync = promisify(fs.writeFile);
+  const content = serializeAuthenticationRecord(authRecord);
+  await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+});
 ```
 
 #### Silent authentication with Authentication Record and Token Cache Persistence Options
@@ -1003,23 +1025,39 @@ await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
 Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
 ```ts
-import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
+import {
+  useIdentityExtension,
+  InteractiveBrowserCredential,
+  AuthenticationRecord,
+  deserializeAuthenticationRecord
+} from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+import fs from "fs";
+import { promisify } from "util";
+import path from "path";
 
 useIdentityExtension(cachePersistenceExtension);
 
-const AUTH_RECORD_PATH = "./tokencache.bin";
-const readFileAsync = promisify(fs.readFile);
-const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), {
-  encoding: "utf-8"
-});
-const authRecord: AuthenticationRecord = deserializeAuthenticationRecord(fileContent);
+export async function main(): Promise<void> {
+  const AUTH_RECORD_PATH = "./tokencache.bin";
+  const readFileAsync = promisify(fs.readFile);
+  const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), {
+    encoding: "utf-8"
+  });
+  const authRecord: AuthenticationRecord = deserializeAuthenticationRecord(fileContent);
 
-const credential = new InteractiveBrowserCredential({
-  tokenCachePersistenceOptions: {
-    enabled: true
-  },
-  authenticationRecord: authRecord
+  const credential = new InteractiveBrowserCredential({
+    tokenCachePersistenceOptions: {
+      enabled: true
+    },
+    authenticationRecord: authRecord
+  });
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
 });
 ```
 
@@ -1053,11 +1091,7 @@ const credential = new InteractiveBrowserCredential({
 Some applications may prefer to isolate the token cache they use rather than using the shared instance. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
 
 ```ts
-import {
-  useIdentityExtension,
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialOptions
-} from "@azure/identity";
+import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
@@ -1075,11 +1109,7 @@ const credential = new InteractiveBrowserCredential({
 By default the token cache will protect any data which is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
 
 ```ts
-import {
-  useIdentityExtension,
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialOptions
-} from "@azure/identity";
+import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
 
 useIdentityExtension(cachePersistenceExtension);
