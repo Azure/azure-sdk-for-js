@@ -55,7 +55,6 @@ describe("Model unit tests", () => {
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
-              workspaces: undefined,
               query: "the kusto query",
               timespan: Durations.last24Hours
             }
