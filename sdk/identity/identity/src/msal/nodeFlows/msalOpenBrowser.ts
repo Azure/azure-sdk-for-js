@@ -46,7 +46,7 @@ export class MsalOpenBrowser extends MsalNode {
 
   constructor(options: MSALOpenBrowserOptions) {
     super(options);
-    this.logger = credentialLogger("NodeJS MSAL Open Browser");
+    this.logger = credentialLogger("Node.js MSAL Open Browser");
     this.redirectUri = options.redirectUri;
     this.loginHint = options.loginHint;
 

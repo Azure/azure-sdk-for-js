@@ -15,17 +15,17 @@ import {
   loggerForTest
 } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
-import { RestError, RetryOptions } from "@azure/core-http";
+import { ExponentialRetryPolicyOptions, RestError } from "@azure/core-rest-pipeline";
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let createClient: (retryOptions?: RetryOptions) => LogsQueryClient;
+  let createClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
   let testRunId: string;
 
   before(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
 
-    createClient = (retryOptions?: RetryOptions) =>
+    createClient = (retryOptions?: ExponentialRetryPolicyOptions) =>
       new LogsQueryClient(createTestClientSecretCredential(), {
         retryOptions
       });
@@ -253,7 +253,7 @@ describe("LogsQueryClient live tests", function() {
     const result = await createClient().queryLogsBatch({
       queries: [
         {
-          workspace: monitorWorkspaceId,
+          workspaceId: monitorWorkspaceId,
           query: constantsQuery,
           timespan: Durations.last5Minutes
         }
@@ -362,12 +362,12 @@ describe("LogsQueryClient live tests", function() {
       // (we'll wait until the data is there before running all the tests)
       await checkLogsHaveBeenIngested({
         maxTries: 240,
-        secondsBetweenQueries: 1
+        secondsBetweenQueries: 5
       });
     });
 
     it("queryLogs (last day)", async () => {
-      const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
+      const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
       const singleQueryLogsResult = await createClient().queryLogs(
         monitorWorkspaceId,
@@ -393,21 +393,22 @@ describe("LogsQueryClient live tests", function() {
       const batchRequest: QueryLogsBatch = {
         queries: [
           {
-            workspace: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
+            workspaceId: monitorWorkspaceId,
+            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
             timespan: Durations.last24Hours
           },
           {
-            workspace: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-            timespan: Durations.last24Hours,
-            includeQueryStatistics: true,
-            serverTimeoutInSeconds: 60 * 10
+            workspaceId: monitorWorkspaceId,
+            query: `AppDependencies| count`,
+            timespan: Durations.last24Hours
           }
         ]
       };
 
-      const result = await createClient().queryLogsBatch(batchRequest);
+      const result = await createClient().queryLogsBatch(batchRequest, {
+        includeQueryStatistics: true,
+        serverTimeoutInSeconds: 60 * 10
+      });
 
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);

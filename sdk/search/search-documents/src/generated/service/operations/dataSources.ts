@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { DataSources } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   SearchIndexerDataSource,
   DataSourcesCreateOrUpdateOptionalParams,
@@ -24,14 +25,14 @@ import {
 } from "../models";
 
 /** Class representing a DataSources. */
-export class DataSources {
-  private readonly client: SearchServiceClient;
+export class DataSourcesImpl implements DataSources {
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class DataSources class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 
@@ -148,7 +149,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.dataSource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.ignoreResetRequirements],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.contentType,

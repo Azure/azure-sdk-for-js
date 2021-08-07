@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import qs from "qs";
+import { delay } from "@azure/core-util";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
-  AccessToken,
-  delay,
-  GetTokenOptions,
-  RequestPrepareOptions,
+  createHttpHeaders,
+  PipelineRequestOptions,
+  createPipelineRequest,
   RestError
-} from "@azure/core-http";
+} from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { AuthenticationError } from "../../client/errors";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
+import { AuthenticationError } from "../../client/errors";
 
 const logger = credentialLogger("ManagedIdentityCredential - IMDS");
 
@@ -33,7 +35,7 @@ function expiresInParser(requestBody: any): number {
   }
 }
 
-function prepareRequestOptions(resource?: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource?: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": imdsApiVersion
@@ -43,14 +45,15 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
     queryParameters.client_id = clientId;
   }
 
+  const query = qs.stringify(queryParameters);
+
   return {
-    url: `${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost}${imdsEndpointPath}`,
+    url: `${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost}${imdsEndpointPath}?${query}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: true
-    }
+      Metadata: "true"
+    })
   };
 }
 
@@ -68,7 +71,7 @@ export const imdsMsi: MSI = {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions: options } = createSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
@@ -78,31 +81,34 @@ export const imdsMsi: MSI = {
       return true;
     }
 
-    const request = prepareRequestOptions(resource, clientId);
+    const requestOptions = prepareRequestOptions(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
-    if (request.headers) {
+    if (requestOptions.headers) {
       // Remove the Metadata header to invoke a request error from
       // IMDS endpoint
-      delete request.headers.Metadata;
+      requestOptions.headers.delete("Metadata");
     }
 
-    request.spanOptions = updatedOptions?.tracingOptions?.spanOptions;
-    request.tracingContext = updatedOptions?.tracingOptions?.tracingContext;
+    requestOptions.tracingOptions = {
+      spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
+      tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
+    };
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
-      const webResource = identityClient.createWebResource(request);
+      const request = createPipelineRequest(requestOptions);
 
-      // In Kubernetes pods, node-fetch (used by core-http) takes longer than 2 seconds to begin sending the network request,
-      // So smaller timeouts will cause this credential to be immediately aborted.
-      // This won't be a problem once we move Identity to core-rest-pipeline.
-      webResource.timeout = updatedOptions?.requestOptions?.timeout || 3000;
+      request.timeout = options.requestOptions?.timeout ?? 300;
+
+      // This MSI uses the imdsEndpoint to get the token, which only uses http://
+      request.allowInsecureConnection = true;
 
       try {
-        await identityClient.sendRequest(webResource);
+        logger.info(`Pinging the Azure IMDS endpoint`);
+        await identityClient.sendRequest(request);
       } catch (err) {
         if (
           (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
@@ -110,7 +116,7 @@ export const imdsMsi: MSI = {
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down
         ) {
-          // If the request failed, or NodeJS was unable to establish a connection,
+          // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`The Azure IMDS endpoint is unavailable`);
           span.setStatus({
@@ -123,13 +129,13 @@ export const imdsMsi: MSI = {
 
       // If we received any response, the endpoint is available
       logger.info(`The Azure IMDS endpoint is available`);
-
-      // IMDS MSI available!
       return true;
     } catch (err) {
       // createWebResource failed.
       // This error should bubble up to the user.
-      logger.info(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`);
+      logger.info(
+        `Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
+      );
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: err.message
@@ -146,7 +152,7 @@ export const imdsMsi: MSI = {
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
     logger.info(
-      `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+      `Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;

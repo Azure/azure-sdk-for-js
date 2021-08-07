@@ -25,6 +25,8 @@ import {
   ImagesImpl,
   RestorePointCollectionsImpl,
   RestorePointsImpl,
+  CapacityReservationGroupsImpl,
+  CapacityReservationsImpl,
   VirtualMachineScaleSetExtensionsImpl,
   VirtualMachineScaleSetRollingUpgradesImpl,
   VirtualMachineScaleSetVMExtensionsImpl,
@@ -71,6 +73,8 @@ import {
   Images,
   RestorePointCollections,
   RestorePoints,
+  CapacityReservationGroups,
+  CapacityReservations,
   VirtualMachineScaleSetExtensions,
   VirtualMachineScaleSetRollingUpgrades,
   VirtualMachineScaleSetVMExtensions,
@@ -137,6 +141,8 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
     this.images = new ImagesImpl(this);
     this.restorePointCollections = new RestorePointCollectionsImpl(this);
     this.restorePoints = new RestorePointsImpl(this);
+    this.capacityReservationGroups = new CapacityReservationGroupsImpl(this);
+    this.capacityReservations = new CapacityReservationsImpl(this);
     this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsImpl(
       this
     );
@@ -193,6 +199,8 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
   images: Images;
   restorePointCollections: RestorePointCollections;
   restorePoints: RestorePoints;
+  capacityReservationGroups: CapacityReservationGroups;
+  capacityReservations: CapacityReservations;
   virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
   virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;

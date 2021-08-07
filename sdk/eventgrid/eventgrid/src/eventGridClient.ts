@@ -5,7 +5,7 @@ import { isTokenCredential, KeyCredential, SASCredential } from "@azure/core-aut
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
-import { SDK_VERSION, DEFAULT_EVENTGRID_SCOPE } from "./constants";
+import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
 import {
   SendCloudEventInput,
   SendEventGridEventInput,
@@ -109,20 +109,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     this.endpointUrl = endpointUrl;
     this.inputSchema = inputSchema;
 
-    const libInfo = `azsdk-js-eventgrid/${SDK_VERSION}`;
-    const pipelineOptions = { ...options };
-
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    this.client = new GeneratedClient(pipelineOptions);
+    this.client = new GeneratedClient(options);
 
     const authPolicy = isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_EVENTGRID_SCOPE })

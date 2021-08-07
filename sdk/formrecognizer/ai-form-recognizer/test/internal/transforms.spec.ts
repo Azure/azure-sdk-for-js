@@ -6,7 +6,7 @@ import { assert } from "chai";
 import {
   toTextLine,
   toFormPage,
-  toFormContent,
+  elementReferenceToFormElement,
   toFieldData,
   toFormFieldFromKeyValuePairModel,
   toFormFieldFromFieldValueModel,
@@ -25,7 +25,7 @@ import {
   DataTable as DataTableModel,
   DocumentResult as DocumentResultModel
 } from "../../src/generated/models";
-import { Point2D, FormField } from "../../src/models";
+import { Point2D, FormField, FormPage, FormSelectionMark } from "../../src/models";
 
 const supervisedResponseString = `{
   "status": "succeeded",
@@ -2195,23 +2195,63 @@ describe("Transforms", () => {
     lines: [originalLine1, originalLine2]
   };
 
-  it("toExtractedElement() converts word string reference to extracted word", () => {
+  it("elementReferenceToFormContent() converts word string reference to extracted word", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
     const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = toFormContent(stringRef, readResults);
+    const transformed = elementReferenceToFormElement(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
 
   const formPages = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-  it("toExtractedElement() converts line string reference to extracted line", () => {
+  it("elementReferenceToFormContent() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = toFormContent(stringRef, formPages);
+    const transformed = elementReferenceToFormElement(stringRef, formPages);
 
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
+  });
+
+  it("elementReferenceToFormContent() converts selectionMark reference to FormSelectionMark", () => {
+    const stringRef = "#/readResults/0/selectionMarks/1";
+
+    const input = {
+      selectionMarks: [
+        {
+          kind: "selectionMark",
+          pageNumber: 0,
+          state: "selected",
+          text: "Hello world!",
+          boundingBox: [
+            { x: 0, y: 1 },
+            { x: 2, y: 3 },
+            { x: 4, y: 5 },
+            { x: 6, y: 7 }
+          ],
+          confidence: 0.8
+        },
+        {
+          kind: "selectionMark",
+          pageNumber: 1,
+          state: "unselected",
+          text: "Hello world!",
+          boundingBox: [
+            { x: 0, y: 1 },
+            { x: 2, y: 3 },
+            { x: 4, y: 5 },
+            { x: 6, y: 7 }
+          ],
+          confidence: 0.8
+        }
+      ]
+    } as const;
+
+    assert.deepStrictEqual(
+      elementReferenceToFormElement(stringRef, [(input as unknown) as FormPage]),
+      (input.selectionMarks[1] as unknown) as FormSelectionMark
+    );
   });
 
   const originalKeyValueElement1 = {

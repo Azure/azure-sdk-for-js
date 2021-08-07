@@ -226,7 +226,7 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -235,6 +235,7 @@ export class KeyClient {
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
 }
 
@@ -416,6 +417,11 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface RandomBytes {
+    bytes: Uint8Array;
+}
+
+// @public
 export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
     algorithm?: KeyExportEncryptionAlgorithm;
     nonce?: string;
@@ -477,6 +483,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     expiresOn?: Date;
     keyOps?: KeyOperation[];
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };

@@ -4,22 +4,24 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 28 Dec 2020 22:21:22 GMT",
+    "date": "Wed, 04 Aug 2021 20:29:30 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - EUS ProdSlices",
-    "x-ms-request-id": "b69d4f2a-574a-49f8-b23d-23c088b11b02"
+    "x-ms-ests-server": "2.1.11898.12 - EUS ProdSlices",
+    "x-ms-request-id": "9d06237c-bcba-42ab-a8ec-d1a777ac7a01"
    }
   },
   {
@@ -30,10 +32,10 @@
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:c785b6ad-9f7b-4eec-94df-00ef28021812_G26, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2020-12-28T22:21:23\"}",
+   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:710c6f6b-05b0-4256-b6dd-903f3281a000_G5, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-08-04T20:29:32\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Mon, 28 Dec 2020 22:21:23 GMT",
+    "date": "Wed, 04 Aug 2021 20:29:31 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"
@@ -44,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "48553553ebd0830c8508d763e677a96c"
+ "hash": "5fa29eb8e01de35dfc09d7742cb0cdd9"
 }

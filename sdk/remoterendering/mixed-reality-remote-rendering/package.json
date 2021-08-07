@@ -12,12 +12,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       },
       {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
       }
     ]
   },
@@ -81,7 +81,7 @@
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
     "@azure/mixed-reality-authentication": "1.0.0-beta.1",
-    "@azure/core-lro": "^2.0.0",
+    "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-util": "^1.0.0-beta.1"

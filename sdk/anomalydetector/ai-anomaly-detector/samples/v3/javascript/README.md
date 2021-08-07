@@ -9,19 +9,20 @@ products:
 urlFragment: ai-anomaly-detector-javascript
 ---
 
-# Azure Data Tables client library samples for JavaScript
+# Azure Anomaly Detector client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Data Tables in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Anomaly Detector in some common scenarios.
 
 | **File Name**                                                                 | **Description**                                   |
 | ----------------------------------------------------------------------------- | ------------------------------------------------- |
 | [sample_detect_change_point.js][sample_detect_change_point]                   | detects change points.                            |
 | [sample_detect_entire_series_anomaly.js][sample_detect_entire_series_anomaly] | detects anomaly points on entire series.          |
 | [sample_detect_last_point_anomaly.js][sample_detect_last_point_anomaly]       | detects anomaly for the last point on the series. |
+| [sample_multivariate_detection.js][sample_multivariate_detection]             | detect multivaariate anomalies.                   |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -62,6 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/javascript/sample_detect_change_point.js
 [sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/javascript/sample_detect_entire_series_anomaly.js
 [sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/javascript/sample_detect_last_point_anomaly.js
+[sample_multivariate_detection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/javascript/sample_multivariate_detection.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureanomalydetectorinstance]: https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/quickstarts/client-libraries?tabs=windows&pivots=programming-language-javascript

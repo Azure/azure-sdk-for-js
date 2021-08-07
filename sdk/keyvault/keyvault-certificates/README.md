@@ -385,6 +385,8 @@ by using the [KeyVault Secrets client][keyvault-secrets-client].
 // Using the same credential object we used before,
 // and the same keyVaultUrl,
 // let's create a SecretClient
+import { SecretClient } from "@azure/keyvault-secrets";
+
 const secretClient = new SecretClient(keyVaultUrl, credential);
 
 // Assuming you've already created a Key Vault certificate,
