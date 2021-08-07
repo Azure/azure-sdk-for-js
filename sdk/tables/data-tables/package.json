@@ -83,7 +83,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.12",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "tslib": "^2.2.0",
     "uuid": "^8.3.0"
   },
@@ -151,8 +151,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "swagger/README.md",

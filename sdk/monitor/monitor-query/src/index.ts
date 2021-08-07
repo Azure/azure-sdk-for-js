@@ -43,8 +43,7 @@ export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
   Column as MetricColumn,
-  // TODO: LogsColumnType might actually be a better name!
-  LogsColumnType as ColumnDataType,
+  LogsColumnType,
   ErrorDetail,
   ErrorInfo
 } from "./generated/logquery/src";

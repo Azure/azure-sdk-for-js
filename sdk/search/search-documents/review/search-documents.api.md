@@ -40,7 +40,7 @@ export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 // @public
 export interface AnswerResult {
     [property: string]: any;
-    readonly highlights?: string | null;
+    readonly highlights?: string;
     readonly key: string;
     readonly score: number;
     readonly text: string;
@@ -177,14 +177,14 @@ export type BlobIndexerPDFTextRotationAlgorithm = string;
 // @public
 export type BM25Similarity = Similarity & {
     odatatype: "#Microsoft.Azure.Search.BM25Similarity";
-    k1?: number | null;
-    b?: number | null;
+    k1?: number;
+    b?: number;
 };
 
 // @public
 export interface CaptionResult {
     [property: string]: any;
-    readonly highlights?: string | null;
+    readonly highlights?: string;
     readonly text?: string;
 }
 
@@ -253,7 +253,7 @@ export type ConditionalSkill = BaseSearchIndexerSkill & {
 // @public
 export interface CorsOptions {
     allowedOrigins: string[];
-    maxAgeInSeconds?: number | null;
+    maxAgeInSeconds?: number;
 }
 
 // @public
@@ -270,11 +270,14 @@ export type CreateIndexOptions = OperationOptions;
 
 // @public
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
+    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
 }
 
 // @public
 export interface CreateorUpdateIndexerOptions extends OperationOptions {
+    disableCacheReprocessingChangeDetection?: boolean;
+    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
 }
 
@@ -286,6 +289,8 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 
 // @public
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
+    disableCacheReprocessingChangeDetection?: boolean;
+    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
 }
 
@@ -314,37 +319,37 @@ export interface CustomAnalyzer {
 
 // @public
 export interface CustomEntity {
-    accentSensitive?: boolean | null;
-    aliases?: CustomEntityAlias[] | null;
-    caseSensitive?: boolean | null;
-    defaultAccentSensitive?: boolean | null;
-    defaultCaseSensitive?: boolean | null;
-    defaultFuzzyEditDistance?: number | null;
-    description?: string | null;
-    fuzzyEditDistance?: number | null;
-    id?: string | null;
+    accentSensitive?: boolean;
+    aliases?: CustomEntityAlias[];
+    caseSensitive?: boolean;
+    defaultAccentSensitive?: boolean;
+    defaultCaseSensitive?: boolean;
+    defaultFuzzyEditDistance?: number;
+    description?: string;
+    fuzzyEditDistance?: number;
+    id?: string;
     name: string;
-    subtype?: string | null;
-    type?: string | null;
+    subtype?: string;
+    type?: string;
 }
 
 // @public
 export interface CustomEntityAlias {
-    accentSensitive?: boolean | null;
-    caseSensitive?: boolean | null;
-    fuzzyEditDistance?: number | null;
+    accentSensitive?: boolean;
+    caseSensitive?: boolean;
+    fuzzyEditDistance?: number;
     text: string;
 }
 
 // @public
 export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
-    defaultLanguageCode?: CustomEntityLookupSkillLanguage | null;
-    entitiesDefinitionUri?: string | null;
-    inlineEntitiesDefinition?: CustomEntity[] | null;
-    globalDefaultCaseSensitive?: boolean | null;
-    globalDefaultAccentSensitive?: boolean | null;
-    globalDefaultFuzzyEditDistance?: number | null;
+    defaultLanguageCode?: CustomEntityLookupSkillLanguage;
+    entitiesDefinitionUri?: string;
+    inlineEntitiesDefinition?: CustomEntity[];
+    globalDefaultCaseSensitive?: boolean;
+    globalDefaultAccentSensitive?: boolean;
+    globalDefaultFuzzyEditDistance?: number;
 };
 
 // @public
@@ -430,11 +435,11 @@ export interface DistanceScoringParameters {
 // @public
 export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
-    parsingMode?: string | null;
-    dataToExtract?: string | null;
+    parsingMode?: string;
+    dataToExtract?: string;
     configuration?: {
         [propertyName: string]: any;
-    } | null;
+    };
 };
 
 // @public
@@ -469,9 +474,9 @@ export type EntityCategory = string;
 // @public
 export type EntityLinkingSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
-    defaultLanguageCode?: string | null;
-    minimumPrecision?: number | null;
-    modelVersion?: string | null;
+    defaultLanguageCode?: string;
+    minimumPrecision?: number;
+    modelVersion?: string;
 };
 
 // @public
@@ -479,8 +484,8 @@ export type EntityRecognitionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
     categories?: EntityCategory[];
     defaultLanguageCode?: EntityRecognitionSkillLanguage;
-    includeTypelessEntities?: boolean | null;
-    minimumPrecision?: number | null;
+    includeTypelessEntities?: boolean;
+    minimumPrecision?: number;
 };
 
 // @public
@@ -490,9 +495,9 @@ export type EntityRecognitionSkillLanguage = string;
 export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
     categories?: string[];
-    defaultLanguageCode?: string | null;
-    minimumPrecision?: number | null;
-    modelVersion?: string | null;
+    defaultLanguageCode?: string;
+    minimumPrecision?: number;
+    modelVersion?: string;
 };
 
 // @public
@@ -503,7 +508,7 @@ export interface FacetResult {
 
 // @public
 export interface FieldMapping {
-    mappingFunction?: FieldMappingFunction | null;
+    mappingFunction?: FieldMappingFunction;
     sourceFieldName: string;
     targetFieldName?: string;
 }
@@ -626,7 +631,7 @@ export type IndexerExecutionEnvironment = string;
 
 // @public
 export interface IndexerExecutionResult {
-    readonly endTime?: Date | null;
+    readonly endTime?: Date;
     readonly errorMessage?: string;
     readonly errors: SearchIndexerError[];
     readonly failedItemCount: number;
@@ -646,10 +651,10 @@ export type IndexerStatus = "unknown" | "error" | "running";
 
 // @public
 export interface IndexingParameters {
-    batchSize?: number | null;
+    batchSize?: number;
     configuration?: IndexingParametersConfiguration;
-    maxFailedItems?: number | null;
-    maxFailedItemsPerBatch?: number | null;
+    maxFailedItems?: number;
+    maxFailedItemsPerBatch?: number;
 }
 
 // @public
@@ -712,8 +717,8 @@ export type KeepTokenFilter = BaseTokenFilter & {
 export type KeyPhraseExtractionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
     defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
-    maxKeyPhraseCount?: number | null;
-    modelVersion?: string | null;
+    maxKeyPhraseCount?: number;
+    modelVersion?: string;
 };
 
 // @public
@@ -1367,8 +1372,8 @@ export const enum KnownVisualFeature {
 // @public
 export type LanguageDetectionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
-    defaultCountryHint?: string | null;
-    modelVersion?: string | null;
+    defaultCountryHint?: string;
+    modelVersion?: string;
 };
 
 // @public
@@ -1590,13 +1595,13 @@ export type PhoneticTokenFilter = BaseTokenFilter & {
 // @public
 export type PIIDetectionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
-    defaultLanguageCode?: string | null;
-    minimumPrecision?: number | null;
+    defaultLanguageCode?: string;
+    minimumPrecision?: number;
     maskingMode?: PIIDetectionSkillMaskingMode;
-    maskingCharacter?: string | null;
-    modelVersion?: string | null;
+    maskingCharacter?: string;
+    modelVersion?: string;
     piiCategories?: string[];
-    domain?: string | null;
+    domain?: string;
 };
 
 // @public
@@ -1616,7 +1621,7 @@ export type ResetIndexerOptions = OperationOptions;
 
 // @public
 export interface ResourceCounter {
-    quota?: number | null;
+    quota?: number;
     usage: number;
 }
 
@@ -1680,7 +1685,7 @@ export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
 
 // @public
 export interface SearchDocumentsResultBase {
-    readonly answers?: AnswerResult[] | null;
+    readonly answers?: AnswerResult[];
     readonly count?: number;
     readonly coverage?: number;
     readonly facets?: {
@@ -1698,9 +1703,9 @@ export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Ed
 export interface SearchIndex {
     analyzers?: LexicalAnalyzer[];
     charFilters?: CharFilter[];
-    corsOptions?: CorsOptions | null;
+    corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
-    encryptionKey?: SearchResourceEncryptionKey | null;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     fields: SearchField[];
     name: string;
@@ -1742,18 +1747,25 @@ export interface SearchIndexClientOptions extends PipelineOptions {
 
 // @public
 export interface SearchIndexer {
+    cache?: SearchIndexerCache;
     dataSourceName: string;
     description?: string;
-    encryptionKey?: SearchResourceEncryptionKey | null;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     fieldMappings?: FieldMapping[];
-    isDisabled?: boolean | null;
+    isDisabled?: boolean;
     name: string;
     outputFieldMappings?: FieldMapping[];
-    parameters?: IndexingParameters | null;
-    schedule?: IndexingSchedule | null;
+    parameters?: IndexingParameters;
+    schedule?: IndexingSchedule;
     skillsetName?: string;
     targetIndexName: string;
+}
+
+// @public (undocumented)
+export interface SearchIndexerCache {
+    enableReprocessing?: boolean;
+    storageConnectionString?: string;
 }
 
 // @public
@@ -1807,12 +1819,12 @@ export type SearchIndexerDataNoneIdentity = BaseSearchIndexerDataIdentity & {
 export interface SearchIndexerDataSourceConnection {
     connectionString?: string;
     container: SearchIndexerDataContainer;
-    dataChangeDetectionPolicy?: DataChangeDetectionPolicy | null;
-    dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy | null;
+    dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
+    dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
     description?: string;
-    encryptionKey?: SearchResourceEncryptionKey | null;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    identity?: SearchIndexerDataIdentity | null;
+    identity?: SearchIndexerDataIdentity;
     name: string;
     type: SearchIndexerDataSourceType;
 }
@@ -1888,7 +1900,7 @@ export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | O
 export interface SearchIndexerSkillset {
     cognitiveServicesAccount?: CognitiveServicesAccount;
     description?: string;
-    encryptionKey?: SearchResourceEncryptionKey | null;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     knowledgeStore?: SearchIndexerKnowledgeStore;
     name: string;
@@ -2034,7 +2046,7 @@ export interface SearchRequestOptions<Fields> {
 export interface SearchResourceEncryptionKey {
     applicationId?: string;
     applicationSecret?: string;
-    identity?: SearchIndexerDataIdentity | null;
+    identity?: SearchIndexerDataIdentity;
     keyName: string;
     keyVersion: string;
     vaultUrl: string;
@@ -2047,7 +2059,7 @@ export type SearchResult<T> = {
     readonly highlights?: {
         [k in keyof T]?: string[];
     };
-    readonly captions?: CaptionResult[] | null;
+    readonly captions?: CaptionResult[];
     document: T;
 };
 
@@ -2076,9 +2088,9 @@ export type SentimentSkillLanguage = string;
 // @public
 export type SentimentSkillV3 = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
-    defaultLanguageCode?: string | null;
+    defaultLanguageCode?: string;
     includeOpinionMining?: boolean;
-    modelVersion?: string | null;
+    modelVersion?: string;
 };
 
 // @public
@@ -2094,10 +2106,10 @@ export interface ServiceCounters {
 
 // @public
 export interface ServiceLimits {
-    maxComplexCollectionFieldsPerIndex?: number | null;
-    maxComplexObjectsInCollectionsPerDocument?: number | null;
-    maxFieldNestingDepthPerIndex?: number | null;
-    maxFieldsPerIndex?: number | null;
+    maxComplexCollectionFieldsPerIndex?: number;
+    maxComplexObjectsInCollectionsPerDocument?: number;
+    maxFieldNestingDepthPerIndex?: number;
+    maxFieldsPerIndex?: number;
 }
 
 // @public
@@ -2165,7 +2177,7 @@ export type SplitSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     defaultLanguageCode?: SplitSkillLanguage;
     textSplitMode?: TextSplitMode;
-    maxPageLength?: number | null;
+    maxPageLength?: number;
 };
 
 // @public
@@ -2239,7 +2251,7 @@ export type SuggestResult<T> = {
 
 // @public
 export interface SynonymMap {
-    encryptionKey?: SearchResourceEncryptionKey | null;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     name: string;
     synonyms: string[];
@@ -2272,7 +2284,7 @@ export type TextTranslationSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.TranslationSkill";
     defaultToLanguageCode: TextTranslationSkillLanguage;
     defaultFromLanguageCode?: TextTranslationSkillLanguage;
-    suggestedFrom?: TextTranslationSkillLanguage | null;
+    suggestedFrom?: TextTranslationSkillLanguage;
 };
 
 // @public
@@ -2327,8 +2339,8 @@ export type WebApiSkill = BaseSearchIndexerSkill & {
     };
     httpMethod?: string;
     timeout?: string;
-    batchSize?: number | null;
-    degreeOfParallelism?: number | null;
+    batchSize?: number;
+    degreeOfParallelism?: number;
 };
 
 // @public

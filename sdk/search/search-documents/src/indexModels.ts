@@ -446,7 +446,7 @@ export type SearchResult<T> = {
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly captions?: CaptionResult[] | null;
+  readonly captions?: CaptionResult[];
 
   document: T;
 };
@@ -480,7 +480,7 @@ export interface SearchDocumentsResultBase {
    * not specified or set to 'none'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly answers?: AnswerResult[] | null;
+  readonly answers?: AnswerResult[];
 }
 
 /**

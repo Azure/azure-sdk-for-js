@@ -23,7 +23,7 @@ import { pemFromBase64 } from "../utils/helpers";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   ATTESTATION_LOCATION_SHORT_NAME: "wus",
   ATTESTATION_ISOLATED_URL: "https://isolated_attestation_url.wus.attest.azure.net",
   ATTESTATION_AAD_URL: "https://aad_attestation_url.wus.attest.azure.net",
@@ -34,7 +34,7 @@ const replaceableVariables: { [k: string]: string } = {
   ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key"
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
+const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>
@@ -93,16 +93,12 @@ export function getIsolatedSigningKey(): { privateKey: string; certificate: stri
   return { privateKey: pemKey, certificate: pemCert };
 }
 
+// Note that the AttestationClient does not require authentication.
 export function createRecordedClient(
   endpointType: EndpointType,
+  authenticatedClient?: boolean,
   options?: AttestationClientOptions
 ): AttestationClient {
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
-
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
   if (options === undefined) {
@@ -117,8 +113,15 @@ export function createRecordedClient(
       }
     };
   }
-
-  return new AttestationClient(credential, getAttestationUri(endpointType), options);
+  if (authenticatedClient !== undefined && authenticatedClient) {
+    const credentials = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
+    return new AttestationClient(getAttestationUri(endpointType), credentials, options);
+  }
+  return new AttestationClient(getAttestationUri(endpointType), options);
 }
 
 export function createRecordedAdminClient(
@@ -145,5 +148,5 @@ export function createRecordedAdminClient(
       }
     };
   }
-  return new AttestationAdministrationClient(credential, getAttestationUri(endpointType), options);
+  return new AttestationAdministrationClient(getAttestationUri(endpointType), credential, options);
 }

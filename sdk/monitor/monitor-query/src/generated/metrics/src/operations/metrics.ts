@@ -6,21 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Metrics } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MonitorManagementClient } from "../monitorManagementClient";
+import { MonitorManagementClientContext } from "../monitorManagementClientContext";
 import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
 /** Class representing a Metrics. */
-export class Metrics {
-  private readonly client: MonitorManagementClient;
+export class MetricsImpl implements Metrics {
+  private readonly client: MonitorManagementClientContext;
 
   /**
    * Initialize a new instance of the class Metrics class.
    * @param client Reference to the service client
    */
-  constructor(client: MonitorManagementClient) {
+  constructor(client: MonitorManagementClientContext) {
     this.client = client;
   }
 
@@ -33,20 +34,16 @@ export class Metrics {
     resourceUri: string,
     options?: MetricsListOptionalParams
   ): Promise<MetricsListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resourceUri,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { resourceUri, options },
       listOperationSpec
-    ) as Promise<MetricsListResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/metrics",
   httpMethod: "GET",
   responses: {

@@ -25,7 +25,7 @@ export async function main() {
   const result = await logsQueryClient.queryLogsBatch({
     queries: [
       {
-        workspace: monitorWorkspaceId,
+        workspaceId: monitorWorkspaceId,
         query: kqlQuery,
         timespan: "P1D"
       }

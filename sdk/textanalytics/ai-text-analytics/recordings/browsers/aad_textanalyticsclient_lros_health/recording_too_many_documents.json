@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:11:28 GMT",
+    "date": "Tue, 03 Aug 2021 23:05:31 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,13 +20,13 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - SCUS ProdSlices",
-    "x-ms-request-id": "e0b3e3aa-321c-4078-9fcf-b762c8647100"
+    "x-ms-ests-server": "2.1.11898.12 - EUS ProdSlices",
+    "x-ms-request-id": "b0a3c498-858e-4b6d-b9c5-3370eb854201"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,13 +34,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 10 records are permitted.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "d0c01343-f3fc-4d12-9e92-5f321cf625b6",
+    "apim-request-id": "fe32bc2f-b069-4293-9fec-22bf94c46a95",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:11:29 GMT",
+    "date": "Tue, 03 Aug 2021 23:05:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "9"
    }
   }
  ],
@@ -48,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f4e1a2c36c41c301fea32887bbea5a55"
+ "hash": "66790beb97d240ee491fe473237e45f8"
 }

@@ -1,0 +1,119 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://skrattestation.azurewebsites.net//generate-test-token",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImpfRUZtUTVVQm9lNHJMNUltNmw1cU1rQXN0QXluaE5JQUJ6dFZLQ0RMV1UiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJxanlNQ0d6S29heWN3a2hFQTU3Z2lTLTc4R1dxQmxRT2R1ZkEyNDhjLURNYTVuSXFGUG9VLWFMZ3pMNHJCVmNDS3dNVHBtTUtQc1N4NTBsLWRnS3RNZEMzem83cWZMYlFsUUtuNmJhSU15ejh4ZGpwWEExTTI1cHhZSUJUZlBudDk3SDdfOW5xSF9abGlXOW9aa3FMdU9oNlVuSkNfTTJ3YTVEbE03MEw3alFGclBSYWNTR1V3SUNzRk9va0tQRW01OVZjX0s4M2VxcFRFb3Y5UllYVmpMNmZPU09LaURMWG44b09VUFd4STl1UnUzX0tCQnVYbVlmOHBRWXNEeWNxcGdFdnhvZmR4YjE4M0tLZDJMZVl4X0hDUzFGX2R2NHlhYVNFQkdOSWF2bFZZWmFPTFEyX0xtRlp3RmZpUVhyZ2hqUTN4aWdkRFJ6QjFGWVV1Q2QyUHcifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgwMTIyNDUsImV4cCI6MTk0MzU4ODI0NX0.hd3OJj2t_PNLNOUkL1qlW2s6ygBSPRuOTSqCnON4A9DxWdRxNGXk4QWdHnaHG7IscHYYvFLlk-3niDQTngnJM4a2UauIUzmciwysERdqw1sIaRXF1jUWCEL6k7Yqc4id1SU5y9rI0NTWsQKNnDzvfcLSazZO8bib6rHEug_iLEiVWYLpHWIAzuKIxrfnod_67ErpYsRRpbmWbiEw1Yft3zj6-J8qmkPgz9eiIRKTwDfC4leHuaOwxr-td4kmj-OU6NWhRD8omLBWTmXcJqtRyF_dD64vVv47zdLELRn59nN9wa5tKKa0U_NanL7xgHZduz0FFVT9tvjtxj-k7pCf6g\"}",
+   "responseHeaders": {
+    "content-length": "1305",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 17:37:24 GMT",
+    "etag": "W/\"519-TSvJ823kJMRm2vQfKobElho9c50\"",
+    "status": "200",
+    "x-powered-by": "Express"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportkey162801224552809918/create",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "777417b2-f481-11eb-9e56-000d3a7da679",
+    "x-ms-server-latency": "1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 17:37:25 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "4def3d42-40aa-4911-ae8f-189299053601"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportkey162801224552809918/create",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "{\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\"],\"attributes\":{\"exportable\":true},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyYXR0ZXN0YXRpb24uYXp1cmV3ZWJzaXRlcy5uZXQvIn1dLCJ2ZXJzaW9uIjoiMS4wIn0\"}}",
+   "status": 200,
+   "response": "{\"attributes\":{\"created\":1628012246,\"enabled\":true,\"exportable\":true,\"recoverableDays\":7,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"updated\":1628012246},\"key\":{\"e\":\"AQAB\",\"key_ops\":[\"decrypt\",\"encrypt\"],\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/exportkey162801224552809918/9802afe320e10dc325c7372463dc313e\",\"kty\":\"RSA-HSM\",\"n\":\"wUMXCXsxzaDBkhlAmAKK-P7BANIDW_c5VZutSndAfy5hoIgMxrAqw-1T40d2VX39OGDN8XdCpLdD-78Qm2O8_kpVZdi4jP6E0lQTwPjM2Llz_0Rg-lUpGphkpmdHa3S9h4fKgHD30hynvLEmPLLoEy2r9gucU3Lun-NAr7a7P2phJ9y-LzXSld2ZE2m_sbWhkGG5GL5v93JOlQCghs4RClNtl_o1LL98lTUu-KXZ4pr0WId7g3N0vGw6lGYhmPFjtbaWYxSGdu-e3sKxlH0EQTV7TgcrdOuEWB_CfTcBqiF6BBcXvb23Ye-ckSSkAAfExmof2AaYsjWhkmO7YuEhrw\"},\"release_policy\":{\"contentType\":\"application/json; charset=utf-8\",\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJlcXVhbHMiOiJ0cnVlIn1dLCJhdXRob3JpdHkiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyJ9XSwidmVyc2lvbiI6IjEuMC4wIn0\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "951",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;",
+    "x-ms-keyvault-region": "eastus2",
+    "x-ms-request-id": "77ba647e-f481-11eb-9e56-000d3a7da679",
+    "x-ms-server-latency": "782"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportkey162801224552809918/",
+   "query": {
+    "api-version": "7.3-preview"
+   },
+   "requestBody": "{\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6ImZhbHNlIn1dLCJhdXRob3JpdHkiOiJodHRwczovL3NoYXJlZGV1cy5ldXMuYXR0ZXN0LmF6dXJlLm5ldC8ifV0sInZlcnNpb24iOiIxLjAifQ\"}}",
+   "status": 200,
+   "response": "{\"attributes\":{\"created\":1628012246,\"enabled\":true,\"exportable\":true,\"recoverableDays\":7,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"updated\":1628012247},\"key\":{\"e\":\"AQAB\",\"key_ops\":[\"encrypt\",\"decrypt\"],\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/exportkey162801224552809918/9802afe320e10dc325c7372463dc313e\",\"kty\":\"RSA-HSM\",\"n\":\"wUMXCXsxzaDBkhlAmAKK-P7BANIDW_c5VZutSndAfy5hoIgMxrAqw-1T40d2VX39OGDN8XdCpLdD-78Qm2O8_kpVZdi4jP6E0lQTwPjM2Llz_0Rg-lUpGphkpmdHa3S9h4fKgHD30hynvLEmPLLoEy2r9gucU3Lun-NAr7a7P2phJ9y-LzXSld2ZE2m_sbWhkGG5GL5v93JOlQCghs4RClNtl_o1LL98lTUu-KXZ4pr0WId7g3N0vGw6lGYhmPFjtbaWYxSGdu-e3sKxlH0EQTV7TgcrdOuEWB_CfTcBqiF6BBcXvb23Ye-ckSSkAAfExmof2AaYsjWhkmO7YuEhrw\"},\"release_policy\":{\"contentType\":\"application/json; charset=utf-8\",\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJlcXVhbHMiOiJmYWxzZSJ9XSwiYXV0aG9yaXR5IjoiaHR0cHM6Ly9zaGFyZWRldXMuZXVzLmF0dGVzdC5henVyZS5uZXQvIn1dLCJ2ZXJzaW9uIjoiMS4wLjAifQ\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "950",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;",
+    "x-ms-keyvault-region": "eastus2",
+    "x-ms-request-id": "783e2b56-f481-11eb-9e56-000d3a7da679",
+    "x-ms-server-latency": "495"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "exportkey": "exportkey162801224552809918"
+  },
+  "newDate": {}
+ },
+ "hash": "f98d82aeb9c7060d8f33c8be98d0a7e8"
+}

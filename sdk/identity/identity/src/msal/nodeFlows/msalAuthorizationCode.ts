@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
+import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 
 /**
@@ -39,7 +40,10 @@ export class MsalAuthorizationCode extends MsalNode {
     return this.confidentialApp!.getAuthCodeUrl(options);
   }
 
-  protected async doGetToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken> {
+  protected async doGetToken(
+    scopes: string[],
+    options?: CredentialFlowGetTokenOptions
+  ): Promise<AccessToken> {
     try {
       const result = await this.confidentialApp?.acquireTokenByCode({
         scopes,

@@ -58,8 +58,6 @@ describe("Certificates client - lro - delete", () => {
 
     // The final deleted certificate can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
-
-    await testClient.purgeCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
@@ -100,7 +98,5 @@ describe("Certificates client - lro - delete", () => {
     // Retrieving it without the poller
     deletedCertificate = await client.getDeletedCertificate(certificateName);
     assert.equal(deletedCertificate.name, certificateName);
-
-    await testClient.purgeCertificate(certificateName);
   });
 });

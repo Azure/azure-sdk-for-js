@@ -11,7 +11,11 @@ import {
   getDefaultProxySettings,
   createHttpHeaders
 } from "../../src";
-import { noProxyList, loadNoProxy, getProxyAgentOptions } from "../../src/policies/proxyPolicy";
+import {
+  globalNoProxyList,
+  loadNoProxy,
+  getProxyAgentOptions
+} from "../../src/policies/proxyPolicy";
 
 describe("proxyPolicy (node)", function() {
   it("Sets proxy settings on the request", function() {
@@ -62,8 +66,8 @@ describe("proxyPolicy (node)", function() {
     const saved = process.env["NO_PROXY"];
     try {
       process.env["NO_PROXY"] = ".proxytest.com, test.com";
-      noProxyList.splice(0, noProxyList.length);
-      noProxyList.push(...loadNoProxy());
+      globalNoProxyList.splice(0, globalNoProxyList.length);
+      globalNoProxyList.push(...loadNoProxy());
 
       const proxySettings: ProxySettings = {
         host: "https://proxy.example.com",
@@ -112,8 +116,62 @@ describe("proxyPolicy (node)", function() {
       assert.strictEqual(request.proxySettings, proxySettings);
     } finally {
       process.env["NO_PROXY"] = saved;
-      noProxyList.splice(0, noProxyList.length);
-      noProxyList.push(...loadNoProxy());
+      globalNoProxyList.splice(0, globalNoProxyList.length);
+      globalNoProxyList.push(...loadNoProxy());
+    }
+  });
+
+  it("should prefer custom no-proxy-list over cached global no-proxy-list", function() {
+    const saved = process.env["NO_PROXY"];
+    try {
+      process.env["NO_PROXY"] = "proxytest.com, test.com";
+      globalNoProxyList.splice(0, globalNoProxyList.length);
+      globalNoProxyList.push(...loadNoProxy());
+
+      const proxySettings: ProxySettings = {
+        host: "https://proxy.example.com",
+        port: 8080
+      };
+
+      const policy1 = proxyPolicy(proxySettings, { customNoProxyList: ["test.com"] });
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+
+      const request = createPipelineRequest({
+        url: "https://proxytest.om"
+      });
+      policy1.sendRequest(request, next);
+      assert.isTrue(next.calledOnceWith(request), "next called with request");
+      assert.strictEqual(request.proxySettings, proxySettings);
+
+      request.url = "https://test.com";
+      request.proxySettings = undefined;
+      policy1.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://another.com";
+      request.proxySettings = undefined;
+      policy1.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, proxySettings);
+
+      const policy2 = proxyPolicy(proxySettings, { customNoProxyList: ["proxytest.com"] });
+      request.url = "http://test.com";
+      request.proxySettings = undefined;
+      policy2.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, proxySettings);
+
+      request.url = "http://proxytest.com";
+      request.proxySettings = undefined;
+      policy2.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://fourth.com";
+      request.proxySettings = undefined;
+      policy2.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, proxySettings);
+    } finally {
+      process.env["NO_PROXY"] = saved;
+      globalNoProxyList.splice(0, globalNoProxyList.length);
+      globalNoProxyList.push(...loadNoProxy());
     }
   });
 

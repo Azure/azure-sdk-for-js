@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import { ApiVersion72, KeyVaultClientOptionalParams } from "./models";
 
-export const packageVersion = "4.1.0-beta.2";
+export const packageVersion = "4.2.0-beta.1";
 
 export class KeyVaultClientContext extends coreClient.ServiceClient {
   apiVersion: ApiVersion72;
@@ -35,7 +35,7 @@ export class KeyVaultClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-admin/4.1.0-beta.1`;
+    const packageDetails = `azsdk-js-keyvault-admin/4.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

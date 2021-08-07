@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
@@ -11,6 +11,14 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
  * Options for querying logs.
  */
 export interface QueryLogsOptions extends OperationOptions {
+  /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
+  additionalWorkspaces?: string[];
   /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
@@ -52,7 +60,31 @@ export interface QueryLogsResult {
 }
 
 /** Options when query logs with a batch. */
-export type QueryLogsBatchOptions = OperationOptions;
+export interface QueryLogsBatchOptions extends OperationOptions {
+  /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
+  additionalWorkspaces?: string[];
+  /**
+   * The maximum amount of time the server will spend processing the query.
+   * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
+   */
+  serverTimeoutInSeconds?: number;
+
+  /**
+   * Results will also include statistics about the query.
+   */
+  includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+
+  /**
+   * Results will also include visualization information, in JSON format.
+   */
+  includeVisualization?: boolean;
+}
 
 /** An array of queries to run as a batch. */
 export interface QueryLogsBatch {
@@ -66,7 +98,7 @@ export interface QueryLogsBatch {
 // NOTE: 'id' is added automatically by our LogsClient.
 export interface BatchQuery {
   /** The workspace for this query. */
-  workspace: string;
+  workspaceId: string;
 
   // TODO: having both this and the workspaceId field co-exist on the same model seems really
   // confusing. However, this is similar to what we're offering in other languages as well.
@@ -75,25 +107,6 @@ export interface BatchQuery {
   query: string;
   /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
   timespan: string;
-  /** A list of workspaces that are included in the query. */
-  workspaces?: string[];
-  /** A list of qualified workspace names that are included in the query. */
-  qualifiedNames?: string[];
-  /** A list of workspace IDs that are included in the query. */
-  workspaceIds?: string[];
-  /** A list of Azure resource IDs that are included in the query. */
-  azureResourceIds?: string[];
-
-  /**
-   * The maximum amount of time the server will spend processing the query.
-   * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
-   */
-  serverTimeoutInSeconds?: number;
-
-  /**
-   * Results will also include statistics about the query.
-   */
-  includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
 }
 
 /** Results for a batch query. */
