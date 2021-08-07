@@ -64,7 +64,7 @@ Authentication via service principal is done by:
 
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential)
 
-```javascript
+```ts
 const { DefaultAzureCredential } = require("@azure/identity");
 const { LogsQueryClient, MetricsQueryClient } = require("@azure/monitor-query");
 
@@ -134,7 +134,7 @@ The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
 The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language. The timespan can be specified as a string in an ISO8601 duration format.
 You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
-```javascript
+```ts
 const { LogsQueryClient } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -174,7 +174,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Set logs query timeout
 
-```
+```ts
   // setting optional parameters
    const queryLogsOptions: QueryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
@@ -216,7 +216,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 The following example demonstrates sending multiple queries at the same time using batch query API. The queries can be represented as a list of `BatchQuery` objects.
 
-```javascript
+```ts
 export async function main() {
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
@@ -302,7 +302,7 @@ To find the resource URI:
 2. From the **Overview** blade, select the **JSON View** link.
 3. In the resulting JSON, copy the value of the `id` property.
 
-```javascript
+```ts
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
@@ -377,7 +377,7 @@ QueryMetricsResult
 
 #### Example of handling response
 
-```javascript
+```ts
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
@@ -409,17 +409,16 @@ export async function main() {
   );
 
   const metrics: Metric[] = metricsResponse.metrics;
-  for(const metric of metrics){
+  for (const metric of metrics) {
     console.log(metric.name);
-    for(const timeseriesElement of metric.timeseries){
-      for(const metricValue of timeseriesElement.data!){
-        if(metricValue.count!==0){
+    for (const timeseriesElement of metric.timeseries) {
+      for (const metricValue of timeseriesElement.data!) {
+        if (metricValue.count !== 0) {
           console.log(`There are ${metricValue.count} matched events at ${metricValue.timeStamp}`);
         }
       }
     }
   }
-
 }
 
 main().catch((err) => {
@@ -442,7 +441,7 @@ The same log query can be executed across multiple Log Analytics workspaces. In 
 
 For example, the following query executes in three workspaces:
 
-```javascript
+```ts
 const queryLogsOptions: QueryLogsOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"]
 };
@@ -464,7 +463,7 @@ For more samples see here: [samples][samples].
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
