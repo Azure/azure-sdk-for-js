@@ -6,18 +6,18 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiI3Y0VHRU1PRmZlei0tMTR1U3N1WnV0WFN4Mk9FV2RMNnVrWHpxeWktX1Q5bWF5bjQyNDM5dllYSW9zUVBhd0lYQjQzYm9ZT1d3YklVYUdob0syVnJxLWZLcmFndmI2VEhQWlA0ZDZKVlFiOU5fZU50THlvV0lTN2QyQlBwYTluZG9jeFI2VGZVSkJ3ck9icUVqTkJDTHFiQmh1TkpqVzhBWDItRzY5eXNvSVBMNVVTRnJaMFFyUk5KOEQxdzFSbFZsRkQyYkxpRTByNW92WVhwMTJfTXVKZ09oVW9vMC1hR3VQRmdxVThLaUswb2JqWllBRlIzR2o5cFlEVEJCY2Z3SU9TS01KQnRZNGVNZzNXa1NzZmMwWHAzUG5EdkR6MEVoUTZSWkRyY1dLT3l5Z2Z1d2FuYzFNMjYyZHRMXzBvSnhwVFRSX1Q4cXUwUzRXYkg0SVlpd1EifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgyOTc5MDIsImV4cCI6MTYyODkwMjcwMn0.LT4hWSIVjxlhqfHTPe5YBjN_mn6jsAWZrfOv3udDRybsnrK1lWjVWajTphmtm4wB4Y7EFOZqwbmqA4xWljOrhdBzzJCTyInYjVzcbCo1JIKBCLub5EqfZhB450jEKyF2KHmfj0MjI0gJbYCX2P8n9bH1saiBz0JlNSfmcBnrspYkZvWtZrWnFOUZw3MoFbzZT3QtV7nNKm9y143DxEwju-e_aWVWczOGN__obeVLruPKfPbN5sDPMPvAZybYb1znetmyEDJc2yk-H_ERDKGKg_mFrzuBuwm_PCWS4AIABOPo2RVkZ-0LZmdeKoL8zsA8dIXSJ2mkZ3eLBYVz3WPzYw\",\"attestationToken\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiI3Y0VHRU1PRmZlei0tMTR1U3N1WnV0WFN4Mk9FV2RMNnVrWHpxeWktX1Q5bWF5bjQyNDM5dllYSW9zUVBhd0lYQjQzYm9ZT1d3YklVYUdob0syVnJxLWZLcmFndmI2VEhQWlA0ZDZKVlFiOU5fZU50THlvV0lTN2QyQlBwYTluZG9jeFI2VGZVSkJ3ck9icUVqTkJDTHFiQmh1TkpqVzhBWDItRzY5eXNvSVBMNVVTRnJaMFFyUk5KOEQxdzFSbFZsRkQyYkxpRTByNW92WVhwMTJfTXVKZ09oVW9vMC1hR3VQRmdxVThLaUswb2JqWllBRlIzR2o5cFlEVEJCY2Z3SU9TS01KQnRZNGVNZzNXa1NzZmMwWHAzUG5EdkR6MEVoUTZSWkRyY1dLT3l5Z2Z1d2FuYzFNMjYyZHRMXzBvSnhwVFRSX1Q4cXUwUzRXYkg0SVlpd1EifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgyOTc5MDIsImV4cCI6MTYyODkwMjcwMn0.LT4hWSIVjxlhqfHTPe5YBjN_mn6jsAWZrfOv3udDRybsnrK1lWjVWajTphmtm4wB4Y7EFOZqwbmqA4xWljOrhdBzzJCTyInYjVzcbCo1JIKBCLub5EqfZhB450jEKyF2KHmfj0MjI0gJbYCX2P8n9bH1saiBz0JlNSfmcBnrspYkZvWtZrWnFOUZw3MoFbzZT3QtV7nNKm9y143DxEwju-e_aWVWczOGN__obeVLruPKfPbN5sDPMPvAZybYb1znetmyEDJc2yk-H_ERDKGKg_mFrzuBuwm_PCWS4AIABOPo2RVkZ-0LZmdeKoL8zsA8dIXSJ2mkZ3eLBYVz3WPzYw\"}",
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ2ZExMXzVDOUE5ZkljSVJ6RjNvSFkzTVY4RTRINDRGX0J0WjBiWHdNdGNEb2xlT3pTS28tMkVxU0w3TDFzQW9sM1Y2SDNrNFQwRk5sTF9fTFQtcFNyUUk3WW80Yk5ZZkprY0FFOWhoVkFBZFd3NDBJYjNpMWRjMnZwTEdtMG5PTWlYb2FsV3VNLVVyLUlNRUM4OVB5Ri1BUWVQTF9Va0lJQk5XMGFWYVhBMGY1SUs3YzNobllfT0U5RzF2anR4MTFyaWdvVDVMNUQ3aWtaU3hNeHFUamU0OXhWc0pBUjNtWGZ2QU1abllkQ3VoQkFicmFsaUpQYWtTbDNFVzNqMEFxdVNUZnFDNDVkMXNjclNNZ0pxUzhvTWstSFJRbmU5cGJvbUJ6UFNlUjVYTzJmaWphTDhLVlNvUjN2Yl9HeUhtTFp6M09CNXk3U3RyYjZEOE11bnpMWHcifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgzNzk2MDAsImV4cCI6MTYyODk4NDQwMH0.xhrY5kIH4SHPKCpUi0iFhU7xNPPOKHcpdJaUaJWjrBjAljA9rRoLWfwB7k4OCUxQR5QJrk3rU_5yB65uDJpSNEodSICvc59IauD613F_ki_Ej027IjoMdB9b11d0CMS-LlARt0i1tbjVqhkI0FQAIJO7FTrPqmxHqv5kOiq8Aum2636S6F8JgQQi6Nuk918hAVgI3xGigoqmslCHF6ZX-0pNr8qlz65eq5Z1pZXBl6SmZKt6Fi2Fao4LrFyX22dZNCDJQ3Vd_Z9V6U9yugUt6Q0-ZiHy8c8bJAn-xjsQaiylzvTPUhHp5ndmdGKHHwYiCxQXQIBVB3K-5N8XqNTmNg\",\"attestationToken\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ2ZExMXzVDOUE5ZkljSVJ6RjNvSFkzTVY4RTRINDRGX0J0WjBiWHdNdGNEb2xlT3pTS28tMkVxU0w3TDFzQW9sM1Y2SDNrNFQwRk5sTF9fTFQtcFNyUUk3WW80Yk5ZZkprY0FFOWhoVkFBZFd3NDBJYjNpMWRjMnZwTEdtMG5PTWlYb2FsV3VNLVVyLUlNRUM4OVB5Ri1BUWVQTF9Va0lJQk5XMGFWYVhBMGY1SUs3YzNobllfT0U5RzF2anR4MTFyaWdvVDVMNUQ3aWtaU3hNeHFUamU0OXhWc0pBUjNtWGZ2QU1abllkQ3VoQkFicmFsaUpQYWtTbDNFVzNqMEFxdVNUZnFDNDVkMXNjclNNZ0pxUzhvTWstSFJRbmU5cGJvbUJ6UFNlUjVYTzJmaWphTDhLVlNvUjN2Yl9HeUhtTFp6M09CNXk3U3RyYjZEOE11bnpMWHcifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgzNzk2MDAsImV4cCI6MTYyODk4NDQwMH0.xhrY5kIH4SHPKCpUi0iFhU7xNPPOKHcpdJaUaJWjrBjAljA9rRoLWfwB7k4OCUxQR5QJrk3rU_5yB65uDJpSNEodSICvc59IauD613F_ki_Ej027IjoMdB9b11d0CMS-LlARt0i1tbjVqhkI0FQAIJO7FTrPqmxHqv5kOiq8Aum2636S6F8JgQQi6Nuk918hAVgI3xGigoqmslCHF6ZX-0pNr8qlz65eq5Z1pZXBl6SmZKt6Fi2Fao4LrFyX22dZNCDJQ3Vd_Z9V6U9yugUt6Q0-ZiHy8c8bJAn-xjsQaiylzvTPUhHp5ndmdGKHHwYiCxQXQIBVB3K-5N8XqNTmNg\"}",
    "responseHeaders": {
     "content-length": "2684",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 07 Aug 2021 00:58:22 GMT",
-    "etag": "W/\"a7c-zl7SL6NMM7OQIMcKlJ/7OeYUFWo\"",
+    "date": "Sat, 07 Aug 2021 23:39:59 GMT",
+    "etag": "W/\"a7c-9sWet8AcUX6Mg9OxDthea6LhfYs\"",
     "x-powered-by": "Express"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162829790243702925/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162837960169007748/create",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -33,7 +33,7 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "9018670a-f71a-11eb-aa52-0022484e2498",
+    "x-ms-request-id": "c80e4756-f7d8-11eb-847e-000d3a0f8fc4",
     "x-ms-server-latency": "0"
    }
   },
@@ -48,28 +48,28 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 07 Aug 2021 00:58:22 GMT",
+    "date": "Sat, 07 Aug 2021 23:40:00 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11935.12 - EUS ProdSlices",
-    "x-ms-request-id": "e5772a0e-cb95-4c76-8657-23bbdf0a0300"
+    "x-ms-ests-server": "2.1.11935.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "a0e080dd-c12e-4f0e-aca9-4c63af763a00"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162829790243702925/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162837960169007748/create",
    "query": {
     "api-version": "7.3-preview"
    },
    "requestBody": "{\"kty\":\"RSA\",\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyX2F0dGVzdGF0aW9uLmF6dXJlLm5ldC8ifV0sInZlcnNpb24iOiIxLjAifQ\"}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: 90389156-f71a-11eb-aa52-0022484e2498)\"}}",
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: c832b9e2-f7d8-11eb-847e-000d3a0f8fc4)\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "146",
@@ -78,14 +78,14 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "90389156-f71a-11eb-aa52-0022484e2498",
+    "x-ms-request-id": "c832b9e2-f7d8-11eb-847e-000d3a0f8fc4",
     "x-ms-server-latency": "18"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "policynonexportable": "policynonexportable162829790243702925"
+   "policynonexportable": "policynonexportable162837960169007748"
   },
   "newDate": {}
  },

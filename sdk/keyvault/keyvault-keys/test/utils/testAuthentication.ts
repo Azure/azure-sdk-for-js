@@ -7,6 +7,7 @@ import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorde
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
+import { fromBase64url, toBase64url } from "./base64url";
 
 const replaceableVariables = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -34,21 +35,16 @@ export async function authenticate(that: Context, version: string): Promise<any>
           // ensure we replace it with a string that will match what will be generated in playback mode.
           // So, the releasePolicy has to be built up in test as well.
           (_match: string, token: string) => {
-            // token is base64url encoded string...
-            console.log(token);
-            const decoded = JSON.parse(atob(token));
-            // The authority must match the replacement variable to serialize correctly.
-            decoded.anyOf[0].authority = replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI;
-            // We can encoded the token back to base64url
-            const encoded = btoa(JSON.stringify(decoded))
-              .replace(/\+/g, "-")
-              .replace(/\//, "_")
-              .split("=")[0];
-            return `"data":"${encoded}"`;
+            let decoded = fromBase64url(token);
+
+            decoded = decoded.replace(
+              env.AZURE_KEYVAULT_ATTESTATION_URI,
+              replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI
+            );
+
+            return `"data":"${toBase64url(decoded)}"`;
           }
         )
-      // .replace(/"token":"eyJ[^"]+"/g, '"token":"attestation_token"')
-      // .replace(/"target":"eyJ[^"]+"/g, '"target":"attestation_token"')
     ],
     queryParametersToSkip: []
   };
