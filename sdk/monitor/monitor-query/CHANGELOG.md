@@ -4,13 +4,11 @@
 
 ### Features Added
 
-- `additionalWorkspaces` added as an optional parameter to `QueryLogsOptions` for the `queryLogs` API
+- Added `additionalWorkspaces` as an optional parameter to `QueryLogsOptions` and `BatchQuery` for the `queryLogs` and `queryLogsBatch` API to allow multiple workspaces
 
 ### Breaking Changes
 
-- `workspace` renamed to `workspaceId` in querybatch
-- removed all other params and put additionalWorkspaces as an optional parameter instead in QueryBatchOptions for querybatch Api
-- moved includeQueryStatistics and includeVisualization into QueryBatchOptions since these are optional parameters
+- Renamed `workspace` to `workspaceId` in querybatch
 
 ### Bugs Fixed
 
