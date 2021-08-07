@@ -34,7 +34,12 @@ import {
   top
 } from "./generated/models/parameters";
 import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
-import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
+import {
+  getPagedAsyncIterator,
+  PagedAsyncIteratorOptions,
+  PagedResult,
+  PageSettings
+} from "@azure/core-paging";
 import { AnalysisPollOperationState } from "./pollerModels";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 
@@ -187,16 +192,18 @@ export function processHealthResult<TOptions extends OperationOptions>(
   result: unknown,
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
-  const pagedResult: PagedResult<
-    TOptions,
-    GeneratedClientHealthStatusResponse,
-    AnalyzeHealthcareEntitiesResultArray
-  > = {
-    sendGetRequest: (path: string, optionsParam: TOptions) =>
+  const pagedResult: PagedResult<TOptions, GeneratedClientHealthStatusResponse> = {
+    fetchPage: (path: string, optionsParam: TOptions) =>
       sendGetRequest(client, healthStatusOperationSpec, "HealthStatus", optionsParam, path).then(
         (response) => response.flatResponse as GeneratedClientHealthStatusResponse
-      ),
-    buildPage: (flatResponse: GeneratedClientHealthStatusResponse) => {
+      )
+  };
+  const getPagedAsyncIteratorOptions: PagedAsyncIteratorOptions<
+    GeneratedClientHealthStatusResponse,
+    AnalyzeHealthcareEntitiesResultArray,
+    PageSettings
+  > = {
+    processPage: (flatResponse: GeneratedClientHealthStatusResponse) => {
       if (flatResponse.results) {
         return processAndCombineSuccessfulAndErroneousDocuments(
           documents,
@@ -219,7 +226,7 @@ export function processHealthResult<TOptions extends OperationOptions>(
       GeneratedClientHealthStatusResponse,
       AnalyzeHealthcareEntitiesResult,
       AnalyzeHealthcareEntitiesResultArray
-    >(pagedResult, pollingURL, options);
+    >(pagedResult, pollingURL, options, getPagedAsyncIteratorOptions);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
       modelVersion: (result as any).results.modelVersion!

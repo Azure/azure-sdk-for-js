@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export function getPagedAsyncIterator<TGetRequestOptions, TResponse, TElement, TPage = TElement[], TPageSettings = PageSettings>(pagedResult: PagedResult<TGetRequestOptions, TResponse>, path: string, getRequestOptions: TGetRequestOptions, options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+export function getPagedAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage = TElement[], TPageSettings = PageSettings>(pagedResult: PagedResult<TFetchPageOptions, TResponse>, path: string, getRequestOptions: TFetchPageOptions, options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
 
 // @public
 export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {

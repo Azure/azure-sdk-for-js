@@ -28,6 +28,8 @@ import {
   createAnalyzeActionsResult,
   PagedAnalyzeActionsResult
 } from "./analyzeActionsResult";
+import { PagedAsyncIteratorOptions } from "@azure/core-paging";
+import { PageSettings } from "@azure/core-paging";
 
 /**
  * Options for the begin analyze actions operation.
@@ -195,16 +197,18 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
   documents: TextDocumentInput[],
   options: TOptions
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
-  const pagedResult: PagedResult<
-    TOptions,
-    GeneratedClientAnalyzeStatusResponse,
-    AnalyzeActionsResult
-  > = {
-    sendGetRequest: (path: string, optionsParam: TOptions) =>
+  const pagedResult: PagedResult<TOptions, GeneratedClientAnalyzeStatusResponse> = {
+    fetchPage: (path: string, optionsParam: TOptions) =>
       sendGetRequest(client, analyzeStatusOperationSpec, "AnalyzeStatus", optionsParam, path).then(
         (response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse
-      ),
-    buildPage: (flatResponse: GeneratedClientAnalyzeStatusResponse) => {
+      )
+  };
+  const getPagedAsyncIteratorOptions: PagedAsyncIteratorOptions<
+    GeneratedClientAnalyzeStatusResponse,
+    AnalyzeActionsResult,
+    PageSettings
+  > = {
+    processPage: (flatResponse: GeneratedClientAnalyzeStatusResponse) => {
       if (flatResponse) {
         return createAnalyzeActionsResult(flatResponse, documents);
       } else {
@@ -219,7 +223,7 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
       GeneratedClientAnalyzeStatusResponse,
       AnalyzeActionsResult,
       AnalyzeActionsResult
-    >(pagedResult, pollingURL, options);
+    >(pagedResult, pollingURL, options, getPagedAsyncIteratorOptions);
     // Attach stats if the service starts to return them
     // https://github.com/Azure/azure-sdk-for-js/issues/14139
     // state.result = Object.assign(pagedIterator, {

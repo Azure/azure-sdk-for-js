@@ -18,18 +18,18 @@ import {
  * @returns a paged async iterator that will retrieve items from the server.
  */
 export function getPagedAsyncIterator<
-  TGetRequestOptions,
+  TFetchPageOptions,
   TResponse,
   TElement,
   TPage = TElement[],
   TPageSettings = PageSettings
 >(
-  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
+  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
   path: string,
-  getRequestOptions: TGetRequestOptions,
+  getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TGetRequestOptions, TResponse, TElement, TPage, TPageSettings>(
+  const iter = getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage, TPageSettings>(
     pagedResult,
     path,
     getRequestOptions,
@@ -58,35 +58,44 @@ export function getPagedAsyncIterator<
   };
 }
 
-async function* getItemAsyncIterator<TGetRequestOptions, TResponse, TElement, TPage, TPageSettings>(
-  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
+async function* getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage, TPageSettings>(
+  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
   path: string,
-  getRequestOptions: TGetRequestOptions,
+  getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): AsyncIterableIterator<TElement> {
   const metaInfo = { isArray: false };
-  const pages = getPageAsyncIterator(pagedResult, path, getRequestOptions, options, metaInfo);
+  const pages = getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageSettings>(
+    pagedResult,
+    path,
+    getRequestOptions,
+    options,
+    metaInfo
+  );
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!metaInfo.isArray) {
     yield firstVal.value;
+    // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
     yield* (pages as unknown) as AsyncIterableIterator<TElement>;
   } else {
     yield* firstVal.value;
     for await (const page of pages) {
-      yield* page as any;
+      // pages is of type `AsyncIterableIterator<TPage>` so `page` is of type `TPage`. In this branch,
+      // it must be the case that `TPage = TElement[]`
+      yield* (page as unknown) as TElement[];
     }
   }
 }
 
-async function* getPageAsyncIterator<TGetRequestOptions, TResponse, TPage, TPageSettings>(
-  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
+async function* getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageSettings>(
+  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
   path: string,
-  getRequestOptions: TGetRequestOptions,
+  getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>,
   metaInfo: { isArray: boolean } = { isArray: true }
 ): AsyncIterableIterator<TPage> {
-  let response = await retrievePage<TGetRequestOptions, TResponse, TPage, TPageSettings>(
+  let response = await retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
     pagedResult,
     path,
     getRequestOptions,
@@ -109,10 +118,10 @@ interface ResultWithPaging<TPage> {
   nextLink?: string;
 }
 
-async function retrievePage<TGetRequestOptions, TResponse, TPage, TPageSettings>(
-  pagedResult: PagedResult<TGetRequestOptions, TResponse>,
+async function retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
+  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
   path: string,
-  getRequestOptions: TGetRequestOptions,
+  getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): Promise<ResultWithPaging<TPage>> {
   const response = await pagedResult.fetchPage(path, getRequestOptions);
