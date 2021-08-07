@@ -97,7 +97,7 @@ function translatePropertyNameForSerialization(propertyName: string): string {
   return propertyName;
 }
 
-export function serialize(obj: object): object {
+export function serialize(obj: object): Record<string, Record<string, unknown>> {
   const serialized: any = {};
   for (const [propertyName, propertyValue] of Object.entries(obj)) {
     const transformedKey = translatePropertyNameForSerialization(propertyName);

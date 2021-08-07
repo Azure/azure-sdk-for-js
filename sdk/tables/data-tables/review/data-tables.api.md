@@ -122,7 +122,7 @@ export type GetTableEntityOptions = OperationOptions & {
 export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
 
 // @public
-export const enum KnownGeoReplicationStatusType {
+export enum KnownGeoReplicationStatusType {
     // (undocumented)
     Bootstrap = "bootstrap",
     // (undocumented)
