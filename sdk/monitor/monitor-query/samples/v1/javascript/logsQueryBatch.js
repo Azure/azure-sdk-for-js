@@ -41,18 +41,14 @@ async function main() {
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
-      timespan: "PT1H"
+      timespan: "PT1H",
+      includeQueryStatistics: true
     }
   ];
-  const queryOptions = {
-    includeQueryStatistics: true
-  };
-  const result = await logsQueryClient.queryLogsBatch(
-    {
-      queries: queriesBatch
-    },
-    queryOptions
-  );
+
+  const result = await logsQueryClient.queryLogsBatch({
+    queries: queriesBatch
+  });
 
   if (result.results == null) {
     throw new Error("No response for query");
