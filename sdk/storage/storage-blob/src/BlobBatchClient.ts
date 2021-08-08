@@ -11,14 +11,12 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service, Container } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { CommonOptions } from "./StorageClient";
 import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
@@ -27,15 +25,7 @@ import { getURLPath } from "./utils/utils.common";
 /**
  * Options to configure the Service - Submit Batch Optional Params.
  */
-export interface BlobBatchSubmitBatchOptionalParams
-  extends ServiceSubmitBatchOptionalParamsModel,
-    CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-}
+export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel {}
 
 /**
  * Contains response data for blob batch operations.
