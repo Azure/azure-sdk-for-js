@@ -92,9 +92,8 @@
     "unit-test:node": "echo skipped",
     "unit-test:browser": "echo skipped",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
+    "integration-test:node": "mocha -r esm --require ts-node/register --timeout 1200000 --full-trace test/*.ts",
     "clear-recordings": "rm -fr recordings",
-    "integration-test": "mocha -r esm --require ts-node/register --timeout 1200000 --full-trace test/*.ts",
     "docs": "echo skipped"
   },
   "sideEffects": false,
