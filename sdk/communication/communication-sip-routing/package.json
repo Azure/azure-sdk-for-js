@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-sip-routing",
-  "version": "1.0.0-alpha.20210623.2",
+  "version": "1.0.0-alpha.20210809.1",
   "description": "SDK for Azure Communication which faciliates the SIP routing configuration.",
   "sdk-type": "client",
   "main": "dist/index.js",
