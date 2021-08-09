@@ -187,39 +187,40 @@ export function processHealthResult<TOptions extends OperationOptions>(
   result: unknown,
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
-  const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
-    getPage: async (link: string, maxPageSize?: number) => {
-      const flatResponse = await sendGetRequest(
-        client,
-        healthStatusOperationSpec,
-        "HealthStatus",
-        {...options, top: maxPageSize},
-        link
-      ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
-      if (flatResponse.results) {
-        return {
-          page: processAndCombineSuccessfulAndErroneousDocuments(
-            documents,
-            flatResponse.results,
-            makeHealthcareEntitiesResult,
-            makeHealthcareEntitiesErrorResult
-          ),
-          nextLink: flatResponse.nextLink
-        };
-      } else {
-        throw new Error("Healthcare action has succeeded but there are no results!");
-      }
-    }
-  };
   return (
     result: unknown,
     state: AnalyzeHealthcareOperationState
   ): PagedAnalyzeHealthcareEntitiesResult => {
     const pollingURL = (state as any).pollingURL;
+    const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
+      link: pollingURL,
+      getPage: async (link: string, maxPageSize?: number) => {
+        const flatResponse = await sendGetRequest(
+          client,
+          healthStatusOperationSpec,
+          "HealthStatus",
+          { ...options, top: maxPageSize },
+          link
+        ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
+        if (flatResponse.results) {
+          return {
+            page: processAndCombineSuccessfulAndErroneousDocuments(
+              documents,
+              flatResponse.results,
+              makeHealthcareEntitiesResult,
+              makeHealthcareEntitiesErrorResult
+            ),
+            nextLink: flatResponse.nextLink
+          };
+        } else {
+          throw new Error("Healthcare action has succeeded but there are no results!");
+        }
+      }
+    };
     const pagedIterator = getPagedAsyncIterator<
       AnalyzeHealthcareEntitiesResult,
       AnalyzeHealthcareEntitiesResultArray
-    >(pagedResult, pollingURL);
+    >(pagedResult);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
       modelVersion: (result as any).results.modelVersion!

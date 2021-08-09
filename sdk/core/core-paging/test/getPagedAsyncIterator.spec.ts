@@ -4,14 +4,18 @@
 import { assert } from "chai";
 import { getPagedAsyncIterator, PagedResult } from "../src";
 
+function buildIterator<T>(input: T) {
+  return getPagedAsyncIterator({
+    link: "",
+    async getPage() {
+      return Promise.resolve({ page: input });
+    }
+  });
+}
+
 describe("getPagedAsyncIterator", function() {
   it("should return an iterator over an empty collection", async function() {
-    const pagedResult: PagedResult<number[]> = {
-      async getPage() {
-        return Promise.resolve({ page: [] });
-      }
-    };
-    const iterator = getPagedAsyncIterator(pagedResult, "", {});
+    const iterator = buildIterator([]);
     for await (const val of iterator) {
       assert.fail(`should not get here but got: ${val}`);
     }
@@ -19,12 +23,7 @@ describe("getPagedAsyncIterator", function() {
 
   it("should return an iterator over an non-empty collection", async function() {
     const collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const pagedResult: PagedResult<number[]> = {
-      async getPage() {
-        return Promise.resolve({ page: collection });
-      }
-    };
-    const iterator = getPagedAsyncIterator(pagedResult, "", {});
+    const iterator = buildIterator(collection);
     const expected = [];
     for await (const val of iterator) {
       expected.push(val);
@@ -33,24 +32,14 @@ describe("getPagedAsyncIterator", function() {
   });
 
   it("should return an iterator over an non-collection", async function() {
-    const pagedResult: PagedResult<Record<string, unknown>> = {
-      async getPage() {
-        return Promise.resolve({ page: {} });
-      }
-    };
-    const iterator = getPagedAsyncIterator(pagedResult, "", {});
+    const iterator = buildIterator({});
     for await (const val of iterator) {
       assert.deepEqual(val, {});
     }
   });
 
   it("should return an iterator over no pages", async function() {
-    const pagedResult: PagedResult<number[]> = {
-      async getPage() {
-        return Promise.resolve({ page: [] });
-      }
-    };
-    const iterator = getPagedAsyncIterator(pagedResult, "", {});
+    const iterator = buildIterator([]);
     for await (const val of iterator.byPage({ maxPageSize: 5 })) {
       assert.deepEqual(val, []);
     }
@@ -60,6 +49,7 @@ describe("getPagedAsyncIterator", function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     let currIndex = 0;
     const pagedResult: PagedResult<number[]> = {
+      link: "",
       async getPage(_path, maxPageSize) {
         const top = maxPageSize || 5;
         if (currIndex < collection.length) {
@@ -75,7 +65,7 @@ describe("getPagedAsyncIterator", function() {
         }
       }
     };
-    const iterator = getPagedAsyncIterator(pagedResult, "", {});
+    const iterator = getPagedAsyncIterator(pagedResult);
     let receivedItems = [];
     for await (const val of iterator) {
       receivedItems.push(val);
@@ -99,6 +89,7 @@ describe("getPagedAsyncIterator", function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     let currIndex = 0;
     const pagedResult: PagedResult<Record<string, unknown>> = {
+      link: "",
       async getPage(_path, maxPageSize) {
         const top = maxPageSize || 5;
         if (currIndex < collection.length) {
@@ -114,11 +105,7 @@ describe("getPagedAsyncIterator", function() {
         }
       }
     };
-    const iterator = getPagedAsyncIterator<Record<string, any>, Record<string, any>>(
-      pagedResult,
-      "",
-      {}
-    );
+    const iterator = getPagedAsyncIterator<Record<string, any>, Record<string, any>>(pagedResult);
     let receivedItems = []; // they're pages too
     let pagesCount = 0;
     for await (const val of iterator) {

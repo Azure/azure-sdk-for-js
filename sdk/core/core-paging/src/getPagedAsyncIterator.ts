@@ -1,28 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PagedAsyncIterableIterator,
-  PageSettings,
-  PagedResult,
-  GetPagedAsyncIteratorOptions
-} from "./models";
+import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models";
 
 /**
  * returns an async iterator that will retrieve items from the server. It also has a `byPage`
  * method that can return pages of items at once.
  *
- * @param pagedResult - an object that has one method, `getPage`, which returns one page of results along with a link to the next one.
- * @param link - the link to a page of results, typically the first one.
- * @param options - the options of the `getPagedAsyncIterator` function.
- * @returns a paged async iterator that will retrieve items from the server.
+ * @param pagedResult - an object that specifies how to get pages.
+ * @returns a paged async iterator that iterates over results items and pages.
  */
 export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(
-  pagedResult: PagedResult<TPage>,
-  link: string,
-  options?: GetPagedAsyncIteratorOptions<TPage, TPageSettings>
+  pagedResult: PagedResult<TPage>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage>(pagedResult, link);
+  const iter = getItemAsyncIterator<TElement, TPage>(pagedResult);
   return {
     next() {
       return iter.next();
@@ -31,20 +22,19 @@ export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSetting
       return this;
     },
     byPage:
-      options?.byPage ??
+      pagedResult?.byPage ??
       ((settings?: PageSettings) => {
-        return getPageAsyncIterator(pagedResult, link, settings?.maxPageSize);
+        return getPageAsyncIterator(pagedResult, settings?.maxPageSize);
       })
   };
 }
 
 async function* getItemAsyncIterator<TElement, TPage>(
   pagedResult: PagedResult<TPage>,
-  link: string,
   maxPageSize?: number
 ): AsyncIterableIterator<TElement> {
   const metaInfo = { isArray: false };
-  const pages = getPageAsyncIterator<TPage>(pagedResult, link, maxPageSize, metaInfo);
+  const pages = getPageAsyncIterator<TPage>(pagedResult, maxPageSize, metaInfo);
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!metaInfo.isArray) {
@@ -63,11 +53,10 @@ async function* getItemAsyncIterator<TElement, TPage>(
 
 async function* getPageAsyncIterator<TPage>(
   pagedResult: PagedResult<TPage>,
-  link: string,
   maxPageSize?: number,
   metaInfo: { isArray: boolean } = { isArray: true }
 ): AsyncIterableIterator<TPage> {
-  let response = await pagedResult.getPage(link, maxPageSize);
+  let response = await pagedResult.getPage(pagedResult.link, maxPageSize);
   metaInfo.isArray = Array.isArray(response.page);
   yield response.page;
   while (response.nextLink) {

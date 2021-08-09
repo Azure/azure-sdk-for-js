@@ -195,30 +195,30 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
   documents: TextDocumentInput[],
   options: TOptions
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
-  const pagedResult: PagedResult<AnalyzeActionsResult> = {
-    getPage: async (link: string, maxPageSize?: number) => {
-      const flatResponse = await sendGetRequest(
-        client,
-        analyzeStatusOperationSpec,
-        "AnalyzeStatus",
-        {...options, top: maxPageSize},
-        link
-      ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
-      if (flatResponse) {
-        return {
-          page: createAnalyzeActionsResult(flatResponse, documents),
-          nextLink: flatResponse.nextLink
-        };
-      } else {
-        throw new Error("Analyze action has succeeded but there are no results!");
-      }
-    }
-  };
   return (_result: unknown, state: AnalyzeActionsOperationState): PagedAnalyzeActionsResult => {
     const pollingURL = (state as any).pollingURL;
+    const pagedResult: PagedResult<AnalyzeActionsResult> = {
+      link: pollingURL,
+      getPage: async (link: string, maxPageSize?: number) => {
+        const flatResponse = await sendGetRequest(
+          client,
+          analyzeStatusOperationSpec,
+          "AnalyzeStatus",
+          { ...options, top: maxPageSize },
+          link
+        ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
+        if (flatResponse) {
+          return {
+            page: createAnalyzeActionsResult(flatResponse, documents),
+            nextLink: flatResponse.nextLink
+          };
+        } else {
+          throw new Error("Analyze action has succeeded but there are no results!");
+        }
+      }
+    };
     const pagedIterator = getPagedAsyncIterator<AnalyzeActionsResult, AnalyzeActionsResult>(
-      pagedResult,
-      pollingURL
+      pagedResult
     );
     // Attach stats if the service starts to return them
     // https://github.com/Azure/azure-sdk-for-js/issues/14139

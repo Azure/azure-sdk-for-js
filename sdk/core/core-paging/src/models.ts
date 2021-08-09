@@ -35,17 +35,15 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
 /**
  * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<TPage> {
+export interface PagedResult<TPage, TPageSettings = PageSettings> {
+  /**
+   * Link to the first page of results.
+   */
+  link: string;
   /**
    * A method that returns a page of results.
    */
-  getPage: (url: string, maxPageSize?: number) => Promise<{ page: TPage; nextLink?: string }>;
-}
-
-/**
- * Options to control the behavior of how paging works.
- */
-export interface GetPagedAsyncIteratorOptions<TPage, TPageSettings> {
+  getPage: (link: string, maxPageSize?: number) => Promise<{ page: TPage; nextLink?: string }>;
   /**
    * a function to implement the `byPage` method on the paged async iterator. The default is
    * one that sets the `maxPageSizeParam` from `settings.maxPageSize`.

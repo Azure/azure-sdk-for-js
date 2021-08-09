@@ -5,12 +5,7 @@
 ```ts
 
 // @public
-export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(pagedResult: PagedResult<TPage>, link: string, options?: GetPagedAsyncIteratorOptions<TPage, TPageSettings>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-
-// @public
-export interface GetPagedAsyncIteratorOptions<TPage, TPageSettings> {
-    byPage?: (settings?: TPageSettings | undefined) => AsyncIterableIterator<TPage>;
-}
+export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(pagedResult: PagedResult<TPage>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
 
 // @public
 export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
@@ -20,11 +15,13 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
 }
 
 // @public
-export interface PagedResult<TPage> {
-    getPage: (url: string, maxPageSize?: number) => Promise<{
+export interface PagedResult<TPage, TPageSettings = PageSettings> {
+    byPage?: (settings?: TPageSettings | undefined) => AsyncIterableIterator<TPage>;
+    getPage: (link: string, maxPageSize?: number) => Promise<{
         page: TPage;
         nextLink?: string;
     }>;
+    link: string;
 }
 
 // @public
