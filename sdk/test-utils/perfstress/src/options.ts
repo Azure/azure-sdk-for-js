@@ -100,7 +100,7 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "Disables test cleanup"
   },
   "test-proxy": {
-    description: "Uses test proxy",
+    description: "URI of TestProxy server",
     defaultValue: undefined
   },
   "milliseconds-to-log": {
