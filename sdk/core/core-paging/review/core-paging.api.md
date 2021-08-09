@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export function getPagedAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage = TElement[], TPageSettings = PageSettings>(pagedResult: PagedResult<TFetchPageOptions, TResponse>, path: string, getRequestOptions: TFetchPageOptions, options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+export function getPagedAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage = TElement[], TPageSettings = PageSettings>(pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>, path: string, getRequestOptions: TFetchPageOptions, options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
 
 // @public
 export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
@@ -19,12 +19,12 @@ export interface PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings> {
     byPage?: (settings?: TPageSettings | undefined) => AsyncIterableIterator<TPage>;
     getNextLink?: (response: TResponse) => string | undefined;
     maxPageSizeParam?: string;
-    processPage?: (response: TResponse) => TPage;
 }
 
 // @public
-export interface PagedResult<TGetRequestOptions, TResponse> {
+export interface PagedResult<TGetRequestOptions, TResponse, TPage> {
     fetchPage: (url: string, options: TGetRequestOptions) => Promise<TResponse>;
+    processPage: (response: TResponse) => TPage;
 }
 
 // @public

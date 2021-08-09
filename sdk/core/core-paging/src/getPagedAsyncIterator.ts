@@ -24,7 +24,7 @@ export function getPagedAsyncIterator<
   TPage = TElement[],
   TPageSettings = PageSettings
 >(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
+  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
@@ -59,7 +59,7 @@ export function getPagedAsyncIterator<
 }
 
 async function* getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage, TPageSettings>(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
+  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
@@ -89,7 +89,7 @@ async function* getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPa
 }
 
 async function* getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageSettings>(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
+  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>,
@@ -109,7 +109,7 @@ async function* getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageS
   }
 }
 
-function getDefaultNextLink(response: any): string | undefined {
+function getDefaultNextLink<T extends { nextLink?: string }>(response: T): string | undefined {
   return response.nextLink;
 }
 
@@ -119,13 +119,13 @@ interface ResultWithPaging<TPage> {
 }
 
 async function retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse>,
+  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
   options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): Promise<ResultWithPaging<TPage>> {
   const response = await pagedResult.fetchPage(path, getRequestOptions);
-  const result: TPage = options?.processPage?.(response) ?? (response as any).results;
+  const result: TPage = pagedResult.processPage(response);
   const getNextLink = options?.getNextLink ?? getDefaultNextLink;
   return {
     result,

@@ -35,11 +35,16 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
 /**
  * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<TGetRequestOptions, TResponse> {
+export interface PagedResult<TGetRequestOptions, TResponse, TPage> {
   /**
    * A method that send a GET request to the service and returns a response with a page of results.
    */
   fetchPage: (url: string, options: TGetRequestOptions) => Promise<TResponse>;
+  /**
+   * A method to process a page of items from the response. The default is returning
+   * the `results` property of the response as is.
+   */
+  processPage: (response: TResponse) => TPage;
 }
 
 /**
@@ -61,9 +66,4 @@ export interface PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings> {
    * default is `nextLink`.
    */
   getNextLink?: (response: TResponse) => string | undefined;
-  /**
-   * A method to process a page of items from the response. The default is returning
-   * the `results` property of the response as is.
-   */
-  processPage?: (response: TResponse) => TPage;
 }
