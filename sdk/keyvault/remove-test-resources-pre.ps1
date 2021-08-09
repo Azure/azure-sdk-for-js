@@ -39,6 +39,26 @@ function Log($Message) {
     Write-Host ('{0} - {1}' -f [DateTime]::Now.ToLongTimeString(), $Message)
 }
 
+function PurgeKeyVault($Vault) {
+  Log "Deleting Key Vault named '$(Vault.VaultName)'"
+  Remove-AzKeyVault -Name "$(Vault.VaultName)" -ResourceGroupName "$(Vault.ResourceGroupName)" -Location -Force
+  Log "Deleted."
+
+  Log "Purging Key Vault named '$(Vault.VaultName)'"
+  Remove-AzKeyVault -Name "$(Vault.VaultName)" -ResourceGroupName "$(Vault.ResourceGroupName)" -Location InRemovedState -Force
+
+  Log "'$(Vault.VaultName)' successfully deleted and purged."
+}
+
+function PurgeManagedHsm($ManagedHsm) {
+  Log "Deleting Managed HSM named '$(ManagedHsm.Name)'"
+  az keyvault delete --resource-group "$ResourceGroupName" --hsm-name "$(ManagedHsm.Name)"
+  Log "Deleted Managed HSM, now purging"
+  az keyvault purge --hsm-name "$(ManagedHsm.Name)"
+}
+
+Log "Permanently deleting all Key Vaults in resource group $ResourceGroupName"
+Get-AzKeyVault -ResourceGroupName $ResourceGroupName | ForEach-Object { PurgeKeyVault($_) }
 
 # TODO: Use Az module when available; for now, assumes Azure CLI is installed and in $Env:PATH.
 if ($ProvisionerApplicationId -and $ProvisionerApplicationSecret -and $TenantId) {
@@ -50,19 +70,7 @@ if ($ProvisionerApplicationId -and $ProvisionerApplicationSecret -and $TenantId)
   Log "No credentials provided; skipping Azure CLI login and assuming current user is logged in and is using the correct subscription."
 }
 
-Log "fetching the name of the deployed HSM in this resource group"
-$hsmName = az keyvault list --resource-type hsm --resource-group "$ResourceGroupName" --query "[0].name" --output tsv
+Log "Permanently deleting all Managed HSMs in resource group $ResourceGroupName"
+az keyvault list --resource-type hsm --resource-group "$ResourceGroupName" | ConvertFrom-Json | ForEach-Object { PurgeManagedHsm($_)}
 
-if ($hsmName -eq $null) {
-    Log "No HSM found in resource group '$ResourceGroupName', exiting"
-    exit
-}
-
-Log "Deleting Managed HSM named '$hsmName'"
-az keyvault delete --resource-group "$ResourceGroupName" --hsm-name "$hsmName"
-
-Log "Deleted Managed HSM, now purging"
-az keyvault purge --hsm-name "$hsmName"
-
-Log "Managed HSM $hsmName successfully deleted and purged."
-exit 1
+Log "Successfully deleted and purged all Key Vaults and Managed HSMs."
