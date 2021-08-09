@@ -566,8 +566,8 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 The following samples show you the various ways you can query your Log Analytics workspace:
 
 - [`logsQuery.ts`][samples_logsquery_ts] - Query logs in a Monitor workspace
-- [`logsQueryBatchSample.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
-- [`metricsQuerySample.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
+- [`logsQueryBatch.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
+- [`metricsQuery.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples/v1/) folder on GitHub.
 
