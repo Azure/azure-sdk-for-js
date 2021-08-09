@@ -6,27 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
-import { PipelineRun } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import { PipelineRunOperations } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
 import {
   RunFilterParameters,
-  PipelineRunQueryPipelineRunsByWorkspaceResponse,
-  PipelineRunGetPipelineRunResponse,
-  PipelineRunQueryActivityRunsResponse,
-  PipelineRunCancelPipelineRunOptionalParams
+  PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams,
+  PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse,
+  PipelineRunOperationsGetPipelineRunOptionalParams,
+  PipelineRunOperationsGetPipelineRunResponse,
+  PipelineRunOperationsQueryActivityRunsOptionalParams,
+  PipelineRunOperationsQueryActivityRunsResponse,
+  PipelineRunOperationsCancelPipelineRunOptionalParams
 } from "../models";
 
-/** Class representing a PipelineRun. */
-export class PipelineRunImpl implements PipelineRun {
+/** Class representing a PipelineRunOperations. */
+export class PipelineRunOperationsImpl implements PipelineRunOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
-   * Initialize a new instance of the class PipelineRun class.
+   * Initialize a new instance of the class PipelineRunOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClientContext) {
@@ -40,25 +43,21 @@ export class PipelineRunImpl implements PipelineRun {
    */
   async queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: coreHttp.OperationOptions
-  ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams
+  ): Promise<PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse> {
+    const { span } = createSpan(
       "ArtifactsClient-queryPipelineRunsByWorkspace",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { filterParameters, options },
         queryPipelineRunsByWorkspaceOperationSpec
       );
-      return result as PipelineRunQueryPipelineRunsByWorkspaceResponse;
+      return result as PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -74,22 +73,21 @@ export class PipelineRunImpl implements PipelineRun {
    */
   async getPipelineRun(
     runId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipelineRun", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+    options?: PipelineRunOperationsGetPipelineRunOptionalParams
+  ): Promise<PipelineRunOperationsGetPipelineRunResponse> {
+    const { span } = createSpan(
+      "ArtifactsClient-getPipelineRun",
+      options || {}
+    );
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { runId, options },
         getPipelineRunOperationSpec
       );
-      return result as PipelineRunGetPipelineRunResponse;
+      return result as PipelineRunOperationsGetPipelineRunResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -109,24 +107,21 @@ export class PipelineRunImpl implements PipelineRun {
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: coreHttp.OperationOptions
-  ): Promise<PipelineRunQueryActivityRunsResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-queryActivityRuns", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      pipelineName,
-      runId,
-      filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+    options?: PipelineRunOperationsQueryActivityRunsOptionalParams
+  ): Promise<PipelineRunOperationsQueryActivityRunsResponse> {
+    const { span } = createSpan(
+      "ArtifactsClient-queryActivityRuns",
+      options || {}
+    );
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { pipelineName, runId, filterParameters, options },
         queryActivityRunsOperationSpec
       );
-      return result as PipelineRunQueryActivityRunsResponse;
+      return result as PipelineRunOperationsQueryActivityRunsResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -142,22 +137,21 @@ export class PipelineRunImpl implements PipelineRun {
    */
   async cancelPipelineRun(
     runId: string,
-    options?: PipelineRunCancelPipelineRunOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelPipelineRun", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+    options?: PipelineRunOperationsCancelPipelineRunOptionalParams
+  ): Promise<void> {
+    const { span } = createSpan(
+      "ArtifactsClient-cancelPipelineRun",
+      options || {}
+    );
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { runId, options },
         cancelPipelineRunOperationSpec
       );
-      return result as coreHttp.RestResponse;
+      return result as void;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -167,9 +161,9 @@ export class PipelineRunImpl implements PipelineRun {
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const queryPipelineRunsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
+const queryPipelineRunsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path: "/queryPipelineRuns",
   httpMethod: "POST",
   responses: {
@@ -187,7 +181,7 @@ const queryPipelineRunsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getPipelineRunOperationSpec: coreHttp.OperationSpec = {
+const getPipelineRunOperationSpec: coreClient.OperationSpec = {
   path: "/pipelineruns/{runId}",
   httpMethod: "GET",
   responses: {
@@ -203,7 +197,7 @@ const getPipelineRunOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const queryActivityRunsOperationSpec: coreHttp.OperationSpec = {
+const queryActivityRunsOperationSpec: coreClient.OperationSpec = {
   path: "/pipelines/{pipelineName}/pipelineruns/{runId}/queryActivityruns",
   httpMethod: "POST",
   responses: {
@@ -216,12 +210,16 @@ const queryActivityRunsOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.pipelineName, Parameters.runId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.pipelineName,
+    Parameters.runId
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const cancelPipelineRunOperationSpec: coreHttp.OperationSpec = {
+const cancelPipelineRunOperationSpec: coreClient.OperationSpec = {
   path: "/pipelineruns/{runId}/cancel",
   httpMethod: "POST",
   responses: {

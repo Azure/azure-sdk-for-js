@@ -6,14 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { WorkspaceGetResponse } from "../models";
+import {
+  WorkspaceOperationsGetOptionalParams,
+  WorkspaceOperationsGetResponse
+} from "../models";
 
-/** Interface representing a Workspace. */
-export interface Workspace {
+/** Interface representing a WorkspaceOperations. */
+export interface WorkspaceOperations {
   /**
    * Get Workspace
    * @param options The options parameters.
    */
-  get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
+  get(
+    options?: WorkspaceOperationsGetOptionalParams
+  ): Promise<WorkspaceOperationsGetResponse>;
 }

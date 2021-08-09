@@ -9,9 +9,8 @@
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Library } from "../operationsInterfaces";
+import { LinkedServiceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,28 +18,27 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  LibraryResource,
-  LibraryListNextOptionalParams,
-  LibraryListOptionalParams,
-  LibraryListOperationResponse,
-  LibraryFlushOptionalParams,
-  LibraryGetOperationResultOptionalParams,
-  LibraryGetOperationResultResponse,
-  LibraryDeleteOptionalParams,
-  LibraryGetOptionalParams,
-  LibraryGetResponse,
-  LibraryCreateOptionalParams,
-  LibraryAppendOptionalParams,
-  LibraryListNextResponse
+  LinkedServiceResource,
+  LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams,
+  LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams,
+  LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse,
+  LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams,
+  LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse,
+  LinkedServiceOperationsGetLinkedServiceOptionalParams,
+  LinkedServiceOperationsGetLinkedServiceResponse,
+  LinkedServiceOperationsDeleteLinkedServiceOptionalParams,
+  ArtifactRenameRequest,
+  LinkedServiceOperationsRenameLinkedServiceOptionalParams,
+  LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Library. */
-export class LibraryImpl implements Library {
+/** Class representing a LinkedServiceOperations. */
+export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
-   * Initialize a new instance of the class Library class.
+   * Initialize a new instance of the class LinkedServiceOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClientContext) {
@@ -48,13 +46,13 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Lists Library.
+   * Lists linked services.
    * @param options The options parameters.
    */
-  public list(
-    options?: LibraryListOptionalParams
-  ): PagedAsyncIterableIterator<LibraryResource> {
-    const iter = this.listPagingAll(options);
+  public listLinkedServicesByWorkspace(
+    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<LinkedServiceResource> {
+    const iter = this.getLinkedServicesByWorkspacePagingAll(options);
     return {
       next() {
         return iter.next();
@@ -63,162 +61,54 @@ export class LibraryImpl implements Library {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.getLinkedServicesByWorkspacePagingPage(options);
       }
     };
   }
 
-  private async *listPagingPage(
-    options?: LibraryListOptionalParams
-  ): AsyncIterableIterator<LibraryResource[]> {
-    let result = await this._list(options);
+  private async *getLinkedServicesByWorkspacePagingPage(
+    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+  ): AsyncIterableIterator<LinkedServiceResource[]> {
+    let result = await this._getLinkedServicesByWorkspace(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._getLinkedServicesByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listPagingAll(
-    options?: LibraryListOptionalParams
-  ): AsyncIterableIterator<LibraryResource> {
-    for await (const page of this.listPagingPage(options)) {
+  private async *getLinkedServicesByWorkspacePagingAll(
+    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+  ): AsyncIterableIterator<LinkedServiceResource> {
+    for await (const page of this.getLinkedServicesByWorkspacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
-   * Lists Library.
+   * Lists linked services.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: LibraryListOptionalParams
-  ): Promise<LibraryListOperationResponse> {
-    const { span } = createSpan("ArtifactsClient-_list", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
-      return result as LibraryListOperationResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options The options parameters.
-   */
-  async beginFlush(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginFlush", options || {});
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      flushOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options The options parameters.
-   */
-  async beginFlushAndWait(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginFlush(libraryName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get Operation result for Library
-   * @param operationId operation id for which status is requested
-   * @param options The options parameters.
-   */
-  async getOperationResult(
-    operationId: string,
-    options?: LibraryGetOperationResultOptionalParams
-  ): Promise<LibraryGetOperationResultResponse> {
+  private async _getLinkedServicesByWorkspace(
+    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+  ): Promise<LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse> {
     const { span } = createSpan(
-      "ArtifactsClient-getOperationResult",
+      "ArtifactsClient-_getLinkedServicesByWorkspace",
       options || {}
     );
     try {
       const result = await this.client.sendOperationRequest(
-        { operationId, options },
-        getOperationResultOperationSpec
+        { options },
+        getLinkedServicesByWorkspaceOperationSpec
       );
-      return result as LibraryGetOperationResultResponse;
+      return result as LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -231,16 +121,150 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Creates or updates a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param linkedService Linked service resource definition.
    * @param options The options parameters.
    */
-  async beginDelete(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams
+  async beginCreateOrUpdateLinkedService(
+    linkedServiceName: string,
+    linkedService: LinkedServiceResource,
+    options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse
+      >,
+      LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse
+    >
+  > {
+    const { span } = createSpan(
+      "ArtifactsClient-beginCreateOrUpdateLinkedService",
+      options || {}
+    );
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse> => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse;
+      } catch (error) {
+        span.setStatus({
+          code: coreTracing.SpanStatusCode.UNSET,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { linkedServiceName, linkedService, options },
+      createOrUpdateLinkedServiceOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Creates or updates a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param linkedService Linked service resource definition.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateLinkedServiceAndWait(
+    linkedServiceName: string,
+    linkedService: LinkedServiceResource,
+    options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams
+  ): Promise<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse> {
+    const poller = await this.beginCreateOrUpdateLinkedService(
+      linkedServiceName,
+      linkedService,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
+   */
+  async getLinkedService(
+    linkedServiceName: string,
+    options?: LinkedServiceOperationsGetLinkedServiceOptionalParams
+  ): Promise<LinkedServiceOperationsGetLinkedServiceResponse> {
+    const { span } = createSpan(
+      "ArtifactsClient-getLinkedService",
+      options || {}
+    );
+    try {
+      const result = await this.client.sendOperationRequest(
+        { linkedServiceName, options },
+        getLinkedServiceOperationSpec
+      );
+      return result as LinkedServiceOperationsGetLinkedServiceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: coreTracing.SpanStatusCode.UNSET,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
+   */
+  async beginDeleteLinkedService(
+    linkedServiceName: string,
+    options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginDelete", options || {});
+    const { span } = createSpan(
+      "ArtifactsClient-beginDeleteLinkedService",
+      options || {}
+    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -293,8 +317,8 @@ export class LibraryImpl implements Library {
 
     const lro = new LroImpl(
       sendOperation,
-      { libraryName, options },
-      deleteOperationSpec
+      { linkedServiceName, options },
+      deleteLinkedServiceOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -303,58 +327,36 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Deletes a linked service.
+   * @param linkedServiceName The linked service name.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams
+  async beginDeleteLinkedServiceAndWait(
+    linkedServiceName: string,
+    options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(libraryName, options);
+    const poller = await this.beginDeleteLinkedService(
+      linkedServiceName,
+      options
+    );
     return poller.pollUntilDone();
   }
 
   /**
-   * Get Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Renames a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param request proposed new name.
    * @param options The options parameters.
    */
-  async get(
-    libraryName: string,
-    options?: LibraryGetOptionalParams
-  ): Promise<LibraryGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { libraryName, options },
-        getOperationSpec
-      );
-      return result as LibraryGetResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates a library with the library name.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options The options parameters.
-   */
-  async beginCreate(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams
+  async beginRenameLinkedService(
+    linkedServiceName: string,
+    request: ArtifactRenameRequest,
+    options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginCreate", options || {});
+    const { span } = createSpan(
+      "ArtifactsClient-beginRenameLinkedService",
+      options || {}
+    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -407,8 +409,8 @@ export class LibraryImpl implements Library {
 
     const lro = new LroImpl(
       sendOperation,
-      { libraryName, options },
-      createOperationSpec
+      { linkedServiceName, request, options },
+      renameLinkedServiceOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -417,66 +419,44 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Creates a library with the library name.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Renames a linked service.
+   * @param linkedServiceName The linked service name.
+   * @param request proposed new name.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams
+  async beginRenameLinkedServiceAndWait(
+    linkedServiceName: string,
+    request: ArtifactRenameRequest,
+    options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams
   ): Promise<void> {
-    const poller = await this.beginCreate(libraryName, options);
+    const poller = await this.beginRenameLinkedService(
+      linkedServiceName,
+      request,
+      options
+    );
     return poller.pollUntilDone();
   }
 
   /**
-   * Append the content to the library resource created using the create operation. The maximum content
-   * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param content Library file chunk.
+   * GetLinkedServicesByWorkspaceNext
+   * @param nextLink The nextLink from the previous successful call to the GetLinkedServicesByWorkspace
+   *                 method.
    * @param options The options parameters.
    */
-  async append(
-    libraryName: string,
-    content: coreRestPipeline.RequestBodyType,
-    options?: LibraryAppendOptionalParams
-  ): Promise<void> {
-    const { span } = createSpan("ArtifactsClient-append", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { libraryName, content, options },
-        appendOperationSpec
-      );
-      return result as void;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private async _listNext(
+  private async _getLinkedServicesByWorkspaceNext(
     nextLink: string,
-    options?: LibraryListNextOptionalParams
-  ): Promise<LibraryListNextResponse> {
-    const { span } = createSpan("ArtifactsClient-_listNext", options || {});
+    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams
+  ): Promise<LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse> {
+    const { span } = createSpan(
+      "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
+      options || {}
+    );
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
-        listNextOperationSpec
+        getLinkedServicesByWorkspaceNextOperationSpec
       );
-      return result as LibraryListNextResponse;
+      return result as LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -491,12 +471,12 @@ export class LibraryImpl implements Library {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries",
+const getLinkedServicesByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/linkedservices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.LinkedServiceListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -507,44 +487,56 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const flushOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}/flush",
-  httpMethod: "POST",
+const createOrUpdateLinkedServiceOperationSpec: coreClient.OperationSpec = {
+  path: "/linkedservices/{linkedServiceName}",
+  httpMethod: "PUT",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.LinkedServiceResource
+    },
+    201: {
+      bodyMapper: Mappers.LinkedServiceResource
+    },
+    202: {
+      bodyMapper: Mappers.LinkedServiceResource
+    },
+    204: {
+      bodyMapper: Mappers.LinkedServiceResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.linkedService,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
+  mediaType: "json",
   serializer
 };
-const getOperationResultOperationSpec: coreClient.OperationSpec = {
-  path: "/libraryOperationResults/{operationId}",
+const getLinkedServiceOperationSpec: coreClient.OperationSpec = {
+  path: "/linkedservices/{linkedServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryResource
+      bodyMapper: Mappers.LinkedServiceResource
     },
-    202: {
-      bodyMapper: Mappers.OperationResult
-    },
+    304: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
+  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
+const deleteLinkedServiceOperationSpec: coreClient.OperationSpec = {
+  path: "/linkedservices/{linkedServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -556,30 +548,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LibraryResource
-    },
-    304: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "PUT",
+const renameLinkedServiceOperationSpec: coreClient.OperationSpec = {
+  path: "/linkedservices/{linkedServiceName}/rename",
+  httpMethod: "POST",
   responses: {
     200: {},
     201: {},
@@ -589,37 +564,19 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
-const appendOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "PUT",
-  responses: {
-    201: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.content,
-  queryParameters: [Parameters.apiVersion, Parameters.comp],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [
-    Parameters.contentType1,
-    Parameters.accept1,
-    Parameters.blobConditionAppendPosition
-  ],
-  mediaType: "binary",
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const getLinkedServicesByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.LinkedServiceListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

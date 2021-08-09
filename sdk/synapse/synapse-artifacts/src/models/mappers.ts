@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const LinkedServiceListResponse: coreHttp.CompositeMapper = {
+export const LinkedServiceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LinkedServiceListResponse",
@@ -36,7 +36,37 @@ export const LinkedServiceListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const LinkedService: coreHttp.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedService: coreClient.CompositeMapper = {
   serializedName: "LinkedService",
   type: {
     name: "Composite",
@@ -92,7 +122,7 @@ export const LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeReference: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeReference",
@@ -122,7 +152,7 @@ export const IntegrationRuntimeReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParameterSpecification: coreHttp.CompositeMapper = {
+export const ParameterSpecification: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ParameterSpecification",
@@ -144,37 +174,7 @@ export const ParameterSpecification: coreHttp.CompositeMapper = {
   }
 };
 
-export const Resource: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CloudError: coreHttp.CompositeMapper = {
+export const CloudError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudError",
@@ -215,7 +215,7 @@ export const CloudError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ArtifactRenameRequest: coreHttp.CompositeMapper = {
+export const ArtifactRenameRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ArtifactRenameRequest",
@@ -235,7 +235,7 @@ export const ArtifactRenameRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetListResponse: coreHttp.CompositeMapper = {
+export const DatasetListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetListResponse",
@@ -263,7 +263,7 @@ export const DatasetListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const Dataset: coreHttp.CompositeMapper = {
+export const Dataset: coreClient.CompositeMapper = {
   serializedName: "Dataset",
   type: {
     name: "Composite",
@@ -338,7 +338,7 @@ export const Dataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const LinkedServiceReference: coreHttp.CompositeMapper = {
+export const LinkedServiceReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LinkedServiceReference",
@@ -368,7 +368,7 @@ export const LinkedServiceReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetFolder: coreHttp.CompositeMapper = {
+export const DatasetFolder: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetFolder",
@@ -383,7 +383,7 @@ export const DatasetFolder: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineListResponse: coreHttp.CompositeMapper = {
+export const PipelineListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineListResponse",
@@ -411,7 +411,7 @@ export const PipelineListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const Activity: coreHttp.CompositeMapper = {
+export const Activity: coreClient.CompositeMapper = {
   serializedName: "Activity",
   type: {
     name: "Composite",
@@ -471,7 +471,7 @@ export const Activity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ActivityDependency: coreHttp.CompositeMapper = {
+export const ActivityDependency: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityDependency",
@@ -500,7 +500,7 @@ export const ActivityDependency: coreHttp.CompositeMapper = {
   }
 };
 
-export const UserProperty: coreHttp.CompositeMapper = {
+export const UserProperty: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UserProperty",
@@ -523,7 +523,7 @@ export const UserProperty: coreHttp.CompositeMapper = {
   }
 };
 
-export const VariableSpecification: coreHttp.CompositeMapper = {
+export const VariableSpecification: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VariableSpecification",
@@ -545,7 +545,7 @@ export const VariableSpecification: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineFolder: coreHttp.CompositeMapper = {
+export const PipelineFolder: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineFolder",
@@ -560,7 +560,7 @@ export const PipelineFolder: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateRunResponse: coreHttp.CompositeMapper = {
+export const CreateRunResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CreateRunResponse",
@@ -576,7 +576,7 @@ export const CreateRunResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const RunFilterParameters: coreHttp.CompositeMapper = {
+export const RunFilterParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RunFilterParameters",
@@ -629,7 +629,7 @@ export const RunFilterParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const RunQueryFilter: coreHttp.CompositeMapper = {
+export const RunQueryFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RunQueryFilter",
@@ -664,7 +664,7 @@ export const RunQueryFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const RunQueryOrderBy: coreHttp.CompositeMapper = {
+export const RunQueryOrderBy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RunQueryOrderBy",
@@ -687,7 +687,7 @@ export const RunQueryOrderBy: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineRunsQueryResponse: coreHttp.CompositeMapper = {
+export const PipelineRunsQueryResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineRunsQueryResponse",
@@ -715,7 +715,7 @@ export const PipelineRunsQueryResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineRun: coreHttp.CompositeMapper = {
+export const PipelineRun: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineRun",
@@ -811,7 +811,7 @@ export const PipelineRun: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineRunInvokedBy: coreHttp.CompositeMapper = {
+export const PipelineRunInvokedBy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineRunInvokedBy",
@@ -841,7 +841,7 @@ export const PipelineRunInvokedBy: coreHttp.CompositeMapper = {
   }
 };
 
-export const ActivityRunsQueryResponse: coreHttp.CompositeMapper = {
+export const ActivityRunsQueryResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityRunsQueryResponse",
@@ -869,7 +869,7 @@ export const ActivityRunsQueryResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ActivityRun: coreHttp.CompositeMapper = {
+export const ActivityRun: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityRun",
@@ -970,7 +970,7 @@ export const ActivityRun: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerListResponse: coreHttp.CompositeMapper = {
+export const TriggerListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerListResponse",
@@ -998,7 +998,7 @@ export const TriggerListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const Trigger: coreHttp.CompositeMapper = {
+export const Trigger: coreClient.CompositeMapper = {
   serializedName: "Trigger",
   type: {
     name: "Composite",
@@ -1045,7 +1045,7 @@ export const Trigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerSubscriptionOperationStatus: coreHttp.CompositeMapper = {
+export const TriggerSubscriptionOperationStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerSubscriptionOperationStatus",
@@ -1068,7 +1068,7 @@ export const TriggerSubscriptionOperationStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerRunsQueryResponse: coreHttp.CompositeMapper = {
+export const TriggerRunsQueryResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerRunsQueryResponse",
@@ -1096,7 +1096,7 @@ export const TriggerRunsQueryResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerRun: coreHttp.CompositeMapper = {
+export const TriggerRun: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerRun",
@@ -1164,7 +1164,7 @@ export const TriggerRun: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlow: coreHttp.CompositeMapper = {
+export const DataFlow: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlow",
@@ -1209,7 +1209,7 @@ export const DataFlow: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowFolder: coreHttp.CompositeMapper = {
+export const DataFlowFolder: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowFolder",
@@ -1224,7 +1224,7 @@ export const DataFlowFolder: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowListResponse: coreHttp.CompositeMapper = {
+export const DataFlowListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowListResponse",
@@ -1252,7 +1252,7 @@ export const DataFlowListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
+export const CreateDataFlowDebugSessionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CreateDataFlowDebugSessionRequest",
@@ -1298,7 +1298,7 @@ export const CreateDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateDataFlowDebugSessionResponse: coreHttp.CompositeMapper = {
+export const CreateDataFlowDebugSessionResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CreateDataFlowDebugSessionResponse",
@@ -1313,7 +1313,7 @@ export const CreateDataFlowDebugSessionResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueryDataFlowDebugSessionsResponse: coreHttp.CompositeMapper = {
+export const QueryDataFlowDebugSessionsResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryDataFlowDebugSessionsResponse",
@@ -1340,7 +1340,7 @@ export const QueryDataFlowDebugSessionsResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugSessionInfo: coreHttp.CompositeMapper = {
+export const DataFlowDebugSessionInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugSessionInfo",
@@ -1404,7 +1404,7 @@ export const DataFlowDebugSessionInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugPackage: coreHttp.CompositeMapper = {
+export const DataFlowDebugPackage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugPackage",
@@ -1465,7 +1465,7 @@ export const DataFlowDebugPackage: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubResourceDebugResource: coreHttp.CompositeMapper = {
+export const SubResourceDebugResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubResourceDebugResource",
@@ -1480,7 +1480,7 @@ export const SubResourceDebugResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowStagingInfo: coreHttp.CompositeMapper = {
+export const DataFlowStagingInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowStagingInfo",
@@ -1502,7 +1502,7 @@ export const DataFlowStagingInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugPackageDebugSettings: coreHttp.CompositeMapper = {
+export const DataFlowDebugPackageDebugSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugPackageDebugSettings",
@@ -1536,7 +1536,7 @@ export const DataFlowDebugPackageDebugSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowSourceSetting: coreHttp.CompositeMapper = {
+export const DataFlowSourceSetting: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowSourceSetting",
@@ -1558,7 +1558,7 @@ export const DataFlowSourceSetting: coreHttp.CompositeMapper = {
   }
 };
 
-export const AddDataFlowToDebugSessionResponse: coreHttp.CompositeMapper = {
+export const AddDataFlowToDebugSessionResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AddDataFlowToDebugSessionResponse",
@@ -1573,7 +1573,7 @@ export const AddDataFlowToDebugSessionResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeleteDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
+export const DeleteDataFlowDebugSessionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeleteDataFlowDebugSessionRequest",
@@ -1594,7 +1594,7 @@ export const DeleteDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugCommandRequest: coreHttp.CompositeMapper = {
+export const DataFlowDebugCommandRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugCommandRequest",
@@ -1629,7 +1629,7 @@ export const DataFlowDebugCommandRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugCommandResponse: coreHttp.CompositeMapper = {
+export const DataFlowDebugCommandResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugCommandResponse",
@@ -1650,7 +1650,7 @@ export const DataFlowDebugCommandResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlScriptsListResponse: coreHttp.CompositeMapper = {
+export const SqlScriptsListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlScriptsListResponse",
@@ -1678,7 +1678,7 @@ export const SqlScriptsListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlScriptResource: coreHttp.CompositeMapper = {
+export const SqlScriptResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlScriptResource",
@@ -1722,7 +1722,7 @@ export const SqlScriptResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlScript: coreHttp.CompositeMapper = {
+export const SqlScript: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlScript",
@@ -1751,7 +1751,7 @@ export const SqlScript: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlScriptContent: coreHttp.CompositeMapper = {
+export const SqlScriptContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlScriptContent",
@@ -1782,7 +1782,7 @@ export const SqlScriptContent: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlConnection: coreHttp.CompositeMapper = {
+export const SqlConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlConnection",
@@ -1806,7 +1806,7 @@ export const SqlConnection: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlScriptMetadata: coreHttp.CompositeMapper = {
+export const SqlScriptMetadata: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlScriptMetadata",
@@ -1822,7 +1822,7 @@ export const SqlScriptMetadata: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkJobDefinitionsListResponse: coreHttp.CompositeMapper = {
+export const SparkJobDefinitionsListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkJobDefinitionsListResponse",
@@ -1850,7 +1850,7 @@ export const SparkJobDefinitionsListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkJobDefinition: coreHttp.CompositeMapper = {
+export const SparkJobDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkJobDefinition",
@@ -1892,7 +1892,7 @@ export const SparkJobDefinition: coreHttp.CompositeMapper = {
   }
 };
 
-export const BigDataPoolReference: coreHttp.CompositeMapper = {
+export const BigDataPoolReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BigDataPoolReference",
@@ -1915,7 +1915,7 @@ export const BigDataPoolReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkJobProperties: coreHttp.CompositeMapper = {
+export const SparkJobProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkJobProperties",
@@ -2029,7 +2029,7 @@ export const SparkJobProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkBatchJob: coreHttp.CompositeMapper = {
+export const SparkBatchJob: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkBatchJob",
@@ -2166,7 +2166,7 @@ export const SparkBatchJob: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkBatchJobState: coreHttp.CompositeMapper = {
+export const SparkBatchJobState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkBatchJobState",
@@ -2237,7 +2237,7 @@ export const SparkBatchJobState: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkRequest: coreHttp.CompositeMapper = {
+export const SparkRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkRequest",
@@ -2356,7 +2356,7 @@ export const SparkRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkScheduler: coreHttp.CompositeMapper = {
+export const SparkScheduler: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkScheduler",
@@ -2399,7 +2399,7 @@ export const SparkScheduler: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkServicePlugin: coreHttp.CompositeMapper = {
+export const SparkServicePlugin: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkServicePlugin",
@@ -2449,7 +2449,7 @@ export const SparkServicePlugin: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkServiceError: coreHttp.CompositeMapper = {
+export const SparkServiceError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkServiceError",
@@ -2476,7 +2476,7 @@ export const SparkServiceError: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookListResponse: coreHttp.CompositeMapper = {
+export const NotebookListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookListResponse",
@@ -2504,7 +2504,7 @@ export const NotebookListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookResource: coreHttp.CompositeMapper = {
+export const NotebookResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookResource",
@@ -2548,7 +2548,7 @@ export const NotebookResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const Notebook: coreHttp.CompositeMapper = {
+export const Notebook: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Notebook",
@@ -2612,7 +2612,7 @@ export const Notebook: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookSessionProperties: coreHttp.CompositeMapper = {
+export const NotebookSessionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookSessionProperties",
@@ -2656,7 +2656,7 @@ export const NotebookSessionProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookMetadata: coreHttp.CompositeMapper = {
+export const NotebookMetadata: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookMetadata",
@@ -2680,7 +2680,7 @@ export const NotebookMetadata: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookKernelSpec: coreHttp.CompositeMapper = {
+export const NotebookKernelSpec: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookKernelSpec",
@@ -2704,7 +2704,7 @@ export const NotebookKernelSpec: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookLanguageInfo: coreHttp.CompositeMapper = {
+export const NotebookLanguageInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookLanguageInfo",
@@ -2727,7 +2727,7 @@ export const NotebookLanguageInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookCell: coreHttp.CompositeMapper = {
+export const NotebookCell: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookCell",
@@ -2782,7 +2782,7 @@ export const NotebookCell: coreHttp.CompositeMapper = {
   }
 };
 
-export const NotebookCellOutputItem: coreHttp.CompositeMapper = {
+export const NotebookCellOutputItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NotebookCellOutputItem",
@@ -2828,7 +2828,7 @@ export const NotebookCellOutputItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataLakeStorageAccountDetails: coreHttp.CompositeMapper = {
+export const DataLakeStorageAccountDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataLakeStorageAccountDetails",
@@ -2849,7 +2849,7 @@ export const DataLakeStorageAccountDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkProfile: coreHttp.CompositeMapper = {
+export const VirtualNetworkProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VirtualNetworkProfile",
@@ -2864,7 +2864,7 @@ export const VirtualNetworkProfile: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrivateEndpoint: coreHttp.CompositeMapper = {
+export const PrivateEndpoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PrivateEndpoint",
@@ -2880,7 +2880,7 @@ export const PrivateEndpoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrivateLinkServiceConnectionState: coreHttp.CompositeMapper = {
+export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PrivateLinkServiceConnectionState",
@@ -2908,7 +2908,7 @@ export const PrivateLinkServiceConnectionState: coreHttp.CompositeMapper = {
   }
 };
 
-export const EncryptionDetails: coreHttp.CompositeMapper = {
+export const EncryptionDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EncryptionDetails",
@@ -2931,7 +2931,7 @@ export const EncryptionDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomerManagedKeyDetails: coreHttp.CompositeMapper = {
+export const CustomerManagedKeyDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomerManagedKeyDetails",
@@ -2954,7 +2954,7 @@ export const CustomerManagedKeyDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkspaceKeyDetails: coreHttp.CompositeMapper = {
+export const WorkspaceKeyDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkspaceKeyDetails",
@@ -2975,7 +2975,7 @@ export const WorkspaceKeyDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedVirtualNetworkSettings: coreHttp.CompositeMapper = {
+export const ManagedVirtualNetworkSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManagedVirtualNetworkSettings",
@@ -3007,7 +3007,7 @@ export const ManagedVirtualNetworkSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkspaceRepositoryConfiguration: coreHttp.CompositeMapper = {
+export const WorkspaceRepositoryConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkspaceRepositoryConfiguration",
@@ -3065,12 +3065,46 @@ export const WorkspaceRepositoryConfiguration: coreHttp.CompositeMapper = {
         type: {
           name: "Uuid"
         }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          className: "GitHubClientSecret"
+        }
       }
     }
   }
 };
 
-export const PurviewConfiguration: coreHttp.CompositeMapper = {
+export const GitHubClientSecret: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GitHubClientSecret",
+    modelProperties: {
+      byoaSecretAkvUrl: {
+        serializedName: "byoaSecretAkvUrl",
+        type: {
+          name: "String"
+        }
+      },
+      byoaSecretName: {
+        serializedName: "byoaSecretName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PurviewConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PurviewConfiguration",
@@ -3085,7 +3119,7 @@ export const PurviewConfiguration: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedIdentity: coreHttp.CompositeMapper = {
+export const ManagedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManagedIdentity",
@@ -3115,7 +3149,7 @@ export const ManagedIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorContract: coreHttp.CompositeMapper = {
+export const ErrorContract: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorContract",
@@ -3131,7 +3165,7 @@ export const ErrorContract: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",
@@ -3187,7 +3221,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorAdditionalInfo: coreHttp.CompositeMapper = {
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorAdditionalInfo",
@@ -3210,7 +3244,7 @@ export const ErrorAdditionalInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlPoolInfoListResult: coreHttp.CompositeMapper = {
+export const SqlPoolInfoListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlPoolInfoListResult",
@@ -3237,7 +3271,7 @@ export const SqlPoolInfoListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const Sku: coreHttp.CompositeMapper = {
+export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Sku",
@@ -3264,7 +3298,7 @@ export const Sku: coreHttp.CompositeMapper = {
   }
 };
 
-export const BigDataPoolResourceInfoListResult: coreHttp.CompositeMapper = {
+export const BigDataPoolResourceInfoListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BigDataPoolResourceInfoListResult",
@@ -3291,7 +3325,7 @@ export const BigDataPoolResourceInfoListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AutoScaleProperties: coreHttp.CompositeMapper = {
+export const AutoScaleProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AutoScaleProperties",
@@ -3318,7 +3352,7 @@ export const AutoScaleProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const AutoPauseProperties: coreHttp.CompositeMapper = {
+export const AutoPauseProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AutoPauseProperties",
@@ -3339,7 +3373,7 @@ export const AutoPauseProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicExecutorAllocation: coreHttp.CompositeMapper = {
+export const DynamicExecutorAllocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DynamicExecutorAllocation",
@@ -3354,7 +3388,7 @@ export const DynamicExecutorAllocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const LibraryRequirements: coreHttp.CompositeMapper = {
+export const LibraryRequirements: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LibraryRequirements",
@@ -3382,7 +3416,7 @@ export const LibraryRequirements: coreHttp.CompositeMapper = {
   }
 };
 
-export const LibraryInfo: coreHttp.CompositeMapper = {
+export const LibraryInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LibraryInfo",
@@ -3436,7 +3470,7 @@ export const LibraryInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeListResponse: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeListResponse",
@@ -3464,7 +3498,7 @@ export const IntegrationRuntimeListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntime: coreHttp.CompositeMapper = {
+export const IntegrationRuntime: coreClient.CompositeMapper = {
   serializedName: "IntegrationRuntime",
   type: {
     name: "Composite",
@@ -3493,7 +3527,7 @@ export const IntegrationRuntime: coreHttp.CompositeMapper = {
   }
 };
 
-export const LibraryListResponse: coreHttp.CompositeMapper = {
+export const LibraryListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LibraryListResponse",
@@ -3521,7 +3555,7 @@ export const LibraryListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const LibraryResourceProperties: coreHttp.CompositeMapper = {
+export const LibraryResourceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LibraryResourceProperties",
@@ -3579,7 +3613,7 @@ export const LibraryResourceProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const LibraryResourceInfo: coreHttp.CompositeMapper = {
+export const LibraryResourceInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LibraryResourceInfo",
@@ -3651,7 +3685,7 @@ export const LibraryResourceInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const OperationResult: coreHttp.CompositeMapper = {
+export const OperationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OperationResult",
@@ -3697,7 +3731,7 @@ export const OperationResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const GitHubAccessTokenRequest: coreHttp.CompositeMapper = {
+export const GitHubAccessTokenRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "GitHubAccessTokenRequest",
@@ -3707,6 +3741,13 @@ export const GitHubAccessTokenRequest: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      gitHubClientSecret: {
+        serializedName: "gitHubClientSecret",
+        type: {
+          name: "Composite",
+          className: "GitHubClientSecret"
         }
       },
       gitHubAccessCode: {
@@ -3727,7 +3768,7 @@ export const GitHubAccessTokenRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const GitHubAccessTokenResponse: coreHttp.CompositeMapper = {
+export const GitHubAccessTokenResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "GitHubAccessTokenResponse",
@@ -3742,7 +3783,7 @@ export const GitHubAccessTokenResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const Expression: coreHttp.CompositeMapper = {
+export const Expression: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Expression",
@@ -3765,7 +3806,7 @@ export const Expression: coreHttp.CompositeMapper = {
   }
 };
 
-export const SecretBase: coreHttp.CompositeMapper = {
+export const SecretBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SecretBase",
@@ -3786,7 +3827,7 @@ export const SecretBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const StartDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
+export const StartDataFlowDebugSessionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StartDataFlowDebugSessionRequest",
@@ -3850,7 +3891,7 @@ export const StartDataFlowDebugSessionRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const StartDataFlowDebugSessionResponse: coreHttp.CompositeMapper = {
+export const StartDataFlowDebugSessionResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StartDataFlowDebugSessionResponse",
@@ -3865,7 +3906,7 @@ export const StartDataFlowDebugSessionResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugPreviewDataRequest: coreHttp.CompositeMapper = {
+export const DataFlowDebugPreviewDataRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugPreviewDataRequest",
@@ -3898,7 +3939,7 @@ export const DataFlowDebugPreviewDataRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugStatisticsRequest: coreHttp.CompositeMapper = {
+export const DataFlowDebugStatisticsRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugStatisticsRequest",
@@ -3936,7 +3977,7 @@ export const DataFlowDebugStatisticsRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const EvaluateDataFlowExpressionRequest: coreHttp.CompositeMapper = {
+export const EvaluateDataFlowExpressionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EvaluateDataFlowExpressionRequest",
@@ -3975,7 +4016,7 @@ export const EvaluateDataFlowExpressionRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugQueryResponse: coreHttp.CompositeMapper = {
+export const DataFlowDebugQueryResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugQueryResponse",
@@ -3990,7 +4031,7 @@ export const DataFlowDebugQueryResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugResultResponse: coreHttp.CompositeMapper = {
+export const DataFlowDebugResultResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugResultResponse",
@@ -4011,7 +4052,7 @@ export const DataFlowDebugResultResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerDependencyProvisioningStatus: coreHttp.CompositeMapper = {
+export const TriggerDependencyProvisioningStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerDependencyProvisioningStatus",
@@ -4034,7 +4075,7 @@ export const TriggerDependencyProvisioningStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineReference: coreHttp.CompositeMapper = {
+export const PipelineReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineReference",
@@ -4063,7 +4104,7 @@ export const PipelineReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerPipelineReference: coreHttp.CompositeMapper = {
+export const TriggerPipelineReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerPipelineReference",
@@ -4086,7 +4127,7 @@ export const TriggerPipelineReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkspaceUpdateParameters: coreHttp.CompositeMapper = {
+export const WorkspaceUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkspaceUpdateParameters",
@@ -4109,7 +4150,7 @@ export const WorkspaceUpdateParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const WorkspaceIdentity: coreHttp.CompositeMapper = {
+export const WorkspaceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkspaceIdentity",
@@ -4140,7 +4181,7 @@ export const WorkspaceIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetReference: coreHttp.CompositeMapper = {
+export const DatasetReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetReference",
@@ -4170,7 +4211,7 @@ export const DatasetReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowReference: coreHttp.CompositeMapper = {
+export const DataFlowReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowReference",
@@ -4200,7 +4241,7 @@ export const DataFlowReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const RerunTumblingWindowTriggerActionParameters: coreHttp.CompositeMapper = {
+export const RerunTumblingWindowTriggerActionParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RerunTumblingWindowTriggerActionParameters",
@@ -4234,7 +4275,7 @@ export const RerunTumblingWindowTriggerActionParameters: coreHttp.CompositeMappe
   }
 };
 
-export const RerunTriggerListResponse: coreHttp.CompositeMapper = {
+export const RerunTriggerListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RerunTriggerListResponse",
@@ -4263,7 +4304,7 @@ export const RerunTriggerListResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const GetSsisObjectMetadataRequest: coreHttp.CompositeMapper = {
+export const GetSsisObjectMetadataRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "GetSsisObjectMetadataRequest",
@@ -4278,7 +4319,7 @@ export const GetSsisObjectMetadataRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisObjectMetadataStatusResponse: coreHttp.CompositeMapper = {
+export const SsisObjectMetadataStatusResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisObjectMetadataStatusResponse",
@@ -4311,7 +4352,7 @@ export const SsisObjectMetadataStatusResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExposureControlRequest: coreHttp.CompositeMapper = {
+export const ExposureControlRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExposureControlRequest",
@@ -4332,7 +4373,7 @@ export const ExposureControlRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExposureControlResponse: coreHttp.CompositeMapper = {
+export const ExposureControlResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExposureControlResponse",
@@ -4355,7 +4396,7 @@ export const ExposureControlResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynapseNotebookReference: coreHttp.CompositeMapper = {
+export const SynapseNotebookReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SynapseNotebookReference",
@@ -4378,7 +4419,7 @@ export const SynapseNotebookReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynapseSparkJobReference: coreHttp.CompositeMapper = {
+export const SynapseSparkJobReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SynapseSparkJobReference",
@@ -4401,7 +4442,7 @@ export const SynapseSparkJobReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlPoolReference: coreHttp.CompositeMapper = {
+export const SqlPoolReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlPoolReference",
@@ -4424,7 +4465,7 @@ export const SqlPoolReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const Transformation: coreHttp.CompositeMapper = {
+export const Transformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Transformation",
@@ -4446,7 +4487,7 @@ export const Transformation: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetLocation: coreHttp.CompositeMapper = {
+export const DatasetLocation: coreClient.CompositeMapper = {
   serializedName: "DatasetLocation",
   type: {
     name: "Composite",
@@ -4481,7 +4522,7 @@ export const DatasetLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetDataElement: coreHttp.CompositeMapper = {
+export const DatasetDataElement: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetDataElement",
@@ -4502,7 +4543,7 @@ export const DatasetDataElement: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetSchemaDataElement: coreHttp.CompositeMapper = {
+export const DatasetSchemaDataElement: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetSchemaDataElement",
@@ -4524,7 +4565,7 @@ export const DatasetSchemaDataElement: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetStorageFormat: coreHttp.CompositeMapper = {
+export const DatasetStorageFormat: coreClient.CompositeMapper = {
   serializedName: "DatasetStorageFormat",
   type: {
     name: "Composite",
@@ -4559,7 +4600,7 @@ export const DatasetStorageFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetCompression: coreHttp.CompositeMapper = {
+export const DatasetCompression: coreClient.CompositeMapper = {
   serializedName: "DatasetCompression",
   type: {
     name: "Composite",
@@ -4582,7 +4623,7 @@ export const DatasetCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebLinkedServiceTypeProperties: coreHttp.CompositeMapper = {
+export const WebLinkedServiceTypeProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebLinkedServiceTypeProperties",
@@ -4610,7 +4651,7 @@ export const WebLinkedServiceTypeProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ScriptAction: coreHttp.CompositeMapper = {
+export const ScriptAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScriptAction",
@@ -4646,7 +4687,7 @@ export const ScriptAction: coreHttp.CompositeMapper = {
   }
 };
 
-export const ActivityPolicy: coreHttp.CompositeMapper = {
+export const ActivityPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityPolicy",
@@ -4690,7 +4731,7 @@ export const ActivityPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoreReadSettings: coreHttp.CompositeMapper = {
+export const StoreReadSettings: coreClient.CompositeMapper = {
   serializedName: "StoreReadSettings",
   type: {
     name: "Composite",
@@ -4719,7 +4760,7 @@ export const StoreReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoreWriteSettings: coreHttp.CompositeMapper = {
+export const StoreWriteSettings: coreClient.CompositeMapper = {
   serializedName: "StoreWriteSettings",
   type: {
     name: "Composite",
@@ -4754,7 +4795,7 @@ export const StoreWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistcpSettings: coreHttp.CompositeMapper = {
+export const DistcpSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DistcpSettings",
@@ -4783,7 +4824,7 @@ export const DistcpSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FormatReadSettings: coreHttp.CompositeMapper = {
+export const FormatReadSettings: coreClient.CompositeMapper = {
   serializedName: "FormatReadSettings",
   type: {
     name: "Composite",
@@ -4806,7 +4847,7 @@ export const FormatReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const CompressionReadSettings: coreHttp.CompositeMapper = {
+export const CompressionReadSettings: coreClient.CompositeMapper = {
   serializedName: "CompressionReadSettings",
   type: {
     name: "Composite",
@@ -4829,7 +4870,7 @@ export const CompressionReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FormatWriteSettings: coreHttp.CompositeMapper = {
+export const FormatWriteSettings: coreClient.CompositeMapper = {
   serializedName: "FormatWriteSettings",
   type: {
     name: "Composite",
@@ -4852,28 +4893,7 @@ export const FormatWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AdditionalColumns: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AdditionalColumns",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "any"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const CopySource: coreHttp.CompositeMapper = {
+export const CopySource: coreClient.CompositeMapper = {
   serializedName: "CopySource",
   type: {
     name: "Composite",
@@ -4914,7 +4934,28 @@ export const CopySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopySink: coreHttp.CompositeMapper = {
+export const AdditionalColumns: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdditionalColumns",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "any"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const CopySink: coreClient.CompositeMapper = {
   serializedName: "CopySink",
   type: {
     name: "Composite",
@@ -4967,7 +5008,7 @@ export const CopySink: coreHttp.CompositeMapper = {
   }
 };
 
-export const StagingSettings: coreHttp.CompositeMapper = {
+export const StagingSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StagingSettings",
@@ -4996,7 +5037,7 @@ export const StagingSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedirectIncompatibleRowSettings: coreHttp.CompositeMapper = {
+export const RedirectIncompatibleRowSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedirectIncompatibleRowSettings",
@@ -5019,7 +5060,7 @@ export const RedirectIncompatibleRowSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogStorageSettings: coreHttp.CompositeMapper = {
+export const LogStorageSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LogStorageSettings",
@@ -5054,7 +5095,7 @@ export const LogStorageSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogSettings: coreHttp.CompositeMapper = {
+export const LogSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LogSettings",
@@ -5083,7 +5124,7 @@ export const LogSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopyActivityLogSettings: coreHttp.CompositeMapper = {
+export const CopyActivityLogSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CopyActivityLogSettings",
@@ -5104,7 +5145,7 @@ export const CopyActivityLogSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogLocationSettings: coreHttp.CompositeMapper = {
+export const LogLocationSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LogLocationSettings",
@@ -5126,7 +5167,7 @@ export const LogLocationSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SkipErrorFile: coreHttp.CompositeMapper = {
+export const SkipErrorFile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SkipErrorFile",
@@ -5147,7 +5188,7 @@ export const SkipErrorFile: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapHanaPartitionSettings: coreHttp.CompositeMapper = {
+export const SapHanaPartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SapHanaPartitionSettings",
@@ -5162,7 +5203,7 @@ export const SapHanaPartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTablePartitionSettings: coreHttp.CompositeMapper = {
+export const SapTablePartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SapTablePartitionSettings",
@@ -5195,7 +5236,7 @@ export const SapTablePartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoredProcedureParameter: coreHttp.CompositeMapper = {
+export const StoredProcedureParameter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StoredProcedureParameter",
@@ -5216,7 +5257,7 @@ export const StoredProcedureParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlPartitionSettings: coreHttp.CompositeMapper = {
+export const SqlPartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlPartitionSettings",
@@ -5243,7 +5284,7 @@ export const SqlPartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const OraclePartitionSettings: coreHttp.CompositeMapper = {
+export const OraclePartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OraclePartitionSettings",
@@ -5276,7 +5317,7 @@ export const OraclePartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataPartitionSettings: coreHttp.CompositeMapper = {
+export const TeradataPartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TeradataPartitionSettings",
@@ -5303,7 +5344,7 @@ export const TeradataPartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbCursorMethodsProperties: coreHttp.CompositeMapper = {
+export const MongoDbCursorMethodsProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MongoDbCursorMethodsProperties",
@@ -5337,7 +5378,7 @@ export const MongoDbCursorMethodsProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaPartitionSettings: coreHttp.CompositeMapper = {
+export const NetezzaPartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetezzaPartitionSettings",
@@ -5364,7 +5405,7 @@ export const NetezzaPartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedshiftUnloadSettings: coreHttp.CompositeMapper = {
+export const RedshiftUnloadSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedshiftUnloadSettings",
@@ -5387,7 +5428,7 @@ export const RedshiftUnloadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExportSettings: coreHttp.CompositeMapper = {
+export const ExportSettings: coreClient.CompositeMapper = {
   serializedName: "ExportSettings",
   type: {
     name: "Composite",
@@ -5410,7 +5451,7 @@ export const ExportSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImportSettings: coreHttp.CompositeMapper = {
+export const ImportSettings: coreClient.CompositeMapper = {
   serializedName: "ImportSettings",
   type: {
     name: "Composite",
@@ -5433,7 +5474,7 @@ export const ImportSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolybaseSettings: coreHttp.CompositeMapper = {
+export const PolybaseSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolybaseSettings",
@@ -5467,7 +5508,7 @@ export const PolybaseSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DWCopyCommandSettings: coreHttp.CompositeMapper = {
+export const DWCopyCommandSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DWCopyCommandSettings",
@@ -5495,7 +5536,7 @@ export const DWCopyCommandSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DWCopyCommandDefaultValue: coreHttp.CompositeMapper = {
+export const DWCopyCommandDefaultValue: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DWCopyCommandDefaultValue",
@@ -5516,7 +5557,7 @@ export const DWCopyCommandDefaultValue: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopyTranslator: coreHttp.CompositeMapper = {
+export const CopyTranslator: coreClient.CompositeMapper = {
   serializedName: "CopyTranslator",
   type: {
     name: "Composite",
@@ -5539,7 +5580,7 @@ export const CopyTranslator: coreHttp.CompositeMapper = {
   }
 };
 
-export const TypeConversionSettings: coreHttp.CompositeMapper = {
+export const TypeConversionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TypeConversionSettings",
@@ -5584,7 +5625,7 @@ export const TypeConversionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisPackageLocation: coreHttp.CompositeMapper = {
+export const SsisPackageLocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisPackageLocation",
@@ -5662,7 +5703,7 @@ export const SsisPackageLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisAccessCredential: coreHttp.CompositeMapper = {
+export const SsisAccessCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisAccessCredential",
@@ -5692,7 +5733,7 @@ export const SsisAccessCredential: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisChildPackage: coreHttp.CompositeMapper = {
+export const SsisChildPackage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisChildPackage",
@@ -5727,7 +5768,7 @@ export const SsisChildPackage: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisExecutionCredential: coreHttp.CompositeMapper = {
+export const SsisExecutionCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisExecutionCredential",
@@ -5757,7 +5798,7 @@ export const SsisExecutionCredential: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisExecutionParameter: coreHttp.CompositeMapper = {
+export const SsisExecutionParameter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisExecutionParameter",
@@ -5773,7 +5814,7 @@ export const SsisExecutionParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisPropertyOverride: coreHttp.CompositeMapper = {
+export const SsisPropertyOverride: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisPropertyOverride",
@@ -5795,7 +5836,7 @@ export const SsisPropertyOverride: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisLogLocation: coreHttp.CompositeMapper = {
+export const SsisLogLocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SsisLogLocation",
@@ -5831,7 +5872,7 @@ export const SsisLogLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomActivityReferenceObject: coreHttp.CompositeMapper = {
+export const CustomActivityReferenceObject: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomActivityReferenceObject",
@@ -5864,7 +5905,7 @@ export const CustomActivityReferenceObject: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebActivityAuthentication: coreHttp.CompositeMapper = {
+export const WebActivityAuthentication: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebActivityAuthentication",
@@ -5906,7 +5947,7 @@ export const WebActivityAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const SwitchCase: coreHttp.CompositeMapper = {
+export const SwitchCase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SwitchCase",
@@ -5933,7 +5974,7 @@ export const SwitchCase: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLWebServiceFile: coreHttp.CompositeMapper = {
+export const AzureMLWebServiceFile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureMLWebServiceFile",
@@ -5956,7 +5997,7 @@ export const AzureMLWebServiceFile: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecuteDataFlowActivityTypePropertiesCompute: coreHttp.CompositeMapper = {
+export const ExecuteDataFlowActivityTypePropertiesCompute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExecuteDataFlowActivityTypePropertiesCompute",
@@ -5977,7 +6018,7 @@ export const ExecuteDataFlowActivityTypePropertiesCompute: coreHttp.CompositeMap
   }
 };
 
-export const ScheduleTriggerRecurrence: coreHttp.CompositeMapper = {
+export const ScheduleTriggerRecurrence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScheduleTriggerRecurrence",
@@ -6024,7 +6065,7 @@ export const ScheduleTriggerRecurrence: coreHttp.CompositeMapper = {
   }
 };
 
-export const RecurrenceSchedule: coreHttp.CompositeMapper = {
+export const RecurrenceSchedule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RecurrenceSchedule",
@@ -6099,7 +6140,7 @@ export const RecurrenceSchedule: coreHttp.CompositeMapper = {
   }
 };
 
-export const RecurrenceScheduleOccurrence: coreHttp.CompositeMapper = {
+export const RecurrenceScheduleOccurrence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RecurrenceScheduleOccurrence",
@@ -6130,7 +6171,7 @@ export const RecurrenceScheduleOccurrence: coreHttp.CompositeMapper = {
   }
 };
 
-export const RetryPolicy: coreHttp.CompositeMapper = {
+export const RetryPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RetryPolicy",
@@ -6155,7 +6196,7 @@ export const RetryPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const DependencyReference: coreHttp.CompositeMapper = {
+export const DependencyReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DependencyReference",
@@ -6176,7 +6217,7 @@ export const DependencyReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerReference: coreHttp.CompositeMapper = {
+export const TriggerReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerReference",
@@ -6199,7 +6240,7 @@ export const TriggerReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeComputeProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeComputeProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeComputeProperties",
@@ -6253,7 +6294,7 @@ export const IntegrationRuntimeComputeProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeDataFlowProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeDataFlowProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeDataFlowProperties",
@@ -6284,7 +6325,7 @@ export const IntegrationRuntimeDataFlowProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeVNetProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeVNetProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeVNetProperties",
@@ -6317,7 +6358,7 @@ export const IntegrationRuntimeVNetProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeSsisProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeSsisProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeSsisProperties",
@@ -6372,7 +6413,7 @@ export const IntegrationRuntimeSsisProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeSsisCatalogInfo: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeSsisCatalogInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeSsisCatalogInfo",
@@ -6411,7 +6452,7 @@ export const IntegrationRuntimeSsisCatalogInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeCustomSetupScriptProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeCustomSetupScriptProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeCustomSetupScriptProperties",
@@ -6433,7 +6474,7 @@ export const IntegrationRuntimeCustomSetupScriptProperties: coreHttp.CompositeMa
   }
 };
 
-export const IntegrationRuntimeDataProxyProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeDataProxyProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeDataProxyProperties",
@@ -6462,7 +6503,7 @@ export const IntegrationRuntimeDataProxyProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityReference: coreHttp.CompositeMapper = {
+export const EntityReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityReference",
@@ -6483,7 +6524,7 @@ export const EntityReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomSetupBase: coreHttp.CompositeMapper = {
+export const CustomSetupBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomSetupBase",
@@ -6504,7 +6545,7 @@ export const CustomSetupBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedVirtualNetworkReference: coreHttp.CompositeMapper = {
+export const ManagedVirtualNetworkReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManagedVirtualNetworkReference",
@@ -6528,7 +6569,7 @@ export const ManagedVirtualNetworkReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const LinkedIntegrationRuntimeType: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntimeType: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LinkedIntegrationRuntimeType",
@@ -6549,7 +6590,58 @@ export const LinkedIntegrationRuntimeType: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureEntityResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureEntityResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const AzureStorageLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureStorage",
   type: {
     name: "Composite",
@@ -6595,7 +6687,7 @@ export const AzureStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureBlobStorageLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureBlobStorage",
   type: {
     name: "Composite",
@@ -6672,7 +6764,7 @@ export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureTableStorageLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureTableStorage",
   type: {
     name: "Composite",
@@ -6718,7 +6810,7 @@ export const AzureTableStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlDWLinkedService: coreHttp.CompositeMapper = {
+export const AzureSqlDWLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureSqlDW",
   type: {
     name: "Composite",
@@ -6777,7 +6869,7 @@ export const AzureSqlDWLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerLinkedService: coreHttp.CompositeMapper = {
+export const SqlServerLinkedService: coreClient.CompositeMapper = {
   serializedName: "SqlServer",
   type: {
     name: "Composite",
@@ -6817,7 +6909,7 @@ export const SqlServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlDatabaseLinkedService: coreHttp.CompositeMapper = {
+export const AzureSqlDatabaseLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureSqlDatabase",
   type: {
     name: "Composite",
@@ -6876,7 +6968,7 @@ export const AzureSqlDatabaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlMILinkedService: coreHttp.CompositeMapper = {
+export const AzureSqlMILinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureSqlMI",
   type: {
     name: "Composite",
@@ -6935,7 +7027,7 @@ export const AzureSqlMILinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBatchLinkedService: coreHttp.CompositeMapper = {
+export const AzureBatchLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureBatch",
   type: {
     name: "Composite",
@@ -6990,7 +7082,7 @@ export const AzureBatchLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureKeyVaultLinkedService: coreHttp.CompositeMapper = {
+export const AzureKeyVaultLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureKeyVault",
   type: {
     name: "Composite",
@@ -7011,7 +7103,7 @@ export const AzureKeyVaultLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbLinkedService: coreHttp.CompositeMapper = {
+export const CosmosDbLinkedService: coreClient.CompositeMapper = {
   serializedName: "CosmosDb",
   type: {
     name: "Composite",
@@ -7056,7 +7148,7 @@ export const CosmosDbLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsLinkedService: coreHttp.CompositeMapper = {
+export const DynamicsLinkedService: coreClient.CompositeMapper = {
   serializedName: "Dynamics",
   type: {
     name: "Composite",
@@ -7146,7 +7238,7 @@ export const DynamicsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmLinkedService: coreHttp.CompositeMapper = {
+export const DynamicsCrmLinkedService: coreClient.CompositeMapper = {
   serializedName: "DynamicsCrm",
   type: {
     name: "Composite",
@@ -7236,7 +7328,7 @@ export const DynamicsCrmLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsLinkedService: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsLinkedService: coreClient.CompositeMapper = {
   serializedName: "CommonDataServiceForApps",
   type: {
     name: "Composite",
@@ -7326,7 +7418,7 @@ export const CommonDataServiceForAppsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightLinkedService: coreHttp.CompositeMapper = {
+export const HDInsightLinkedService: coreClient.CompositeMapper = {
   serializedName: "HDInsight",
   type: {
     name: "Composite",
@@ -7392,7 +7484,7 @@ export const HDInsightLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerLinkedService: coreHttp.CompositeMapper = {
+export const FileServerLinkedService: coreClient.CompositeMapper = {
   serializedName: "FileServer",
   type: {
     name: "Composite",
@@ -7432,7 +7524,7 @@ export const FileServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFileStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureFileStorageLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureFileStorage",
   type: {
     name: "Composite",
@@ -7510,7 +7602,7 @@ export const AzureFileStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleCloudStorageLinkedService: coreHttp.CompositeMapper = {
+export const GoogleCloudStorageLinkedService: coreClient.CompositeMapper = {
   serializedName: "GoogleCloudStorage",
   type: {
     name: "Composite",
@@ -7549,7 +7641,7 @@ export const GoogleCloudStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleLinkedService: coreHttp.CompositeMapper = {
+export const OracleLinkedService: coreClient.CompositeMapper = {
   serializedName: "Oracle",
   type: {
     name: "Composite",
@@ -7583,7 +7675,7 @@ export const OracleLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlLinkedService: coreHttp.CompositeMapper = {
+export const AzureMySqlLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureMySql",
   type: {
     name: "Composite",
@@ -7617,7 +7709,7 @@ export const AzureMySqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MySqlLinkedService: coreHttp.CompositeMapper = {
+export const MySqlLinkedService: coreClient.CompositeMapper = {
   serializedName: "MySql",
   type: {
     name: "Composite",
@@ -7651,7 +7743,7 @@ export const MySqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PostgreSqlLinkedService: coreHttp.CompositeMapper = {
+export const PostgreSqlLinkedService: coreClient.CompositeMapper = {
   serializedName: "PostgreSql",
   type: {
     name: "Composite",
@@ -7685,7 +7777,7 @@ export const PostgreSqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SybaseLinkedService: coreHttp.CompositeMapper = {
+export const SybaseLinkedService: coreClient.CompositeMapper = {
   serializedName: "Sybase",
   type: {
     name: "Composite",
@@ -7744,7 +7836,7 @@ export const SybaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const Db2LinkedService: coreHttp.CompositeMapper = {
+export const Db2LinkedService: coreClient.CompositeMapper = {
   serializedName: "Db2",
   type: {
     name: "Composite",
@@ -7815,7 +7907,7 @@ export const Db2LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataLinkedService: coreHttp.CompositeMapper = {
+export const TeradataLinkedService: coreClient.CompositeMapper = {
   serializedName: "Teradata",
   type: {
     name: "Composite",
@@ -7866,7 +7958,7 @@ export const TeradataLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLLinkedService: coreHttp.CompositeMapper = {
+export const AzureMLLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureML",
   type: {
     name: "Composite",
@@ -7925,7 +8017,7 @@ export const AzureMLLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLServiceLinkedService: coreHttp.CompositeMapper = {
+export const AzureMLServiceLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureMLService",
   type: {
     name: "Composite",
@@ -7985,7 +8077,7 @@ export const AzureMLServiceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcLinkedService: coreHttp.CompositeMapper = {
+export const OdbcLinkedService: coreClient.CompositeMapper = {
   serializedName: "Odbc",
   type: {
     name: "Composite",
@@ -8038,7 +8130,7 @@ export const OdbcLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixLinkedService: coreHttp.CompositeMapper = {
+export const InformixLinkedService: coreClient.CompositeMapper = {
   serializedName: "Informix",
   type: {
     name: "Composite",
@@ -8091,7 +8183,7 @@ export const InformixLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessLinkedService: coreHttp.CompositeMapper = {
+export const MicrosoftAccessLinkedService: coreClient.CompositeMapper = {
   serializedName: "MicrosoftAccess",
   type: {
     name: "Composite",
@@ -8144,7 +8236,7 @@ export const MicrosoftAccessLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsLinkedService: coreHttp.CompositeMapper = {
+export const HdfsLinkedService: coreClient.CompositeMapper = {
   serializedName: "Hdfs",
   type: {
     name: "Composite",
@@ -8190,7 +8282,7 @@ export const HdfsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ODataLinkedService: coreHttp.CompositeMapper = {
+export const ODataLinkedService: coreClient.CompositeMapper = {
   serializedName: "OData",
   type: {
     name: "Composite",
@@ -8287,7 +8379,7 @@ export const ODataLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebLinkedService: coreHttp.CompositeMapper = {
+export const WebLinkedService: coreClient.CompositeMapper = {
   serializedName: "Web",
   type: {
     name: "Composite",
@@ -8308,7 +8400,7 @@ export const WebLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CassandraLinkedService: coreHttp.CompositeMapper = {
+export const CassandraLinkedService: coreClient.CompositeMapper = {
   serializedName: "Cassandra",
   type: {
     name: "Composite",
@@ -8360,7 +8452,7 @@ export const CassandraLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbLinkedService: coreHttp.CompositeMapper = {
+export const MongoDbLinkedService: coreClient.CompositeMapper = {
   serializedName: "MongoDb",
   type: {
     name: "Composite",
@@ -8437,7 +8529,7 @@ export const MongoDbLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbAtlasLinkedService: coreHttp.CompositeMapper = {
+export const MongoDbAtlasLinkedService: coreClient.CompositeMapper = {
   serializedName: "MongoDbAtlas",
   type: {
     name: "Composite",
@@ -8465,7 +8557,7 @@ export const MongoDbAtlasLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbV2LinkedService: coreHttp.CompositeMapper = {
+export const MongoDbV2LinkedService: coreClient.CompositeMapper = {
   serializedName: "MongoDbV2",
   type: {
     name: "Composite",
@@ -8493,7 +8585,7 @@ export const MongoDbV2LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiLinkedService: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiLinkedService: coreClient.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApi",
   type: {
     name: "Composite",
@@ -8521,7 +8613,7 @@ export const CosmosDbMongoDbApiLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreLinkedService: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStore",
   type: {
     name: "Composite",
@@ -8591,7 +8683,7 @@ export const AzureDataLakeStoreLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSLinkedService: coreHttp.CompositeMapper = {
+export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFS",
   type: {
     name: "Composite",
@@ -8649,7 +8741,7 @@ export const AzureBlobFSLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const Office365LinkedService: coreHttp.CompositeMapper = {
+export const Office365LinkedService: coreClient.CompositeMapper = {
   serializedName: "Office365",
   type: {
     name: "Composite",
@@ -8697,7 +8789,7 @@ export const Office365LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceLinkedService: coreHttp.CompositeMapper = {
+export const SalesforceLinkedService: coreClient.CompositeMapper = {
   serializedName: "Salesforce",
   type: {
     name: "Composite",
@@ -8749,7 +8841,7 @@ export const SalesforceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudLinkedService: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudLinkedService: coreClient.CompositeMapper = {
   serializedName: "SalesforceServiceCloud",
   type: {
     name: "Composite",
@@ -8807,7 +8899,7 @@ export const SalesforceServiceCloudLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerLinkedService: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerLinkedService: coreClient.CompositeMapper = {
   serializedName: "SapCloudForCustomer",
   type: {
     name: "Composite",
@@ -8847,7 +8939,7 @@ export const SapCloudForCustomerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapEccLinkedService: coreHttp.CompositeMapper = {
+export const SapEccLinkedService: coreClient.CompositeMapper = {
   serializedName: "SapEcc",
   type: {
     name: "Composite",
@@ -8887,7 +8979,7 @@ export const SapEccLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapOpenHubLinkedService: coreHttp.CompositeMapper = {
+export const SapOpenHubLinkedService: coreClient.CompositeMapper = {
   serializedName: "SapOpenHub",
   type: {
     name: "Composite",
@@ -8971,7 +9063,7 @@ export const SapOpenHubLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestServiceLinkedService: coreHttp.CompositeMapper = {
+export const RestServiceLinkedService: coreClient.CompositeMapper = {
   serializedName: "RestService",
   type: {
     name: "Composite",
@@ -9055,7 +9147,7 @@ export const RestServiceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3LinkedService: coreHttp.CompositeMapper = {
+export const AmazonS3LinkedService: coreClient.CompositeMapper = {
   serializedName: "AmazonS3",
   type: {
     name: "Composite",
@@ -9107,7 +9199,7 @@ export const AmazonS3LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonRedshiftLinkedService: coreHttp.CompositeMapper = {
+export const AmazonRedshiftLinkedService: coreClient.CompositeMapper = {
   serializedName: "AmazonRedshift",
   type: {
     name: "Composite",
@@ -9160,7 +9252,7 @@ export const AmazonRedshiftLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomDataSourceLinkedService: coreHttp.CompositeMapper = {
+export const CustomDataSourceLinkedService: coreClient.CompositeMapper = {
   serializedName: "CustomDataSource",
   type: {
     name: "Composite",
@@ -9181,7 +9273,7 @@ export const CustomDataSourceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSearchLinkedService: coreHttp.CompositeMapper = {
+export const AzureSearchLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureSearch",
   type: {
     name: "Composite",
@@ -9215,7 +9307,7 @@ export const AzureSearchLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpLinkedService: coreHttp.CompositeMapper = {
+export const HttpLinkedService: coreClient.CompositeMapper = {
   serializedName: "HttpServer",
   type: {
     name: "Composite",
@@ -9279,7 +9371,7 @@ export const HttpLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const FtpServerLinkedService: coreHttp.CompositeMapper = {
+export const FtpServerLinkedService: coreClient.CompositeMapper = {
   serializedName: "FtpServer",
   type: {
     name: "Composite",
@@ -9343,7 +9435,7 @@ export const FtpServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpServerLinkedService: coreHttp.CompositeMapper = {
+export const SftpServerLinkedService: coreClient.CompositeMapper = {
   serializedName: "Sftp",
   type: {
     name: "Composite",
@@ -9427,7 +9519,7 @@ export const SftpServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapBWLinkedService: coreHttp.CompositeMapper = {
+export const SapBWLinkedService: coreClient.CompositeMapper = {
   serializedName: "SapBW",
   type: {
     name: "Composite",
@@ -9481,7 +9573,7 @@ export const SapBWLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapHanaLinkedService: coreHttp.CompositeMapper = {
+export const SapHanaLinkedService: coreClient.CompositeMapper = {
   serializedName: "SapHana",
   type: {
     name: "Composite",
@@ -9533,7 +9625,7 @@ export const SapHanaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonMWSLinkedService: coreHttp.CompositeMapper = {
+export const AmazonMWSLinkedService: coreClient.CompositeMapper = {
   serializedName: "AmazonMWS",
   type: {
     name: "Composite",
@@ -9613,7 +9705,7 @@ export const AmazonMWSLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlLinkedService: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzurePostgreSql",
   type: {
     name: "Composite",
@@ -9646,7 +9738,7 @@ export const AzurePostgreSqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConcurLinkedService: coreHttp.CompositeMapper = {
+export const ConcurLinkedService: coreClient.CompositeMapper = {
   serializedName: "Concur",
   type: {
     name: "Composite",
@@ -9711,7 +9803,7 @@ export const ConcurLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CouchbaseLinkedService: coreHttp.CompositeMapper = {
+export const CouchbaseLinkedService: coreClient.CompositeMapper = {
   serializedName: "Couchbase",
   type: {
     name: "Composite",
@@ -9744,7 +9836,7 @@ export const CouchbaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DrillLinkedService: coreHttp.CompositeMapper = {
+export const DrillLinkedService: coreClient.CompositeMapper = {
   serializedName: "Drill",
   type: {
     name: "Composite",
@@ -9777,7 +9869,7 @@ export const DrillLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const EloquaLinkedService: coreHttp.CompositeMapper = {
+export const EloquaLinkedService: coreClient.CompositeMapper = {
   serializedName: "Eloqua",
   type: {
     name: "Composite",
@@ -9836,7 +9928,7 @@ export const EloquaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleBigQueryLinkedService: coreHttp.CompositeMapper = {
+export const GoogleBigQueryLinkedService: coreClient.CompositeMapper = {
   serializedName: "GoogleBigQuery",
   type: {
     name: "Composite",
@@ -9926,7 +10018,7 @@ export const GoogleBigQueryLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GreenplumLinkedService: coreHttp.CompositeMapper = {
+export const GreenplumLinkedService: coreClient.CompositeMapper = {
   serializedName: "Greenplum",
   type: {
     name: "Composite",
@@ -9959,7 +10051,7 @@ export const GreenplumLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HBaseLinkedService: coreHttp.CompositeMapper = {
+export const HBaseLinkedService: coreClient.CompositeMapper = {
   serializedName: "HBase",
   type: {
     name: "Composite",
@@ -10042,7 +10134,7 @@ export const HBaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HiveLinkedService: coreHttp.CompositeMapper = {
+export const HiveLinkedService: coreClient.CompositeMapper = {
   serializedName: "Hive",
   type: {
     name: "Composite",
@@ -10161,7 +10253,7 @@ export const HiveLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HubspotLinkedService: coreHttp.CompositeMapper = {
+export const HubspotLinkedService: coreClient.CompositeMapper = {
   serializedName: "Hubspot",
   type: {
     name: "Composite",
@@ -10227,7 +10319,7 @@ export const HubspotLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImpalaLinkedService: coreHttp.CompositeMapper = {
+export const ImpalaLinkedService: coreClient.CompositeMapper = {
   serializedName: "Impala",
   type: {
     name: "Composite",
@@ -10310,7 +10402,7 @@ export const ImpalaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const JiraLinkedService: coreHttp.CompositeMapper = {
+export const JiraLinkedService: coreClient.CompositeMapper = {
   serializedName: "Jira",
   type: {
     name: "Composite",
@@ -10375,7 +10467,7 @@ export const JiraLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagentoLinkedService: coreHttp.CompositeMapper = {
+export const MagentoLinkedService: coreClient.CompositeMapper = {
   serializedName: "Magento",
   type: {
     name: "Composite",
@@ -10427,7 +10519,7 @@ export const MagentoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MariaDBLinkedService: coreHttp.CompositeMapper = {
+export const MariaDBLinkedService: coreClient.CompositeMapper = {
   serializedName: "MariaDB",
   type: {
     name: "Composite",
@@ -10460,7 +10552,7 @@ export const MariaDBLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMariaDBLinkedService: coreHttp.CompositeMapper = {
+export const AzureMariaDBLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureMariaDB",
   type: {
     name: "Composite",
@@ -10493,7 +10585,7 @@ export const AzureMariaDBLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MarketoLinkedService: coreHttp.CompositeMapper = {
+export const MarketoLinkedService: coreClient.CompositeMapper = {
   serializedName: "Marketo",
   type: {
     name: "Composite",
@@ -10552,7 +10644,7 @@ export const MarketoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PaypalLinkedService: coreHttp.CompositeMapper = {
+export const PaypalLinkedService: coreClient.CompositeMapper = {
   serializedName: "Paypal",
   type: {
     name: "Composite",
@@ -10611,7 +10703,7 @@ export const PaypalLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoenixLinkedService: coreHttp.CompositeMapper = {
+export const PhoenixLinkedService: coreClient.CompositeMapper = {
   serializedName: "Phoenix",
   type: {
     name: "Composite",
@@ -10700,7 +10792,7 @@ export const PhoenixLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrestoLinkedService: coreHttp.CompositeMapper = {
+export const PrestoLinkedService: coreClient.CompositeMapper = {
   serializedName: "Presto",
   type: {
     name: "Composite",
@@ -10803,7 +10895,7 @@ export const PrestoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuickBooksLinkedService: coreHttp.CompositeMapper = {
+export const QuickBooksLinkedService: coreClient.CompositeMapper = {
   serializedName: "QuickBooks",
   type: {
     name: "Composite",
@@ -10877,7 +10969,7 @@ export const QuickBooksLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceNowLinkedService: coreHttp.CompositeMapper = {
+export const ServiceNowLinkedService: coreClient.CompositeMapper = {
   serializedName: "ServiceNow",
   type: {
     name: "Composite",
@@ -10955,7 +11047,7 @@ export const ServiceNowLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShopifyLinkedService: coreHttp.CompositeMapper = {
+export const ShopifyLinkedService: coreClient.CompositeMapper = {
   serializedName: "Shopify",
   type: {
     name: "Composite",
@@ -11007,7 +11099,7 @@ export const ShopifyLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkLinkedService: coreHttp.CompositeMapper = {
+export const SparkLinkedService: coreClient.CompositeMapper = {
   serializedName: "Spark",
   type: {
     name: "Composite",
@@ -11109,7 +11201,7 @@ export const SparkLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SquareLinkedService: coreHttp.CompositeMapper = {
+export const SquareLinkedService: coreClient.CompositeMapper = {
   serializedName: "Square",
   type: {
     name: "Composite",
@@ -11181,7 +11273,7 @@ export const SquareLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const XeroLinkedService: coreHttp.CompositeMapper = {
+export const XeroLinkedService: coreClient.CompositeMapper = {
   serializedName: "Xero",
   type: {
     name: "Composite",
@@ -11246,7 +11338,7 @@ export const XeroLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZohoLinkedService: coreHttp.CompositeMapper = {
+export const ZohoLinkedService: coreClient.CompositeMapper = {
   serializedName: "Zoho",
   type: {
     name: "Composite",
@@ -11304,7 +11396,7 @@ export const ZohoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const VerticaLinkedService: coreHttp.CompositeMapper = {
+export const VerticaLinkedService: coreClient.CompositeMapper = {
   serializedName: "Vertica",
   type: {
     name: "Composite",
@@ -11337,7 +11429,7 @@ export const VerticaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaLinkedService: coreHttp.CompositeMapper = {
+export const NetezzaLinkedService: coreClient.CompositeMapper = {
   serializedName: "Netezza",
   type: {
     name: "Composite",
@@ -11370,7 +11462,7 @@ export const NetezzaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceMarketingCloudLinkedService: coreHttp.CompositeMapper = {
+export const SalesforceMarketingCloudLinkedService: coreClient.CompositeMapper = {
   serializedName: "SalesforceMarketingCloud",
   type: {
     name: "Composite",
@@ -11428,7 +11520,7 @@ export const SalesforceMarketingCloudLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
+export const HDInsightOnDemandLinkedService: coreClient.CompositeMapper = {
   serializedName: "HDInsightOnDemand",
   type: {
     name: "Composite",
@@ -11663,7 +11755,7 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeAnalyticsLinkedService: coreHttp.CompositeMapper = {
+export const AzureDataLakeAnalyticsLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeAnalytics",
   type: {
     name: "Composite",
@@ -11728,7 +11820,7 @@ export const AzureDataLakeAnalyticsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksLinkedService: coreHttp.CompositeMapper = {
+export const AzureDatabricksLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricks",
   type: {
     name: "Composite",
@@ -11855,7 +11947,7 @@ export const AzureDatabricksLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksDeltaLakeLinkedService: coreHttp.CompositeMapper = {
+export const AzureDatabricksDeltaLakeLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricksDeltaLake",
   type: {
     name: "Composite",
@@ -11895,7 +11987,7 @@ export const AzureDatabricksDeltaLakeLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResponsysLinkedService: coreHttp.CompositeMapper = {
+export const ResponsysLinkedService: coreClient.CompositeMapper = {
   serializedName: "Responsys",
   type: {
     name: "Composite",
@@ -11954,7 +12046,7 @@ export const ResponsysLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsAXLinkedService: coreHttp.CompositeMapper = {
+export const DynamicsAXLinkedService: coreClient.CompositeMapper = {
   serializedName: "DynamicsAX",
   type: {
     name: "Composite",
@@ -12009,7 +12101,7 @@ export const DynamicsAXLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudLinkedService: coreHttp.CompositeMapper = {
+export const OracleServiceCloudLinkedService: coreClient.CompositeMapper = {
   serializedName: "OracleServiceCloud",
   type: {
     name: "Composite",
@@ -12068,7 +12160,7 @@ export const OracleServiceCloudLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsLinkedService: coreHttp.CompositeMapper = {
+export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
   serializedName: "GoogleAdWords",
   type: {
     name: "Composite",
@@ -12153,7 +12245,7 @@ export const GoogleAdWordsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTableLinkedService: coreHttp.CompositeMapper = {
+export const SapTableLinkedService: coreClient.CompositeMapper = {
   serializedName: "SapTable",
   type: {
     name: "Composite",
@@ -12264,7 +12356,7 @@ export const SapTableLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerLinkedService: coreHttp.CompositeMapper = {
+export const AzureDataExplorerLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureDataExplorer",
   type: {
     name: "Composite",
@@ -12313,7 +12405,7 @@ export const AzureDataExplorerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFunctionLinkedService: coreHttp.CompositeMapper = {
+export const AzureFunctionLinkedService: coreClient.CompositeMapper = {
   serializedName: "AzureFunction",
   type: {
     name: "Composite",
@@ -12347,7 +12439,7 @@ export const AzureFunctionLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowflakeLinkedService: coreHttp.CompositeMapper = {
+export const SnowflakeLinkedService: coreClient.CompositeMapper = {
   serializedName: "Snowflake",
   type: {
     name: "Composite",
@@ -12381,7 +12473,7 @@ export const SnowflakeLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SharePointOnlineListLinkedService: coreHttp.CompositeMapper = {
+export const SharePointOnlineListLinkedService: coreClient.CompositeMapper = {
   serializedName: "SharePointOnlineList",
   type: {
     name: "Composite",
@@ -12429,58 +12521,7 @@ export const SharePointOnlineListLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureEntityResource: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureEntityResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResource: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
-};
-
-export const TrackedResource: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AmazonS3Dataset: coreHttp.CompositeMapper = {
+export const AmazonS3Dataset: coreClient.CompositeMapper = {
   serializedName: "AmazonS3Object",
   type: {
     name: "Composite",
@@ -12545,7 +12586,7 @@ export const AmazonS3Dataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvroDataset: coreHttp.CompositeMapper = {
+export const AvroDataset: coreClient.CompositeMapper = {
   serializedName: "Avro",
   type: {
     name: "Composite",
@@ -12582,7 +12623,7 @@ export const AvroDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExcelDataset: coreHttp.CompositeMapper = {
+export const ExcelDataset: coreClient.CompositeMapper = {
   serializedName: "Excel",
   type: {
     name: "Composite",
@@ -12634,7 +12675,7 @@ export const ExcelDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetDataset: coreHttp.CompositeMapper = {
+export const ParquetDataset: coreClient.CompositeMapper = {
   serializedName: "Parquet",
   type: {
     name: "Composite",
@@ -12661,7 +12702,7 @@ export const ParquetDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextDataset: coreHttp.CompositeMapper = {
+export const DelimitedTextDataset: coreClient.CompositeMapper = {
   serializedName: "DelimitedText",
   type: {
     name: "Composite",
@@ -12736,7 +12777,7 @@ export const DelimitedTextDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonDataset: coreHttp.CompositeMapper = {
+export const JsonDataset: coreClient.CompositeMapper = {
   serializedName: "Json",
   type: {
     name: "Composite",
@@ -12770,7 +12811,7 @@ export const JsonDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const XmlDataset: coreHttp.CompositeMapper = {
+export const XmlDataset: coreClient.CompositeMapper = {
   serializedName: "Xml",
   type: {
     name: "Composite",
@@ -12810,7 +12851,7 @@ export const XmlDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OrcDataset: coreHttp.CompositeMapper = {
+export const OrcDataset: coreClient.CompositeMapper = {
   serializedName: "Orc",
   type: {
     name: "Composite",
@@ -12837,7 +12878,7 @@ export const OrcDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinaryDataset: coreHttp.CompositeMapper = {
+export const BinaryDataset: coreClient.CompositeMapper = {
   serializedName: "Binary",
   type: {
     name: "Composite",
@@ -12865,7 +12906,7 @@ export const BinaryDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobDataset: coreHttp.CompositeMapper = {
+export const AzureBlobDataset: coreClient.CompositeMapper = {
   serializedName: "AzureBlob",
   type: {
     name: "Composite",
@@ -12923,7 +12964,7 @@ export const AzureBlobDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableDataset: coreHttp.CompositeMapper = {
+export const AzureTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureTable",
   type: {
     name: "Composite",
@@ -12944,7 +12985,7 @@ export const AzureTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlTableDataset: coreHttp.CompositeMapper = {
+export const AzureSqlTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureSqlTable",
   type: {
     name: "Composite",
@@ -12976,7 +13017,7 @@ export const AzureSqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlMITableDataset: coreHttp.CompositeMapper = {
+export const AzureSqlMITableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureSqlMITable",
   type: {
     name: "Composite",
@@ -13008,7 +13049,7 @@ export const AzureSqlMITableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlDWTableDataset: coreHttp.CompositeMapper = {
+export const AzureSqlDWTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureSqlDWTable",
   type: {
     name: "Composite",
@@ -13040,7 +13081,7 @@ export const AzureSqlDWTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CassandraTableDataset: coreHttp.CompositeMapper = {
+export const CassandraTableDataset: coreClient.CompositeMapper = {
   serializedName: "CassandraTable",
   type: {
     name: "Composite",
@@ -13066,7 +13107,7 @@ export const CassandraTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomDataset: coreHttp.CompositeMapper = {
+export const CustomDataset: coreClient.CompositeMapper = {
   serializedName: "CustomDataset",
   type: {
     name: "Composite",
@@ -13086,7 +13127,7 @@ export const CustomDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbSqlApiCollectionDataset: coreHttp.CompositeMapper = {
+export const CosmosDbSqlApiCollectionDataset: coreClient.CompositeMapper = {
   serializedName: "CosmosDbSqlApiCollection",
   type: {
     name: "Composite",
@@ -13107,7 +13148,7 @@ export const CosmosDbSqlApiCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentDbCollectionDataset: coreHttp.CompositeMapper = {
+export const DocumentDbCollectionDataset: coreClient.CompositeMapper = {
   serializedName: "DocumentDbCollection",
   type: {
     name: "Composite",
@@ -13128,7 +13169,7 @@ export const DocumentDbCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsEntityDataset: coreHttp.CompositeMapper = {
+export const DynamicsEntityDataset: coreClient.CompositeMapper = {
   serializedName: "DynamicsEntity",
   type: {
     name: "Composite",
@@ -13148,7 +13189,7 @@ export const DynamicsEntityDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmEntityDataset: coreHttp.CompositeMapper = {
+export const DynamicsCrmEntityDataset: coreClient.CompositeMapper = {
   serializedName: "DynamicsCrmEntity",
   type: {
     name: "Composite",
@@ -13168,7 +13209,7 @@ export const DynamicsCrmEntityDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsEntityDataset: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsEntityDataset: coreClient.CompositeMapper = {
   serializedName: "CommonDataServiceForAppsEntity",
   type: {
     name: "Composite",
@@ -13188,7 +13229,7 @@ export const CommonDataServiceForAppsEntityDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreDataset: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreDataset: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStoreFile",
   type: {
     name: "Composite",
@@ -13228,7 +13269,7 @@ export const AzureDataLakeStoreDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSDataset: coreHttp.CompositeMapper = {
+export const AzureBlobFSDataset: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFSFile",
   type: {
     name: "Composite",
@@ -13268,7 +13309,7 @@ export const AzureBlobFSDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const Office365Dataset: coreHttp.CompositeMapper = {
+export const Office365Dataset: coreClient.CompositeMapper = {
   serializedName: "Office365Table",
   type: {
     name: "Composite",
@@ -13295,7 +13336,7 @@ export const Office365Dataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileShareDataset: coreHttp.CompositeMapper = {
+export const FileShareDataset: coreClient.CompositeMapper = {
   serializedName: "FileShare",
   type: {
     name: "Composite",
@@ -13353,7 +13394,7 @@ export const FileShareDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbCollectionDataset: coreHttp.CompositeMapper = {
+export const MongoDbCollectionDataset: coreClient.CompositeMapper = {
   serializedName: "MongoDbCollection",
   type: {
     name: "Composite",
@@ -13374,7 +13415,7 @@ export const MongoDbCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbAtlasCollectionDataset: coreHttp.CompositeMapper = {
+export const MongoDbAtlasCollectionDataset: coreClient.CompositeMapper = {
   serializedName: "MongoDbAtlasCollection",
   type: {
     name: "Composite",
@@ -13395,7 +13436,7 @@ export const MongoDbAtlasCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbV2CollectionDataset: coreHttp.CompositeMapper = {
+export const MongoDbV2CollectionDataset: coreClient.CompositeMapper = {
   serializedName: "MongoDbV2Collection",
   type: {
     name: "Composite",
@@ -13416,7 +13457,7 @@ export const MongoDbV2CollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiCollectionDataset: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiCollectionDataset: coreClient.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApiCollection",
   type: {
     name: "Composite",
@@ -13437,7 +13478,7 @@ export const CosmosDbMongoDbApiCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ODataResourceDataset: coreHttp.CompositeMapper = {
+export const ODataResourceDataset: coreClient.CompositeMapper = {
   serializedName: "ODataResource",
   type: {
     name: "Composite",
@@ -13457,7 +13498,7 @@ export const ODataResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleTableDataset: coreHttp.CompositeMapper = {
+export const OracleTableDataset: coreClient.CompositeMapper = {
   serializedName: "OracleTable",
   type: {
     name: "Composite",
@@ -13489,7 +13530,7 @@ export const OracleTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataTableDataset: coreHttp.CompositeMapper = {
+export const TeradataTableDataset: coreClient.CompositeMapper = {
   serializedName: "TeradataTable",
   type: {
     name: "Composite",
@@ -13515,7 +13556,7 @@ export const TeradataTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlTableDataset: coreHttp.CompositeMapper = {
+export const AzureMySqlTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureMySqlTable",
   type: {
     name: "Composite",
@@ -13541,7 +13582,7 @@ export const AzureMySqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonRedshiftTableDataset: coreHttp.CompositeMapper = {
+export const AmazonRedshiftTableDataset: coreClient.CompositeMapper = {
   serializedName: "AmazonRedshiftTable",
   type: {
     name: "Composite",
@@ -13573,7 +13614,7 @@ export const AmazonRedshiftTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const Db2TableDataset: coreHttp.CompositeMapper = {
+export const Db2TableDataset: coreClient.CompositeMapper = {
   serializedName: "Db2Table",
   type: {
     name: "Composite",
@@ -13605,7 +13646,7 @@ export const Db2TableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const RelationalTableDataset: coreHttp.CompositeMapper = {
+export const RelationalTableDataset: coreClient.CompositeMapper = {
   serializedName: "RelationalTable",
   type: {
     name: "Composite",
@@ -13625,7 +13666,7 @@ export const RelationalTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixTableDataset: coreHttp.CompositeMapper = {
+export const InformixTableDataset: coreClient.CompositeMapper = {
   serializedName: "InformixTable",
   type: {
     name: "Composite",
@@ -13645,7 +13686,7 @@ export const InformixTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcTableDataset: coreHttp.CompositeMapper = {
+export const OdbcTableDataset: coreClient.CompositeMapper = {
   serializedName: "OdbcTable",
   type: {
     name: "Composite",
@@ -13665,7 +13706,7 @@ export const OdbcTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MySqlTableDataset: coreHttp.CompositeMapper = {
+export const MySqlTableDataset: coreClient.CompositeMapper = {
   serializedName: "MySqlTable",
   type: {
     name: "Composite",
@@ -13685,7 +13726,7 @@ export const MySqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const PostgreSqlTableDataset: coreHttp.CompositeMapper = {
+export const PostgreSqlTableDataset: coreClient.CompositeMapper = {
   serializedName: "PostgreSqlTable",
   type: {
     name: "Composite",
@@ -13717,7 +13758,7 @@ export const PostgreSqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessTableDataset: coreHttp.CompositeMapper = {
+export const MicrosoftAccessTableDataset: coreClient.CompositeMapper = {
   serializedName: "MicrosoftAccessTable",
   type: {
     name: "Composite",
@@ -13737,7 +13778,7 @@ export const MicrosoftAccessTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceObjectDataset: coreHttp.CompositeMapper = {
+export const SalesforceObjectDataset: coreClient.CompositeMapper = {
   serializedName: "SalesforceObject",
   type: {
     name: "Composite",
@@ -13757,7 +13798,7 @@ export const SalesforceObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudObjectDataset: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudObjectDataset: coreClient.CompositeMapper = {
   serializedName: "SalesforceServiceCloudObject",
   type: {
     name: "Composite",
@@ -13777,7 +13818,7 @@ export const SalesforceServiceCloudObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SybaseTableDataset: coreHttp.CompositeMapper = {
+export const SybaseTableDataset: coreClient.CompositeMapper = {
   serializedName: "SybaseTable",
   type: {
     name: "Composite",
@@ -13797,7 +13838,7 @@ export const SybaseTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapBwCubeDataset: coreHttp.CompositeMapper = {
+export const SapBwCubeDataset: coreClient.CompositeMapper = {
   serializedName: "SapBwCube",
   type: {
     name: "Composite",
@@ -13811,7 +13852,7 @@ export const SapBwCubeDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerResourceDataset: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerResourceDataset: coreClient.CompositeMapper = {
   serializedName: "SapCloudForCustomerResource",
   type: {
     name: "Composite",
@@ -13832,7 +13873,7 @@ export const SapCloudForCustomerResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapEccResourceDataset: coreHttp.CompositeMapper = {
+export const SapEccResourceDataset: coreClient.CompositeMapper = {
   serializedName: "SapEccResource",
   type: {
     name: "Composite",
@@ -13853,7 +13894,7 @@ export const SapEccResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapHanaTableDataset: coreHttp.CompositeMapper = {
+export const SapHanaTableDataset: coreClient.CompositeMapper = {
   serializedName: "SapHanaTable",
   type: {
     name: "Composite",
@@ -13879,7 +13920,7 @@ export const SapHanaTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapOpenHubTableDataset: coreHttp.CompositeMapper = {
+export const SapOpenHubTableDataset: coreClient.CompositeMapper = {
   serializedName: "SapOpenHubTable",
   type: {
     name: "Composite",
@@ -13912,7 +13953,7 @@ export const SapOpenHubTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerTableDataset: coreHttp.CompositeMapper = {
+export const SqlServerTableDataset: coreClient.CompositeMapper = {
   serializedName: "SqlServerTable",
   type: {
     name: "Composite",
@@ -13944,7 +13985,7 @@ export const SqlServerTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestResourceDataset: coreHttp.CompositeMapper = {
+export const RestResourceDataset: coreClient.CompositeMapper = {
   serializedName: "RestResource",
   type: {
     name: "Composite",
@@ -13988,7 +14029,7 @@ export const RestResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTableResourceDataset: coreHttp.CompositeMapper = {
+export const SapTableResourceDataset: coreClient.CompositeMapper = {
   serializedName: "SapTableResource",
   type: {
     name: "Composite",
@@ -14009,7 +14050,7 @@ export const SapTableResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebTableDataset: coreHttp.CompositeMapper = {
+export const WebTableDataset: coreClient.CompositeMapper = {
   serializedName: "WebTable",
   type: {
     name: "Composite",
@@ -14036,7 +14077,7 @@ export const WebTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSearchIndexDataset: coreHttp.CompositeMapper = {
+export const AzureSearchIndexDataset: coreClient.CompositeMapper = {
   serializedName: "AzureSearchIndex",
   type: {
     name: "Composite",
@@ -14057,7 +14098,7 @@ export const AzureSearchIndexDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpDataset: coreHttp.CompositeMapper = {
+export const HttpDataset: coreClient.CompositeMapper = {
   serializedName: "HttpFile",
   type: {
     name: "Composite",
@@ -14109,7 +14150,7 @@ export const HttpDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonMWSObjectDataset: coreHttp.CompositeMapper = {
+export const AmazonMWSObjectDataset: coreClient.CompositeMapper = {
   serializedName: "AmazonMWSObject",
   type: {
     name: "Composite",
@@ -14129,7 +14170,7 @@ export const AmazonMWSObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlTableDataset: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzurePostgreSqlTable",
   type: {
     name: "Composite",
@@ -14161,7 +14202,7 @@ export const AzurePostgreSqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConcurObjectDataset: coreHttp.CompositeMapper = {
+export const ConcurObjectDataset: coreClient.CompositeMapper = {
   serializedName: "ConcurObject",
   type: {
     name: "Composite",
@@ -14181,7 +14222,7 @@ export const ConcurObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CouchbaseTableDataset: coreHttp.CompositeMapper = {
+export const CouchbaseTableDataset: coreClient.CompositeMapper = {
   serializedName: "CouchbaseTable",
   type: {
     name: "Composite",
@@ -14201,7 +14242,7 @@ export const CouchbaseTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DrillTableDataset: coreHttp.CompositeMapper = {
+export const DrillTableDataset: coreClient.CompositeMapper = {
   serializedName: "DrillTable",
   type: {
     name: "Composite",
@@ -14233,7 +14274,7 @@ export const DrillTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const EloquaObjectDataset: coreHttp.CompositeMapper = {
+export const EloquaObjectDataset: coreClient.CompositeMapper = {
   serializedName: "EloquaObject",
   type: {
     name: "Composite",
@@ -14253,7 +14294,7 @@ export const EloquaObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleBigQueryObjectDataset: coreHttp.CompositeMapper = {
+export const GoogleBigQueryObjectDataset: coreClient.CompositeMapper = {
   serializedName: "GoogleBigQueryObject",
   type: {
     name: "Composite",
@@ -14285,7 +14326,7 @@ export const GoogleBigQueryObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const GreenplumTableDataset: coreHttp.CompositeMapper = {
+export const GreenplumTableDataset: coreClient.CompositeMapper = {
   serializedName: "GreenplumTable",
   type: {
     name: "Composite",
@@ -14317,7 +14358,7 @@ export const GreenplumTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const HBaseObjectDataset: coreHttp.CompositeMapper = {
+export const HBaseObjectDataset: coreClient.CompositeMapper = {
   serializedName: "HBaseObject",
   type: {
     name: "Composite",
@@ -14337,7 +14378,7 @@ export const HBaseObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const HiveObjectDataset: coreHttp.CompositeMapper = {
+export const HiveObjectDataset: coreClient.CompositeMapper = {
   serializedName: "HiveObject",
   type: {
     name: "Composite",
@@ -14369,7 +14410,7 @@ export const HiveObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const HubspotObjectDataset: coreHttp.CompositeMapper = {
+export const HubspotObjectDataset: coreClient.CompositeMapper = {
   serializedName: "HubspotObject",
   type: {
     name: "Composite",
@@ -14389,7 +14430,7 @@ export const HubspotObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImpalaObjectDataset: coreHttp.CompositeMapper = {
+export const ImpalaObjectDataset: coreClient.CompositeMapper = {
   serializedName: "ImpalaObject",
   type: {
     name: "Composite",
@@ -14421,7 +14462,7 @@ export const ImpalaObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const JiraObjectDataset: coreHttp.CompositeMapper = {
+export const JiraObjectDataset: coreClient.CompositeMapper = {
   serializedName: "JiraObject",
   type: {
     name: "Composite",
@@ -14441,7 +14482,7 @@ export const JiraObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagentoObjectDataset: coreHttp.CompositeMapper = {
+export const MagentoObjectDataset: coreClient.CompositeMapper = {
   serializedName: "MagentoObject",
   type: {
     name: "Composite",
@@ -14461,7 +14502,7 @@ export const MagentoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MariaDBTableDataset: coreHttp.CompositeMapper = {
+export const MariaDBTableDataset: coreClient.CompositeMapper = {
   serializedName: "MariaDBTable",
   type: {
     name: "Composite",
@@ -14481,7 +14522,7 @@ export const MariaDBTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMariaDBTableDataset: coreHttp.CompositeMapper = {
+export const AzureMariaDBTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureMariaDBTable",
   type: {
     name: "Composite",
@@ -14501,7 +14542,7 @@ export const AzureMariaDBTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MarketoObjectDataset: coreHttp.CompositeMapper = {
+export const MarketoObjectDataset: coreClient.CompositeMapper = {
   serializedName: "MarketoObject",
   type: {
     name: "Composite",
@@ -14521,7 +14562,7 @@ export const MarketoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const PaypalObjectDataset: coreHttp.CompositeMapper = {
+export const PaypalObjectDataset: coreClient.CompositeMapper = {
   serializedName: "PaypalObject",
   type: {
     name: "Composite",
@@ -14541,7 +14582,7 @@ export const PaypalObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoenixObjectDataset: coreHttp.CompositeMapper = {
+export const PhoenixObjectDataset: coreClient.CompositeMapper = {
   serializedName: "PhoenixObject",
   type: {
     name: "Composite",
@@ -14573,7 +14614,7 @@ export const PhoenixObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrestoObjectDataset: coreHttp.CompositeMapper = {
+export const PrestoObjectDataset: coreClient.CompositeMapper = {
   serializedName: "PrestoObject",
   type: {
     name: "Composite",
@@ -14605,7 +14646,7 @@ export const PrestoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuickBooksObjectDataset: coreHttp.CompositeMapper = {
+export const QuickBooksObjectDataset: coreClient.CompositeMapper = {
   serializedName: "QuickBooksObject",
   type: {
     name: "Composite",
@@ -14625,7 +14666,7 @@ export const QuickBooksObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceNowObjectDataset: coreHttp.CompositeMapper = {
+export const ServiceNowObjectDataset: coreClient.CompositeMapper = {
   serializedName: "ServiceNowObject",
   type: {
     name: "Composite",
@@ -14645,7 +14686,7 @@ export const ServiceNowObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShopifyObjectDataset: coreHttp.CompositeMapper = {
+export const ShopifyObjectDataset: coreClient.CompositeMapper = {
   serializedName: "ShopifyObject",
   type: {
     name: "Composite",
@@ -14665,7 +14706,7 @@ export const ShopifyObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkObjectDataset: coreHttp.CompositeMapper = {
+export const SparkObjectDataset: coreClient.CompositeMapper = {
   serializedName: "SparkObject",
   type: {
     name: "Composite",
@@ -14697,7 +14738,7 @@ export const SparkObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SquareObjectDataset: coreHttp.CompositeMapper = {
+export const SquareObjectDataset: coreClient.CompositeMapper = {
   serializedName: "SquareObject",
   type: {
     name: "Composite",
@@ -14717,7 +14758,7 @@ export const SquareObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const XeroObjectDataset: coreHttp.CompositeMapper = {
+export const XeroObjectDataset: coreClient.CompositeMapper = {
   serializedName: "XeroObject",
   type: {
     name: "Composite",
@@ -14737,7 +14778,7 @@ export const XeroObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZohoObjectDataset: coreHttp.CompositeMapper = {
+export const ZohoObjectDataset: coreClient.CompositeMapper = {
   serializedName: "ZohoObject",
   type: {
     name: "Composite",
@@ -14757,7 +14798,7 @@ export const ZohoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaTableDataset: coreHttp.CompositeMapper = {
+export const NetezzaTableDataset: coreClient.CompositeMapper = {
   serializedName: "NetezzaTable",
   type: {
     name: "Composite",
@@ -14789,7 +14830,7 @@ export const NetezzaTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const VerticaTableDataset: coreHttp.CompositeMapper = {
+export const VerticaTableDataset: coreClient.CompositeMapper = {
   serializedName: "VerticaTable",
   type: {
     name: "Composite",
@@ -14821,7 +14862,7 @@ export const VerticaTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceMarketingCloudObjectDataset: coreHttp.CompositeMapper = {
+export const SalesforceMarketingCloudObjectDataset: coreClient.CompositeMapper = {
   serializedName: "SalesforceMarketingCloudObject",
   type: {
     name: "Composite",
@@ -14841,7 +14882,7 @@ export const SalesforceMarketingCloudObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResponsysObjectDataset: coreHttp.CompositeMapper = {
+export const ResponsysObjectDataset: coreClient.CompositeMapper = {
   serializedName: "ResponsysObject",
   type: {
     name: "Composite",
@@ -14861,7 +14902,7 @@ export const ResponsysObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsAXResourceDataset: coreHttp.CompositeMapper = {
+export const DynamicsAXResourceDataset: coreClient.CompositeMapper = {
   serializedName: "DynamicsAXResource",
   type: {
     name: "Composite",
@@ -14882,7 +14923,7 @@ export const DynamicsAXResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudObjectDataset: coreHttp.CompositeMapper = {
+export const OracleServiceCloudObjectDataset: coreClient.CompositeMapper = {
   serializedName: "OracleServiceCloudObject",
   type: {
     name: "Composite",
@@ -14902,7 +14943,7 @@ export const OracleServiceCloudObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerTableDataset: coreHttp.CompositeMapper = {
+export const AzureDataExplorerTableDataset: coreClient.CompositeMapper = {
   serializedName: "AzureDataExplorerTable",
   type: {
     name: "Composite",
@@ -14922,7 +14963,7 @@ export const AzureDataExplorerTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsObjectDataset: coreHttp.CompositeMapper = {
+export const GoogleAdWordsObjectDataset: coreClient.CompositeMapper = {
   serializedName: "GoogleAdWordsObject",
   type: {
     name: "Composite",
@@ -14942,7 +14983,7 @@ export const GoogleAdWordsObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowflakeDataset: coreHttp.CompositeMapper = {
+export const SnowflakeDataset: coreClient.CompositeMapper = {
   serializedName: "SnowflakeTable",
   type: {
     name: "Composite",
@@ -14968,7 +15009,7 @@ export const SnowflakeDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SharePointOnlineListResourceDataset: coreHttp.CompositeMapper = {
+export const SharePointOnlineListResourceDataset: coreClient.CompositeMapper = {
   serializedName: "SharePointOnlineListResource",
   type: {
     name: "Composite",
@@ -14988,7 +15029,7 @@ export const SharePointOnlineListResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksDeltaLakeDataset: coreHttp.CompositeMapper = {
+export const AzureDatabricksDeltaLakeDataset: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricksDeltaLakeDataset",
   type: {
     name: "Composite",
@@ -15014,7 +15055,7 @@ export const AzureDatabricksDeltaLakeDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ControlActivity: coreHttp.CompositeMapper = {
+export const ControlActivity: coreClient.CompositeMapper = {
   serializedName: "Container",
   type: {
     name: "Composite",
@@ -15031,7 +15072,7 @@ export const ControlActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecutionActivity: coreHttp.CompositeMapper = {
+export const ExecutionActivity: coreClient.CompositeMapper = {
   serializedName: "Execution",
   type: {
     name: "Composite",
@@ -15062,7 +15103,7 @@ export const ExecutionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlPoolStoredProcedureActivity: coreHttp.CompositeMapper = {
+export const SqlPoolStoredProcedureActivity: coreClient.CompositeMapper = {
   serializedName: "SqlPoolStoredProcedure",
   type: {
     name: "Composite",
@@ -15099,7 +15140,7 @@ export const SqlPoolStoredProcedureActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const RerunTumblingWindowTrigger: coreHttp.CompositeMapper = {
+export const RerunTumblingWindowTrigger: coreClient.CompositeMapper = {
   serializedName: "RerunTumblingWindowTrigger",
   type: {
     name: "Composite",
@@ -15145,7 +15186,7 @@ export const RerunTumblingWindowTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const MultiplePipelineTrigger: coreHttp.CompositeMapper = {
+export const MultiplePipelineTrigger: coreClient.CompositeMapper = {
   serializedName: "MultiplePipelineTrigger",
   type: {
     name: "Composite",
@@ -15174,7 +15215,7 @@ export const MultiplePipelineTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const TumblingWindowTrigger: coreHttp.CompositeMapper = {
+export const TumblingWindowTrigger: coreClient.CompositeMapper = {
   serializedName: "TumblingWindowTrigger",
   type: {
     name: "Composite",
@@ -15258,7 +15299,7 @@ export const TumblingWindowTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChainingTrigger: coreHttp.CompositeMapper = {
+export const ChainingTrigger: coreClient.CompositeMapper = {
   serializedName: "ChainingTrigger",
   type: {
     name: "Composite",
@@ -15299,7 +15340,7 @@ export const ChainingTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const MappingDataFlow: coreHttp.CompositeMapper = {
+export const MappingDataFlow: coreClient.CompositeMapper = {
   serializedName: "MappingDataFlow",
   type: {
     name: "Composite",
@@ -15354,7 +15395,7 @@ export const MappingDataFlow: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugResource: coreHttp.CompositeMapper = {
+export const DataFlowDebugResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugResource",
@@ -15371,7 +15412,7 @@ export const DataFlowDebugResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetDebugResource: coreHttp.CompositeMapper = {
+export const DatasetDebugResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetDebugResource",
@@ -15388,7 +15429,7 @@ export const DatasetDebugResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const LinkedServiceDebugResource: coreHttp.CompositeMapper = {
+export const LinkedServiceDebugResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LinkedServiceDebugResource",
@@ -15405,7 +15446,7 @@ export const LinkedServiceDebugResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedIntegrationRuntime: coreHttp.CompositeMapper = {
+export const ManagedIntegrationRuntime: coreClient.CompositeMapper = {
   serializedName: "Managed",
   type: {
     name: "Composite",
@@ -15447,7 +15488,7 @@ export const ManagedIntegrationRuntime: coreHttp.CompositeMapper = {
   }
 };
 
-export const SelfHostedIntegrationRuntime: coreHttp.CompositeMapper = {
+export const SelfHostedIntegrationRuntime: coreClient.CompositeMapper = {
   serializedName: "SelfHosted",
   type: {
     name: "Composite",
@@ -15468,7 +15509,7 @@ export const SelfHostedIntegrationRuntime: coreHttp.CompositeMapper = {
   }
 };
 
-export const SecureString: coreHttp.CompositeMapper = {
+export const SecureString: coreClient.CompositeMapper = {
   serializedName: "SecureString",
   type: {
     name: "Composite",
@@ -15488,7 +15529,7 @@ export const SecureString: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureKeyVaultSecretReference: coreHttp.CompositeMapper = {
+export const AzureKeyVaultSecretReference: coreClient.CompositeMapper = {
   serializedName: "AzureKeyVaultSecret",
   type: {
     name: "Composite",
@@ -15521,7 +15562,7 @@ export const AzureKeyVaultSecretReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowSource: coreHttp.CompositeMapper = {
+export const DataFlowSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowSource",
@@ -15552,7 +15593,7 @@ export const DataFlowSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowSink: coreHttp.CompositeMapper = {
+export const DataFlowSink: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowSink",
@@ -15583,7 +15624,7 @@ export const DataFlowSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageLocation: coreHttp.CompositeMapper = {
+export const AzureBlobStorageLocation: coreClient.CompositeMapper = {
   serializedName: "AzureBlobStorageLocation",
   type: {
     name: "Composite",
@@ -15603,7 +15644,7 @@ export const AzureBlobStorageLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSLocation: coreHttp.CompositeMapper = {
+export const AzureBlobFSLocation: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFSLocation",
   type: {
     name: "Composite",
@@ -15623,7 +15664,7 @@ export const AzureBlobFSLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreLocation: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreLocation: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStoreLocation",
   type: {
     name: "Composite",
@@ -15637,7 +15678,7 @@ export const AzureDataLakeStoreLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3Location: coreHttp.CompositeMapper = {
+export const AmazonS3Location: coreClient.CompositeMapper = {
   serializedName: "AmazonS3Location",
   type: {
     name: "Composite",
@@ -15663,7 +15704,7 @@ export const AmazonS3Location: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerLocation: coreHttp.CompositeMapper = {
+export const FileServerLocation: coreClient.CompositeMapper = {
   serializedName: "FileServerLocation",
   type: {
     name: "Composite",
@@ -15677,7 +15718,7 @@ export const FileServerLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFileStorageLocation: coreHttp.CompositeMapper = {
+export const AzureFileStorageLocation: coreClient.CompositeMapper = {
   serializedName: "AzureFileStorageLocation",
   type: {
     name: "Composite",
@@ -15691,7 +15732,7 @@ export const AzureFileStorageLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleCloudStorageLocation: coreHttp.CompositeMapper = {
+export const GoogleCloudStorageLocation: coreClient.CompositeMapper = {
   serializedName: "GoogleCloudStorageLocation",
   type: {
     name: "Composite",
@@ -15717,7 +15758,7 @@ export const GoogleCloudStorageLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const FtpServerLocation: coreHttp.CompositeMapper = {
+export const FtpServerLocation: coreClient.CompositeMapper = {
   serializedName: "FtpServerLocation",
   type: {
     name: "Composite",
@@ -15731,7 +15772,7 @@ export const FtpServerLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpLocation: coreHttp.CompositeMapper = {
+export const SftpLocation: coreClient.CompositeMapper = {
   serializedName: "SftpLocation",
   type: {
     name: "Composite",
@@ -15745,7 +15786,7 @@ export const SftpLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpServerLocation: coreHttp.CompositeMapper = {
+export const HttpServerLocation: coreClient.CompositeMapper = {
   serializedName: "HttpServerLocation",
   type: {
     name: "Composite",
@@ -15765,7 +15806,7 @@ export const HttpServerLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsLocation: coreHttp.CompositeMapper = {
+export const HdfsLocation: coreClient.CompositeMapper = {
   serializedName: "HdfsLocation",
   type: {
     name: "Composite",
@@ -15779,14 +15820,15 @@ export const HdfsLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const TextFormat: coreHttp.CompositeMapper = {
+export const TextFormat: coreClient.CompositeMapper = {
   serializedName: "TextFormat",
   type: {
     name: "Composite",
     className: "TextFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties,
       columnDelimiter: {
@@ -15847,14 +15889,15 @@ export const TextFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonFormat: coreHttp.CompositeMapper = {
+export const JsonFormat: coreClient.CompositeMapper = {
   serializedName: "JsonFormat",
   type: {
     name: "Composite",
     className: "JsonFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties,
       filePattern: {
@@ -15891,49 +15934,52 @@ export const JsonFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvroFormat: coreHttp.CompositeMapper = {
+export const AvroFormat: coreClient.CompositeMapper = {
   serializedName: "AvroFormat",
   type: {
     name: "Composite",
     className: "AvroFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
   }
 };
 
-export const OrcFormat: coreHttp.CompositeMapper = {
+export const OrcFormat: coreClient.CompositeMapper = {
   serializedName: "OrcFormat",
   type: {
     name: "Composite",
     className: "OrcFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
   }
 };
 
-export const ParquetFormat: coreHttp.CompositeMapper = {
+export const ParquetFormat: coreClient.CompositeMapper = {
   serializedName: "ParquetFormat",
   type: {
     name: "Composite",
     className: "ParquetFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
   }
 };
 
-export const DatasetBZip2Compression: coreHttp.CompositeMapper = {
+export const DatasetBZip2Compression: coreClient.CompositeMapper = {
   serializedName: "BZip2",
   type: {
     name: "Composite",
@@ -15947,7 +15993,7 @@ export const DatasetBZip2Compression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetGZipCompression: coreHttp.CompositeMapper = {
+export const DatasetGZipCompression: coreClient.CompositeMapper = {
   serializedName: "GZip",
   type: {
     name: "Composite",
@@ -15967,7 +16013,7 @@ export const DatasetGZipCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetDeflateCompression: coreHttp.CompositeMapper = {
+export const DatasetDeflateCompression: coreClient.CompositeMapper = {
   serializedName: "Deflate",
   type: {
     name: "Composite",
@@ -15987,7 +16033,7 @@ export const DatasetDeflateCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetZipDeflateCompression: coreHttp.CompositeMapper = {
+export const DatasetZipDeflateCompression: coreClient.CompositeMapper = {
   serializedName: "ZipDeflate",
   type: {
     name: "Composite",
@@ -16007,7 +16053,7 @@ export const DatasetZipDeflateCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetTarCompression: coreHttp.CompositeMapper = {
+export const DatasetTarCompression: coreClient.CompositeMapper = {
   serializedName: "Tar",
   type: {
     name: "Composite",
@@ -16021,7 +16067,7 @@ export const DatasetTarCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetTarGZipCompression: coreHttp.CompositeMapper = {
+export const DatasetTarGZipCompression: coreClient.CompositeMapper = {
   serializedName: "TarGZip",
   type: {
     name: "Composite",
@@ -16041,26 +16087,28 @@ export const DatasetTarGZipCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebAnonymousAuthentication: coreHttp.CompositeMapper = {
+export const WebAnonymousAuthentication: coreClient.CompositeMapper = {
   serializedName: "Anonymous",
   type: {
     name: "Composite",
     className: "WebAnonymousAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties
     }
   }
 };
 
-export const WebBasicAuthentication: coreHttp.CompositeMapper = {
+export const WebBasicAuthentication: coreClient.CompositeMapper = {
   serializedName: "Basic",
   type: {
     name: "Composite",
     className: "WebBasicAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties,
       username: {
@@ -16081,13 +16129,14 @@ export const WebBasicAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebClientCertificateAuthentication: coreHttp.CompositeMapper = {
+export const WebClientCertificateAuthentication: coreClient.CompositeMapper = {
   serializedName: "ClientCertificate",
   type: {
     name: "Composite",
     className: "WebClientCertificateAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties,
       pfx: {
@@ -16108,7 +16157,7 @@ export const WebClientCertificateAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageReadSettings: coreHttp.CompositeMapper = {
+export const AzureBlobStorageReadSettings: coreClient.CompositeMapper = {
   serializedName: "AzureBlobStorageReadSettings",
   type: {
     name: "Composite",
@@ -16182,7 +16231,7 @@ export const AzureBlobStorageReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSReadSettings: coreHttp.CompositeMapper = {
+export const AzureBlobFSReadSettings: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFSReadSettings",
   type: {
     name: "Composite",
@@ -16250,7 +16299,7 @@ export const AzureBlobFSReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreReadSettings: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreReadSettings: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStoreReadSettings",
   type: {
     name: "Composite",
@@ -16330,7 +16379,7 @@ export const AzureDataLakeStoreReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3ReadSettings: coreHttp.CompositeMapper = {
+export const AmazonS3ReadSettings: coreClient.CompositeMapper = {
   serializedName: "AmazonS3ReadSettings",
   type: {
     name: "Composite",
@@ -16404,7 +16453,7 @@ export const AmazonS3ReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerReadSettings: coreHttp.CompositeMapper = {
+export const FileServerReadSettings: coreClient.CompositeMapper = {
   serializedName: "FileServerReadSettings",
   type: {
     name: "Composite",
@@ -16478,7 +16527,7 @@ export const FileServerReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFileStorageReadSettings: coreHttp.CompositeMapper = {
+export const AzureFileStorageReadSettings: coreClient.CompositeMapper = {
   serializedName: "AzureFileStorageReadSettings",
   type: {
     name: "Composite",
@@ -16552,7 +16601,7 @@ export const AzureFileStorageReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleCloudStorageReadSettings: coreHttp.CompositeMapper = {
+export const GoogleCloudStorageReadSettings: coreClient.CompositeMapper = {
   serializedName: "GoogleCloudStorageReadSettings",
   type: {
     name: "Composite",
@@ -16626,7 +16675,7 @@ export const GoogleCloudStorageReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FtpReadSettings: coreHttp.CompositeMapper = {
+export const FtpReadSettings: coreClient.CompositeMapper = {
   serializedName: "FtpReadSettings",
   type: {
     name: "Composite",
@@ -16688,7 +16737,7 @@ export const FtpReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpReadSettings: coreHttp.CompositeMapper = {
+export const SftpReadSettings: coreClient.CompositeMapper = {
   serializedName: "SftpReadSettings",
   type: {
     name: "Composite",
@@ -16756,7 +16805,7 @@ export const SftpReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpReadSettings: coreHttp.CompositeMapper = {
+export const HttpReadSettings: coreClient.CompositeMapper = {
   serializedName: "HttpReadSettings",
   type: {
     name: "Composite",
@@ -16806,7 +16855,7 @@ export const HttpReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsReadSettings: coreHttp.CompositeMapper = {
+export const HdfsReadSettings: coreClient.CompositeMapper = {
   serializedName: "HdfsReadSettings",
   type: {
     name: "Composite",
@@ -16881,7 +16930,7 @@ export const HdfsReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpWriteSettings: coreHttp.CompositeMapper = {
+export const SftpWriteSettings: coreClient.CompositeMapper = {
   serializedName: "SftpWriteSettings",
   type: {
     name: "Composite",
@@ -16907,7 +16956,7 @@ export const SftpWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageWriteSettings: coreHttp.CompositeMapper = {
+export const AzureBlobStorageWriteSettings: coreClient.CompositeMapper = {
   serializedName: "AzureBlobStorageWriteSettings",
   type: {
     name: "Composite",
@@ -16927,7 +16976,7 @@ export const AzureBlobStorageWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSWriteSettings: coreHttp.CompositeMapper = {
+export const AzureBlobFSWriteSettings: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFSWriteSettings",
   type: {
     name: "Composite",
@@ -16947,7 +16996,7 @@ export const AzureBlobFSWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreWriteSettings: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreWriteSettings: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStoreWriteSettings",
   type: {
     name: "Composite",
@@ -16967,7 +17016,7 @@ export const AzureDataLakeStoreWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerWriteSettings: coreHttp.CompositeMapper = {
+export const FileServerWriteSettings: coreClient.CompositeMapper = {
   serializedName: "FileServerWriteSettings",
   type: {
     name: "Composite",
@@ -16981,7 +17030,7 @@ export const FileServerWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFileStorageWriteSettings: coreHttp.CompositeMapper = {
+export const AzureFileStorageWriteSettings: coreClient.CompositeMapper = {
   serializedName: "AzureFileStorageWriteSettings",
   type: {
     name: "Composite",
@@ -16995,7 +17044,7 @@ export const AzureFileStorageWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextReadSettings: coreHttp.CompositeMapper = {
+export const DelimitedTextReadSettings: coreClient.CompositeMapper = {
   serializedName: "DelimitedTextReadSettings",
   type: {
     name: "Composite",
@@ -17022,7 +17071,7 @@ export const DelimitedTextReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonReadSettings: coreHttp.CompositeMapper = {
+export const JsonReadSettings: coreClient.CompositeMapper = {
   serializedName: "JsonReadSettings",
   type: {
     name: "Composite",
@@ -17043,7 +17092,7 @@ export const JsonReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const XmlReadSettings: coreHttp.CompositeMapper = {
+export const XmlReadSettings: coreClient.CompositeMapper = {
   serializedName: "XmlReadSettings",
   type: {
     name: "Composite",
@@ -17088,7 +17137,7 @@ export const XmlReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinaryReadSettings: coreHttp.CompositeMapper = {
+export const BinaryReadSettings: coreClient.CompositeMapper = {
   serializedName: "BinaryReadSettings",
   type: {
     name: "Composite",
@@ -17109,14 +17158,15 @@ export const BinaryReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZipDeflateReadSettings: coreHttp.CompositeMapper = {
+export const ZipDeflateReadSettings: coreClient.CompositeMapper = {
   serializedName: "ZipDeflateReadSettings",
   type: {
     name: "Composite",
     className: "ZipDeflateReadSettings",
     uberParent: "CompressionReadSettings",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: CompressionReadSettings.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      CompressionReadSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...CompressionReadSettings.type.modelProperties,
       preserveZipFileNameAsFolder: {
@@ -17129,14 +17179,15 @@ export const ZipDeflateReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const TarReadSettings: coreHttp.CompositeMapper = {
+export const TarReadSettings: coreClient.CompositeMapper = {
   serializedName: "TarReadSettings",
   type: {
     name: "Composite",
     className: "TarReadSettings",
     uberParent: "CompressionReadSettings",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: CompressionReadSettings.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      CompressionReadSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...CompressionReadSettings.type.modelProperties,
       preserveCompressionFileNameAsFolder: {
@@ -17149,14 +17200,15 @@ export const TarReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const TarGZipReadSettings: coreHttp.CompositeMapper = {
+export const TarGZipReadSettings: coreClient.CompositeMapper = {
   serializedName: "TarGZipReadSettings",
   type: {
     name: "Composite",
     className: "TarGZipReadSettings",
     uberParent: "CompressionReadSettings",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: CompressionReadSettings.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      CompressionReadSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...CompressionReadSettings.type.modelProperties,
       preserveCompressionFileNameAsFolder: {
@@ -17169,7 +17221,7 @@ export const TarGZipReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvroWriteSettings: coreHttp.CompositeMapper = {
+export const AvroWriteSettings: coreClient.CompositeMapper = {
   serializedName: "AvroWriteSettings",
   type: {
     name: "Composite",
@@ -17207,7 +17259,7 @@ export const AvroWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const OrcWriteSettings: coreHttp.CompositeMapper = {
+export const OrcWriteSettings: coreClient.CompositeMapper = {
   serializedName: "OrcWriteSettings",
   type: {
     name: "Composite",
@@ -17233,7 +17285,7 @@ export const OrcWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetWriteSettings: coreHttp.CompositeMapper = {
+export const ParquetWriteSettings: coreClient.CompositeMapper = {
   serializedName: "ParquetWriteSettings",
   type: {
     name: "Composite",
@@ -17259,7 +17311,7 @@ export const ParquetWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextWriteSettings: coreHttp.CompositeMapper = {
+export const DelimitedTextWriteSettings: coreClient.CompositeMapper = {
   serializedName: "DelimitedTextWriteSettings",
   type: {
     name: "Composite",
@@ -17298,7 +17350,7 @@ export const DelimitedTextWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonWriteSettings: coreHttp.CompositeMapper = {
+export const JsonWriteSettings: coreClient.CompositeMapper = {
   serializedName: "JsonWriteSettings",
   type: {
     name: "Composite",
@@ -17318,7 +17370,7 @@ export const JsonWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvroSource: coreHttp.CompositeMapper = {
+export const AvroSource: coreClient.CompositeMapper = {
   serializedName: "AvroSource",
   type: {
     name: "Composite",
@@ -17351,7 +17403,7 @@ export const AvroSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExcelSource: coreHttp.CompositeMapper = {
+export const ExcelSource: coreClient.CompositeMapper = {
   serializedName: "ExcelSource",
   type: {
     name: "Composite",
@@ -17384,7 +17436,7 @@ export const ExcelSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetSource: coreHttp.CompositeMapper = {
+export const ParquetSource: coreClient.CompositeMapper = {
   serializedName: "ParquetSource",
   type: {
     name: "Composite",
@@ -17417,7 +17469,7 @@ export const ParquetSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextSource: coreHttp.CompositeMapper = {
+export const DelimitedTextSource: coreClient.CompositeMapper = {
   serializedName: "DelimitedTextSource",
   type: {
     name: "Composite",
@@ -17457,7 +17509,7 @@ export const DelimitedTextSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonSource: coreHttp.CompositeMapper = {
+export const JsonSource: coreClient.CompositeMapper = {
   serializedName: "JsonSource",
   type: {
     name: "Composite",
@@ -17497,7 +17549,7 @@ export const JsonSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const XmlSource: coreHttp.CompositeMapper = {
+export const XmlSource: coreClient.CompositeMapper = {
   serializedName: "XmlSource",
   type: {
     name: "Composite",
@@ -17537,7 +17589,7 @@ export const XmlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const OrcSource: coreHttp.CompositeMapper = {
+export const OrcSource: coreClient.CompositeMapper = {
   serializedName: "OrcSource",
   type: {
     name: "Composite",
@@ -17570,7 +17622,7 @@ export const OrcSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinarySource: coreHttp.CompositeMapper = {
+export const BinarySource: coreClient.CompositeMapper = {
   serializedName: "BinarySource",
   type: {
     name: "Composite",
@@ -17598,7 +17650,7 @@ export const BinarySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const TabularSource: coreHttp.CompositeMapper = {
+export const TabularSource: coreClient.CompositeMapper = {
   serializedName: "TabularSource",
   type: {
     name: "Composite",
@@ -17633,7 +17685,7 @@ export const TabularSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobSource: coreHttp.CompositeMapper = {
+export const BlobSource: coreClient.CompositeMapper = {
   serializedName: "BlobSource",
   type: {
     name: "Composite",
@@ -17665,7 +17717,7 @@ export const BlobSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentDbCollectionSource: coreHttp.CompositeMapper = {
+export const DocumentDbCollectionSource: coreClient.CompositeMapper = {
   serializedName: "DocumentDbCollectionSource",
   type: {
     name: "Composite",
@@ -17709,7 +17761,7 @@ export const DocumentDbCollectionSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbSqlApiSource: coreHttp.CompositeMapper = {
+export const CosmosDbSqlApiSource: coreClient.CompositeMapper = {
   serializedName: "CosmosDbSqlApiSource",
   type: {
     name: "Composite",
@@ -17759,7 +17811,7 @@ export const CosmosDbSqlApiSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsSource: coreHttp.CompositeMapper = {
+export const DynamicsSource: coreClient.CompositeMapper = {
   serializedName: "DynamicsSource",
   type: {
     name: "Composite",
@@ -17791,7 +17843,7 @@ export const DynamicsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmSource: coreHttp.CompositeMapper = {
+export const DynamicsCrmSource: coreClient.CompositeMapper = {
   serializedName: "DynamicsCrmSource",
   type: {
     name: "Composite",
@@ -17823,7 +17875,7 @@ export const DynamicsCrmSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsSource: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsSource: coreClient.CompositeMapper = {
   serializedName: "CommonDataServiceForAppsSource",
   type: {
     name: "Composite",
@@ -17855,7 +17907,7 @@ export const CommonDataServiceForAppsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const RelationalSource: coreHttp.CompositeMapper = {
+export const RelationalSource: coreClient.CompositeMapper = {
   serializedName: "RelationalSource",
   type: {
     name: "Composite",
@@ -17887,7 +17939,7 @@ export const RelationalSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessSource: coreHttp.CompositeMapper = {
+export const MicrosoftAccessSource: coreClient.CompositeMapper = {
   serializedName: "MicrosoftAccessSource",
   type: {
     name: "Composite",
@@ -17919,7 +17971,7 @@ export const MicrosoftAccessSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ODataSource: coreHttp.CompositeMapper = {
+export const ODataSource: coreClient.CompositeMapper = {
   serializedName: "ODataSource",
   type: {
     name: "Composite",
@@ -17957,7 +18009,7 @@ export const ODataSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudSource: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudSource: coreClient.CompositeMapper = {
   serializedName: "SalesforceServiceCloudSource",
   type: {
     name: "Composite",
@@ -17995,7 +18047,7 @@ export const SalesforceServiceCloudSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestSource: coreHttp.CompositeMapper = {
+export const RestSource: coreClient.CompositeMapper = {
   serializedName: "RestSource",
   type: {
     name: "Composite",
@@ -18057,7 +18109,7 @@ export const RestSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileSystemSource: coreHttp.CompositeMapper = {
+export const FileSystemSource: coreClient.CompositeMapper = {
   serializedName: "FileSystemSource",
   type: {
     name: "Composite",
@@ -18089,7 +18141,7 @@ export const FileSystemSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsSource: coreHttp.CompositeMapper = {
+export const HdfsSource: coreClient.CompositeMapper = {
   serializedName: "HdfsSource",
   type: {
     name: "Composite",
@@ -18116,7 +18168,7 @@ export const HdfsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerSource: coreHttp.CompositeMapper = {
+export const AzureDataExplorerSource: coreClient.CompositeMapper = {
   serializedName: "AzureDataExplorerSource",
   type: {
     name: "Composite",
@@ -18161,7 +18213,7 @@ export const AzureDataExplorerSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleSource: coreHttp.CompositeMapper = {
+export const OracleSource: coreClient.CompositeMapper = {
   serializedName: "OracleSource",
   type: {
     name: "Composite",
@@ -18212,7 +18264,7 @@ export const OracleSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebSource: coreHttp.CompositeMapper = {
+export const WebSource: coreClient.CompositeMapper = {
   serializedName: "WebSource",
   type: {
     name: "Composite",
@@ -18238,7 +18290,7 @@ export const WebSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbSource: coreHttp.CompositeMapper = {
+export const MongoDbSource: coreClient.CompositeMapper = {
   serializedName: "MongoDbSource",
   type: {
     name: "Composite",
@@ -18270,7 +18322,7 @@ export const MongoDbSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbAtlasSource: coreHttp.CompositeMapper = {
+export const MongoDbAtlasSource: coreClient.CompositeMapper = {
   serializedName: "MongoDbAtlasSource",
   type: {
     name: "Composite",
@@ -18321,7 +18373,7 @@ export const MongoDbAtlasSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbV2Source: coreHttp.CompositeMapper = {
+export const MongoDbV2Source: coreClient.CompositeMapper = {
   serializedName: "MongoDbV2Source",
   type: {
     name: "Composite",
@@ -18372,7 +18424,7 @@ export const MongoDbV2Source: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiSource: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiSource: coreClient.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApiSource",
   type: {
     name: "Composite",
@@ -18423,7 +18475,7 @@ export const CosmosDbMongoDbApiSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const Office365Source: coreHttp.CompositeMapper = {
+export const Office365Source: coreClient.CompositeMapper = {
   serializedName: "Office365Source",
   type: {
     name: "Composite",
@@ -18473,7 +18525,7 @@ export const Office365Source: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreSource: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreSource: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStoreSource",
   type: {
     name: "Composite",
@@ -18493,7 +18545,7 @@ export const AzureDataLakeStoreSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSSource: coreHttp.CompositeMapper = {
+export const AzureBlobFSSource: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFSSource",
   type: {
     name: "Composite",
@@ -18525,7 +18577,7 @@ export const AzureBlobFSSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpSource: coreHttp.CompositeMapper = {
+export const HttpSource: coreClient.CompositeMapper = {
   serializedName: "HttpSource",
   type: {
     name: "Composite",
@@ -18545,7 +18597,7 @@ export const HttpSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowflakeSource: coreHttp.CompositeMapper = {
+export const SnowflakeSource: coreClient.CompositeMapper = {
   serializedName: "SnowflakeSource",
   type: {
     name: "Composite",
@@ -18572,7 +18624,7 @@ export const SnowflakeSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksDeltaLakeSource: coreHttp.CompositeMapper = {
+export const AzureDatabricksDeltaLakeSource: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricksDeltaLakeSource",
   type: {
     name: "Composite",
@@ -18599,7 +18651,7 @@ export const AzureDatabricksDeltaLakeSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SharePointOnlineListSource: coreHttp.CompositeMapper = {
+export const SharePointOnlineListSource: coreClient.CompositeMapper = {
   serializedName: "SharePointOnlineListSource",
   type: {
     name: "Composite",
@@ -18625,7 +18677,7 @@ export const SharePointOnlineListSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextSink: coreHttp.CompositeMapper = {
+export const DelimitedTextSink: coreClient.CompositeMapper = {
   serializedName: "DelimitedTextSink",
   type: {
     name: "Composite",
@@ -18653,7 +18705,7 @@ export const DelimitedTextSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonSink: coreHttp.CompositeMapper = {
+export const JsonSink: coreClient.CompositeMapper = {
   serializedName: "JsonSink",
   type: {
     name: "Composite",
@@ -18681,7 +18733,7 @@ export const JsonSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const OrcSink: coreHttp.CompositeMapper = {
+export const OrcSink: coreClient.CompositeMapper = {
   serializedName: "OrcSink",
   type: {
     name: "Composite",
@@ -18709,7 +18761,7 @@ export const OrcSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestSink: coreHttp.CompositeMapper = {
+export const RestSink: coreClient.CompositeMapper = {
   serializedName: "RestSink",
   type: {
     name: "Composite",
@@ -18753,7 +18805,7 @@ export const RestSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlSink: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlSink: coreClient.CompositeMapper = {
   serializedName: "AzurePostgreSqlSink",
   type: {
     name: "Composite",
@@ -18773,7 +18825,7 @@ export const AzurePostgreSqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlSink: coreHttp.CompositeMapper = {
+export const AzureMySqlSink: coreClient.CompositeMapper = {
   serializedName: "AzureMySqlSink",
   type: {
     name: "Composite",
@@ -18793,7 +18845,7 @@ export const AzureMySqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksDeltaLakeSink: coreHttp.CompositeMapper = {
+export const AzureDatabricksDeltaLakeSink: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricksDeltaLakeSink",
   type: {
     name: "Composite",
@@ -18820,7 +18872,7 @@ export const AzureDatabricksDeltaLakeSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerSink: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerSink: coreClient.CompositeMapper = {
   serializedName: "SapCloudForCustomerSink",
   type: {
     name: "Composite",
@@ -18846,7 +18898,7 @@ export const SapCloudForCustomerSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureQueueSink: coreHttp.CompositeMapper = {
+export const AzureQueueSink: coreClient.CompositeMapper = {
   serializedName: "AzureQueueSink",
   type: {
     name: "Composite",
@@ -18860,7 +18912,7 @@ export const AzureQueueSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableSink: coreHttp.CompositeMapper = {
+export const AzureTableSink: coreClient.CompositeMapper = {
   serializedName: "AzureTableSink",
   type: {
     name: "Composite",
@@ -18898,7 +18950,7 @@ export const AzureTableSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvroSink: coreHttp.CompositeMapper = {
+export const AvroSink: coreClient.CompositeMapper = {
   serializedName: "AvroSink",
   type: {
     name: "Composite",
@@ -18926,7 +18978,7 @@ export const AvroSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetSink: coreHttp.CompositeMapper = {
+export const ParquetSink: coreClient.CompositeMapper = {
   serializedName: "ParquetSink",
   type: {
     name: "Composite",
@@ -18954,7 +19006,7 @@ export const ParquetSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinarySink: coreHttp.CompositeMapper = {
+export const BinarySink: coreClient.CompositeMapper = {
   serializedName: "BinarySink",
   type: {
     name: "Composite",
@@ -18975,7 +19027,7 @@ export const BinarySink: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobSink: coreHttp.CompositeMapper = {
+export const BlobSink: coreClient.CompositeMapper = {
   serializedName: "BlobSink",
   type: {
     name: "Composite",
@@ -19013,7 +19065,7 @@ export const BlobSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileSystemSink: coreHttp.CompositeMapper = {
+export const FileSystemSink: coreClient.CompositeMapper = {
   serializedName: "FileSystemSink",
   type: {
     name: "Composite",
@@ -19033,7 +19085,7 @@ export const FileSystemSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentDbCollectionSink: coreHttp.CompositeMapper = {
+export const DocumentDbCollectionSink: coreClient.CompositeMapper = {
   serializedName: "DocumentDbCollectionSink",
   type: {
     name: "Composite",
@@ -19059,7 +19111,7 @@ export const DocumentDbCollectionSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbSqlApiSink: coreHttp.CompositeMapper = {
+export const CosmosDbSqlApiSink: coreClient.CompositeMapper = {
   serializedName: "CosmosDbSqlApiSink",
   type: {
     name: "Composite",
@@ -19079,7 +19131,7 @@ export const CosmosDbSqlApiSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlSink: coreHttp.CompositeMapper = {
+export const SqlSink: coreClient.CompositeMapper = {
   serializedName: "SqlSink",
   type: {
     name: "Composite",
@@ -19132,7 +19184,7 @@ export const SqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerSink: coreHttp.CompositeMapper = {
+export const SqlServerSink: coreClient.CompositeMapper = {
   serializedName: "SqlServerSink",
   type: {
     name: "Composite",
@@ -19185,7 +19237,7 @@ export const SqlServerSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlSink: coreHttp.CompositeMapper = {
+export const AzureSqlSink: coreClient.CompositeMapper = {
   serializedName: "AzureSqlSink",
   type: {
     name: "Composite",
@@ -19238,7 +19290,7 @@ export const AzureSqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlMISink: coreHttp.CompositeMapper = {
+export const SqlMISink: coreClient.CompositeMapper = {
   serializedName: "SqlMISink",
   type: {
     name: "Composite",
@@ -19291,7 +19343,7 @@ export const SqlMISink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlDWSink: coreHttp.CompositeMapper = {
+export const SqlDWSink: coreClient.CompositeMapper = {
   serializedName: "SqlDWSink",
   type: {
     name: "Composite",
@@ -19343,7 +19395,7 @@ export const SqlDWSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowflakeSink: coreHttp.CompositeMapper = {
+export const SnowflakeSink: coreClient.CompositeMapper = {
   serializedName: "SnowflakeSink",
   type: {
     name: "Composite",
@@ -19370,7 +19422,7 @@ export const SnowflakeSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleSink: coreHttp.CompositeMapper = {
+export const OracleSink: coreClient.CompositeMapper = {
   serializedName: "OracleSink",
   type: {
     name: "Composite",
@@ -19390,7 +19442,7 @@ export const OracleSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreSink: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreSink: coreClient.CompositeMapper = {
   serializedName: "AzureDataLakeStoreSink",
   type: {
     name: "Composite",
@@ -19416,7 +19468,7 @@ export const AzureDataLakeStoreSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSSink: coreHttp.CompositeMapper = {
+export const AzureBlobFSSink: coreClient.CompositeMapper = {
   serializedName: "AzureBlobFSSink",
   type: {
     name: "Composite",
@@ -19436,7 +19488,7 @@ export const AzureBlobFSSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSearchIndexSink: coreHttp.CompositeMapper = {
+export const AzureSearchIndexSink: coreClient.CompositeMapper = {
   serializedName: "AzureSearchIndexSink",
   type: {
     name: "Composite",
@@ -19456,7 +19508,7 @@ export const AzureSearchIndexSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcSink: coreHttp.CompositeMapper = {
+export const OdbcSink: coreClient.CompositeMapper = {
   serializedName: "OdbcSink",
   type: {
     name: "Composite",
@@ -19476,7 +19528,7 @@ export const OdbcSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixSink: coreHttp.CompositeMapper = {
+export const InformixSink: coreClient.CompositeMapper = {
   serializedName: "InformixSink",
   type: {
     name: "Composite",
@@ -19496,7 +19548,7 @@ export const InformixSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessSink: coreHttp.CompositeMapper = {
+export const MicrosoftAccessSink: coreClient.CompositeMapper = {
   serializedName: "MicrosoftAccessSink",
   type: {
     name: "Composite",
@@ -19516,7 +19568,7 @@ export const MicrosoftAccessSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsSink: coreHttp.CompositeMapper = {
+export const DynamicsSink: coreClient.CompositeMapper = {
   serializedName: "DynamicsSink",
   type: {
     name: "Composite",
@@ -19549,7 +19601,7 @@ export const DynamicsSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmSink: coreHttp.CompositeMapper = {
+export const DynamicsCrmSink: coreClient.CompositeMapper = {
   serializedName: "DynamicsCrmSink",
   type: {
     name: "Composite",
@@ -19582,7 +19634,7 @@ export const DynamicsCrmSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsSink: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsSink: coreClient.CompositeMapper = {
   serializedName: "CommonDataServiceForAppsSink",
   type: {
     name: "Composite",
@@ -19615,7 +19667,7 @@ export const CommonDataServiceForAppsSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerSink: coreHttp.CompositeMapper = {
+export const AzureDataExplorerSink: coreClient.CompositeMapper = {
   serializedName: "AzureDataExplorerSink",
   type: {
     name: "Composite",
@@ -19647,7 +19699,7 @@ export const AzureDataExplorerSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceSink: coreHttp.CompositeMapper = {
+export const SalesforceSink: coreClient.CompositeMapper = {
   serializedName: "SalesforceSink",
   type: {
     name: "Composite",
@@ -19679,7 +19731,7 @@ export const SalesforceSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudSink: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudSink: coreClient.CompositeMapper = {
   serializedName: "SalesforceServiceCloudSink",
   type: {
     name: "Composite",
@@ -19711,7 +19763,7 @@ export const SalesforceServiceCloudSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiSink: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiSink: coreClient.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApiSink",
   type: {
     name: "Composite",
@@ -19731,7 +19783,7 @@ export const CosmosDbMongoDbApiSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowflakeExportCopyCommand: coreHttp.CompositeMapper = {
+export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
   serializedName: "SnowflakeExportCopyCommand",
   type: {
     name: "Composite",
@@ -19759,7 +19811,7 @@ export const SnowflakeExportCopyCommand: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksDeltaLakeExportCommand: coreHttp.CompositeMapper = {
+export const AzureDatabricksDeltaLakeExportCommand: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricksDeltaLakeExportCommand",
   type: {
     name: "Composite",
@@ -19785,7 +19837,7 @@ export const AzureDatabricksDeltaLakeExportCommand: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksDeltaLakeImportCommand: coreHttp.CompositeMapper = {
+export const AzureDatabricksDeltaLakeImportCommand: coreClient.CompositeMapper = {
   serializedName: "AzureDatabricksDeltaLakeImportCommand",
   type: {
     name: "Composite",
@@ -19811,7 +19863,7 @@ export const AzureDatabricksDeltaLakeImportCommand: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowflakeImportCopyCommand: coreHttp.CompositeMapper = {
+export const SnowflakeImportCopyCommand: coreClient.CompositeMapper = {
   serializedName: "SnowflakeImportCopyCommand",
   type: {
     name: "Composite",
@@ -19839,7 +19891,7 @@ export const SnowflakeImportCopyCommand: coreHttp.CompositeMapper = {
   }
 };
 
-export const TabularTranslator: coreHttp.CompositeMapper = {
+export const TabularTranslator: coreClient.CompositeMapper = {
   serializedName: "TabularTranslator",
   type: {
     name: "Composite",
@@ -19896,7 +19948,7 @@ export const TabularTranslator: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerDependencyReference: coreHttp.CompositeMapper = {
+export const TriggerDependencyReference: coreClient.CompositeMapper = {
   serializedName: "TriggerDependencyReference",
   type: {
     name: "Composite",
@@ -19919,7 +19971,7 @@ export const TriggerDependencyReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMapper = {
+export const SelfDependencyTumblingWindowTriggerReference: coreClient.CompositeMapper = {
   serializedName: "SelfDependencyTumblingWindowTriggerReference",
   type: {
     name: "Composite",
@@ -19930,7 +19982,9 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
       ...DependencyReference.type.modelProperties,
       offset: {
         constraints: {
-          Pattern: new RegExp("-((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "-((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -19942,7 +19996,9 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
       },
       size: {
         constraints: {
-          Pattern: new RegExp("((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -19955,13 +20011,14 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
   }
 };
 
-export const LinkedIntegrationRuntimeKeyAuthorization: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntimeKeyAuthorization: coreClient.CompositeMapper = {
   serializedName: "Key",
   type: {
     name: "Composite",
     className: "LinkedIntegrationRuntimeKeyAuthorization",
     uberParent: "LinkedIntegrationRuntimeType",
-    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedIntegrationRuntimeType.type.modelProperties,
       key: {
@@ -19975,13 +20032,14 @@ export const LinkedIntegrationRuntimeKeyAuthorization: coreHttp.CompositeMapper 
   }
 };
 
-export const LinkedIntegrationRuntimeRbacAuthorization: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntimeRbacAuthorization: coreClient.CompositeMapper = {
   serializedName: "RBAC",
   type: {
     name: "Composite",
     className: "LinkedIntegrationRuntimeRbacAuthorization",
     uberParent: "LinkedIntegrationRuntimeType",
-    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedIntegrationRuntimeType.type.modelProperties,
       resourceId: {
@@ -19995,7 +20053,7 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreHttp.CompositeMapper
   }
 };
 
-export const SubResource: coreHttp.CompositeMapper = {
+export const SubResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubResource",
@@ -20005,38 +20063,7 @@ export const SubResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointConnection: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnection",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      privateEndpoint: {
-        serializedName: "properties.privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServiceConnectionState"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Workspace: coreHttp.CompositeMapper = {
+export const Workspace: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Workspace",
@@ -20167,7 +20194,7 @@ export const Workspace: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlPool: coreHttp.CompositeMapper = {
+export const SqlPool: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SqlPool",
@@ -20238,7 +20265,7 @@ export const SqlPool: coreHttp.CompositeMapper = {
   }
 };
 
-export const BigDataPoolResourceInfo: coreHttp.CompositeMapper = {
+export const BigDataPoolResourceInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BigDataPoolResourceInfo",
@@ -20368,7 +20395,38 @@ export const BigDataPoolResourceInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecutePipelineActivity: coreHttp.CompositeMapper = {
+export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExecutePipelineActivity: coreClient.CompositeMapper = {
   serializedName: "ExecutePipeline",
   type: {
     name: "Composite",
@@ -20402,7 +20460,7 @@ export const ExecutePipelineActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const IfConditionActivity: coreHttp.CompositeMapper = {
+export const IfConditionActivity: coreClient.CompositeMapper = {
   serializedName: "IfCondition",
   type: {
     name: "Composite",
@@ -20447,7 +20505,7 @@ export const IfConditionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SwitchActivity: coreHttp.CompositeMapper = {
+export const SwitchActivity: coreClient.CompositeMapper = {
   serializedName: "Switch",
   type: {
     name: "Composite",
@@ -20492,7 +20550,7 @@ export const SwitchActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ForEachActivity: coreHttp.CompositeMapper = {
+export const ForEachActivity: coreClient.CompositeMapper = {
   serializedName: "ForEach",
   type: {
     name: "Composite",
@@ -20541,7 +20599,7 @@ export const ForEachActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const WaitActivity: coreHttp.CompositeMapper = {
+export const WaitActivity: coreClient.CompositeMapper = {
   serializedName: "Wait",
   type: {
     name: "Composite",
@@ -20562,7 +20620,7 @@ export const WaitActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const UntilActivity: coreHttp.CompositeMapper = {
+export const UntilActivity: coreClient.CompositeMapper = {
   serializedName: "Until",
   type: {
     name: "Composite",
@@ -20602,7 +20660,7 @@ export const UntilActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ValidationActivity: coreHttp.CompositeMapper = {
+export const ValidationActivity: coreClient.CompositeMapper = {
   serializedName: "Validation",
   type: {
     name: "Composite",
@@ -20647,7 +20705,7 @@ export const ValidationActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const FilterActivity: coreHttp.CompositeMapper = {
+export const FilterActivity: coreClient.CompositeMapper = {
   serializedName: "Filter",
   type: {
     name: "Composite",
@@ -20675,7 +20733,7 @@ export const FilterActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SetVariableActivity: coreHttp.CompositeMapper = {
+export const SetVariableActivity: coreClient.CompositeMapper = {
   serializedName: "SetVariable",
   type: {
     name: "Composite",
@@ -20701,7 +20759,7 @@ export const SetVariableActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AppendVariableActivity: coreHttp.CompositeMapper = {
+export const AppendVariableActivity: coreClient.CompositeMapper = {
   serializedName: "AppendVariable",
   type: {
     name: "Composite",
@@ -20727,7 +20785,7 @@ export const AppendVariableActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebHookActivity: coreHttp.CompositeMapper = {
+export const WebHookActivity: coreClient.CompositeMapper = {
   serializedName: "WebHook",
   type: {
     name: "Composite",
@@ -20786,7 +20844,7 @@ export const WebHookActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopyActivity: coreHttp.CompositeMapper = {
+export const CopyActivity: coreClient.CompositeMapper = {
   serializedName: "Copy",
   type: {
     name: "Composite",
@@ -20931,7 +20989,7 @@ export const CopyActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
+export const HDInsightHiveActivity: coreClient.CompositeMapper = {
   serializedName: "HDInsightHive",
   type: {
     name: "Composite",
@@ -21011,7 +21069,7 @@ export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightPigActivity: coreHttp.CompositeMapper = {
+export const HDInsightPigActivity: coreClient.CompositeMapper = {
   serializedName: "HDInsightPig",
   type: {
     name: "Composite",
@@ -21069,7 +21127,7 @@ export const HDInsightPigActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
+export const HDInsightMapReduceActivity: coreClient.CompositeMapper = {
   serializedName: "HDInsightMapReduce",
   type: {
     name: "Composite",
@@ -21151,7 +21209,7 @@ export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
+export const HDInsightStreamingActivity: coreClient.CompositeMapper = {
   serializedName: "HDInsightStreaming",
   type: {
     name: "Composite",
@@ -21265,7 +21323,7 @@ export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightSparkActivity: coreHttp.CompositeMapper = {
+export const HDInsightSparkActivity: coreClient.CompositeMapper = {
   serializedName: "HDInsightSpark",
   type: {
     name: "Composite",
@@ -21336,7 +21394,7 @@ export const HDInsightSparkActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecuteSsisPackageActivity: coreHttp.CompositeMapper = {
+export const ExecuteSsisPackageActivity: coreClient.CompositeMapper = {
   serializedName: "ExecuteSSISPackage",
   type: {
     name: "Composite",
@@ -21451,7 +21509,7 @@ export const ExecuteSsisPackageActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomActivity: coreHttp.CompositeMapper = {
+export const CustomActivity: coreClient.CompositeMapper = {
   serializedName: "Custom",
   type: {
     name: "Composite",
@@ -21511,7 +21569,7 @@ export const CustomActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerStoredProcedureActivity: coreHttp.CompositeMapper = {
+export const SqlServerStoredProcedureActivity: coreClient.CompositeMapper = {
   serializedName: "SqlServerStoredProcedure",
   type: {
     name: "Composite",
@@ -21541,7 +21599,7 @@ export const SqlServerStoredProcedureActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeleteActivity: coreHttp.CompositeMapper = {
+export const DeleteActivity: coreClient.CompositeMapper = {
   serializedName: "Delete",
   type: {
     name: "Composite",
@@ -21597,7 +21655,7 @@ export const DeleteActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerCommandActivity: coreHttp.CompositeMapper = {
+export const AzureDataExplorerCommandActivity: coreClient.CompositeMapper = {
   serializedName: "AzureDataExplorerCommand",
   type: {
     name: "Composite",
@@ -21624,7 +21682,7 @@ export const AzureDataExplorerCommandActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const LookupActivity: coreHttp.CompositeMapper = {
+export const LookupActivity: coreClient.CompositeMapper = {
   serializedName: "Lookup",
   type: {
     name: "Composite",
@@ -21658,7 +21716,7 @@ export const LookupActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebActivity: coreHttp.CompositeMapper = {
+export const WebActivity: coreClient.CompositeMapper = {
   serializedName: "WebActivity",
   type: {
     name: "Composite",
@@ -21736,7 +21794,7 @@ export const WebActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const GetMetadataActivity: coreHttp.CompositeMapper = {
+export const GetMetadataActivity: coreClient.CompositeMapper = {
   serializedName: "GetMetadata",
   type: {
     name: "Composite",
@@ -21782,7 +21840,7 @@ export const GetMetadataActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLBatchExecutionActivity: coreHttp.CompositeMapper = {
+export const AzureMLBatchExecutionActivity: coreClient.CompositeMapper = {
   serializedName: "AzureMLBatchExecution",
   type: {
     name: "Composite",
@@ -21821,7 +21879,7 @@ export const AzureMLBatchExecutionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLUpdateResourceActivity: coreHttp.CompositeMapper = {
+export const AzureMLUpdateResourceActivity: coreClient.CompositeMapper = {
   serializedName: "AzureMLUpdateResource",
   type: {
     name: "Composite",
@@ -21856,7 +21914,7 @@ export const AzureMLUpdateResourceActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLExecutePipelineActivity: coreHttp.CompositeMapper = {
+export const AzureMLExecutePipelineActivity: coreClient.CompositeMapper = {
   serializedName: "AzureMLExecutePipeline",
   type: {
     name: "Composite",
@@ -21901,7 +21959,7 @@ export const AzureMLExecutePipelineActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataLakeAnalyticsUsqlActivity: coreHttp.CompositeMapper = {
+export const DataLakeAnalyticsUsqlActivity: coreClient.CompositeMapper = {
   serializedName: "DataLakeAnalyticsU-SQL",
   type: {
     name: "Composite",
@@ -21960,7 +22018,7 @@ export const DataLakeAnalyticsUsqlActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatabricksNotebookActivity: coreHttp.CompositeMapper = {
+export const DatabricksNotebookActivity: coreClient.CompositeMapper = {
   serializedName: "DatabricksNotebook",
   type: {
     name: "Composite",
@@ -22000,7 +22058,7 @@ export const DatabricksNotebookActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatabricksSparkJarActivity: coreHttp.CompositeMapper = {
+export const DatabricksSparkJarActivity: coreClient.CompositeMapper = {
   serializedName: "DatabricksSparkJar",
   type: {
     name: "Composite",
@@ -22044,7 +22102,7 @@ export const DatabricksSparkJarActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatabricksSparkPythonActivity: coreHttp.CompositeMapper = {
+export const DatabricksSparkPythonActivity: coreClient.CompositeMapper = {
   serializedName: "DatabricksSparkPython",
   type: {
     name: "Composite",
@@ -22088,7 +22146,7 @@ export const DatabricksSparkPythonActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFunctionActivity: coreHttp.CompositeMapper = {
+export const AzureFunctionActivity: coreClient.CompositeMapper = {
   serializedName: "AzureFunctionActivity",
   type: {
     name: "Composite",
@@ -22128,7 +22186,7 @@ export const AzureFunctionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecuteDataFlowActivity: coreHttp.CompositeMapper = {
+export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
   serializedName: "ExecuteDataFlow",
   type: {
     name: "Composite",
@@ -22188,7 +22246,7 @@ export const ExecuteDataFlowActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynapseNotebookActivity: coreHttp.CompositeMapper = {
+export const SynapseNotebookActivity: coreClient.CompositeMapper = {
   serializedName: "SynapseNotebook",
   type: {
     name: "Composite",
@@ -22216,7 +22274,7 @@ export const SynapseNotebookActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynapseSparkJobDefinitionActivity: coreHttp.CompositeMapper = {
+export const SynapseSparkJobDefinitionActivity: coreClient.CompositeMapper = {
   serializedName: "SparkJob",
   type: {
     name: "Composite",
@@ -22232,12 +22290,23 @@ export const SynapseSparkJobDefinitionActivity: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "SynapseSparkJobReference"
         }
+      },
+      arguments: {
+        serializedName: "typeProperties.args",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
       }
     }
   }
 };
 
-export const ScheduleTrigger: coreHttp.CompositeMapper = {
+export const ScheduleTrigger: coreClient.CompositeMapper = {
   serializedName: "ScheduleTrigger",
   type: {
     name: "Composite",
@@ -22258,7 +22327,7 @@ export const ScheduleTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobTrigger: coreHttp.CompositeMapper = {
+export const BlobTrigger: coreClient.CompositeMapper = {
   serializedName: "BlobTrigger",
   type: {
     name: "Composite",
@@ -22293,7 +22362,7 @@ export const BlobTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobEventsTrigger: coreHttp.CompositeMapper = {
+export const BlobEventsTrigger: coreClient.CompositeMapper = {
   serializedName: "BlobEventsTrigger",
   type: {
     name: "Composite",
@@ -22344,7 +22413,7 @@ export const BlobEventsTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomEventsTrigger: coreHttp.CompositeMapper = {
+export const CustomEventsTrigger: coreClient.CompositeMapper = {
   serializedName: "CustomEventsTrigger",
   type: {
     name: "Composite",
@@ -22389,7 +22458,7 @@ export const CustomEventsTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableSource: coreHttp.CompositeMapper = {
+export const AzureTableSource: coreClient.CompositeMapper = {
   serializedName: "AzureTableSource",
   type: {
     name: "Composite",
@@ -22415,7 +22484,7 @@ export const AzureTableSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixSource: coreHttp.CompositeMapper = {
+export const InformixSource: coreClient.CompositeMapper = {
   serializedName: "InformixSource",
   type: {
     name: "Composite",
@@ -22435,7 +22504,7 @@ export const InformixSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const Db2Source: coreHttp.CompositeMapper = {
+export const Db2Source: coreClient.CompositeMapper = {
   serializedName: "Db2Source",
   type: {
     name: "Composite",
@@ -22455,7 +22524,7 @@ export const Db2Source: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcSource: coreHttp.CompositeMapper = {
+export const OdbcSource: coreClient.CompositeMapper = {
   serializedName: "OdbcSource",
   type: {
     name: "Composite",
@@ -22475,7 +22544,7 @@ export const OdbcSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MySqlSource: coreHttp.CompositeMapper = {
+export const MySqlSource: coreClient.CompositeMapper = {
   serializedName: "MySqlSource",
   type: {
     name: "Composite",
@@ -22495,7 +22564,7 @@ export const MySqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PostgreSqlSource: coreHttp.CompositeMapper = {
+export const PostgreSqlSource: coreClient.CompositeMapper = {
   serializedName: "PostgreSqlSource",
   type: {
     name: "Composite",
@@ -22515,7 +22584,7 @@ export const PostgreSqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SybaseSource: coreHttp.CompositeMapper = {
+export const SybaseSource: coreClient.CompositeMapper = {
   serializedName: "SybaseSource",
   type: {
     name: "Composite",
@@ -22535,7 +22604,7 @@ export const SybaseSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapBwSource: coreHttp.CompositeMapper = {
+export const SapBwSource: coreClient.CompositeMapper = {
   serializedName: "SapBwSource",
   type: {
     name: "Composite",
@@ -22555,7 +22624,7 @@ export const SapBwSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceSource: coreHttp.CompositeMapper = {
+export const SalesforceSource: coreClient.CompositeMapper = {
   serializedName: "SalesforceSource",
   type: {
     name: "Composite",
@@ -22581,7 +22650,7 @@ export const SalesforceSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerSource: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerSource: coreClient.CompositeMapper = {
   serializedName: "SapCloudForCustomerSource",
   type: {
     name: "Composite",
@@ -22607,7 +22676,7 @@ export const SapCloudForCustomerSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapEccSource: coreHttp.CompositeMapper = {
+export const SapEccSource: coreClient.CompositeMapper = {
   serializedName: "SapEccSource",
   type: {
     name: "Composite",
@@ -22633,7 +22702,7 @@ export const SapEccSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapHanaSource: coreHttp.CompositeMapper = {
+export const SapHanaSource: coreClient.CompositeMapper = {
   serializedName: "SapHanaSource",
   type: {
     name: "Composite",
@@ -22672,7 +22741,7 @@ export const SapHanaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapOpenHubSource: coreHttp.CompositeMapper = {
+export const SapOpenHubSource: coreClient.CompositeMapper = {
   serializedName: "SapOpenHubSource",
   type: {
     name: "Composite",
@@ -22710,7 +22779,7 @@ export const SapOpenHubSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTableSource: coreHttp.CompositeMapper = {
+export const SapTableSource: coreClient.CompositeMapper = {
   serializedName: "SapTableSource",
   type: {
     name: "Composite",
@@ -22779,7 +22848,7 @@ export const SapTableSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlSource: coreHttp.CompositeMapper = {
+export const SqlSource: coreClient.CompositeMapper = {
   serializedName: "SqlSource",
   type: {
     name: "Composite",
@@ -22833,7 +22902,7 @@ export const SqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerSource: coreHttp.CompositeMapper = {
+export const SqlServerSource: coreClient.CompositeMapper = {
   serializedName: "SqlServerSource",
   type: {
     name: "Composite",
@@ -22887,7 +22956,7 @@ export const SqlServerSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlSource: coreHttp.CompositeMapper = {
+export const AzureSqlSource: coreClient.CompositeMapper = {
   serializedName: "AzureSqlSource",
   type: {
     name: "Composite",
@@ -22941,7 +23010,7 @@ export const AzureSqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlMISource: coreHttp.CompositeMapper = {
+export const SqlMISource: coreClient.CompositeMapper = {
   serializedName: "SqlMISource",
   type: {
     name: "Composite",
@@ -22995,7 +23064,7 @@ export const SqlMISource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlDWSource: coreHttp.CompositeMapper = {
+export const SqlDWSource: coreClient.CompositeMapper = {
   serializedName: "SqlDWSource",
   type: {
     name: "Composite",
@@ -23040,7 +23109,7 @@ export const SqlDWSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlSource: coreHttp.CompositeMapper = {
+export const AzureMySqlSource: coreClient.CompositeMapper = {
   serializedName: "AzureMySqlSource",
   type: {
     name: "Composite",
@@ -23060,7 +23129,7 @@ export const AzureMySqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataSource: coreHttp.CompositeMapper = {
+export const TeradataSource: coreClient.CompositeMapper = {
   serializedName: "TeradataSource",
   type: {
     name: "Composite",
@@ -23093,7 +23162,7 @@ export const TeradataSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CassandraSource: coreHttp.CompositeMapper = {
+export const CassandraSource: coreClient.CompositeMapper = {
   serializedName: "CassandraSource",
   type: {
     name: "Composite",
@@ -23119,7 +23188,7 @@ export const CassandraSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonMWSSource: coreHttp.CompositeMapper = {
+export const AmazonMWSSource: coreClient.CompositeMapper = {
   serializedName: "AmazonMWSSource",
   type: {
     name: "Composite",
@@ -23139,7 +23208,7 @@ export const AmazonMWSSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlSource: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlSource: coreClient.CompositeMapper = {
   serializedName: "AzurePostgreSqlSource",
   type: {
     name: "Composite",
@@ -23159,7 +23228,7 @@ export const AzurePostgreSqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConcurSource: coreHttp.CompositeMapper = {
+export const ConcurSource: coreClient.CompositeMapper = {
   serializedName: "ConcurSource",
   type: {
     name: "Composite",
@@ -23179,7 +23248,7 @@ export const ConcurSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CouchbaseSource: coreHttp.CompositeMapper = {
+export const CouchbaseSource: coreClient.CompositeMapper = {
   serializedName: "CouchbaseSource",
   type: {
     name: "Composite",
@@ -23199,7 +23268,7 @@ export const CouchbaseSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DrillSource: coreHttp.CompositeMapper = {
+export const DrillSource: coreClient.CompositeMapper = {
   serializedName: "DrillSource",
   type: {
     name: "Composite",
@@ -23219,7 +23288,7 @@ export const DrillSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const EloquaSource: coreHttp.CompositeMapper = {
+export const EloquaSource: coreClient.CompositeMapper = {
   serializedName: "EloquaSource",
   type: {
     name: "Composite",
@@ -23239,7 +23308,7 @@ export const EloquaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleBigQuerySource: coreHttp.CompositeMapper = {
+export const GoogleBigQuerySource: coreClient.CompositeMapper = {
   serializedName: "GoogleBigQuerySource",
   type: {
     name: "Composite",
@@ -23259,7 +23328,7 @@ export const GoogleBigQuerySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const GreenplumSource: coreHttp.CompositeMapper = {
+export const GreenplumSource: coreClient.CompositeMapper = {
   serializedName: "GreenplumSource",
   type: {
     name: "Composite",
@@ -23279,7 +23348,7 @@ export const GreenplumSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HBaseSource: coreHttp.CompositeMapper = {
+export const HBaseSource: coreClient.CompositeMapper = {
   serializedName: "HBaseSource",
   type: {
     name: "Composite",
@@ -23299,7 +23368,7 @@ export const HBaseSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HiveSource: coreHttp.CompositeMapper = {
+export const HiveSource: coreClient.CompositeMapper = {
   serializedName: "HiveSource",
   type: {
     name: "Composite",
@@ -23319,7 +23388,7 @@ export const HiveSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HubspotSource: coreHttp.CompositeMapper = {
+export const HubspotSource: coreClient.CompositeMapper = {
   serializedName: "HubspotSource",
   type: {
     name: "Composite",
@@ -23339,7 +23408,7 @@ export const HubspotSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImpalaSource: coreHttp.CompositeMapper = {
+export const ImpalaSource: coreClient.CompositeMapper = {
   serializedName: "ImpalaSource",
   type: {
     name: "Composite",
@@ -23359,7 +23428,7 @@ export const ImpalaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const JiraSource: coreHttp.CompositeMapper = {
+export const JiraSource: coreClient.CompositeMapper = {
   serializedName: "JiraSource",
   type: {
     name: "Composite",
@@ -23379,7 +23448,7 @@ export const JiraSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagentoSource: coreHttp.CompositeMapper = {
+export const MagentoSource: coreClient.CompositeMapper = {
   serializedName: "MagentoSource",
   type: {
     name: "Composite",
@@ -23399,7 +23468,7 @@ export const MagentoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MariaDBSource: coreHttp.CompositeMapper = {
+export const MariaDBSource: coreClient.CompositeMapper = {
   serializedName: "MariaDBSource",
   type: {
     name: "Composite",
@@ -23419,7 +23488,7 @@ export const MariaDBSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMariaDBSource: coreHttp.CompositeMapper = {
+export const AzureMariaDBSource: coreClient.CompositeMapper = {
   serializedName: "AzureMariaDBSource",
   type: {
     name: "Composite",
@@ -23439,7 +23508,7 @@ export const AzureMariaDBSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MarketoSource: coreHttp.CompositeMapper = {
+export const MarketoSource: coreClient.CompositeMapper = {
   serializedName: "MarketoSource",
   type: {
     name: "Composite",
@@ -23459,7 +23528,7 @@ export const MarketoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PaypalSource: coreHttp.CompositeMapper = {
+export const PaypalSource: coreClient.CompositeMapper = {
   serializedName: "PaypalSource",
   type: {
     name: "Composite",
@@ -23479,7 +23548,7 @@ export const PaypalSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoenixSource: coreHttp.CompositeMapper = {
+export const PhoenixSource: coreClient.CompositeMapper = {
   serializedName: "PhoenixSource",
   type: {
     name: "Composite",
@@ -23499,7 +23568,7 @@ export const PhoenixSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrestoSource: coreHttp.CompositeMapper = {
+export const PrestoSource: coreClient.CompositeMapper = {
   serializedName: "PrestoSource",
   type: {
     name: "Composite",
@@ -23519,7 +23588,7 @@ export const PrestoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuickBooksSource: coreHttp.CompositeMapper = {
+export const QuickBooksSource: coreClient.CompositeMapper = {
   serializedName: "QuickBooksSource",
   type: {
     name: "Composite",
@@ -23539,7 +23608,7 @@ export const QuickBooksSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceNowSource: coreHttp.CompositeMapper = {
+export const ServiceNowSource: coreClient.CompositeMapper = {
   serializedName: "ServiceNowSource",
   type: {
     name: "Composite",
@@ -23559,7 +23628,7 @@ export const ServiceNowSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShopifySource: coreHttp.CompositeMapper = {
+export const ShopifySource: coreClient.CompositeMapper = {
   serializedName: "ShopifySource",
   type: {
     name: "Composite",
@@ -23579,7 +23648,7 @@ export const ShopifySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkSource: coreHttp.CompositeMapper = {
+export const SparkSource: coreClient.CompositeMapper = {
   serializedName: "SparkSource",
   type: {
     name: "Composite",
@@ -23599,7 +23668,7 @@ export const SparkSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SquareSource: coreHttp.CompositeMapper = {
+export const SquareSource: coreClient.CompositeMapper = {
   serializedName: "SquareSource",
   type: {
     name: "Composite",
@@ -23619,7 +23688,7 @@ export const SquareSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const XeroSource: coreHttp.CompositeMapper = {
+export const XeroSource: coreClient.CompositeMapper = {
   serializedName: "XeroSource",
   type: {
     name: "Composite",
@@ -23639,7 +23708,7 @@ export const XeroSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZohoSource: coreHttp.CompositeMapper = {
+export const ZohoSource: coreClient.CompositeMapper = {
   serializedName: "ZohoSource",
   type: {
     name: "Composite",
@@ -23659,7 +23728,7 @@ export const ZohoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaSource: coreHttp.CompositeMapper = {
+export const NetezzaSource: coreClient.CompositeMapper = {
   serializedName: "NetezzaSource",
   type: {
     name: "Composite",
@@ -23692,7 +23761,7 @@ export const NetezzaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const VerticaSource: coreHttp.CompositeMapper = {
+export const VerticaSource: coreClient.CompositeMapper = {
   serializedName: "VerticaSource",
   type: {
     name: "Composite",
@@ -23712,7 +23781,7 @@ export const VerticaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceMarketingCloudSource: coreHttp.CompositeMapper = {
+export const SalesforceMarketingCloudSource: coreClient.CompositeMapper = {
   serializedName: "SalesforceMarketingCloudSource",
   type: {
     name: "Composite",
@@ -23732,7 +23801,7 @@ export const SalesforceMarketingCloudSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResponsysSource: coreHttp.CompositeMapper = {
+export const ResponsysSource: coreClient.CompositeMapper = {
   serializedName: "ResponsysSource",
   type: {
     name: "Composite",
@@ -23752,7 +23821,7 @@ export const ResponsysSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsAXSource: coreHttp.CompositeMapper = {
+export const DynamicsAXSource: coreClient.CompositeMapper = {
   serializedName: "DynamicsAXSource",
   type: {
     name: "Composite",
@@ -23778,7 +23847,7 @@ export const DynamicsAXSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudSource: coreHttp.CompositeMapper = {
+export const OracleServiceCloudSource: coreClient.CompositeMapper = {
   serializedName: "OracleServiceCloudSource",
   type: {
     name: "Composite",
@@ -23798,7 +23867,7 @@ export const OracleServiceCloudSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsSource: coreHttp.CompositeMapper = {
+export const GoogleAdWordsSource: coreClient.CompositeMapper = {
   serializedName: "GoogleAdWordsSource",
   type: {
     name: "Composite",
@@ -23818,7 +23887,7 @@ export const GoogleAdWordsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonRedshiftSource: coreHttp.CompositeMapper = {
+export const AmazonRedshiftSource: coreClient.CompositeMapper = {
   serializedName: "AmazonRedshiftSource",
   type: {
     name: "Composite",
@@ -23845,7 +23914,7 @@ export const AmazonRedshiftSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper = {
+export const TumblingWindowTriggerDependencyReference: coreClient.CompositeMapper = {
   serializedName: "TumblingWindowTriggerDependencyReference",
   type: {
     name: "Composite",
@@ -23856,7 +23925,9 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
       ...TriggerDependencyReference.type.modelProperties,
       offset: {
         constraints: {
-          Pattern: new RegExp("-?((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "-?((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -23867,7 +23938,9 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
       },
       size: {
         constraints: {
-          Pattern: new RegExp("((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
+          Pattern: new RegExp(
+            "((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
+          ),
           MaxLength: 15,
           MinLength: 8
         },
@@ -23880,7 +23953,7 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
   }
 };
 
-export const LinkedServiceResource: coreHttp.CompositeMapper = {
+export const LinkedServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LinkedServiceResource",
@@ -23897,7 +23970,7 @@ export const LinkedServiceResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetResource: coreHttp.CompositeMapper = {
+export const DatasetResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatasetResource",
@@ -23914,7 +23987,7 @@ export const DatasetResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineResource: coreHttp.CompositeMapper = {
+export const PipelineResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineResource",
@@ -23995,7 +24068,7 @@ export const PipelineResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const TriggerResource: coreHttp.CompositeMapper = {
+export const TriggerResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TriggerResource",
@@ -24012,7 +24085,7 @@ export const TriggerResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowResource: coreHttp.CompositeMapper = {
+export const DataFlowResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowResource",
@@ -24029,7 +24102,7 @@ export const DataFlowResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkJobDefinitionResource: coreHttp.CompositeMapper = {
+export const SparkJobDefinitionResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SparkJobDefinitionResource",
@@ -24046,7 +24119,7 @@ export const SparkJobDefinitionResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeResource: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IntegrationRuntimeResource",
@@ -24063,7 +24136,7 @@ export const IntegrationRuntimeResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const LibraryResource: coreHttp.CompositeMapper = {
+export const LibraryResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LibraryResource",
@@ -24080,7 +24153,7 @@ export const LibraryResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const RerunTriggerResource: coreHttp.CompositeMapper = {
+export const RerunTriggerResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RerunTriggerResource",
@@ -24097,7 +24170,7 @@ export const RerunTriggerResource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataFlowDebugSessionCreateDataFlowDebugSessionHeaders: coreHttp.CompositeMapper = {
+export const DataFlowDebugSessionCreateDataFlowDebugSessionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugSessionCreateDataFlowDebugSessionHeaders",
@@ -24112,7 +24185,7 @@ export const DataFlowDebugSessionCreateDataFlowDebugSessionHeaders: coreHttp.Com
   }
 };
 
-export const DataFlowDebugSessionExecuteCommandHeaders: coreHttp.CompositeMapper = {
+export const DataFlowDebugSessionExecuteCommandHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataFlowDebugSessionExecuteCommandHeaders",

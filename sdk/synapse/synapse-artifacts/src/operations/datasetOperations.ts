@@ -9,9 +9,8 @@
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Library } from "../operationsInterfaces";
+import { DatasetOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,28 +18,27 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  LibraryResource,
-  LibraryListNextOptionalParams,
-  LibraryListOptionalParams,
-  LibraryListOperationResponse,
-  LibraryFlushOptionalParams,
-  LibraryGetOperationResultOptionalParams,
-  LibraryGetOperationResultResponse,
-  LibraryDeleteOptionalParams,
-  LibraryGetOptionalParams,
-  LibraryGetResponse,
-  LibraryCreateOptionalParams,
-  LibraryAppendOptionalParams,
-  LibraryListNextResponse
+  DatasetResource,
+  DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams,
+  DatasetOperationsGetDatasetsByWorkspaceOptionalParams,
+  DatasetOperationsGetDatasetsByWorkspaceResponse,
+  DatasetOperationsCreateOrUpdateDatasetOptionalParams,
+  DatasetOperationsCreateOrUpdateDatasetResponse,
+  DatasetOperationsGetDatasetOptionalParams,
+  DatasetOperationsGetDatasetResponse,
+  DatasetOperationsDeleteDatasetOptionalParams,
+  ArtifactRenameRequest,
+  DatasetOperationsRenameDatasetOptionalParams,
+  DatasetOperationsGetDatasetsByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Library. */
-export class LibraryImpl implements Library {
+/** Class representing a DatasetOperations. */
+export class DatasetOperationsImpl implements DatasetOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
-   * Initialize a new instance of the class Library class.
+   * Initialize a new instance of the class DatasetOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClientContext) {
@@ -48,13 +46,13 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Lists Library.
+   * Lists datasets.
    * @param options The options parameters.
    */
-  public list(
-    options?: LibraryListOptionalParams
-  ): PagedAsyncIterableIterator<LibraryResource> {
-    const iter = this.listPagingAll(options);
+  public listDatasetsByWorkspace(
+    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<DatasetResource> {
+    const iter = this.getDatasetsByWorkspacePagingAll(options);
     return {
       next() {
         return iter.next();
@@ -63,162 +61,52 @@ export class LibraryImpl implements Library {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.getDatasetsByWorkspacePagingPage(options);
       }
     };
   }
 
-  private async *listPagingPage(
-    options?: LibraryListOptionalParams
-  ): AsyncIterableIterator<LibraryResource[]> {
-    let result = await this._list(options);
+  private async *getDatasetsByWorkspacePagingPage(
+    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+  ): AsyncIterableIterator<DatasetResource[]> {
+    let result = await this._getDatasetsByWorkspace(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._getDatasetsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listPagingAll(
-    options?: LibraryListOptionalParams
-  ): AsyncIterableIterator<LibraryResource> {
-    for await (const page of this.listPagingPage(options)) {
+  private async *getDatasetsByWorkspacePagingAll(
+    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+  ): AsyncIterableIterator<DatasetResource> {
+    for await (const page of this.getDatasetsByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists Library.
+   * Lists datasets.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: LibraryListOptionalParams
-  ): Promise<LibraryListOperationResponse> {
-    const { span } = createSpan("ArtifactsClient-_list", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
-      return result as LibraryListOperationResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options The options parameters.
-   */
-  async beginFlush(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginFlush", options || {});
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      flushOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options The options parameters.
-   */
-  async beginFlushAndWait(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginFlush(libraryName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get Operation result for Library
-   * @param operationId operation id for which status is requested
-   * @param options The options parameters.
-   */
-  async getOperationResult(
-    operationId: string,
-    options?: LibraryGetOperationResultOptionalParams
-  ): Promise<LibraryGetOperationResultResponse> {
+  private async _getDatasetsByWorkspace(
+    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+  ): Promise<DatasetOperationsGetDatasetsByWorkspaceResponse> {
     const { span } = createSpan(
-      "ArtifactsClient-getOperationResult",
+      "ArtifactsClient-_getDatasetsByWorkspace",
       options || {}
     );
     try {
       const result = await this.client.sendOperationRequest(
-        { operationId, options },
-        getOperationResultOperationSpec
+        { options },
+        getDatasetsByWorkspaceOperationSpec
       );
-      return result as LibraryGetOperationResultResponse;
+      return result as DatasetOperationsGetDatasetsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -231,16 +119,145 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Creates or updates a dataset.
+   * @param datasetName The dataset name.
+   * @param dataset Dataset resource definition.
    * @param options The options parameters.
    */
-  async beginDelete(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams
+  async beginCreateOrUpdateDataset(
+    datasetName: string,
+    dataset: DatasetResource,
+    options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DatasetOperationsCreateOrUpdateDatasetResponse>,
+      DatasetOperationsCreateOrUpdateDatasetResponse
+    >
+  > {
+    const { span } = createSpan(
+      "ArtifactsClient-beginCreateOrUpdateDataset",
+      options || {}
+    );
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DatasetOperationsCreateOrUpdateDatasetResponse> => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as DatasetOperationsCreateOrUpdateDatasetResponse;
+      } catch (error) {
+        span.setStatus({
+          code: coreTracing.SpanStatusCode.UNSET,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { datasetName, dataset, options },
+      createOrUpdateDatasetOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Creates or updates a dataset.
+   * @param datasetName The dataset name.
+   * @param dataset Dataset resource definition.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateDatasetAndWait(
+    datasetName: string,
+    dataset: DatasetResource,
+    options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
+  ): Promise<DatasetOperationsCreateOrUpdateDatasetResponse> {
+    const poller = await this.beginCreateOrUpdateDataset(
+      datasetName,
+      dataset,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a dataset.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
+   */
+  async getDataset(
+    datasetName: string,
+    options?: DatasetOperationsGetDatasetOptionalParams
+  ): Promise<DatasetOperationsGetDatasetResponse> {
+    const { span } = createSpan("ArtifactsClient-getDataset", options || {});
+    try {
+      const result = await this.client.sendOperationRequest(
+        { datasetName, options },
+        getDatasetOperationSpec
+      );
+      return result as DatasetOperationsGetDatasetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: coreTracing.SpanStatusCode.UNSET,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes a dataset.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
+   */
+  async beginDeleteDataset(
+    datasetName: string,
+    options?: DatasetOperationsDeleteDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginDelete", options || {});
+    const { span } = createSpan(
+      "ArtifactsClient-beginDeleteDataset",
+      options || {}
+    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -293,8 +310,8 @@ export class LibraryImpl implements Library {
 
     const lro = new LroImpl(
       sendOperation,
-      { libraryName, options },
-      deleteOperationSpec
+      { datasetName, options },
+      deleteDatasetOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -303,58 +320,33 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Deletes a dataset.
+   * @param datasetName The dataset name.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams
+  async beginDeleteDatasetAndWait(
+    datasetName: string,
+    options?: DatasetOperationsDeleteDatasetOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(libraryName, options);
+    const poller = await this.beginDeleteDataset(datasetName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Get Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Renames a dataset.
+   * @param datasetName The dataset name.
+   * @param request proposed new name.
    * @param options The options parameters.
    */
-  async get(
-    libraryName: string,
-    options?: LibraryGetOptionalParams
-  ): Promise<LibraryGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { libraryName, options },
-        getOperationSpec
-      );
-      return result as LibraryGetResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates a library with the library name.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options The options parameters.
-   */
-  async beginCreate(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams
+  async beginRenameDataset(
+    datasetName: string,
+    request: ArtifactRenameRequest,
+    options?: DatasetOperationsRenameDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginCreate", options || {});
+    const { span } = createSpan(
+      "ArtifactsClient-beginRenameDataset",
+      options || {}
+    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -407,8 +399,8 @@ export class LibraryImpl implements Library {
 
     const lro = new LroImpl(
       sendOperation,
-      { libraryName, options },
-      createOperationSpec
+      { datasetName, request, options },
+      renameDatasetOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -417,66 +409,39 @@ export class LibraryImpl implements Library {
   }
 
   /**
-   * Creates a library with the library name.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
+   * Renames a dataset.
+   * @param datasetName The dataset name.
+   * @param request proposed new name.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams
+  async beginRenameDatasetAndWait(
+    datasetName: string,
+    request: ArtifactRenameRequest,
+    options?: DatasetOperationsRenameDatasetOptionalParams
   ): Promise<void> {
-    const poller = await this.beginCreate(libraryName, options);
+    const poller = await this.beginRenameDataset(datasetName, request, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Append the content to the library resource created using the create operation. The maximum content
-   * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param content Library file chunk.
+   * GetDatasetsByWorkspaceNext
+   * @param nextLink The nextLink from the previous successful call to the GetDatasetsByWorkspace method.
    * @param options The options parameters.
    */
-  async append(
-    libraryName: string,
-    content: coreRestPipeline.RequestBodyType,
-    options?: LibraryAppendOptionalParams
-  ): Promise<void> {
-    const { span } = createSpan("ArtifactsClient-append", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { libraryName, content, options },
-        appendOperationSpec
-      );
-      return result as void;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private async _listNext(
+  private async _getDatasetsByWorkspaceNext(
     nextLink: string,
-    options?: LibraryListNextOptionalParams
-  ): Promise<LibraryListNextResponse> {
-    const { span } = createSpan("ArtifactsClient-_listNext", options || {});
+    options?: DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams
+  ): Promise<DatasetOperationsGetDatasetsByWorkspaceNextResponse> {
+    const { span } = createSpan(
+      "ArtifactsClient-_getDatasetsByWorkspaceNext",
+      options || {}
+    );
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
-        listNextOperationSpec
+        getDatasetsByWorkspaceNextOperationSpec
       );
-      return result as LibraryListNextResponse;
+      return result as DatasetOperationsGetDatasetsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -491,12 +456,12 @@ export class LibraryImpl implements Library {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries",
+const getDatasetsByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/datasets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.DatasetListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -507,44 +472,56 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const flushOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}/flush",
-  httpMethod: "POST",
+const createOrUpdateDatasetOperationSpec: coreClient.OperationSpec = {
+  path: "/datasets/{datasetName}",
+  httpMethod: "PUT",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.DatasetResource
+    },
+    201: {
+      bodyMapper: Mappers.DatasetResource
+    },
+    202: {
+      bodyMapper: Mappers.DatasetResource
+    },
+    204: {
+      bodyMapper: Mappers.DatasetResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.datasetName],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
+  mediaType: "json",
   serializer
 };
-const getOperationResultOperationSpec: coreClient.OperationSpec = {
-  path: "/libraryOperationResults/{operationId}",
+const getDatasetOperationSpec: coreClient.OperationSpec = {
+  path: "/datasets/{datasetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryResource
+      bodyMapper: Mappers.DatasetResource
     },
-    202: {
-      bodyMapper: Mappers.OperationResult
-    },
+    304: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.datasetName],
+  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
+const deleteDatasetOperationSpec: coreClient.OperationSpec = {
+  path: "/datasets/{datasetName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -556,30 +533,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LibraryResource
-    },
-    304: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "PUT",
+const renameDatasetOperationSpec: coreClient.OperationSpec = {
+  path: "/datasets/{datasetName}/rename",
+  httpMethod: "POST",
   responses: {
     200: {},
     201: {},
@@ -589,37 +549,19 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.datasetName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
-const appendOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "PUT",
-  responses: {
-    201: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.content,
-  queryParameters: [Parameters.apiVersion, Parameters.comp],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [
-    Parameters.contentType1,
-    Parameters.accept1,
-    Parameters.blobConditionAppendPosition
-  ],
-  mediaType: "binary",
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const getDatasetsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.DatasetListResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

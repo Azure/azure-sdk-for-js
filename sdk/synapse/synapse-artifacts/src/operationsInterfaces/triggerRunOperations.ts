@@ -6,11 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
+import {
+  TriggerRunOperationsRerunTriggerInstanceOptionalParams,
+  TriggerRunOperationsCancelTriggerInstanceOptionalParams,
+  RunFilterParameters,
+  TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams,
+  TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse
+} from "../models";
 
-/** Interface representing a TriggerRun. */
-export interface TriggerRun {
+/** Interface representing a TriggerRunOperations. */
+export interface TriggerRunOperations {
   /**
    * Rerun single trigger instance by runId.
    * @param triggerName The trigger name.
@@ -20,8 +25,8 @@ export interface TriggerRun {
   rerunTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse>;
+    options?: TriggerRunOperationsRerunTriggerInstanceOptionalParams
+  ): Promise<void>;
   /**
    * Cancel single trigger instance by runId.
    * @param triggerName The trigger name.
@@ -31,8 +36,8 @@ export interface TriggerRun {
   cancelTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse>;
+    options?: TriggerRunOperationsCancelTriggerInstanceOptionalParams
+  ): Promise<void>;
   /**
    * Query trigger runs.
    * @param filterParameters Parameters to filter the pipeline run.
@@ -40,6 +45,6 @@ export interface TriggerRun {
    */
   queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: coreHttp.OperationOptions
-  ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    options?: TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams
+  ): Promise<TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse>;
 }

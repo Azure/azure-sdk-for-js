@@ -6,21 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
-import { Workspace } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import { WorkspaceOperations } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
-import { WorkspaceGetResponse } from "../models";
+import {
+  WorkspaceOperationsGetOptionalParams,
+  WorkspaceOperationsGetResponse
+} from "../models";
 
-/** Class representing a Workspace. */
-export class WorkspaceImpl implements Workspace {
+/** Class representing a WorkspaceOperations. */
+export class WorkspaceOperationsImpl implements WorkspaceOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
-   * Initialize a new instance of the class Workspace class.
+   * Initialize a new instance of the class WorkspaceOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClientContext) {
@@ -31,17 +34,19 @@ export class WorkspaceImpl implements Workspace {
    * Get Workspace
    * @param options The options parameters.
    */
-  async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+  async get(
+    options?: WorkspaceOperationsGetOptionalParams
+  ): Promise<WorkspaceOperationsGetResponse> {
+    const { span } = createSpan("ArtifactsClient-get", options || {});
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
-      return result as WorkspaceGetResponse;
+      const result = await this.client.sendOperationRequest(
+        { options },
+        getOperationSpec
+      );
+      return result as WorkspaceOperationsGetResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -51,9 +56,9 @@ export class WorkspaceImpl implements Workspace {
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/workspace",
   httpMethod: "GET",
   responses: {

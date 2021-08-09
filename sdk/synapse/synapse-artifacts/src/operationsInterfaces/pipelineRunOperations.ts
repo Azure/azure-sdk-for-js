@@ -6,17 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   RunFilterParameters,
-  PipelineRunQueryPipelineRunsByWorkspaceResponse,
-  PipelineRunGetPipelineRunResponse,
-  PipelineRunQueryActivityRunsResponse,
-  PipelineRunCancelPipelineRunOptionalParams
+  PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams,
+  PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse,
+  PipelineRunOperationsGetPipelineRunOptionalParams,
+  PipelineRunOperationsGetPipelineRunResponse,
+  PipelineRunOperationsQueryActivityRunsOptionalParams,
+  PipelineRunOperationsQueryActivityRunsResponse,
+  PipelineRunOperationsCancelPipelineRunOptionalParams
 } from "../models";
 
-/** Interface representing a PipelineRun. */
-export interface PipelineRun {
+/** Interface representing a PipelineRunOperations. */
+export interface PipelineRunOperations {
   /**
    * Query pipeline runs in the workspace based on input filter conditions.
    * @param filterParameters Parameters to filter the pipeline run.
@@ -24,8 +26,8 @@ export interface PipelineRun {
    */
   queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: coreHttp.OperationOptions
-  ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
+    options?: PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams
+  ): Promise<PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse>;
   /**
    * Get a pipeline run by its run ID.
    * @param runId The pipeline run identifier.
@@ -33,8 +35,8 @@ export interface PipelineRun {
    */
   getPipelineRun(
     runId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<PipelineRunGetPipelineRunResponse>;
+    options?: PipelineRunOperationsGetPipelineRunOptionalParams
+  ): Promise<PipelineRunOperationsGetPipelineRunResponse>;
   /**
    * Query activity runs based on input filter conditions.
    * @param pipelineName The pipeline name.
@@ -46,8 +48,8 @@ export interface PipelineRun {
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: coreHttp.OperationOptions
-  ): Promise<PipelineRunQueryActivityRunsResponse>;
+    options?: PipelineRunOperationsQueryActivityRunsOptionalParams
+  ): Promise<PipelineRunOperationsQueryActivityRunsResponse>;
   /**
    * Cancel a pipeline run by its run ID.
    * @param runId The pipeline run identifier.
@@ -55,6 +57,6 @@ export interface PipelineRun {
    */
   cancelPipelineRun(
     runId: string,
-    options?: PipelineRunCancelPipelineRunOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+    options?: PipelineRunOperationsCancelPipelineRunOptionalParams
+  ): Promise<void>;
 }

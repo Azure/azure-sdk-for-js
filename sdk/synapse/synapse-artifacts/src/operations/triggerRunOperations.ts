@@ -6,21 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
-import { TriggerRun } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import { TriggerRunOperations } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
-import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
+import {
+  TriggerRunOperationsRerunTriggerInstanceOptionalParams,
+  TriggerRunOperationsCancelTriggerInstanceOptionalParams,
+  RunFilterParameters,
+  TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams,
+  TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse
+} from "../models";
 
-/** Class representing a TriggerRun. */
-export class TriggerRunImpl implements TriggerRun {
+/** Class representing a TriggerRunOperations. */
+export class TriggerRunOperationsImpl implements TriggerRunOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
-   * Initialize a new instance of the class TriggerRun class.
+   * Initialize a new instance of the class TriggerRunOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClientContext) {
@@ -36,26 +42,21 @@ export class TriggerRunImpl implements TriggerRun {
   async rerunTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: TriggerRunOperationsRerunTriggerInstanceOptionalParams
+  ): Promise<void> {
+    const { span } = createSpan(
       "ArtifactsClient-rerunTriggerInstance",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      triggerName,
-      runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { triggerName, runId, options },
         rerunTriggerInstanceOperationSpec
       );
-      return result as coreHttp.RestResponse;
+      return result as void;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -73,26 +74,21 @@ export class TriggerRunImpl implements TriggerRun {
   async cancelTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: TriggerRunOperationsCancelTriggerInstanceOptionalParams
+  ): Promise<void> {
+    const { span } = createSpan(
       "ArtifactsClient-cancelTriggerInstance",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      triggerName,
-      runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { triggerName, runId, options },
         cancelTriggerInstanceOperationSpec
       );
-      return result as coreHttp.RestResponse;
+      return result as void;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -108,25 +104,21 @@ export class TriggerRunImpl implements TriggerRun {
    */
   async queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: coreHttp.OperationOptions
-  ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams
+  ): Promise<TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse> {
+    const { span } = createSpan(
       "ArtifactsClient-queryTriggerRunsByWorkspace",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { filterParameters, options },
         queryTriggerRunsByWorkspaceOperationSpec
       );
-      return result as TriggerRunQueryTriggerRunsByWorkspaceResponse;
+      return result as TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -136,9 +128,9 @@ export class TriggerRunImpl implements TriggerRun {
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const rerunTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
+const rerunTriggerInstanceOperationSpec: coreClient.OperationSpec = {
   path: "/triggers/{triggerName}/triggerRuns/{runId}/rerun",
   httpMethod: "POST",
   responses: {
@@ -148,11 +140,15 @@ const rerunTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.runId,
+    Parameters.triggerName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const cancelTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
+const cancelTriggerInstanceOperationSpec: coreClient.OperationSpec = {
   path: "/triggers/{triggerName}/triggerRuns/{runId}/cancel",
   httpMethod: "POST",
   responses: {
@@ -162,11 +158,15 @@ const cancelTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.runId,
+    Parameters.triggerName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const queryTriggerRunsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
+const queryTriggerRunsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path: "/queryTriggerRuns",
   httpMethod: "POST",
   responses: {

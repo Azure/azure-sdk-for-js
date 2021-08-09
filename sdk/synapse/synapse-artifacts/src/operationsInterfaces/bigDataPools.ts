@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { BigDataPoolsListResponse, BigDataPoolsGetResponse } from "../models";
+import {
+  BigDataPoolsListOptionalParams,
+  BigDataPoolsListResponse,
+  BigDataPoolsGetOptionalParams,
+  BigDataPoolsGetResponse
+} from "../models";
 
 /** Interface representing a BigDataPools. */
 export interface BigDataPools {
@@ -15,7 +19,9 @@ export interface BigDataPools {
    * List Big Data Pools
    * @param options The options parameters.
    */
-  list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
+  list(
+    options?: BigDataPoolsListOptionalParams
+  ): Promise<BigDataPoolsListResponse>;
   /**
    * Get Big Data Pool
    * @param bigDataPoolName The Big Data Pool name
@@ -23,6 +29,6 @@ export interface BigDataPools {
    */
   get(
     bigDataPoolName: string,
-    options?: coreHttp.OperationOptions
+    options?: BigDataPoolsGetOptionalParams
   ): Promise<BigDataPoolsGetResponse>;
 }
