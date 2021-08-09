@@ -46,7 +46,7 @@ import {
   serializeSignedIdentifiers
 } from "./serialization";
 import { Table } from "./generated/operationsInterfaces";
-import { LIB_INFO, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   FullOperationResponse,
   InternalClientPipelineOptions,
@@ -224,16 +224,6 @@ export class TableClient {
 
     this.allowInsecureConnection = clientOptions.allowInsecureConnection ?? false;
     clientOptions.endpoint = clientOptions.endpoint || this.url;
-
-    if (!clientOptions.userAgentOptions) {
-      clientOptions.userAgentOptions = {};
-    }
-
-    if (clientOptions.userAgentOptions.userAgentPrefix) {
-      clientOptions.userAgentOptions.userAgentPrefix = `${clientOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
-    } else {
-      clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
-    }
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,

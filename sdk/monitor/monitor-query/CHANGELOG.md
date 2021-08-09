@@ -1,5 +1,21 @@
 # Release History
 
+## 1.0.0-beta.4 (2021-08-10)
+
+### Features Added
+
+- Added `additionalWorkspaces` as an optional parameter to `QueryLogsOptions` and `BatchQuery` for the `queryLogs` and `queryLogsBatch` API to allow multiple workspaces
+- Allow returning statistics and visualization information to user for each query result in `QueryLogsBatchResult`
+- Adding Error information in `QueryLogsResult`.
+
+### Breaking Changes
+
+- Renamed `workspace` to `workspaceId` in querybatch
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.3 (2021-07-06)
 
 ### Features Added

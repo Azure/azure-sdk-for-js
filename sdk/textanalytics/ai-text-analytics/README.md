@@ -1,8 +1,8 @@
 # Azure Text Analytics client library for JavaScript
 
-[Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
+[Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Text Analytics service API version 3.1.0.
+**Note:** This SDK targets Azure Text Analytics service API version 3.2.0-preview.1.
 
 - Language Detection
 - Sentiment Analysis
@@ -10,6 +10,7 @@
 - Named Entity Recognition
 - Recognition of Personally Identifiable Information
 - Linked Entity Recognition
+- Extractive Summarization
 - Healthcare Analysis
 - Support Multiple Actions Per Document
 
@@ -22,6 +23,7 @@ Use the client library to:
 - Perform multiple of the above tasks at once.
 
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics)

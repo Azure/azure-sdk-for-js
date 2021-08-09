@@ -473,7 +473,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeyClient(url, credentials);
+   * let client = new KeyClient(vaultUrl, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKeyProperties(keyName, key.properties.version, { enabled: false });
    * ```
@@ -485,8 +485,33 @@ export class KeyClient {
   public updateKeyProperties(
     name: string,
     keyVersion: string,
-    options: UpdateKeyPropertiesOptions = {}
+    options?: UpdateKeyPropertiesOptions
+  ): Promise<KeyVaultKey>;
+  /**
+   * The updateKeyProperties method changes specified properties of the latest version of an existing stored key. Properties that
+   * are not specified in the request are left unchanged. The value of a key itself cannot be
+   * changed. This operation requires the keys/set permission.
+   *
+   * Example usage:
+   * ```ts
+   * let keyName = "MyKey";
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let key = await client.getKey(keyName);
+   * let result = await client.updateKeyProperties(keyName, { enabled: false });
+   * ```
+   * Updates the properties associated with a specified key in a given key vault.
+   * @param name - The name of the key.
+   * @param keyVersion - The version of the key.
+   * @param options - The optional parameters.
+   */
+  public updateKeyProperties(
+    name: string,
+    options?: UpdateKeyPropertiesOptions
+  ): Promise<KeyVaultKey>;
+  public updateKeyProperties(
+    ...args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
   ): Promise<KeyVaultKey> {
+    const [name, keyVersion, options] = this.disambiguateUpdateKeyPropertiesArgs(args);
     return withTrace(`updateKeyProperties`, options, async (updatedOptions) => {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = updatedOptions;
       const unflattenedOptions = {
@@ -505,6 +530,25 @@ export class KeyClient {
       );
       return getKeyFromKeyBundle(response);
     });
+  }
+
+  /**
+   * Standardizes an overloaded arguments collection for the updateKeyProperties method.
+   *
+   * @param args - The arguments collection.
+   * @returns - The standardized arguments collection.
+   * @internal
+   */
+  private disambiguateUpdateKeyPropertiesArgs(
+    args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
+  ): [string, string, UpdateKeyPropertiesOptions] {
+    if (typeof args[1] === "string") {
+      // [name, keyVersion, options?] => [name, keyVersion, options || {}]
+      return [args[0], args[1], args[2] || {}];
+    } else {
+      // [name, options?] => [name , "", options || {}]
+      return [args[0], "", args[1] || {}];
+    }
   }
 
   /**

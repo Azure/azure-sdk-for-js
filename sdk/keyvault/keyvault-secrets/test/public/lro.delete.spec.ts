@@ -50,8 +50,6 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
     // The final secret can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
-
-    await testClient.purgeSecret(secretName);
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
@@ -83,8 +81,6 @@ describe("Secrets client - Long Running Operations - delete", () => {
     const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
     assert.equal(deletedSecret.name, secretName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.purgeSecret(secretName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work

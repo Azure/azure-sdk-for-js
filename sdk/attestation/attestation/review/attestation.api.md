@@ -42,6 +42,7 @@ export interface AttestationAdministrationClientPolicyOperationOptions extends A
 // @public
 export class AttestationClient {
     constructor(endpoint: string, options?: AttestationClientOptions);
+    constructor(endpoint: string, credentials: TokenCredential, options?: AttestationClientOptions);
     attestOpenEnclave(report: Uint8Array | Buffer | Blob, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array | Buffer | Blob, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
@@ -56,7 +57,6 @@ export interface AttestationClientOperationOptions extends OperationOptions {
 
 // @public
 export interface AttestationClientOptions extends CommonClientOptions {
-    credentials?: TokenCredential;
     validationOptions?: AttestationTokenValidationOptions;
 }
 

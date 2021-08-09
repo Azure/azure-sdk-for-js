@@ -352,8 +352,7 @@ export type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
 export type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 // @public
-export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel, CommonOptions {
-    abortSignal?: AbortSignalLike;
+export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel {
 }
 
 // @public

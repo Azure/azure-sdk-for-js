@@ -1,38 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { RequestPrepareOptions } from "@azure/core-http";
-
+import { readFile } from "fs";
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { msiGenericGetToken } from "./utils";
 import { azureArcAPIVersion } from "./constants";
 import { AuthenticationError } from "../../client/errors";
-import { readFile } from "fs";
 
 const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
 
 // Azure Arc MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
-function prepareRequestOptions(resource?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": azureArcAPIVersion
   };
 
-  return {
+  const query = new URLSearchParams(queryParameters);
+
+  // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
+  if (!process.env.IDENTITY_ENDPOINT) {
+    throw new Error("Missing environment variable: IDENTITY_ENDPOINT");
+  }
+
+  return createPipelineRequest({
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
-    url: process.env.IDENTITY_ENDPOINT,
+    url: `${process.env.IDENTITY_ENDPOINT}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: true
-    }
-  };
+      Metadata: "true"
+    })
+  });
 }
 
 // Since "fs"'s readFileSync locks the thread, and to avoid extra dependencies.
@@ -49,11 +58,9 @@ function readFileAsync(path: string, options: { encoding: string }): Promise<str
 
 async function filePathRequest(
   identityClient: IdentityClient,
-  requestPrepareOptions: RequestPrepareOptions
+  requestPrepareOptions: PipelineRequestOptions
 ): Promise<string | undefined> {
-  const response = await identityClient.sendRequest(
-    identityClient.createWebResource(requestPrepareOptions)
-  );
+  const response = await identityClient.sendRequest(createPipelineRequest(requestPrepareOptions));
 
   if (response.status !== 401) {
     let message = "";
@@ -67,7 +74,11 @@ async function filePathRequest(
   }
 
   const authHeader = response.headers.get("www-authenticate") || "";
-  return authHeader.split("=").slice(1)[0];
+  try {
+    return authHeader.split("=").slice(1)[0];
+  } catch (e) {
+    throw Error(`Invalid www-authenticate header format: ${authHeader}`);
+  }
 }
 
 export const arcMsi: MSI = {
@@ -107,7 +118,7 @@ export const arcMsi: MSI = {
     }
 
     const key = await readFileAsync(filePath, { encoding: "utf-8" });
-    requestOptions.headers!["Authorization"] = `Basic ${key}`;
+    requestOptions.headers?.set("Authorization", `Basic ${key}`);
 
     return msiGenericGetToken(identityClient, requestOptions, expiresInParser, getTokenOptions);
   }
