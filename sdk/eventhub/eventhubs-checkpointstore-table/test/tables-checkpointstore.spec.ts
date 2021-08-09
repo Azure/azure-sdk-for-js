@@ -36,21 +36,20 @@ const serviceClient = new TableServiceClient(
 describe("TableCheckpointStore", function(): void {
   let client: TableClient;
   let tableName: string;
+  beforeEach("creating table", async () => {
+    tableName = `table${new Date().getTime()}${Math.floor(Math.random() * 10) + 1}`;
+    client = new TableClient(
+      `https://${service.storageAccountName}.table.core.windows.net`,
+      tableName,
+      credential
+    );
+    await serviceClient.createTable(tableName);
+  });
+  afterEach(async () => {
+    await serviceClient.deleteTable(tableName);
+  });
 
   describe("Runs tests on table with no entities", function() {
-    beforeEach("creating table", async () => {
-      tableName = `table${new Date().getTime()}${Math.floor(Math.random() * 10) + 1}`;
-      client = new TableClient(
-        `https://${service.storageAccountName}.table.core.windows.net`,
-        tableName,
-        credential
-      );
-      await serviceClient.createTable(tableName);
-    });
-    afterEach(async () => {
-      await serviceClient.deleteTable(tableName);
-    });
-
     describe("listOwnership", function() {
       it("listOwnership should return an empty array", async function(): Promise<void> {
         const checkpointStore = new TableCheckpointStore(client);
