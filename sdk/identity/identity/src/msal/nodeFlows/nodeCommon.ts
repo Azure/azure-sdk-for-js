@@ -119,11 +119,17 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       authorityHost: authority
     });
 
+    let clientCapabilities: string[] = ["CP1"];
+    if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
+      clientCapabilities = [];
+    }
+
     return {
       auth: {
         clientId,
         authority,
-        knownAuthorities: getKnownAuthorities(tenantId, authority)
+        knownAuthorities: getKnownAuthorities(tenantId, authority),
+        clientCapabilities
       },
       // Cache is defined in this.prepare();
       system: {
