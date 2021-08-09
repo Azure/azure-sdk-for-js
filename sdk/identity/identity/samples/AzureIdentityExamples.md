@@ -931,7 +931,7 @@ In this sample, the application is again using the `InteractiveBrowserCredential
 
 The second difference is here the application is preventing the credential from automatically initiating user interaction. Even though the application authenticates the user before the credential is used, further interaction might still be needed, for instance, in the case that the user's refresh token expires or that a specific method requires additional consent or authentication.
 
-By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an error `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
+By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
 
 ```ts
 try {
