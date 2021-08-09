@@ -172,6 +172,44 @@ async function run() {
 run().catch((err) => console.log("ERROR:", err));
 ```
 
+#### Handling the response for Logs Query
+
+The `queryLogs` API returns the `QueryLogsResult`.
+
+Here is a heirarchy of the response:
+
+```
+QueryLogsResult
+|---statistics
+|---visalization
+|---error
+|---tables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columns (list of `LogsColumn` objects)
+        |---name
+        |---type
+```
+
+So, to handle a response with tables,
+
+```ts
+const tablesFromResult = result.tables;
+for (const table of tablesFromResult) {
+  const columnHeaderString = table.columns
+    .map((column) => `${column.name}(${column.type}) `)
+    .join("| ");
+  console.log("| " + columnHeaderString);
+
+  for (const row of table.rows) {
+    const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+    console.log("| " + columnValuesString);
+  }
+}
+```
+
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts).
+
 #### Set logs query timeout
 
 ```ts
@@ -289,6 +327,58 @@ export async function main() {
   }
 }
 ```
+
+#### Handling the response for Query Logs Batch
+
+The `queryLogsBatch` API returns the `QueryLogsBatchResult`.
+
+Here is a heirarchy of the response:
+
+```
+QueryLogsBatchResult
+|---results (list of following objects)
+    |---id
+    |---status
+    |---statistics
+    |---visalization
+    |---error
+    |---tables (list of `LogsTable` objects)
+        |---name
+        |---rows
+        |---columns (list of `LogsColumn` objects)
+            |---name
+            |---type
+```
+
+To handle a batch response,
+
+```ts
+for (const response of result.results) {
+  console.log(`Results for query with id: ${response.id}`);
+
+  if (response.error) {
+    console.log(`Query had errors:`, response.error);
+  } else {
+    if (response.tables == null) {
+      console.log(`No results for query`);
+    } else {
+      for (const table of response.tables) {
+        const columnHeaderString = table.columns
+          .map((column) => `${column.name}(${column.type}) `)
+          .join("| ");
+        console.log(columnHeaderString);
+
+        for (const row of table.rows) {
+          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+          console.log(columnValuesString);
+        }
+      }
+    }
+  }
+}
+```
+
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts)
 
 ### Query metrics
 
