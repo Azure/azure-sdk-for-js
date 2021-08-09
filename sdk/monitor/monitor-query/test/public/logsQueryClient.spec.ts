@@ -399,16 +399,15 @@ describe("LogsQueryClient live tests", function() {
           },
           {
             workspaceId: monitorWorkspaceId,
-            query: `AppDependencies| count`,
-            timespan: Durations.last24Hours
+            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
+            timespan: Durations.last24Hours,
+            includeQueryStatistics: true,
+            serverTimeoutInSeconds: 60 * 10
           }
         ]
       };
 
-      const result = await createClient().queryLogsBatch(batchRequest, {
-        includeQueryStatistics: true,
-        serverTimeoutInSeconds: 60 * 10
-      });
+      const result = await createClient().queryLogsBatch(batchRequest);
 
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);

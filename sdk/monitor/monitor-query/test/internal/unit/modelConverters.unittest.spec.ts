@@ -55,7 +55,6 @@ describe("Model unit tests", () => {
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
-              workspaces: undefined,
               query: "the kusto query",
               timespan: Durations.last24Hours
             }
@@ -65,28 +64,24 @@ describe("Model unit tests", () => {
     });
 
     it("convertToBatchRequest (complex)", () => {
-      const generatedRequest = convertRequestForQueryBatch(
-        {
-          queries: [
-            {
-              query: "<placeholder>",
-              workspaceId: "<placeholder>",
-              timespan: Durations.last24Hours
-            },
-            {
-              query: "the kusto query",
-              timespan: Durations.last5Minutes,
-              workspaceId: "the primary workspace id"
-            }
-          ]
-        },
-        {
-          includeQueryStatistics: true,
-          serverTimeoutInSeconds: 100,
-          additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
-        }
-      );
-
+      const generatedRequest = convertRequestForQueryBatch({
+        queries: [
+          {
+            query: "<placeholder>",
+            workspaceId: "<placeholder>",
+            timespan: Durations.last24Hours
+          },
+          {
+            query: "the kusto query",
+            timespan: Durations.last5Minutes,
+            workspaceId: "the primary workspace id",
+            includeQueryStatistics: true,
+            serverTimeoutInSeconds: 100,
+            additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
+          }
+        ]
+      });
+      console.log(JSON.stringify(generatedRequest.requests?.[1]));
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
         body: {
           workspaces: ["additionalWorkspace", "resourceId1"],
