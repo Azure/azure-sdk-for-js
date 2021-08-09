@@ -21,12 +21,13 @@
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
   - [Controlling User Interaction](#controlling-user-interaction)
-  - [Persisting the token cache](#persisting-the-token-cache)
+  - [Persisting user authentication data](#persisting-user-authentication-data)
+    - [Persisting the token cache](#persisting-the-token-cache)
+    - [Name Token Cache](#name-token-cache)
     - [Persisting the Authentication Record](#persisting-the-authentication-record)
     - [Silent authentication with Authentication Record and Token Cache Persistence Options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
-  - [Default Token Cache](#default-token-cache)
-  - [Name Token Cache](#name-token-cache)
-  - [Allow Unencrypted Storage](#allow-unencrypted-storage)
+    - [Allow Unencrypted Storage](#allow-unencrypted-storage)
+  - [Authenticating National Clouds](#authenticating-national-clouds)
 
 ## Introduction
 
@@ -322,6 +323,8 @@ First, [register your application][quickstart-register-app] and get your client 
 Next, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code). You'll need the client ID, tenant ID, redirect URL, and the scopes your application plans to access.
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
+
+If you want to learn more about scopes and permissions, you can [read this](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
 
 For a complete example using the authorization code flow in Electron, please refer to [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/electron/ts/src/authProvider.ts)
 
@@ -931,7 +934,10 @@ In this sample, the application is again using the `InteractiveBrowserCredential
 
 The second difference is here the application is preventing the credential from automatically initiating user interaction. Even though the application authenticates the user before the credential is used, further interaction might still be needed, for instance, in the case that the user's refresh token expires or that a specific method requires additional consent or authentication.
 
-By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
+If `disableAutomaticAuthentication` is `false` and if the user doesn’t use `authenticate()` and the user has never authenticated before, `getToken` will prompt for the user to authenticate.
+
+By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an `AuthenticationRequiredError`. If the `disableAutomaticAuthentication` is set to `true` and if the user doesn’t use `authenticate()`, and the user has never authenticated before, `getToken` should fail hard.
+The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
 
 ```ts
 try {
@@ -948,7 +954,19 @@ try {
 
 ### Persisting user authentication data
 
-Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`. In `@azure/identity` starting from v2 we need to use the package `@azure/identity-cache-persistence` that provides an extension to the identity package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level useIdentityExtension function from the @azure/identity package. Enable token cache persistence in your program as follows:
+Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`.
+
+Many credential implementations in the `@azure/identity` library have an underlying token cache which persists sensitive authentication data such as account information, access tokens, and refresh tokens. By default this data exists in an in memory cache which is specific to the credential instance. However, there are scenarios where an application needs persist it across executions in order to share the token cache across credentials. To accomplish this the `@azure/identity` provides the `tokenCachePersistenceOptions`.
+
+> IMPORTANT! The token cache contains sensitive data and MUST be protected to prevent compromising accounts. All application decisions regarding the persistence of the token cache must consider that a breach of its content will fully compromise all the accounts it contains.
+
+In `@azure/identity` starting from v2 we need to use the package `@azure/identity-cache-persistence` that provides an extension to the identity package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level `useIdentityExtension` function from the `@azure/identity` package.
+
+```
+$ npm install --save @azure/identity-cache-persistence
+```
+
+Enable token cache persistence in your program as follows:
 
 ```ts
 import { useIdentityExtension } from "@azure/identity";
@@ -963,7 +981,7 @@ After calling `useIdentityExtension`, the persistent token cache extension is re
 
 The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data such as refresh tokens and access tokens which must be protected to prevent compromising the accounts related to them. By default, the `@azure/identity` library will protect and cache sensitive token data using available platform data protection.
 
-To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option.
+To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option. The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
 ```ts
 import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
@@ -974,6 +992,19 @@ useIdentityExtension(cachePersistenceExtension);
 const credential = new InteractiveBrowserCredential({
   tokenCachePersistenceOptions: {
     enabled: true
+  }
+});
+```
+
+#### Using a named token cache
+
+Some applications may prefer to isolate the token cache they use and provide a unique identifier, instead of using the default. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
+
+```ts
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true,
+    name: "my_application_name"
   }
 });
 ```
@@ -992,8 +1023,7 @@ import {
   serializeAuthenticationRecord
 } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
-import fs from "fs";
-import { promisify } from "util";
+import { writeFileSync } from "fs";
 import path from "path";
 
 useIdentityExtension(cachePersistenceExtension);
@@ -1008,15 +1038,15 @@ export async function main(): Promise<void> {
   const authRecord: AuthenticationRecord = await credential.authenticate(
     "https://service/.default"
   );
-  const writeFileAsync = promisify(fs.writeFile);
   const content = serializeAuthenticationRecord(authRecord);
-  await writeFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
+  writeFileSsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
 }
 
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
+  process.exit(1);
 });
 ```
 
@@ -1032,16 +1062,14 @@ import {
   deserializeAuthenticationRecord
 } from "@azure/identity";
 import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
-import fs from "fs";
-import { promisify } from "util";
+import { readFileSync } from "fs";
 import path from "path";
 
 useIdentityExtension(cachePersistenceExtension);
 
 export async function main(): Promise<void> {
   const AUTH_RECORD_PATH = "./tokencache.bin";
-  const readFileAsync = promisify(fs.readFile);
-  const fileContent = await readFileAsync(path.join(process.cwd(), AUTH_RECORD_PATH), {
+  const fileContent = readFileSync(path.join(process.cwd(), AUTH_RECORD_PATH), {
     encoding: "utf-8"
   });
   const authRecord: AuthenticationRecord = deserializeAuthenticationRecord(fileContent);
@@ -1058,51 +1086,11 @@ main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
+  process.exit(1);
 });
 ```
 
 The credential created in this example will silently authenticate given that a valid token for corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required such as on token expiry, or when additional authentication is required for a particular resource.
-
-### Persisting credentials by configuring TokenCachePersistenceOptions
-
-Many credential implementations in the `@azure/identity` library have an underlying token cache which persists sensitive authentication data such as account information, access tokens, and refresh tokens. By default this data exists in an in memory cache which is specific to the credential instance. However, there are scenarios where an application needs persist it across executions in order to share the token cache across credentials. To accomplish this the `@azure/identity` provides the `tokenCachePersistenceOptions`.
-
-> IMPORTANT! The token cache contains sensitive data and MUST be protected to prevent compromising accounts. All application decisions regarding the persistence of the token cache must consider that a breach of its content will fully compromise all the accounts it contains.
-
-#### Using the default token cache
-
-The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
-
-```ts
-import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
-
-useIdentityExtension(cachePersistenceExtension);
-
-const credential = new InteractiveBrowserCredential({
-  tokenCachePersistenceOptions: {
-    enabled: true
-  }
-});
-```
-
-#### Using a named token cache
-
-Some applications may prefer to isolate the token cache they use rather than using the shared instance. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
-
-```ts
-import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
-
-useIdentityExtension(cachePersistenceExtension);
-
-const credential = new InteractiveBrowserCredential({
-  tokenCachePersistenceOptions: {
-    enabled: true,
-    name: "my_application_name"
-  }
-});
-```
 
 #### Allowing unencrypted storage
 
@@ -1123,6 +1111,35 @@ const credential = new InteractiveBrowserCredential({
 ```
 
 By setting `allowUnencryptedStorage` to true, the credential will encrypt the contents of the token cache before persisting it if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `allowUnencryptedStorage` is false (the default), a `CredentialUnavailableError` will be thrown in the case no data protection is available.
+
+### Authenticating National Clouds
+
+National clouds are physically isolated instances of Azure. These regions of Azure are designed to make sure that data residency, sovereignty, and compliance requirements are honored within geographical boundaries. Including the global cloud, Azure Active Directory (Azure AD) is deployed in the following national clouds:
+
+- Azure Government
+- Azure Germany
+- Azure China 21Vianet
+
+All credentials have `authorityHost` as a setting in the constructor at some level. In order to authenticate for various national cloud or a private cloud, we can send the most appropriate `authorityHost`. We provide a set of common values through the `AzureAuthorityHosts` interface. So, for the US Government cloud, you could instantiate a credential this way:
+
+```ts
+const identity = require("@azure/identity");
+const credential = new identity.ClientSecretCredential({
+  authorityHost: identity.AzureAuthorityHosts.AzureGovernment
+});
+```
+
+Common values we provide through the `AzureAuthorityHosts` are:
+| National Cloud | Azure AD authentication endpoint | AzureAuthorityHost |
+| ----------------------------------- | ---------------------------------------- | -------------------------------------- |
+| Azure AD for US Government | https://login.microsoftonline.us | `AzureAuthorityHosts.AzureGovernment` |
+| Azure AD Germany | https://login.microsoftonline.de | `AzureAuthorityHosts.AzureGermany` |
+| Azure AD China operated by 21Vianet | https://login.partner.microsoftonline.cn | `AzureAuthorityHosts.AzureChina` |
+| Azure AD (global service) | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
+
+|
+
+To learn more about Azure Authentication for National Clouds, you can [read this](https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-national-cloud).
 
 <!-- LINKS -->
 
