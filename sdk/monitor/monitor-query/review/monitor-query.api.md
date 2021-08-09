@@ -13,7 +13,11 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export interface BatchQuery {
+    additionalWorkspaces?: string[];
+    includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
     query: string;
+    serverTimeoutInSeconds?: number;
     timespan: string;
     workspaceId: string;
 }
@@ -206,12 +210,7 @@ export interface QueryLogsBatch {
 }
 
 // @public
-export interface QueryLogsBatchOptions extends OperationOptions {
-    additionalWorkspaces?: string[];
-    includeQueryStatistics?: boolean;
-    includeVisualization?: boolean;
-    serverTimeoutInSeconds?: number;
-}
+export type QueryLogsBatchOptions = OperationOptions;
 
 // @public
 export interface QueryLogsBatchResult {
@@ -220,6 +219,8 @@ export interface QueryLogsBatchResult {
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
+        statistics?: any;
+        visualization?: any;
     }[];
 }
 
@@ -233,6 +234,7 @@ export interface QueryLogsOptions extends OperationOptions {
 
 // @public
 export interface QueryLogsResult {
+    error?: ErrorInfo;
     statistics?: any;
     tables: LogsTable[];
     visualization?: any;

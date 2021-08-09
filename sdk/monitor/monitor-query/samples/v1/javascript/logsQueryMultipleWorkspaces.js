@@ -5,14 +5,16 @@
  * @summary Demonstrates how to run a query against a Log Analytics workspace
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient, LogsTable, QueryLogsOptions } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { Durations, LogsQueryClient } = require("@azure/monitor-query");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
+const additionalWorkspaces1 = process.env.ADDITIONAL_WORKSPACES_1 || "workspace1";
+const additionalWorkspaces2 = process.env.ADDITIONAL_WORKSPACES_2 || "workspace2";
 
-export async function main() {
+async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
@@ -24,12 +26,13 @@ export async function main() {
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last 5 minutes`);
-  const queryLogsOptions: QueryLogsOptions = {
+  const queryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60,
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)
-    includeQueryStatistics: true
+    includeQueryStatistics: true,
+    additionalWorkspaces: [additionalWorkspaces1, additionalWorkspaces2]
   };
 
   const result = await logsQueryClient.queryLogs(
@@ -42,7 +45,7 @@ export async function main() {
     queryLogsOptions
   );
 
-  const tablesFromResult: LogsTable[] | undefined = result.tables;
+  const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
     console.log(`No results for query '${kustoQuery}'`);

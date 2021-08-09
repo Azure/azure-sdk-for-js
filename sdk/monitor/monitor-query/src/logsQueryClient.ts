@@ -123,17 +123,10 @@ export class LogsQueryClient {
     batch: QueryLogsBatch,
     options?: QueryLogsBatchOptions
   ): Promise<QueryLogsBatchResult> {
-    const generatedRequest = convertRequestForQueryBatch(batch, options);
+    const generatedRequest = convertRequestForQueryBatch(batch);
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
-      {
-        ...options,
-        requestOptions: {
-          customHeaders: {
-            ...formatPreferHeader(options)
-          }
-        }
-      }
+      options || {}
     );
     return convertResponseForQueryBatch(flatResponse, rawResponse);
   }
