@@ -197,6 +197,14 @@
     }
   ],
   "outputs": {
+    "STORAGE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
+    },
+    "STORAGE_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
     "EVENTHUB_NAME": {
       "type": "string",
       "value": "[variables('eventHubName')]"
