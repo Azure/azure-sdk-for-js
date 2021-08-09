@@ -18,7 +18,6 @@
       }
     ]
   },
-
   "types": "types/communication-sip-routing.d.ts",
   "typesVersions": {
     "<3.6": {
