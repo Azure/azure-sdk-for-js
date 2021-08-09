@@ -1,6 +1,12 @@
 # Release History
 
-## 12.1.1 (Unreleased)
+## 12.1.1 (2021-08-10)
+
+### Bugs Fixed
+
+- Update dependency of `@azure/core-xml`. [#]()
+- Fixed inconsistent return type for number and strings when setting `disableTypeConversion` option. [#16736](https://github.com/Azure/azure-sdk-for-js/pull/16736)
+- Fixed batch operations against emulators. [#16587](https://github.com/Azure/azure-sdk-for-js/pull/16587)
 
 ### Features Added
 
