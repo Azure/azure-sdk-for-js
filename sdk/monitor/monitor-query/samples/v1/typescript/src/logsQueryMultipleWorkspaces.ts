@@ -11,6 +11,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
+const additionalWorkspaces1 = process.env.ADDITIONAL_WORKSPACES_1 || "workspace1";
+const additionalWorkspaces2 = process.env.ADDITIONAL_WORKSPACES_2 || "workspace2";
 
 export async function main() {
   const tokenCredential = new DefaultAzureCredential();
@@ -29,7 +31,8 @@ export async function main() {
     serverTimeoutInSeconds: 60,
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)
-    includeQueryStatistics: true
+    includeQueryStatistics: true,
+    additionalWorkspaces: [additionalWorkspaces1, additionalWorkspaces2]
   };
 
   const result = await logsQueryClient.queryLogs(

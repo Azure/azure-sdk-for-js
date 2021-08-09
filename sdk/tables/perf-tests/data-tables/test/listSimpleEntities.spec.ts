@@ -23,7 +23,7 @@ export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOpt
 
   public async globalSetup() {
     await super.globalSetup(); // Calling base class' setup
-    let batches: TransactionAction[][] = createBatch(
+    const batches: TransactionAction[][] = createBatch(
       "simple",
       this.parsedOptions.entityCount.value!
     );

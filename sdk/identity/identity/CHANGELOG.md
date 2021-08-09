@@ -1,11 +1,19 @@
 # Release History
 
-## 2.0.0-beta.5 (Unreleased)
+## 2.0.0-beta.5 (2021-08-10)
 
 ### Features Added
 
+- This release adds support by default for CP1 client capabilities, enabling all credentials to respond to claims challenges that occur due to insufficient claims. Claims challenges, for example, can occur due to requirements of [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775). You may optionally disable this behavior by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (to any value). You can read more about client capabilities, CAE, and Conditional Access on [the Microsoft Documentation](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
 - `ChainedTokenCredential` and `DefaultAzureCredential` now expose a property named `selectedCredential`, which will store the selected credential once any of the available credentials succeeds.
+- Implementation of `ApplicationCredential` for use by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
+
 ### Breaking Changes
+
+> These changes do not impact the API of stable versions such as 1.6.0.
+> Only code written against a beta version such as 1.7.0b1 may be affected.
+
+- Renamed `AZURE_POD_IDENTITY_TOKEN_URL` to `AZURE_POD_IDENTITY_AUTHORITY_HOST`.
 
 ### Bugs Fixed
 
@@ -16,6 +24,7 @@
 ## 2.0.0-beta.4 (2021-07-07)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Introduced an extension API through a top-level method `useIdentityExtension`. The function accepts an "extension" as an argument, which is a function accepting a `context`. The extension context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
   - `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it (see more below).

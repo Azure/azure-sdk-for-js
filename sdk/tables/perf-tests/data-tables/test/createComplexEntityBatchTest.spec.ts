@@ -32,7 +32,7 @@ export class CreateComplexEntityBatchTest extends TablesTest<
   }
 
   async runAsync(): Promise<void> {
-    let batches: TransactionAction[][] = createBatch(
+    const batches: TransactionAction[][] = createBatch(
       "complex",
       this.parsedOptions.batchSize.value!
     );

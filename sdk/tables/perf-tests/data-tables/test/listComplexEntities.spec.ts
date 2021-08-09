@@ -23,7 +23,7 @@ export class ListComplexEntitiesTest extends TablesTest<ListComplexEntitiesTestO
 
   public async globalSetup() {
     await super.globalSetup(); // Calling base class' setup
-    let batches: TransactionAction[][] = createBatch(
+    const batches: TransactionAction[][] = createBatch(
       "complex",
       this.parsedOptions.entityCount.value!
     );
