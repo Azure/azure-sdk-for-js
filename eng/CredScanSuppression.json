@@ -41,7 +41,6 @@
         "azure_client_secret",
         "__CLIENT_SECRET__",
         "myVM",
-        "sdk/identity/identity/assets/cert.pem",
         "p@55wOrd",
         "nodesdk",
         "liilef#$DdRGSa_ewkjh",
@@ -55,7 +54,8 @@
       "file": [
         "sdk/identity/identity/test/azure-identity-chain-test.crt",
         "sdk/identity/identity/test/azure-identity-test.crt",
-        "sdk/keyvault/keyvault-certificates/ca.key"
+        "sdk/keyvault/keyvault-certificates/ca.key",
+        "sdk/identity/identity/assets/cert.pem"
       ],
       "_justification": "File contains private key used by test code."
     }
