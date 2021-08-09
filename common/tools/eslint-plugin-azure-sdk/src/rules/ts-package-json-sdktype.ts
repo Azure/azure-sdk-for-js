@@ -8,7 +8,7 @@
 
 import { Rule } from "eslint";
 import { Property } from "estree";
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, stripPath } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -17,23 +17,22 @@ import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
 export = {
   meta: getRuleMetaData(
     "ts-package-json-sdktype",
-    "force package.json's sdk-type value to contain be 'client' or 'management'"
+    "force package.json's sdk-type value to contain be 'client' or 'mgmt'"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const verifiers = getVerifiers(context, {
-      outer: "sdk-type"
-    });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
           // callback functions
 
-          // check to see if sdk-type exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
-
-          // check the node corresponding to sdk-type to see if its value contains "client" or "management"
+          // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
           "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
             node: Property
           ) => {
+            if (!node) {
+              // Track1 packages don't have this property. Stop checking
+              return;
+            }
+
             const { value } = node;
             if (value.type !== "Literal" || typeof value.value !== "string") {
               context.report({
@@ -45,10 +44,10 @@ export = {
 
             const strValue = stripPath(value.value);
 
-            if (!["client", "management"].includes(strValue)) {
+            if (!["client", "mgmt"].includes(strValue)) {
               context.report({
                 node: node.value,
-                message: "sdk-type is not set to `client` or `management`"
+                message: "sdk-type is not set to `client` or `mgmt`"
               });
               return;
             }
