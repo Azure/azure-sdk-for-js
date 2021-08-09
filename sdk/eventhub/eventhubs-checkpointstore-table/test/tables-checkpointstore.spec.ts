@@ -206,6 +206,9 @@ describe("TableCheckpointStore", function(): void {
   });
 
   describe("Runs tests on a populated table", function() {
+      const namespace = "blue.servicebus.windows.net";
+      const eventHubName = "blueHub";
+      const consumerGroup = "$default";
     beforeEach("creating table", async () => {
       tableName = `table${new Date().getTime()}`;
       client = new TableClient(
@@ -214,12 +217,10 @@ describe("TableCheckpointStore", function(): void {
         credential
       );
       await serviceClient.createTable(tableName);
-      const namespace = "blue.servicebus.windows.net";
-      const eventHubName = "blueHub";
-      const consumerConst = "$default";
+      
       /* Checkpoint */
       const checkpoint_entity: CheckpointEntity = {
-        partitionKey: `${namespace} ${eventHubName} ${consumerConst} Checkpoint`,
+        partitionKey: `${namespace} ${eventHubName} ${consumerGroup} Checkpoint`,
         rowKey: "0",
         sequencenumber: "100",
         offset: "1023"
@@ -228,7 +229,7 @@ describe("TableCheckpointStore", function(): void {
 
       /* Ownership */
       const ownership_entity: PartitionOwnershipEntity = {
-        partitionKey: `${namespace} ${eventHubName} ${consumerConst} Ownership`,
+        partitionKey: `${namespace} ${eventHubName} ${consumerGroup} Ownership`,
         rowKey: "0",
         ownerid: "Id0"
       };
