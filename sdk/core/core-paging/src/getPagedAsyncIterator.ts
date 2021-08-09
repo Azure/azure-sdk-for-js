@@ -5,7 +5,7 @@ import {
   PagedAsyncIterableIterator,
   PageSettings,
   PagedResult,
-  PagedAsyncIteratorOptions
+  GetPagedAsyncIteratorOptions
 } from "./models";
 
 /**
@@ -27,7 +27,7 @@ export function getPagedAsyncIterator<
   pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
-  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
+  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const iter = getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage, TPageSettings>(
     pagedResult,
@@ -62,7 +62,7 @@ async function* getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPa
   pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
-  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
+  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): AsyncIterableIterator<TElement> {
   const metaInfo = { isArray: false };
   const pages = getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageSettings>(
@@ -92,7 +92,7 @@ async function* getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageS
   pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
-  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>,
+  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>,
   metaInfo: { isArray: boolean } = { isArray: true }
 ): AsyncIterableIterator<TPage> {
   let response = await retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
@@ -122,7 +122,7 @@ async function retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
   pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
   path: string,
   getRequestOptions: TFetchPageOptions,
-  options?: PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
+  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
 ): Promise<ResultWithPaging<TPage>> {
   const response = await pagedResult.fetchPage(path, getRequestOptions);
   const result: TPage = pagedResult.processPage(response);

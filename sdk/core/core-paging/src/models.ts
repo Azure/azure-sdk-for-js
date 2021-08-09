@@ -49,7 +49,7 @@ export interface PagedResult<TGetRequestOptions, TResponse, TPage> {
 /**
  * Options to control the behavior of how paging works.
  */
-export interface PagedAsyncIteratorOptions<TResponse, TPage, TPageSettings> {
+export interface GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings> {
   /**
    * The name of the service parameter that specifies the max page size. The default is `top`.
    */
