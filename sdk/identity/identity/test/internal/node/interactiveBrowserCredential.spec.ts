@@ -5,7 +5,7 @@
 /* eslint-disable @azure/azure-sdk/ts-no-namespaces */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "@azure/test-utils-recorder";
 import { InteractiveBrowserCredential } from "../../../src";

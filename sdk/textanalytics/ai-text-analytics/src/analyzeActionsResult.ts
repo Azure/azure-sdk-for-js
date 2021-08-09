@@ -10,6 +10,10 @@ import {
   ExtractKeyPhrasesResultArray,
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
+import {
+  ExtractSummaryResultArray,
+  makeExtractSummaryResultArray
+} from "./extractSummaryResultArray";
 import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
 import {
   makeRecognizeCategorizedEntitiesResultArray,
@@ -49,6 +53,10 @@ export interface AnalyzeActionsResult {
    * Array of the results for each analyze sentiment action.
    */
   analyzeSentimentResults: AnalyzeSentimentActionResult[];
+  /**
+   * Array of the results for each extract summary action.
+   */
+  extractSummaryResults: ExtractSummaryActionResult[];
 }
 
 /**
@@ -192,6 +200,28 @@ export type AnalyzeSentimentActionResult =
   | AnalyzeSentimentActionErrorResult;
 
 /**
+ * The error of an extract summary action.
+ */
+export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
+
+/**
+ * The results of a succeeded extract summary action.
+ */
+export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
+  /**
+   * Array of the results for each extract summary action.
+   */
+  results: ExtractSummaryResultArray;
+}
+
+/**
+ * The result of an extract summary action.
+ */
+export type ExtractSummaryActionResult =
+  | ExtractSummaryActionSuccessResult
+  | ExtractSummaryActionErrorResult;
+
+/**
  * The results of an analyze Actions operation represented as a paged iterator that
  * iterates over the results of the requested actions.
  */
@@ -222,7 +252,8 @@ type TextAnalyticsActionType =
   | "RecognizePiiEntities"
   | "ExtractKeyPhrases"
   | "RecognizeLinkedEntities"
-  | "AnalyzeSentiment";
+  | "AnalyzeSentiment"
+  | "ExtractSummary";
 
 /**
  * The type of an action error with the type of the action that erred and its
@@ -271,6 +302,9 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
     case "sentimentAnalysisTasks": {
       return "AnalyzeSentiment";
     }
+    case "extractiveSummarizationTasks": {
+      return "ExtractSummary";
+    }
     default: {
       throw new Error(`unexpected action type from the service: ${taskType}`);
     }
@@ -286,7 +320,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
 export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
     const regex = new RegExp(
-      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks)\/(\d+)/
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks|extractiveSummarizationTasks)\/(\d+)/
     );
     const result = regex.exec(erredActions.target);
     if (result !== null) {
@@ -320,7 +354,8 @@ function categorizeActionErrors(
   recognizePiiEntitiesActionErrors: TextAnalyticsActionError[],
   extractKeyPhrasesActionErrors: TextAnalyticsActionError[],
   recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
-  analyzeSentimentActionErrors: TextAnalyticsActionError[]
+  analyzeSentimentActionErrors: TextAnalyticsActionError[],
+  extractSummarySentencesActionErrors: TextAnalyticsActionError[]
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -343,6 +378,10 @@ function categorizeActionErrors(
       }
       case "AnalyzeSentiment": {
         analyzeSentimentActionErrors.push(actionError);
+        break;
+      }
+      case "ExtractSummary": {
+        extractSummarySentencesActionErrors.push(actionError);
         break;
       }
     }
@@ -425,13 +464,15 @@ export function createAnalyzeActionsResult(
   const extractKeyPhrasesActionErrors: TextAnalyticsActionError[] = [];
   const recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
+  const extractSummarySentencesActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
     response?.errors ?? [],
     recognizeEntitiesActionErrors,
     recognizePiiEntitiesActionErrors,
     extractKeyPhrasesActionErrors,
     recognizeLinkedEntitiesActionErrors,
-    analyzeSentimentActionErrors
+    analyzeSentimentActionErrors,
+    extractSummarySentencesActionErrors
   );
   return {
     recognizeEntitiesResults: makeActionResult(
@@ -463,6 +504,12 @@ export function createAnalyzeActionsResult(
       makeAnalyzeSentimentResultArray,
       response.tasks.sentimentAnalysisTasks ?? [],
       analyzeSentimentActionErrors
+    ),
+    extractSummaryResults: makeActionResult(
+      documents,
+      makeExtractSummaryResultArray,
+      response.tasks.extractiveSummarizationTasks ?? [],
+      extractSummarySentencesActionErrors
     )
   };
 }

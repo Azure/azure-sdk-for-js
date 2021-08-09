@@ -29,6 +29,14 @@ directive:
     transform: >
       $["description"] = "Geo-Replication information for the Secondary Storage Service";
 ```
+### Fix additionalProperties type, it should be any not AnyObject. True defaults to AnyObject
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TableEntityProperties
+    transform: >
+      $["additionalProperties"] = {};
+```
 
 ```yaml
 directive:

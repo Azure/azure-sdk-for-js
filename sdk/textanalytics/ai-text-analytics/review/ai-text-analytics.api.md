@@ -36,6 +36,7 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
+    extractSummaryResults: ExtractSummaryActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -248,6 +249,42 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
+export interface ExtractSummaryAction extends TextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    maxSentenceCount?: number;
+    orderBy?: string;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type ExtractSummaryActionResult = ExtractSummaryActionSuccessResult | ExtractSummaryActionErrorResult;
+
+// @public
+export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ExtractSummaryResultArray;
+}
+
+// @public
+export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
+
+// @public
+export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
+    sentences: SummarySentence[];
+}
+
+// @public
 export interface HealthcareEntity extends Entity {
     assertion?: EntityAssertion;
     category: HealthcareEntityCategory;
@@ -280,7 +317,7 @@ export type HealthcareEntityRelationType = string;
 export type InnerErrorCodeValue = string;
 
 // @public
-export const enum KnownHealthcareEntityCategory {
+export enum KnownHealthcareEntityCategory {
     // (undocumented)
     AdministrativeEvent = "ADMINISTRATIVE_EVENT",
     // (undocumented)
@@ -336,7 +373,7 @@ export const enum KnownHealthcareEntityCategory {
 }
 
 // @public
-export const enum KnownInnerErrorCodeValue {
+export enum KnownInnerErrorCodeValue {
     // (undocumented)
     EmptyRequest = "EmptyRequest",
     // (undocumented)
@@ -358,7 +395,10 @@ export const enum KnownInnerErrorCodeValue {
 }
 
 // @public
-export const enum KnownWarningCode {
+export type KnownSummarySentencesSortBy = "Offset" | "Rank";
+
+// @public
+export enum KnownWarningCode {
     // (undocumented)
     DocumentTruncated = "DocumentTruncated",
     // (undocumented)
@@ -586,6 +626,14 @@ export interface SentimentConfidenceScores {
 export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
+export interface SummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
+
+// @public
 export interface TargetConfidenceScoreLabel {
     // (undocumented)
     negative: number;
@@ -618,6 +666,7 @@ export interface TextAnalyticsActionErrorResult {
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+    extractSummaryActions?: ExtractSummaryAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];

@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-
-import { RequestPrepareOptions } from "@azure/core-http";
-
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { MSI } from "./models";
@@ -18,7 +16,7 @@ function expiresInParser(requestBody: any): number {
   return Date.parse(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": "2017-09-01"
@@ -28,14 +26,23 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
     queryParameters.clientid = clientId;
   }
 
+  const query = new URLSearchParams(queryParameters);
+
+  // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
+  if (!process.env.MSI_ENDPOINT) {
+    throw new Error("Missing environment variable: MSI_ENDPOINT");
+  }
+  if (!process.env.MSI_SECRET) {
+    throw new Error("Missing environment variable: MSI_SECRET");
+  }
+
   return {
-    url: process.env.MSI_ENDPOINT,
+    url: `${process.env.MSI_ENDPOINT}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
       secret: process.env.MSI_SECRET
-    }
+    })
   };
 }
 

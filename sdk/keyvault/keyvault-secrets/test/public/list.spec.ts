@@ -77,10 +77,6 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
-
-    for (const name of secretNames) {
-      await testClient.flushSecret(name);
-    }
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -115,10 +111,6 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
-
-    for (const name of secretNames) {
-      await testClient.purgeSecret(name);
-    }
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -162,7 +154,6 @@ describe("Secret client - list secrets in various ways", () => {
     versions.sort(comp);
 
     expect(results).to.deep.equal(versions);
-    await testClient.flushSecret(secretName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -209,9 +200,6 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
-    for (const name of secretNames) {
-      await testClient.flushSecret(name);
-    }
   });
 
   it("can list deleted secrets by page", async function(this: Context) {
@@ -236,9 +224,6 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
-    for (const name of secretNames) {
-      await testClient.purgeSecret(name);
-    }
   });
 
   it("can retrieve all versions of a secret by page", async function(this: Context) {
@@ -271,7 +256,6 @@ describe("Secret client - list secrets in various ways", () => {
     versions.sort(comp);
 
     expect(results).to.deep.equal(versions);
-    await testClient.flushSecret(secretName);
   });
 
   it("can list secret versions by page (non existing)", async function(this: Context) {

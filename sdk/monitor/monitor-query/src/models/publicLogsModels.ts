@@ -12,6 +12,14 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
  */
 export interface QueryLogsOptions extends OperationOptions {
   /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
+  additionalWorkspaces?: string[];
+  /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
    */
@@ -49,6 +57,8 @@ export interface QueryLogsResult {
   statistics?: any;
   /** Visualization data in JSON format. */
   visualization?: any;
+  /** The code and message for an error. */
+  error?: ErrorInfo;
 }
 
 /** Options when query logs with a batch. */
@@ -66,7 +76,7 @@ export interface QueryLogsBatch {
 // NOTE: 'id' is added automatically by our LogsClient.
 export interface BatchQuery {
   /** The workspace for this query. */
-  workspace: string;
+  workspaceId: string;
 
   // TODO: having both this and the workspaceId field co-exist on the same model seems really
   // confusing. However, this is similar to what we're offering in other languages as well.
@@ -75,15 +85,14 @@ export interface BatchQuery {
   query: string;
   /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
   timespan: string;
-  /** A list of workspaces that are included in the query. */
-  workspaces?: string[];
-  /** A list of qualified workspace names that are included in the query. */
-  qualifiedNames?: string[];
-  /** A list of workspace IDs that are included in the query. */
-  workspaceIds?: string[];
-  /** A list of Azure resource IDs that are included in the query. */
-  azureResourceIds?: string[];
-
+  /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
+  additionalWorkspaces?: string[];
   /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
@@ -94,6 +103,11 @@ export interface BatchQuery {
    * Results will also include statistics about the query.
    */
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+
+  /**
+   * Results will also include visualization information, in JSON format.
+   */
+  includeVisualization?: boolean;
 }
 
 /** Results for a batch query. */
@@ -106,6 +120,10 @@ export interface QueryLogsBatchResult {
     // (hoisted up from `LogQueryResult`)
     tables?: LogsTable[];
     error?: ErrorInfo;
+    /** Statistics represented in JSON format. */
+    statistics?: any;
+    /** Visualization data in JSON format. */
+    visualization?: any;
   }[];
 
   // TODO: this is omitted from the Java models.
