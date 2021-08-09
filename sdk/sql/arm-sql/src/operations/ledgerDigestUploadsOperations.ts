@@ -13,6 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   LedgerDigestUploads,
   LedgerDigestUploadsOperationsListByDatabaseNextOptionalParams,
@@ -161,15 +163,60 @@ export class LedgerDigestUploadsOperationsImpl
    * @param parameters Azure SQL Database ledger digest upload settings.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
     options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
-  ): Promise<LedgerDigestUploadsOperationsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<
+    PollerLike<
+      PollOperationState<LedgerDigestUploadsOperationsCreateOrUpdateResponse>,
+      LedgerDigestUploadsOperationsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LedgerDigestUploadsOperationsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         serverName,
@@ -180,6 +227,39 @@ export class LedgerDigestUploadsOperationsImpl
       },
       createOrUpdateOperationSpec
     );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param ledgerDigestUploads
+   * @param parameters Azure SQL Database ledger digest upload settings.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    ledgerDigestUploads: LedgerDigestUploadsName,
+    parameters: LedgerDigestUploads,
+    options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
+  ): Promise<LedgerDigestUploadsOperationsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      ledgerDigestUploads,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -212,14 +292,59 @@ export class LedgerDigestUploadsOperationsImpl
    * @param ledgerDigestUploads
    * @param options The options parameters.
    */
-  disable(
+  async beginDisable(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     options?: LedgerDigestUploadsOperationsDisableOptionalParams
-  ): Promise<LedgerDigestUploadsOperationsDisableResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<
+    PollerLike<
+      PollOperationState<LedgerDigestUploadsOperationsDisableResponse>,
+      LedgerDigestUploadsOperationsDisableResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LedgerDigestUploadsOperationsDisableResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         serverName,
@@ -229,6 +354,37 @@ export class LedgerDigestUploadsOperationsImpl
       },
       disableOperationSpec
     );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
+   * instance.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param ledgerDigestUploads
+   * @param options The options parameters.
+   */
+  async beginDisableAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    ledgerDigestUploads: LedgerDigestUploadsName,
+    options?: LedgerDigestUploadsOperationsDisableOptionalParams
+  ): Promise<LedgerDigestUploadsOperationsDisableResponse> {
+    const poller = await this.beginDisable(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      ledgerDigestUploads,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -286,7 +442,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LedgerDigestUploads
     },
-    202: {},
+    201: {
+      bodyMapper: Mappers.LedgerDigestUploads
+    },
+    202: {
+      bodyMapper: Mappers.LedgerDigestUploads
+    },
+    204: {
+      bodyMapper: Mappers.LedgerDigestUploads
+    },
     default: {}
   },
   requestBody: Parameters.parameters83,
@@ -332,7 +496,15 @@ const disableOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LedgerDigestUploads
     },
-    202: {},
+    201: {
+      bodyMapper: Mappers.LedgerDigestUploads
+    },
+    202: {
+      bodyMapper: Mappers.LedgerDigestUploads
+    },
+    204: {
+      bodyMapper: Mappers.LedgerDigestUploads
+    },
     default: {}
   },
   queryParameters: [Parameters.apiVersion1],

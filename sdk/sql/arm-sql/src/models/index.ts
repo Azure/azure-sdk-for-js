@@ -14148,7 +14148,12 @@ export type LedgerDigestUploadsOperationsGetResponse = LedgerDigestUploads;
 
 /** Optional parameters. */
 export interface LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type LedgerDigestUploadsOperationsCreateOrUpdateResponse = LedgerDigestUploads;
@@ -14162,7 +14167,12 @@ export type LedgerDigestUploadsOperationsListByDatabaseResponse = LedgerDigestUp
 
 /** Optional parameters. */
 export interface LedgerDigestUploadsOperationsDisableOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the disable operation. */
 export type LedgerDigestUploadsOperationsDisableResponse = LedgerDigestUploads;

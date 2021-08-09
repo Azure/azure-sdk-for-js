@@ -4317,14 +4317,18 @@ export type LedgerDigestUploadsName = string;
 
 // @public
 export interface LedgerDigestUploadsOperations {
-    createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams): Promise<LedgerDigestUploadsOperationsCreateOrUpdateResponse>;
-    disable(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsDisableOptionalParams): Promise<LedgerDigestUploadsOperationsDisableResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LedgerDigestUploadsOperationsCreateOrUpdateResponse>, LedgerDigestUploadsOperationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams): Promise<LedgerDigestUploadsOperationsCreateOrUpdateResponse>;
+    beginDisable(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsDisableOptionalParams): Promise<PollerLike<PollOperationState<LedgerDigestUploadsOperationsDisableResponse>, LedgerDigestUploadsOperationsDisableResponse>>;
+    beginDisableAndWait(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsDisableOptionalParams): Promise<LedgerDigestUploadsOperationsDisableResponse>;
     get(resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsOperationsGetOptionalParams): Promise<LedgerDigestUploadsOperationsGetResponse>;
     listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: LedgerDigestUploadsOperationsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LedgerDigestUploads>;
 }
 
 // @public
 export interface LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -4332,6 +4336,8 @@ export type LedgerDigestUploadsOperationsCreateOrUpdateResponse = LedgerDigestUp
 
 // @public
 export interface LedgerDigestUploadsOperationsDisableOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
