@@ -28,8 +28,6 @@ import {
   createAnalyzeActionsResult,
   PagedAnalyzeActionsResult
 } from "./analyzeActionsResult";
-import { PagedAsyncIteratorOptions } from "@azure/core-paging";
-import { PageSettings } from "@azure/core-paging";
 
 /**
  * Options for the begin analyze actions operation.

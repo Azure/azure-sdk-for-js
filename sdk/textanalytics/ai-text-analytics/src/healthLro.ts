@@ -36,9 +36,7 @@ import {
 import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
 import {
   getPagedAsyncIterator,
-  PagedAsyncIteratorOptions,
-  PagedResult,
-  PageSettings
+  PagedResult
 } from "@azure/core-paging";
 import { AnalysisPollOperationState } from "./pollerModels";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
