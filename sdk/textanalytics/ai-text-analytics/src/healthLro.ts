@@ -188,12 +188,12 @@ export function processHealthResult<TOptions extends OperationOptions>(
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
   const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
-    getPage: async (link: string) => {
+    getPage: async (link: string, maxPageSize?: number) => {
       const flatResponse = await sendGetRequest(
         client,
         healthStatusOperationSpec,
         "HealthStatus",
-        options,
+        {...options, top: maxPageSize},
         link
       ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
       if (flatResponse.results) {

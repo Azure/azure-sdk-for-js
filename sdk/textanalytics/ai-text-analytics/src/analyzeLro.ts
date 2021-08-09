@@ -196,12 +196,12 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
   options: TOptions
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
   const pagedResult: PagedResult<AnalyzeActionsResult> = {
-    getPage: async (link: string) => {
+    getPage: async (link: string, maxPageSize?: number) => {
       const flatResponse = await sendGetRequest(
         client,
         analyzeStatusOperationSpec,
         "AnalyzeStatus",
-        options,
+        {...options, top: maxPageSize},
         link
       ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
       if (flatResponse) {
