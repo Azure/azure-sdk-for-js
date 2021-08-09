@@ -726,14 +726,6 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-Du0BHQiDQgkqg6OoKovUZWdEIZbTnhh/lma7QLyi5jFKDekk78wXsFIOJLUcFoY97+ZhB+Y2WQOYT1DJphAdCg==
-  /@azure/msal-common/1.7.2:
-    dependencies:
-      debug: 4.3.2
-    dev: false
-    engines:
-      node: '>=0.8.0'
-    resolution:
-      integrity: sha512-3/voCdFKONENX+5tMrNOBSrVJb6NbE7YB8vc4FZ/4ZbjpK7GVtq9Bu1MW+HZhrmsUzSF/joHx0ZIJDYIequ/jg==
   /@azure/msal-common/4.4.0:
     dependencies:
       debug: 4.3.2
@@ -742,9 +734,9 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-Qrs33Ctt2KM7NxArFPIUKc8UbIcm7zYxJFdJeQ9k7HKBhVk3e88CUz1Mw33cS/Jr+YA1H02OAzHg++bJ+4SFyQ==
-  /@azure/msal-node-extensions/1.0.0-alpha.7:
+  /@azure/msal-node-extensions/1.0.0-alpha.8:
     dependencies:
-      '@azure/msal-common': 1.7.2
+      '@azure/msal-common': 4.4.0
       bindings: 1.5.0
       keytar: 7.7.0
       nan: 2.14.2
@@ -753,7 +745,7 @@ packages:
       node: '>=10'
     requiresBuild: true
     resolution:
-      integrity: sha512-fz+4sTFCnpFDYrJ/FrJ3bx3atUEQ5sUhsZYohUyC9yACxII9kn908hBsxl+xeuzheTN/bq45EZureMioSEogNw==
+      integrity: sha512-wNZgJ5GShgjBufJFmgec/y0d1zRjn9VZlDP4W5ptXORum6HDK9VJzZfYEleItXW58DvaeEMX5zWI8yrdV8vivA==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
       '@azure/msal-common': 4.4.0
@@ -9405,7 +9397,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client-1'
     resolution:
-      integrity: sha512-FW2bXPfNeV2JomM2pIu4xks4CHfcxeL3Eatyv+NuLLxd535xprU+TITYtWzdUAaWgiQcLykgoLe654fnzbLYoQ==
+      integrity: sha512-mhHXTeAYj/Dku5gLxgH3oIpErdSTlPL2ivM4QFjpsbVaKI+Baw8AD1yZ6R+Z3560l3Ya5OgUoF289cL7XYRsMA==
       tarball: file:projects/core-client-1.tgz
     version: 0.0.0
   file:projects/core-client-lro.tgz:
@@ -9968,7 +9960,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-V2NrcYRn858mPRNlSSU4eAYbyWNqkH4OhqAFaQiJVDVFKqL7utOMSapF+XDDNu0DVWMIFxTK7JWsN+noIchKVw==
+      integrity: sha512-4SUgBGF+nELI2BX+6yoW1jFGjRRRqsKK3DXQq+M03R56X+kVRBU9ccBRcWqsDVDyJXjJ6p9XKzWmuNZQv2oqaQ==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -10401,7 +10393,7 @@ packages:
   file:projects/identity-cache-persistence.tgz:
     dependencies:
       '@azure/msal-node': 1.2.0
-      '@azure/msal-node-extensions': 1.0.0-alpha.7
+      '@azure/msal-node-extensions': 1.0.0-alpha.8
       '@microsoft/api-extractor': 7.7.11
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
@@ -10429,7 +10421,7 @@ packages:
     dev: false
     name: '@rush-temp/identity-cache-persistence'
     resolution:
-      integrity: sha512-5i91Dx+c7HZ4k1nNtDcalEJTf0ouuG6Sa2J9Ew33vCnWhITyu3lPD28H+IExdiaJ20DlnhWxu2cZePtBP15PZw==
+      integrity: sha512-k3Abogo8wOpwqRELqNkQb0FxkR6iTqdmcj38C8yjWOrjPfMmEJ+JKBut3Si/pJrsWrMI1S9cVf+z3SAsdhN2VA==
       tarball: file:projects/identity-cache-persistence.tgz
     version: 0.0.0
   file:projects/identity-vscode.tgz:
@@ -10514,7 +10506,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-nCVG+626QucQ4tvED72kQkFAdI6HzarMZQS17xdU/txH0LoYvk/cPir7jCye/iKVslbi/crqfD8+mebxGNlBpQ==
+      integrity: sha512-M/kqsBawNjfFk+J5xZWlpL+6l7wcpOQjOAHGWPFRmr/BbqWrXi0no206KygHQiyAJf64SozhmsFUOK+Bh6olWg==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
