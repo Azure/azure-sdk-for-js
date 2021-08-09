@@ -929,7 +929,7 @@ const client = new SecretClient("https://key-vault-name.vault.azure.net", creden
 
 In this sample, the application is again using the `InteractiveBrowserCredential` to authenticate a SecretClient, but with two major differences from our first example. First, in this example, the application is explicitly forcing any user interaction to happen before the credential is given to the client by calling the `authenticate` method.
 
-The second difference is here the application is preventing the credential from automatically initiating user interaction. Even though the application authenticates the user before the credential is used, further interaction might still be needed, for instance, in the case that the user's refresh token expires or a specific method require additional consent or authentication.
+The second difference is here the application is preventing the credential from automatically initiating user interaction. Even though the application authenticates the user before the credential is used, further interaction might still be needed, for instance, in the case that the user's refresh token expires or that a specific method requires additional consent or authentication.
 
 By setting the option `disableAutomaticAuthentication` to `true` the credential will fail to automatically authenticate calls where user interaction is necessary. Instead, the credential will throw an error `AuthenticationRequiredError`. The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
 
