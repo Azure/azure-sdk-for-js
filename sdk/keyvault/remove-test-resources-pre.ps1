@@ -1,34 +1,30 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-# IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
+# IMPORTANT: Do not invoke this file directly. Please instead run eng/common/TestResources/Remove-TestResources.ps1 from the repository root.
 
 #Requires -Version 6.0
 #Requires -PSEdition Core
 
-# Use same parameter names as declared in eng/Remove-TestResources.ps1 (assume validation therein).
+# Use same parameter names as declared in eng/common/TestResources/Remove-TestResources.ps1 (assume validation therein).
 [CmdletBinding(DefaultParameterSetName = 'Default', SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param (
     [Parameter()]
     [string] $ResourceGroupName,
 
-    [Parameter(ParameterSetName = 'Default+Provisioner', Mandatory = $true)]
-    [Parameter(ParameterSetName = 'ResourceGroup+Provisioner', Mandatory = $true)]
+    [Parameter()]
     [string] $TenantId,
 
-    [Parameter(ParameterSetName = 'Default+Provisioner', Mandatory = $true)]
-    [Parameter(ParameterSetName = 'ResourceGroup+Provisioner', Mandatory = $true)]
+    [Parameter()]
     [string] $ProvisionerApplicationId,
 
-    [Parameter(ParameterSetName = 'Default+Provisioner', Mandatory = $true)]
-    [Parameter(ParameterSetName = 'ResourceGroup+Provisioner', Mandatory = $true)]
+    [Parameter()]
     [string] $ProvisionerApplicationSecret,
 
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
     $RemainingArguments
 )
-
 
 # By default stop for any error.
 if (!$PSBoundParameters.ContainsKey('ErrorAction')) {
@@ -41,7 +37,7 @@ function Log($Message) {
 
 
 # TODO: Use Az module when available; for now, assumes Azure CLI is installed and in $Env:PATH.
-if ($PSCmdlet.ParameterSetName.Contains('Provisioner')) {
+if ($ProvisionerApplicationId -and $ProvisionerApplicationSecret -and $TenantId) {
   Log "Logging '$ProvisionerApplicationId' into the Azure CLI"
   az login --service-principal --tenant "$tenantId" --username "$ProvisionerApplicationId" --password="$ProvisionerApplicationSecret"
 } else {
