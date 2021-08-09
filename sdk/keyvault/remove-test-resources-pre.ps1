@@ -40,21 +40,25 @@ function Log($Message) {
 }
 
 function PurgeKeyVault($Vault) {
-  Log "Deleting Key Vault named '$(Vault.VaultName)'"
-  Remove-AzKeyVault -Name "$(Vault.VaultName)" -ResourceGroupName "$(Vault.ResourceGroupName)" -Location -Force
+  Log "Deleting Key Vault named '$($Vault.VaultName)'"
+  Remove-AzKeyVault -Name "$($Vault.VaultName)" -ResourceGroupName "$($Vault.ResourceGroupName)" -Location $($Vault.Location) -Force
   Log "Deleted."
 
-  Log "Purging Key Vault named '$(Vault.VaultName)'"
-  Remove-AzKeyVault -Name "$(Vault.VaultName)" -ResourceGroupName "$(Vault.ResourceGroupName)" -Location InRemovedState -Force
+  Log "Purging Key Vault named '$($Vault.VaultName)'"
+  Remove-AzKeyVault -Name "$($Vault.VaultName)" -Location $($Vault.Location) -InRemovedState -Force
 
-  Log "'$(Vault.VaultName)' successfully deleted and purged."
+  Log "'$($Vault.VaultName)' successfully deleted and purged."
 }
 
-function PurgeManagedHsm($ManagedHsm) {
-  Log "Deleting Managed HSM named '$(ManagedHsm.Name)'"
-  az keyvault delete --resource-group "$ResourceGroupName" --hsm-name "$(ManagedHsm.Name)"
+function PurgeManagedHsm($ManagedHsm = $null) {
+  if ($ManagedHsm -eq $null) {
+    return
+  }
+
+  Log "Deleting Managed HSM named '$($ManagedHsm.Name)'"
+  az keyvault delete --resource-group "$ResourceGroupName" --hsm-name "$($ManagedHsm.Name)"
   Log "Deleted Managed HSM, now purging"
-  az keyvault purge --hsm-name "$(ManagedHsm.Name)"
+  az keyvault purge --hsm-name "$($ManagedHsm.Name)"
 }
 
 Log "Permanently deleting all Key Vaults in resource group $ResourceGroupName"
