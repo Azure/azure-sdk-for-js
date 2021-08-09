@@ -21,6 +21,10 @@ param (
     [Parameter()]
     [string] $ProvisionerApplicationSecret,
 
+    [Parameter()]
+    [string] $SubscriptionId,
+
+
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
     $RemainingArguments
@@ -40,8 +44,10 @@ function Log($Message) {
 if ($ProvisionerApplicationId -and $ProvisionerApplicationSecret -and $TenantId) {
   Log "Logging '$ProvisionerApplicationId' into the Azure CLI"
   az login --service-principal --tenant "$tenantId" --username "$ProvisionerApplicationId" --password="$ProvisionerApplicationSecret"
+  Log "Setting the subscription for the logged in user"
+  az account set --subscription "$SubscriptionId"
 } else {
-  Log "No credentials provided; skipping Azure CLI login and assuming current user is logged in."
+  Log "No credentials provided; skipping Azure CLI login and assuming current user is logged in and is using the correct subscription."
 }
 
 Log "fetching the name of the deployed HSM in this resource group"
