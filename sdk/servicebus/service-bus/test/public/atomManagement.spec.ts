@@ -143,7 +143,7 @@ describe("Atom management - Namespace", function(): void {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Premium", messagingUnits: 1 } as any,
+      { messagingSku: "Standard", messagingUnits: undefined } as any,
       ["_response", "createdAt", "modifiedAt", "name"]
     );
   });
@@ -390,7 +390,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        (host.match("(.*).servicebus.chinacloudapi.cn") || [])[1],
+        (host.match("(.*).servicebus.usgovcloudapi.net") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);
@@ -413,7 +413,7 @@ describe("Atom management - Authentication", function(): void {
 
     should.equal(
       (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-      (host.match("(.*).servicebus.chinacloudapi.cn") || [])[1],
+      (host.match("(.*).servicebus.usgovcloudapi.net") || [])[1],
       "Unexpected namespace name in the getNamespaceProperties response"
     );
   });

@@ -257,7 +257,7 @@ describe("ServiceBusClient live tests", () => {
       });
 
       should.equal(
-        await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+        await checkWithTimeout(() => errorWasThrown === false, 10, 3000),
         true,
         "Error thrown flag must be true"
       );
@@ -313,7 +313,7 @@ describe("ServiceBusClient live tests", () => {
 
     const env = getEnvVars();
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.chinacloudapi.cn)"
+      "Endpoint=sb://((.*).servicebus.usgovcloudapi.net)"
     ) || "")[1];
     console.log("===========",serviceBusEndpoint);
 
@@ -385,7 +385,7 @@ describe("ServiceBusClient live tests", () => {
         should.equal(errorWasThrown, true, "Error thrown flag must be true");
       });
 
-      it.only(
+      it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function(): Promise<void> {
           const tokenCreds = getDefaultTokenCredential();
