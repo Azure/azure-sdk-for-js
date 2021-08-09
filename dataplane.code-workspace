@@ -36,6 +36,10 @@
       "name": "communication-sms",
       "path": "sdk/communication/communication-sms"
     },
+	{
+      "name": "communication-sip-routing",
+      "path": "sdk/communication/communication-sip-routing"
+    },
     {
       "name": "container-registry",
       "path": "sdk/containerregistry/container-registry"
