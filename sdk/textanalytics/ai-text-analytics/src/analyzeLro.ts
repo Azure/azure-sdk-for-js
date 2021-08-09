@@ -195,18 +195,20 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
   documents: TextDocumentInput[],
   options: TOptions
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
-  const pagedResult: PagedResult<
-    TOptions,
-    GeneratedClientAnalyzeStatusResponse,
-    AnalyzeActionsResult
-  > = {
-    fetchPage: (path: string, optionsParam: TOptions) =>
-      sendGetRequest(client, analyzeStatusOperationSpec, "AnalyzeStatus", optionsParam, path).then(
-        (response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse
-      ),
-    processPage: (flatResponse: GeneratedClientAnalyzeStatusResponse) => {
+  const pagedResult: PagedResult<AnalyzeActionsResult> = {
+    getPage: async (link: string) => {
+      const flatResponse = await sendGetRequest(
+        client,
+        analyzeStatusOperationSpec,
+        "AnalyzeStatus",
+        options,
+        link
+      ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
       if (flatResponse) {
-        return createAnalyzeActionsResult(flatResponse, documents);
+        return {
+          page: createAnalyzeActionsResult(flatResponse, documents),
+          nextLink: flatResponse.nextLink
+        };
       } else {
         throw new Error("Analyze action has succeeded but there are no results!");
       }
@@ -214,12 +216,10 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
   };
   return (_result: unknown, state: AnalyzeActionsOperationState): PagedAnalyzeActionsResult => {
     const pollingURL = (state as any).pollingURL;
-    const pagedIterator = getPagedAsyncIterator<
-      TOptions,
-      GeneratedClientAnalyzeStatusResponse,
-      AnalyzeActionsResult,
-      AnalyzeActionsResult
-    >(pagedResult, pollingURL, options);
+    const pagedIterator = getPagedAsyncIterator<AnalyzeActionsResult, AnalyzeActionsResult>(
+      pagedResult,
+      pollingURL
+    );
     // Attach stats if the service starts to return them
     // https://github.com/Azure/azure-sdk-for-js/issues/14139
     // state.result = Object.assign(pagedIterator, {

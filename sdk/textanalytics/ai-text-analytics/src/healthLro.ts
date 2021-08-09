@@ -34,10 +34,7 @@ import {
   top
 } from "./generated/models/parameters";
 import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
-import {
-  getPagedAsyncIterator,
-  PagedResult
-} from "@azure/core-paging";
+import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
 import { AnalysisPollOperationState } from "./pollerModels";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 
@@ -190,23 +187,25 @@ export function processHealthResult<TOptions extends OperationOptions>(
   result: unknown,
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
-  const pagedResult: PagedResult<
-    TOptions,
-    GeneratedClientHealthStatusResponse,
-    AnalyzeHealthcareEntitiesResultArray
-  > = {
-    fetchPage: (path: string, optionsParam: TOptions) =>
-      sendGetRequest(client, healthStatusOperationSpec, "HealthStatus", optionsParam, path).then(
-        (response) => response.flatResponse as GeneratedClientHealthStatusResponse
-      ),
-    processPage: (flatResponse: GeneratedClientHealthStatusResponse) => {
+  const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
+    getPage: async (link: string) => {
+      const flatResponse = await sendGetRequest(
+        client,
+        healthStatusOperationSpec,
+        "HealthStatus",
+        options,
+        link
+      ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
       if (flatResponse.results) {
-        return processAndCombineSuccessfulAndErroneousDocuments(
-          documents,
-          flatResponse.results,
-          makeHealthcareEntitiesResult,
-          makeHealthcareEntitiesErrorResult
-        );
+        return {
+          page: processAndCombineSuccessfulAndErroneousDocuments(
+            documents,
+            flatResponse.results,
+            makeHealthcareEntitiesResult,
+            makeHealthcareEntitiesErrorResult
+          ),
+          nextLink: flatResponse.nextLink
+        };
       } else {
         throw new Error("Healthcare action has succeeded but there are no results!");
       }
@@ -218,11 +217,9 @@ export function processHealthResult<TOptions extends OperationOptions>(
   ): PagedAnalyzeHealthcareEntitiesResult => {
     const pollingURL = (state as any).pollingURL;
     const pagedIterator = getPagedAsyncIterator<
-      TOptions,
-      GeneratedClientHealthStatusResponse,
       AnalyzeHealthcareEntitiesResult,
       AnalyzeHealthcareEntitiesResultArray
-    >(pagedResult, pollingURL, options);
+    >(pagedResult, pollingURL);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
       modelVersion: (result as any).results.modelVersion!

@@ -12,29 +12,17 @@ import {
  * returns an async iterator that will retrieve items from the server. It also has a `byPage`
  * method that can return pages of items at once.
  *
- * @param pagedResult - an object that describes how to communicate with the service and how to build a page of items.
- * @param path - the path to the resource to retrieve
- * @param getRequestOptions - the options to pass to the service
+ * @param pagedResult - an object that has one method, `getPage`, which returns one page of results along with a link to the next one.
+ * @param link - the link to a page of results, typically the first one.
+ * @param options - the options of the `getPagedAsyncIterator` function.
  * @returns a paged async iterator that will retrieve items from the server.
  */
-export function getPagedAsyncIterator<
-  TFetchPageOptions,
-  TResponse,
-  TElement,
-  TPage = TElement[],
-  TPageSettings = PageSettings
->(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
-  path: string,
-  getRequestOptions: TFetchPageOptions,
-  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
+export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(
+  pagedResult: PagedResult<TPage>,
+  link: string,
+  options?: GetPagedAsyncIteratorOptions<TPage, TPageSettings>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage, TPageSettings>(
-    pagedResult,
-    path,
-    getRequestOptions,
-    options
-  );
+  const iter = getItemAsyncIterator<TElement, TPage>(pagedResult, link);
   return {
     next() {
       return iter.next();
@@ -45,33 +33,18 @@ export function getPagedAsyncIterator<
     byPage:
       options?.byPage ??
       ((settings?: PageSettings) => {
-        const pageOptions = { ...getRequestOptions };
-        (pageOptions as Record<string, unknown>)[options?.maxPageSizeParam ?? "top"] =
-          settings?.maxPageSize;
-        return getPageAsyncIterator(
-          pagedResult,
-          settings?.continuationToken ?? path,
-          pageOptions,
-          options
-        );
+        return getPageAsyncIterator(pagedResult, link, settings?.maxPageSize);
       })
   };
 }
 
-async function* getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPage, TPageSettings>(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
-  path: string,
-  getRequestOptions: TFetchPageOptions,
-  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
+async function* getItemAsyncIterator<TElement, TPage>(
+  pagedResult: PagedResult<TPage>,
+  link: string,
+  maxPageSize?: number
 ): AsyncIterableIterator<TElement> {
   const metaInfo = { isArray: false };
-  const pages = getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageSettings>(
-    pagedResult,
-    path,
-    getRequestOptions,
-    options,
-    metaInfo
-  );
+  const pages = getPageAsyncIterator<TPage>(pagedResult, link, maxPageSize, metaInfo);
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!metaInfo.isArray) {
@@ -88,47 +61,17 @@ async function* getItemAsyncIterator<TFetchPageOptions, TResponse, TElement, TPa
   }
 }
 
-async function* getPageAsyncIterator<TFetchPageOptions, TResponse, TPage, TPageSettings>(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
-  path: string,
-  getRequestOptions: TFetchPageOptions,
-  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>,
+async function* getPageAsyncIterator<TPage>(
+  pagedResult: PagedResult<TPage>,
+  link: string,
+  maxPageSize?: number,
   metaInfo: { isArray: boolean } = { isArray: true }
 ): AsyncIterableIterator<TPage> {
-  let response = await retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
-    pagedResult,
-    path,
-    getRequestOptions,
-    options
-  );
-  metaInfo.isArray = Array.isArray(response.result);
-  yield response.result;
+  let response = await pagedResult.getPage(link, maxPageSize);
+  metaInfo.isArray = Array.isArray(response.page);
+  yield response.page;
   while (response.nextLink) {
-    response = await retrievePage(pagedResult, response.nextLink, getRequestOptions, options);
-    yield response.result;
+    response = await pagedResult.getPage(response.nextLink, maxPageSize);
+    yield response.page;
   }
-}
-
-function getDefaultNextLink<T extends { nextLink?: string }>(response: T): string | undefined {
-  return response.nextLink;
-}
-
-interface ResultWithPaging<TPage> {
-  result: TPage;
-  nextLink?: string;
-}
-
-async function retrievePage<TFetchPageOptions, TResponse, TPage, TPageSettings>(
-  pagedResult: PagedResult<TFetchPageOptions, TResponse, TPage>,
-  path: string,
-  getRequestOptions: TFetchPageOptions,
-  options?: GetPagedAsyncIteratorOptions<TResponse, TPage, TPageSettings>
-): Promise<ResultWithPaging<TPage>> {
-  const response = await pagedResult.fetchPage(path, getRequestOptions);
-  const result: TPage = pagedResult.processPage(response);
-  const getNextLink = options?.getNextLink ?? getDefaultNextLink;
-  return {
-    result,
-    nextLink: getNextLink(response)
-  };
 }
