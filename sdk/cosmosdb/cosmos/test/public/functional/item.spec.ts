@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, CosmosClient, PatchOperation } from "../../../src";
+import { Container, CosmosClient, PatchOperation, PatchOperationType } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -28,12 +28,12 @@ interface TestItem {
   replace?: string;
 }
 
-describe("Item CRUD", function(this: Suite) {
+describe("Item CRUD", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
-  const documentCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
+  const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
     // create container
@@ -126,15 +126,15 @@ describe("Item CRUD", function(this: Suite) {
     assert.equal(response.resource, undefined);
   };
 
-  it("Should do document CRUD operations successfully", async function() {
+  it("Should do document CRUD operations successfully", async function () {
     await documentCRUDTest(false);
   });
 
-  it("Should do document CRUD operations successfully with upsert", async function() {
+  it("Should do document CRUD operations successfully with upsert", async function () {
     await documentCRUDTest(true);
   });
 
-  it("Should do document CRUD operations over multiple partitions", async function() {
+  it("Should do document CRUD operations over multiple partitions", async function () {
     // create database
     const database = await getTestDatabase("db1");
     const partitionKey = "key";
@@ -163,7 +163,7 @@ describe("Item CRUD", function(this: Suite) {
     let returnedDocuments = await bulkInsertItems(container, documents);
 
     assert.equal(returnedDocuments.length, documents.length);
-    returnedDocuments.sort(function(doc1, doc2) {
+    returnedDocuments.sort(function (doc1, doc2) {
       return doc1.id.localeCompare(doc2.id);
     });
     await bulkReadItems(container, returnedDocuments, partitionKey);
@@ -174,7 +174,7 @@ describe("Item CRUD", function(this: Suite) {
       returnedDocuments.length,
       "Expected " + returnedDocuments.length + " documents to be succesfully read"
     );
-    successDocuments.sort(function(doc1, doc2) {
+    successDocuments.sort(function (doc1, doc2) {
       return doc1.id.localeCompare(doc2.id);
     });
     assert.equal(
@@ -183,7 +183,7 @@ describe("Item CRUD", function(this: Suite) {
       "Unexpected documents are returned"
     );
 
-    returnedDocuments.forEach(function(document) {
+    returnedDocuments.forEach(function (document) {
       document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
     });
     const newReturnedDocuments = await bulkReplaceItems(container, returnedDocuments, partitionKey);
@@ -196,7 +196,7 @@ describe("Item CRUD", function(this: Suite) {
       .query<ItemDefinition>(querySpec, { enableScanInQuery: true })
       .fetchAll();
     assert(results !== undefined, "error querying documents");
-    results.sort(function(doc1, doc2) {
+    results.sort(function (doc1, doc2) {
       return doc1.id.localeCompare(doc2.id);
     });
     assert.equal(
@@ -213,7 +213,7 @@ describe("Item CRUD", function(this: Suite) {
     await bulkDeleteItems(container, returnedDocuments, partitionKey);
   });
 
-  it("Should auto generate an id for a collection partitioned on id", async function() {
+  it("Should auto generate an id for a collection partitioned on id", async function () {
     // https://github.com/Azure/azure-sdk-for-js/issues/9734
     const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
     const { resource } = await container.items.create({});
@@ -221,13 +221,13 @@ describe("Item CRUD", function(this: Suite) {
   });
 });
 
-describe("bulk item operations", function() {
-  describe("with v1 container", function() {
+describe("bulk item operations", function () {
+  describe("with v1 container", function () {
     let container: Container;
     let readItemId: string;
     let replaceItemId: string;
     let deleteItemId: string;
-    before(async function() {
+    before(async function () {
       container = await getTestContainer("bulk container", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -257,7 +257,7 @@ describe("bulk item operations", function() {
     after(async () => {
       await container.database.delete();
     });
-    it("handles create, upsert, replace, delete", async function() {
+    it("handles create, upsert, replace, delete", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -302,12 +302,13 @@ describe("bulk item operations", function() {
       assert.equal(response[4].statusCode, 200);
     });
   });
-  describe("with v2 container", function() {
+  describe("with v2 container", function () {
     let v2Container: Container;
     let readItemId: string;
     let replaceItemId: string;
+    let patchItemId: string;
     let deleteItemId: string;
-    before(async function() {
+    before(async function () {
       v2Container = await getTestContainer("bulk container v2", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -337,7 +338,7 @@ describe("bulk item operations", function() {
     after(async () => {
       await v2Container.database.delete();
     });
-    it("handles create, upsert, replace, delete", async function() {
+    it.only("handles create, upsert, patch, replace, delete", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -364,6 +365,14 @@ describe("bulk item operations", function() {
           partitionKey: 5,
           id: replaceItemId,
           resourceBody: { id: replaceItemId, name: "nice", key: 5 }
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          partitionKey: 5,
+          id: patchItemId,
+          resourceBody: [{
+            op: PatchOperationType.add, path: "/great", value: "goodValue"
+          }]
         }
       ];
       const response = await v2Container.items.bulk(operations);
@@ -382,7 +391,7 @@ describe("bulk item operations", function() {
       assert.equal(response[4].resourceBody.name, "nice");
       assert.equal(response[4].statusCode, 200);
     });
-    it("respects order", async function() {
+    it("respects order", async function () {
       readItemId = addEntropy("item1");
       await v2Container.items.create({
         id: readItemId,
@@ -406,7 +415,7 @@ describe("bulk item operations", function() {
       // Delete occurs first, so the read returns a 404
       assert.equal(response[1].statusCode, 404);
     });
-    it("424 errors for operations after an error", async function() {
+    it("424 errors for operations after an error", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -427,7 +436,7 @@ describe("bulk item operations", function() {
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[1].statusCode, 424);
     });
-    it("Continues after errors with continueOnError true", async function() {
+    it("Continues after errors with continueOnError true", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -448,7 +457,7 @@ describe("bulk item operations", function() {
       const response = await v2Container.items.bulk(operations, { continueOnError: true });
       assert.equal(response[1].statusCode, 201);
     });
-    it("autogenerates IDs for Create operations", async function() {
+    it("autogenerates IDs for Create operations", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -461,7 +470,7 @@ describe("bulk item operations", function() {
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[0].statusCode, 201);
     });
-    it("handles operations with null, undefined, and 0 partition keys", async function() {
+    it("handles operations with null, undefined, and 0 partition keys", async function () {
       const item1Id = addEntropy("item1");
       const item2Id = addEntropy("item2");
       const item3Id = addEntropy("item2");
@@ -501,10 +510,10 @@ describe("bulk item operations", function() {
       assert.equal(response[2].statusCode, 200);
     });
   });
-  describe("v2 single partition container", async function() {
+  describe("v2 single partition container", async function () {
     let container: Container;
     let deleteItemId: string;
-    before(async function() {
+    before(async function () {
       container = await getTestContainer("bulk container");
       deleteItemId = addEntropy("item2");
       await container.items.create({
@@ -513,7 +522,7 @@ describe("bulk item operations", function() {
         class: "2010"
       });
     });
-    it("deletes an item with default partition", async function() {
+    it("deletes an item with default partition", async function () {
       const operation: OperationInput = {
         operationType: BulkOperationType.Delete,
         id: deleteItemId
@@ -523,13 +532,76 @@ describe("bulk item operations", function() {
       assert.equal(deleteResponse[0].statusCode, 204);
     });
   });
+  describe("v2 multi partition container", async function () {
+    let container: Container;
+    let createItemId: string;
+    let upsertItemId: string;
+    before(async function () {
+      container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/nested/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      createItemId = addEntropy("createItem");
+      upsertItemId = addEntropy("upsertItem");
+    });
+    it("creates an item with nested object partition key", async function () {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            id: createItemId,
+            nested: {
+              key: "A"
+            }
+          }
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: {
+            id: upsertItemId,
+            nested: {
+              key: false
+            }
+          }
+        }
+      ];
+
+      const createResponse = await container.items.bulk(operations);
+      assert.equal(createResponse[0].statusCode, 201);
+    });
+  });
+
+  // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
+  describe("item read retries", async function () {
+    it("retries on 429", async function () {
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const { resource: db } = await client.databases.create({
+        id: `small db ${Math.random() * 1000}`
+      });
+      const containerResponse = await client
+        .database(db.id)
+        .containers.create({ id: `small container ${Math.random() * 1000}`, throughput: 400 });
+      const container = containerResponse.container;
+      await container.items.create({ id: "readme" });
+      const arr = new Array(400);
+      const promises = [];
+      for (let i = 0; i < arr.length; i++) {
+        promises.push(container.item("readme").read());
+      }
+      const resp = await Promise.all(promises);
+      assert.equal(resp[0].statusCode, 200);
+    });
+  });
 });
-describe("patch operations", function() {
-  describe("various mixed operations", function() {
+describe("patch operations", function () {
+  describe("various mixed operations", function () {
     let container: Container;
     let addItemId: string;
     let conditionItemId: string;
-    before(async function() {
+    before(async function () {
       addItemId = addEntropy("addItemId");
       conditionItemId = addEntropy("conditionItemId");
       const client = new CosmosClient({ key: masterKey, endpoint: endpoint });
@@ -558,7 +630,7 @@ describe("patch operations", function() {
     after(async () => {
       await container.database.delete();
     });
-    it("handles add, remove, replace, set, incr", async function() {
+    it("handles add, remove, replace, set, incr", async function () {
       const operations: PatchOperation[] = [
         {
           op: "add",
@@ -592,7 +664,7 @@ describe("patch operations", function() {
       assert.equal(addItem.last, "b");
       assert.equal(addItem.removable, undefined);
     });
-    it("conditionally patches", async function() {
+    it("conditionally patches", async function () {
       const operations: PatchOperation[] = [
         {
           op: "add",

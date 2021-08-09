@@ -4,9 +4,9 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface GetSchemaByIdOptions extends OperationOptions {
@@ -59,7 +59,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
 }
 
 // @public
-export interface SchemaRegistryClientOptions extends PipelineOptions {
+export interface SchemaRegistryClientOptions extends CommonClientOptions {
 }
 
 

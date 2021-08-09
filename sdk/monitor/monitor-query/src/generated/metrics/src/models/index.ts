@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** The response to a metrics query. */
 export interface Response {
@@ -93,7 +93,7 @@ export interface ErrorResponse {
 }
 
 /** Known values of {@link ApiVersion201801} that the service accepts. */
-export const enum KnownApiVersion201801 {
+export enum KnownApiVersion201801 {
   /** Api Version '2018-01-01' */
   TwoThousandEighteen0101 = "2018-01-01"
 }
@@ -102,13 +102,13 @@ export const enum KnownApiVersion201801 {
  * Defines values for ApiVersion201801. \
  * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **2018-01-01**: Api Version '2018-01-01'
  */
 export type ApiVersion201801 = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
-export const enum KnownMetricUnit {
+export enum KnownMetricUnit {
   Count = "Count",
   Bytes = "Bytes",
   Seconds = "Seconds",
@@ -128,7 +128,7 @@ export const enum KnownMetricUnit {
  * Defines values for MetricUnit. \
  * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Count** \
  * **Bytes** \
  * **Seconds** \
@@ -148,7 +148,7 @@ export type MetricUnit = string;
 export type ResultType = "Data" | "Metadata";
 
 /** Optional parameters. */
-export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
+export interface MetricsListOptionalParams extends coreClient.OperationOptions {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
@@ -178,20 +178,11 @@ export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type MetricsListResponse = Response & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Response;
-  };
-};
+export type MetricsListResponse = Response;
 
 /** Optional parameters. */
 export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

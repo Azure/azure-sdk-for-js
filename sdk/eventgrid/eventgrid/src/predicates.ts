@@ -3,8 +3,11 @@
 
 import {
   AcsChatMessageDeletedEventData,
+  AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
+  AcsChatMessageEditedInThreadEventData,
   AcsChatMessageReceivedEventData,
+  AcsChatMessageReceivedInThreadEventData,
   AcsChatParticipantAddedToThreadEventData,
   AcsChatParticipantAddedToThreadWithUserEventData,
   AcsChatParticipantRemovedFromThreadEventData,
@@ -124,10 +127,16 @@ export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
 export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
   "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceivedInThread" event. */
+  "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageEdited" event. */
   "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageEditedInThread" event. */
+  "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeleted" event. */
   "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeletedInThread" event. */
+  "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadCreatedWithUser" event. */
   "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */

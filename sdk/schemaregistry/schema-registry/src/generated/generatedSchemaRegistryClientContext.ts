@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
-const packageName = "@azure/schema-registry";
-const packageVersion = "1.0.0-beta.2";
-
-export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient {
+export class GeneratedSchemaRegistryClientContext extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
@@ -34,18 +31,25 @@ export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient
     if (!options) {
       options = {};
     }
+    const defaults: GeneratedSchemaRegistryClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-schema-registry/1.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "https://{endpoint}";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://{endpoint}"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
