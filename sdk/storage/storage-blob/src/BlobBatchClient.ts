@@ -19,7 +19,7 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
+import { PipelineLike, StoragePipelineOptions, newPipeline, isPipelineLike } from "./Pipeline";
 import { getURLPath } from "./utils/utils.common";
 
 /**
@@ -84,18 +84,18 @@ export class BlobBatchClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     url: string,
     credentialOrPipeline?:
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    let pipeline: PipelineLike;
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (!credentialOrPipeline) {
       // no credential provided
