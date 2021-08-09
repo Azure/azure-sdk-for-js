@@ -192,17 +192,15 @@ export function processHealthResult<TOptions extends OperationOptions>(
   result: unknown,
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
-  const pagedResult: PagedResult<TOptions, GeneratedClientHealthStatusResponse> = {
+  const pagedResult: PagedResult<
+    TOptions,
+    GeneratedClientHealthStatusResponse,
+    AnalyzeHealthcareEntitiesResultArray
+  > = {
     fetchPage: (path: string, optionsParam: TOptions) =>
       sendGetRequest(client, healthStatusOperationSpec, "HealthStatus", optionsParam, path).then(
         (response) => response.flatResponse as GeneratedClientHealthStatusResponse
-      )
-  };
-  const getPagedAsyncIteratorOptions: PagedAsyncIteratorOptions<
-    GeneratedClientHealthStatusResponse,
-    AnalyzeHealthcareEntitiesResultArray,
-    PageSettings
-  > = {
+      ),
     processPage: (flatResponse: GeneratedClientHealthStatusResponse) => {
       if (flatResponse.results) {
         return processAndCombineSuccessfulAndErroneousDocuments(
@@ -226,7 +224,7 @@ export function processHealthResult<TOptions extends OperationOptions>(
       GeneratedClientHealthStatusResponse,
       AnalyzeHealthcareEntitiesResult,
       AnalyzeHealthcareEntitiesResultArray
-    >(pagedResult, pollingURL, options, getPagedAsyncIteratorOptions);
+    >(pagedResult, pollingURL, options);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
       modelVersion: (result as any).results.modelVersion!

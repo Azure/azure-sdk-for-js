@@ -197,17 +197,15 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
   documents: TextDocumentInput[],
   options: TOptions
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
-  const pagedResult: PagedResult<TOptions, GeneratedClientAnalyzeStatusResponse> = {
+  const pagedResult: PagedResult<
+    TOptions,
+    GeneratedClientAnalyzeStatusResponse,
+    AnalyzeActionsResult
+  > = {
     fetchPage: (path: string, optionsParam: TOptions) =>
       sendGetRequest(client, analyzeStatusOperationSpec, "AnalyzeStatus", optionsParam, path).then(
         (response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse
-      )
-  };
-  const getPagedAsyncIteratorOptions: PagedAsyncIteratorOptions<
-    GeneratedClientAnalyzeStatusResponse,
-    AnalyzeActionsResult,
-    PageSettings
-  > = {
+      ),
     processPage: (flatResponse: GeneratedClientAnalyzeStatusResponse) => {
       if (flatResponse) {
         return createAnalyzeActionsResult(flatResponse, documents);
@@ -223,7 +221,7 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
       GeneratedClientAnalyzeStatusResponse,
       AnalyzeActionsResult,
       AnalyzeActionsResult
-    >(pagedResult, pollingURL, options, getPagedAsyncIteratorOptions);
+    >(pagedResult, pollingURL, options);
     // Attach stats if the service starts to return them
     // https://github.com/Azure/azure-sdk-for-js/issues/14139
     // state.result = Object.assign(pagedIterator, {

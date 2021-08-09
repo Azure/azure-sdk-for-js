@@ -41,8 +41,7 @@ export interface PagedResult<TGetRequestOptions, TResponse, TPage> {
    */
   fetchPage: (url: string, options: TGetRequestOptions) => Promise<TResponse>;
   /**
-   * A method to process a page of items from the response. The default is returning
-   * the `results` property of the response as is.
+   * A method to process a page of items from the response.
    */
   processPage: (response: TResponse) => TPage;
 }
