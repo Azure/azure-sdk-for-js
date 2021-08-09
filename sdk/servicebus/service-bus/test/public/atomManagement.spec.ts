@@ -340,7 +340,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
-    it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
+    it.only("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
       const connectionStringProperties = parseServiceBusConnectionString(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
       );

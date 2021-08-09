@@ -315,8 +315,6 @@ describe("ServiceBusClient live tests", () => {
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
       "Endpoint=sb://((.*).servicebus.usgovcloudapi.net)"
     ) || "")[1];
-    console.log("===========",serviceBusEndpoint);
-
     /**
      * Utility to create EnvironmentCredential using `@azure/identity`
      */
@@ -385,7 +383,7 @@ describe("ServiceBusClient live tests", () => {
         should.equal(errorWasThrown, true, "Error thrown flag must be true");
       });
 
-      it(
+      it.only(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function(): Promise<void> {
           const tokenCreds = getDefaultTokenCredential();
@@ -393,6 +391,7 @@ describe("ServiceBusClient live tests", () => {
           const serviceBusClient = createServiceBusClientForTests();
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
+          console.log("===========",serviceBusEndpoint,"----",tokenCreds,"0000",serviceBusClient,"1111",entities);
 
           const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
           try {
