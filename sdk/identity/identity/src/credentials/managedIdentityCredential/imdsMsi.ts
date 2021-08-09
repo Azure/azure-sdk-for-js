@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
+import path from "path";
 import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
@@ -46,9 +47,13 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
   }
 
   const query = qs.stringify(queryParameters);
+  const url = path.posix.join(
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost,
+    imdsEndpointPath
+  );
 
   return {
-    url: `${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost}${imdsEndpointPath}?${query}`,
+    url: `${url}?${query}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",

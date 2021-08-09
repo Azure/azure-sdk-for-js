@@ -239,6 +239,50 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(await imdsMsi.isAvailable());
   });
 
+  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function() {
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://169.254.169.254/";
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      insecureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
+      ]
+    });
+
+    // The first request is the IMDS ping.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.equal(
+      imdsPingRequest.url,
+      "http://169.254.169.254/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+    );
+  });
+
+  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST doesn't end with a slash", async function() {
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://169.254.169.254";
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      insecureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
+      ]
+    });
+
+    // The first request is the IMDS ping.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.equal(
+      imdsPingRequest.url,
+      "http://169.254.169.254/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+    );
+  });
+
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const credential = new ManagedIdentityCredential("errclient");
     const authDetails = await sendCredentialRequests({
