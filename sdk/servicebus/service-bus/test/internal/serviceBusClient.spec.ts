@@ -385,7 +385,7 @@ describe("ServiceBusClient live tests", () => {
         should.equal(errorWasThrown, true, "Error thrown flag must be true");
       });
 
-      it.only(
+      it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function(): Promise<void> {
           const tokenCreds = getDefaultTokenCredential();
