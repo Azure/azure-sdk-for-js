@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Update dependency of `@azure/core-xml`. [#]()
+- Update dependency of `@azure/core-xml`. [#16816](https://github.com/Azure/azure-sdk-for-js/pull/16816)
 - Fixed inconsistent return type for number and strings when setting `disableTypeConversion` option. [#16736](https://github.com/Azure/azure-sdk-for-js/pull/16736)
 - Fixed batch operations against emulators. [#16587](https://github.com/Azure/azure-sdk-for-js/pull/16587)
 
