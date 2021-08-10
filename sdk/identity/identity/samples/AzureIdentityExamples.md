@@ -962,7 +962,7 @@ Many credential implementations in the `@azure/identity` library have an underly
 Starting in version 2 of `@azure/identity`, the `@azure/identity-cache-persistence` package can be used. This package provides an extension to the `@azure/identity` package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level `useIdentityExtension` function from the `@azure/identity` package.
 
 ```
-$ npm install --save @azure/identity-cache-persistence
+npm install --save @azure/identity-cache-persistence
 ```
 
 Enable token cache persistence in your application as follows:
