@@ -340,7 +340,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
-    it.only("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
+    it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
       const connectionStringProperties = parseServiceBusConnectionString(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
       );
@@ -390,7 +390,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-        (host.match("(.*).servicebus.usgovcloudapi.net") || [])[1],
+        (host.match("(.*).servicebus.(usgovcloudapi|windows|chinacloudapi).(net|cn))") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusAdministrationClient.deleteQueue(managementQueue1);
@@ -413,7 +413,7 @@ describe("Atom management - Authentication", function(): void {
 
     should.equal(
       (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-      (host.match("(.*).servicebus.usgovcloudapi.net") || [])[1],
+      (host.match("(.*).servicebus.(usgovcloudapi|windows|chinacloudapi).(net|cn))") || [])[1],
       "Unexpected namespace name in the getNamespaceProperties response"
     );
   });
