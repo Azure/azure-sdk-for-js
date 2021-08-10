@@ -1012,7 +1012,7 @@ const credential = new InteractiveBrowserCredential({
 
 The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It is needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There is no sensitive data in the `AuthenticationRecord` so it can be persisted in a non-protected state. Ensure that you pass in the appropriate scopes for your service to `authenticate` method.
 
-Here is an example of an application storing the `AuthenticationRecord` to the local file system after authenticating the user.
+The following example stores the `AuthenticationRecord` to the local file system after authenticating the user:
 
 ```ts
 import {
