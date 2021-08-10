@@ -1127,7 +1127,8 @@ const credential = new identity.ClientSecretCredential({
 });
 ```
 
-Common values we provide through the `AzureAuthorityHosts` are:
+The following table shows common values provided through the `AzureAuthorityHosts`.
+
 | National Cloud | Azure AD authentication endpoint | AzureAuthorityHost |
 | ----------------------------------- | ---------------------------------------- | -------------------------------------- |
 | Azure AD for US Government | https://login.microsoftonline.us | `AzureAuthorityHosts.AzureGovernment` |
