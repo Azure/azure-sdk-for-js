@@ -226,7 +226,7 @@ export interface SparkBatchJobState {
 
 // @public (undocumented)
 export class SparkClient extends SparkClientContext {
-    constructor(credentials: coreAuth.TokenCredential, endpoint: string, livyApiVersion: string, sparkPoolName: string, options?: SparkClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
     // (undocumented)
     sparkBatch: SparkBatch;
     // (undocumented)
@@ -235,7 +235,7 @@ export class SparkClient extends SparkClientContext {
 
 // @public (undocumented)
 export class SparkClientContext extends coreClient.ServiceClient {
-    constructor(credentials: coreAuth.TokenCredential, endpoint: string, livyApiVersion: string, sparkPoolName: string, options?: SparkClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
     // (undocumented)
     endpoint: string;
     // (undocumented)
@@ -247,6 +247,7 @@ export class SparkClientContext extends coreClient.ServiceClient {
 // @public
 export interface SparkClientOptionalParams extends coreClient.ServiceClientOptions {
     endpoint?: string;
+    livyApiVersion?: string;
 }
 
 // @public

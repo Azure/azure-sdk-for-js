@@ -1,13 +1,20 @@
+import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { SparkClient } from "../src";
-import { createClient } from "./utils/recordedClient";
+import { SparkClient } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient";
 
 describe("Synapse Managed Private Endpoints", () => {
+  let recorder: Recorder;
   let client: SparkClient;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    recorder = createRecorder(this);
     const spark_pool_name = "testsparkpool";
     client = createClient(spark_pool_name);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("should create session", async () => {

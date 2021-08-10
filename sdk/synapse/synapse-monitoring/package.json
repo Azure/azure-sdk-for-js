@@ -20,6 +20,21 @@
     "cloud",
     "isomorphic"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/artifactsClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "browser": {
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"
@@ -33,7 +48,6 @@
     "@azure/identity": "2.0.0-beta.5",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
-    "@rollup/plugin-commonjs": "11.0.2",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "chai": "^4.2.0",
@@ -54,8 +68,6 @@
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup": "^1.16.3",
     "uglify-js": "^3.4.9",
     "@types/chai-as-promised": "^7.1.0",
