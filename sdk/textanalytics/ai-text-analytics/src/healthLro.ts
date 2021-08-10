@@ -13,6 +13,7 @@ import {
 } from "./analyzeHealthcareEntitiesResult";
 import {
   GeneratedClient,
+  GeneratedClientHealthStatusOptionalParams,
   GeneratedClientHealthStatusResponse,
   TextDocumentInput
 } from "./generated";
@@ -178,11 +179,11 @@ export function isHealthDone(response: unknown): boolean {
 /**
  * @internal
  */
-export function processHealthResult<TOptions extends OperationOptions>(
+export function processHealthResult(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   documents: TextDocumentInput[],
-  options: TOptions
+  options: GeneratedClientHealthStatusOptionalParams
 ): (
   result: unknown,
   state: AnalyzeHealthcareOperationState
@@ -199,7 +200,9 @@ export function processHealthResult<TOptions extends OperationOptions>(
           client,
           healthStatusOperationSpec,
           "HealthStatus",
-          { ...options, top: maxPageSize },
+          // if `top` is set to `undefined`, the default value will not be sent
+          // as part of the request.
+          maxPageSize ? { ...options, top: maxPageSize } : options,
           link
         ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
         if (flatResponse.results) {

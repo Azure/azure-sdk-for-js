@@ -4,11 +4,11 @@
 import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models";
 
 /**
- * returns an async iterator that will retrieve items from the server. It also has a `byPage`
- * method that can return pages of items at once.
+ * returns an async iterator that iterates over results. It also has a `byPage`
+ * method that returns pages of items at once.
  *
  * @param pagedResult - an object that specifies how to get pages.
- * @returns a paged async iterator that iterates over results items and pages.
+ * @returns a paged async iterator that iterates over results.
  */
 export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(
   pagedResult: PagedResult<TPage>

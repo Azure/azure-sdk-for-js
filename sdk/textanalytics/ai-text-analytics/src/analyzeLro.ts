@@ -6,6 +6,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import {
   GeneratedClient,
+  GeneratedClientAnalyzeStatusOptionalParams,
   GeneratedClientAnalyzeStatusResponse,
   JobManifestTasks,
   TextDocumentInput
@@ -92,7 +93,6 @@ const serializer = createSerializer(Mappers, /* isXml */ false);
 
 // Consider whether the spec can be exported by code gen
 const analyzeStatusOperationSpec: OperationSpec = {
-  path: "/analyze/jobs/{jobId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -189,11 +189,11 @@ export function isAnalyzeDone(response: unknown): boolean {
 /**
  * @internal
  */
-export function processAnalyzeResult<TOptions extends OperationOptions>(
+export function processAnalyzeResult(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   documents: TextDocumentInput[],
-  options: TOptions
+  options: GeneratedClientAnalyzeStatusOptionalParams
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
   return (_result: unknown, state: AnalyzeActionsOperationState): PagedAnalyzeActionsResult => {
     const pollingURL = (state as any).pollingURL;
@@ -204,17 +204,15 @@ export function processAnalyzeResult<TOptions extends OperationOptions>(
           client,
           analyzeStatusOperationSpec,
           "AnalyzeStatus",
-          { ...options, top: maxPageSize },
+          // if `top` is set to `undefined`, the default value will not be sent
+          // as part of the request.
+          maxPageSize ? { ...options, top: maxPageSize } : options,
           link
         ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
-        if (flatResponse) {
-          return {
-            page: createAnalyzeActionsResult(flatResponse, documents),
-            nextLink: flatResponse.nextLink
-          };
-        } else {
-          throw new Error("Analyze action has succeeded but there are no results!");
-        }
+        return {
+          page: createAnalyzeActionsResult(flatResponse, documents),
+          nextLink: flatResponse.nextLink
+        };
       }
     };
     const pagedIterator = getPagedAsyncIterator<AnalyzeActionsResult, AnalyzeActionsResult>(
