@@ -1,7 +1,6 @@
 # Table of contents
 
 - [Introduction](#introduction)
-- [Requirements](#requirements)
 - [Authenticating client-side browser applications](#authenticating-client-side-browser-applications)
 - [Authenticating server-side applications](#authenticating-server-side-applications)
   - [Authenticating User Accounts](#authenticating-user-accounts)
@@ -10,23 +9,22 @@
   - [Authenticating Azure Hosted Applications](#authenticating-azure-hosted-applications)
 - [Chaining credentials](#chaining-credentials)
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
-- [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
 - [Advanced Examples](#advanced-examples)
   - [Custom Credentials](#custom-credentials)
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
-    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-azure-msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-azure-msal-node-on-behalf-flow).
-    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azure-msal-browser-public-client).
+    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
+    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-@azure/msal-node-on-behalf-of-flow).
+    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
   - [Controlling User Interaction](#controlling-user-interaction)
   - [Persisting user authentication data](#persisting-user-authentication-data)
     - [Persisting the token cache](#persisting-the-token-cache)
-    - [Name Token Cache](#name-token-cache)
+    - [Using a named token cache](#Using-a-named-token-cache)
     - [Persisting the Authentication Record](#persisting-the-authentication-record)
     - [Silent authentication with Authentication Record and Token Cache Persistence Options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
-    - [Allow Unencrypted Storage](#allow-unencrypted-storage)
+    - [Allowing Unencrypted Storage](#allowing-unencrypted-storage)
   - [Authenticating National Clouds](#authenticating-national-clouds)
 
 ## Introduction
