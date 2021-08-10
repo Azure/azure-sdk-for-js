@@ -1008,7 +1008,7 @@ const credential = new InteractiveBrowserCredential({
 });
 ```
 
-#### Persisting the Authentication Record
+#### Persist the authentication record
 
 The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It's needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There's no sensitive data in the `AuthenticationRecord`, so it can be persisted in a non-protected state. Ensure that you pass the appropriate scopes for your service to the `authenticate` method.
 
