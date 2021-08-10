@@ -1089,7 +1089,7 @@ main().catch((err) => {
 });
 ```
 
-The credential created in this example will silently authenticate given that a valid token for corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required such as on token expiry, or when additional authentication is required for a particular resource.
+The credential created in the preceding example will silently authenticate, given that a valid token corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required, such as on token expiry or when additional authentication is required for a particular resource.
 
 #### Allow unencrypted storage
 
