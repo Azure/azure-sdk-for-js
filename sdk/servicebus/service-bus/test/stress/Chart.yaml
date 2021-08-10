@@ -1,6 +1,6 @@
 apiVersion: v2
 name: service-bus
-description: Stress tests for the javascript service bus SDK
+description: Stress tests for the Javascript Service Bus SDK
 version: 0.1.1
 appVersion: v0.1
 annotations:
