@@ -1110,7 +1110,7 @@ const credential = new InteractiveBrowserCredential({
 
 By setting `allowUnencryptedStorage` to true, the credential will encrypt the contents of the token cache before persisting it if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `allowUnencryptedStorage` is false (the default), a `CredentialUnavailableError` will be thrown in the case no data protection is available.
 
-### Authenticating National Clouds
+### Authenticate national clouds
 
 National clouds are physically isolated instances of Azure. These regions of Azure are designed to make sure that data residency, sovereignty, and compliance requirements are honored within geographical boundaries. Including the global cloud, Azure Active Directory (Azure AD) is deployed in the following national clouds:
 
