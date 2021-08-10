@@ -6,7 +6,7 @@ import { getPagedAsyncIterator, PagedResult } from "../src";
 
 function buildIterator<T>(input: T) {
   return getPagedAsyncIterator({
-    link: "",
+    firstPageLink: "",
     async getPage() {
       return Promise.resolve({ page: input });
     }
@@ -49,16 +49,16 @@ describe("getPagedAsyncIterator", function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     let currIndex = 0;
     const pagedResult: PagedResult<number[]> = {
-      link: "",
+      firstPageLink: "",
       async getPage(_path, maxPageSize) {
         const top = maxPageSize || 5;
         if (currIndex < collection.length) {
           const res = collection.slice(currIndex, Math.min(currIndex + top, collection.length));
-          const nextLink = top < collection.length - currIndex ? "nextLink" : undefined;
+          const nextPageLink = top < collection.length - currIndex ? "nextPageLink" : undefined;
           currIndex += top;
           return Promise.resolve({
             page: res,
-            nextLink: nextLink
+            nextPageLink: nextPageLink
           });
         } else {
           throw new Error("should not get here");
@@ -89,16 +89,16 @@ describe("getPagedAsyncIterator", function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     let currIndex = 0;
     const pagedResult: PagedResult<Record<string, unknown>> = {
-      link: "",
+      firstPageLink: "",
       async getPage(_path, maxPageSize) {
         const top = maxPageSize || 5;
         if (currIndex < collection.length) {
           const res = collection.slice(currIndex, Math.min(currIndex + top, collection.length));
-          const nextLink = top < collection.length - currIndex ? "nextLink" : undefined;
+          const nextPageLink = top < collection.length - currIndex ? "nextPageLink" : undefined;
           currIndex += top;
           return Promise.resolve({
             page: { res },
-            nextLink: nextLink
+            nextPageLink: nextPageLink
           });
         } else {
           throw new Error("should not get here");

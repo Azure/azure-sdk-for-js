@@ -11,9 +11,9 @@ import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models"
  * @returns a paged async iterator that iterates over results.
  */
 export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(
-  pagedResult: PagedResult<TPage>
+  pagedResult: PagedResult<TPage, TPageSettings>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage>(pagedResult);
+  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(pagedResult);
   return {
     next() {
       return iter.next();
@@ -24,20 +24,19 @@ export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSetting
     byPage:
       pagedResult?.byPage ??
       ((settings?: PageSettings) => {
-        return getPageAsyncIterator(pagedResult, settings?.maxPageSize);
+        return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings>, settings?.maxPageSize);
       })
   };
 }
 
-async function* getItemAsyncIterator<TElement, TPage>(
-  pagedResult: PagedResult<TPage>,
+async function* getItemAsyncIterator<TElement, TPage, TPageSettings>(
+  pagedResult: PagedResult<TPage, TPageSettings>,
   maxPageSize?: number
 ): AsyncIterableIterator<TElement> {
-  const metaInfo = { isArray: false };
-  const pages = getPageAsyncIterator<TPage>(pagedResult, maxPageSize, metaInfo);
+  const pages = getPageAsyncIterator(pagedResult, maxPageSize);
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
-  if (!metaInfo.isArray) {
+  if (!Array.isArray(firstVal.value)) {
     yield firstVal.value;
     // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
     yield* (pages as unknown) as AsyncIterableIterator<TElement>;
@@ -51,16 +50,14 @@ async function* getItemAsyncIterator<TElement, TPage>(
   }
 }
 
-async function* getPageAsyncIterator<TPage>(
-  pagedResult: PagedResult<TPage>,
-  maxPageSize?: number,
-  metaInfo: { isArray: boolean } = { isArray: true }
+async function* getPageAsyncIterator<TPage, TPageSettings>(
+  pagedResult: PagedResult<TPage, TPageSettings>,
+  maxPageSize?: number
 ): AsyncIterableIterator<TPage> {
-  let response = await pagedResult.getPage(pagedResult.link, maxPageSize);
-  metaInfo.isArray = Array.isArray(response.page);
+  let response = await pagedResult.getPage(pagedResult.firstPageLink, maxPageSize);
   yield response.page;
-  while (response.nextLink) {
-    response = await pagedResult.getPage(response.nextLink, maxPageSize);
+  while (response.nextPageLink) {
+    response = await pagedResult.getPage(response.nextPageLink, maxPageSize);
     yield response.page;
   }
 }
