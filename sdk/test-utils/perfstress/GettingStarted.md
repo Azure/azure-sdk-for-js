@@ -271,21 +271,15 @@ To be able to leverage the powers of playing the back the requests using the tes
 
       ```ts
       /// Core V1 SDKs - For services depending on core-http
-      /// Pass the proxy client as the httpClient in the client options
-      this.blobServiceClient = BlobServiceClient.fromConnectionString(
-        connectionString,
-        {
-          httpClient: this.getHttpClientV1()
-        }
-      );
+      /// Call this.configureClientOptionsCoreV1 method on your client options
+      this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, this.configureClientOptionsCoreV1({}));
 
       /// Core V2 SDKs - For services depending on core-rest-pipeline
-      /// Use the addPolicy call to add the test proxy policy
-      this.client = TableClient.fromConnectionString(connectionString, tableName);
-      this.client.pipeline.addPolicy(testProxyHttpPolicy(this.getHttpClient()));
+      /// this.configureClient call to modify your client
+      this.client = this.configureClient(TableClient.fromConnectionString(connectionString, tableName));
 
       // Not all core-v1 SDKs allow passing httpClient option.
-      // Not all core-v2 SDKs allow adding policies.
+      // Not all core-v2 SDKs allow adding policies via pipeline option.
       // Please reach out if your service doesn't support.
       ```
 
