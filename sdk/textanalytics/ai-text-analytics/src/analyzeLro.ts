@@ -200,7 +200,7 @@ export function processAnalyzeResult(
     const pagedResult: PagedResult<AnalyzeActionsResult> = {
       firstPageLink: pollingURL,
       getPage: async (pageLink: string, maxPageSize?: number) => {
-        const flatResponse = await sendGetRequest(
+        const response = await sendGetRequest(
           client,
           analyzeStatusOperationSpec,
           "AnalyzeStatus",
@@ -208,7 +208,8 @@ export function processAnalyzeResult(
           // as part of the request.
           maxPageSize ? { ...options, top: maxPageSize } : options,
           pageLink
-        ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
+        );
+        const flatResponse = response.flatResponse as GeneratedClientAnalyzeStatusResponse;
         return {
           page: createAnalyzeActionsResult(flatResponse, documents),
           nextPageLink: flatResponse.nextLink

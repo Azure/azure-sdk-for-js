@@ -196,7 +196,7 @@ export function processHealthResult(
     const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
       firstPageLink: pollingURL,
       getPage: async (pageLink: string, maxPageSize?: number) => {
-        const flatResponse = await sendGetRequest(
+        const response = await sendGetRequest(
           client,
           healthStatusOperationSpec,
           "HealthStatus",
@@ -204,7 +204,8 @@ export function processHealthResult(
           // as part of the request.
           maxPageSize ? { ...options, top: maxPageSize } : options,
           pageLink
-        ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
+        );
+        const flatResponse = response.flatResponse as GeneratedClientHealthStatusResponse;
         if (flatResponse.results) {
           return {
             page: processAndCombineSuccessfulAndErroneousDocuments(

@@ -47,18 +47,15 @@ describe("getPagedAsyncIterator", function() {
 
   it("should return an iterator over multiple pages (collections)", async function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
-    let currIndex = 0;
     const pagedResult: PagedResult<number[]> = {
-      firstPageLink: "",
-      async getPage(_path, maxPageSize) {
+      firstPageLink: "0",
+      async getPage(pageLink, maxPageSize) {
+        const currIndex = parseInt(pageLink);
         const top = maxPageSize || 5;
         if (currIndex < collection.length) {
-          const res = collection.slice(currIndex, Math.min(currIndex + top, collection.length));
-          const nextPageLink = top < collection.length - currIndex ? "nextPageLink" : undefined;
-          currIndex += top;
           return Promise.resolve({
-            page: res,
-            nextPageLink: nextPageLink
+            page: collection.slice(currIndex, Math.min(currIndex + top, collection.length)),
+            nextPageLink: top < collection.length - currIndex ? `${currIndex + top}` : undefined
           });
         } else {
           throw new Error("should not get here");
@@ -71,7 +68,6 @@ describe("getPagedAsyncIterator", function() {
       receivedItems.push(val);
     }
     assert.deepEqual(receivedItems, collection);
-    currIndex = 0;
     let pagesCount = 0;
     const maxPageSize = 5;
     const receivedPages: any[] = [];
@@ -87,18 +83,17 @@ describe("getPagedAsyncIterator", function() {
   it("should return an iterator over multiple pages (non-collections)", async function() {
     const maxPageSize = 5;
     const collection = Array.from(Array(10), (_, i) => i + 1);
-    let currIndex = 0;
     const pagedResult: PagedResult<Record<string, unknown>> = {
-      firstPageLink: "",
-      async getPage(_path, maxPageSize) {
+      firstPageLink: "0",
+      async getPage(pageLink, maxPageSize) {
+        const currIndex = parseInt(pageLink);
         const top = maxPageSize || 5;
         if (currIndex < collection.length) {
-          const res = collection.slice(currIndex, Math.min(currIndex + top, collection.length));
-          const nextPageLink = top < collection.length - currIndex ? "nextPageLink" : undefined;
-          currIndex += top;
           return Promise.resolve({
-            page: { res },
-            nextPageLink: nextPageLink
+            page: {
+              res: collection.slice(currIndex, Math.min(currIndex + top, collection.length))
+            },
+            nextPageLink: top < collection.length - currIndex ? `${currIndex + top}` : undefined
           });
         } else {
           throw new Error("should not get here");
@@ -114,8 +109,6 @@ describe("getPagedAsyncIterator", function() {
     }
     assert.equal(pagesCount, Math.ceil(collection.length / maxPageSize));
     assert.deepEqual([].concat(...receivedItems), collection);
-    // reset the dummy server
-    currIndex = 0;
     pagesCount = 0;
     const receivedPages = [];
     for await (const val of iterator.byPage({ maxPageSize: maxPageSize })) {
