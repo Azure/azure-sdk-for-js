@@ -1135,8 +1135,6 @@ Common values we provide through the `AzureAuthorityHosts` are:
 | Azure AD China operated by 21Vianet | https://login.partner.microsoftonline.cn | `AzureAuthorityHosts.AzureChina` |
 | Azure AD (global service) | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
 
-|
-
 To learn more about Azure Authentication for National Clouds, you can [read this](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
 
 <!-- LINKS -->
