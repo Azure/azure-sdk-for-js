@@ -150,7 +150,7 @@
       "QueryThroughput.ts",
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
-      "handleError.ts"
+      "Shared/handleError.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
