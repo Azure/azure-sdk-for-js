@@ -140,7 +140,7 @@
       "azure-search"
     ],
     "requiredResources": {
-      "Azure Search Documents instance": "https://docs.microsoft.com/en-us/azure/search/search-create-service-portal"
+      "Azure Search Documents instance": "https://docs.microsoft.com/azure/search/search-create-service-portal"
     }
   }
 }

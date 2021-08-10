@@ -90,6 +90,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/synonymMapOperations.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/search-documents
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuresearchdocumentsinstance]: https://docs.microsoft.com/en-us/azure/search/search-create-service-portal
+[createinstance_azuresearchdocumentsinstance]: https://docs.microsoft.com/azure/search/search-create-service-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
