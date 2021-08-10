@@ -19,7 +19,11 @@ import {
   convertResponseForMetricsDefinitions,
   convertResponseForMetricNamespaces
 } from "../../../src/internal/modelConverters";
-import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
+import {
+  OperationRequestOptions,
+  RawResponseCallback,
+  SerializerOptions
+} from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
@@ -29,6 +33,7 @@ import {
   QueryMetricsOptions,
   QueryMetricsResult
 } from "../../../src";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -37,7 +42,7 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "the kusto query",
-            workspace: "the primary workspace id",
+            workspaceId: "the primary workspace id",
             timespan: Durations.last24Hours
           }
         ]
@@ -46,7 +51,7 @@ describe("Model unit tests", () => {
       assert.deepEqual(generatedRequest, <GeneratedBatchRequest>{
         requests: [
           {
-            id: "0", // auto-generated,
+            id: "0",
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
@@ -63,37 +68,31 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "<placeholder>",
-            workspace: "<placeholder>",
+            workspaceId: "<placeholder>",
             timespan: Durations.last24Hours
           },
           {
-            azureResourceIds: ["resourceId1"],
-            includeQueryStatistics: true,
-            qualifiedNames: ["qualifiedName"],
             query: "the kusto query",
-            serverTimeoutInSeconds: 100,
             timespan: Durations.last5Minutes,
-            workspace: "the primary workspace id",
-            workspaceIds: ["additionalWorkspaceId"],
-            workspaces: ["additionalWorkspace"]
+            workspaceId: "the primary workspace id",
+            includeQueryStatistics: true,
+            serverTimeoutInSeconds: 100,
+            additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
           }
         ]
       });
-
+      console.log(JSON.stringify(generatedRequest.requests?.[1]));
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
-        id: "1", // auto-generated (increments by 1 for each query in the batch)
-        workspace: "the primary workspace id",
+        body: {
+          workspaces: ["additionalWorkspace", "resourceId1"],
+          query: "the kusto query",
+          timespan: "PT5M"
+        },
         headers: {
           Prefer: "wait=100,include-statistics=true"
         },
-        body: {
-          azureResourceIds: ["resourceId1"],
-          qualifiedNames: ["qualifiedName"],
-          query: "the kusto query",
-          timespan: Durations.last5Minutes,
-          workspaceIds: ["additionalWorkspaceId"],
-          workspaces: ["additionalWorkspace"]
-        }
+        workspace: "the primary workspace id",
+        id: "1" // auto-generated (increments by 1 for each query in the batch)
       });
 
       assert.equal(generatedRequest?.requests?.length, 2);
@@ -105,6 +104,8 @@ describe("Model unit tests", () => {
       const abortSignal = {} as AbortSignalLike;
       const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
+      const serializerOptions = {} as SerializerOptions;
+      const onResponse = {} as RawResponseCallback;
 
       // (Required<T> just to make sure I don't forget a field)
       const track2Model: Required<QueryMetricsOptions> = {
@@ -118,7 +119,9 @@ describe("Model unit tests", () => {
         requestOptions,
         resultType: "Data",
         top: 10,
-        tracingOptions
+        tracingOptions,
+        serializerOptions,
+        onResponse
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
@@ -138,7 +141,9 @@ describe("Model unit tests", () => {
         resultType: "Data",
         timespan: "arbitraryTimespan",
         top: 10,
-        tracingOptions
+        tracingOptions,
+        serializerOptions,
+        onResponse
       };
 
       assert.deepEqual(actualMetricsRequest, expectedMetricsRequest);
@@ -199,8 +204,7 @@ describe("Model unit tests", () => {
         interval: "anInterval",
         namespace: "aNamespace",
         // ...except this one which gets a slight rename.
-        resourceregion: "aResourceRegion",
-        _response: {} as any
+        resourceregion: "aResourceRegion"
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
@@ -251,12 +255,16 @@ describe("Model unit tests", () => {
       const abortSignal = {} as AbortSignalLike;
       const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
+      const serializerOptions = {} as SerializerOptions;
+      const onResponse = {} as RawResponseCallback;
 
       const track2: Required<GetMetricDefinitionsOptions> = {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricNamespace: "myMetricNamespace"
+        metricNamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       };
 
       const actualOptions: GeneratedMetricDefinitionsListOptionalParams = convertRequestOptionsForMetricsDefinitions(
@@ -267,7 +275,9 @@ describe("Model unit tests", () => {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricnamespace: "myMetricNamespace"
+        metricnamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       });
     });
 
@@ -278,7 +288,6 @@ describe("Model unit tests", () => {
 
     it("convertResponseForMetricsDefinitions", () => {
       const actualResponse = convertResponseForMetricsDefinitions({
-        _response: {} as any,
         value: [
           {
             dimensions: [
@@ -311,7 +320,6 @@ describe("Model unit tests", () => {
 
     it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
       const actualResponse = convertResponseForMetricsDefinitions({
-        _response: {} as any,
         value: [
           {
             id: "anything"
@@ -335,7 +343,6 @@ describe("Model unit tests", () => {
 
     it("convertResponseForMetricNamespaces", () => {
       const actualResponse = convertResponseForMetricNamespaces({
-        _response: {} as any,
         value: [{ id: "anything" } as any]
       });
 

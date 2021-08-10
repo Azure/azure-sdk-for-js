@@ -85,6 +85,11 @@ stages:
                         condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
                         displayName: 'Set Tag and Additional Tag'
 
+                      - script: |
+                          npm install $(Package.Archive)
+                        displayName: 'Validating package can be installed'
+                        condition: succeeded()
+
                       - task: PowerShell@2
                         displayName: 'Publish to npmjs.org'
                         inputs:
@@ -92,6 +97,7 @@ stages:
                           filePath: "eng/tools/publish-to-npm.ps1"
                           arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
                           pwsh: true
+                        condition: succeeded()
 
                       - pwsh: |
                           write-host "$(Package.Archive)"
@@ -195,6 +201,7 @@ stages:
                           PRBranchName: increment-package-version-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
                           CommitMsg: "Increment package version after release of ${{ artifact.name }}"
                           PRTitle: "Increment version for ${{ parameters.ServiceDirectory }} releases"
+                          PRLabels: "auto-merge"
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
   - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:

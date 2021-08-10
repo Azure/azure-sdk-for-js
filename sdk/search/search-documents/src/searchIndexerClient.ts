@@ -484,7 +484,9 @@ export class SearchIndexerClient {
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
+          ifMatch: etag,
+          ignoreResetRequirements: options.ignoreResetRequirements,
+          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
         }
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
@@ -520,7 +522,8 @@ export class SearchIndexerClient {
         utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
+          ifMatch: etag,
+          ignoreResetRequirements: options.ignoreResetRequirements
         }
       );
       return utils.generatedDataSourceToPublicDataSource(result);
@@ -556,7 +559,9 @@ export class SearchIndexerClient {
         utils.publicSkillsetToGeneratedSkillset(skillset),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
+          ifMatch: etag,
+          ignoreResetRequirements: options.ignoreResetRequirements,
+          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
         }
       );
 

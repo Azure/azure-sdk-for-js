@@ -13,5 +13,7 @@ export {
 export {
   AttestationAdministrationClient,
   AttestationAdministrationClientOptions,
-  AttestationAdministrationClientOperationOptions
+  AttestationAdministrationClientOperationOptions,
+  AttestationAdministrationClientPolicyOperationOptions,
+  AttestationAdministrationClientPolicyCertificateOperationOptions
 } from "./attestationAdministrationClient";

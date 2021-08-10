@@ -13,7 +13,7 @@ import {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
-import { LATEST_API_VERSION, SDK_VERSION, authenticationScopes } from "./constants";
+import { LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { logger } from "./log";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
 import { KeyVaultRestorePoller } from "./lro/restore/poller";
@@ -75,17 +75,6 @@ export class KeyVaultBackupClient {
     options: KeyVaultBackupClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
-
-    const libInfo = `azsdk-js-keyvault-admin/${SDK_VERSION}`;
-
-    const userAgentOptions = options.userAgentOptions;
-
-    options.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo
-    };
 
     const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 

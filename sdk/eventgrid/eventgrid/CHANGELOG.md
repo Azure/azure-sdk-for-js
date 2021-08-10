@@ -1,22 +1,19 @@
 # Release History
 
-## 4.4.1 (Unreleased)
+## 4.5.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added new System Event: `Microsoft.ContainerService.NewKubernetesVersionAvailable`
 
 ## 4.4.0 (2021-07-19)
 
 ### Features Added
 
-- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our 
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our
   [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - `EventGridPublisherClient` now supports Azure Active Directory (AAD) for authentication. When constructing an `EventGridPublisherClient` you may now pass an instance
   of a `TokenCredential` as the credential. See the readme for [`@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity) to learn
   more about using Azure Active Directory for authentication.

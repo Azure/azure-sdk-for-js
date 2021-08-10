@@ -43,7 +43,7 @@
     "constantPaths": [
       {
         "path": "src/generated/generatedSchemaRegistryClientContext.ts",
-        "prefix": "packageVersion"
+        "prefix": "packageDetails"
       },
       {
         "path": "swagger/README.md",

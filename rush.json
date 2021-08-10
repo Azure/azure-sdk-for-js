@@ -432,6 +432,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure-rest/core-client-lro",
+      "projectFolder": "sdk/core/core-client-lro-rest",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure-rest/core-client",
       "projectFolder": "sdk/core/core-client-rest",
       "versionPolicyName": "core"
@@ -667,6 +672,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-data-tables",
+      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "client"
@@ -703,7 +713,8 @@
     },
     {
       "packageName": "@azure/iot-modelsrepository",
-      "projectFolder": "sdk/iot/iot-modelsrepository"
+      "projectFolder": "sdk/iot/iot-modelsrepository",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
@@ -843,6 +854,11 @@
     {
       "packageName": "@azure/arm-managedapplications",
       "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webpubsub",
+      "projectFolder": "sdk/web-pubsub/arm-webpubsub",
       "versionPolicyName": "management"
     }
   ]

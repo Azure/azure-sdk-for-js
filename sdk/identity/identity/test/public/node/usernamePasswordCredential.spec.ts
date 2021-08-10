@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
+import { assert } from "chai";
 import { env, delay } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { UsernamePasswordCredential } from "../../../src";

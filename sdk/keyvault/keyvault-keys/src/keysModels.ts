@@ -450,6 +450,12 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   * Only valid if the key is marked exportable, which cannot be changed after key creation.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -553,17 +559,17 @@ export interface ReleaseKeyResult {
 export enum KnownKeyOperations {
   /** Key operation - encrypt */
   Encrypt = "encrypt",
-  /** Key operation - encrypt */
+  /** Key operation - decrypt */
   Decrypt = "decrypt",
-  /** Key operation - encrypt */
+  /** Key operation - sign */
   Sign = "sign",
-  /** Key operation - encrypt */
+  /** Key operation - verify */
   Verify = "verify",
-  /** Key operation - encrypt */
+  /** Key operation - wrapKey */
   WrapKey = "wrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - import */
   Import = "import"
 }
 
@@ -586,3 +592,11 @@ export enum KnownKeyExportEncryptionAlgorithm {
  */
 export type KeyExportEncryptionAlgorithm = string;
 /* eslint-enable tsdoc/syntax */
+
+/**
+ * Result of the {@link KeyClient.getRandomBytes} operation.
+ */
+export interface RandomBytes {
+  /** The random bytes returned by the service. */
+  bytes: Uint8Array;
+}

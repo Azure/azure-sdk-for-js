@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 19:58:36 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:53 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,13 +20,13 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - EUS ProdSlices",
-    "x-ms-request-id": "a7490fb9-b183-45a5-a7bb-68e63fb27a00"
+    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
+    "x-ms-request-id": "625e1c9c-49b0-458b-a690-839875c44a01"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/linking",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/linking",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":26,\"length\":7,\"confidenceScore\":0.21}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":65,\"length\":12,\"confidenceScore\":0.42}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":50,\"length\":7,\"confidenceScore\":0.2}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":90,\"length\":12,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"bingId\":\"296617ab-4ddb-cc10-beba-56e0f42af76b\",\"name\":\"Saturday\",\"matches\":[{\"text\":\"Saturday\",\"offset\":25,\"length\":8,\"confidenceScore\":0.05}],\"language\":\"en\",\"id\":\"Saturday\",\"url\":\"https://en.wikipedia.org/wiki/Saturday\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"bingId\":\"9ae3e6ca-81ea-6fa1-ffa0-42e1d7890906\",\"name\":\"Monte Rainier\",\"matches\":[{\"text\":\"Monte Rainier\",\"offset\":29,\"length\":13,\"confidenceScore\":0.81}],\"language\":\"es\",\"id\":\"Monte Rainier\",\"url\":\"https://es.wikipedia.org/wiki/Monte_Rainier\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "cef16080-6657-45fb-b4b7-7c7d20705ad0",
+    "apim-request-id": "69db4917-e4a8-4883-9d03-080907e2ec66",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
-    "date": "Fri, 25 Jun 2021 19:58:36 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "34"
+    "x-envoy-upstream-service-time": "28"
    }
   }
  ],

@@ -1,13 +1,19 @@
 # Release History
 
-## 3.2.0 (Unreleased)
+## 3.2.0 (2021-08-10)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to
+  ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
 ### Key Bugs Fixed
+
+- Fixed an issue in which form recognition would sometimes fail due to encountering an element reference pointing to a selection mark, causing an exception to be thrown. These references are now handled correctly.
 
 ## 3.1.0 (2021-05-26)
 
