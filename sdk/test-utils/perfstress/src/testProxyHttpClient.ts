@@ -106,7 +106,6 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
     this.testProxyHttpClientV2._recordingId = id;
   }
 
-
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
       request = this.testProxyHttpClientV2.redirectRequest(request, this._recordingId);
