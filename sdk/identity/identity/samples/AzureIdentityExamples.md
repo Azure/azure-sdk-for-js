@@ -1051,7 +1051,7 @@ main().catch((err) => {
 
 #### Silent authentication with authentication record and token cache persistence options
 
-Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it is possible to silently authenticate. This example demonstrates an application setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
+Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it's possible to silently authenticate. The following example demonstrates setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
 ```ts
 import {
