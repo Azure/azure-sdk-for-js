@@ -24,6 +24,7 @@ import {
   ContainerRegistryChartPushedEventData,
   ContainerRegistryImageDeletedEventData,
   ContainerRegistryImagePushedEventData,
+  ContainerServiceNewKubernetesVersionAvailableEventData,
   EventHubCaptureFileCreatedEventData,
   IotHubDeviceConnectedEventData,
   IotHubDeviceCreatedEventData,
@@ -157,6 +158,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSReceived" event. */
   "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.NewKubernetesVersionAvailable" event. */
+  "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueDeleted" event. */
   "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueModified" event. */

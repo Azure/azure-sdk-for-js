@@ -14,7 +14,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
-import { imdsApiVersion, imdsEndpoint } from "./constants";
+import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
 import { AuthenticationError } from "../../client/errors";
@@ -46,9 +46,10 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
   }
 
   const query = qs.stringify(queryParameters);
+  const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
   return {
-    url: process.env.AZURE_POD_IDENTITY_TOKEN_URL ?? `${imdsEndpoint}?${query}`,
+    url: `${url}?${query}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
@@ -77,7 +78,7 @@ export const imdsMsi: MSI = {
     );
 
     // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
-    if (process.env.AZURE_POD_IDENTITY_TOKEN_URL) {
+    if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       return true;
     }
 
