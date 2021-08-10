@@ -38,6 +38,9 @@ export class ClientSecretCredential implements TokenCredential {
     clientSecret: string,
     options: ClientSecretCredentialOptions = {}
   ) {
+    if (!tenantId || !clientId || !clientSecret) {
+      throw new Error("tenantId, clientId, and clientSecret are required parameters.");
+    }
     this.msalFlow = new MsalClientSecret({
       ...options,
       logger,

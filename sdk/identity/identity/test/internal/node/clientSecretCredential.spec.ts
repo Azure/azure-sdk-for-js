@@ -13,12 +13,12 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
-describe("ClientSecretCredential (internal)", function() {
+describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -30,13 +30,41 @@ describe("ClientSecretCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function() {
+  it("Should throw if the parameteres are not correctly specified", async function () {
+    let errors: Error[] = [];
+    try {
+      new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(env.AZURE_TENANT_ID, undefined as any, env.AZURE_CLIENT_SECRET);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(undefined as any, undefined as any, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    assert.equal(errors.length, 4);
+    errors.forEach((e) => {
+      assert.equal(e.message, "tenantId, clientId, and clientSecret are required parameters.");
+    });
+  });
+
+  it("Authenticates silently after the initial request", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -54,7 +82,7 @@ describe("ClientSecretCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
-  it("supports specifying the regional authority", async function() {
+  it("supports specifying the regional authority", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
