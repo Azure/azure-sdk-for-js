@@ -916,7 +916,7 @@ class RotatingCertificateCredential implements TokenCredential {
 
 In this example, the custom credential type `RotatingCertificateCredential` again uses a `ClientCertificateCredential` instance to retrieve tokens. However, in this case, it will attempt to refresh the certificate before obtaining the token. The method `RefreshCertificate` will query to see if the certificate has changed. If so, it will replace `this.credential` with a new instance of the certificate credential using the same certificate path.
 
-### Controlling User Interaction
+### Control user interaction
 
 In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library which interact with the user offer mechanisms to fully control user interaction. These settings are available under `InteractiveCredentialOptions` in both Node and the browser.
 
