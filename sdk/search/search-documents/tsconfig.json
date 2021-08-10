@@ -7,6 +7,5 @@
       "@azure/search-documents": ["./src/index"]
     }
   },
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm"],
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

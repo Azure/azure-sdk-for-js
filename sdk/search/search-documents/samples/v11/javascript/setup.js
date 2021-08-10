@@ -5,18 +5,17 @@
  * @summary Defines the utility methods.
  */
 
-import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
-import { Hotel } from "./interfaces";
+const { KnownAnalyzerNames } = require("@azure/search-documents");
 
 export const WAIT_TIME = 4000;
 
-export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
+export const documentKeyRetriever = (document) => {
   return document.hotelId;
 };
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
-  const hotelIndex: SearchIndex = {
+export async function createIndex(client, name) {
+  const hotelIndex = {
     name,
     fields: [
       {

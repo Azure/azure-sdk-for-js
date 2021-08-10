@@ -5,17 +5,16 @@
  * @summary Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.
  */
 
-import {
+const {
   SearchIndexingBufferedSender,
   AzureKeyCredential,
   SearchClient,
   GeographyPoint,
   SearchIndexClient
-} from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME } from "./setup";
-import { Hotel } from "./interfaces";
-import { delay } from "@azure/core-http";
-import * as dotenv from "dotenv";
+} = require("@azure/search-documents");
+const { createIndex, documentKeyRetriever, WAIT_TIME } = require("./setup");
+const { delay } = require("@azure/core-http");
+const dotenv = require("dotenv");
 dotenv.config();
 
 /**
@@ -29,8 +28,8 @@ const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-4";
 
-function getDocumentsArray(size: number): Hotel[] {
-  const array: Hotel[] = [];
+function getDocumentsArray(size) {
+  const array = [];
   for (let i = 1; i <= size; i++) {
     array.push({
       hotelId: `${i}`,
@@ -67,43 +66,35 @@ async function main() {
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Sizes Sample`);
 
   const credential = new AzureKeyCredential(apiKey);
-  const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
-    endpoint,
-    TEST_INDEX_NAME,
-    credential
-  );
-  const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
+  const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
+  const indexClient = new SearchIndexClient(endpoint, credential);
 
   await createIndex(indexClient, TEST_INDEX_NAME);
   await delay(WAIT_TIME);
 
-  const bufferedClient = new SearchIndexingBufferedSender<Hotel>(
-    searchClient,
-    documentKeyRetriever,
-    {
-      autoFlush: true
-    }
-  );
+  const bufferedClient = new SearchIndexingBufferedSender(searchClient, documentKeyRetriever, {
+    autoFlush: true
+  });
 
-  bufferedClient.on("batchAdded", (response: any) => {
+  bufferedClient.on("batchAdded", (response) => {
     console.log(`Batch Added Event has been receieved: ${response}`);
   });
 
-  bufferedClient.on("beforeDocumentSent", (response: any) => {
+  bufferedClient.on("beforeDocumentSent", (response) => {
     console.log(`Before Document Sent Event has been receieved: ${response}`);
   });
 
-  bufferedClient.on("batchSucceeded", (response: any) => {
+  bufferedClient.on("batchSucceeded", (response) => {
     console.log("Batch Succeeded Event has been receieved....");
     console.log(response);
   });
 
-  bufferedClient.on("batchFailed", (response: any) => {
+  bufferedClient.on("batchFailed", (response) => {
     console.log("Batch Failed Event has been receieved....");
     console.log(response);
   });
 
-  const documents: Hotel[] = getDocumentsArray(1001);
+  const documents = getDocumentsArray(1001);
   bufferedClient.uploadDocuments(documents);
 
   await WAIT_TIME;
