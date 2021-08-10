@@ -7796,6 +7796,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-hzSoAVtJF+3ZtiFX0VgfFPHEDRm7Y/QPjGyNo4TVdnDTdft3tr8hEkD25a1jC+TjTuE7tkHGKkhwCgs9dgBB2g==
+  /undici/4.3.1:
+    dev: false
+    engines:
+      node: '>=12.18'
+    resolution:
+      integrity: sha512-Oy61gPuXBE4Em/1t8QeKOSHGSqbPHLW1iRbCztbyHuKusz5j7d7b4Z9Xi8b7yFqHyCNe57SSDjBgmSUjfPCymw==
   /universal-user-agent/6.0.0:
     dev: false
     resolution:
@@ -12219,10 +12225,11 @@ packages:
       rimraf: 3.0.2
       tslib: 2.3.0
       typescript: 4.2.4
+      undici: 4.3.1
     dev: false
     name: '@rush-temp/test-utils-perfstress'
     resolution:
-      integrity: sha512-fTItTYBBwhhtVdOQ5qASInrtqY+mDuDqE9NCvItNO3FH8yp/DP67/q3g6QpEwimVRNVCIMt/EKikSFngBugZXQ==
+      integrity: sha512-xLu4RM6HdxQaIY54hUOCVX+BtgVZM+ZE8WSbStb3+ZIgoG0XJAQvU5zp2gUy6ktKg6ES8bFy7yjQsdzXcU5ATw==
       tarball: file:projects/test-utils-perfstress.tgz
     version: 0.0.0
   file:projects/test-utils-recorder.tgz:
