@@ -22,7 +22,7 @@
   - [Persist user authentication data](#persisting-user-authentication-data)
     - [Persist the token cache](#persisting-the-token-cache)
     - [Use a named token cache](#use-a-named-token-cache)
-    - [Persist the authentication record](#persisting-the-authentication-record)
+    - [Persist the authentication record](#persist-the-authentication-record)
     - [Silent authentication with authentication record and token cache persistence options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
     - [Allow unencrypted storage](#allowing-unencrypted-storage)
   - [Authenticate national clouds](#authenticate-national-clouds)
