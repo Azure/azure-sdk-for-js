@@ -978,7 +978,7 @@ After calling `useIdentityExtension`, the persistent token cache extension is re
 
 #### Persisting the token cache
 
-The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data such as refresh tokens and access tokens which must be protected to prevent compromising the accounts related to them. The `@azure/identity` library will protect and cache sensitive token data using available platform data protection if `@azure/identity-cache-persistence` is configured. Otherwise it will use only in-memory caching.
+The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data, such as refresh tokens and access tokens, which must be protected to prevent compromising the accounts related to them. The `@azure/identity` library will protect and cache sensitive token data, using available platform data protection, if `@azure/identity-cache-persistence` is configured. Otherwise, it will use only in-memory caching.
 
 To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option. The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
