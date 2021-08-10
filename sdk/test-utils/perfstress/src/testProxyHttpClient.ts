@@ -7,10 +7,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
-  createDefaultHttpClient,
-  HttpClient,
-  createPipelineRequest
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import { Dispatcher, request } from 'undici';
 
@@ -182,20 +179,18 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
     if (this._recordingId !== undefined) {
       options.headers = { ...options.headers, "x-recording-id": this._recordingId }
     }
-    return { ...options, method: "POST", };
+    return { ...options, method: "POST" };
   }
 }
 
 export class TestProxyHttpClient {
   private _uri: string;
-  private _httpClient: HttpClient;
   private _recordingId?: string;
   public _mode!: string;
   private stateManager: RecordingStateManager = new RecordingStateManager();
 
   constructor(uri: string) {
     this._uri = uri;
-    this._httpClient = createDefaultHttpClient();
   }
 
   async sendRequest(request: PipelineRequest): Promise<PipelineRequest> {
@@ -224,15 +219,20 @@ export class TestProxyHttpClient {
 
   async startRecording(): Promise<void> {
     this.stateManager.validateState("starting-recording");
-    const startUri = this._uri + paths.record + paths.start;
-    const req = this._createRecordingRequest(startUri);
-    const rsp = await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
-    if (rsp.status !== 200) {
+    const options = this._createRecordingRequestOptions({ path: paths.record + paths.start });
+    const rsp = await request(this._uri, options);
+    if (rsp.statusCode !== 200) {
       throw new Error("Start request failed.");
     }
-    const id = rsp.headers.get("x-recording-id");
+    if (!rsp.headers) {
+      throw new Error("Headers are not defined, something is wrong.");
+    }
+    const id = rsp.headers["x-recording-id"];
     if (!id) {
       throw new Error("No recording ID returned.");
+    }
+    if (typeof id !== "string") {
+      throw new Error("recording ID returned is not a string.");
     }
     this._recordingId = id;
     this.stateManager.setState("started-recording");
@@ -240,25 +240,29 @@ export class TestProxyHttpClient {
 
   async stopRecording(): Promise<void> {
     this.stateManager.validateState("stopping-recording");
-    const stopUri = this._uri + paths.record + paths.stop;
-    const req = this._createRecordingRequest(stopUri);
-    req.headers.set("x-recording-id", this._recordingId!);
-    await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
+    const options = this._createRecordingRequestOptions({ path: paths.record + paths.stop });
+    options.headers = { ...options.headers, "x-recording-id": this._recordingId };
+    await request(this._uri, options);
     this.stateManager.setState("stopped-recording");
   }
 
   async startPlayback(): Promise<void> {
     this.stateManager.validateState("starting-playback");
-    const startUri = this._uri + paths.playback + paths.start;
-    const req = this._createRecordingRequest(startUri);
-    req.headers.set("x-recording-id", this._recordingId!);
-    const rsp = await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
-    if (rsp.status !== 200) {
+    const options = this._createRecordingRequestOptions({ path: paths.playback + paths.start });
+    options.headers = { ...options.headers, "x-recording-id": this._recordingId };
+    const rsp = await request(this._uri, options);
+    if (rsp.statusCode !== 200) {
       throw new Error("Start request failed.");
     }
-    const id = rsp.headers.get("x-recording-id");
+    if (!rsp.headers) {
+      throw new Error("Headers are not defined, something is wrong.");
+    }
+    const id = rsp.headers["x-recording-id"];
     if (!id) {
       throw new Error("No recording ID returned.");
+    }
+    if (typeof id !== "string") {
+      throw new Error("recording ID returned is not a string.");
     }
     this._recordingId = id;
     this.stateManager.setState("started-playback");
@@ -266,23 +270,19 @@ export class TestProxyHttpClient {
 
   async stopPlayback(): Promise<void> {
     this.stateManager.validateState("stopping-playback");
-    const stopUri = this._uri + paths.playback + paths.stop;
-    const req = this._createRecordingRequest(stopUri);
-    req.headers.set("x-recording-id", this._recordingId!);
-    req.headers.set("x-purge-inmemory-recording", "true");
-    await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
-
+    const options = this._createRecordingRequestOptions({ path: paths.playback + paths.stop });
+    options.headers = { ...options.headers, "x-recording-id": this._recordingId, "x-purge-inmemory-recording": "true" };
+    await request(this._uri, options);
     this._mode = "live";
     this._recordingId = undefined;
     this.stateManager.setState("stopped-playback");
   }
 
-  private _createRecordingRequest(uri: string): PipelineRequest {
-    const req = createPipelineRequest({ url: uri, method: "POST" });
+  private _createRecordingRequestOptions(options: Omit<Dispatcher.RequestOptions, "method">): Dispatcher.RequestOptions {
     if (this._recordingId !== undefined) {
-      req.headers.set("x-recording-id", this._recordingId);
+      options.headers = { ...options.headers, "x-recording-id": this._recordingId }
     }
-    return req;
+    return { ...options, method: "POST" };
   }
 }
 
