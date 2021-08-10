@@ -552,6 +552,55 @@ export class ClientContext {
     return this.globalEndpointManager.getReadEndpoints();
   }
 
+  public async batch<T>({
+    body,
+    path,
+    partitionKey,
+    resourceId,
+    options = {}
+  }: {
+    body: T;
+    path: string;
+    partitionKey: string;
+    resourceId: string;
+    options?: RequestOptions;
+  }): Promise<Response<any>> {
+    try {
+      const request: RequestContext = {
+        globalEndpointManager: this.globalEndpointManager,
+        requestAgent: this.cosmosClientOptions.agent,
+        connectionPolicy: this.connectionPolicy,
+        method: HTTPMethod.post,
+        client: this,
+        operationType: OperationType.Batch,
+        path,
+        body,
+        resourceType: ResourceType.item,
+        resourceId,
+        plugins: this.cosmosClientOptions.plugins,
+        options
+      };
+
+      request.headers = await this.buildHeaders(request);
+      request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
+      request.headers[Constants.HttpHeaders.PartitionKey] = partitionKey;
+      request.headers[Constants.HttpHeaders.IsBatchAtomic] = true;
+
+      this.applySessionToken(request);
+
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
+        request.resourceType,
+        request.operationType
+      );
+      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
+      return response;
+    } catch (err) {
+      this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      throw err;
+    }
+  }
+
   public async bulk<T>({
     body,
     path,

@@ -98,6 +98,7 @@ export interface ReplaceOperationInput {
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Replace;
   resourceBody: JSONObject;
+  id: string;
 }
 
 export type OperationWithItem = OperationBase & {
@@ -187,16 +188,36 @@ export function decorateOperation(
   return operation as Operation;
 }
 
+export function decorateBatchOperation(
+  operation: OperationInput,
+  options: RequestOptions = {}
+): Operation {
+  if (
+    operation.operationType === BulkOperationType.Create ||
+    operation.operationType === BulkOperationType.Upsert
+  ) {
+    if (
+      (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
+      !options.disableAutomaticIdGeneration
+    ) {
+      operation.resourceBody.id = uuid();
+    }
+  }
+  return operation as Operation;
+}
 /**
  * Util function for finding partition key values nested in objects at slash (/) separated paths
  * @hidden
  */
-export function deepFind<T, P extends string>(document: T, path: P): JSONObject {
+export function deepFind<T, P extends string>(document: T, path: P): string | JSONObject {
   const apath = path.split("/");
   let h: any = document;
   for (const p of apath) {
     if (p in h) h = h[p];
-    else throw new Error(`Invalid path: ${path} at ${p}`);
+    else {
+      console.warn(`Partition key not found, using undefined: ${path} at ${p}`);
+      return "{}";
+    }
   }
   return h;
 }
