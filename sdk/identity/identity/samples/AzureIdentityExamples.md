@@ -1093,7 +1093,7 @@ The credential created in this example will silently authenticate given that a v
 
 #### Allowing unencrypted storage
 
-By default the token cache will protect any data which is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
+By default, the token cache will protect any data that is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
 
 ```ts
 import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
