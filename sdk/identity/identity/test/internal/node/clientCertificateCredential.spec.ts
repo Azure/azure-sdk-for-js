@@ -16,12 +16,12 @@ import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential (internal)", function () {
+describe("ClientCertificateCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -33,22 +33,30 @@ describe("ClientCertificateCredential (internal)", function () {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await cleanup();
   });
 
   const certificatePath = path.join(ASSET_PATH, "cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("Should throw if the parameteres are not correctly specified", async function () {
-    let errors: Error[] = [];
+  it("Should throw if the parameteres are not correctly specified", async function() {
+    const errors: Error[] = [];
     try {
-      new ClientCertificateCredential(undefined as any, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_CERTIFICATE_PATH);
+      new ClientCertificateCredential(
+        undefined as any,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_CERTIFICATE_PATH
+      );
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientCertificateCredential(env.AZURE_TENANT_ID, undefined as any, env.AZURE_CLIENT_CERTIFICATE_PATH);
+      new ClientCertificateCredential(
+        env.AZURE_TENANT_ID,
+        undefined as any,
+        env.AZURE_CLIENT_CERTIFICATE_PATH
+      );
     } catch (e) {
       errors.push(e);
     }
@@ -64,7 +72,10 @@ describe("ClientCertificateCredential (internal)", function () {
     }
     assert.equal(errors.length, 4);
     errors.forEach((e) => {
-      assert.equal(e.message, "ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters.");
+      assert.equal(
+        e.message,
+        "ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters."
+      );
     });
   });
 
@@ -78,7 +89,7 @@ describe("ClientCertificateCredential (internal)", function () {
     });
   });
 
-  it("Authenticates silently after the initial request", async function (this: Context) {
+  it("Authenticates silently after the initial request", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -105,7 +116,7 @@ describe("ClientCertificateCredential (internal)", function () {
     assert.equal(doGetTokenSpy.callCount, 2);
   });
 
-  it("supports specifying the regional authority", async function () {
+  it("supports specifying the regional authority", async function() {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,

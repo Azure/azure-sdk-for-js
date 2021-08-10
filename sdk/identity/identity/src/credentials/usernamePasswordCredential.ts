@@ -41,7 +41,9 @@ export class UsernamePasswordCredential implements TokenCredential {
     options: UsernamePasswordCredentialOptions = {}
   ) {
     if (!tenantId || !clientId || !username || !password) {
-      throw new Error("UsernamePasswordCredential: tenantId, clientId, username and password are required parameters.");
+      throw new Error(
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters."
+      );
     }
     this.msalFlow = new MsalUsernamePassword({
       ...options,
