@@ -313,7 +313,7 @@ describe("ServiceBusClient live tests", () => {
 
     const env = getEnvVars();
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.(usgovcloudapi|windows|chinacloudapi).(net|cn))"
+      "Endpoint=sb://((.*).servicebus.(usgovcloudapi|windows|chinacloudapi).(net|cn)"
     ) || "")[1];
     /**
      * Utility to create EnvironmentCredential using `@azure/identity`
