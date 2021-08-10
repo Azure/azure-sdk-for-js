@@ -27,9 +27,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
       getValueInConnString(connectionString, "AccountName"),
       getValueInConnString(connectionString, "AccountKey")
     );
-    this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, {
-      httpClient: this.getHttpClientV1()
-    });
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, this.configureClientOptionsCoreV1({}));
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 

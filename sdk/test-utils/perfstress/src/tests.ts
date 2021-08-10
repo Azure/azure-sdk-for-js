@@ -10,13 +10,15 @@ import {
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
-import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
+import { TestProxyHttpClientV1, TestProxyHttpClient, testProxyHttpPolicy } from "./testProxyHttpClient";
+import { HttpClient } from "@azure/core-http";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
 export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new (): PerfStressTest<TOptions>;
+  new(): PerfStressTest<TOptions>;
 }
 
 /**
@@ -53,7 +55,7 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
-  public getHttpClientV1(): TestProxyHttpClientV1 | DefaultHttpClient {
+  private getHttpClientV1(): TestProxyHttpClientV1 | DefaultHttpClient {
     if (PerfStressTest.testProxyHttpClientV1) return PerfStressTest.testProxyHttpClientV1;
     const url = this.parsedOptions["test-proxy"].value;
     PerfStressTest.testProxyHttpClientV1 = !url
@@ -62,12 +64,32 @@ export abstract class PerfStressTest<TOptions = {}> {
     return PerfStressTest.testProxyHttpClientV1;
   }
 
-  public getHttpClient(): TestProxyHttpClient {
+  private getHttpClient(): TestProxyHttpClient {
     if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
     PerfStressTest.testProxyHttpClient = new TestProxyHttpClient(
       this.parsedOptions["test-proxy"].value!
     );
     return PerfStressTest.testProxyHttpClient;
+  }
+
+  /**
+   * configureClientOptionsCoreV1
+   */
+  public configureClientOptionsCoreV1(options: { httpClient?: HttpClient }) {
+    if (this.parsedOptions["test-proxy"].value) {
+      options.httpClient = this.getHttpClientV1();
+    }
+    return options;
+  }
+
+  /**
+   * configureClient
+   */
+  public configureClient<T>(client: (T & { pipeline: Pipeline })): T {
+    if (this.parsedOptions["test-proxy"].value) {
+      client.pipeline.addPolicy(testProxyHttpPolicy(this.getHttpClient()));
+    }
+    return client;
   }
 }
 
