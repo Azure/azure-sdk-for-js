@@ -21,7 +21,7 @@
   - [Control user interaction](#control-user-interaction)
   - [Persist user authentication data](#persisting-user-authentication-data)
     - [Persist the token cache](#persisting-the-token-cache)
-    - [Use a named token cache](#Using-a-named-token-cache)
+    - [Use a named token cache](#use-a-named-token-cache)
     - [Persist the authentication record](#persisting-the-authentication-record)
     - [Silent authentication with authentication record and token cache persistence options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
     - [Allow unencrypted storage](#allowing-unencrypted-storage)
