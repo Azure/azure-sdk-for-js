@@ -140,6 +140,18 @@ export const roleName: msRest.OperationURLParameter = {
     }
   }
 };
+export const serverFqdn: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "serverFqdn"
+  ],
+  mapper: {
+    serializedName: "server-fqdn",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {

@@ -27,8 +27,7 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Gets a list of private endpoint connections in the specified managed cluster. The operation
-   * returns properties of each private endpoint connection.
+   * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
    * @summary Gets a list of private endpoint connections in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -61,8 +60,8 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Gets the details of the private endpoint connection by managed cluster and resource group.
-   * @summary Gets the private endpoint connection.
+   * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
+   * @summary Gets the specified private endpoint connection.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
@@ -98,12 +97,11 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Updates a private endpoint connection in the specified managed cluster.
    * @summary Updates a private endpoint connection.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters Parameters supplied to the Update a private endpoint connection operation.
+   * @param parameters The updated private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsUpdateResponse>
    */
@@ -112,7 +110,7 @@ export class PrivateEndpointConnections {
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters Parameters supplied to the Update a private endpoint connection operation.
+   * @param parameters The updated private endpoint connection.
    * @param callback The callback
    */
   update(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
@@ -120,7 +118,7 @@ export class PrivateEndpointConnections {
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters Parameters supplied to the Update a private endpoint connection operation.
+   * @param parameters The updated private endpoint connection.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -139,7 +137,6 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Deletes the private endpoint connection in the specified managed cluster.
    * @summary Deletes a private endpoint connection.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -153,7 +150,6 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * Deletes the private endpoint connection in the specified managed cluster.
    * @summary Deletes a private endpoint connection.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
