@@ -997,7 +997,7 @@ const credential = new InteractiveBrowserCredential({
 
 #### Use a named token cache
 
-Some applications may prefer to isolate the token cache they use and provide a unique identifier, instead of using the default. To accomplish this they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
+Some applications may prefer to isolate the token cache they use and provide a unique identifier, instead of using the default. To accomplish this, they can specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
 
 ```ts
 const credential = new InteractiveBrowserCredential({
