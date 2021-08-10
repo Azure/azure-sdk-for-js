@@ -58,15 +58,31 @@
       "metadata": {
         "description": "The base time to add 2 hours to for SAS token expiration. The default is the current time."
       }
+    },
+    "attestationImageName": {
+      "type": "string",
+      "defaultValue": "keyvault-mock-attestation",
+      "metadata": {
+        "description": "The name of the attestation image to deploy. Only deployed when enableHsm is true."
+      }
+    },
+    "attestationImageTag": {
+      "type": "string",
+      "defaultValue": "latest",
+      "metadata": {
+        "description": "The tag of the attestation image to use. The default is 'latest'. Only deployed when enableHsm is true."
+      }
     }
   },
   "variables": {
     "kvApiVersion": "2019-09-01",
+    "containerRegistryDomainName": "azsdkengsys.azurecr.io",
+    "attestationImagePath": "[concat('DOCKER|', variables('containerRegistryDomainName'), '/', parameters('attestationImageName'), ':', parameters('attestationImageTag'))]",
+    "attestationAppName": "[concat(parameters('baseName'), 'attestation')]",
+    "attestationAppPlanName": "[concat(parameters('baseName'), 'attestationPlan')]",
     "kvName": "[parameters('baseName')]",
     "hsmApiVersion": "2020-04-01-preview",
     "hsmName": "[concat(parameters('baseName'), 'hsm')]",
-    "attestationAppName": "[concat(parameters('baseName'), 'attestation')]",
-    "attestationAppPlanName": "[concat(parameters('baseName'), 'attestationPlan')]",
     "mgmtApiVersion": "2019-04-01",
     "blobContainerName": "hsmbackups",
     "primaryAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'prim')]",
@@ -256,7 +272,7 @@
         "siteConfig": {
           "name": "[variables('attestationAppName')]",
           "alwaysOn": true,
-          "linuxFxVersion": "DOCKER|malegeskraci.azurecr.io/malege/skraci:latest",
+          "linuxFxVersion": "[variables('attestationImagePath')]",
           "appSettings": [
             {
               "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
@@ -264,11 +280,11 @@
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "https://malegeskraci.azurecr.io"
+              "value": "[concat('https://', variables('containerRegistryDomainName'))]"
             },
             {
               "name": "DOCKER_CUSTOM_IMAGE_NAME",
-              "value": "DOCKER|malegeskraci.azurecr.io/malege/skraci:latest"
+              "value": "[variables('attestationImagePath')]"
             }
           ]
         }
