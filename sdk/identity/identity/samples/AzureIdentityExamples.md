@@ -25,7 +25,7 @@
     - [Persist the authentication record](#persisting-the-authentication-record)
     - [Silent authentication with authentication record and token cache persistence options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
     - [Allow unencrypted storage](#allowing-unencrypted-storage)
-  - [Authenticate national clouds](#authenticating-national-clouds)
+  - [Authenticate national clouds](#authenticate-national-clouds)
 
 ## Introduction
 
