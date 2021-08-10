@@ -66,7 +66,7 @@ Get-AzKeyVault -ResourceGroupName $ResourceGroupName | ForEach-Object { PurgeKey
 # TODO: Use Az module when available; for now, assumes Azure CLI is installed and in $Env:PATH.
 if ($ProvisionerApplicationId -and $ProvisionerApplicationSecret -and $TenantId) {
   Log "Logging '$ProvisionerApplicationId' into the Azure CLI"
-  az login --service-principal --tenant "$tenantId" --username "$ProvisionerApplicationId" --password="$ProvisionerApplicationSecret"
+  az login --service-principal --tenant "$tenantId" --username "$ProvisionerApplicationId" --password="$ProvisionerApplicationSecret" --output none
   Log "Setting the subscription for the logged in user"
   az account set --subscription "$SubscriptionId"
 } else {
