@@ -37,7 +37,7 @@ export class Train {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainTrainVersionResponse>
    */
-  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainTrainVersionResponse>;
+  trainVersion(appId: string, versionId: string, options?: Models.TrainTrainVersionOptionalParams): Promise<Models.TrainTrainVersionResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -50,8 +50,8 @@ export class Train {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainVersion(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
-  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
+  trainVersion(appId: string, versionId: string, options: Models.TrainTrainVersionOptionalParams, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
+  trainVersion(appId: string, versionId: string, options?: Models.TrainTrainVersionOptionalParams | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -107,6 +107,9 @@ const trainVersionOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  queryParameters: [
+    Parameters.mode
   ],
   responses: {
     202: {

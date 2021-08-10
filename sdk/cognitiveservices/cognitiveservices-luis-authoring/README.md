@@ -6,6 +6,7 @@ Package version | LUIS Authoring API version
 --------------- | --------------------------
 3.0.0           |  /luis/api/v2.0
 4.0.0-preview.3 |  /luis/authoring/v3.0-preview
+4.0.0-preview.4 |  /luis/authoring/v3.0
 
 ### Currently supported environments
 

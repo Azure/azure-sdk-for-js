@@ -217,6 +217,18 @@ export const itemId: msRest.OperationURLParameter = {
     }
   }
 };
+export const mode: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "mode"
+  ],
+  mapper: {
+    serializedName: "mode",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const modelId: msRest.OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
