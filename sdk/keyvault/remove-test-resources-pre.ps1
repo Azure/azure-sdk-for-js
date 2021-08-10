@@ -7,7 +7,7 @@
 #Requires -PSEdition Core
 
 # Use same parameter names as declared in eng/common/TestResources/Remove-TestResources.ps1 (assume validation therein).
-[CmdletBinding(DefaultParameterSetName = 'Default', SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
+[CmdletBinding()]
 param (
     [Parameter()]
     [string] $ResourceGroupName,
@@ -40,11 +40,10 @@ function Log($Message) {
 
 function PurgeKeyVault($Vault) {
   Log "Deleting Key Vault named '$($Vault.VaultName)'"
-  Remove-AzKeyVault -Name "$($Vault.VaultName)" -ResourceGroupName "$($Vault.ResourceGroupName)" -Location $($Vault.Location) -Force
-  Log "Deleted."
+  Remove-AzKeyVault -Name "$($Vault.VaultName)" -ResourceGroupName "$($Vault.ResourceGroupName)" -Location "$($Vault.Location)" -Force
 
   Log "Purging Key Vault named '$($Vault.VaultName)'"
-  Remove-AzKeyVault -Name "$($Vault.VaultName)" -Location $($Vault.Location) -InRemovedState -Force
+  Remove-AzKeyVault -Name "$($Vault.VaultName)" -Location "$($Vault.Location)" -InRemovedState -Force
 
   Log "'$($Vault.VaultName)' successfully deleted and purged."
 }
@@ -52,10 +51,9 @@ function PurgeKeyVault($Vault) {
 function PurgeManagedHsm($ManagedHsm) {
   Log "Deleting Managed HSM named '$($ManagedHsm.Name)'"
   az keyvault delete --resource-group "$ResourceGroupName" --hsm-name "$($ManagedHsm.Name)"
-  Log "Deleted."
 
   Log "Purging Managed HSM named '$($ManagedHsm.Name)'"
-  az keyvault purge --hsm-name "$($ManagedHsm.Name)"
+  az keyvault purge --hsm-name "$($ManagedHsm.Name)" --location "$($ManagedHsm.Location)"
 
   Log "$($ManagedHsm.Name) successfully deleted and purged."
 }
@@ -74,6 +72,11 @@ if ($ProvisionerApplicationId -and $ProvisionerApplicationSecret -and $TenantId)
 }
 
 Log "Permanently deleting all Managed HSMs in resource group $ResourceGroupName"
-az keyvault list --resource-type hsm --resource-group "$ResourceGroupName" | ConvertFrom-Json | ForEach-Object { PurgeManagedHsm($_)}
+Get-AzKeyVaultManagedHsm -ResourceGroupName "$ResourceGroupName" | ForEach-Object { PurgeManagedHsm($_) }
 
 Log "Successfully deleted and purged all Key Vaults and Managed HSMs."
+
+if ($ProvisionerApplicationId) {
+  Log "Logging out of Azure CLI"
+  az logout --username "$ProvisionerApplicationId"
+}
