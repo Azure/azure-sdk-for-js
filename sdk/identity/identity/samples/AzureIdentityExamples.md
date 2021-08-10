@@ -19,12 +19,12 @@
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
   - [Control user interaction](#control-user-interaction)
-  - [Persist user authentication data](#persisting-user-authentication-data)
-    - [Persist the token cache](#persisting-the-token-cache)
+  - [Persist user authentication data](#persist-user-authentication-data)
+    - [Persist the token cache](#persist-the-token-cache)
     - [Use a named token cache](#use-a-named-token-cache)
     - [Persist the authentication record](#persist-the-authentication-record)
     - [Silent authentication with authentication record and token cache persistence options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
-    - [Allow unencrypted storage](#allowing-unencrypted-storage)
+    - [Allow unencrypted storage](#allow-unencrypted-storage)
   - [Authenticate national clouds](#authenticate-national-clouds)
 
 ## Introduction
