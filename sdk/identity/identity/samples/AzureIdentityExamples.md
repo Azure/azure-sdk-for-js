@@ -976,7 +976,7 @@ useIdentityExtension(cachePersistenceExtension);
 
 After calling `useIdentityExtension`, the persistent token cache extension is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
 
-#### Persisting the token cache
+#### Persist the token cache
 
 The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data, such as refresh tokens and access tokens, which must be protected to prevent compromising the accounts related to them. The `@azure/identity` library will protect and cache sensitive token data, using available platform data protection, if `@azure/identity-cache-persistence` is configured. Otherwise, it will use only in-memory caching.
 
