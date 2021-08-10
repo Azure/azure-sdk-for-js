@@ -18,7 +18,7 @@
     - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
-  - [Controlling User Interaction](#controlling-user-interaction)
+  - [Control user interaction](#control-user-interaction)
   - [Persisting user authentication data](#persisting-user-authentication-data)
     - [Persisting the token cache](#persisting-the-token-cache)
     - [Using a named token cache](#Using-a-named-token-cache)
