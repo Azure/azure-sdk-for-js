@@ -965,7 +965,7 @@ In `@azure/identity` starting from v2 we need to use the package `@azure/identit
 $ npm install --save @azure/identity-cache-persistence
 ```
 
-Enable token cache persistence in your program as follows:
+Enable token cache persistence in your application as follows:
 
 ```ts
 import { useIdentityExtension } from "@azure/identity";
