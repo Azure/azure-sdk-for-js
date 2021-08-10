@@ -1108,7 +1108,7 @@ const credential = new InteractiveBrowserCredential({
 });
 ```
 
-By setting `allowUnencryptedStorage` to true, the credential will encrypt the contents of the token cache before persisting it if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `allowUnencryptedStorage` is false (the default), a `CredentialUnavailableError` will be thrown in the case no data protection is available.
+By setting `allowUnencryptedStorage` to `true`, the credential will encrypt the contents of the token cache before persisting it, if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `allowUnencryptedStorage` is `false` (the default), a `CredentialUnavailableError` will be thrown in the case that no data protection is available.
 
 ### Authenticate national clouds
 
