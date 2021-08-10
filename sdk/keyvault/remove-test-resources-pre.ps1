@@ -24,7 +24,6 @@ param (
     [Parameter()]
     [string] $SubscriptionId,
 
-
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
     $RemainingArguments
@@ -50,15 +49,15 @@ function PurgeKeyVault($Vault) {
   Log "'$($Vault.VaultName)' successfully deleted and purged."
 }
 
-function PurgeManagedHsm($ManagedHsm = $null) {
-  if ($ManagedHsm -eq $null) {
-    return
-  }
-
+function PurgeManagedHsm($ManagedHsm) {
   Log "Deleting Managed HSM named '$($ManagedHsm.Name)'"
   az keyvault delete --resource-group "$ResourceGroupName" --hsm-name "$($ManagedHsm.Name)"
-  Log "Deleted Managed HSM, now purging"
+  Log "Deleted."
+
+  Log "Purging Managed HSM named '$($ManagedHsm.Name)'"
   az keyvault purge --hsm-name "$($ManagedHsm.Name)"
+
+  Log "$($ManagedHsm.Name) successfully deleted and purged."
 }
 
 Log "Permanently deleting all Key Vaults in resource group $ResourceGroupName"
