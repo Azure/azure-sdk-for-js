@@ -64,7 +64,7 @@ describe("ClientCertificateCredential (internal)", function () {
     }
     assert.equal(errors.length, 4);
     errors.forEach((e) => {
-      assert.equal(e.message, "tenantId, clientId, and certificatePath are required parameters.");
+      assert.equal(e.message, "ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters.");
     });
   });
 

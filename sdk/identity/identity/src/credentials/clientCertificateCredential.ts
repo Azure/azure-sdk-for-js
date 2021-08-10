@@ -38,7 +38,7 @@ export class ClientCertificateCredential implements TokenCredential {
     options: ClientCertificateCredentialOptions = {}
   ) {
     if (!tenantId || !clientId || !certificatePath) {
-      throw new Error("tenantId, clientId, and certificatePath are required parameters.");
+      throw new Error("ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters.");
     }
     this.msalFlow = new MsalClientCertificate({
       ...options,

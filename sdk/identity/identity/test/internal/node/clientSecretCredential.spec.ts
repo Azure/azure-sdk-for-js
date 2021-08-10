@@ -60,7 +60,7 @@ describe("ClientSecretCredential (internal)", function () {
     }
     assert.equal(errors.length, 4);
     errors.forEach((e) => {
-      assert.equal(e.message, "tenantId, clientId, and clientSecret are required parameters.");
+      assert.equal(e.message, "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters.");
     });
   });
 

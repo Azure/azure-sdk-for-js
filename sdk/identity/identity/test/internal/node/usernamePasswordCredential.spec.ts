@@ -12,12 +12,12 @@ import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 
-describe("UsernamePasswordCredential (internal)", function() {
+describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -30,13 +30,63 @@ describe("UsernamePasswordCredential (internal)", function() {
     );
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
+  it("Should throw if the parameteres are not correctly specified", async function () {
+    let errors: Error[] = [];
+    try {
+      new UsernamePasswordCredential(undefined as any,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_USERNAME,
+        env.AZURE_PASSWORD
+      );
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new UsernamePasswordCredential(env.AZURE_TENANT_ID,
+        undefined as any,
+        env.AZURE_USERNAME,
+        env.AZURE_PASSWORD
+      );
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new UsernamePasswordCredential(env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        undefined as any,
+        env.AZURE_PASSWORD
+      );
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new UsernamePasswordCredential(env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_USERNAME,
+        undefined as any
+      );
+    } catch (e) {
+      errors.push(e);
+    }
+
+    try {
+      new UsernamePasswordCredential(undefined as any, undefined as any, undefined as any, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    assert.equal(errors.length, 5);
+    errors.forEach((e) => {
+      assert.equal(e.message, "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters.");
+    });
+  });
+
+  it("Authenticates silently after the initial request", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
