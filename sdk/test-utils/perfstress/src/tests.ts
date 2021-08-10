@@ -74,6 +74,11 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   /**
    * configureClientOptionsCoreV1
+   * 
+   * For core-v1 - libraries depending on core-http
+   * Apply this method on the client options to get the proxy tool support
+   *
+   * Note: httpClient must be part of the options bag, it is required for the perf framework to update the underlying client properly
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
     if (this.parsedOptions["test-proxy"].value) {
@@ -84,8 +89,11 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   /**
    * configureClient
+   *
+   * For core-v2 - libraries depending on core-rest-pipeline
+   * Apply this method on the client to get the proxy tool support.
    * 
-   * 
+   * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
    */
   public configureClient<T>(client: (T & { pipeline: Pipeline })): T {
     if (this.parsedOptions["test-proxy"].value) {
