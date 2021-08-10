@@ -1118,7 +1118,7 @@ National clouds are physically isolated instances of Azure. These regions of Azu
 - Azure Germany
 - Azure China 21Vianet
 
-All credentials have `authorityHost` as a setting in the constructor at some level. In order to authenticate for various national cloud or a private cloud, we can send the most appropriate `authorityHost`. We provide a set of common values through the `AzureAuthorityHosts` interface. So, for the US Government cloud, you could instantiate a credential this way:
+All credentials have `authorityHost` as a setting in the constructor at some level. To authenticate for various national cloud or a private cloud, we can send the most appropriate `authorityHost`. We provide a set of common values through the `AzureAuthorityHosts` interface. So, for the US Government cloud, you could instantiate a credential this way:
 
 ```ts
 const identity = require("@azure/identity");
