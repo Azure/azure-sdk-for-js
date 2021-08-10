@@ -194,8 +194,8 @@ export function processHealthResult(
   ): PagedAnalyzeHealthcareEntitiesResult => {
     const pollingURL = (state as any).pollingURL;
     const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
-      link: pollingURL,
-      getPage: async (link: string, maxPageSize?: number) => {
+      firstPageLink: pollingURL,
+      getPage: async (pageLink: string, maxPageSize?: number) => {
         const flatResponse = await sendGetRequest(
           client,
           healthStatusOperationSpec,
@@ -203,7 +203,7 @@ export function processHealthResult(
           // if `top` is set to `undefined`, the default value will not be sent
           // as part of the request.
           maxPageSize ? { ...options, top: maxPageSize } : options,
-          link
+          pageLink
         ).then((response) => response.flatResponse as GeneratedClientHealthStatusResponse);
         if (flatResponse.results) {
           return {
@@ -213,7 +213,7 @@ export function processHealthResult(
               makeHealthcareEntitiesResult,
               makeHealthcareEntitiesErrorResult
             ),
-            nextLink: flatResponse.nextLink
+            nextPageLink: flatResponse.nextLink
           };
         } else {
           throw new Error("Healthcare action has succeeded but there are no results!");

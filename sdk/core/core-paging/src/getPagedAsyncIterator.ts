@@ -24,7 +24,10 @@ export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSetting
     byPage:
       pagedResult?.byPage ??
       ((settings?: PageSettings) => {
-        return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings>, settings?.maxPageSize);
+        return getPageAsyncIterator(
+          pagedResult as PagedResult<TPage, PageSettings>,
+          settings?.maxPageSize
+        );
       })
   };
 }

@@ -198,8 +198,8 @@ export function processAnalyzeResult(
   return (_result: unknown, state: AnalyzeActionsOperationState): PagedAnalyzeActionsResult => {
     const pollingURL = (state as any).pollingURL;
     const pagedResult: PagedResult<AnalyzeActionsResult> = {
-      link: pollingURL,
-      getPage: async (link: string, maxPageSize?: number) => {
+      firstPageLink: pollingURL,
+      getPage: async (pageLink: string, maxPageSize?: number) => {
         const flatResponse = await sendGetRequest(
           client,
           analyzeStatusOperationSpec,
@@ -207,11 +207,11 @@ export function processAnalyzeResult(
           // if `top` is set to `undefined`, the default value will not be sent
           // as part of the request.
           maxPageSize ? { ...options, top: maxPageSize } : options,
-          link
+          pageLink
         ).then((response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse);
         return {
           page: createAnalyzeActionsResult(flatResponse, documents),
-          nextLink: flatResponse.nextLink
+          nextPageLink: flatResponse.nextLink
         };
       }
     };
