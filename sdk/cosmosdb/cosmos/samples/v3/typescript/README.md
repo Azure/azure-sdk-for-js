@@ -11,21 +11,20 @@ urlFragment: cosmos-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cosmos DB in some common scenarios.
 
-| **File Name**                                                                 | **Description**                                                                                     |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [typescript/Shared/handleError.ts][typescript_shared_handleerror]             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
-| [typescript/src/AADAuth.ts][typescript_src_aadauth]                           | Uses AAD credentials to authenticate with the CosmosClient.                                         |
-| [typescript/src/AlterQueryThroughput.ts][typescript_src_alterquerythroughput] | Updates a container offer to change query throughput.                                               |
-| [typescript/src/Bulk.ts][typescript_src_bulk]                                 | Shows a simple bulk call with each BulkOperation type.                                              |
-| [typescript/src/BulkUpdateWithSproc.ts][typescript_src_bulkupdatewithsproc]   | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
-| [typescript/src/ChangeFeed.ts][typescript_src_changefeed]                     | Demonstrates using a ChangeFeed.                                                                    |
-| [typescript/src/ContainerManagement.ts][typescript_src_containermanagement]   | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
-| [typescript/src/DatabaseManagement.ts][typescript_src_databasemanagement]     | Demonstrates database create, read, delete and reading all databases.                               |
-| [typescript/src/IndexManagement.ts][typescript_src_indexmanagement]           | Shows various ways to manage indexing items or changing container index policies.                   |
-| [typescript/src/ItemManagement.ts][typescript_src_itemmanagement]             | Demonstrates item creation, read, delete and reading all items belonging to a container.            |
-| [typescript/src/QueryThroughput.ts][typescript_src_querythroughput]           | Demonstrates query throughput scenarios.                                                            |
-| [typescript/src/SasTokenAuth.ts][typescript_src_sastokenauth]                 | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
-| [typescript/src/ServerSideScripts.ts][typescript_src_serversidescripts]       | Demonstrates using stored procedures for server side run functions                                  |
+| **File Name**                                   | **Description**                                                                                     |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [AADAuth.ts][aadauth]                           | Uses AAD credentials to authenticate with the CosmosClient.                                         |
+| [AlterQueryThroughput.ts][alterquerythroughput] | Updates a container offer to change query throughput.                                               |
+| [Bulk.ts][bulk]                                 | Shows a simple bulk call with each BulkOperation type.                                              |
+| [BulkUpdateWithSproc.ts][bulkupdatewithsproc]   | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
+| [ChangeFeed.ts][changefeed]                     | Demonstrates using a ChangeFeed.                                                                    |
+| [ContainerManagement.ts][containermanagement]   | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
+| [DatabaseManagement.ts][databasemanagement]     | Demonstrates database create, read, delete and reading all databases.                               |
+| [IndexManagement.ts][indexmanagement]           | Shows various ways to manage indexing items or changing container index policies.                   |
+| [ItemManagement.ts][itemmanagement]             | Demonstrates item creation, read, delete and reading all items belonging to a container.            |
+| [QueryThroughput.ts][querythroughput]           | Demonstrates query throughput scenarios.                                                            |
+| [SasTokenAuth.ts][sastokenauth]                 | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
+| [ServerSideScripts.ts][serversidescripts]       | Demonstrates using stored procedures for server side run functions                                  |
 
 ## Prerequisites
 
@@ -66,32 +65,31 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/typescript/Shared/handleError.js
+node dist/AADAuth.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/typescript/Shared/handleError.js
+npx cross-env  node dist/AADAuth.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[typescript_shared_handleerror]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/Shared/handleError.ts
-[typescript_src_aadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/AADAuth.ts
-[typescript_src_alterquerythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/AlterQueryThroughput.ts
-[typescript_src_bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/Bulk.ts
-[typescript_src_bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/BulkUpdateWithSproc.ts
-[typescript_src_changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/ChangeFeed.ts
-[typescript_src_containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/ContainerManagement.ts
-[typescript_src_databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/DatabaseManagement.ts
-[typescript_src_indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/IndexManagement.ts
-[typescript_src_itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/ItemManagement.ts
-[typescript_src_querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/QueryThroughput.ts
-[typescript_src_sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/SasTokenAuth.ts
-[typescript_src_serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/typescript/src/ServerSideScripts.ts
+[aadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/AADAuth.ts
+[alterquerythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/AlterQueryThroughput.ts
+[bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/Bulk.ts
+[bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/BulkUpdateWithSproc.ts
+[changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/ChangeFeed.ts
+[containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/ContainerManagement.ts
+[databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/DatabaseManagement.ts
+[indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/IndexManagement.ts
+[itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/ItemManagement.ts
+[querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/QueryThroughput.ts
+[sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/SasTokenAuth.ts
+[serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/ServerSideScripts.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
