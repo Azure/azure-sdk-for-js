@@ -2,7 +2,7 @@
   "name": "@azure-rest/core-client-lro",
   "version": "1.0.0-beta.1",
   "description": "A helper library which implements Autorest x-ms-long-running-operation spec to handle long running operations.",
-  "sdk-type": "core",
+  "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/latest/core-client-lro-rest.d.ts",
