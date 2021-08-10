@@ -959,7 +959,7 @@ Many credential implementations in the `@azure/identity` library have an underly
 
 > IMPORTANT! The token cache contains sensitive data and MUST be protected to prevent compromising accounts. All application decisions regarding the persistence of the token cache must consider that a breach of its content will fully compromise all the accounts it contains.
 
-In `@azure/identity` starting from v2 we need to use the package `@azure/identity-cache-persistence` that provides an extension to the identity package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level `useIdentityExtension` function from the `@azure/identity` package.
+Starting in version 2 of `@azure/identity`, the `@azure/identity-cache-persistence` package can be used. This package provides an extension to the `@azure/identity` package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level `useIdentityExtension` function from the `@azure/identity` package.
 
 ```
 $ npm install --save @azure/identity-cache-persistence
