@@ -894,6 +894,20 @@ export interface FactoryVSTSConfiguration {
 }
 
 /**
+ * Client secret information for factory's bring your own app repository configuration.
+ */
+export interface GitHubClientSecret {
+  /**
+   * Bring your own app client secret AKV URL.
+   */
+  byoaSecretAkvUrl?: string;
+  /**
+   * Bring your own app client secret name in AKV.
+   */
+  byoaSecretName?: string;
+}
+
+/**
  * Factory's GitHub repo information.
  */
 export interface FactoryGitHubConfiguration {
@@ -925,20 +939,14 @@ export interface FactoryGitHubConfiguration {
    * GitHub Enterprise host name. For example: https://github.mydomain.com
    */
   hostName?: string;
-}
-
-/**
- * Client secret information for factory's bring your own app repository configuration.
- */
-export interface GitHubClientSecret {
   /**
-   * Bring your own app client secret AKV URL.
+   * GitHub bring your own app client id.
    */
-  byoaSecretAkvUrl?: string;
+  clientId?: string;
   /**
-   * Bring your own app client secret name in AKV.
+   * GitHub bring your own app client secret information.
    */
-  byoaSecretName?: string;
+  clientSecret?: GitHubClientSecret;
 }
 
 /**
@@ -6401,6 +6409,11 @@ export interface CosmosDbMongoDbApiLinkedService {
    * List of tags that can be used for describing the linked service.
    */
   annotations?: any[];
+  /**
+   * Whether the CosmosDB (MongoDB API) server version is higher than 3.2. The default value is
+   * false. Type: boolean (or Expression with resultType boolean).
+   */
+  isServerVersionAbove32?: any;
   /**
    * The CosmosDB (MongoDB API) connection string. Type: string, SecureString or
    * AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
@@ -16600,20 +16613,6 @@ export interface Office365Source {
 }
 
 /**
- * Specify the column name and value of additional columns.
- */
-export interface AdditionalColumns {
-  /**
-   * Additional column name. Type: string (or Expression with resultType string).
-   */
-  name?: any;
-  /**
-   * Additional column value. Type: string (or Expression with resultType string).
-   */
-  value?: any;
-}
-
-/**
  * Cursor methods for Mongodb query
  */
 export interface MongoDbCursorMethodsProperties {
@@ -16695,10 +16694,10 @@ export interface CosmosDbMongoDbApiSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -16751,10 +16750,10 @@ export interface MongoDbV2Source {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -16807,10 +16806,10 @@ export interface MongoDbAtlasSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -16846,10 +16845,10 @@ export interface MongoDbSource {
    */
   query?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -16880,10 +16879,10 @@ export interface WebSource {
    */
   disableMetricsCollection?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -16957,10 +16956,10 @@ export interface OracleSource {
    */
   partitionSettings?: OraclePartitionSettings;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17006,10 +17005,10 @@ export interface AzureDataExplorerSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17083,10 +17082,10 @@ export interface FileSystemSource {
    */
   recursive?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17147,10 +17146,10 @@ export interface RestSource {
    */
   requestInterval?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17190,10 +17189,10 @@ export interface SalesforceServiceCloudSource {
    */
   readBehavior?: SalesforceSourceReadBehavior;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17234,10 +17233,10 @@ export interface ODataSource {
    */
   httpRequestTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17272,10 +17271,10 @@ export interface MicrosoftAccessSource {
    */
   query?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17310,10 +17309,10 @@ export interface RelationalSource {
    */
   query?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17349,10 +17348,10 @@ export interface CommonDataServiceForAppsSource {
    */
   query?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17388,10 +17387,10 @@ export interface DynamicsCrmSource {
    */
   query?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17427,10 +17426,10 @@ export interface DynamicsSource {
    */
   query?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17478,10 +17477,10 @@ export interface CosmosDbSqlApiSource {
    */
   detectDatetime?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17525,10 +17524,10 @@ export interface DocumentDbCollectionSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17631,10 +17630,10 @@ export interface TabularSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -17670,10 +17669,10 @@ export interface AmazonRedshiftSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -17719,10 +17718,10 @@ export interface GoogleAdWordsSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -17762,10 +17761,10 @@ export interface OracleServiceCloudSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -17805,10 +17804,10 @@ export interface DynamicsAXSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -17854,10 +17853,10 @@ export interface ResponsysSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -17897,10 +17896,10 @@ export interface SalesforceMarketingCloudSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -17940,10 +17939,10 @@ export interface VerticaSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18004,10 +18003,10 @@ export interface NetezzaSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18056,10 +18055,10 @@ export interface ZohoSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18099,10 +18098,10 @@ export interface XeroSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18142,10 +18141,10 @@ export interface SquareSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18185,10 +18184,10 @@ export interface SparkSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18228,10 +18227,10 @@ export interface ShopifySource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18271,10 +18270,10 @@ export interface ServiceNowSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18314,10 +18313,10 @@ export interface QuickBooksSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18357,10 +18356,10 @@ export interface PrestoSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18400,10 +18399,10 @@ export interface PhoenixSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18443,10 +18442,10 @@ export interface PaypalSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18486,10 +18485,10 @@ export interface MarketoSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18529,10 +18528,10 @@ export interface AzureMariaDBSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18572,10 +18571,10 @@ export interface MariaDBSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18615,10 +18614,10 @@ export interface MagentoSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18658,10 +18657,10 @@ export interface JiraSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18701,10 +18700,10 @@ export interface ImpalaSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18744,10 +18743,10 @@ export interface HubspotSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18787,10 +18786,10 @@ export interface HiveSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18830,10 +18829,10 @@ export interface HBaseSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18873,10 +18872,10 @@ export interface GreenplumSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18916,10 +18915,10 @@ export interface GoogleBigQuerySource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -18959,10 +18958,10 @@ export interface EloquaSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -19002,10 +19001,10 @@ export interface DrillSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -19045,10 +19044,10 @@ export interface CouchbaseSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -19088,10 +19087,10 @@ export interface ConcurSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -19131,10 +19130,10 @@ export interface AzurePostgreSqlSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -19174,10 +19173,10 @@ export interface AmazonMWSSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -19217,10 +19216,10 @@ export interface CassandraSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Should be a SQL-92 query expression or Cassandra Query Language (CQL) command.
    * Type: string (or Expression with resultType string).
@@ -19291,10 +19290,10 @@ export interface TeradataSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Teradata query. Type: string (or Expression with resultType string).
    */
@@ -19343,10 +19342,10 @@ export interface AzureMySqlSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -19412,10 +19411,10 @@ export interface SqlDWSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SQL Data Warehouse reader query. Type: string (or Expression with resultType string).
    */
@@ -19490,10 +19489,10 @@ export interface SqlMISource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
@@ -19556,10 +19555,10 @@ export interface AzureSqlSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
@@ -19622,10 +19621,10 @@ export interface SqlServerSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
@@ -19688,10 +19687,10 @@ export interface SqlSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
@@ -19782,10 +19781,10 @@ export interface SapTableSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * The number of rows to be retrieved. Type: integer(or Expression with resultType integer).
    */
@@ -19865,10 +19864,10 @@ export interface SapOpenHubSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Whether to exclude the records of the last request. The default value is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -19936,10 +19935,10 @@ export interface SapHanaSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SAP HANA Sql query. Type: string (or Expression with resultType string).
    */
@@ -19993,10 +19992,10 @@ export interface SapEccSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType
    * string).
@@ -20043,10 +20042,10 @@ export interface SapCloudForCustomerSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * SAP Cloud for Customer OData query. For example, "$top=1". Type: string (or Expression with
    * resultType string).
@@ -20093,10 +20092,10 @@ export interface SalesforceSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20141,10 +20140,10 @@ export interface SapBwSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * MDX query. Type: string (or Expression with resultType string).
    */
@@ -20184,10 +20183,10 @@ export interface SybaseSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20227,10 +20226,10 @@ export interface PostgreSqlSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20270,10 +20269,10 @@ export interface MySqlSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20313,10 +20312,10 @@ export interface OdbcSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20356,10 +20355,10 @@ export interface Db2Source {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20399,10 +20398,10 @@ export interface InformixSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -20442,10 +20441,10 @@ export interface AzureTableSource {
    */
   queryTimeout?: any;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
   /**
    * Azure Table source query. Type: string (or Expression with resultType string).
    */
@@ -20526,10 +20525,10 @@ export interface OrcSource {
    */
   storeSettings?: StoreReadSettingsUnion;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -20568,10 +20567,10 @@ export interface XmlSource {
    */
   formatSettings?: XmlReadSettings;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -20610,10 +20609,10 @@ export interface JsonSource {
    */
   formatSettings?: JsonReadSettings;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -20652,10 +20651,10 @@ export interface DelimitedTextSource {
    */
   formatSettings?: DelimitedTextReadSettings;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -20690,10 +20689,10 @@ export interface ParquetSource {
    */
   storeSettings?: StoreReadSettingsUnion;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -20728,10 +20727,10 @@ export interface ExcelSource {
    */
   storeSettings?: StoreReadSettingsUnion;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -20766,10 +20765,10 @@ export interface AvroSource {
    */
   storeSettings?: StoreReadSettingsUnion;
   /**
-   * Specifies the additional columns to be added to source data. Type: array of objects (or
-   * Expression with resultType array of objects).
+   * Specifies the additional columns to be added to source data. Type: array of
+   * objects(AdditionalColumns) (or Expression with resultType array of objects).
    */
-  additionalColumns?: AdditionalColumns[];
+  additionalColumns?: any;
 }
 
 /**
@@ -22684,6 +22683,21 @@ export interface SnowflakeSink {
 }
 
 /**
+ * Sql DW upsert option settings
+ */
+export interface SqlDWUpsertSettings {
+  /**
+   * Schema name for interim table. Type: string (or Expression with resultType string).
+   */
+  interimSchemaName?: any;
+  /**
+   * Key column names for unique row identification. Type: array of strings (or Expression with
+   * resultType array of strings).
+   */
+  keys?: any;
+}
+
+/**
  * Default value.
  */
 export interface DWCopyCommandDefaultValue {
@@ -22808,6 +22822,40 @@ export interface SqlDWSink {
    * supported. Type: string (or Expression with resultType string).
    */
   tableOption?: any;
+  /**
+   * Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  sqlWriterUseTableLock?: any;
+  /**
+   * Write behavior when copying data into azure SQL DW. Type: SqlDWWriteBehaviorEnum (or
+   * Expression with resultType SqlDWWriteBehaviorEnum)
+   */
+  writeBehavior?: any;
+  /**
+   * SQL DW upsert settings.
+   */
+  upsertSettings?: SqlDWUpsertSettings;
+}
+
+/**
+ * Sql upsert option settings
+ */
+export interface SqlUpsertSettings {
+  /**
+   * Specifies whether to use temp db for upsert interim table. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  useTempDB?: any;
+  /**
+   * Schema name for interim table. Type: string (or Expression with resultType string).
+   */
+  interimSchemaName?: any;
+  /**
+   * Key column names for unique row identification. Type: array of strings (or Expression with
+   * resultType array of strings).
+   */
+  keys?: any;
 }
 
 /**
@@ -22872,6 +22920,20 @@ export interface SqlMISink {
    * supported. Type: string (or Expression with resultType string).
    */
   tableOption?: any;
+  /**
+   * Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  sqlWriterUseTableLock?: any;
+  /**
+   * White behavior when copying data into azure SQL MI. Type: SqlWriteBehaviorEnum (or Expression
+   * with resultType SqlWriteBehaviorEnum)
+   */
+  writeBehavior?: any;
+  /**
+   * SQL upsert settings.
+   */
+  upsertSettings?: SqlUpsertSettings;
 }
 
 /**
@@ -22936,6 +22998,20 @@ export interface AzureSqlSink {
    * supported. Type: string (or Expression with resultType string).
    */
   tableOption?: any;
+  /**
+   * Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  sqlWriterUseTableLock?: any;
+  /**
+   * Write behavior when copying data into Azure SQL. Type: SqlWriteBehaviorEnum (or Expression
+   * with resultType SqlWriteBehaviorEnum)
+   */
+  writeBehavior?: any;
+  /**
+   * SQL upsert settings.
+   */
+  upsertSettings?: SqlUpsertSettings;
 }
 
 /**
@@ -23000,6 +23076,20 @@ export interface SqlServerSink {
    * supported. Type: string (or Expression with resultType string).
    */
   tableOption?: any;
+  /**
+   * Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  sqlWriterUseTableLock?: any;
+  /**
+   * Write behavior when copying data into sql server. Type: SqlWriteBehaviorEnum (or Expression
+   * with resultType SqlWriteBehaviorEnum)
+   */
+  writeBehavior?: any;
+  /**
+   * SQL upsert settings.
+   */
+  upsertSettings?: SqlUpsertSettings;
 }
 
 /**
@@ -23064,6 +23154,20 @@ export interface SqlSink {
    * supported. Type: string (or Expression with resultType string).
    */
   tableOption?: any;
+  /**
+   * Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  sqlWriterUseTableLock?: any;
+  /**
+   * Write behavior when copying data into sql. Type: SqlWriteBehaviorEnum (or Expression with
+   * resultType SqlWriteBehaviorEnum)
+   */
+  writeBehavior?: any;
+  /**
+   * SQL upsert settings.
+   */
+  upsertSettings?: SqlUpsertSettings;
 }
 
 /**
@@ -25484,6 +25588,10 @@ export interface IntegrationRuntimeVNetProperties {
    */
   publicIPs?: string[];
   /**
+   * The ID of subnet, to which this Azure-SSIS integration runtime will be joined.
+   */
+  subnetId?: string;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -25507,6 +25615,11 @@ export interface IntegrationRuntimeDataFlowProperties {
    * Time to live (in minutes) setting of the cluster which will execute data flow job.
    */
   timeToLive?: number;
+  /**
+   * Cluster will not be recycled and it will be used in next data flow activity run until TTL
+   * (time to live) is reached if this is set as false. Default is true.
+   */
+  cleanup?: boolean;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -26004,6 +26117,54 @@ export interface IntegrationRuntimeConnectionInfo {
 }
 
 /**
+ * The details of Azure-SSIS integration runtime outbound network dependency endpoint.
+ */
+export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails {
+  /**
+   * The port of endpoint.
+   */
+  port?: number;
+}
+
+/**
+ * The endpoint for Azure-SSIS integration runtime outbound network dependency.
+ */
+export interface IntegrationRuntimeOutboundNetworkDependenciesEndpoint {
+  /**
+   * The domain name of endpoint.
+   */
+  domainName?: string;
+  /**
+   * The details of endpoint.
+   */
+  endpointDetails?: IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails[];
+}
+
+/**
+ * Azure-SSIS integration runtime outbound network dependency endpoints for one category.
+ */
+export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
+  /**
+   * The category of outbound network dependency.
+   */
+  category?: string;
+  /**
+   * The endpoints for outbound network dependency.
+   */
+  endpoints?: IntegrationRuntimeOutboundNetworkDependenciesEndpoint[];
+}
+
+/**
+ * Azure-SSIS integration runtime outbound network dependency endpoints.
+ */
+export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse {
+  /**
+   * The list of outbound network dependency endpoints.
+   */
+  value?: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint[];
+}
+
+/**
  * Columns that define the structure of the dataset.
  */
 export interface DatasetDataElement {
@@ -26033,6 +26194,20 @@ export interface DatasetSchemaDataElement {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * Specify the column name and value of additional columns.
+ */
+export interface AdditionalColumns {
+  /**
+   * Additional column name. Type: string (or Expression with resultType string).
+   */
+  name?: any;
+  /**
+   * Additional column value. Type: string (or Expression with resultType string).
+   */
+  value?: any;
 }
 
 /**
@@ -27265,6 +27440,22 @@ export type JsonWriteFilePattern = 'setOfObjects' | 'arrayOfObjects';
 export type CopyBehaviorType = 'PreserveHierarchy' | 'FlattenHierarchy' | 'MergeFiles';
 
 /**
+ * Defines values for SqlWriteBehaviorEnum.
+ * Possible values include: 'Insert', 'Upsert', 'StoredProcedure'
+ * @readonly
+ * @enum {string}
+ */
+export type SqlWriteBehaviorEnum = 'Insert' | 'Upsert' | 'StoredProcedure';
+
+/**
+ * Defines values for SqlDWWriteBehaviorEnum.
+ * Possible values include: 'Insert', 'Upsert'
+ * @readonly
+ * @enum {string}
+ */
+export type SqlDWWriteBehaviorEnum = 'Insert' | 'Upsert';
+
+/**
  * Defines values for SqlPartitionOption.
  * Possible values include: 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
  * @readonly
@@ -27710,6 +27901,26 @@ export type IntegrationRuntimesGetStatusResponse = IntegrationRuntimeStatusRespo
        * The response body as parsed JSON or XML
        */
       parsedBody: IntegrationRuntimeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the listOutboundNetworkDependenciesEndpoints operation.
+ */
+export type IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse = IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse;
     };
 };
 
