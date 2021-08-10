@@ -109,7 +109,9 @@ export class TestProxyHttpClientV1 extends DefaultHttpClient {
       redirectedUrl.setScheme(providedUrl.getScheme());
       redirectedUrl.setPort(providedUrl.getPort());
       upstreamUrl.setPath(undefined);
-      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      if (!request.headers.get("x-recording-upstream-base-uri")) {
+        request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      }
       request.url = redirectedUrl.toString();
     }
 
@@ -206,7 +208,9 @@ export class TestProxyHttpClient {
       redirectedUrl.port = providedUrl.port;
       redirectedUrl.protocol = providedUrl.protocol;
       upstreamUrl.pathname = "";
-      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      if (!request.headers.get("x-recording-upstream-base-uri")) {
+        request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      }
       request.url = redirectedUrl.toString();
       request.allowInsecureConnection = true;
     }
