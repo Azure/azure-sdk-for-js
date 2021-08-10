@@ -19,8 +19,8 @@ export = {
     "ts-package-json-sdktype",
     "force package.json's sdk-type value to contain be 'client' or 'mgmt'"
   ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
-    return stripPath(context.getFilename()) === "package.json"
+  create: (context: Rule.RuleContext): Rule.RuleListener =>
+    stripPath(context.getFilename()) === "package.json"
       ? ({
           // callback functions
 
@@ -53,6 +53,5 @@ export = {
             }
           }
         } as Rule.RuleListener)
-      : {};
-  }
+      : {}
 };
