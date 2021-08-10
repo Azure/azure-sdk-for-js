@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:12-alpine
 RUN mkdir -p /src
 ADD ./src/*.ts /src
 ADD ./package.json /package.json
