@@ -312,7 +312,7 @@ describe("ServiceBusClient live tests", () => {
     let errorWasThrown: boolean = false;
 
     const env = getEnvVars();
-    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match("Endpoint=sb://((.*).servicebus.windows.net)") || env.SERVICEBUS_CONNECTION_STRING.match("Endpoint=sb://((.*).servicebus.chinacloudapi.cn)") || env.SERVICEBUS_CONNECTION_STRING.match("Endpoint=sb://((.*).servicebus.usgovcloudapi.net)") || "")[1];
+    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match("Endpoint=sb://((.*).servicebus.(usgovcloudapi|windows|chinacloudapi).(net|cn))") || "")[1];
     console.log("===========",serviceBusEndpoint);
 
     /**
