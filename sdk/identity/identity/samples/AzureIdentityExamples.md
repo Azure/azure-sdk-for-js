@@ -935,7 +935,7 @@ In the preceding sample, the application is again using the `InteractiveBrowserC
 
 If `disableAutomaticAuthentication` is `false`, the user doesn't use `authenticate()`, and the user has never authenticated before, `getToken` will prompt the user to authenticate.
 
-By setting the option `disableAutomaticAuthentication` to `true`, the credential will fail to automatically authenticate calls in which user interaction is necessary. Instead, the credential will throw an `AuthenticationRequiredError`. If the `disableAutomaticAuthentication` is set to `true`, the user doesn’t use `authenticate()`, and the user has never authenticated before, `getToken` should fail hard.
+By setting the option `disableAutomaticAuthentication` to `true`, the credential will fail to automatically authenticate calls in which user interaction is necessary. Instead, the credential will throw an `AuthenticationRequiredError`. If `disableAutomaticAuthentication` is set to `true`, the user doesn't use `authenticate()`, and the user has never authenticated before, `getToken` should fail hard.
 The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
 
 ```ts
