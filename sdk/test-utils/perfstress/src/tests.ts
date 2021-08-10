@@ -75,7 +75,7 @@ export abstract class PerfStressTest<TOptions = {}> {
   /**
    * configureClientOptionsCoreV1
    */
-  public configureClientOptionsCoreV1(options: { httpClient?: HttpClient }) {
+  public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
     if (this.parsedOptions["test-proxy"].value) {
       options.httpClient = this.getHttpClientV1();
     }
@@ -84,6 +84,8 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   /**
    * configureClient
+   * 
+   * 
    */
   public configureClient<T>(client: (T & { pipeline: Pipeline })): T {
     if (this.parsedOptions["test-proxy"].value) {
