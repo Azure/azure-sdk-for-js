@@ -391,8 +391,6 @@ describe("ServiceBusClient live tests", () => {
           const serviceBusClient = createServiceBusClientForTests();
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
-          console.log("===========",serviceBusEndpoint,"----",tokenCreds,"0000",serviceBusClient,"1111",entities);
-
           const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
           try {
             const sender = sbClient.createSender(entities.queue || entities.topic!);
