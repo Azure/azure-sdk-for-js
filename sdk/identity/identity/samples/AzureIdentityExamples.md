@@ -324,7 +324,7 @@ Next, prompt the user to login at the URL documented at [Microsoft identity plat
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
 
-If you want to learn more about scopes and permissions, you can [read this](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
+If you want to learn more about scopes and permissions, you can [read this](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
 
 For a complete example using the authorization code flow in Electron, please refer to [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/electron/ts/src/authProvider.ts)
 
@@ -979,7 +979,7 @@ After calling `useIdentityExtension`, the persistent token cache extension is re
 
 #### Persisting the token cache
 
-The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data such as refresh tokens and access tokens which must be protected to prevent compromising the accounts related to them. By default, the `@azure/identity` library will protect and cache sensitive token data using available platform data protection.
+The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data such as refresh tokens and access tokens which must be protected to prevent compromising the accounts related to them. The `@azure/identity` library will protect and cache sensitive token data using available platform data protection if `@azure/identity-cache-persistence` is configured. Otherwise it will use only in-memory caching.
 
 To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, simply set the `tokenCachePersistenceOptions` option. The simplest way to persist the token data for a credential is to to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
@@ -1139,7 +1139,7 @@ Common values we provide through the `AzureAuthorityHosts` are:
 
 |
 
-To learn more about Azure Authentication for National Clouds, you can [read this](https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-national-cloud).
+To learn more about Azure Authentication for National Clouds, you can [read this](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
 
 <!-- LINKS -->
 
