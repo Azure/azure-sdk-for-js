@@ -209,14 +209,6 @@ describe("TableCheckpointStore", function(): void {
     const eventHubName = "blueHub";
     const consumerGroup = "$default";
     beforeEach("creating table", async () => {
-      tableName = `table${new Date().getTime()}`;
-      client = new TableClient(
-        `https://${service.storageAccountName}.table.core.windows.net`,
-        tableName,
-        credential
-      );
-      await serviceClient.createTable(tableName);
-
       /* Checkpoint */
       const checkpoint_entity: CheckpointEntity = {
         partitionKey: `${namespace} ${eventHubName} ${consumerGroup} Checkpoint`,
@@ -233,10 +225,6 @@ describe("TableCheckpointStore", function(): void {
         ownerid: "Id0"
       };
       await client.createEntity(ownership_entity);
-    });
-
-    afterEach(async () => {
-      await serviceClient.deleteTable(tableName);
     });
 
     describe("listOwnership", function() {
