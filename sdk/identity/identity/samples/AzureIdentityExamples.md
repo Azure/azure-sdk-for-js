@@ -322,7 +322,7 @@ Next, prompt the user to login at the URL documented at [Microsoft identity plat
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
 
-If you want to learn more about scopes and permissions, you can [read this](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
+To learn more about scopes and permissions, see [Scopes and permissions](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
 
 For a complete example using the authorization code flow in Electron, please refer to [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/electron/ts/src/authProvider.ts)
 
