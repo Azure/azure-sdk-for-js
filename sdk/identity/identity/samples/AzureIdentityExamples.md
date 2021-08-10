@@ -704,7 +704,7 @@ For this example, you'll define a `BrowserCredential` class with the following m
 
 **Prerequisites**
 
-Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth].
+Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth] packages.
 
 > For more information about MSAL for browsers, see [the README of the `@azure/msal-browser` package][msal_browser_readme].
 
