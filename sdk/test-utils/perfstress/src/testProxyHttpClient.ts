@@ -146,14 +146,14 @@ export class TestProxyHttpClient {
     request.headers.set("x-recording-id", recordingId);
     request.headers.set("x-recording-mode", this._mode);
     request.headers.set("x-recording-remove", "false");
-    const upstreamUrl = new URL(request.url);
     const redirectedUrl = new URL(request.url);
     const providedUrl = new URL(this._uri);
     redirectedUrl.host = providedUrl.host;
     redirectedUrl.port = providedUrl.port;
     redirectedUrl.protocol = providedUrl.protocol;
-    upstreamUrl.pathname = "";
     if (!request.headers.get("x-recording-upstream-base-uri")) {
+      const upstreamUrl = new URL(request.url);
+      upstreamUrl.pathname = "";
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
     }
     request.url = redirectedUrl.toString();
