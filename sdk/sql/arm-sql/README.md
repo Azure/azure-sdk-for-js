@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure SqlManagement client.
 
+You can also follow this [link](https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/sql/arm-sql) to see the previous stable versions for this package. Note that they might not implement the guidelines(https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the new releases.
+
 The Azure SQL Database management API provides a RESTful set of web services that interact with Azure SQL Database services to manage your databases. The API enables you to create, retrieve, update, and delete databases.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/sql/arm-sql) |
