@@ -93,7 +93,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "types/managed-private-endpoints.d.ts",
+    "types/synapse-managed-private-endpoints.d.ts",
     "README.md",
     "rollup.config.js",
     "tsconfig.json"
