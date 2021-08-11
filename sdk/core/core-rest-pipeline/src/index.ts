@@ -72,4 +72,3 @@ export {
   AuthorizeRequestOnChallengeOptions
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
-export { createSpanFunction, CreateSpanFunctionArgs } from "@azure/core-tracing";

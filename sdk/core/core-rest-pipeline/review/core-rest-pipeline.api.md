@@ -6,8 +6,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
-import { createSpanFunction } from '@azure/core-tracing';
-import { CreateSpanFunctionArgs } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -78,10 +76,6 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
 // @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
-
-export { createSpanFunction }
-
-export { CreateSpanFunctionArgs }
 
 // @public
 export function decompressResponsePolicy(): PipelinePolicy;

@@ -39,7 +39,12 @@ export {
   XmlOptions,
   SerializerOptions,
   RawResponseCallback,
-  CommonClientOptions
+  CommonClientOptions,
+  CreateSpanFunctionArgs,
+  Span,
+  SpanKind,
+  SpanStatusCode,
+  createSpanFunction
 } from "./interfaces";
 export {
   deserializationPolicy,

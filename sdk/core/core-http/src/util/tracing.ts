@@ -1,16 +1,28 @@
 export {
   createSpanFunction,
   CreateSpanFunctionArgs,
-  CreateSpanFunctionArgs as SpanConfig,
+  CreateSpanFunctionArgs as SpanConfig, // for backwards compatibility
   Span
 } from "@azure/core-tracing";
 
+/** The values supported by {@link Span.setStatus} */
 export const SpanStatusCode = {
+  /**
+   * The default status.
+   */
   UNSET: 0,
+  /**
+   * The operation has been validated by an Application developer or
+   * Operator to have completed successfully.
+   */
   OK: 1,
+  /**
+   * The operation contains an error.
+   */
   ERROR: 2
 } as const;
 
+/** The values supported by {@link Span.setTag} */
 export const SpanKind = {
   /** Default value. Indicates that the span is used internally. */
   INTERNAL: 0,

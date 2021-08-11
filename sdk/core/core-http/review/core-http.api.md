@@ -808,11 +808,20 @@ export { Span }
 
 export { SpanConfig }
 
-// @public (undocumented)
+// @public
+export const SpanKind: {
+    readonly INTERNAL: 0;
+    readonly SERVER: 1;
+    readonly CLIENT: 2;
+    readonly PRODUCER: 3;
+    readonly CONSUMER: 4;
+};
+
+// @public
 export const SpanStatusCode: {
-    UNSET: number;
-    OK: number;
-    ERROR: number;
+    readonly UNSET: 0;
+    readonly OK: 1;
+    readonly ERROR: 2;
 };
 
 // @public

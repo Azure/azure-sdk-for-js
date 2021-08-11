@@ -5,6 +5,8 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { createSpanFunction } from '@azure/core-tracing';
+import { CreateSpanFunctionArgs } from '@azure/core-tracing';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -14,6 +16,7 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
+import { Span } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
@@ -72,6 +75,10 @@ export function createClientPipeline(options?: InternalClientPipelineOptions): P
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+export { createSpanFunction }
+
+export { CreateSpanFunctionArgs }
 
 // @public
 export interface DeserializationContentTypes {
@@ -365,11 +372,29 @@ export interface SimpleMapperType {
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
+export { Span }
+
 // @public
 export interface SpanConfig {
     namespace: string;
     packagePrefix: string;
 }
+
+// @public
+export const SpanKind: {
+    readonly INTERNAL: 0;
+    readonly SERVER: 1;
+    readonly CLIENT: 2;
+    readonly PRODUCER: 3;
+    readonly CONSUMER: 4;
+};
+
+// @public
+export const SpanStatusCode: {
+    readonly UNSET: 0;
+    readonly OK: 1;
+    readonly ERROR: 2;
+};
 
 // @public
 export const XML_ATTRKEY = "$";
