@@ -12,10 +12,6 @@
 
 - Renamed `workspace` to `workspaceId` in querybatch
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.3 (2021-07-06)
 
 ### Features Added
