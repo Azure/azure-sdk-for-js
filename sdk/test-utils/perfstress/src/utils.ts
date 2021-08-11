@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { IncomingMessage, RequestOptions, request } from "http";
 
 /**
  * Returns the environment variable, throws an error if not defined.
@@ -23,8 +24,24 @@ export function getEnvVar(name: string) {
  */
 export async function drainStream(stream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    stream.on("data", () => {});
+    stream.on("data", () => { });
     stream.on("end", resolve);
     stream.on("error", reject);
+  });
+}
+
+export async function makeRequest(uri: string,
+  requestOptions: RequestOptions,
+): Promise<IncomingMessage> {
+  return new Promise((resolve, reject) => {
+    const req = request(uri, requestOptions);
+
+    req.on('response', res => {
+      resolve(res);
+    });
+
+    req.on('error', err => {
+      reject(err);
+    });
   });
 }

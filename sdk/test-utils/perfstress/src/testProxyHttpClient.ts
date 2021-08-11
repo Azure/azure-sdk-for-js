@@ -9,7 +9,8 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { Dispatcher, request } from "undici";
+import http from "http";
+import { makeRequest } from "./utils";
 
 const paths = {
   playback: "/playback",
@@ -124,7 +125,7 @@ export class TestProxyHttpClient {
     const options = this._createRecordingRequestOptions({
       path: paths.record + paths.start
     });
-    const rsp = await request(this._uri, options);
+    const rsp = await makeRequest(this._uri, options);
     if (rsp.statusCode !== 200) {
       throw new Error("Start request failed.");
     }
@@ -151,7 +152,7 @@ export class TestProxyHttpClient {
       ...options.headers,
       "x-recording-id": this._recordingId
     };
-    await request(this._uri, options);
+    await makeRequest(this._uri, options);
     this.stateManager.setState("stopped-recording");
   }
 
@@ -164,7 +165,7 @@ export class TestProxyHttpClient {
       ...options.headers,
       "x-recording-id": this._recordingId
     };
-    const rsp = await request(this._uri, options);
+    const rsp = await makeRequest(this._uri, options);
     if (rsp.statusCode !== 200) {
       throw new Error("Start request failed.");
     }
@@ -192,15 +193,15 @@ export class TestProxyHttpClient {
       "x-recording-id": this._recordingId,
       "x-purge-inmemory-recording": "true"
     };
-    await request(this._uri, options);
+    await makeRequest(this._uri, options);
     this._mode = "live";
     this._recordingId = undefined;
     this.stateManager.setState("stopped-playback");
   }
 
   private _createRecordingRequestOptions(
-    options: Omit<Dispatcher.RequestOptions, "method">
-  ): Dispatcher.RequestOptions {
+    options: http.RequestOptions
+  ): http.RequestOptions {
     if (this._recordingId !== undefined) {
       options.headers = {
         ...options.headers,

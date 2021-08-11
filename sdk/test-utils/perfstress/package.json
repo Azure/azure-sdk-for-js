@@ -66,8 +66,7 @@
     "tslib": "^2.2.0",
     "node-fetch": "^2.6.0",
     "minimist": "~1.2.5",
-    "@types/minimist": "~1.2.0",
-    "undici": "4.3.1"
+    "@types/minimist": "~1.2.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
